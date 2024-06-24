@@ -65,9 +65,13 @@ const Navbar: React.FC = () => {
                     <div className="flex justify-center items-center h-full">
                         <Button
                             label="LOGIN"
-                            onClick={() => { }}
-                            className="px-8" // Example of adding additional custom class
+                            size="medium"
+                            bgColor="#252F70"
+                            hoverBgColor="white"
+                            onClick={() => console.log('Button Clicked')}
+                            className="extra-class-for-medium-button"
                         />
+
                     </div>
                 </div>
 
@@ -101,12 +105,17 @@ const Navbar: React.FC = () => {
                             </a>
                             {/* Login button within the responsive menu */}
                             <div className="flex justify-center items-center h-full">
-                        <Button
-                            label="LOGIN"
-                            onClick={() => { }}
-                            className="px-8" // Example of adding additional custom class
-                        />
-                    </div>
+                                <Button
+                                    label="LOGIN"
+                                    size="small"
+                                    bgColor="#252F70"
+                                    hoverBgColor="white"
+
+                                    onClick={() => console.log('Button Clicked')}
+                                    className="extra-class-for-medium-button"
+                                />
+
+                            </div>
                         </div>
                     )}
                 </Transition>

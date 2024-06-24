@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import './index.css';  // Ensure this file includes the @import for the Lexend font
+import HeroBanner from './components/HeroBanner';
 
 const App: React.FC = () => {
   return (
@@ -9,7 +10,8 @@ const App: React.FC = () => {
         <Navbar />
       </header>
       <main>
-        {/* Other components and content */}
+      <HeroBanner />
+        
       </main>
     </div>
   );
