@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import './index.css';  // Ensure this file includes the @import for the Lexend font
 import HeroBanner from './components/HeroBanner';
+import Carousel from './components/Carousel';
 
 const App: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const App: React.FC = () => {
       </header>
       <main>
       <HeroBanner />
+      <Carousel />
         
       </main>
     </div>

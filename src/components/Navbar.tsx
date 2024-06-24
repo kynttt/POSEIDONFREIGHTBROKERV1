@@ -9,9 +9,10 @@ const Navbar: React.FC = () => {
     return (
         <nav className="bg-[#7783D2] px-4 py-8">
             <div className="container mx-auto flex justify-between items-center">
-                <div className="text-white text-2xl lg:text-3xl font-normal"> {/* Adjusted font weight */}
-                    Freight Broker
-                </div>
+                
+                <a href="#home" className="text-white text-4xl lg:text-4xl font-normal hover:text-[#252F70]">
+                Freight Broker
+                    </a>
                 {/* Hamburger menu for small screens */}
                 <div className="lg:hidden">
                     <button

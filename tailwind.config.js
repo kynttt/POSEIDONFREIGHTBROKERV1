@@ -7,7 +7,10 @@ module.exports = {
     extend: {
       fontWeight: {
         'extrabold': 1500,
-      }
+      }, 
+      height: {
+        '500px': '500px',
+      },
     },
   },
   plugins: [],
