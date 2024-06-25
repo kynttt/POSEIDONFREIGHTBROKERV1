@@ -5,9 +5,16 @@ import Modal from './Modal'; // Assuming Modal component is implemented separate
 const FreightQuote: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [weight, setWeight] = useState('');
+    const [pickUp, setPickUp] = useState('');
+    const [destination, setDestination] = useState('');
 
     const openModal = () => {
-        setShowModal(true);
+        // Check if all required inputs are populated
+        if (pickUp.trim() !== '' && destination.trim() !== '' && weight.trim() !== '') {
+            setShowModal(true);
+        } else {
+            alert('Please fill in all fields before requesting a quote.');
+        }
     };
 
     const closeModal = () => {
@@ -20,6 +27,14 @@ const FreightQuote: React.FC = () => {
         if (/^\d*$/.test(input)) {
             setWeight(input);
         }
+    };
+
+    const handlePickUpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPickUp(event.target.value);
+    };
+
+    const handleDestinationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDestination(event.target.value);
     };
 
     return (
@@ -35,11 +50,15 @@ const FreightQuote: React.FC = () => {
                         <input
                             type="text"
                             placeholder="Pick Up"
+                            value={pickUp}
+                            onChange={handlePickUpChange}
                             className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black"
                         />
                         <input
                             type="text"
                             placeholder="Destination"
+                            value={destination}
+                            onChange={handleDestinationChange}
                             className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black"
                         />
                         <input
