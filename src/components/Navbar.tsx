@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
     const ref = useRef<HTMLDivElement>(null);
 
     return (
-        <nav className="bg-[#7783D2] px-4 py-8">
+        <nav className="bg-[#7783D2] px-4 py-8  ">
             <div className="container mx-auto flex justify-between items-center">
                 
                 <a href="#home" className="text-white text-4xl lg:text-4xl font-normal hover:text-[#252F70]">
