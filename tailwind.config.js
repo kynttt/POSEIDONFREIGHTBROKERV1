@@ -13,10 +13,14 @@ module.exports = {
       height: {
         '500px': '500px', // Example of extending height scale
       },
+      width: {
+        '500px': '500px', // Example of extending height scale
+      },
       colors: {
         // Define custom colors if needed
         'primary': '#252F70',
         'secondary': '#7783D2',
+        'tertiary': '#bbc1e8',
         'white': '#FEFEFE',
         'grey': '#DCDCDC',
         
