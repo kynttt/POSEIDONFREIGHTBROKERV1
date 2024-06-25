@@ -1,21 +1,18 @@
 import React from 'react';
-import Navbar from './components/Navbar';
-import './index.css';  // Ensure this file includes the @import for the Lexend font
-import HeroBanner from './components/HeroBanner';
-import Carousel from './components/Carousel';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/landingPage';
+// import SignUp from './components/SignUp';
+// import Login from './components/Login';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header>
-        <Navbar />
-      </header>
-      <main>
-      <HeroBanner />
-      <Carousel />
-        
-      </main>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        {/* <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} /> */}
+      </Routes>
+    </Router>
   );
 };
 

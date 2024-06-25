@@ -4,7 +4,7 @@ interface ButtonProps {
   label: string;
   onClick?: () => void; // Optional onClick handler
   className?: string; // Optional class name for additional styling
-  size?: 'small' | 'medium' | 'large' | 'xl'; // Optional size prop
+  size?: 'small' | 'medium' | 'large' | 'xl' | 'quoteButton' | 'truckButton'; // Optional size prop
   bgColor?: string; // Optional background color prop
   hoverBgColor?: string; // Optional hover background color prop
   hoverTextColor?: string; // Optional hover text color prop
@@ -27,10 +27,18 @@ const Button: React.FC<ButtonProps> = ({
     medium: 'w-32 h-12 text-base',
     large: 'w-40 h-12 text-lg',
     xl: 'w-80 h-16 text-xl',
+    quoteButton: 'w-60 h-12 text-lg',
+    truckButton: 'w-72 h-16 text-lg',
   };
 
-  // Define additional styles for transparent background with white border
-  const borderStyle = bgColor === 'transparent' ? 'border border-white' : '';
+  // Define border style based on bgColor
+  let borderStyle = '';
+
+  if (bgColor === 'transparent') {
+    borderStyle = 'border border-white';
+  } else if (bgColor === '#ffffff') {
+    borderStyle = 'border border-[#7783D2] text-[#7783D2]';
+  }
 
   return (
     <button
@@ -39,8 +47,8 @@ const Button: React.FC<ButtonProps> = ({
         backgroundColor: bgColor,
         '--hover-bg-color': hoverBgColor,
         '--hover-text-color': hoverTextColor,
-        fontWeight: fontStyle === 'thin' ? 400 : 'inherit', // Set font weight to 300 for 'thin' style
-      } as React.CSSProperties}
+        fontWeight: fontStyle === 'thin' ? 300 : 'inherit', // Set font weight to 300 for 'thin' style
+      }}
       onClick={onClick}
     >
       {label}

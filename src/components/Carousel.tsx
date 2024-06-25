@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Slide1 from '../assets/img/HeroBanner.png';
-import Slide2 from '../assets/img/HeroBanner.png';
-import Slide3 from '../assets/img/HeroBanner.png';
-import Slide4 from '../assets/img/HeroBanner.png';
-import Slide5 from '../assets/img/HeroBanner.png';
+import Slide1 from '../assets/img/Carousel1.png';
+import Slide2 from '../assets/img/Carousel2.png';
+import Slide3 from '../assets/img/Carousel3.png';
+import Slide4 from '../assets/img/Carousel1.png';
+import Slide5 from '../assets/img/Carousel2.png';
 
 const Carousel: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -21,29 +21,31 @@ const Carousel: React.FC = () => {
 
   useEffect(() => {
     if (carouselRef.current) {
-      const newScrollPosition = carouselRef.current.scrollWidth / images.length * currentSlide;
+      const slideWidth = carouselRef.current.scrollWidth / images.length;
+      const newScrollPosition = slideWidth * currentSlide;
       carouselRef.current.scrollTo({
         left: newScrollPosition,
         behavior: 'smooth',
       });
     }
-  }, [currentSlide]);
+  }, [currentSlide, images.length]);
 
   return (
     <div className="container mx-auto relative text-center md:my-12 sm:my-6 py-8">
       {/* Header */}
       <h1 className="text-base md:text-xl lg:text-xl font-normal mb-2 text-[#252F70]">SERVICES</h1>
-      <h2 className="text-4xl md:text-4xl lg:text-4xl font-medium mb-16 text-[#252F70]">Seamless Freight Services</h2>
+      <h2 className="text-4xl md:text-4xl lg:text-4xl font-medium mb-20 text-[#252F70]">Seamless Freight Services</h2>
 
       {/* Slides Container */}
       <div className="relative overflow-hidden">
-        <div className="flex space-x-8 no-scrollbar overflow-x-scroll h-96 md:h-112 lg:h-128" ref={carouselRef}>
+        <div className="flex space-x-16 no-scrollbar overflow-x-scroll" style={{ height: '600px' }} ref={carouselRef}>
           {images.map((image, index) => (
             <div
               key={index}
-              className={`w-full sm:w-full md:w-1/2 lg:w-1/3 flex-shrink-0 rounded-xl overflow-hidden ${
+              className={`flex-shrink-0 rounded-xl overflow-hidden ${
                 index === currentSlide ? 'opacity-100' : 'opacity-50'
-              } transition-opacity duration-1000`}
+              } transition-opacity duration-1000 w-full sm:w-full md:w-1/2 lg:w-1/3`}
+              style={{ height: '80%' }} // Ensure the height of the slide cards matches the container height
             >
               <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
             </div>
