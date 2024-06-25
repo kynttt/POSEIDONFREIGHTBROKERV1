@@ -15,7 +15,7 @@ module.exports = {
       },
       colors: {
         // Define custom colors if needed
-        'priary': '#252F70',
+        'primary': '#252F70',
         'secondary': '#7783D2',
         'white': '#FEFEFE',
         
