@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import Button from './Button';
-import Modal from './Modal'; // Assuming Modal component is implemented separately
+import Modal from './Modal';
 
 const FreightQuote: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [weight, setWeight] = useState('');
+    const [pickUp, setPickUp] = useState('');
+    const [destination, setDestination] = useState('');
+    const navigate = useNavigate(); // Get navigate function from React Router
 
     const openModal = () => {
-        setShowModal(true);
+        // Check if all required inputs are populated
+        if (pickUp.trim() !== '' && destination.trim() !== '' && weight.trim() !== '') {
+            setShowModal(true);
+        } else {
+            alert('Please fill in all fields before requesting a quote.');
+        }
     };
 
     const closeModal = () => {
@@ -20,6 +29,19 @@ const FreightQuote: React.FC = () => {
         if (/^\d*$/.test(input)) {
             setWeight(input);
         }
+    };
+
+    const handlePickUpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPickUp(event.target.value);
+    };
+
+    const handleDestinationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDestination(event.target.value);
+    };
+
+    const handleTruckButtonClick = () => {
+        // Navigate to '/quote-details' when a truck button is clicked
+        navigate('/quote-details');
     };
 
     return (
@@ -35,11 +57,15 @@ const FreightQuote: React.FC = () => {
                         <input
                             type="text"
                             placeholder="Pick Up"
+                            value={pickUp}
+                            onChange={handlePickUpChange}
                             className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black"
                         />
                         <input
                             type="text"
                             placeholder="Destination"
+                            value={destination}
+                            onChange={handleDestinationChange}
                             className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black"
                         />
                         <input
@@ -68,13 +94,13 @@ const FreightQuote: React.FC = () => {
                                 label="Full Truckload"
                                 size="truckButton"
                                 bgColor="#ffffff"
-                                onClick={() => console.log('Full Truckload selected')}
+                                onClick={handleTruckButtonClick}
                             />
                             <Button
                                 label="Refrigerated Trailer"
                                 size="truckButton"
                                 bgColor="#ffffff"
-                                onClick={() => console.log('Refrigerated Trailer selected')}
+                                onClick={handleTruckButtonClick}
                             />
                         </div>
                         <div className="flex flex-col space-y-8 items-center">
@@ -82,13 +108,13 @@ const FreightQuote: React.FC = () => {
                                 label="Dry Van"
                                 size="truckButton"
                                 bgColor="#ffffff"
-                                onClick={() => console.log('Dry Van selected')}
+                                onClick={handleTruckButtonClick}
                             />
                             <Button
                                 label="Flatbed"
                                 size="truckButton"
                                 bgColor="#ffffff"
-                                onClick={() => console.log('Flatbed selected')}
+                                onClick={handleTruckButtonClick}
                             />
                         </div>
                     </div>
