@@ -4,6 +4,7 @@ import '../index.css';  // Ensure this file includes the @import for the Lexend 
 import HeroBanner from '../components/HeroBanner';
 import Carousel from '../components/Carousel';
 import FreightQuote from '../components/FreightQuote';
+import AboutUs from '../components/about';
 
 const landingPage: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const landingPage: React.FC = () => {
       <HeroBanner />
       <Carousel />
       <FreightQuote/>
+      <AboutUs />
         
       </main>
     </div>
