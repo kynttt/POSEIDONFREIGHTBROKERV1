@@ -54,17 +54,24 @@ const QuoteDetails: React.FC = () => {
                                     className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className="mb-4 relative">
                                 <label className="block text-primary font-normal mb-2">
                                     Pick Up Date <span className="text-red-500">*</span>
                                 </label>
-                                <input
-                                    type="date"
-                                    placeholder="MM/DD/YYYY"
-                                    value={pickUpDate}
-                                    onChange={(e) => setPickUpDate(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
-                                />
+                                <div className="relative">
+                                    <input
+                                        type="date"
+                                        placeholder="MM/DD/YYYY"
+                                        value={pickUpDate}
+                                        onChange={(e) => setPickUpDate(e.target.value)}
+                                        className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin pl-10"
+                                    />
+                                    <div className="absolute top-2 right-2">
+                                    <i className="far fa-calendar-alt text-blue-500"></i>
+
+
+                                    </div>
+                                </div>
                             </div>
                             <div className="mb-4">
                                 <label className="block text-primary font-normal mb-2">
@@ -73,12 +80,12 @@ const QuoteDetails: React.FC = () => {
                                 <select
                                     value={trailerType}
                                     onChange={(e) => setTrailerType(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin"
                                 >
-                                    <option value="">Select Trailer Type</option>
-                                    <option value="Flat Bed">Flat Bed</option>
-                                    <option value="Dry Van">Dry Van</option>
-                                    <option value="Refrigerated">Refrigerated</option>
+                                    <option className=" text-primary font-normal" value="">Full Truckload</option>
+                                    <option className=" text-primary font-normal" value="Flat Bed">Flat Bed</option>
+                                    <option className=" text-primary font-normal" value="Dry Van">Dry Van</option>
+                                    <option className=" text-primary font-normal" value="Refrigerated">Refrigerated</option>
                                 </select>
                             </div>
                             <div className="mb-4">
@@ -88,11 +95,11 @@ const QuoteDetails: React.FC = () => {
                                 <select
                                     value={trailerSize}
                                     onChange={(e) => setTrailerSize(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin"
                                 >
-                                    <option value="">Select Trailer Size</option>
-                                    <option value="48 ft">48 ft</option>
-                                    <option value="53 ft">53 ft</option>
+                                    <option className=" text-primary font-normal" value="">Select Trailer Size</option>
+                                    <option className=" text-primary font-normal" value="48 ft">48 ft</option>
+                                    <option className=" text-primary font-normal" value="53 ft">53 ft</option>
                                 </select>
                             </div>
                         </div>
