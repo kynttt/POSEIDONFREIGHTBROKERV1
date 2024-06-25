@@ -31,13 +31,16 @@ const Button: React.FC<ButtonProps> = ({
     truckButton: 'w-72 h-16 text-lg',
   };
 
-  // Define border style based on bgColor
+  // Define border and text color styles based on bgColor
   let borderStyle = '';
+  let textColorStyle = '';
 
   if (bgColor === 'transparent') {
     borderStyle = 'border border-white';
+    textColorStyle = ''; // No additional text color style needed for transparent background
   } else if (bgColor === '#ffffff') {
-    borderStyle = 'border border-[#7783D2] text-[#7783D2]';
+    borderStyle = 'border border-[#7783D2]';
+    textColorStyle = 'text-[#7783D2]';
   }
 
   return (
@@ -48,6 +51,7 @@ const Button: React.FC<ButtonProps> = ({
         '--hover-bg-color': hoverBgColor,
         '--hover-text-color': hoverTextColor,
         fontWeight: fontStyle === 'thin' ? 300 : 'inherit', // Set font weight to 300 for 'thin' style
+        color: textColorStyle, // Apply the dynamic text color inline
       }}
       onClick={onClick}
     >
@@ -55,5 +59,6 @@ const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
+
 
 export default Button;
