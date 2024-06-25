@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
                     <a href="#quote" className="text-white hover:text-[#252F70] no-underline font-normal">
                         REQUEST A QUOTE
                     </a>
-                    <a href="#create-account" className="text-white hover:text-[#252F70] no-underline font-normal">
+                    <a href="/signup" className="text-white hover:text-[#252F70] no-underline font-normal">
                         CREATE ACCOUNT
                     </a>
                     {/* Conditionally render Login button on large and extra-large screens */}
