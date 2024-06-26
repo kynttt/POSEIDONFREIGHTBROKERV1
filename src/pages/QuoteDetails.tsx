@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const QuoteDetails: React.FC = () => {
     const [pickUpLocation, setPickUpLocation] = useState('');
     const [pickUpState, setPickUpState] = useState('');
     const [deliveryLocation, setDeliveryLocation] = useState('');
     const [deliveryState, setDeliveryState] = useState('');
-    const [pickUpDate, setPickUpDate] = useState('');
+    const [pickUpDate, setPickUpDate] = useState<Date | null>(null);
     const [trailerType, setTrailerType] = useState('');
     const [trailerSize, setTrailerSize] = useState('');
     const [commodity, setCommodity] = useState('');
@@ -54,22 +58,20 @@ const QuoteDetails: React.FC = () => {
                                     className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
                                 />
                             </div>
-                            <div className="mb-4 relative">
+                            <div className="mb-4">
                                 <label className="block text-primary font-normal mb-2">
                                     Pick Up Date <span className="text-red-500">*</span>
                                 </label>
                                 <div className="relative">
-                                    <input
-                                        type="date"
-                                        placeholder="MM/DD/YYYY"
-                                        value={pickUpDate}
-                                        onChange={(e) => setPickUpDate(e.target.value)}
-                                        className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin pl-10"
+                                    <DatePicker
+                                        selected={pickUpDate}
+                                        onChange={(date) => setPickUpDate(date)}
+                                        className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin"
+                                        placeholderText="MM/DD/YYYY"
+                                        dateFormat="MM/dd/yyyy"
                                     />
-                                    <div className="absolute top-2 right-2">
-                                    <i className="far fa-calendar-alt text-blue-500"></i>
-
-
+                                    <div className="absolute top-2 right-2 cursor-pointer" onClick={() => document.querySelector('.react-datepicker-wrapper input')?.focus()}>
+                                        <FontAwesomeIcon icon={faCalendarAlt} className="text-secondary"/>
                                     </div>
                                 </div>
                             </div>
@@ -82,10 +84,10 @@ const QuoteDetails: React.FC = () => {
                                     onChange={(e) => setTrailerType(e.target.value)}
                                     className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin"
                                 >
-                                    <option className=" text-primary font-normal" value="">Full Truckload</option>
-                                    <option className=" text-primary font-normal" value="Flat Bed">Flat Bed</option>
-                                    <option className=" text-primary font-normal" value="Dry Van">Dry Van</option>
-                                    <option className=" text-primary font-normal" value="Refrigerated">Refrigerated</option>
+                                    <option className="text-primary font-normal" value="">Select Trailer Type</option>
+                                    <option className="text-primary font-normal" value="Flat Bed">Flat Bed</option>
+                                    <option className="text-primary font-normal" value="Dry Van">Dry Van</option>
+                                    <option className="text-primary font-normal" value="Refrigerated">Refrigerated</option>
                                 </select>
                             </div>
                             <div className="mb-4">
@@ -97,14 +99,12 @@ const QuoteDetails: React.FC = () => {
                                     onChange={(e) => setTrailerSize(e.target.value)}
                                     className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin"
                                 >
-                                    <option className=" text-primary font-normal" value="">Select Trailer Size</option>
-                                    <option className=" text-primary font-normal" value="48 ft">48 ft</option>
-                                    <option className=" text-primary font-normal" value="53 ft">53 ft</option>
+                                    <option className="text-primary font-normal" value="">Select Trailer Size</option>
+                                    <option className="text-primary font-normal" value="48 ft">48 ft</option>
+                                    <option className="text-primary font-normal" value="53 ft">53 ft</option>
                                 </select>
                             </div>
                         </div>
-
-
 
                         {/* DROP */}
                         <div className="mb-8 md:mb-0 lg:border-l-4 lg:border-secondary lg:pl-8">
@@ -134,9 +134,6 @@ const QuoteDetails: React.FC = () => {
                                 />
                             </div>
                         </div>
-
-
-
 
                         {/* ADDITIONAL DETAILS */}
                         <div className="mb-8 md:mb-0 lg:border-l-4 lg:border-secondary lg:pl-8">
@@ -171,7 +168,7 @@ const QuoteDetails: React.FC = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="Enter your email"
+                                    placeholder="Enter your company name"
                                     value={companyName}
                                     onChange={(e) => setCompanyName(e.target.value)}
                                     className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
@@ -185,7 +182,6 @@ const QuoteDetails: React.FC = () => {
                             PROCEED TO PAYMENT
                         </button>
                     </div>
-
                 </form>
             </div>
         </div>
