@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import sampleData from './sampleData.json'; // Make sure to import the sample data
 import Button from '../components/Button';
+import TrailerTypes from '../components/TrailerTypes';
 
 
 const QuoteDetails: React.FC = () => {
@@ -247,6 +248,7 @@ const QuoteDetails: React.FC = () => {
                     </div>
                 </form>
             </div>
+            <TrailerTypes/>
         </div>
     );
 };
