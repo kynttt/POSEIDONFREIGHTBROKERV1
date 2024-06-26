@@ -5,7 +5,7 @@ import HeroBanner from '../components/HeroBanner';
 import Carousel from '../components/Carousel';
 import FreightQuote from '../components/FreightQuote';
 import AboutUs from '../components/about';
-import SuccessPage from '../components/SuccessPage';
+// import SuccessPage from '../components/SuccessPage';
 import FAQsPage from '../components/Faqs';
 
 const landingPage: React.FC = () => {
@@ -18,9 +18,9 @@ const landingPage: React.FC = () => {
       <HeroBanner />
       <Carousel />
       <FreightQuote/>
-      <AboutUs />
-      <SuccessPage />
       <FAQsPage />
+      <AboutUs />
+      {/* <SuccessPage /> */}
         
       </main>
     </div>
