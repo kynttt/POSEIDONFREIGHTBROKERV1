@@ -1,0 +1,24 @@
+{
+  "distances": {
+      "New York": {
+          "Los Angeles": 2445,
+          "Chicago": 790,
+          "Houston": 1627
+      },
+      "Los Angeles": {
+          "New York": 2445,
+          "Chicago": 2015,
+          "Houston": 1547
+      },
+      "Chicago": {
+          "New York": 790,
+          "Los Angeles": 2015,
+          "Houston": 1084
+      },
+      "Houston": {
+          "New York": 1627,
+          "Los Angeles": 1547,
+          "Chicago": 1084
+      }
+  }
+}
