@@ -100,10 +100,10 @@ const SignupPage = () => {
               </button>
             </div>
           </div>
-          <div className="w-full md:w-1/3 lg:w-1/4 bg-secondary flex items-center justify-center p-8 md:p-16">
+          <div className="w-full md:w-1/3 lg:w-1/4 bg-secondary flex items-center justify-center lg:p-8 p-8 md:p-16" style={{ height: '745px' }}>
             <div className="text-center">
-              <h1 className="text-sm font-normal text-left text-white">Welcome to</h1>
-              <h1 className="text-4xl font-medium text-white">Freight Booker</h1>
+              <h1 className="text-sm font-normal text-left lg:pl-8 text-white">Welcome to</h1>
+              <h1 className="text-4xl font-medium text-left text-white lg:pl-8">Freight Broker</h1>
               <img src={signupImage} alt="Freight Booker" className="my-6 mx-auto" />
               <h2 className="text-3xl font-bold text-white">TRANSPORT</h2>
               <h2 className="text-3xl font-500px text-tertiary">LOGISTICS</h2>
