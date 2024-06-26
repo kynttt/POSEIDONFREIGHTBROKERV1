@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import sampleData from './sampleData.json'; // Make sure to import the sample data
 
 const QuoteDetails: React.FC = () => {
     const [pickUpLocation, setPickUpLocation] = useState('');
@@ -16,10 +17,52 @@ const QuoteDetails: React.FC = () => {
     const [commodity, setCommodity] = useState('');
     const [maxWeight, setMaxWeight] = useState('');
     const [companyName, setCompanyName] = useState('');
+    const [price, setPrice] = useState(0);
+    const [availableDeliveryLocations, setAvailableDeliveryLocations] = useState<string[]>([]);
+    
+
+    const trailerTypePrices: { [key: string]: number } = {
+        'Flat Bed': 2.0,
+        'Dry Van': 1.5,
+        'Refrigerated': 3.0,
+    };
+
+    const trailerSizePrices: { [key: string]: number } = {
+        '48 ft': 1.0,
+        '53 ft': 1.2,
+    };
+
+    const getDistance = (startLocation: string, endLocation: string): number => {
+        const distanceData = sampleData.distances;
+        return distanceData[startLocation]?.[endLocation] || 0;
+    };
+
+    const calculatePrice = () => {
+        const distance = getDistance(pickUpLocation, deliveryLocation);
+        const trailerTypePrice = trailerTypePrices[trailerType] || 0;
+        const trailerSizePrice = trailerSizePrices[trailerSize] || 0;
+        const weight = parseFloat(maxWeight) || 0;
+
+        const price = distance * (trailerTypePrice + trailerSizePrice) * weight;
+        setPrice(price);
+    };
+
+    useEffect(() => {
+        if (pickUpLocation) {
+            setAvailableDeliveryLocations(Object.keys(sampleData.distances[pickUpLocation] || {}));
+        } else {
+            setAvailableDeliveryLocations([]);
+        }
+    }, [pickUpLocation]);
+
+    useEffect(() => {
+        calculatePrice();
+    }, [pickUpLocation, deliveryLocation, trailerType, trailerSize, maxWeight]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Handle form submission
+        console.log("Form submitted");
     };
 
     return (
@@ -38,13 +81,16 @@ const QuoteDetails: React.FC = () => {
                                 <label className="block text-primary font-normal mb-2">
                                     Pick Up Location <span className="text-red-500">*</span>
                                 </label>
-                                <input
-                                    type="text"
-                                    placeholder="Enter your location"
+                                <select
                                     value={pickUpLocation}
                                     onChange={(e) => setPickUpLocation(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
-                                />
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
+                                >
+                                    <option className="text-primary font-normal" value="">Select Pick Up Location</option>
+                                    {Object.keys(sampleData.distances).map(location => (
+                                        <option className="text-primary font-normal" key={location} value={location}>{location}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="mb-4">
                                 <label className="block text-primary font-normal mb-2">
@@ -55,7 +101,7 @@ const QuoteDetails: React.FC = () => {
                                     placeholder="State"
                                     value={pickUpState}
                                     onChange={(e) => setPickUpState(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                 />
                             </div>
                             <div className="mb-4">
@@ -66,7 +112,7 @@ const QuoteDetails: React.FC = () => {
                                     <DatePicker
                                         selected={pickUpDate}
                                         onChange={(date) => setPickUpDate(date)}
-                                        className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin"
+                                        className="w-full border border-gray-300 p-2 rounded-md bg-white  font-thin text-black"
                                         placeholderText="MM/DD/YYYY"
                                         dateFormat="MM/dd/yyyy"
                                     />
@@ -82,7 +128,7 @@ const QuoteDetails: React.FC = () => {
                                 <select
                                     value={trailerType}
                                     onChange={(e) => setTrailerType(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white text-black font-thin text-black"
                                 >
                                     <option className="text-primary font-normal" value="">Select Trailer Type</option>
                                     <option className="text-primary font-normal" value="Flat Bed">Flat Bed</option>
@@ -97,7 +143,7 @@ const QuoteDetails: React.FC = () => {
                                 <select
                                     value={trailerSize}
                                     onChange={(e) => setTrailerSize(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white text-grey font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white text-black font-thin text-black"
                                 >
                                     <option className="text-primary font-normal" value="">Select Trailer Size</option>
                                     <option className="text-primary font-normal" value="48 ft">48 ft</option>
@@ -113,13 +159,17 @@ const QuoteDetails: React.FC = () => {
                                 <label className="block text-primary font-normal mb-2">
                                     Delivery Location <span className="text-red-500">*</span>
                                 </label>
-                                <input
-                                    type="text"
-                                    placeholder="Enter delivery location"
+                                <select
                                     value={deliveryLocation}
                                     onChange={(e) => setDeliveryLocation(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
-                                />
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
+                                    disabled={!pickUpLocation}
+                                >
+                                    <option className="text-primary font-normal" value="">Select Delivery Location</option>
+                                    {availableDeliveryLocations.map(location => (
+                                        <option className="text-primary font-normal" key={location} value={location}>{location}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="mb-4">
                                 <label className="block text-primary font-normal mb-2">
@@ -130,7 +180,7 @@ const QuoteDetails: React.FC = () => {
                                     placeholder="State"
                                     value={deliveryState}
                                     onChange={(e) => setDeliveryState(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                 />
                             </div>
                         </div>
@@ -147,7 +197,7 @@ const QuoteDetails: React.FC = () => {
                                     placeholder="e.g. Fruits"
                                     value={commodity}
                                     onChange={(e) => setCommodity(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                 />
                             </div>
                             <div className="mb-4">
@@ -159,7 +209,7 @@ const QuoteDetails: React.FC = () => {
                                     placeholder="e.g. 1000lbs"
                                     value={maxWeight}
                                     onChange={(e) => setMaxWeight(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                 />
                             </div>
                             <div className="mb-4">
@@ -171,13 +221,16 @@ const QuoteDetails: React.FC = () => {
                                     placeholder="Enter your company name"
                                     value={companyName}
                                     onChange={(e) => setCompanyName(e.target.value)}
-                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin"
+                                    className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                 />
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex justify-end lg:mt-16">
+                    <div className="flex justify-between items-center lg:mt-16">
+                        <div className="text-xl font-semibold text-secondary">
+                            Price: ${price.toFixed(2)}
+                        </div>
                         <button type="submit" className="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700">
                             PROCEED TO PAYMENT
                         </button>

@@ -70,7 +70,7 @@ const FreightQuote: React.FC = () => {
                         />
                         <input
                             type="text"
-                            placeholder="Weight (kg)"
+                            placeholder="Weight (lb)"
                             value={weight}
                             onChange={handleWeightChange}
                             className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black"
