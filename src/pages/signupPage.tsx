@@ -1,6 +1,10 @@
 import React from 'react';
-import signupImage from './signup.png';
+import signupImage from '../assets/img/signup.png';
 import Button from '../components/Button';
+import googleIcon from '../assets/img/googleicon.png';
+import appleIcon from '../assets/img/apple.png';
+
+
 
 const SignupPage = () => {
   return (
@@ -92,12 +96,22 @@ const SignupPage = () => {
               </p>
             </form>
             <div className="mt-6">
-              <button className="w-full bg-white text-primary py-2 px-4 rounded-md hover:bg-red-700 mb-4 border">
-                Sign up with Google
+            <div className="mt-6 flex flex-col space-y-4">
+            <button
+                className="bg-white border border-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center"
+                type="button"
+              >
+                <img src={googleIcon} alt="Google" className="w-6 h-6 mr-2" />
+                Login with Google
               </button>
-              <button className="w-full bg-white text-primary py-2 px-4 rounded-md hover:bg-gray-800 border">
-                Sign up with Apple
+              <button
+                className="bg-white border border-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center"
+                type="button"
+              >
+                <img src={appleIcon} alt="Apple" className="w-6 h-6 mr-2" />
+                Login with Apple
               </button>
+            </div>
             </div>
           </div>
           <div className="w-full md:w-1/3 lg:w-1/4 bg-secondary flex items-center justify-center lg:p-8 p-8 md:p-16" style={{ height: '745px' }}>

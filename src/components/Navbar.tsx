@@ -1,12 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { Transition } from '@headlessui/react';
 import Button from './Button';
-
+import { useNavigate } from 'react-router-dom'; 
 
 const Navbar: React.FC = () => {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
+
+    const handleNavigateToLogin = () => {
+        navigate('/login');
+    };
       
 
     return (
@@ -72,7 +77,7 @@ const Navbar: React.FC = () => {
                             size="medium"
                             bgColor="#252F70"
                             hoverBgColor="white"
-                            onClick={() => console.log('Button Clicked')}
+                            onClick={handleNavigateToLogin}
                             className="extra-class-for-medium-button"
                         />
 
@@ -115,7 +120,7 @@ const Navbar: React.FC = () => {
                                     bgColor="#252F70"
                                     hoverBgColor="white"
 
-                                    onClick={() => console.log('Button Clicked')}
+                                    onClick={handleNavigateToLogin}
                                     className="extra-class-for-medium-button"
                                 />
 
