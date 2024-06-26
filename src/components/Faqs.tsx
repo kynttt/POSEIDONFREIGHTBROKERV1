@@ -21,13 +21,13 @@ const FAQsPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center my-10">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center mt-24">
       <div className="w-full max-w-5xl p-8">
-        <h1 className="text-4xl font-medium text-primary mb-8">FAQs</h1>
+        <h1 className="text-4xl font-medium text-primary mb-10">FAQs</h1>
         {faqs.map((faq, index) => (
-          <div key={index} className="mb-6">
+          <div key={index} className="mb-8">
             <h2 className="text-xl font-medium text-primary mb-2">{faq.question}</h2>
-            <p className="text-gray-500 text-sm">{faq.answer}</p>
+            <p className="text-gray-500 text-sm font-normal mb-10">{faq.answer}</p>
             {index < faqs.length + 1 && <hr className="mt-6 border-gray-200" />}
           </div>
         ))}
