@@ -19,8 +19,8 @@ const landingPage: React.FC = () => {
       <HeroBanner />
       <Carousel />
       <FreightQuote/>
-      <FAQsPage />
       <FeaturesSection />
+      <FAQsPage />
       <AboutUs />
       {/* <SuccessPage /> */}
         

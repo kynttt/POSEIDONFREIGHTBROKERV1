@@ -16,7 +16,7 @@ const FeaturesSection: React.FC = () => {
         <div className=" container mt-14 grid grid-cols-1 lg:grid-cols-3 gap-16 justify-center items-center">
           {/* Feature 1: Flat rate quotes */}
           <div className="bg-white overflow-hidden h-auto sm:h-80 w-full mx-auto shadow-lg">
-            <div className="p-6">
+            <div className="p-8">
               <h3 className="text-2xl font-medium text-secondary">FLAT RATE</h3>
               <h3 className="text-2xl font-medium text-secondary pr-5">QUOTES</h3>
               <p className="mt-2 font-normal text-lg text-primary py-2">
@@ -27,7 +27,7 @@ const FeaturesSection: React.FC = () => {
 
           {/* Feature 2: Book shipments instantly */}
           <div className="bg-white overflow-hidden h-auto sm:h-80 w-full mx-auto shadow-lg">
-            <div className="p-6">
+            <div className="p-8">
               <h3 className="text-2xl font-medium text-secondary">BOOK SHIPMENTS</h3>
               <h3 className="text-2xl font-medium text-secondary pr-5">INSTANTLY</h3>
               <p className="mt-2 font-normal text-lg text-primary py-2">
@@ -38,7 +38,7 @@ const FeaturesSection: React.FC = () => {
 
           {/* Feature 3: Get 24/7 support */}
           <div className="bg-white overflow-hidden h-auto sm:h-80 w-full mx-auto shadow-lg">
-            <div className="p-6">
+            <div className="p-8">
               <h3 className="text-2xl font-medium text-secondary">GET 24/7</h3>
               <h3 className="text-2xl font-medium text-secondary">SUPPORT</h3>
               <p className="mt-2 font-normal text-lg text-primary py-2">
