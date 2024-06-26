@@ -93,13 +93,13 @@ const FreightQuote: React.FC = () => {
                             <Button
                                 label="Full Truckload"
                                 size="truckButton"
-                                bgColor="#ffffff"
+                                bgColor="grey"
                                 onClick={handleTruckButtonClick}
                             />
                             <Button
                                 label="Refrigerated Trailer"
                                 size="truckButton"
-                                bgColor="#ffffff"
+                                bgColor="grey"
                                 onClick={handleTruckButtonClick}
                             />
                         </div>
@@ -107,13 +107,13 @@ const FreightQuote: React.FC = () => {
                             <Button
                                 label="Dry Van"
                                 size="truckButton"
-                                bgColor="#ffffff"
+                                bgColor="grey"
                                 onClick={handleTruckButtonClick}
                             />
                             <Button
                                 label="Flatbed"
                                 size="truckButton"
-                                bgColor="#ffffff"
+                                bgColor="grey"
                                 onClick={handleTruckButtonClick}
                             />
                         </div>
