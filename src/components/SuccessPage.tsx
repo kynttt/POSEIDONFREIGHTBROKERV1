@@ -8,7 +8,6 @@ const RoadToSuccess = () => {
       <div className="text-2xl mb-4 text-center lg:text-left" style={{ color: '#252F70', fontSize: '30px', paddingLeft: '55px' }}>
         The road to<br />success starts here.
       </div>
-
       <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between space-y-4 lg:space-y-0 lg:space-x-4 px-4 sm:px-6 lg:px-10" style={{ marginLeft: '20px' }}>
         {/* Carriers */}
         <div className="flex flex-col items-center">
@@ -21,7 +20,6 @@ const RoadToSuccess = () => {
             <img src={HeroBanner} alt="Carriers" className="w-full h-auto object-cover mt-2 px-6" style={{ marginTop: '185px' }} />
           </div>
         </div>
-
         {/* Brokers */}
         <div className="flex flex-col items-center">
           <div className="relative border border-gray-300 rounded-lg overflow-hidden shadow-lg" style={{ width: '100%', maxWidth: '320px', height: '360px' }}>
@@ -33,7 +31,6 @@ const RoadToSuccess = () => {
             <img src={HeroBanner} alt="Brokers" className="w-full h-auto object-cover mt-2 px-6" style={{ marginTop: '185px' }} />
           </div>
         </div>
-
         {/* Shippers */}
         <div className="flex flex-col items-center">
           <div className="relative border border-gray-300 rounded-lg overflow-hidden shadow-lg" style={{ width: '100%', maxWidth: '320px', height: '360px' }}>
@@ -49,5 +46,4 @@ const RoadToSuccess = () => {
     </div>
   );
 };
-
 export default RoadToSuccess;
