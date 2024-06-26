@@ -6,6 +6,7 @@ import Carousel from '../components/Carousel';
 import FreightQuote from '../components/FreightQuote';
 import AboutUs from '../components/about';
 import SuccessPage from '../components/SuccessPage';
+import FAQsPage from '../components/Faqs';
 
 const landingPage: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const landingPage: React.FC = () => {
       <FreightQuote/>
       <AboutUs />
       <SuccessPage />
+      <FAQsPage />
         
       </main>
     </div>
