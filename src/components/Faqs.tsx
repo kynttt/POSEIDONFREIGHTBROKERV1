@@ -21,7 +21,7 @@ const FAQsPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center mt-24">
+    <div className=" bg-gray-100 flex flex-col items-center mt-24">
       <div className="w-full max-w-5xl p-8">
         <h1 className="text-4xl font-medium text-primary mb-10">FAQs</h1>
         {faqs.map((faq, index) => (
