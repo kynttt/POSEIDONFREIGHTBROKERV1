@@ -2,15 +2,18 @@ import React, { useState, useRef } from 'react';
 import { Transition } from '@headlessui/react';
 import Button from './Button';
 
+
 const Navbar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
+
+      
 
     return (
         <nav className="bg-[#7783D2] px-4 py-8  ">
             <div className="container mx-auto flex justify-between items-center">
                 
-                <a href="#home" className="text-white text-4xl lg:text-4xl font-normal hover:text-[#252F70]">
+                <a href="/" className="text-white text-4xl lg:text-4xl font-normal hover:text-[#252F70]">
                 Freight Broker
                     </a>
                 {/* Hamburger menu for small screens */}
@@ -47,7 +50,7 @@ const Navbar: React.FC = () => {
 
                 {/* Navigation links for medium screens and larger */}
                 <div className="hidden lg:flex space-x-16 items-center ">
-                    <a href="#home" className="text-white hover:text-[#252F70] no-underline font-normal">
+                    <a href="/" className="text-white hover:text-[#252F70] no-underline font-normal">
                         HOME
                     </a>
                     <a href="#services" className="text-white hover:text-[#252F70] no-underline font-normal">
