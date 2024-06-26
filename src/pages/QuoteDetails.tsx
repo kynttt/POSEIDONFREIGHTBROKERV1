@@ -5,6 +5,8 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import sampleData from './sampleData.json'; // Make sure to import the sample data
+import Button from '../components/Button';
+
 
 const QuoteDetails: React.FC = () => {
     const [pickUpLocation, setPickUpLocation] = useState('');
@@ -19,7 +21,7 @@ const QuoteDetails: React.FC = () => {
     const [companyName, setCompanyName] = useState('');
     const [price, setPrice] = useState(0);
     const [availableDeliveryLocations, setAvailableDeliveryLocations] = useState<string[]>([]);
-    
+
 
     const trailerTypePrices: { [key: string]: number } = {
         'Flat Bed': 2.0,
@@ -69,7 +71,7 @@ const QuoteDetails: React.FC = () => {
         <div>
             <Navbar />
             <div className="bg-white min-h-screen">
-                <form onSubmit={handleSubmit} className="max-w-4xl mx-auto py-10 px-4">
+                <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">
                     <div className="mb-6">
                         <h2 className="text-2xl font-semibold lg:mb-20 text-secondary">PICK UP DETAILS</h2>
                     </div>
@@ -117,7 +119,7 @@ const QuoteDetails: React.FC = () => {
                                         dateFormat="MM/dd/yyyy"
                                     />
                                     <div className="absolute top-2 right-2 cursor-pointer" onClick={() => document.querySelector('.react-datepicker-wrapper input')?.focus()}>
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="text-secondary"/>
+                                        <FontAwesomeIcon icon={faCalendarAlt} className="text-secondary" />
                                     </div>
                                 </div>
                             </div>
@@ -231,9 +233,17 @@ const QuoteDetails: React.FC = () => {
                         <div className="text-xl font-semibold text-secondary">
                             Price: ${price.toFixed(2)}
                         </div>
-                        <button type="submit" className="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700">
+                        <Button
+                            label="PROCEED TO PAYMENT"
+                            size="xl"
+                            bgColor="#7783D2"
+                            hoverBgColor="white"
+                            onClick={() => { }}
+                            className="extra-class-for-medium-button "
+                        />
+                        {/* <button type="submit" className="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700">
                             PROCEED TO PAYMENT
-                        </button>
+                        </button> */}
                     </div>
                 </form>
             </div>
