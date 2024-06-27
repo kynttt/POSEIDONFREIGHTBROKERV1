@@ -4,6 +4,7 @@ import LandingPage from './pages/landingPage';
 import SignUpPage from './pages/signupPage';
 import QuoteDetails from './pages/QuoteDetails';
 import LoginPage from './pages/LoginPage';
+import TrailerOptionsPage from './pages/TrailerOptionsPage';
 
 const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/quote-details" element={<QuoteDetails />} />
+        <Route path="/trailer-options" element={<TrailerOptionsPage />} />
 
       </Routes>
     </Router>

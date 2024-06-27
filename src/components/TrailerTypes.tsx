@@ -6,7 +6,7 @@ import dryVanImage from '../assets/img/dryvan.png';
 
 const TrailerTypes: React.FC = () => {
     return (
-        <div className='bg-white text-primary'>
+        <div className='bg-white text-primary py-16'>
             <div>
                 <h1 className="text-center text-2xl font-thin ">TRAILERS</h1>
                 <h1 className="text-center text-2xl font-bold mb-8">What type of freight do you support?</h1>

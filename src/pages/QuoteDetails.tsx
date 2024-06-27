@@ -248,7 +248,7 @@ const QuoteDetails: React.FC = () => {
                     </div>
                 </form>
             </div>
-            <TrailerTypes/>
+            
         </div>
     );
 };
