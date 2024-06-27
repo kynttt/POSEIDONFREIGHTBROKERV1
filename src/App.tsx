@@ -5,6 +5,7 @@ import SignUpPage from './pages/signupPage';
 import QuoteDetails from './pages/QuoteDetails';
 import LoginPage from './pages/LoginPage';
 import TrailerOptionsPage from './pages/TrailerOptionsPage';
+import NonBusinessPage from './pages/NonBusinessEmail';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/quote-details" element={<QuoteDetails />} />
         <Route path="/trailer-options" element={<TrailerOptionsPage />} />
+        <Route path="/nonbusiness" element={<NonBusinessPage />} />
 
       </Routes>
     </Router>
