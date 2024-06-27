@@ -29,9 +29,9 @@ const NonBusinessPage: React.FC = () => {
             </div>
 
             {/* Footer */}
-            <footer className="bg-secondary text-white text-center p-2 md:p-4">
+            {/* <footer className="bg-secondary text-white text-center p-2 md:p-4">
                 © 2024 Freight Broker. All rights reserved.
-            </footer>
+            </footer> */}
         </div>
     );
 };
