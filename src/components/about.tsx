@@ -1,5 +1,7 @@
 import React from 'react';
-import HeroBanner from '../assets/img/HeroBanner.png';
+import truck1 from '../assets/img/about-c1.png';
+import truck2 from '../assets/img/about-c2.png';
+import truck3 from '../assets/img/about-c3.png';
 
 const AboutUs: React.FC = () => {
   return (
@@ -7,18 +9,18 @@ const AboutUs: React.FC = () => {
       <div className="flex flex-col lg:flex-row lg:justify-start w-full lg:w-auto space-y-4 lg:space-y-0 lg:space-x-4 lg:pl-24 hidden lg:flex" style={{ height: '70vh' }}>
         <div className="flex flex-col space-y-4 ">
           <img
-            src={HeroBanner}
+            src={truck3}
             alt="Pic 1"
             className="w-full lg:w-60 lg:h-1/2 h-auto object-cover rounded-lg"
           />
           <img
-            src={HeroBanner}
+            src={truck2}
             alt="Pic 2"
             className="w-full lg:w-60 lg:h-1/2 h-auto object-cover rounded-lg"
           />
         </div>
         <img
-          src={HeroBanner}
+          src={truck1}
           alt="Pic 3"
           className="w-full lg:w-96 h-auto object-cover rounded-lg"
         />
