@@ -19,7 +19,7 @@ const FeaturesSection: React.FC = () => {
             <div className="p-8">
               <h3 className="text-2xl font-medium text-secondary">FLAT RATE</h3>
               <h3 className="text-2xl font-medium text-secondary pr-5">QUOTES</h3>
-              <p className="mt-2 font-normal text-lg text-primary py-2">
+              <p className="mt-2 font-normal text-lg text-primary py-2 text-justify">
                 The freight quotes you’ll get are flat rates based on a shipment’s date, distance, and trailer type. These aren’t estimates, but actual market-based quotes you can book.
               </p>
             </div>
@@ -30,7 +30,7 @@ const FeaturesSection: React.FC = () => {
             <div className="p-8">
               <h3 className="text-2xl font-medium text-secondary">BOOK SHIPMENTS</h3>
               <h3 className="text-2xl font-medium text-secondary pr-5">INSTANTLY</h3>
-              <p className="mt-2 font-normal text-lg text-primary py-2">
+              <p className="mt-2 font-normal text-lg text-primary py-2 text-justify">
                 Booking at your quoted rate only takes a couple of clicks. If you don’t have an account, creating one takes less than 5 minutes.
               </p>
             </div>
@@ -41,7 +41,7 @@ const FeaturesSection: React.FC = () => {
             <div className="p-8">
               <h3 className="text-2xl font-medium text-secondary">GET 24/7</h3>
               <h3 className="text-2xl font-medium text-secondary">SUPPORT</h3>
-              <p className="mt-2 font-normal text-lg text-primary py-2">
+              <p className="mt-2 font-normal text-lg text-primary py-2 text-justify">
                 We’ll keep you updated from the moment the BOL is generated to the second the carrier uploads the POD.
               </p>
             </div>

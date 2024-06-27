@@ -28,7 +28,7 @@ const AboutUs: React.FC = () => {
       <div className="w-full lg:w-1/2 flex flex-col justify-center lg:pl-24 text-[#252F70] my-16 lg:mt-0" >
         <p className="text-xl font-medium mb-8">About Us</p>
         <h1 className="text-3xl text-gray-600  mb-8 text-primary">Transport and Logistics</h1>
-        <p className="text-gray-500 text-md font-normal leading-relaxed">
+        <p className="text-gray-500 text-md font-normal leading-relaxed text-justify">
           Welcome to Poseidon Distribution Inc. PDI is a family-owned transportation company with big business capability, yet a family working environment. Established in Auburn, WA in 2017, our teammates provide FTL, dry van, reefer (temperature controlled), and Flatbed Conestoga freights.
           <br /><br />
           <span className="font-bold">Trusted by Amazon</span>
