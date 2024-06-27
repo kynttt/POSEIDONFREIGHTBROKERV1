@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
                     <a href="#about" className="text-white hover:text-[#252F70] no-underline font-normal">
                         ABOUT US
                     </a>
-                    <a href="#quote" className="text-white hover:text-[#252F70] no-underline font-normal">
+                    <a href="/quote-details" className="text-white hover:text-[#252F70] no-underline font-normal">
                         REQUEST A QUOTE
                     </a>
                     <a href="/signup" className="text-white hover:text-[#252F70] no-underline font-normal">
@@ -106,7 +106,7 @@ const Navbar: React.FC = () => {
                             <a href="#about" className="block text-white hover:text-[#252F70] text-center">
                                 ABOUT US
                             </a>
-                            <a href="#quote" className="block text-white hover:text-[#252F70] text-center">
+                            <a href="#quote-details" className="block text-white hover:text-[#252F70] text-center">
                                 REQUEST A QUOTE
                             </a>
                             <a href="#create-account" className="block text-white hover:text-[#252F70] text-center">

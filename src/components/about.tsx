@@ -5,7 +5,7 @@ import truck3 from '../assets/img/about-c3.png';
 
 const AboutUs: React.FC = () => {
   return (
-    <div className="container mx-auto px-4 lg:py-28 flex flex-col lg:flex-row font-lexend ">
+    <div id='about' className="container mx-auto px-4 lg:py-28 flex flex-col lg:flex-row font-lexend ">
       <div className="flex flex-col lg:flex-row lg:justify-start w-full lg:w-auto space-y-4 lg:space-y-0 lg:space-x-4 lg:pl-24 hidden lg:flex" style={{ height: '70vh' }}>
         <div className="flex flex-col space-y-4 ">
           <img

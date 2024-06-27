@@ -69,7 +69,7 @@ const QuoteDetails: React.FC = () => {
     };
 
     return (
-        <div>
+        <div >
             <Navbar />
             <div className="bg-white min-h-screen">
                 <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">

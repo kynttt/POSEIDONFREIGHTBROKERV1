@@ -3,7 +3,7 @@ import NonBusinessImage from '../assets/img/nonbusiness.png';
 
 const NonBusinessPage: React.FC = () => {
     return (
-        <div className="min-h-full flex flex-col justify-between font-lexend">
+        <div className="min-h-full flex flex-col justify-between font-lexend bg-white">
             {/* Navigation bar */}
             <nav className="bg-secondary text-white flex justify-between items-center px-4 md:px-40 py-4 md:py-10">
                 <div className="flex items-center">

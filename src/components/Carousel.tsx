@@ -31,7 +31,7 @@ const Carousel: React.FC = () => {
   }, [currentSlide, images.length]);
 
   return (
-    <div className="container mx-auto relative text-center md:my-12 sm:my-6 py-8">
+    <div id='services' className="container mx-auto relative text-center md:my-12 sm:my-6 py-8">
       {/* Header */}
       <h1 className="text-base md:text-xl lg:text-xl font-normal mb-2 text-[#252F70]">SERVICES</h1>
       <h2 className="text-4xl md:text-4xl lg:text-4xl font-medium mb-20 text-[#252F70]">Seamless Freight Services</h2>
