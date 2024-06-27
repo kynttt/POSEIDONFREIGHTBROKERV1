@@ -15,27 +15,27 @@ const ContactForm: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Name"
-                  className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 font-light"
+                  className="bg-white w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 font-light"
                 />
               </div>
               <div>
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 font-light"
+                  className="bg-white w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 font-light"
                 />
               </div>
               <div>
                 <input
                   type="tel"
                   placeholder="Phone Number"
-                  className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 font-light"
+                  className="bg-white w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 font-light"
                 />
               </div>
               <div>
                 <textarea
                   placeholder="Message"
-                  className="w-full h-32 px-3 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 font-light"
+                  className="bg-white w-full h-32 px-3 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 font-light"
                 ></textarea>
               </div>
               <div className='flex justify-center items-center'>
