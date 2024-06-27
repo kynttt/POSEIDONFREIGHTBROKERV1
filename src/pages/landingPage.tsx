@@ -10,6 +10,7 @@ import FAQsPage from '../components/Faqs';
 import FeaturesSection from '../components/Features';
 import Footer from '../components/Footer';
 import ServicesCardList from '../components/ServicesCardList';
+import ContactForm from '../components/ContactUs';
 
 const landingPage: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const landingPage: React.FC = () => {
       <FeaturesSection />
       <FAQsPage />
       <AboutUs />
+      <ContactForm />
       <Footer/>
       {/* <SuccessPage /> */}
         
