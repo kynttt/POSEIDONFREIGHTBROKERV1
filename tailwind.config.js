@@ -23,7 +23,8 @@ module.exports = {
         'tertiary': '#bbc1e8',
         'white': '#FEFEFE',
         'grey': '#DCDCDC',
-        'light-grey': '#eeeeee'
+        'light-grey': '#eeeeee',
+        'green': '#54AB82'
         
 
       },

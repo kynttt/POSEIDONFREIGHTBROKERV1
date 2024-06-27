@@ -45,6 +45,7 @@ h1 {
 button:hover {
   background-color: var(--hover-bg-color) !important;
   color: var(--hover-text-color) !important;
+  border-color: var(--hover-border-color);
 }
 
 /* Hide scrollbar for Chrome, Safari, and Opera */
