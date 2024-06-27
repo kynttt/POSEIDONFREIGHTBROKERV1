@@ -4,7 +4,7 @@ interface ButtonProps {
   label: string;
   onClick?: () => void; // Optional onClick handler
   className?: string; // Optional class name for additional styling
-  size?: 'small' | 'medium' | 'large' | 'xl' | 'quoteButton' | 'truckButton'; // Optional size prop
+  size?: 'small' | 'medium' | 'large' | 'xl' | 'quoteButton' | 'truckButton' | 'contactButton'; // Optional size prop
   bgColor?: string; // Optional background color prop
   hoverBgColor?: string; // Optional hover background color prop
   hoverTextColor?: string; // Optional hover text color prop
@@ -31,6 +31,7 @@ const Button: React.FC<ButtonProps> = ({
     xl: 'w-80 h-16 text-xl',
     quoteButton: 'w-60 h-12 text-lg',
     truckButton: 'w-72 h-16 text-lg',
+    contactButton: 'w-full h-12 text-lg',
   };
 
   // Define border and text color styles based on bgColor
