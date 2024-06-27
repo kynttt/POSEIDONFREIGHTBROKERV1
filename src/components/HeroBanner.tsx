@@ -41,21 +41,21 @@ const HeroBanner: React.FC = () => {
       {/* Second div */}
       <div className="relative flex flex-col justify-center items-center space-y-4 px-10 mt-8 md:ml-8 md:mt-0 md:w-1/2">
         <Button
-          label="PICK UP"
+          label="REQUEST A QUOTE"
           size="xl"
           bgColor="#7783D2"
           hoverBgColor="white"
           onClick={handlePickup} // Pass handlePickup directly as onClick handler
           className="extra-class-for-medium-button"
         />
-        <Button
+        {/* <Button
           label="DELIVER"
           size="xl"
           bgColor="#7783D2"
           hoverBgColor="white"
           onClick={handlePickup} // Pass handlePickup directly as onClick handler
           className="extra-class-for-medium-button"
-        />
+        /> */}
       </div>
     </div>
   );
