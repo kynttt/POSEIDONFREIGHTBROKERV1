@@ -1,21 +1,15 @@
 import React from 'react';
 import NonBusinessImage from '../assets/img/nonbusiness.png';
+import Navbar from '../components/Navbar';
 
 const NonBusinessPage: React.FC = () => {
     return (
         <div className="min-h-full flex flex-col justify-between font-lexend bg-white">
             {/* Navigation bar */}
-            <nav className="bg-secondary text-white flex justify-between items-center px-4 md:px-40 py-4 md:py-10">
-                <div className="flex items-center">
-                    <span className="text-2xl md:text-4xl font-bold">Freight Broker</span>
-                </div>
-                <div>
-                    <a href="#" className="text-white hover:underline">Sign Out</a>
-                </div>
-            </nav>
+            <Navbar/>
 
             {/* Main content */}
-            <div className="container mx-auto my-6 md:my-10 flex flex-col items-center lg:mb-24 py-36">
+            <div className=" container mx-auto my-6 md:my-10 flex flex-col items-center lg:mb-24 py-36">
                 {/* Image */}
                 <div className="max-w-full w-80 md:w-auto mb-6 md:mb-8">
                     <img src={NonBusinessImage} alt="Non-business email image" className="w-full h-auto" />
