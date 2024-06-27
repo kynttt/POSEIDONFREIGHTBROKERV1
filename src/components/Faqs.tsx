@@ -27,7 +27,7 @@ const FAQsPage: React.FC = () => {
         {faqs.map((faq, index) => (
           <div key={index} className="mb-8">
             <h2 className="text-xl font-medium text-secondary mb-2">{faq.question}</h2>
-            <p className="text-gray-500 text-sm font-normal mb-10">{faq.answer}</p>
+            <p className="text-gray-500 text-sm font-normal mb-10 text-justify">{faq.answer}</p>
             {index < faqs.length + 1 && <hr className="mt-6 border-white" />}
           </div>
         ))}
