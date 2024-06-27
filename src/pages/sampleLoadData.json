@@ -1,0 +1,47 @@
+[
+    {
+        "id": "1",
+        "pickUp": "Location A",
+        "drop": "Location B",
+        "companyName": "Example Company",
+        "trailerType": "Flatbed",
+        "trailerSize": "40 ft",
+        "loadPrice": 500
+    },
+    {
+        "id": "2",
+        "pickUp": "Location C",
+        "drop": "Location D",
+        "companyName": "Another Company",
+        "trailerType": "Refrigerated",
+        "trailerSize": "53 ft",
+        "loadPrice": 700
+    },
+    {
+        "id": "3",
+        "pickUp": "Location E",
+        "drop": "Location F",
+        "companyName": "Third Company",
+        "trailerType": "Dry Van",
+        "trailerSize": "48 ft",
+        "loadPrice": 600
+    },
+    {
+        "id": "4",
+        "pickUp": "Location G",
+        "drop": "Location H",
+        "companyName": "Fourth Company",
+        "trailerType": "Flatbed",
+        "trailerSize": "53 ft",
+        "loadPrice": 800
+    },
+    {
+        "id": "5",
+        "pickUp": "Location G",
+        "drop": "Location H",
+        "companyName": "Fourth Company",
+        "trailerType": "Flatbed",
+        "trailerSize": "53 ft",
+        "loadPrice": 800
+    }
+]
