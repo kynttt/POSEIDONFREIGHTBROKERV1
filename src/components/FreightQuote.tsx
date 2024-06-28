@@ -74,7 +74,7 @@ const FreightQuote: React.FC = () => {
                             placeholder="Weight (lb)"
                             value={weight}
                             onChange={handleWeightChange}
-                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black font-normal"
+                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-1/4 text-black font-normal"
                         />
                         <Button
                             label="Request a Quote"
