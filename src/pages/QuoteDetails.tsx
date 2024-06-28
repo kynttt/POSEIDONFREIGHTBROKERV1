@@ -7,6 +7,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import sampleData from './sampleData.json'; // Make sure to import the sample data
 import Button from '../components/Button';
 import TrailerTypes from '../components/TrailerTypes';
+import { useNavigate } from 'react-router-dom'; 
+
 
 
 const QuoteDetails: React.FC = () => {
@@ -22,6 +24,8 @@ const QuoteDetails: React.FC = () => {
     const [companyName, setCompanyName] = useState('');
     const [price, setPrice] = useState(0);
     const [availableDeliveryLocations, setAvailableDeliveryLocations] = useState<string[]>([]);
+    const navigate = useNavigate(); // Get navigate function from React Router
+
 
 
     const trailerTypePrices: { [key: string]: number } = {
@@ -67,7 +71,11 @@ const QuoteDetails: React.FC = () => {
         // Handle form submission
         console.log("Form submitted");
     };
-
+    
+    const handleProceedPayment = () => {
+        // Navigate to '/quote-details' when a truck button is clicked
+        navigate('/booking-successful');
+    };
     return (
         <div >
             <Navbar />
@@ -235,13 +243,13 @@ const QuoteDetails: React.FC = () => {
                             Price: ${price.toFixed(2)}
                         </div>
                         <Button
-                            label="PROCEED TO PAYMENT"
-                            size="xl"
-                            bgColor="#7783D2"
-                            hoverBgColor="white"
-                            onClick={() => { }}
-                            className="extra-class-for-medium-button "
-                        />
+                        label="PROCEED TO PAYMENT"
+                        size="xl"
+                        bgColor="#7783D2"
+                        hoverBgColor="white"
+                        onClick={handleProceedPayment}
+                        className="extra-class-for-medium-button"
+                    />
                         {/* <button type="submit" className="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700">
                             PROCEED TO PAYMENT
                         </button> */}
