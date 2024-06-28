@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import sampleData from './sampleData.json'; // Make sure to import the sample data
 import Button from '../components/Button';
 import TrailerTypes from '../components/TrailerTypes';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -71,7 +71,7 @@ const QuoteDetails: React.FC = () => {
         // Handle form submission
         console.log("Form submitted");
     };
-    
+
     const handleProceedPayment = () => {
         // Navigate to '/quote-details' when a truck button is clicked
         navigate('/booking-successful');
@@ -238,25 +238,24 @@ const QuoteDetails: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="flex justify-between items-center lg:mt-16">
-                        <div className="text-xl font-semibold text-secondary">
-                            Price: ${price.toFixed(2)}
+                    <div className="bg-light-grey p-4 shadow-lg flex flex-col lg:flex-row justify-between items-center lg:mt-16 rounded-lg">
+                        <div className=" text-2xl font-medium text-primary mb-4 lg:mb-0 lg:mr-4  p-4 rounded-lg ">
+                            Price: ${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </div>
                         <Button
-                        label="PROCEED TO PAYMENT"
-                        size="xl"
-                        bgColor="#7783D2"
-                        hoverBgColor="white"
-                        onClick={handleProceedPayment}
-                        className="extra-class-for-medium-button"
-                    />
-                        {/* <button type="submit" className="bg-primary text-white px-6 py-3 rounded-md hover:bg-blue-700">
-                            PROCEED TO PAYMENT
-                        </button> */}
+                            label="GET THIS QUOTE"
+                            size="xl"
+                            bgColor="#7783D2"
+                            hoverBgColor="white"
+                            onClick={handleProceedPayment}
+                            className="extra-class-for-medium-button"
+                        />
                     </div>
+
+
                 </form>
             </div>
-            
+
         </div>
     );
 };
