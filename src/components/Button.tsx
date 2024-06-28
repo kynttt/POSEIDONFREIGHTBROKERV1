@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
     medium: 'w-32 h-12 text-base',
     large: 'w-40 h-12 text-lg',
     xl: 'w-80 h-16 text-xl',
-    quoteButton: 'w-60 h-12 text-lg',
+    quoteButton: 'w-64 h-12 text-lg',
     truckButton: 'w-72 h-16 text-lg',
     contactButton: 'w-full h-12 text-lg',
     bookingSuccessful: 'w-60 h-12 text-base',
