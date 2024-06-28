@@ -46,10 +46,11 @@ const FreightQuote: React.FC = () => {
 
     return (
         <div className="flex flex-col lg:flex-row justify-center items-center py-16 bg-[#b2b9f9]">
-            <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20">
-                <h2 className="text-3xl font-semibold text-[#252F70]">GET A</h2>
-                <h2 className="text-3xl font-semibold text-[#252F70]">FREIGHT QUOTE</h2>
-            </div>
+            <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20 lg:hidden">
+    <h2 className="text-3xl font-semibold text-[#252F70]">GET A</h2>
+    <h2 className="text-3xl font-semibold text-[#252F70]">FREIGHT QUOTE</h2>
+</div>
+
             <div className="flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto">
                 <div className="flex flex-col w-full">
                     <h3 className="text-center text-lg font-semibold text-[#252F70] mb-8">Cost Calculator</h3>
@@ -59,21 +60,21 @@ const FreightQuote: React.FC = () => {
                             placeholder="Pick Up"
                             value={pickUp}
                             onChange={handlePickUpChange}
-                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black"
+                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black font-normal"
                         />
                         <input
                             type="text"
                             placeholder="Destination"
                             value={destination}
                             onChange={handleDestinationChange}
-                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black"
+                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black font-normal"
                         />
                         <input
                             type="text"
                             placeholder="Weight (lb)"
                             value={weight}
                             onChange={handleWeightChange}
-                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black"
+                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black font-normal"
                         />
                         <Button
                             label="Request a Quote"
@@ -81,7 +82,7 @@ const FreightQuote: React.FC = () => {
                             bgColor="#252F70"
                             hoverBgColor="white"
                             onClick={openModal}
-                            className="extra-class-for-medium-button"
+                            className="extra-class-for-medium-button "
                         />
                     </div>
                 </div>
