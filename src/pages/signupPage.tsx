@@ -3,10 +3,16 @@ import signupImage from '../assets/img/signup.png';
 import Button from '../components/Button';
 import googleIcon from '../assets/img/googleicon.png';
 import appleIcon from '../assets/img/apple.png';
+import  { useState } from 'react';
+import OTPModal from '../components/OTPModal';
 
 
 
 const SignupPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   return (
     <div className="bg-white min-h-screen flex items-center justify-center">
       <div className="container mx-auto">
@@ -82,14 +88,16 @@ const SignupPage = () => {
                 />
               </div>
               <div className="flex justify-center">
+                
                 <Button
                   label="Sign Up"
                   size="medium"
                   bgColor="#252F70"
                   hoverBgColor="white"
-                  onClick={() => console.log('Button Clicked')}
+                  onClick={openModal}
                   className="extra-class-for-medium-button"
                 />
+                <OTPModal isOpen={isModalOpen} onClose={closeModal} />
               </div>
               <p className="text-xs text-black font-thin mt-4 text-center">
                 Already have an account? <a href="/login" className="text-blue-600">Login</a>
