@@ -22,7 +22,7 @@ const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm">
       <div className="relative w-full max-w-md p-6 sm:p-8 md:p-10 bg-white rounded-lg">
         <button
           className="absolute top-2 right-2 text-gray-500 px-2"

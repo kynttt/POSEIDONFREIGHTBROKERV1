@@ -6,12 +6,18 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import sampleData from './sampleData.json'; // Make sure to import the sample data
 import Button from '../components/Button';
-import TrailerTypes from '../components/TrailerTypes';
+// import TrailerTypes from '../components/TrailerTypes';
 import { useNavigate } from 'react-router-dom';
+import QuoteRequestModal from '../components/QuoteRequestModal';
+
 
 
 
 const QuoteDetails: React.FC = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
     const [pickUpLocation, setPickUpLocation] = useState('');
     const [pickUpState, setPickUpState] = useState('');
     const [deliveryLocation, setDeliveryLocation] = useState('');
@@ -72,10 +78,10 @@ const QuoteDetails: React.FC = () => {
         console.log("Form submitted");
     };
 
-    const handleProceedPayment = () => {
-        // Navigate to '/quote-details' when a truck button is clicked
-        navigate('/booking-successful');
-    };
+    // const handleGetQuote = () => {
+    //     // Navigate to '/quote-details' when a truck button is clicked
+    //     navigate('/booking-successful');
+    // };
     return (
         <div >
             <Navbar />
@@ -247,9 +253,10 @@ const QuoteDetails: React.FC = () => {
                             size="xl"
                             bgColor="#7783D2"
                             hoverBgColor="white"
-                            onClick={handleProceedPayment}
+                            onClick={openModal}
                             className="extra-class-for-medium-button"
                         />
+                        <QuoteRequestModal isOpen={isModalOpen} onClose={closeModal} />
                     </div>
 
 
