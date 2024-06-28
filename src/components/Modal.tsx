@@ -9,7 +9,7 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ closeModal, children }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none bg-black bg-opacity-50">
       <div className="relative w-full max-w-4xl mx-auto my-12">
         {/* Modal content */}
         <div className="relative bg-white shadow-md rounded-lg p-6 sm:p-8">
