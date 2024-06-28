@@ -11,6 +11,7 @@ import FeaturesSection from '../components/Features';
 import Footer from '../components/Footer';
 import ServicesCardList from '../components/ServicesCardList';
 import ContactForm from '../components/ContactUs';
+import TrustedAmazon from '../components/TrustedAmazon';
 
 const landingPage: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const landingPage: React.FC = () => {
       <FAQsPage />
       <AboutUs />
       <ContactForm />
+      <TrustedAmazon />
       <Footer/>
       {/* <SuccessPage /> */}
         

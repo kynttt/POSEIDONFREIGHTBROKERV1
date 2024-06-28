@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import TrailerOptionsPage from './pages/TrailerOptionsPage';
 import LoadBoard from './pages/LoadBoard';
 import NonBusinessPage from './pages/NonBusinessEmail';
+import BookingConfirmation from './pages/bookingSuccessful';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
         <Route path="/trailer-options" element={<TrailerOptionsPage />} />
         <Route path="/load-board" element={<LoadBoard />} />
         <Route path="/nonbusiness" element={<NonBusinessPage />} />
+        <Route path="/booking-successful" element={<BookingConfirmation />} />
 
       </Routes>
     </Router>
