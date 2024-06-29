@@ -6,17 +6,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import sampleData from './sampleData.json'; // Make sure to import the sample data
 import Button from '../components/Button';
-// import TrailerTypes from '../components/TrailerTypes';
-import { useNavigate } from 'react-router-dom';
 import QuoteRequestModal from '../components/QuoteRequestModal';
-
-
-
+import { calculatePrice } from '../utils/priceCalculator';
 
 const QuoteDetails: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     const [pickUpLocation, setPickUpLocation] = useState('');
     const [pickUpState, setPickUpState] = useState('');
@@ -29,36 +25,8 @@ const QuoteDetails: React.FC = () => {
     const [maxWeight, setMaxWeight] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [price, setPrice] = useState(0);
+    const [isLoading, setIsLoading] = useState(false); // State for loading indicator
     const [availableDeliveryLocations, setAvailableDeliveryLocations] = useState<string[]>([]);
-    const navigate = useNavigate(); // Get navigate function from React Router
-
-
-
-    const trailerTypePrices: { [key: string]: number } = {
-        'Flat Bed': 2.0,
-        'Dry Van': 1.5,
-        'Refrigerated': 3.0,
-    };
-
-    const trailerSizePrices: { [key: string]: number } = {
-        '48 ft': 1.0,
-        '53 ft': 1.2,
-    };
-
-    const getDistance = (startLocation: string, endLocation: string): number => {
-        const distanceData = sampleData.distances;
-        return distanceData[startLocation]?.[endLocation] || 0;
-    };
-
-    const calculatePrice = () => {
-        const distance = getDistance(pickUpLocation, deliveryLocation);
-        const trailerTypePrice = trailerTypePrices[trailerType] || 0;
-        const trailerSizePrice = trailerSizePrices[trailerSize] || 0;
-        const weight = parseFloat(maxWeight) || 0;
-
-        const price = distance * (trailerTypePrice + trailerSizePrice) * weight;
-        setPrice(price);
-    };
 
     useEffect(() => {
         if (pickUpLocation) {
@@ -69,7 +37,20 @@ const QuoteDetails: React.FC = () => {
     }, [pickUpLocation]);
 
     useEffect(() => {
-        calculatePrice();
+        setIsLoading(true); // Set loading to true when computing price
+        const newPrice = calculatePrice(
+            pickUpLocation,
+            deliveryLocation,
+            trailerType,
+            trailerSize,
+            maxWeight,
+            sampleData.distances
+        );
+        // Simulate delay for loading effect (you can adjust the delay time as needed)
+        setTimeout(() => {
+            setPrice(newPrice);
+            setIsLoading(false); // Set loading to false after price computation
+        }, 1300); // Example 1 second delay
     }, [pickUpLocation, deliveryLocation, trailerType, trailerSize, maxWeight]);
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -78,12 +59,8 @@ const QuoteDetails: React.FC = () => {
         console.log("Form submitted");
     };
 
-    // const handleGetQuote = () => {
-    //     // Navigate to '/quote-details' when a truck button is clicked
-    //     navigate('/booking-successful');
-    // };
     return (
-        <div >
+        <div>
             <Navbar />
             <div className="bg-white min-h-screen">
                 <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">
@@ -129,11 +106,19 @@ const QuoteDetails: React.FC = () => {
                                     <DatePicker
                                         selected={pickUpDate}
                                         onChange={(date) => setPickUpDate(date)}
-                                        className="w-full border border-gray-300 p-2 rounded-md bg-white  font-thin text-black"
+                                        className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                         placeholderText="MM/DD/YYYY"
                                         dateFormat="MM/dd/yyyy"
                                     />
-                                    <div className="absolute top-2 right-2 cursor-pointer" onClick={() => document.querySelector('.react-datepicker-wrapper input')?.focus()}>
+                                    <div
+                                        className="absolute top-2 right-2 cursor-pointer"
+                                        onClick={() => {
+                                            const datePickerInput = document.querySelector('.react-datepicker-wrapper input') as HTMLInputElement;
+                                            if (datePickerInput) {
+                                                datePickerInput.focus();
+                                            }
+                                        }}
+                                    >
                                         <FontAwesomeIcon icon={faCalendarAlt} className="text-secondary" />
                                     </div>
                                 </div>
@@ -245,9 +230,15 @@ const QuoteDetails: React.FC = () => {
                     </div>
 
                     <div className="bg-light-grey p-4 shadow-lg flex flex-col lg:flex-row justify-between items-center lg:mt-16 rounded-lg">
-                        <div className=" text-2xl font-medium text-primary mb-4 lg:mb-0 lg:mr-4  p-4 rounded-lg ">
-                            Price: ${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </div>
+                        {isLoading ? (
+                            <div className="text-2xl font-medium text-primary mb-4 lg:mb-0 lg:mr-4 p-4 rounded-lg">
+                                Loading...
+                            </div>
+                        ) : (
+                            <div className="text-2xl font-medium text-gray-500 mb-4 lg:mb-0 lg:mr-4 p-4 rounded-lg">
+                                Price: <span className='font-normal italic text-primary'>${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                            </div>
+                        )}
                         <Button
                             label="GET THIS QUOTE"
                             size="xl"
@@ -258,11 +249,8 @@ const QuoteDetails: React.FC = () => {
                         />
                         <QuoteRequestModal isOpen={isModalOpen} onClose={closeModal} />
                     </div>
-
-
                 </form>
             </div>
-
         </div>
     );
 };
