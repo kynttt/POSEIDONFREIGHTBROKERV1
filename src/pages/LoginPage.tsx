@@ -42,9 +42,6 @@ const LoginPage: React.FC = () => {
         password: formData.password,
       });
   
-      // Log the entire response data to see its structure
-      console.log('Login response data:', response.data);
-  
       // Save token to local storage or session storage
       localStorage.setItem('token', response.data.token);
   
@@ -54,9 +51,6 @@ const LoginPage: React.FC = () => {
   
       // Extract isAdmin from decoded token
       const isAdmin = decodedToken.user && decodedToken.user.isAdmin;
-  
-      // Log isAdmin value for debugging
-      console.log('isAdmin from backend:', isAdmin);
   
       if (isAdmin) {
         navigate('/load-board'); // Navigate to load board for admins
@@ -81,13 +75,6 @@ const LoginPage: React.FC = () => {
     }
   };
   
-  
-
-
-
-
-
-
   return (
     <div className="flex h-screen justify-center items-center bg-gray-100">
       <div className="flex flex-col md:flex-row w-full max-w-4xl shadow-lg rounded-lg overflow-hidden">
