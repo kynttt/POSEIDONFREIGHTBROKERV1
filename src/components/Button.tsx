@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   // Define fixed size classes based on the size prop
   const sizeClasses = {
-    small: 'w-20 h-8 text-sm',
+    small: 'w-32 h-8 text-sm',
     medium: 'w-32 h-12 text-base',
     large: 'w-40 h-12 text-lg',
     xl: 'w-80 h-16 text-xl',

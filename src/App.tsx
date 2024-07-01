@@ -8,6 +8,7 @@ import TrailerOptionsPage from './pages/TrailerOptionsPage';
 import LoadBoard from './pages/LoadBoard';
 import NonBusinessPage from './pages/NonBusinessEmail';
 import BookingConfirmation from './pages/bookingSuccessful';
+import UserDashboard from './pages/userDashboard';
 import DispatchDetails from './pages/dispatchDetails';
 
 const App: React.FC = () => {
@@ -22,7 +23,9 @@ const App: React.FC = () => {
         <Route path="/load-board" element={<LoadBoard />} />
         <Route path="/nonbusiness" element={<NonBusinessPage />} />
         <Route path="/booking-successful" element={<BookingConfirmation />} />
-        <Route path="/dispatch-details" element={< DispatchDetails />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/dispatch-details" element={<DispatchDetails />} />
+
 
       </Routes>
     </Router>
