@@ -8,7 +8,7 @@ const DispatchDetails: React.FC = () => {
   return (
     <nav>
       <Navbar />
-      <div className="flex flex-col md:flex-row items-center justify-center mt-10 md:mt-24 px-4">
+      <div className="h-screen bg-white flex flex-col md:flex-row items-center justify-center   px-4 ">
         <div className="bg-white p-6 w-full md:w-8/12">
           <h2 className="text-2xl font-medium text-blue-700 mb-6 text-secondary text-center md:text-left">Dispatched Details</h2>
           
