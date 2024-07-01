@@ -1,11 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import signupImage from '../assets/img/signup.png';
 import appleIcon from '../assets/img/apple.png';
 import googleIcon from '../assets/img/googleicon.png';
 import Button from '../components/Button';
-
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate(); // Get navigate function from React Router
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/users/login', {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // Handle successful login response
+      console.log('Login successful:', response.data);
+
+      // Save token to local storage or session storage
+      localStorage.setItem('token', response.data.token);
+
+      // Redirect to user dashboard or any other protected route
+      navigate('/user-dashboard');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        if (err.response && err.response.data) {
+          setError(err.response.data.msg || 'Login failed.');
+        } else {
+          setError('Login failed.');
+        }
+      } else {
+        setError('An unexpected error occurred.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex h-screen justify-center items-center bg-gray-100">
       <div className="flex flex-col md:flex-row w-full max-w-4xl shadow-lg rounded-lg overflow-hidden">
@@ -17,20 +66,23 @@ const LoginPage: React.FC = () => {
         <div className="w-full md:w-1/2 bg-white flex flex-col justify-center p-8">
           <div className="w-full max-w-sm mx-auto">
             <h2 className="text-3xl font-bold mb-6 text-secondary text-center">Sign In</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-primary text-sm font-bold mb-2" htmlFor="email">
-                  Email or Username
+                  Email
                 </label>
                 <input
                   type="email"
                   id="email"
-                  className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-10 font-thin"
-                  placeholder="Enter your email or username"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-10 font-thin"
+                  placeholder="Enter your email"
+                  required
                 />
               </div>
               <div className="mb-6">
-                <div className="flex justify-between items-center ">
+                <div className="flex justify-between items-center">
                   <label className="block text-primary text-sm font-bold mb-2 " htmlFor="password">
                     Password
                   </label>
@@ -41,20 +93,24 @@ const LoginPage: React.FC = () => {
                 <input
                   type="password"
                   id="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline bg-white h-10 font-thin"
                   placeholder="Enter your password"
+                  required
                 />
               </div>
               <div className="flex items-center justify-center">
-              <Button
-                  label="Login"
+                <Button
+                  label={loading ? 'Logging In...' : 'Login'}
                   size="medium"
                   bgColor="#252F70"
                   hoverBgColor="white"
-                  onClick={() => console.log('Button Clicked')}
                   className="extra-class-for-medium-button"
+                  type="submit"
                 />
               </div>
+              {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
             </form>
             <div className="mt-6 flex items-center">
               <div className="border-t-4 flex-grow border-secondary"></div>
