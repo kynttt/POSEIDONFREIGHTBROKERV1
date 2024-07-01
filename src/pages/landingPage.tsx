@@ -17,7 +17,9 @@ const landingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <header>
-        <Navbar />
+      <Navbar isAuthenticated={false} onLogout={function (): void {
+          throw new Error('Function not implemented.');
+        } } />
       </header>
       <main>
       <HeroBanner />
