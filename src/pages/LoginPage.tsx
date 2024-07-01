@@ -5,6 +5,16 @@ import appleIcon from '../assets/img/apple.png';
 import googleIcon from '../assets/img/googleicon.png';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { jwtDecode } from 'jwt-decode';
+
+interface DecodedToken {
+  user: {
+    id: string;
+    isAdmin: boolean;
+    // Add other properties as needed
+  };
+  // Add other top-level JWT properties as needed
+}
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate(); // Get navigate function from React Router
@@ -25,35 +35,58 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
+  
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', {
         email: formData.email,
         password: formData.password,
       });
-
-      // Handle successful login response
-      console.log('Login successful:', response.data);
-
+  
+      // Log the entire response data to see its structure
+      console.log('Login response data:', response.data);
+  
       // Save token to local storage or session storage
       localStorage.setItem('token', response.data.token);
-
-      // Redirect to user dashboard or any other protected route
-      navigate('/user-dashboard');
+  
+      // Decode the JWT token to access user properties
+      const token = response.data.token;
+      const decodedToken = jwtDecode<DecodedToken>(token);
+  
+      // Extract isAdmin from decoded token
+      const isAdmin = decodedToken.user && decodedToken.user.isAdmin;
+  
+      // Log isAdmin value for debugging
+      console.log('isAdmin from backend:', isAdmin);
+  
+      if (isAdmin) {
+        navigate('/load-board'); // Navigate to load board for admins
+      } else {
+        navigate('/user-dashboard'); // Navigate to user dashboard for regular users
+      }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (err.response && err.response.data) {
+          console.error('Login error response data:', err.response.data);
           setError(err.response.data.msg || 'Login failed.');
         } else {
+          console.error('Login error:', err.message);
           setError('Login failed.');
         }
       } else {
+        console.error('Unexpected error:', err);
         setError('An unexpected error occurred.');
       }
     } finally {
       setLoading(false);
     }
   };
+  
+  
+
+
+
+
+
 
   return (
     <div className="flex h-screen justify-center items-center bg-gray-100">
