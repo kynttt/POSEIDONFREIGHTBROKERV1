@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import OTPImage from '../assets/img/quoteRequest.png';
 import Button from './Button';
+import { useNavigate } from 'react-router-dom'; 
+
 
 const QuoteRequestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [seconds, setSeconds] = useState(15);
+  const navigate = useNavigate();
+
+  const handleNavigateToDashboard = () => {
+    navigate('/user-dashboard');
+};
+
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -43,7 +51,7 @@ const QuoteRequestModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
               size="medium"
               bgColor="#252F70"
               fontStyle="thin"
-              onClick={() => console.log('Button Clicked')}
+              onClick={handleNavigateToDashboard}
               className="extra-class-for-medium-button"
             />
           </div>
