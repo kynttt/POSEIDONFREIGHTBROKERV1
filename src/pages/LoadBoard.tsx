@@ -56,7 +56,7 @@ const LoadBoard: React.FC = () => {
 
     return (
         <div>
-            <Navbar />
+            <Navbar isAuthenticated={true} />
             <div className="bg-white min-h-screen">
                 <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">
                     <div className="mb-6">
@@ -221,18 +221,16 @@ const LoadBoard: React.FC = () => {
                             size="large"
                             bgColor="#252F70"
                             hoverBgColor="white"
-                            onClick={() => { }}
-                            className="extra-class-for-medium-button"
-                        />
+                            onClick={() => { } }
+                            className="extra-class-for-medium-button" type={''}                        />
 
                         <Button
                             label="Clear"
                             size="large"
                             bgColor="#252F70"
                             hoverBgColor="white"
-                            onClick={() => { }}
-                            className="extra-class-for-medium-button"
-                        />
+                            onClick={() => { } }
+                            className="extra-class-for-medium-button" type={''}                        />
                     </div>
                     <div>
                     <div className="flex justify-end">
