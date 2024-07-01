@@ -35,8 +35,7 @@ const HeroBanner: React.FC = () => {
               bgColor="transparent"
               fontStyle="thin" // Set font style to 'thin'
               onClick={() => console.log('Button Clicked')}
-              className="extra-class-for-medium-button"
-            />
+              className="extra-class-for-medium-button" type={''}            />
           </div>
         </div>
       </div>
@@ -49,8 +48,7 @@ const HeroBanner: React.FC = () => {
           bgColor="#7783D2"
           hoverBgColor="white"
           onClick={handlePickup} // Pass handlePickup directly as onClick handler
-          className="extra-class-for-medium-button"
-        />
+          className="extra-class-for-medium-button" type={''}        />
         {/* <Button
           label="DELIVER"
           size="xl"
