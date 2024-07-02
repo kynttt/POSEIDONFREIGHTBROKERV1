@@ -10,6 +10,7 @@ import NonBusinessPage from './pages/NonBusinessEmail';
 import BookingConfirmation from './pages/bookingSuccessful';
 import UserDashboard from './pages/userDashboard';
 import DispatchDetails from './pages/dispatchDetails';
+import ReportDetails from './pages/reportDetails';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
         <Route path="/booking-successful" element={<BookingConfirmation />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/dispatch-details" element={<DispatchDetails />} />
+        <Route path="/report-details" element={<ReportDetails />} />
 
 
       </Routes>
