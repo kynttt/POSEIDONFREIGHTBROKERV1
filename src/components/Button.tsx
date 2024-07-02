@@ -2,6 +2,7 @@ import React from 'react';
 
 interface ButtonProps {
   label: string;
+  type: string;
   onClick?: () => void; // Optional onClick handler
   className?: string; // Optional class name for additional styling
   size?: 'small' | 'medium' | 'large' | 'xl' | 'quoteButton' | 'truckButton' | 'contactButton' | 'bookingSuccessful'; // Optional size prop
@@ -14,6 +15,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({
   label,
+  type,
   onClick,
   className,
   size = 'medium',

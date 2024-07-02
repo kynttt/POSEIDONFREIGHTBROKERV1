@@ -13,7 +13,7 @@ const UserDashboard: React.FC = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar isAuthenticated={true} />
             <div className="pt-8 bg-white sm:pt-16 lg:pt-24 min-h-screen pb-16">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-secondary">Accounts Payable</h2>
@@ -25,17 +25,15 @@ const UserDashboard: React.FC = () => {
                                 size="small"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => {}}
-                                className="mr-2 mb-2 sm:mb-0"
-                            />
+                                onClick={() => { } }
+                                className="mr-2 mb-2 sm:mb-0" type={''}                            />
                             <Button
                                 label="Past Invoices"
                                 size="small"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => {}}
-                                className="mr-2 mb-2 sm:mb-0"
-                            />
+                                onClick={() => { } }
+                                className="mr-2 mb-2 sm:mb-0" type={''}                            />
                         </div>
 
                         <div className="overflow-x-auto">
@@ -80,17 +78,15 @@ const UserDashboard: React.FC = () => {
                                 size="medium"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => {}}
-                                className="mr-2 mb-2 sm:mb-0"
-                            />
+                                onClick={() => { } }
+                                className="mr-2 mb-2 sm:mb-0" type={''}                            />
                             <Button
                                 label="Clear"
                                 size="medium"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => {}}
-                                className="mr-2 mb-2 sm:mb-0"
-                            />
+                                onClick={() => { } }
+                                className="mr-2 mb-2 sm:mb-0" type={''}                            />
                                 
                                 
                             </div>
