@@ -12,14 +12,15 @@ import Footer from '../components/Footer';
 import ServicesCardList from '../components/ServicesCardList';
 import ContactForm from '../components/ContactUs';
 import TrustedAmazon from '../components/TrustedAmazon';
+import { useAuth } from '../components/AuthContext';
+
 
 const landingPage: React.FC = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="min-h-screen bg-gray-100">
       <header>
-      <Navbar isAuthenticated={false} onLogout={function (): void {
-          throw new Error('Function not implemented.');
-        } } />
+      <Navbar isAuthenticated={isAuthenticated} />
       </header>
       <main>
       <HeroBanner />

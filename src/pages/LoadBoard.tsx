@@ -9,10 +9,17 @@ import Button from '../components/Button';
 import LoadCard from '../components/LoadCard';
 import 'react-datepicker/dist/react-datepicker.css';
 import sampleLoadData from './sampleLoadData.json'; // Import the sample data
+import { useAuth } from '../components/AuthContext';
+
 
 
 
 const LoadBoard: React.FC = () => {
+
+    const { isAuthenticated } = useAuth();
+
+    console.log('User authenticated?', isAuthenticated);
+
     const [pickUpLocation, setPickUpLocation] = useState('');
     const [pickUpState, setPickUpState] = useState('');
     const [deliveryLocation, setDeliveryLocation] = useState('');
@@ -56,7 +63,7 @@ const LoadBoard: React.FC = () => {
 
     return (
         <div>
-            <Navbar isAuthenticated={true} />
+                        <Navbar isAuthenticated={isAuthenticated} />
             <div className="bg-white min-h-screen">
                 <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">
                     <div className="mb-6">

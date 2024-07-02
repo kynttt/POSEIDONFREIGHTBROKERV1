@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Transition } from '@headlessui/react';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 interface NavbarProps {
   isAuthenticated: boolean; // Prop to determine if user is authenticated
@@ -11,15 +12,11 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { logout } = useAuth(); // Use useAuth hook to get logout function
 
-  const handleNavigateToLogin = () => {
-    if (isAuthenticated) {
-      // Perform logout actions
-      // For example, clear authentication state, redirect to login page, etc.
-      navigate('/login'); // Redirect to login page after logout
-    } else {
-      navigate('/login'); // Navigate to login page if not authenticated
-    }
+  const handleLogout = () => {
+    logout(); // Call logout function from AuthContext to clear authentication state
+    navigate('/login'); // Redirect to login page after logout
   };
 
   return (
@@ -66,11 +63,11 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
           </a>
           {isAuthenticated ? (
             <Button
-                          label="LOGOUT"
-                          size="medium"
-                          bgColor="#252F70"
-                          hoverBgColor="white"
-                          onClick={handleNavigateToLogin} type={''}            />
+              label="LOGOUT"
+              size="medium"
+              bgColor="#252F70"
+              hoverBgColor="white"
+              onClick={handleLogout} type={''}            />
           ) : (
             <>
               <a href="/signup" className="text-white hover:text-[#252F70] no-underline font-normal">
@@ -78,11 +75,11 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
               </a>
               <div className="flex justify-center items-center h-full">
                 <Button
-                                      label="LOGIN"
-                                      size="medium"
-                                      bgColor="#252F70"
-                                      hoverBgColor="white"
-                                      onClick={handleNavigateToLogin} type={''}                />
+                    label="LOGIN"
+                    size="medium"
+                    bgColor="#252F70"
+                    hoverBgColor="white"
+                    onClick={() => navigate('/login')} type={''}                />
               </div>
             </>
           )}
@@ -123,11 +120,11 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
               )}
               <div className="flex justify-center items-center h-full">
                 <Button
-                                  label={isAuthenticated ? 'LOGOUT' : 'LOGIN'}
-                                  size="small"
-                                  bgColor="#252F70"
-                                  hoverBgColor="white"
-                                  onClick={handleNavigateToLogin} type={''}                />
+                  label={isAuthenticated ? 'LOGOUT' : 'LOGIN'}
+                  size="small"
+                  bgColor="#252F70"
+                  hoverBgColor="white"
+                  onClick={isAuthenticated ? handleLogout : () => navigate('/login')} type={''}                />
               </div>
             </div>
           )}
