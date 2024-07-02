@@ -3,9 +3,15 @@ import DashboardCard from '../components/userDashboardCard';
 import userBookingData from './userBookingData.json';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
+import { useAuth } from '../components/AuthContext';
 
 const UserDashboard: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
+    const { isAuthenticated, isAdmin } = useAuth(); // Use useAuth hook to get isAuthenticated
+
+    // Log the authentication state when the component renders
+    console.log('User authenticated?', isAuthenticated);
+    console.log('Is admin?', isAdmin);
 
     useEffect(() => {
         setData(userBookingData);
@@ -13,7 +19,7 @@ const UserDashboard: React.FC = () => {
 
     return (
         <>
-            <Navbar isAuthenticated={true} />
+            <Navbar isAuthenticated={isAuthenticated} />
             <div className="pt-8 bg-white sm:pt-16 lg:pt-24 min-h-screen pb-16">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-secondary">Accounts Payable</h2>
@@ -25,15 +31,19 @@ const UserDashboard: React.FC = () => {
                                 size="small"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => { } }
-                                className="mr-2 mb-2 sm:mb-0" type={''}                            />
+                                onClick={() => {}}
+                                className="mr-2 mb-2 sm:mb-0"
+                                type={''}
+                            />
                             <Button
                                 label="Past Invoices"
                                 size="small"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => { } }
-                                className="mr-2 mb-2 sm:mb-0" type={''}                            />
+                                onClick={() => {}}
+                                className="mr-2 mb-2 sm:mb-0"
+                                type={''}
+                            />
                         </div>
 
                         <div className="overflow-x-auto">
@@ -68,47 +78,47 @@ const UserDashboard: React.FC = () => {
                                 </tbody>
                             </table>
                         </div>
-
-                        
                     </div>
                     <div className="flex flex-col sm:flex-row justify-between items-center mt-8">
-                            <div className="mb-4 sm:mb-0 flex space-x-2">
+                        <div className="mb-4 sm:mb-0 flex space-x-2">
                             <Button
                                 label="Pay Selected"
                                 size="medium"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => { } }
-                                className="mr-2 mb-2 sm:mb-0" type={''}                            />
+                                onClick={() => {}}
+                                className="mr-2 mb-2 sm:mb-0"
+                                type={''}
+                            />
                             <Button
                                 label="Clear"
                                 size="medium"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => { } }
-                                className="mr-2 mb-2 sm:mb-0" type={''}                            />
-                                
-                                
+                                onClick={() => {}}
+                                className="mr-2 mb-2 sm:mb-0"
+                                type={''}
+                            />
+                        </div>
+                        <div className="text-primary flex flex-col sm:flex-row sm:space-x-4 lg:justify-end">
+                            <div className="flex flex-col items-start sm:items-end text-right">
+                                <p className="text-gray-500 font-normal">Total Selected:</p>
+                                <p className="text-primary font-medium">$804.20</p>
                             </div>
-                            <div className="text-primary flex flex-col sm:flex-row sm:space-x-4 lg:justify-end ">
-                                <div className="flex flex-col items-start sm:items-end text-right">
-                                    <p className='text-gray-500 font-normal'>Total Selected:</p>
-                                    <p className='text-primary font-medium'>$804.20</p>
-                                </div>
-                                <div className="flex flex-col items-start sm:items-end text-right">
-                                    <p className='text-gray-500 font-normal'>Outstanding Balance:</p>
-                                    <p className='text-primary font-medium'>$804.20</p>
-                                </div>
-                                <div className="flex flex-col items-start sm:items-end text-right">
-                                    <p className='text-gray-500 font-normal'>Total Rate:</p>
-                                    <p className='text-primary font-medium'>$804.20</p>
-                                </div>
-                                <div className="flex flex-col items-start sm:items-end text-right">
-                                    <p className='text-gray-500 font-normal'>Total Paid:</p>
-                                    <p className='text-primary font-medium'>$0.0</p>
-                                </div>
+                            <div className="flex flex-col items-start sm:items-end text-right">
+                                <p className="text-gray-500 font-normal">Outstanding Balance:</p>
+                                <p className="text-primary font-medium">$804.20</p>
+                            </div>
+                            <div className="flex flex-col items-start sm:items-end text-right">
+                                <p className="text-gray-500 font-normal">Total Rate:</p>
+                                <p className="text-primary font-medium">$804.20</p>
+                            </div>
+                            <div className="flex flex-col items-start sm:items-end text-right">
+                                <p className="text-gray-500 font-normal">Total Paid:</p>
+                                <p className="text-primary font-medium">$0.0</p>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </>
