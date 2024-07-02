@@ -9,6 +9,7 @@ import LoadBoard from './pages/LoadBoard';
 import NonBusinessPage from './pages/NonBusinessEmail';
 import BookingConfirmation from './pages/bookingSuccessful';
 import UserDashboard from './pages/userDashboard';
+import BillOfLandingPage from './pages/billOfLanding';
 import DispatchDetails from './pages/dispatchDetails';
 import { AuthProvider } from './components/AuthContext';
 
@@ -25,6 +26,7 @@ const App: React.FC = () => {
           <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/nonbusiness" element={<NonBusinessPage />} />
           <Route path="/booking-successful" element={<BookingConfirmation />} />
+          <Route path="/bill-landing" element={< BillOfLandingPage/>} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/dispatch-details" element={<DispatchDetails />} />
         </Routes>
