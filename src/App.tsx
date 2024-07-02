@@ -9,6 +9,7 @@ import LoadBoard from './pages/LoadBoard';
 import NonBusinessPage from './pages/NonBusinessEmail';
 import BookingConfirmation from './pages/bookingSuccessful';
 import UserDashboard from './pages/userDashboard';
+import BillOfLandingPage from './pages/billOfLanding';
 
 const App: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const App: React.FC = () => {
         <Route path="/nonbusiness" element={<NonBusinessPage />} />
         <Route path="/booking-successful" element={<BookingConfirmation />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/bill-landing" element={< BillOfLandingPage/>} />
 
       </Routes>
     </Router>
