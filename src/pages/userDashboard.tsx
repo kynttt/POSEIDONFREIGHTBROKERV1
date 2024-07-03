@@ -3,9 +3,11 @@ import DashboardCard from '../components/userDashboardCard';
 import userBookingData from './userBookingData.json';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 
 const UserDashboard: React.FC = () => {
+    const navigate = useNavigate();
     const [data, setData] = useState<any[]>([]);
     const { isAuthenticated, isAdmin } = useAuth(); // Use useAuth hook to get isAuthenticated
 
@@ -16,6 +18,10 @@ const UserDashboard: React.FC = () => {
     useEffect(() => {
         setData(userBookingData);
     }, []);
+    
+    const handleQuoteButtonClick = () => {
+        navigate('/payment-option');
+      };
 
     return (
         <>
@@ -86,7 +92,7 @@ const UserDashboard: React.FC = () => {
                                 size="medium"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
-                                onClick={() => {}}
+                                onClick={handleQuoteButtonClick}
                                 className="mr-2 mb-2 sm:mb-0"
                                 type={''}
                             />
