@@ -7,7 +7,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import sampleData from './sampleData.json';
 import Button from '../components/Button';
-import QuoteRequestModal from '../components/QuoteRequestModal';
 import { calculatePrice } from '../utils/priceCalculator';
 import { useAuth } from '../components/AuthContext';
 
@@ -16,16 +15,6 @@ const QuoteDetails: React.FC = () => {
     const { isAuthenticated } = useAuth();
 
     console.log('User authenticated?', isAuthenticated);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => {
-        if (!isAuthenticated) {
-            navigate('/login'); // Redirect to signup page if not authenticated
-        } else {
-            setIsModalOpen(true);
-        }
-    };
-    const closeModal = () => setIsModalOpen(false);
 
     const [pickUpLocation, setPickUpLocation] = useState('');
     const [pickUpState, setPickUpState] = useState('');
@@ -71,6 +60,13 @@ const QuoteDetails: React.FC = () => {
         console.log("Form submitted");
     };
 
+    const handleQuoteButtonClick = () => {
+        if (!isAuthenticated) {
+            navigate('/login'); // Redirect to login page if not authenticated
+        } else {
+            navigate('/payment-option'); // Redirect to payment-method page if authenticated
+        }
+    };
 
     return (
         <div>
@@ -257,11 +253,10 @@ const QuoteDetails: React.FC = () => {
                             size="xl"
                             bgColor="#7783D2"
                             hoverBgColor="white"
-                            onClick={openModal}
+                            onClick={handleQuoteButtonClick}
                             className="extra-class-for-medium-button"
                             type="button"
                         />
-                        <QuoteRequestModal isOpen={isModalOpen} onClose={closeModal} />
                     </div>
                 </form>
             </div>

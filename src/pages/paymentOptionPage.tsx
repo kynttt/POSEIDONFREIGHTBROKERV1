@@ -3,11 +3,14 @@ import paymentData from './paymentData.json';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useAuth } from '../components/AuthContext';
+import QuoteRequestModal from '../components/QuoteRequestModal';
+
 
 const PaymentComponent: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
     const [selectedAccount, setSelectedAccount] = useState<string>('Installment');
     const { isAuthenticated } = useAuth(); // Use useAuth hook to get isAuthenticated
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Log the authentication state when the component renders
     console.log('User authenticated?', isAuthenticated);
@@ -15,6 +18,21 @@ const PaymentComponent: React.FC = () => {
     useEffect(() => {
         setData(paymentData);
     }, []);
+
+    // Function to open the modal
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    // // Function to close the modal
+    // const closeModal = () => {
+    //     setIsModalOpen(false);
+    // };
+
+    const handleCancel = () => {
+        window.history.back(); // Navigate back to the previous page
+    };
+
 
     return (
         <>
@@ -36,10 +54,10 @@ const PaymentComponent: React.FC = () => {
                                     onChange={(e) => setSelectedAccount(e.target.value)}
                                     className="block appearance-none lg:w-1/2 w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 >
-                                    <option>Payment Terms</option>
                                     <option>Stripe</option>
                                     <option>Bank</option>
                                     <option>Paypal</option>
+                                    <option>Payment Terms</option>
                                     <option>Others...</option>
                                 </select>
                             </div>
@@ -114,12 +132,15 @@ const PaymentComponent: React.FC = () => {
                         </div>
 
                         <div className="flex justify-start space-x-4 mt-8">
-                            <Button label="Make Payment" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => { }} />
-                            <Button label="Cancel" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => { }} />
+                            {/* <Button label="Make Payment" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => { } } type={''} /> */}
+                            <Button label="Make Payment" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={openModal} type={''} />
+                            <Button label="Cancel" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={handleCancel} type={''} />
                         </div>
                     </div>
                 </div>
             </div>
+            {/* Render the QuoteRequestModal component conditionally */}
+            {isModalOpen && <QuoteRequestModal isOpen={isModalOpen}  />}
         </>
     );
 };
