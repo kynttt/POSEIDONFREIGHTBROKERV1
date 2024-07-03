@@ -155,7 +155,7 @@ const BillofLandingPage: React.FC = () => {
                 <div className="flex flex-col sm:flex-row mb-4">
                     <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                         <label className="block text-primary text-base font-medium mb-2" htmlFor="shipperName">
-                        Consignee/Receiver Name <span className="text-red-600">*</span>
+                            Consignee/Receiver Name <span className="text-red-600">*</span>
                         </label>
                         <input
                             type="text"
@@ -314,6 +314,74 @@ const BillofLandingPage: React.FC = () => {
                             available to it, including any right to seek payment of the transportation charges from the consignee or consignor.
 
                             <p className='mt-6 text-base'>Shipper's Signature :  </p>
+                        </p>
+                    </div>
+                    <div className="text-gray-500 text-xs grid grid-cols-1 lg:grid-cols-6 gap-4 mb-4 mt-8">
+                        <p className="lg:col-span-2 border-2 p-4 text-primary text-sm font-normal text-justify">
+                            <p className='pb-8 border-b-4 border-gray-600 font-bold'>Shipper Signature/Date</p>
+                            This is to certify that the above
+                            named materials are properly
+                            classified, packaged, marked,
+                            and labeled, and are in proper
+                            condition for transportation
+                            according to the applicable
+                            regulations of the DOT.
+
+                        </p>
+                        <p className="lg:col-span-1 border-2 p-4 text-primary text-sm font-normal text-justify">
+
+                            Trailer Loaded :
+                            <ul className="mt-2">
+                                <li>
+                                    <label className="flex items-center">
+                                        <input type="checkbox" className="mr-2" />
+                                        By shipper
+                                    </label>
+                                </li>
+                                <li>
+                                    <label className="flex items-center">
+                                        <input type="checkbox" className="mr-2" />
+                                        By loader
+                                    </label>
+                                </li>
+                            </ul>
+
+                        </p>
+                        <p className="lg:col-span-1 border-2 p-4 text-primary text-sm font-normal text-justify">
+                            Freight Counted:
+                            <ul className="mt-2">
+                                <li>
+                                    <label className="flex items-center">
+                                        <input type="checkbox" className="mr-2" />
+                                        By shipper
+                                    </label>
+                                </li>
+                                <li>
+                                    <label className="flex items-center">
+                                        <input type="checkbox" className="mr-2" />
+                                        By driver/pallets said to contain
+                                    </label>
+                                </li>
+                                <li>
+                                    <label className="flex items-center">
+                                        <input type="checkbox" className="mr-2" />
+                                        By driver/pieces
+                                    </label>
+                                </li>
+                            </ul>
+                        </p>
+                        <p className="lg:col-span-2 border-2 p-4 text-primary text-sm font-normal text-justify">
+                            
+                                <p className='pb-8 border-b-4 border-gray-600'>Carrier Signature/Pickup Date</p>
+                                Carrier acknowledges receipt of packages and
+                                required placards. Carrier certifies emergency
+                                response information was made available and/
+                                or carrier has the DOT emergency response
+                                guidebook or equivalent documentation in the
+                                vehicle. Property described above is received in
+                                good order, except as noted.
+
+                            
                         </p>
                     </div>
 
