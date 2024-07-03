@@ -28,7 +28,7 @@ const App: React.FC = () => {
           <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/nonbusiness" element={<NonBusinessPage />} />
           <Route path="/booking-successful" element={<BookingConfirmation />} />
-          <Route path="/bill-landing" element={< BillOfLandingPage/>} />
+          <Route path="/bill-lading" element={< BillOfLandingPage/>} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/dispatch-details" element={<DispatchDetails />} />
           <Route path="/payment-option" element={<PaymentOptionPage />} />
