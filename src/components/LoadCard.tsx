@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
 interface CardProps {
@@ -22,6 +23,15 @@ const LoadCard: React.FC<CardProps> = ({
     loadPrice,
     onBookLoadClick,
 }) => {
+    const navigate = useNavigate();
+
+    const handleBookLoadClick = () => {
+        if (onBookLoadClick) {
+            onBookLoadClick();
+        }
+        navigate('/dispatch-details');
+    };
+
     return (
         <div className="bg-light-grey text-primary shadow-xl rounded-lg p-8 mb-4 text-xs my-8">
             <div className="grid grid-cols-8 gap-4">
@@ -87,9 +97,8 @@ const LoadCard: React.FC<CardProps> = ({
                         size="medium"
                         bgColor="#252F70"
                         hoverBgColor="white"
-                        onClick={onBookLoadClick}
-                        className="extra-class-for-medium-button"
-                    />
+                        onClick={handleBookLoadClick}
+                        className="extra-class-for-medium-button" type={''}                    />
                 </div>
             </div>
         </div>

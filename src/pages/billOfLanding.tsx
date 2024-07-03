@@ -2,9 +2,15 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useAuth } from '../components/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const BillofLandingPage: React.FC = () => {
+  const navigate = useNavigate();
+
+    const handleConfirmBooking = () => {
+        navigate('/booking-successful');
+      };
     const { isAuthenticated } = useAuth(); // Use useAuth hook to get isAuthenticated
 
     return (
@@ -389,13 +395,11 @@ const BillofLandingPage: React.FC = () => {
 
                 <div className="flex justify-start space-x-4 mt-8">
                     <Button
-                        label="Next"
+                        label="Confirm"
                         size="medium"
                         bgColor="#252F70"
                         hoverBgColor="white"
-                        onClick={() => {
-                            // Define your onClick function here
-                        }}
+                        onClick={handleConfirmBooking}
                         className="extra-class-for-medium-button" type={''} />
                     <Button
                         label="Save"
