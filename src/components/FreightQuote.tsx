@@ -45,13 +45,13 @@ const FreightQuote: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center items-center py-16 bg-[#b2b9f9]">
+        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-gradient-to-r from-blue-400 to-purple-500 ">
             <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20 lg:hidden">
-    <h2 className="text-3xl font-semibold text-[#252F70]">GET A</h2>
-    <h2 className="text-3xl font-semibold text-[#252F70]">FREIGHT QUOTE</h2>
-</div>
+                <h2 className="text-3xl font-semibold text-[#252F70]">GET A</h2>
+                <h2 className="text-3xl font-semibold text-[#252F70]">FREIGHT QUOTE</h2>
+            </div>
 
-            <div className="flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto">
+            <div className="flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto backdrop-filter backdrop-blur-lg bg-opacity-50 border border-current-200">
                 <div className="flex flex-col w-full">
                     <h3 className="text-center text-lg font-semibold text-[#252F70] mb-8">Cost Calculator</h3>
                     <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full">
@@ -60,7 +60,7 @@ const FreightQuote: React.FC = () => {
                             placeholder="Pick Up"
                             value={pickUp}
                             onChange={handlePickUpChange}
-                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black font-normal"
+                            className="text-black border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto  font-normal"
                         />
                         <input
                             type="text"
