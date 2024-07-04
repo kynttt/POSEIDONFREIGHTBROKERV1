@@ -58,7 +58,7 @@ const FreightQuote: React.FC = () => {
 
             <div 
                 ref={ref} 
-                className={`flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto backdrop-filter backdrop-blur-lg bg-opacity-50 border border-current-200
+                className={`flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto backdrop-filter backdrop-blur-lg bg-opacity-85 border border-current-200
                     transition-transform duration-1000 ${inView ? 'transform-none opacity-100' : 'transform translate-y-20 opacity-0'}`}
             >
                 <div className="flex flex-col w-full">
