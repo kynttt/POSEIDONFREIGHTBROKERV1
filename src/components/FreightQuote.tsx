@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer'; // Import useInView for scroll effect
 import Button from './Button';
 import Modal from './Modal';
 
@@ -9,6 +10,10 @@ const FreightQuote: React.FC = () => {
     const [pickUp, setPickUp] = useState('');
     const [destination, setDestination] = useState('');
     const navigate = useNavigate(); // Get navigate function from React Router
+
+    const { ref, inView } = useInView({
+        threshold: 0.5,
+    });
 
     const openModal = () => {
         // Check if all required inputs are populated
@@ -45,13 +50,17 @@ const FreightQuote: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-gradient-to-r from-blue-400 to-purple-500 ">
+        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-gradient-to-r from-blue-400 to-purple-500">
             <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20 lg:hidden">
                 <h2 className="text-3xl font-semibold text-[#252F70]">GET A</h2>
                 <h2 className="text-3xl font-semibold text-[#252F70]">FREIGHT QUOTE</h2>
             </div>
 
-            <div className="flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto backdrop-filter backdrop-blur-lg bg-opacity-50 border border-current-200">
+            <div 
+                ref={ref} 
+                className={`flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto backdrop-filter backdrop-blur-lg bg-opacity-50 border border-current-200
+                    transition-transform duration-1000 ${inView ? 'transform-none opacity-100' : 'transform translate-y-20 opacity-0'}`}
+            >
                 <div className="flex flex-col w-full">
                     <h3 className="text-center text-lg font-semibold text-[#252F70] mb-8">Cost Calculator</h3>
                     <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full">
