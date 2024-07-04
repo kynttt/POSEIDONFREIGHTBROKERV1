@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuth } from './useAuth'; // Import the useAuth hook
 
 interface DashboardCardProps {
   customerPO: string;
@@ -11,7 +12,7 @@ interface DashboardCardProps {
   status: string;
 }
 
-const userDashboardCard: React.FC<DashboardCardProps> = ({
+const UserDashboardCard: React.FC<DashboardCardProps> = ({
   customerPO,
   freightBrokerPO,
   rate,
@@ -21,6 +22,8 @@ const userDashboardCard: React.FC<DashboardCardProps> = ({
   deliveryDate,
   status
 }) => {
+  const { role } = useAuth(); // Use the useAuth hook to get the role
+
   return (
     <tr className="border-b">
       <td className="px-4 py-2">
@@ -38,4 +41,4 @@ const userDashboardCard: React.FC<DashboardCardProps> = ({
   );
 };
 
-export default userDashboardCard;
+export default UserDashboardCard;

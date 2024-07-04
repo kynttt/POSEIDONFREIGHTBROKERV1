@@ -6,12 +6,12 @@ import googleIcon from '../assets/img/googleicon.png';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/useAuth';
 
 interface DecodedToken {
   user: {
     id: string;
-    isAdmin: boolean;
+    role: string; // Updated to use role instead of isAdmin
     // Add other properties as needed
   };
   // Add other top-level JWT properties as needed
@@ -25,7 +25,6 @@ const LoginPage: React.FC = () => {
     password: '',
   });
   
-
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -48,9 +47,9 @@ const LoginPage: React.FC = () => {
       login(token); // Save token and set authentication state
 
       const decodedToken = jwtDecode<DecodedToken>(token);
-      const isAdmin = decodedToken.user && decodedToken.user.isAdmin;
+      const userRole = decodedToken.user && decodedToken.user.role;
 
-      if (isAdmin) {
+      if (userRole === 'admin') {
         navigate('/load-board'); // Navigate to load board for admins
       } else {
         navigate('/user-dashboard'); // Navigate to user dashboard for regular users
