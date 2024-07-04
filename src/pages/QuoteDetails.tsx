@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import sampleData from './sampleData.json';
 import Button from '../components/Button';
 import { calculatePrice } from '../utils/priceCalculator';
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/useAuth';
 
 const QuoteDetails: React.FC = () => {
     const navigate = useNavigate();
