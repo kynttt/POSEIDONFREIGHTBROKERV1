@@ -9,16 +9,17 @@ import Button from '../components/Button';
 import LoadCard from '../components/LoadCard';
 import 'react-datepicker/dist/react-datepicker.css';
 import sampleLoadData from './sampleLoadData.json'; // Import the sample data
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/useAuth';
 
 
 
 
 const LoadBoard: React.FC = () => {
 
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, role } = useAuth();
 
     console.log('User authenticated?', isAuthenticated);
+    console.log('User role:', role);
 
     const [pickUpLocation, setPickUpLocation] = useState('');
     const [pickUpState, setPickUpState] = useState('');
