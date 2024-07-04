@@ -1,25 +1,16 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { faFileExport } from "@fortawesome/free-solid-svg-icons";
-import {
-  faDownload,
-  faFileLines,
-  faPrint,
-  faUpRightFromSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faFileExport, faDownload, faFileLines, faPrint, faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 const ReportDetails: React.FC = () => {
   return (
-    <nav>
+    <div className="min-h-screen bg-white">
       <Navbar isAuthenticated={false} />
-      <div className="bg-white">
-      <div className="max-h-screen mx-10">
-        <h2 className="text-2xl text-gray-500 font-medium mb-4 text-center mt-5">
-          REPORTING
-        </h2>
-
+      <h2 className="text-2xl text-gray-500 font-medium mb-4 text-center mt-5">
+        REPORTING
+      </h2>
+      <div className="mx-10">
         <div className="flex flex-col sm:flex-row mb-4">
           <div className="w-full sm:w-1/2 mb-4 sm:mb-0 sm:pr-2">
             <label
@@ -28,14 +19,13 @@ const ReportDetails: React.FC = () => {
             >
               Delivery Date Range
             </label>
-
             <div className="flex items-center gap-4 mb-4">
               {/* Start Date Input */}
               <div className="relative">
                 <input
                   type="text"
                   id="startDate"
-                  className="border rounded py-2 px-3 font-normal text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-12 w-full sm:w-auto pr-10"
+                  className="border rounded py-2 px-3 font-normal text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-11 w-full sm:w-auto pr-10"
                   placeholder="MM/DD/YYYY"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
@@ -45,13 +35,12 @@ const ReportDetails: React.FC = () => {
                   />
                 </div>
               </div>
-
               {/* End Date Input */}
               <div className="relative ml-2">
                 <input
                   type="text"
                   id="endDate"
-                  className="border rounded py-2 px-3 font-normal text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-12 w-full sm:w-auto pr-10"
+                  className="border rounded py-2 px-3 font-normal text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-11 w-full sm:w-auto pr-10"
                   placeholder="MM/DD/YYYY"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
@@ -65,7 +54,7 @@ const ReportDetails: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="border border-gray-300 rounded-lg p-4 mb-4 text-sm font-normal text-primary relative mx-5">
+      <div className="border border-gray-300 rounded-lg p-4 mb-4 text-sm font-normal text-primary relative mx-10 bg-white">
         <div className="p-4">
           <div className="mb-4 flex justify-between items-start">
             <h1 className="text-lg text-secondary font-medium px-4">
@@ -81,7 +70,6 @@ const ReportDetails: React.FC = () => {
               </button>
             </div>
           </div>
-
           <div className="overflow-x-auto text-secondary">
             <table className="min-w-full bg-white">
               <thead>
@@ -129,7 +117,6 @@ const ReportDetails: React.FC = () => {
                       </td>
                       <td className="py-2 px-4 text-sm"></td>
                       <td className="py-2 px-4 text-sm"></td>
-
                       <td className="py-2 px-4 text-sm">MM/DD/YYYY</td>
                       <td className="py-2 px-4 text-sm">Fairfield</td>
                       <td className="py-2 px-4 text-sm">OH</td>
@@ -141,7 +128,6 @@ const ReportDetails: React.FC = () => {
               </tbody>
             </table>
           </div>
-
           <div className="mt-4 flex justify-start space-x-4 mt-5">
             <button className="text-blue-600 flex items-center space-x-2">
               <FontAwesomeIcon
@@ -164,8 +150,7 @@ const ReportDetails: React.FC = () => {
           </div>
         </div>
       </div>
-      </div>
-    </nav>
+    </div>
   );
 };
 
