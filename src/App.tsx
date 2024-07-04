@@ -13,6 +13,7 @@ import BillOfLandingPage from './pages/billOfLanding';
 import DispatchDetails from './pages/dispatchDetails';
 import { AuthProvider } from './components/AuthContext';
 import PaymentOptionPage from './pages/paymentOptionPage';
+import ReportDetails from './pages/reportDetails';
 import NotFound from './pages/NotFound'
 
 const App: React.FC = () => {
@@ -32,6 +33,7 @@ const App: React.FC = () => {
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/dispatch-details" element={<DispatchDetails />} />
           <Route path="/payment-option" element={<PaymentOptionPage />} />
+          <Route path="/report-details" element={<ReportDetails />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
