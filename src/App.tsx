@@ -14,6 +14,7 @@ import DispatchDetails from './pages/dispatchDetails';
 import { AuthProvider } from './components/AuthContext';
 import PaymentOptionPage from './pages/paymentOptionPage';
 import NotFound from './pages/NotFound'
+import Invoice from './components/Invoice';
 
 const App: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ const App: React.FC = () => {
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/dispatch-details" element={<DispatchDetails />} />
           <Route path="/payment-option" element={<PaymentOptionPage />} />
+          <Route path="/invoice" element={<Invoice />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>

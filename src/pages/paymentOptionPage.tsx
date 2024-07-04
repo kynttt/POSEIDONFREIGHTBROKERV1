@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import paymentData from './paymentData.json';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useAuth } from '../components/AuthContext';
 import QuoteRequestModal from '../components/QuoteRequestModal';
 
-
 const PaymentComponent: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
     const [selectedAccount, setSelectedAccount] = useState<string>('Installment');
     const { isAuthenticated } = useAuth(); // Use useAuth hook to get isAuthenticated
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate(); // Initialize useNavigate hook
 
     // Log the authentication state when the component renders
     console.log('User authenticated?', isAuthenticated);
@@ -24,7 +25,7 @@ const PaymentComponent: React.FC = () => {
         setIsModalOpen(true);
     };
 
-    // // Function to close the modal
+    // Function to close the modal
     // const closeModal = () => {
     //     setIsModalOpen(false);
     // };
@@ -33,6 +34,10 @@ const PaymentComponent: React.FC = () => {
         window.history.back(); // Navigate back to the previous page
     };
 
+    // Function to handle payment term button click
+    const handlePaymentTermClick = (term: string) => {
+        navigate('/invoice'); // Redirect to /invoice route
+    };
 
     return (
         <>
@@ -66,9 +71,9 @@ const PaymentComponent: React.FC = () => {
                                 <div>
                                     <label className="block text-primary text-lg mb-2 font-normal lg:ml-60">Select Payment Terms <span className="text-red-500">*</span></label>
                                     <div className="flex space-x-8 justify-end">
-                                        <Button label="3 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => { }} />
-                                        <Button label="6 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => { }} />
-                                        <Button label="9 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => { }} />
+                                        <Button label="3 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('3 months')} />
+                                        <Button label="6 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('6 months')} />
+                                        <Button label="9 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('9 months')} />
                                     </div>
                                 </div>
                             )}
@@ -140,7 +145,7 @@ const PaymentComponent: React.FC = () => {
                 </div>
             </div>
             {/* Render the QuoteRequestModal component conditionally */}
-            {isModalOpen && <QuoteRequestModal isOpen={isModalOpen}  />}
+            {isModalOpen && <QuoteRequestModal isOpen={isModalOpen} />}
         </>
     );
 };
