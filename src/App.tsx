@@ -9,12 +9,13 @@ import LoadBoard from './pages/LoadBoard';
 import NonBusinessPage from './pages/NonBusinessEmail';
 import BookingConfirmation from './pages/bookingSuccessful';
 import UserDashboard from './pages/userDashboard';
-import BillOfLandingPage from './pages/billOfLanding';
+import BillOfLadingPage from './pages/billOfLanding';
 import DispatchDetails from './pages/dispatchDetails';
 import { AuthProvider } from './components/AuthContext';
 import PaymentOptionPage from './pages/paymentOptionPage';
-import NotFound from './pages/NotFound'
+import NotFound from './pages/NotFound';
 import Invoice from './components/Invoice';
+// import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
   return (
@@ -26,14 +27,28 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/quote-details" element={<QuoteDetails />} />
           <Route path="/trailer-options" element={<TrailerOptionsPage />} />
-          <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/nonbusiness" element={<NonBusinessPage />} />
           <Route path="/booking-successful" element={<BookingConfirmation />} />
-          <Route path="/bill-lading" element={< BillOfLandingPage/>} />
-          <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/dispatch-details" element={<DispatchDetails />} />
           <Route path="/payment-option" element={<PaymentOptionPage />} />
           <Route path="/invoice" element={<Invoice />} />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="/load-board" element={<LoadBoard />} />
+          <Route path="/bill-lading" element={<BillOfLadingPage />} />
+
+ {/* Revise here if for private route implimentation */}
+          {/* <Route
+            path="/load-board"
+            element={
+              <PrivateRoute element={<LoadBoard />} roles={['admin']} />
+            }
+          />
+          <Route
+            path="/bill-lading"
+            element={
+              <PrivateRoute element={<BillOfLadingPage />} roles={['admin']} />
+            }
+          /> */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
