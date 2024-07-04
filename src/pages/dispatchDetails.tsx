@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/Button';
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 

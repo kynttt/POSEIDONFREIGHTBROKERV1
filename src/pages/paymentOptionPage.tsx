@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import paymentData from './paymentData.json';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/useAuth';
 import QuoteRequestModal from '../components/QuoteRequestModal';
 
 const PaymentComponent: React.FC = () => {

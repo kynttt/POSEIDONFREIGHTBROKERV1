@@ -12,7 +12,7 @@ import Footer from '../components/Footer';
 import ServicesCardList from '../components/ServicesCardList';
 import ContactForm from '../components/ContactUs';
 import TrustedAmazon from '../components/TrustedAmazon';
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/useAuth';
 
 
 const landingPage: React.FC = () => {

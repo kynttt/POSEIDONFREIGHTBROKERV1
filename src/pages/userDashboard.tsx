@@ -4,24 +4,23 @@ import userBookingData from './userBookingData.json';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/useAuth';
 
 const UserDashboard: React.FC = () => {
     const navigate = useNavigate();
     const [data, setData] = useState<any[]>([]);
-    const { isAuthenticated, isAdmin } = useAuth(); // Use useAuth hook to get isAuthenticated
+    const { isAuthenticated, role } = useAuth(); // Destructure role from useAuth hook
 
-    // Log the authentication state when the component renders
-    console.log('User authenticated?', isAuthenticated);
-    console.log('Is admin?', isAdmin);
-
+    // Log the authentication state and role when the component renders
     useEffect(() => {
+        console.log('User authenticated?', isAuthenticated);
+        console.log('User role:', role);
         setData(userBookingData);
-    }, []);
-    
+    }, [isAuthenticated, role]);
+
     const handleQuoteButtonClick = () => {
         navigate('/payment-option');
-      };
+    };
 
     return (
         <>
