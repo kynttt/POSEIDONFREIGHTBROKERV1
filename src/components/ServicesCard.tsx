@@ -8,7 +8,7 @@ interface CardProps {
 
 const ServicesCard: React.FC<CardProps> = ({ title, description, imageSrc }) => {
   return (
-    <div className="w-full sm:w-96 max-w-md rounded-xl overflow-hidden border-zinc-400 shadow-xl border bg-white p-8 my-6">
+    <div className="w-full sm:w-96 max-w-md rounded-xl overflow-hidden  shadow-xl  bg-white p-8 my-6">
       <div className="pb-4">
         <div className="font-normal text-xl mb-2 text-left text-primary">{title}</div>
         <p className="text-gray-500 font-normal text-left mb-4 text-justify">{description}</p>
