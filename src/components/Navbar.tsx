@@ -49,41 +49,76 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
 
                 {/* Navigation links for medium screens and larger */}
                 <div className="hidden lg:flex space-x-16 items-center">
-                    <a href="/" className="text-white hover:text-[#252F70] no-underline font-normal">
-                        HOME
-                    </a>
-                    <a href="#services" className="text-white hover:text-[#252F70] no-underline font-normal">
-                        SERVICES
-                    </a>
-                    <a href="#about" className="text-white hover:text-[#252F70] no-underline font-normal">
-                        ABOUT US
-                    </a>
-                    {isAuthenticated && role !== 'admin' && (
-                        <a href="/quote-details" className="text-white hover:text-[#252F70] no-underline font-normal">
-                            REQUEST A QUOTE
-                        </a>
+                    {!isAuthenticated ? (
+                        <>
+                            <a href="/" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                HOME
+                            </a>
+                            <a href="#services" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                SERVICES
+                            </a>
+                            <a href="#about" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                ABOUT US
+                            </a>
+                            <a href="/signup" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                CREATE ACCOUNT
+                            </a>
+                        </>
+                    ) : role === 'admin' ? (
+                        <>
+                            <a href="/profile" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                PROFILE
+                            </a>
+                            <a href="/dashboard" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                DASHBOARD
+                            </a>
+                            <a href="/tracking" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                TRACKING
+                            </a>
+                            <a href="/notification" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                NOTIFICATION
+                            </a>
+                        </>
+                    ) : (
+                        <>
+                            <a href="/profile" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                PROFILE
+                            </a>
+                            <a href="/dashboard" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                DASHBOARD
+                            </a>
+                            <a href="/notification" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                NOTIFICATION
+                            </a>
+                            <a href="/accounts-payable" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                ACCOUNTS PAYABLE
+                            </a>
+                            <a href="/quote-details" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                REQUEST A QUOTE
+                            </a>
+                        </>
                     )}
-                    {isAuthenticated ? (
+                    {isAuthenticated && (
                         <Button
                             label="LOGOUT"
                             size="medium"
                             bgColor="#252F70"
                             hoverBgColor="white"
-                            onClick={handleLogout} type={''}            />
-                    ) : (
-                        <>
-                            <a href="/signup" className="text-white hover:text-[#252F70] no-underline font-normal">
-                                CREATE ACCOUNT
-                            </a>
-                            <div className="flex justify-center items-center h-full">
-                                <Button
-                                    label="LOGIN"
-                                    size="medium"
-                                    bgColor="#252F70"
-                                    hoverBgColor="white"
-                                    onClick={() => navigate('/login')} type={''}                />
-                            </div>
-                        </>
+                            onClick={handleLogout}
+                            type=""
+                        />
+                    )}
+                    {!isAuthenticated && (
+                        <div className="flex justify-center items-center h-full">
+                            <Button
+                                label="LOGIN"
+                                size="medium"
+                                bgColor="#252F70"
+                                hoverBgColor="white"
+                                onClick={() => navigate('/login')}
+                                type=""
+                            />
+                        </div>
                     )}
                 </div>
 
@@ -103,33 +138,79 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                             ref={transitionRef}
                             className={`lg:hidden absolute top-16 right-0 left-0 bg-[#7783D2] z-10 py-4 px-2 space-y-4 shadow-md mt-4`}
                         >
-                            <a href="#home" className="block text-white hover:text-[#252F70] text-center">
-                                HOME
-                            </a>
-                            <a href="#services" className="block text-white hover:text-[#252F70] text-center">
-                                SERVICES
-                            </a>
-                            <a href="#about" className="block text-white hover:text-[#252F70] text-center">
-                                ABOUT US
-                            </a>
+                            {!isAuthenticated ? (
+                                <>
+                                    <a href="#home" className="block text-white hover:text-[#252F70] text-center">
+                                        HOME
+                                    </a>
+                                    <a href="#services" className="block text-white hover:text-[#252F70] text-center">
+                                        SERVICES
+                                    </a>
+                                    <a href="#about" className="block text-white hover:text-[#252F70] text-center">
+                                        ABOUT US
+                                    </a>
+                                    <a href="#create-account" className="block text-white hover:text-[#252F70] text-center">
+                                        CREATE ACCOUNT
+                                    </a>
+                                </>
+                            ) : role === 'admin' ? (
+                                <>
+                                    <a href="/profile" className="block text-white hover:text-[#252F70] text-center">
+                                        PROFILE
+                                    </a>
+                                    <a href="/dashboard" className="block text-white hover:text-[#252F70] text-center">
+                                        DASHBOARD
+                                    </a>
+                                    <a href="/tracking" className="block text-white hover:text-[#252F70] text-center">
+                                        TRACKING
+                                    </a>
+                                    <a href="/notification" className="block text-white hover:text-[#252F70] text-center">
+                                        NOTIFICATION
+                                    </a>
+                                </>
+                            ) : (
+                                <>
+                                    <a href="/profile" className="block text-white hover:text-[#252F70] text-center">
+                                        PROFILE
+                                    </a>
+                                    <a href="/dashboard" className="block text-white hover:text-[#252F70] text-center">
+                                        DASHBOARD
+                                    </a>
+                                    <a href="/notification" className="block text-white hover:text-[#252F70] text-center">
+                                        NOTIFICATION
+                                    </a>
+                                    <a href="/accounts-payable" className="block text-white hover:text-[#252F70] text-center">
+                                        ACCOUNTS PAYABLE
+                                    </a>
+                                    <a href="/quote-details" className="block text-white hover:text-[#252F70] text-center">
+                                        REQUEST A QUOTE
+                                    </a>
+                                </>
+                            )}
                             {isAuthenticated && (
-                                <a href="#quote-details" className="block text-white hover:text-[#252F70] text-center">
-                                    REQUEST A QUOTE
-                                </a>
+                                <div className="flex justify-center items-center h-full">
+                                    <Button
+                                        label="LOGOUT"
+                                        size="small"
+                                        bgColor="#252F70"
+                                        hoverBgColor="white"
+                                        onClick={handleLogout}
+                                        type=""
+                                    />
+                                </div>
                             )}
                             {!isAuthenticated && (
-                                <a href="#create-account" className="block text-white hover:text-[#252F70] text-center">
-                                    CREATE ACCOUNT
-                                </a>
+                                <div className="flex justify-center items-center h-full">
+                                    <Button
+                                        label="LOGIN"
+                                        size="small"
+                                        bgColor="#252F70"
+                                        hoverBgColor="white"
+                                        onClick={() => navigate('/login')}
+                                        type=""
+                                    />
+                                </div>
                             )}
-                            <div className="flex justify-center items-center h-full">
-                                <Button
-                                    label={isAuthenticated ? 'LOGOUT' : 'LOGIN'}
-                                    size="small"
-                                    bgColor="#252F70"
-                                    hoverBgColor="white"
-                                    onClick={isAuthenticated ? handleLogout : () => navigate('/login')} type={''}                />
-                            </div>
                         </div>
                     )}
                 </Transition>

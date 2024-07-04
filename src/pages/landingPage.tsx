@@ -15,8 +15,11 @@ import TrustedAmazon from '../components/TrustedAmazon';
 import { useAuth } from '../components/useAuth';
 
 
+
 const landingPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, role } = useAuth();
+  console.log('User authenticated?', isAuthenticated);
+    console.log('User role:', role);
   return (
     <div className="min-h-screen bg-gray-100">
       <header>
