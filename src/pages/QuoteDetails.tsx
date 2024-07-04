@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import sampleData from './sampleData.json'; // Make sure to import the sample data
+import sampleData from './sampleData.json';
 import Button from '../components/Button';
-import QuoteRequestModal from '../components/QuoteRequestModal';
 import { calculatePrice } from '../utils/priceCalculator';
+import { useAuth } from '../components/AuthContext';
 
 const QuoteDetails: React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
+
+    console.log('User authenticated?', isAuthenticated);
 
     const [pickUpLocation, setPickUpLocation] = useState('');
     const [pickUpState, setPickUpState] = useState('');
@@ -25,7 +27,7 @@ const QuoteDetails: React.FC = () => {
     const [maxWeight, setMaxWeight] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [price, setPrice] = useState(0);
-    const [isLoading, setIsLoading] = useState(false); // State for loading indicator
+    const [isLoading, setIsLoading] = useState(false);
     const [availableDeliveryLocations, setAvailableDeliveryLocations] = useState<string[]>([]);
 
     useEffect(() => {
@@ -37,7 +39,7 @@ const QuoteDetails: React.FC = () => {
     }, [pickUpLocation]);
 
     useEffect(() => {
-        setIsLoading(true); // Set loading to true when computing price
+        setIsLoading(true);
         const newPrice = calculatePrice(
             pickUpLocation,
             deliveryLocation,
@@ -46,22 +48,29 @@ const QuoteDetails: React.FC = () => {
             maxWeight,
             sampleData.distances
         );
-        // Simulate delay for loading effect (you can adjust the delay time as needed)
+
         setTimeout(() => {
             setPrice(newPrice);
-            setIsLoading(false); // Set loading to false after price computation
-        }, 1300); // Example 1 second delay
+            setIsLoading(false);
+        }, 1300);
     }, [pickUpLocation, deliveryLocation, trailerType, trailerSize, maxWeight]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission
         console.log("Form submitted");
+    };
+
+    const handleQuoteButtonClick = () => {
+        if (!isAuthenticated) {
+            navigate('/login'); // Redirect to login page if not authenticated
+        } else {
+            navigate('/payment-option'); // Redirect to payment-method page if authenticated
+        }
     };
 
     return (
         <div>
-            <Navbar />
+            <Navbar isAuthenticated={isAuthenticated} />
             <div className="bg-white min-h-screen">
                 <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">
                     <div className="mb-6">
@@ -244,10 +253,10 @@ const QuoteDetails: React.FC = () => {
                             size="xl"
                             bgColor="#7783D2"
                             hoverBgColor="white"
-                            onClick={openModal}
+                            onClick={handleQuoteButtonClick}
                             className="extra-class-for-medium-button"
+                            type="button"
                         />
-                        <QuoteRequestModal isOpen={isModalOpen} onClose={closeModal} />
                     </div>
                 </form>
             </div>

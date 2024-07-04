@@ -4,8 +4,9 @@ import signupImage from '../assets/img/signup.png';
 import appleIcon from '../assets/img/apple.png';
 import googleIcon from '../assets/img/googleicon.png';
 import Button from '../components/Button';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { useAuth } from '../components/AuthContext';
 
 interface DecodedToken {
   user: {
@@ -17,12 +18,13 @@ interface DecodedToken {
 }
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate(); // Get navigate function from React Router
-
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,23 +37,19 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-  
+
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', {
         email: formData.email,
         password: formData.password,
       });
-  
-      // Save token to local storage or session storage
-      localStorage.setItem('token', response.data.token);
-  
-      // Decode the JWT token to access user properties
+
       const token = response.data.token;
+      login(token); // Save token and set authentication state
+
       const decodedToken = jwtDecode<DecodedToken>(token);
-  
-      // Extract isAdmin from decoded token
       const isAdmin = decodedToken.user && decodedToken.user.isAdmin;
-  
+
       if (isAdmin) {
         navigate('/load-board'); // Navigate to load board for admins
       } else {
@@ -74,7 +72,7 @@ const LoginPage: React.FC = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="flex h-screen justify-center items-center bg-gray-100">
       <div className="flex flex-col md:flex-row w-full max-w-4xl shadow-lg rounded-lg overflow-hidden">
