@@ -14,7 +14,7 @@ const ReportDetails: React.FC = () => {
   return (
     <nav>
       <Navbar isAuthenticated={false} />
-
+      <div className="bg-white">
       <div className="max-h-screen mx-10">
         <h2 className="text-2xl text-gray-500 font-medium mb-4 text-center mt-5">
           REPORTING
@@ -163,6 +163,7 @@ const ReportDetails: React.FC = () => {
             </button>
           </div>
         </div>
+      </div>
       </div>
     </nav>
   );
