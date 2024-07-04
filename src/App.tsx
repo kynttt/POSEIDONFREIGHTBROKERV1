@@ -13,7 +13,8 @@ import BillOfLadingPage from './pages/billOfLanding';
 import DispatchDetails from './pages/dispatchDetails';
 import { AuthProvider } from './components/AuthContext';
 import PaymentOptionPage from './pages/paymentOptionPage';
-import NotFound from './pages/NotFound';
+import ReportDetails from './pages/reportDetails';
+import NotFound from './pages/NotFound'
 import Invoice from './components/Invoice';
 // import PrivateRoute from './components/PrivateRoute';
 
@@ -31,6 +32,7 @@ const App: React.FC = () => {
           <Route path="/booking-successful" element={<BookingConfirmation />} />
           <Route path="/dispatch-details" element={<DispatchDetails />} />
           <Route path="/payment-option" element={<PaymentOptionPage />} />
+          <Route path="/report-details" element={<ReportDetails />} />
           <Route path="/invoice" element={<Invoice />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/load-board" element={<LoadBoard />} />
