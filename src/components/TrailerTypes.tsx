@@ -6,14 +6,14 @@ import dryVanImage from '../assets/img/dryvan.png';
 
 const TrailerTypes: React.FC = () => {
     return (
-        <div className='bg-white text-primary py-16'>
+        <div className='text-primary py-16 bg-light-grey'>
             <div>
                 <h1 className="text-center text-2xl font-thin ">TRAILERS</h1>
                 <h1 className="text-center text-2xl font-bold mb-8">What type of freight do you support?</h1>
             </div>
-            <div className="mx-auto px-4 sm:px-2 sm:px-2 md:px-16 py-8 bg-white text-primary flex justify-center items-center">
+            <div className="mx-auto px-4 sm:px-2 sm:px-2 md:px-16 py-8 bg-light-grey text-primary flex justify-center items-center ">
                 <div className="container grid grid-cols-1 xl:grid-cols-1 gap-8">
-                    <div className="mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
+                    <div className="bg-white mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
                         <img src={reeferImage} alt="Reefer Trailer" className="w-full h-auto my-4 md:col-span-1 self-center" />
                         <div className="md:col-span-1 flex flex-col justify-center px-4 sm:px-8 md:px-12">
                             <h2 className="text-2xl font-semibold text-secondary text-left my-4">Reefer (Refrigerated Trailer)</h2>
@@ -22,7 +22,7 @@ const TrailerTypes: React.FC = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
+                    <div className="bg-white mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
                         <div className="md:col-span-1 flex flex-col justify-center px-4 sm:px-8 md:px-12">
                             <h2 className="text-2xl font-semibold text-secondary text-left my-4">Flat Bed</h2>
                             <p className="text-left text-xl font-medium text-justify">
@@ -31,7 +31,7 @@ const TrailerTypes: React.FC = () => {
                         </div>
                         <img src={flatBedImage} alt="Flat Bed Trailer" className="w-full h-auto my-4 md:col-span-1 self-center" />
                     </div>
-                    <div className="mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
+                    <div className="bg-white mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
                         <img src={truckLoadImage} alt="Full Truck Load Trailer" className="w-full h-auto my-4 md:col-span-1 self-center" />
                         <div className="md:col-span-1 flex flex-col justify-center px-4 sm:px-8 md:px-12">
                             <h2 className="text-2xl font-semibold text-secondary text-left my-4">Full Truck Load</h2>
@@ -40,7 +40,7 @@ const TrailerTypes: React.FC = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-lg grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
+                    <div className="bg-white mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
                         <div className="md:col-span-1 flex flex-col justify-center px-4 sm:px-8 md:px-12">
                             <h2 className="text-2xl font-semibold text-secondary text-left my-4">Dry Van</h2>
                             <p className="text-left text-xl font-medium text-justify">
