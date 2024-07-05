@@ -8,7 +8,7 @@ import TrailerOptionsPage from './pages/TrailerOptionsPage';
 import LoadBoard from './pages/LoadBoard';
 import NonBusinessPage from './pages/NonBusinessEmail';
 import BookingConfirmation from './pages/bookingSuccessful';
-import UserDashboard from './pages/userDashboard';
+import UserPayables from './pages/userDashboard';
 import BillOfLadingPage from './pages/billOfLanding';
 import DispatchDetails from './pages/dispatchDetails';
 import { AuthProvider } from './components/AuthContext';
@@ -16,6 +16,7 @@ import PaymentOptionPage from './pages/paymentOptionPage';
 import ReportDetails from './pages/reportDetails';
 import NotFound from './pages/NotFound'
 import Invoice from './components/Invoice';
+import AdminDashboard from './pages/User/page/AdminDashboard';
 // import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
@@ -34,9 +35,10 @@ const App: React.FC = () => {
           <Route path="/payment-option" element={<PaymentOptionPage />} />
           <Route path="/report-details" element={<ReportDetails />} />
           <Route path="/invoice" element={<Invoice />} />
-          <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="/user-payables" element={<UserPayables />} />
           <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/bill-lading" element={<BillOfLadingPage />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
  {/* Revise here if for private route implimentation */}
           {/* <Route

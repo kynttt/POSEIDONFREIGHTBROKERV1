@@ -1,0 +1,21 @@
+[
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "READY" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "IN TRANSIT" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "READY" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "READY" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "IN TRANSIT" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "READY" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "READY" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "IN TRANSIT" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "READY" },
+    { "loadNumber": "ABC-123456", "deliveryAddress": "Los Angeles, CA", "deliveryDate": "07/24/2024", "amount": 420.20, "status": "PENDING" }
+  ]
+  
