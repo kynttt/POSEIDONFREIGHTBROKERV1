@@ -66,24 +66,25 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                         </>
                     ) : role === 'admin' ? (
                         <>
-                            <a href="/profile" className="text-white hover:text-[#252F70] no-underline font-normal">
-                                PROFILE
+                            <a href="/load-board" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                LOADBOARD
                             </a>
                             <a href="/admin-dashboard" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 DASHBOARD
                             </a>
-                            <a href="/tracking" className="text-white hover:text-[#252F70] no-underline font-normal">
-                                TRACKING
+                            <a href="/trailer-options" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                TRUCKS
                             </a>
                             <a href="/notification" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 NOTIFICATION
                             </a>
-                        </>
-                    ) : (
-                        <>
                             <a href="/profile" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 PROFILE
                             </a>
+                        </>
+                    ) : (
+                        <>
+                            
                             <a href="/dashboard" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 DASHBOARD
                             </a>
@@ -95,6 +96,9 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                             </a>
                             <a href="/quote-details" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 REQUEST A QUOTE
+                            </a>
+                            <a href="/profile" className="text-white hover:text-[#252F70] no-underline font-normal">
+                                PROFILE
                             </a>
                         </>
                     )}
