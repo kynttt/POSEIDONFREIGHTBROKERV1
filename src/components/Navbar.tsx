@@ -69,7 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                             <a href="/profile" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 PROFILE
                             </a>
-                            <a href="/dashboard" className="text-white hover:text-[#252F70] no-underline font-normal">
+                            <a href="/admin-dashboard" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 DASHBOARD
                             </a>
                             <a href="/tracking" className="text-white hover:text-[#252F70] no-underline font-normal">
@@ -90,7 +90,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                             <a href="/notification" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 NOTIFICATION
                             </a>
-                            <a href="/accounts-payable" className="text-white hover:text-[#252F70] no-underline font-normal">
+                            <a href="/user-payables" className="text-white hover:text-[#252F70] no-underline font-normal">
                                 ACCOUNTS PAYABLE
                             </a>
                             <a href="/quote-details" className="text-white hover:text-[#252F70] no-underline font-normal">
