@@ -20,14 +20,14 @@ const ServicesCardList: React.FC = () => {
         className={`flex flex-wrap justify-center items-center transition-transform duration-1000 
                     ${inView ? 'md:transform-none md:opacity-100' : 'md:transform md:translate-y-20 md:opacity-0'}`}
       >
-        <div className="w-full sm:w-auto mb-6 sm:mb-0 sm:mr-6">
+        <div className="w-full sm:w-auto mb-6 sm:mb-0 sm:mr-12">
           <Card
             title="Carriers"
             description="Book with confidence knowing your goods will be handled by one of our 15,000 FTL."
             imageSrc={service1}
           />
         </div>
-        <div className="w-full sm:w-auto mb-6 sm:mb-0 sm:mr-6">
+        <div className="w-full sm:w-auto mb-6 sm:mb-0 sm:mr-12">
           <Card
             title="Brokers"
             description="Book with confidence knowing your goods will be handled by one of our 15,000 FTL."
