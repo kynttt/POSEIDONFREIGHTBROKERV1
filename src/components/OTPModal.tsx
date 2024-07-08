@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import OTPImage from '../assets/img/OTP.png';
 import Button from './Button';
+import { useNavigate } from 'react-router-dom';
+
 
 const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [seconds, setSeconds] = useState(15);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -18,6 +22,12 @@ const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
       setSeconds(15);
     };
   }, [isOpen]);
+
+
+  const handleVerifyOTP = () => {
+    // Navigate to '/quote-details' when a truck button is clicked
+    navigate('/login');
+  };
 
   if (!isOpen) return null;
 
@@ -69,9 +79,8 @@ const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
               size="medium"
               bgColor="#252F70"
               fontStyle="thin"
-              onClick={() => console.log('Button Clicked')}
-              className="extra-class-for-medium-button"
-            />
+              onClick={handleVerifyOTP} // Call handleVerifyOTP on button click
+              className="extra-class-for-medium-button" type={''}            />
           </div>
         </div>
       </div>

@@ -51,7 +51,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`button block text-white rounded transition-colors duration-300 ${sizeClasses[size]} ${borderStyle} ${className}`}
+      className={`button block text-white rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${sizeClasses[size]} ${borderStyle} ${className}`}
       style={{
         backgroundColor: bgColor,
         '--hover-bg-color': hoverBgColor,
@@ -61,6 +61,16 @@ const Button: React.FC<ButtonProps> = ({
         color: textColorStyle, // Apply the dynamic text color inline
       }}
       onClick={onClick}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = hoverBorderColor;
+        e.currentTarget.style.backgroundColor = hoverBgColor;
+        e.currentTarget.style.color = hoverTextColor;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = '';
+        e.currentTarget.style.backgroundColor = bgColor;
+        e.currentTarget.style.color = textColorStyle;
+      }}
     >
       {label}
     </button>

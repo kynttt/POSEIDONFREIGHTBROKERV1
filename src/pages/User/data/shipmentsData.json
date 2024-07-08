@@ -1,0 +1,13 @@
+{
+    "labels": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
+    "datasets": [
+      {
+        "label": "Number of Shipments",
+        "data": [12, 19, 3, 5, 2, 3, 15, 16, 17, 18],
+        "fill": false,
+        "borderColor": "rgb(75, 192, 192)",
+        "tension": 0.1
+      }
+    ]
+  }
+  
