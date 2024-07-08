@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useAuth } from './useAuth';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTableColumns, faMoneyCheckDollar, faCalculator, faBell, faUser, faTruckFront, faListUl } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
+import Button from './Button';
+
 
 
 interface SidebarProps {
@@ -10,16 +13,22 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
-    const {  role } = useAuth();
+    const { logout, role } = useAuth();
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
+    const handleLogout = () => {
+        logout(); // Call logout function from AuthContext to clear authentication state
+        navigate('/login'); // Redirect to login page after logout
+    };
+
     const handleNavigation = (path: string) => {
-        // Implement your navigation logic here
-        console.log(`Navigating to ${path}`);
+        navigate(path);
+        setIsOpen(false); // Close sidebar after navigation if needed
     };
 
     console.log('User authenticated?', isAuthenticated);
@@ -107,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 mb-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/dashboard')}
+                            onClick={() => handleNavigation('/admin-dashboard')}
                         >
                             <FontAwesomeIcon icon={faTableColumns} />
 
@@ -115,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/load-board')}
+                            onClick={() => handleNavigation('/trailer-options')}
                         >
                             <FontAwesomeIcon icon={faTruckFront} />
 
@@ -123,7 +132,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/notification')}
+                            onClick={() => handleNavigation('/notifications')}
                         >
                             <FontAwesomeIcon icon={faBell} />
 
@@ -142,7 +151,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         <>
                         <button
                             className="w-full flex items-center px-4 py-4 mb-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/dashboard')}
+                            onClick={() => handleNavigation('/admin-dashboard')}
                         >
                             <FontAwesomeIcon icon={faTableColumns} />
 
@@ -153,7 +162,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
 
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/load-board')}
+                            onClick={() => handleNavigation('/user-payables')}
                         >
                             <FontAwesomeIcon icon={faMoneyCheckDollar} />
 
@@ -162,7 +171,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
 
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/load-board')}
+                            onClick={() => handleNavigation('/quote-details')}
                         >
                             <FontAwesomeIcon icon={faCalculator} />
 
@@ -171,7 +180,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
 
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/notification')}
+                            onClick={() => handleNavigation('/notifications')}
                         >
                             <FontAwesomeIcon icon={faBell} />
 
@@ -188,6 +197,30 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         </button>
                         </>
                     )}
+                    {isAuthenticated && (
+                            <div className="flex justify-center  h-full lg:mt-8">
+                                <Button
+                                    label="Logout"
+                                    size="quoteButton"
+                                    bgColor="#252F70"
+                                    hoverBgColor="white"
+                                    onClick={handleLogout}
+                                    type=""
+                                />
+                            </div>
+                        )}
+                        {!isAuthenticated && (
+                            <div className="flex justify-center  h-full lg:mt-8">
+                                <Button
+                                    label="Login"
+                                    size="quoteButton"
+                                    bgColor="#252F70"
+                                    hoverBgColor="white"
+                                    onClick={() => navigate('/login')}
+                                    type=""
+                                />
+                            </div>
+                        )}
 
                     </nav>
 
@@ -200,7 +233,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
                             John Doe
                         </span>
+                        
                     </button>
+                    
                 </div>
             </aside>
         </>
