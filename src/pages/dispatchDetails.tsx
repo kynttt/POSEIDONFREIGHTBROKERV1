@@ -18,8 +18,8 @@ const DispatchDetails: React.FC = () => {
     <nav>
       <Navbar isAuthenticated={isAuthenticated} />
 
-      <div className=" min-full-screen bg-white flex flex-col md:flex-row items-center justify-center px-4 mb-5">
-        <div className="border rounded-lg shadow-lg bg-white p-6 w-full md:w-8/12 mt-20">
+      <div className=" h-screen bg-white flex flex-col md:flex-row items-center justify-center   px-4 ">
+        <div className="border rounded-lg shadow-lg bg-white p-6 w-full md:w-8/12">
           <h2 className="text-2xl font-medium text-blue-700 mb-6 text-secondary text-center md:text-left">Dispatched Details</h2>
 
           <div className="overflow-x-auto">
