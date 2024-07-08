@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from './useAuth';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTableColumns, faMoneyCheckDollar, faCalculator, faBell, faUser, faTruckFront, faListUl } from "@fortawesome/free-solid-svg-icons";
+import { faTableColumns, faMoneyCheckDollar, faCalculator, faBell, faUser, faTruckFront, faListUl, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
@@ -107,12 +107,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                     {role === 'admin' ? (
                         <>
                         <button
-                            className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
+                            className="w-full flex items-center px-4 py-4 mb-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
                             onClick={() => handleNavigation('/load-board')}
                         >
                             <FontAwesomeIcon icon={faListUl} />
 
                             <span className="font-medium ml-3 text-gray-500">Load Board</span>
+                        </button>
+                        <button
+                            className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
+                            onClick={() => handleNavigation('/report-details')}
+                        >
+                            <FontAwesomeIcon icon={faTruckFast} />
+
+                            <span className="font-medium ml-3 text-gray-500">Transactions</span>
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 mb-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
@@ -198,7 +206,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         </>
                     )}
                     {isAuthenticated && (
-                            <div className="flex justify-center  h-full lg:mt-8">
+                            <div className="flex justify-center   lg:mt-8">
                                 <Button
                                     label="Logout"
                                     size="quoteButton"
@@ -210,7 +218,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                             </div>
                         )}
                         {!isAuthenticated && (
-                            <div className="flex justify-center  h-full lg:mt-8">
+                            <div className="flex justify-center   lg:mt-8">
                                 <Button
                                     label="Login"
                                     size="quoteButton"
