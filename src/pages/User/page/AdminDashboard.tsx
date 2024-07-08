@@ -22,7 +22,7 @@ const AdminDashboard: React.FC = () => {
 
       <div className="flex-1 pt-8 lg:px-18 bg-white pb-16 text-primary overflow-y-auto">
         <div className="container mx-auto px-4 sm:px-6 lg:px-32">
-          <h6 className="text-medium font-semibold text-secondary">Hello Admin!</h6>
+          <h6 className="text-medium font-medium text-secondary">Hello Admin!</h6>
           <h1 className="text-2xl font-semibold mb-6 text-secondary">Good Morning</h1>
           <h6 className="text-medium font-semibold text-secondary mb-8 pl-6">Overview</h6>
 
