@@ -16,6 +16,7 @@ import PaymentOptionPage from './pages/paymentOptionPage';
 import ReportDetails from './pages/reportDetails';
 import NotFound from './pages/NotFound'
 import Invoice from './components/Invoice';
+import LegalPage from './pages/legalPage';
 import AdminDashboard from './pages/User/page/AdminDashboard';
 // import PrivateRoute from './components/PrivateRoute';
 
@@ -35,6 +36,7 @@ const App: React.FC = () => {
           <Route path="/payment-option" element={<PaymentOptionPage />} />
           <Route path="/report-details" element={<ReportDetails />} />
           <Route path="/invoice" element={<Invoice />} />
+          <Route path="/legal-page" element={<LegalPage />} />
           <Route path="/user-payables" element={<UserPayables />} />
           <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/bill-lading" element={<BillOfLadingPage />} />
