@@ -14,10 +14,11 @@ import DispatchDetails from './pages/dispatchDetails';
 import { AuthProvider } from './components/AuthContext';
 import PaymentOptionPage from './pages/paymentOptionPage';
 import ReportDetails from './pages/reportDetails';
-import NotFound from './pages/NotFound'
+import NotFound from './pages/NotFound';
 import Invoice from './components/Invoice';
 import LegalPage from './pages/legalPage';
 import AdminDashboard from './pages/User/page/AdminDashboard';
+import Profile from './pages/profile';
 // import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
@@ -41,6 +42,7 @@ const App: React.FC = () => {
           <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/bill-lading" element={<BillOfLadingPage />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/profile" element={<Profile />} />
 
  {/* Revise here if for private route implimentation */}
           {/* <Route
