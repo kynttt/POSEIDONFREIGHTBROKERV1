@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from './useAuth';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTableColumns, faMoneyCheckDollar, faCalculator, faBell, faUser, faTruckFront, faListUl, faTruckFast } from "@fortawesome/free-solid-svg-icons";
+import { faTableColumns, faMoneyCheckDollar, faCalculator, faBell, faUser, faTruckFront, faListUl, faTruckFast, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
@@ -124,7 +124,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/report-details')}
+                            onClick={() => handleNavigation('/legal-page')}
+                        >
+                            <FontAwesomeIcon icon={faFolderOpen} />
+
+                            <span className="font-medium ml-3 text-gray-500">Documents</span>
+                        </button>
+                        <button
+                            className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
+                            onClick={() => handleNavigation('/report-details ')}
                         >
                             <FontAwesomeIcon icon={faTruckFast} />
 
