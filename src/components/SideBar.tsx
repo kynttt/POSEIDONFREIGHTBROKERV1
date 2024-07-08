@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTableColumns, faMoneyCheckDollar, faCalculator, faBell, faUser, faTruckFront, faListUl, faTruckFast, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
+import NotificationModal from './NotificationModal';
 
 
 
@@ -16,6 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const { logout, role } = useAuth();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -29,6 +31,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
     const handleNavigation = (path: string) => {
         navigate(path);
         setIsOpen(false); // Close sidebar after navigation if needed
+    };
+
+    const handleNotificationClick = () => {
+        setIsModalOpen(true);
     };
 
     console.log('User authenticated?', isAuthenticated);
@@ -149,7 +155,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/notifications')}
+                            onClick={handleNotificationClick}
                         >
                             <FontAwesomeIcon icon={faBell} />
 
@@ -197,7 +203,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
 
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/notifications')}
+                            onClick={handleNotificationClick}
                         >
                             <FontAwesomeIcon icon={faBell} />
 
@@ -255,6 +261,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                     
                 </div>
             </aside>
+            <NotificationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </>
     );
 };
