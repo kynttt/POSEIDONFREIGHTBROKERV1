@@ -107,6 +107,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                     {role === 'admin' ? (
                         <>
                         <button
+                            className="w-full flex items-center px-4 py-4 mb-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
+                            onClick={() => handleNavigation('/admin-dashboard')}
+                        >
+                            <FontAwesomeIcon icon={faTableColumns} />
+
+                            <span className="font-medium ml-3 text-gray-500">Dashboard</span>
+                        </button>
+                        <button
                             className="w-full flex items-center px-4 py-4 mb-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
                             onClick={() => handleNavigation('/load-board')}
                         >
@@ -122,14 +130,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
 
                             <span className="font-medium ml-3 text-gray-500">Transactions</span>
                         </button>
-                        <button
-                            className="w-full flex items-center px-4 py-4 mb-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/admin-dashboard')}
-                        >
-                            <FontAwesomeIcon icon={faTableColumns} />
-
-                            <span className="font-medium ml-3 text-gray-500">Dashboard</span>
-                        </button>
+                        
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
                             onClick={() => handleNavigation('/trailer-options')}

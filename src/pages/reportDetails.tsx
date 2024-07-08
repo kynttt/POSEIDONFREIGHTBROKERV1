@@ -35,8 +35,8 @@ const ReportDetails: React.FC = () => {
     <div className="flex min-h-screen bg-white">
       {/* <Navbar isAuthenticated={false} /> */}
       <SideBar isAuthenticated={isAuthenticated} />
-      <div className="p-32 flex-1 min-h-screen overflow-y-auto">
-      <h2 className="text-2xl text-gray-500 font-medium mb-4 text-center mt-5">
+      <div className="px-32 flex-1 min-h-screen overflow-y-auto">
+      <h2 className="text-2xl text-gray-500 font-medium mb-4 text-left mt-5 lg:ml-10">
         REPORTING
       </h2>
       <div className="mx-10">
