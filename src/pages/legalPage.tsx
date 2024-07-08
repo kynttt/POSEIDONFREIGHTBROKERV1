@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,9 +7,14 @@ import {
   faArrowUpFromBracket,
   faPlus,
   faEllipsisV,
+  faList,
+  faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
 const LegalPage = () => {
+  const [isListView, setIsListView] = useState(true); // State to track view mode
+  const [showActionsIndex, setShowActionsIndex] = useState(null); // State to track which ellipsis was clicked
+
   const folders = [
     "Contracts",
     "Official Documents",
@@ -18,6 +23,7 @@ const LegalPage = () => {
     "Agreements",
     "Receiver BOL Copy",
     "Carrier BOL Copy",
+    
   ];
 
   const files = [
@@ -26,6 +32,11 @@ const LegalPage = () => {
     { type: "PDF", name: "Contract.pdf", size: "48 mb", date: "MM/DD/YYYY" },
     { type: "DOCS", name: "Contract.doc", size: "48 mb", date: "MM/DD/YYYY" },
   ];
+
+  const handleEllipsisClick = (index) => {
+    // Toggle the state to show/hide actions
+    setShowActionsIndex(showActionsIndex === index ? null : index);
+  };
 
   return (
     <nav>
@@ -41,13 +52,13 @@ const LegalPage = () => {
           </div>
 
           <div className="relative w-full md:w-auto mt-4 md:mt-0">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
               <FontAwesomeIcon icon={faSearch} className="text-gray-500" />
             </div>
             <input
               type="text"
               placeholder="Search File"
-              className="w-full md:w-64 text-sm font-normal border rounded py-3 px-4 pl-10 focus:outline-none focus:shadow-outline"
+              className="w-full md:w-64 text-sm font-normal border rounded py-3 px-4 pl-8 focus:outline-none focus:shadow-outline"
             />
           </div>
         </div>
@@ -65,7 +76,7 @@ const LegalPage = () => {
           </div>
         </div>
 
-        <div className="mb-8 px-4 sm:px-6 md:px-32">
+        <div className="mb-12 px-4 sm:px-6 md:px-32">
           <h3 className="text-xl font-medium text-secondary mb-8">
             All Folders
           </h3>
@@ -90,66 +101,187 @@ const LegalPage = () => {
           </div>
         </div>
 
+        {/* Recent Files Start Here */}
+
         <div className="mb-8 px-4 sm:px-6 md:px-32">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-medium text-secondary mb-6">
               Recent Files
             </h3>
+            <div className="flex items-center justify-between gap-4">
+              <FontAwesomeIcon
+                icon={faList}
+                className={`text-gray-500 hover:text-blue-700 cursor-pointer text-xl ${
+                  isListView ? "text-blue-700" : ""
+                }`}
+                onClick={() => setIsListView(true)}
+              />
+              <FontAwesomeIcon
+                icon={faTh}
+                className={`text-gray-500 hover:text-blue-700 cursor-pointer text-xl ${
+                  !isListView ? "text-blue-700" : ""
+                }`}
+                onClick={() => setIsListView(false)}
+              />
+            </div>
           </div>
 
-          <div className="flex gap-4">
-            <div className="w-12 flex flex-col items-center">
-              {files.map((file, index) => (
-                <input
-                  key={index}
-                  type="box"
-                  className="h-4 w-4 text-blue-600 border border-gray-400 focus:ring-blue-500 mb-2"
-                />
-              ))}
-            </div>
-            <table className="min-w-full bg-white">
-              <thead>
-                <tr>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">
-                    Type
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">
-                    File Name
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">
-                    File Size
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">
-                    Date
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-gray-600">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {files.map((file, index) => (
-                  <tr key={index} className="hover:bg-primary hover:text-secondary transition-colors duration-300 text-center">
-                    <td className="py-3 px-4 text-left text-sm font-semibold text-gray-600">
-                      {file.type}
-                    </td>
-                    <td className="py-3 px-4 text-left text-sm text-gray-600">
-                      {file.name}
-                    </td>
-                    <td className="py-3 px-4 text-left text-sm text-gray-600">
-                      {file.size}
-                    </td>
-                    <td className="py-3 px-4 text-left text-sm text-gray-600">
-                      {file.date}
-                    </td>
-                    <td className="py-3 px-4 text-left text-sm text-gray-600">
-                      Action {index + 1}
-                    </td>
+          {/* ListView */}
+          {isListView ? (
+            <div className="pl-20 flex flex-col md:flex-row md:gap-4">
+              <table className="min-w-full bg-white">
+                <thead>
+                  <tr>
+                    <th className="py-3 px-4 text-left text-base text-primary font-semibold">
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-12"
+                        />
+                        <span>Type</span>
+                      </div>
+                    </th>
+                    <th className="py-3 px-4 text-left text-base text-primary font-semibold">
+                      File Name
+                    </th>
+                    <th className="py-3 px-4 text-left text-base text-primary font-semibold">
+                      File Size
+                    </th>
+                    <th className="py-3 px-4 text-left text-base text-primary font-semibold">
+                      Date
+                    </th>
+                    <th className="py-3 px-4 text-left text-base text-primary font-semibold">
+                      Action
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {files.map((file, index) => (
+                    <tr
+                      key={index}
+                      className="hover:bg-primary hover:text-secondary transition-colors duration-300 text-center"
+                    >
+                      <td className="py-3 px-4 text-left text-sm font-normal text-secondary">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-12"
+                          />
+                          <span>{file.type}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm font-normal text-secondary">
+                        {file.name}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm font-normal text-secondary">
+                        {file.size}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm font-normal text-secondary">
+                        {file.date}
+                      </td>
+                      <td className="py-2 px-10 text-left text-sm font-normal text-secondary relative">
+                        <FontAwesomeIcon
+                          icon={faEllipsisV}
+                          className="mt-1 text-xl mb-2 text-gray-500 hover:text-secondary cursor-pointer"
+                          onClick={() => handleEllipsisClick(index)}
+                        />
+                        {/* Actions section */}
+                        {showActionsIndex === index && (
+                          <div className="absolute right-4 bg-white border border-gray-300 shadow-lg py-1 px-2 rounded">
+                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+                              View
+                            </p>
+                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+                              Download
+                            </p>
+                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+                              Print
+                            </p>
+                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+                              Delete
+                            </p>
+                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer">
+                              Rename
+                            </p>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {/* Actions section */}
+              <div className="mt-10 flex flex-col gap-4">
+                <span className="text-2xl font-normal text-blue-500">
+                  Actions
+                </span>
+                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
+                  View
+                </span>
+                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
+                  Download
+                </span>
+                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
+                  Print
+                </span>
+                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
+                  Delete
+                </span>
+                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
+                  Rename
+                </span>
+              </div>
+              
+            </div>
+          ) : (
+            // GridView
+            <div className="flex flex-wrap gap-4">
+  {files.map((file, index) => (
+    <div
+      key={index}
+      className="relative flex-shrink-0 bg-white border rounded-lg p-4 w-40 hover:bg-primary hover:text-secondary transition-colors duration-300"
+    >
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-2"
+        />
+        <span>{file.type}</span>
+      </div>
+      <div className="text-sm font-normal text-secondary mt-2">
+        <p className="font-semibold">{file.name}</p>
+        <p>{file.size}</p>
+        <p>{file.date}</p>
+      </div>
+      <FontAwesomeIcon
+        icon={faEllipsisV}
+        className="absolute top-2 right-2 text-xl text-gray-500 hover:text-secondary cursor-pointer"
+        onClick={() => handleEllipsisClick(index)}
+      />
+      {/* Actions section */}
+      {showActionsIndex === index && (
+        <div className="absolute top-full right-0 mt-2 bg-white border border-gray-300 shadow-lg py-1 px-2 rounded">
+          <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+            View
+          </p>
+          <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+            Download
+          </p>
+          <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+            Print
+          </p>
+          <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+            Delete
+          </p>
+          <p className="text-blue-500 hover:text-blue-700 cursor-pointer">
+            Rename
+          </p>
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+          )}
         </div>
       </div>
     </nav>
