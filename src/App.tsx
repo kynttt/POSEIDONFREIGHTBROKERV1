@@ -17,6 +17,7 @@ import ReportDetails from './pages/reportDetails';
 import NotFound from './pages/NotFound'
 import Invoice from './components/Invoice';
 import AdminDashboard from './pages/User/page/AdminDashboard';
+import DistanceCalculator from './components/distanceClaculator';
 // import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
@@ -39,6 +40,8 @@ const App: React.FC = () => {
           <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/bill-lading" element={<BillOfLadingPage />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/distance-calculator" element={<DistanceCalculator />} />
+
 
  {/* Revise here if for private route implimentation */}
           {/* <Route
