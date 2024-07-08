@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faDownload, faFileLines, faPrint, faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import SideBar from '../components/SideBar';
+import { useAuth } from '../components/useAuth';
+
+
 
 const ReportDetails: React.FC = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [error, setError] = useState<string>('');
+  const { isAuthenticated } = useAuth();
 
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);
@@ -27,8 +32,10 @@ const ReportDetails: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar isAuthenticated={false} />
+    <div className="flex min-h-screen bg-white">
+      {/* <Navbar isAuthenticated={false} /> */}
+      <SideBar isAuthenticated={isAuthenticated} />
+      <div className="p-32 flex-1 min-h-screen overflow-y-auto">
       <h2 className="text-2xl text-gray-500 font-medium mb-4 text-center mt-5">
         REPORTING
       </h2>
@@ -174,6 +181,7 @@ const ReportDetails: React.FC = () => {
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
