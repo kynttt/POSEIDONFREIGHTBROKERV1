@@ -10,6 +10,8 @@ import LoadCard from '../components/LoadCard';
 import 'react-datepicker/dist/react-datepicker.css';
 import sampleLoadData from './sampleLoadData.json'; // Import the sample data
 import { useAuth } from '../components/useAuth';
+import SideBar from '../components/SideBar';
+
 
 
 
@@ -63,9 +65,11 @@ const LoadBoard: React.FC = () => {
     };
 
     return (
-        <div>
-                        <Navbar isAuthenticated={isAuthenticated} />
-            <div className="bg-white min-h-screen">
+        <div className="flex h-screen">
+            {/* <Navbar isAuthenticated={isAuthenticated} /> */}
+            <SideBar isAuthenticated={isAuthenticated} />
+
+            <div className="flex-1 bg-white min-h-screen overflow-y-auto">
                 <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">
                     <div className="mb-6">
                         <h2 className="text-2xl font-semibold lg:mb-20 text-secondary">FIND LOADS</h2>
@@ -229,23 +233,23 @@ const LoadBoard: React.FC = () => {
                             size="large"
                             bgColor="#252F70"
                             hoverBgColor="white"
-                            onClick={() => { } }
-                            className="extra-class-for-medium-button" type={''}                        />
+                            onClick={() => { }}
+                            className="extra-class-for-medium-button" type={''} />
 
                         <Button
                             label="Clear"
                             size="large"
                             bgColor="#252F70"
                             hoverBgColor="white"
-                            onClick={() => { } }
-                            className="extra-class-for-medium-button" type={''}                        />
+                            onClick={() => { }}
+                            className="extra-class-for-medium-button" type={''} />
                     </div>
                     <div>
-                    <div className="flex justify-end">
-    <a href="#" className="text-blue-500 hover:underline">Sort & Filter</a>
-</div>
+                        <div className="flex justify-end">
+                            <a href="#" className="text-blue-500 hover:underline">Sort & Filter</a>
+                        </div>
 
-</div>
+                    </div>
 
                     {sampleLoadData.map(load => (
                         <LoadCard

@@ -9,6 +9,8 @@ import sampleData from './sampleData.json';
 import Button from '../components/Button';
 import { calculatePrice } from '../utils/priceCalculator';
 import { useAuth } from '../components/useAuth';
+import SideBar from '../components/SideBar';
+
 
 const QuoteDetails: React.FC = () => {
     const navigate = useNavigate();
@@ -69,9 +71,10 @@ const QuoteDetails: React.FC = () => {
     };
 
     return (
-        <div>
-            <Navbar isAuthenticated={isAuthenticated} />
-            <div className="bg-white min-h-screen">
+        <div className='flex h-screen'>
+            {/* <Navbar isAuthenticated={isAuthenticated} /> */}
+            <SideBar isAuthenticated={isAuthenticated} />
+            <div className="flex-1 bg-white min-h-screen overflow-y-auto">
                 <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">
                     <div className="mb-6">
                         <h2 className="text-2xl font-semibold lg:mb-20 text-secondary">PICK UP DETAILS</h2>

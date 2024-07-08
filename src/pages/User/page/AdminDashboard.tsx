@@ -3,11 +3,11 @@ import OverviewSection from '../components/OverviewSection';
 import ShipmentsAnalytics from '../components/ShipmentsAnalytics';
 import ShippersList from '../components/ShippersList';
 import RecentTransactions from '../components/RecentTransactions';
-import Navbar from '../../../components/Navbar';
 import overviewData from '../data/overviewData.json';
 import shippersData from '../data/shippersData.json';
 import transactionsData from '../data/transactionsData.json';
 import { useAuth } from '../../../components/useAuth';
+import SideBar from '../../../components/SideBar';
 
 const AdminDashboard: React.FC = () => {
   const { isAuthenticated, role } = useAuth();
@@ -17,9 +17,10 @@ const AdminDashboard: React.FC = () => {
   const [transactions, setTransactions] = useState(transactionsData);
 
   return (
-    <>
-      <Navbar isAuthenticated={isAuthenticated} />
-      <div className="pt-8 lg:px-32 bg-white min-h-screen pb-16 text-primary">
+    <div className="flex h-screen">
+      <SideBar isAuthenticated={isAuthenticated} />
+
+      <div className="flex-1 pt-8 lg:px-18 bg-white pb-16 text-primary overflow-y-auto">
         <div className="container mx-auto px-4 sm:px-6 lg:px-32">
           <h6 className="text-medium font-semibold text-secondary">Hello Admin!</h6>
           <h1 className="text-2xl font-semibold mb-6 text-secondary">Good Morning</h1>
@@ -46,7 +47,7 @@ const AdminDashboard: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

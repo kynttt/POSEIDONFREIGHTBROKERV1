@@ -78,6 +78,86 @@
       "invoiceDate": "MM/DD/YYYY",
       "deliveryDate": "MM/DD/YYYY",
       "status": "Ready for Payment"
+    },
+    {
+      "customerPO": "423456",
+      "freightBrokerPO": "235698",
+      "rate": "$804.20",
+      "paid": "$0.0",
+      "balance": "$804.20",
+      "invoiceDate": "MM/DD/YYYY",
+      "deliveryDate": "MM/DD/YYYY",
+      "status": "Ready for Payment"
+    },
+    {
+      "customerPO": "423457",
+      "freightBrokerPO": "235699",
+      "rate": "$500.00",
+      "paid": "$200.00",
+      "balance": "$300.00",
+      "invoiceDate": "MM/DD/YYYY",
+      "deliveryDate": "MM/DD/YYYY",
+      "status": "Ready for Payment"
+    },
+    {
+      "customerPO": "423457",
+      "freightBrokerPO": "235699",
+      "rate": "$500.00",
+      "paid": "$200.00",
+      "balance": "$300.00",
+      "invoiceDate": "MM/DD/YYYY",
+      "deliveryDate": "MM/DD/YYYY",
+      "status": "Ready for Payment"
+    },
+    {
+      "customerPO": "423457",
+      "freightBrokerPO": "235699",
+      "rate": "$500.00",
+      "paid": "$200.00",
+      "balance": "$300.00",
+      "invoiceDate": "MM/DD/YYYY",
+      "deliveryDate": "MM/DD/YYYY",
+      "status": "Ready for Payment"
+    },
+    {
+      "customerPO": "423457",
+      "freightBrokerPO": "235699",
+      "rate": "$500.00",
+      "paid": "$200.00",
+      "balance": "$300.00",
+      "invoiceDate": "MM/DD/YYYY",
+      "deliveryDate": "MM/DD/YYYY",
+      "status": "Ready for Payment"
+    },
+    {
+      "customerPO": "423457",
+      "freightBrokerPO": "235699",
+      "rate": "$500.00",
+      "paid": "$200.00",
+      "balance": "$300.00",
+      "invoiceDate": "MM/DD/YYYY",
+      "deliveryDate": "MM/DD/YYYY",
+      "status": "Ready for Payment"
+    },
+    {
+      "customerPO": "423457",
+      "freightBrokerPO": "235699",
+      "rate": "$500.00",
+      "paid": "$200.00",
+      "balance": "$300.00",
+      "invoiceDate": "MM/DD/YYYY",
+      "deliveryDate": "MM/DD/YYYY",
+      "status": "Ready for Payment"
+    },
+    {
+      "customerPO": "423457",
+      "freightBrokerPO": "235699",
+      "rate": "$500.00",
+      "paid": "$200.00",
+      "balance": "$300.00",
+      "invoiceDate": "MM/DD/YYYY",
+      "deliveryDate": "MM/DD/YYYY",
+      "status": "Ready for Payment"
     }
     
   ]
