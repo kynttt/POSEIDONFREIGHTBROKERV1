@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt, faFileExport, faDownload, faFileLines, faPrint, faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faDownload, faFileLines, faPrint, faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ReportDetails: React.FC = () => {
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [error, setError] = useState<string>('');
+
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+    // Clear error when start date changes
+    setError('');
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    if (startDate && date && date < startDate) {
+      setError('End date cannot be earlier than start date');
+    } else {
+      setEndDate(date);
+      setError('');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar isAuthenticated={false} />
@@ -19,14 +41,15 @@ const ReportDetails: React.FC = () => {
             >
               Delivery Date Range
             </label>
+
             <div className="flex items-center gap-4 mb-4">
               {/* Start Date Input */}
               <div className="relative">
-                <input
-                  type="text"
-                  id="startDate"
-                  className="border rounded py-2 px-3 font-normal text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-11 w-full sm:w-auto pr-10"
-                  placeholder="MM/DD/YYYY"
+                <DatePicker
+                  selected={startDate}
+                  onChange={handleStartDateChange}
+                  className="border rounded py-2 px-3 font-normal text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-12 w-full sm:w-auto pr-10"
+                  placeholderText="MM/DD/YYYY"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                   <FontAwesomeIcon
@@ -35,13 +58,14 @@ const ReportDetails: React.FC = () => {
                   />
                 </div>
               </div>
+
               {/* End Date Input */}
               <div className="relative ml-2">
-                <input
-                  type="text"
-                  id="endDate"
-                  className="border rounded py-2 px-3 font-normal text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-11 w-full sm:w-auto pr-10"
-                  placeholder="MM/DD/YYYY"
+                <DatePicker
+                  selected={endDate}
+                  onChange={handleEndDateChange}
+                  className="border rounded py-2 px-3 font-normal text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white h-12 w-full sm:w-auto pr-10"
+                  placeholderText="MM/DD/YYYY"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                   <FontAwesomeIcon
@@ -51,6 +75,7 @@ const ReportDetails: React.FC = () => {
                 </div>
               </div>
             </div>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
           </div>
         </div>
       </div>
