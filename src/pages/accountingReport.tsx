@@ -11,7 +11,7 @@ const AccountingReports: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row font-lexend bg-white">
+    <div className="bg-white flex flex-col md:flex-row font-lexend bg-">
       <Sidebar />
       <div className="flex-1 px-4 md:px-16 mt-4 md:mt-16">
         <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-8 text-gray-500">Reports</h2>
@@ -68,7 +68,7 @@ const AccountingReports: React.FC = () => {
             <div className="flex flex-wrap text-base font-semibold">
               <div className="w-full md:w-1/4 px-4">Invoice</div>
               <div className="w-full md:w-1/4 px-4 md:pl-15">Transaction Type</div>
-              <div className="w-full md:w-1/4 px-4 md:pl-20">Load Date</div>
+              <div className="w-full md:w-1/4 px-4 md:pl-15">Load Date</div>
               <div className="w-full md:w-1/4 flex justify-center items-center md:pr-4">
                 <div className="ml-auto">Paid Total</div>
               </div>
@@ -83,7 +83,7 @@ const AccountingReports: React.FC = () => {
               <div className="flex flex-wrap text-base font-normal text-secondary">
                 <div className="w-full md:w-1/4 px-4">ABC-123456</div>
                 <div className="w-full md:w-1/4 px-4 md:pl-15">Payment</div>
-                <div className="w-full md:w-1/4 px-4 md:pl-20">07/24/2024</div>
+                <div className="w-full md:w-1/4 px-4 md:pl-15">07/24/2024</div>
                 <div className="w-full md:w-1/4 flex justify-end items-center md:pr-4">
                   <div className="ml-auto">$ 420.20</div>
                 </div>
