@@ -18,7 +18,7 @@ import NotFound from './pages/NotFound';
 import Invoice from './components/Invoice';
 import LegalPage from './pages/legalPage';
 import AdminDashboard from './pages/User/page/AdminDashboard';
-import DistanceCalculator from './components/distanceClaculator';
+import DistanceCalculator from './components/googleMap/GoogleMapsComponent';
 import Profile from './pages/profile';
 import AccountingReports from './pages/accountingReport';
 // import PrivateRoute from './components/PrivateRoute';

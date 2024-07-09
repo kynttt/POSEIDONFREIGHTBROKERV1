@@ -1,0 +1,24 @@
+
+
+[
+    {
+        "type": "Flatbed",
+        "pricePerMile": 1.5
+    },
+    {
+        "type": "Refrigerated",
+        "pricePerMile": 2.0
+    },
+    {
+        "type": "Dry Van",
+        "pricePerMile": 1.8
+    },
+    {
+        "type": "Full Truckload",
+        "pricePerMile": 1.6
+    },
+    {
+        "type": "Stepdeck",
+        "pricePerMile": 1.9
+    }
+]

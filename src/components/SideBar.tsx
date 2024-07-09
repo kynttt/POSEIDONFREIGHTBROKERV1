@@ -113,12 +113,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                     {role === 'admin' ? (
                         <>
                         <button
-                            className="w-full flex items-center px-4 py-4 mb-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
+                            className="w-full flex items-center px-4 py-4 mb-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
                             onClick={() => handleNavigation('/admin-dashboard')}
                         >
                             <FontAwesomeIcon icon={faTableColumns} />
 
-                            <span className="font-medium ml-3 text-gray-500">Dashboard</span>
+                            <span className="font-medium ml-6 text-gray-500">Dashboard</span>
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 mb-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
@@ -126,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         >
                             <FontAwesomeIcon icon={faListUl} />
 
-                            <span className="font-medium ml-3 text-gray-500">Load Board</span>
+                            <span className="font-medium ml-6 text-gray-500">Load Board</span>
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
@@ -134,7 +134,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         >
                             <FontAwesomeIcon icon={faFolderOpen} />
 
-                            <span className="font-medium ml-3 text-gray-500">Documents</span>
+                            <span className="font-medium ml-6 text-gray-500">Documents</span>
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
@@ -142,7 +142,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         >
                             <FontAwesomeIcon icon={faTruckFast} />
 
-                            <span className="font-medium ml-3 text-gray-500">Transactions</span>
+                            <span className="font-medium ml-6 text-gray-500">Transactions</span>
                         </button>
                         
                         <button
@@ -151,7 +151,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         >
                             <FontAwesomeIcon icon={faTruckFront} />
 
-                            <span className="font-medium ml-3 text-gray-500">Trucks</span>
+                            <span className="font-medium ml-6 text-gray-500">Trucks</span>
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
@@ -159,7 +159,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         >
                             <FontAwesomeIcon icon={faBell} />
 
-                            <span className="font-medium ml-3 text-gray-500">Notification</span>
+                            <span className="font-medium ml-6 text-gray-500">Notification</span>
                         </button>
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
@@ -167,7 +167,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         >
                             <FontAwesomeIcon icon={faUser} />
 
-                            <span className="font-medium ml-3 text-gray-500">Profile</span>
+                            <span className="font-medium ml-6 text-gray-500">Profile</span>
                         </button>
                         </>
                     ): (
@@ -194,7 +194,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
 
                         <button
                             className="w-full flex items-center px-4 py-4 my-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/quote-details')}
+                            onClick={() => handleNavigation('/distance-calculator')}
                         >
                             <FontAwesomeIcon icon={faCalculator} />
 
