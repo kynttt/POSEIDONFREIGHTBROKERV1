@@ -14,10 +14,13 @@ import DispatchDetails from './pages/dispatchDetails';
 import { AuthProvider } from './components/AuthContext';
 import PaymentOptionPage from './pages/paymentOptionPage';
 import ReportDetails from './pages/reportDetails';
-import NotFound from './pages/NotFound'
+import NotFound from './pages/NotFound';
 import Invoice from './components/Invoice';
+import LegalPage from './pages/legalPage';
 import AdminDashboard from './pages/User/page/AdminDashboard';
 import DistanceCalculator from './components/distanceClaculator';
+import Profile from './pages/profile';
+import AccountingReports from './pages/accountingReport';
 // import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
@@ -36,12 +39,15 @@ const App: React.FC = () => {
           <Route path="/payment-option" element={<PaymentOptionPage />} />
           <Route path="/report-details" element={<ReportDetails />} />
           <Route path="/invoice" element={<Invoice />} />
+          <Route path="/legal-page" element={<LegalPage />} />
           <Route path="/user-payables" element={<UserPayables />} />
           <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/bill-lading" element={<BillOfLadingPage />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/distance-calculator" element={<DistanceCalculator />} />
 
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/accounting-report" element={<AccountingReports />} />
 
  {/* Revise here if for private route implimentation */}
           {/* <Route
