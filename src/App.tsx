@@ -20,7 +20,10 @@ import LegalPage from './pages/legalPage';
 import AdminDashboard from './pages/User/page/AdminDashboard';
 import Profile from './pages/profile';
 import AccountingReports from './pages/accountingReport';
+<<<<<<< HEAD
 import AccountingPayment from './pages/accountingPayment';
+=======
+>>>>>>> 2bb3b8bdd120d4c30b6757b4c67604795cea848a
 // import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
@@ -46,7 +49,10 @@ const App: React.FC = () => {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/accounting-report" element={<AccountingReports />} />
+<<<<<<< HEAD
           <Route path="/accounting-payment" element={<AccountingPayment />} />
+=======
+>>>>>>> 2bb3b8bdd120d4c30b6757b4c67604795cea848a
 
  {/* Revise here if for private route implimentation */}
           {/* <Route
