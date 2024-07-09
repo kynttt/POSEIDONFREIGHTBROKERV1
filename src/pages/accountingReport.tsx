@@ -11,35 +11,38 @@ const AccountingReports: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen font-lexend">
+    <div className="flex flex-col md:flex-row font-lexend">
       <Sidebar />
       <div className="flex-1 px-4 md:px-16 mt-4 md:mt-16">
-        <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-10 text-gray-500">Reports</h2>
-        <div className="flex items-center mb-4">
-          <label htmlFor="year" className="mr-2 text-secondary">
+        <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-8 text-gray-500">Reports</h2>
+        
+        {/* Year selection */}
+        <div className="flex items-center mb-4 mt-2">
+          <label htmlFor="year" className="mr-2 text-secondary text-lg font-medium">
             Select Year
           </label>
-          <select
+        </div>
+        <select
             id="year"
             name="year"
             value={selectedYear}
             onChange={handleChangeYear}
-            className="px-2 py-1 md:px-6 md:py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            className="px-2 py-1 md:px-6 md:py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           >
             <option value="2021">2021</option>
             <option value="2022">2022</option>
             <option value="2023">2023</option>
             <option value="2024">2024</option>
-            {/* Add more options as needed */}
           </select>
-        </div>
-        <div className="mb-4 text-xs font-normal mt-2 text-gray-400">
+
+        {/* Selected year info */}
+        {/* <div className="mb-4 text-xs font-normal mt-2 text-gray-400">
           <p>Selected Year: {selectedYear}</p>
-          {/* Replace with actual reports or content related to the selected year */}
-        </div>
+    
+        </div> */}
 
         {/* Example report layout */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-4 md:pr-32 text-primary mt-10">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4 md:pr-32 text-primary mt-5">
           <h2 className="text-lg md:text-xl font-semibold">PDI ENTERPRISE LLC</h2>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
@@ -59,6 +62,7 @@ const AccountingReports: React.FC = () => {
           </div>
         </div>
 
+        {/* Table header */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-5 w-full md:w-11/12 text-primary">
           <div className="py-1">
             <div className="flex flex-wrap text-base font-semibold">
@@ -72,6 +76,7 @@ const AccountingReports: React.FC = () => {
           </div>
         </div>
 
+        {/* Table rows */}
         {[1, 2, 3, 4, 5, 6].map((_, index) => (
           <div key={index} className="bg-gray-200 rounded-lg shadow-md p-4 mb-5 w-full md:w-11/12">
             <div className="py-1">
@@ -87,6 +92,7 @@ const AccountingReports: React.FC = () => {
           </div>
         ))}
 
+        {/* Total section */}
         <div className="border-t border-gray-300 mt-10 pt-4 text-secondary">
           <div className="text-left text-lg font-semibold">
             TOTAL: $234,000.20
