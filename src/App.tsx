@@ -18,6 +18,7 @@ import NotFound from './pages/NotFound';
 import Invoice from './components/Invoice';
 import LegalPage from './pages/legalPage';
 import AdminDashboard from './pages/User/page/AdminDashboard';
+import DistanceCalculator from './components/googleMap/GoogleMapsComponent';
 import Profile from './pages/profile';
 import AccountingReports from './pages/accountingReport';
 // import PrivateRoute from './components/PrivateRoute';
@@ -43,6 +44,8 @@ const App: React.FC = () => {
           <Route path="/load-board" element={<LoadBoard />} />
           <Route path="/bill-lading" element={<BillOfLadingPage />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/distance-calculator" element={<DistanceCalculator />} />
+
           <Route path="/profile" element={<Profile />} />
           <Route path="/accounting-report" element={<AccountingReports />} />
 
