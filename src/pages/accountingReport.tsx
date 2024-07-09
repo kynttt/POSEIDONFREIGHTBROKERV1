@@ -11,7 +11,7 @@ const AccountingReports: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row font-lexend">
+    <div className="flex flex-col md:flex-row font-lexend bg-white">
       <Sidebar />
       <div className="flex-1 px-4 md:px-16 mt-4 md:mt-16">
         <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-8 text-gray-500">Reports</h2>
