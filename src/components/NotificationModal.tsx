@@ -10,7 +10,10 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose }
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center md:justify-end md:items-start md:p-8">
+        <div
+            className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center md:justify-end md:items-start md:p-8"
+            style={{ zIndex: 1000 }} // Set a high z-index value
+        >
             <div className="bg-white rounded-lg w-full md:w-1/3 lg:w-1/4 p-8 mt-4 md:mt-0 md:mr-4">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl text-secondary font-normal">Notifications</h2>
