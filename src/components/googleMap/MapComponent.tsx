@@ -4,7 +4,7 @@ import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 const containerStyle = {
   width: '100%',
   height: '625px',
-  // boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)', // Adding box shadow
+  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.3)', // Adding box shadow
   borderRadius: '8px', // Adding border radius
 };
 
