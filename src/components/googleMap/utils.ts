@@ -1,10 +1,13 @@
 interface CalculateRouteParams {
-    origin: string;
-    destination: string;
-    setDirections: React.Dispatch<React.SetStateAction<google.maps.DirectionsResult | null>>;
-    setDistance: React.Dispatch<React.SetStateAction<string>>;
-    map: google.maps.Map | null;
-  }
+  origin: string;
+  destination: string;
+  setDirections: React.Dispatch<React.SetStateAction<google.maps.DirectionsResult | null>>;
+  setDistance: React.Dispatch<React.SetStateAction<string>>;
+  map: google.maps.Map | null;
+  originLocation?: google.maps.LatLng | null;  // Make originLocation optional
+  destinationLocation?: google.maps.LatLng | null;
+}
+
   
   export const calculateRoute = ({
     origin,

@@ -148,7 +148,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                             </button>
                             <button
                                 className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/quote-details')}
+                                onClick={() => handleNavigation('/distance-calculator')}
                             >
                                 REQUEST A QUOTE
                             </button>
