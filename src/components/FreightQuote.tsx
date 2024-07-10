@@ -91,8 +91,7 @@ const FreightQuote: React.FC = () => {
                             bgColor="#252F70"
                             hoverBgColor="white"
                             onClick={openModal}
-                            className="extra-class-for-medium-button "
-                        />
+                            className="extra-class-for-medium-button " type={''}                        />
                     </div>
                 </div>
             </div>
@@ -104,28 +103,24 @@ const FreightQuote: React.FC = () => {
                                 label="Full Truckload"
                                 size="truckButton"
                                 bgColor="grey"
-                                onClick={handleTruckButtonClick}
-                            />
+                                onClick={handleTruckButtonClick} type={''}                            />
                             <Button
                                 label="Refrigerated Trailer"
                                 size="truckButton"
                                 bgColor="grey"
-                                onClick={handleTruckButtonClick}
-                            />
+                                onClick={handleTruckButtonClick} type={''}                            />
                         </div>
                         <div className="flex flex-col space-y-8 items-center">
                             <Button
                                 label="Dry Van"
                                 size="truckButton"
                                 bgColor="grey"
-                                onClick={handleTruckButtonClick}
-                            />
+                                onClick={handleTruckButtonClick} type={''}                            />
                             <Button
                                 label="Flatbed"
                                 size="truckButton"
                                 bgColor="grey"
-                                onClick={handleTruckButtonClick}
-                            />
+                                onClick={handleTruckButtonClick} type={''}                            />
                         </div>
                     </div>
                 </Modal>

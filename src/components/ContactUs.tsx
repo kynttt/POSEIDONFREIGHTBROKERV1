@@ -40,13 +40,12 @@ const ContactForm: React.FC = () => {
               </div>
               <div className='flex justify-center items-center'>
               <Button
-                    label="SUBMIT"
-                    size="contactButton"
-                    bgColor="#252F70"
-                    hoverBgColor="white"
-                    onClick={{} = {}} // Pass handlePickup directly as onClick handler
-                    className="extra-class-for-medium-button"
-        />
+                  label="SUBMIT"
+                  size="contactButton"
+                  bgColor="#252F70"
+                  hoverBgColor="white"
+                  onClick={() => { } } // Pass handlePickup directly as onClick handler
+                  className="extra-class-for-medium-button" type={''}        />
               </div>
             </form>
           </div>
