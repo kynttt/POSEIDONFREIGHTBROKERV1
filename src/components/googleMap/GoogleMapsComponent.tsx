@@ -1,5 +1,4 @@
 import { LoadScript, Libraries } from '@react-google-maps/api';
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
