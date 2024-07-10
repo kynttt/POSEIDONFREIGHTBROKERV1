@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
             const decodedToken = jwtDecode(token) as DecodedToken;
 
-            if (!decodedToken || !decodedToken.user || !decodedToken.user.role) {
+            if (!decodedToken || !decodedToken.user || !decodedToken.user.role) {   
                 throw new Error('User role not found in token');
             }
 
