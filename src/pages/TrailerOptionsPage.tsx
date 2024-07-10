@@ -1,6 +1,6 @@
 import React from 'react';
 import '../index.css'; // Ensure this file includes the @import for the Lexend font
-import Footer from '../components/Footer';
+// import Footer from '../components/Footer';
 import TrailerTypes from '../components/TrailerTypes';
 import { useAuth } from '../components/useAuth';
 import SideBar from '../components/SideBar';
@@ -15,7 +15,7 @@ const TrailerOptionsPage: React.FC = () => {
       <div className='flex-1 overflow-y-auto'>
         <div className="min-h-screen">
           <TrailerTypes />
-          <Footer />
+         
         </div>
       </div>
     </div>
