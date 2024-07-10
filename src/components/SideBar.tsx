@@ -80,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                     isOpen ? 'left-0' : '-left-full'
                 } sm:left-0 fixed sm:relative sm:flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700 transition-transform duration-300`}
             >
-                <a href="#">
+                <a href="/">
                     <h2 className="text-2xl text-secondary">Freight Broker</h2>
                 </a>
 

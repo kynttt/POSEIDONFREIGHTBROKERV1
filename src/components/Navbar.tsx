@@ -3,6 +3,7 @@ import { Transition } from '@headlessui/react';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './useAuth';
+import NotificationModal from './NotificationModal';
 
 interface NavbarProps {
     isAuthenticated: boolean; // Prop to determine if user is authenticated
@@ -12,6 +13,8 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const { logout, role } = useAuth(); // Use useAuth hook to get logout function and role
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     const handleLogout = () => {
         logout(); // Call logout function from AuthContext to clear authentication state
@@ -26,8 +29,12 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
         }
         setIsOpen(false); // Close the menu on navigation
     };
+    const handleNotificationClick = () => {
+        setIsModalOpen(true);
+    };
 
     return (
+        <>
         <nav className="bg-[#7783D2] px-4 py-8 ">
             <div className="container mx-auto flex justify-between items-center">
                 <button
@@ -130,13 +137,13 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                         <>
                             <button
                                 className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/dashboard')}
+                                onClick={() => handleNavigation('/admin-dashboard')}
                             >
                                 DASHBOARD
                             </button>
                             <button
                                 className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/notification')}
+                                onClick={handleNotificationClick}
                             >
                                 NOTIFICATION
                             </button>
@@ -145,6 +152,12 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                                 onClick={() => handleNavigation('/user-payables')}
                             >
                                 ACCOUNTS PAYABLE
+                            </button>
+                            <button
+                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                onClick={() => handleNavigation('/trailer-options')}
+                            >
+                                TRUCKS
                             </button>
                             <button
                                 className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
@@ -283,6 +296,12 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
                                     ACCOUNTS PAYABLE
                                 </button>
                                 <button
+                                className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                onClick={() => handleNavigation('/trailer-options')}
+                            >
+                                TRUCKS
+                            </button>
+                                <button
                                     className="block text-white hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/quote-details')}
                                 >
@@ -325,6 +344,8 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
 
             </div>
         </nav>
+        <NotificationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        </>
     );
 };
 
