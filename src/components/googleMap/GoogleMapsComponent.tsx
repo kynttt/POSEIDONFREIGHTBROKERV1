@@ -18,7 +18,11 @@ const googleMapsApiKey = 'AIzaSyDp5QMSHGXXam62GT8ykvvZfWhQ_-rH1Xo'; // Replace w
 
 const QuoteDetails: React.FC = () => {
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, login } = useAuth();
+
+    useEffect(() => {
+        console.log('User is authenticated:', isAuthenticated);
+    }, [isAuthenticated]);
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: googleMapsApiKey,
@@ -123,13 +127,56 @@ const QuoteDetails: React.FC = () => {
         }
     }, [distance, selectedTrailerType, selectedTrailerSize, maxWeight]);
 
-    const handleQuoteButtonClick = () => {
+    const handleQuoteButtonClick = async () => {
         if (!isAuthenticated) {
             navigate('/login'); // Redirect to login page if not authenticated
         } else {
-            navigate('/payment-option'); // Redirect to payment-method page if authenticated
+            const quoteDetails = {
+                origin,
+                destination,
+                pickupDate,
+                trailerType: selectedTrailerType,
+                trailerSize: selectedTrailerSize,
+                commodity,
+                maxWeight,
+                companyName,
+                distance,
+                price,
+            };
+    
+            // Retrieve the token from localStorage
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('Access token not found in localStorage');
+                return; // Handle this case appropriately
+            }
+    
+            try {
+                const response = await fetch('http://localhost:5000/api/quotes/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(quoteDetails),
+                });
+    
+                // Check if request was successful
+                if (!response.ok) {
+                    throw new Error('Failed to create quote');
+                }
+    
+                const data = await response.json();
+                console.log('Quote created:', data);
+                // Optionally redirect or show success message upon successful quote creation
+            } catch (error: any) { // Explicitly specify 'any' or 'Error' as the type
+                console.error('Error creating quote:', error.message);
+                // Handle error (e.g., show error message to user)
+            }
         }
     };
+    
+    
 
     if (!isLoaded) {
         return <div>Loading...</div>; // Show a loading message until the script is loaded
