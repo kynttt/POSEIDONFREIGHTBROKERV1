@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/landingPage';
 import SignUpPage from './pages/signupPage';
 import LoginPage from './pages/LoginPage';
-import QuoteDetails from './pages/QuoteDetails';
+// import QuoteDetails from './pages/QuoteDetails';
 import TrailerOptionsPage from './pages/TrailerOptionsPage';
 import LoadBoard from './pages/LoadBoard';
 import NonBusinessPage from './pages/NonBusinessEmail';
@@ -31,7 +31,7 @@ const App: React.FC = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/quote-details" element={<QuoteDetails />} />
+          {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
           <Route path="/trailer-options" element={<TrailerOptionsPage />} />
           <Route path="/nonbusiness" element={<NonBusinessPage />} />
           <Route path="/booking-successful" element={<BookingConfirmation />} />

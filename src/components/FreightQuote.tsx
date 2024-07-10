@@ -46,7 +46,7 @@ const FreightQuote: React.FC = () => {
 
     const handleTruckButtonClick = () => {
         // Navigate to '/quote-details' when a truck button is clicked
-        navigate('/quote-details');
+        navigate('/distance-calculator');
     };
 
     return (
