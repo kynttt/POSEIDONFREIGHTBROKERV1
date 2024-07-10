@@ -1,0 +1,39 @@
+[
+    {
+      "invoice": "ABC-123456",
+      "transactionType": "Payment",
+      "loadDate": "07/24/2024",
+      "paidTotal": 420.20
+    },
+    {
+      "invoice": "XYZ-789012",
+      "transactionType": "Expense",
+      "loadDate": "08/15/2024",
+      "paidTotal": 320.50
+    },
+    {
+      "invoice": "DEF-456789",
+      "transactionType": "Payment",
+      "loadDate": "09/01/2024",
+      "paidTotal": 520.75
+    },
+    {
+        "invoice": "XYZ-789012",
+        "transactionType": "Expense",
+        "loadDate": "08/15/2024",
+        "paidTotal": 320.50
+    },
+    {
+        "invoice": "XYZ-789012",
+        "transactionType": "Expense",
+        "loadDate": "08/15/2024",
+        "paidTotal": 320.50
+    },
+    {
+        "invoice": "XYZ-789012",
+        "transactionType": "Expense",
+        "loadDate": "08/15/2024",
+        "paidTotal": 320.50
+    }
+  ]
+  
