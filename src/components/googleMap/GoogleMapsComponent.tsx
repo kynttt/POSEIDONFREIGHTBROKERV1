@@ -128,6 +128,8 @@ const QuoteDetails: React.FC = () => {
     }, [distance, selectedTrailerType, selectedTrailerSize, maxWeight]);
 
     const handleQuoteButtonClick = async () => {
+   
+    
         if (!isAuthenticated) {
             navigate('/login'); // Redirect to login page if not authenticated
         } else {
@@ -168,7 +170,10 @@ const QuoteDetails: React.FC = () => {
     
                 const data = await response.json();
                 console.log('Quote created:', data);
-                // Optionally redirect or show success message upon successful quote creation
+    
+                // Redirect to payment option page
+                navigate('/payment-option');
+    
             } catch (error: any) { // Explicitly specify 'any' or 'Error' as the type
                 console.error('Error creating quote:', error.message);
                 // Handle error (e.g., show error message to user)
