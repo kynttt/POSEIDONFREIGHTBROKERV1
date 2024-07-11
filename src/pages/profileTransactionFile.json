@@ -1,0 +1,122 @@
+[
+    {
+      "loadNumber": "ABC-12345678",
+      "truckType": "Flatbed 48 ft.",
+      "amountPaid": "$420.20",
+      "paymentMethod": "CREDIT CARD",
+      "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+      "loadNumber": "ABC-12345678",
+      "truckType": "Reefer 53 ft.",
+      "amountPaid": "$420.20",
+      "paymentMethod": "INSTALLMENT",
+      "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+      "loadNumber": "ABC-12345678",
+      "truckType": "Full Truck Load 53ft.",
+      "amountPaid": "$420.20",
+      "paymentMethod": "CASH",
+      "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+      "loadNumber": "ABC-12345678",
+      "truckType": "Reefer 48 ft.",
+      "amountPaid": "$420.20",
+      "paymentMethod": "CREDIT CARD",
+      "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+      "loadNumber": "ABC-12345678",
+      "truckType": "Reefer 48 ft.",
+      "amountPaid": "$420.20",
+      "paymentMethod": "CREDIT CARD",
+      "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+      "loadNumber": "ABC-12345678",
+      "truckType": "Reefer 48 ft.",
+      "amountPaid": "$420.20",
+      "paymentMethod": "CREDIT CARD",
+      "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "ABC-12345678",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "ABC-12345678",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "ABC-12345678",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "ABC-12345678",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "ABC-12345678",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "ABC-12345678",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+      "loadNumber": "ABC-12345678",
+      "truckType": "Reefer 48 ft.",
+      "amountPaid": "$420.20",
+      "paymentMethod": "CREDIT CARD",
+      "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "John Cena2",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "John Cena3",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "John Cena4",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    },
+    {
+        "loadNumber": "John Cena5",
+        "truckType": "Reefer 48 ft.",
+        "amountPaid": "$420.20",
+        "paymentMethod": "CREDIT CARD",
+        "dateTime": "04 July, at 3:20 PM"
+    }
+  ]
+  
