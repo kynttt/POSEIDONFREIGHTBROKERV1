@@ -175,7 +175,7 @@ const LegalPage = () => {
                           onClick={() => handleEllipsisClick(index)}
                         />
                         {showActionsIndex === index && (
-                          <div className="absolute top-0 right-10 mt-2 -top-12 bg-white border border-gray-300 shadow-lg py-1 px-2 rounded z-20 text-base font-normal">
+                          <div className="absolute -top-14 right-20 mt-2 -top-12 bg-white border border-gray-300 shadow-lg py-1 px-2 rounded z-20 text-base font-normal">
                             <p
                               className="text-gray-500 hover:text-blue-500 cursor-pointer"
                               onClick={() => handleActionClick("view", index)}
