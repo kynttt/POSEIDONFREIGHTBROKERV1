@@ -21,6 +21,7 @@ import AdminDashboard from './pages/User/page/AdminDashboard';
 import DistanceCalculator from './components/googleMap/GoogleMapsComponent';
 import Profile from './pages/profile';
 import AccountingReports from './pages/accountingReport';
+import AccountingPayment from './pages/accountingPayment';
 // import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
@@ -48,6 +49,7 @@ const App: React.FC = () => {
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/accounting-report" element={<AccountingReports />} />
+          <Route path="/accounting-payment" element={<AccountingPayment />} />
 
  {/* Revise here if for private route implimentation */}
           {/* <Route

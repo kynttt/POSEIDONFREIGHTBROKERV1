@@ -1,0 +1,94 @@
+[
+    {
+      "id": 1,
+      "freightPO": "ABC-123456",
+      "payStatus": "Paid",
+      "estimatedPaidDate": "07/24/2024",
+      "paidDate": "07/24/2024",
+      "invoiceNumber": "ABC-123456",
+      "documents": "BOL",
+      "paidTotal": "$ 420.20"
+    },
+    {
+      "id": 2,
+      "freightPO": "DEF-789012",
+      "payStatus": "Unpaid",
+      "estimatedPaidDate": "07/25/2024",
+      "paidDate": "",
+      "invoiceNumber": "DEF-789012",
+      "documents": "Invoice",
+      "paidTotal": "$ 560.50"
+    },
+    {
+      "id": 3,
+      "freightPO": "GHI-345678",
+      "payStatus": "Currently Processing",
+      "estimatedPaidDate": "07/26/2024",
+      "paidDate": "",
+      "invoiceNumber": "GHI-345678",
+      "documents": "Receipt",
+      "paidTotal": "$ 320.75"
+    },
+    {
+        "id": 2,
+        "freightPO": "DEF-789012",
+        "payStatus": "Unpaid",
+        "estimatedPaidDate": "07/25/2024",
+        "paidDate": "",
+        "invoiceNumber": "DEF-789012",
+        "documents": "Invoice",
+        "paidTotal": "$ 560.50"
+      },
+      {
+        "id": 2,
+        "freightPO": "DEF-789012",
+        "payStatus": "Unpaid",
+        "estimatedPaidDate": "07/25/2024",
+        "paidDate": "",
+        "invoiceNumber": "DEF-789012",
+        "documents": "Invoice",
+        "paidTotal": "$ 560.50"
+      },
+      {
+        "id": 2,
+        "freightPO": "DEF-789012",
+        "payStatus": "Unpaid",
+        "estimatedPaidDate": "07/25/2024",
+        "paidDate": "",
+        "invoiceNumber": "DEF-789012",
+        "documents": "Invoice",
+        "paidTotal": "$ 560.50"
+      },
+      {
+        "id": 2,
+        "freightPO": "DEF-789012",
+        "payStatus": "Unpaid",
+        "estimatedPaidDate": "07/25/2024",
+        "paidDate": "",
+        "invoiceNumber": "DEF-789012",
+        "documents": "Invoice",
+        "paidTotal": "$ 560.50"
+      },
+      {
+        "id": 2,
+        "freightPO": "DEF-789012",
+        "payStatus": "Unpaid",
+        "estimatedPaidDate": "07/25/2024",
+        "paidDate": "",
+        "invoiceNumber": "DEF-789012",
+        "documents": "Invoice",
+        "paidTotal": "$ 560.50"
+      },
+      {
+        "id": 2,
+        "freightPO": "DEF-789012",
+        "payStatus": "Unpaid",
+        "estimatedPaidDate": "07/25/2024",
+        "paidDate": "",
+        "invoiceNumber": "DEF-789012",
+        "documents": "Invoice",
+        "paidTotal": "$ 560.50"
+      }
+ 
+  ]
+  
