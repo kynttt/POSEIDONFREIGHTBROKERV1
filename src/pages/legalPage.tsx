@@ -1,8 +1,7 @@
-import { useState } from "react";
-import Navbar from "../components/Navbar";
+// LegalPage.tsx
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faFolderOpen,
   faSearch,
   faArrowUpFromBracket,
   faPlus,
@@ -10,47 +9,47 @@ import {
   faList,
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
-import SideBar from '../components/SideBar';
-import { useAuth } from '../components/useAuth';
-
-
+import SideBar from "../components/SideBar";
+import { useAuth } from "../components/useAuth";
+import Folder from "../components/LegalFolder";
+import foldersData from "../components/legalFolders.json";
+import filesData from "../components/legalFiles.json";
 
 const LegalPage = () => {
   const { isAuthenticated, role } = useAuth();
   const [isListView, setIsListView] = useState(true); // State to track view mode
-  const [showActionsIndex, setShowActionsIndex] = useState(null); // State to track which ellipsis was clicked
+  const [showActionsIndex, setShowActionsIndex] = useState<number | null>(null); // State to track which ellipsis was clicked
 
-  const folders = [
-    "Contracts",
-    "Official Documents",
-    "Invoices",
-    "BOL",
-    "Agreements",
-    "Receiver BOL Copy",
-    "Carrier BOL Copy",
-    
-  ];
+  const folders: string[] = foldersData;
+  const files = filesData;
 
-  const files = [
-    { type: "PDF", name: "Contract.pdf", size: "48 mb", date: "MM/DD/YYYY" },
-    { type: "DOCS", name: "Contract.doc", size: "48 mb", date: "MM/DD/YYYY" },
-    { type: "PDF", name: "Contract.pdf", size: "48 mb", date: "MM/DD/YYYY" },
-    { type: "DOCS", name: "Contract.doc", size: "48 mb", date: "MM/DD/YYYY" },
-  ];
+  const handleEllipsisClick = (index: number) => {
+    setShowActionsIndex(prevIndex => (prevIndex === index ? null : index));
+  };
 
-  const handleEllipsisClick = (index) => {
-    // Toggle the state to show/hide actions
-    setShowActionsIndex(showActionsIndex === index ? null : index);
+  const handleActionClick = (action: string, index: number) => {
+    console.log(`Action '${action}' clicked for index ${index}`);
+    setShowActionsIndex(null);
+    // Implement action logic here
+  };
+
+  const handleListViewClick = () => {
+    setShowActionsIndex(null);
+    setIsListView(true);
+  };
+
+  const handleGridViewClick = () => {
+    setShowActionsIndex(null);
+    setIsListView(false);
   };
 
   return (
-    <nav className="flex bg-white">
-      {/* <Navbar isAuthenticated={false} /> */}
+    <div className="flex h-screen bg-white">
       <SideBar isAuthenticated={isAuthenticated} />
 
-      <div className="flex-1 p-4 sm:p-6 md:p-8 min-full">
+      <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
         <div className="flex flex-col md:flex-row justify-between items-start mt-4 mb-4 px-4 sm:px-6 md:px-12">
-          <div className="mb-4 md:mb-8 md:ml-20">
+          <div className="mb-4 md:mb-8 md:ml-15">
             <h2 className="text-sm font-light text-secondary">
               Hello Legal Team,
             </h2>
@@ -82,34 +81,19 @@ const LegalPage = () => {
           </div>
         </div>
 
-        <div className="mb-12 px-4 sm:px-6 md:px-32">
+        <div className="mb-12 px-4 sm:px-6 md:px-12">
           <h3 className="text-xl font-medium text-secondary mb-8">
             All Folders
           </h3>
-          <div className="flex gap-4 overflow-x-auto gap-x-12">
-            {folders.map((folder) => (
-              <div
-                key={folder}
-                className="text-sm flex-shrink-0 border-2 border-secondary rounded-lg p-4 text-center text-primary"
-                style={{
-                  minWidth: "150px",
-                  maxWidth: "150px",
-                  minHeight: "100px",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faFolderOpen}
-                  className="mt-1 text-3xl mb-2 text-gray-500 hover:text-secondary"
-                />
-                <p>{folder}</p>
-              </div>
+          {/* Conditionally render scrollable div on smaller screens */}
+          <div className="flex md:flex-wrap gap-4 md:justify-center overflow-x-auto md:overflow-visible">
+            {folders.map((folder, index) => (
+              <Folder key={index} name={folder} />
             ))}
           </div>
         </div>
 
-        {/* Recent Files Start Here */}
-
-        <div className="mb-8 px-4 sm:px-6 md:px-32">
+        <div className="mb-8 px-4 sm:px-6 md:px-12">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-medium text-secondary mb-6">
               Recent Files
@@ -120,21 +104,20 @@ const LegalPage = () => {
                 className={`text-gray-500 hover:text-blue-700 cursor-pointer text-xl ${
                   isListView ? "text-blue-700" : ""
                 }`}
-                onClick={() => setIsListView(true)}
+                onClick={handleListViewClick}
               />
               <FontAwesomeIcon
                 icon={faTh}
                 className={`text-gray-500 hover:text-blue-700 cursor-pointer text-xl ${
                   !isListView ? "text-blue-700" : ""
                 }`}
-                onClick={() => setIsListView(false)}
+                onClick={handleGridViewClick}
               />
             </div>
           </div>
 
-          {/* ListView */}
           {isListView ? (
-            <div className="pl-20 flex flex-col md:flex-row md:gap-4">
+            <div className="overflow-x-auto">
               <table className="min-w-full bg-white">
                 <thead>
                   <tr>
@@ -142,7 +125,7 @@ const LegalPage = () => {
                       <div className="flex items-center gap-2">
                         <input
                           type="checkbox"
-                          className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-12"
+                          className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-2"
                         />
                         <span>Type</span>
                       </div>
@@ -165,13 +148,13 @@ const LegalPage = () => {
                   {files.map((file, index) => (
                     <tr
                       key={index}
-                      className="hover:bg-primary hover:text-secondary transition-colors duration-300 text-center"
+                      className=" hover:text-secondary transition-colors duration-300 text-center"
                     >
                       <td className="py-3 px-4 text-left text-sm font-normal text-secondary">
                         <div className="flex items-center gap-2">
                           <input
                             type="checkbox"
-                            className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-12"
+                            className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-2"
                           />
                           <span>{file.type}</span>
                         </div>
@@ -191,22 +174,36 @@ const LegalPage = () => {
                           className="mt-1 text-xl mb-2 text-gray-500 hover:text-secondary cursor-pointer"
                           onClick={() => handleEllipsisClick(index)}
                         />
-                        {/* Actions section */}
                         {showActionsIndex === index && (
-                          <div className="absolute right-4 bg-white border border-gray-300 shadow-lg py-1 px-2 rounded">
-                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+                          <div className="absolute -top-14 right-20 mt-2 -top-12 bg-white border border-gray-300 shadow-lg py-1 px-2 rounded z-20 text-base font-normal">
+                            <p
+                              className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                              onClick={() => handleActionClick("view", index)}
+                            >
                               View
                             </p>
-                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+                            <p
+                              className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                              onClick={() => handleActionClick("download", index)}
+                            >
                               Download
                             </p>
-                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+                            <p
+                              className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                              onClick={() => handleActionClick("print", index)}
+                            >
                               Print
                             </p>
-                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
+                            <p
+                              className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                              onClick={() => handleActionClick("delete", index)}
+                            >
                               Delete
                             </p>
-                            <p className="text-blue-500 hover:text-blue-700 cursor-pointer">
+                            <p
+                              className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                              onClick={() => handleActionClick("rename", index)}
+                            >
                               Rename
                             </p>
                           </div>
@@ -216,82 +213,74 @@ const LegalPage = () => {
                   ))}
                 </tbody>
               </table>
-              {/* Actions section */}
-              <div className="mt-10 flex flex-col gap-4">
-                <span className="text-2xl font-normal text-blue-500">
-                  Actions
-                </span>
-                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
-                  View
-                </span>
-                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
-                  Download
-                </span>
-                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
-                  Print
-                </span>
-                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
-                  Delete
-                </span>
-                <span className="block w-full text-left text-sm font-normal text-blue-500 hover:text-blue-700">
-                  Rename
-                </span>
-              </div>
-              
             </div>
           ) : (
-            // GridView
             <div className="flex flex-wrap gap-4">
-  {files.map((file, index) => (
-    <div
-      key={index}
-      className="relative flex-shrink-0 bg-white border rounded-lg p-4 w-40 hover:bg-primary hover:text-secondary transition-colors duration-300"
-    >
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-2"
-        />
-        <span>{file.type}</span>
-      </div>
-      <div className="text-sm font-normal text-secondary mt-2">
-        <p className="font-semibold">{file.name}</p>
-        <p>{file.size}</p>
-        <p>{file.date}</p>
-      </div>
-      <FontAwesomeIcon
-        icon={faEllipsisV}
-        className="absolute top-2 right-2 text-xl text-gray-500 hover:text-secondary cursor-pointer"
-        onClick={() => handleEllipsisClick(index)}
-      />
-      {/* Actions section */}
-      {showActionsIndex === index && (
-        <div className="absolute top-full right-0 mt-2 bg-white border border-gray-300 shadow-lg py-1 px-2 rounded">
-          <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
-            View
-          </p>
-          <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
-            Download
-          </p>
-          <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
-            Print
-          </p>
-          <p className="text-blue-500 hover:text-blue-700 cursor-pointer mb-1">
-            Delete
-          </p>
-          <p className="text-blue-500 hover:text-blue-700 cursor-pointer">
-            Rename
-          </p>
-        </div>
-      )}
-    </div>
-  ))}
-</div>
+              {files.map((file, index) => (
+                <div
+                  key={index}
+                  className="relative flex-shrink-0 bg-white border rounded-lg p-4 w-40 hover:text-secondary transition-colors duration-300"
+                >
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      className="h-5 w-5 text-blue-600 border border-gray-400 focus:ring-blue-500 mr-2"
+                    />
+                    <span>{file.type}</span>
+                  </div>
+                  <div className="text-sm font-normal text-secondary mt-2">
+                    <p className="font-semibold">{file.name}</p>
+                    <p>{file.size}</p>
+                    <p>{file.date}</p>
+                  </div>
+                  <FontAwesomeIcon
+                    icon={faEllipsisV}
+                    className="absolute top-2 right-2 text-xl text-gray-500 hover:text-secondary cursor-pointer z-10"
+                    onClick={() => handleEllipsisClick(index)}
+                  />
+                  {showActionsIndex === index && (
+                    <div className="absolute top-5 right-0 mt-2 bg-white border border-gray-300 shadow-lg py-1 px-2 rounded z-20 text-base font-normal">
+                      <p
+                        className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                        onClick={() => handleActionClick("view", index)}
+                      >
+                        View
+                      </p>
+                      <p
+                        className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                        onClick={() => handleActionClick("download", index)}
+                      >
+                        Download
+                      </p>
+                      <p
+                        className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                        onClick={() => handleActionClick("print", index)}
+                      >
+                        Print
+                      </p>
+                      <p
+                        className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                        onClick={() => handleActionClick("delete", index)}
+                      >
+                        Delete
+                      </p>
+                      <p
+                        className="text-gray-500 hover:text-blue-500 cursor-pointer"
+                        onClick={() => handleActionClick("rename", index)}
+                      >
+                        Rename
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
 export default LegalPage;
+
