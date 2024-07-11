@@ -147,7 +147,7 @@ const QuoteDetails: React.FC = () => {
             };
     
             // Retrieve the token from localStorage
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('accessToken');
             if (!token) {
                 console.error('Access token not found in localStorage');
                 return; // Handle this case appropriately
