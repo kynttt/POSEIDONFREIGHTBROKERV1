@@ -51,6 +51,7 @@ interface CalculateRouteParams {
         origins: [origin],
         destinations: [destination],
         travelMode: window.google.maps.TravelMode.DRIVING,
+        unitSystem: google.maps.UnitSystem.IMPERIAL,
       },
       (response, status) => {
         if (status === 'OK' && response && response.rows[0].elements[0].status === 'OK') {

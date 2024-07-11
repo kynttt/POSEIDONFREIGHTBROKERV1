@@ -128,8 +128,8 @@ const QuoteDetails: React.FC = () => {
     }, [distance, selectedTrailerType, selectedTrailerSize, maxWeight]);
 
     const handleQuoteButtonClick = async () => {
-   
-    
+
+
         if (!isAuthenticated) {
             navigate('/login'); // Redirect to login page if not authenticated
         } else {
@@ -145,14 +145,14 @@ const QuoteDetails: React.FC = () => {
                 distance,
                 price,
             };
-    
+
             // Retrieve the token from localStorage
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('accessToken');
             if (!token) {
                 console.error('Access token not found in localStorage');
                 return; // Handle this case appropriately
             }
-    
+
             try {
                 const response = await fetch('http://localhost:5000/api/quotes/', {
                     method: 'POST',
@@ -162,26 +162,28 @@ const QuoteDetails: React.FC = () => {
                     },
                     body: JSON.stringify(quoteDetails),
                 });
-    
+
                 // Check if request was successful
                 if (!response.ok) {
                     throw new Error('Failed to create quote');
                 }
-    
+
                 const data = await response.json();
                 console.log('Quote created:', data);
-    
+
                 // Redirect to payment option page
-                navigate('/payment-option');
-    
+                // Inside handleQuoteButtonClick in QuoteDetails.tsx
+                navigate('/payment-option', { state: { price } });
+
+
             } catch (error: any) { // Explicitly specify 'any' or 'Error' as the type
                 console.error('Error creating quote:', error.message);
                 // Handle error (e.g., show error message to user)
             }
         }
     };
-    
-    
+
+
 
     if (!isLoaded) {
         return <div>Loading...</div>; // Show a loading message until the script is loaded
