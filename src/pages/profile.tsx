@@ -154,14 +154,23 @@ const ProfileCard: React.FC = () => {
 
                 {/* Button for both screens */}
                 <div className="text-right mt-6 md:mt-10 mr-4">
-                  <Button
-                    label={showAllLarge || showAllSmall ? "Show Less" : "See More"}
-                    size="small"
-                    bgColor="#252F70"
-                    hoverBgColor="white"
-                    onClick={showAllLarge || showAllSmall ? handleShowLessLarge : handleSeeMoreLarge || handleSeeMoreSmall}
-                  />
-                </div>
+            <Button
+              label={showAllLarge || showAllSmall ? "Show Less" : "See More"}
+              size="small"
+              bgColor="#252F70"
+              hoverBgColor="white"
+              onClick={() => {
+                if (showAllLarge) {
+                  handleShowLessLarge();
+                } else if (showAllSmall) {
+                  handleShowLessSmall();
+                } else {
+                  handleSeeMoreLarge();
+                }
+              }}
+            />
+          </div>
+
               </div>
             </div>
           </div>
