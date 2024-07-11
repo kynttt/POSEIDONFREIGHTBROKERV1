@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
@@ -41,10 +41,10 @@ const LoadBoard: React.FC = () => {
 
     const radiusOptions = ['10 mi', '20 mi', '30 mi', '40 mi', '50 mi'];
 
-    const getDistance = (startLocation: string, endLocation: string): number => {
-        const distanceData = sampleData.distances;
-        return distanceData[startLocation]?.[endLocation] || 0;
-    };
+    // const getDistance = (startLocation: string, endLocation: string): number => {
+    //     const distanceData = sampleData.distances;
+    //     return distanceData[startLocation]?.[endLocation] || 0;
+    // };
 
 
 
@@ -70,7 +70,7 @@ const LoadBoard: React.FC = () => {
             <SideBar isAuthenticated={isAuthenticated} />
 
             <div className="flex-1 bg-white min-h-screen overflow-y-auto">
-                <form onSubmit={handleSubmit} className="max-w-6xl mx-auto py-10 px-4">
+                <form onSubmit={handleSubmit} className=" lg:mx-16 py-10 px-4">
                     <div className="mb-6">
                         <h2 className="text-2xl font-semibold lg:mb-20 text-secondary">FIND LOADS</h2>
                     </div>
@@ -94,7 +94,7 @@ const LoadBoard: React.FC = () => {
                                         ))}
                                     </select>
                                 </div>
-                                <div className="w-1/4 pl-2">
+                                {/* <div className="w-1/4 pl-2">
                                     <label className="block text-primary font-normal mb-2">
                                         State <span className="text-red-500">*</span>
                                     </label>
@@ -105,7 +105,7 @@ const LoadBoard: React.FC = () => {
                                         onChange={(e) => setPickUpState(e.target.value)}
                                         className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                     />
-                                </div>
+                                </div> */}
                             </div>
 
                             <div className="mb-4">
@@ -148,7 +148,7 @@ const LoadBoard: React.FC = () => {
                                         ))}
                                     </select>
                                 </div>
-                                <div className="w-1/4 pl-2">
+                                {/* <div className="w-1/4 pl-2">
                                     <label className="block text-primary font-normal mb-2">
                                         State <span className="text-red-500">*</span>
                                     </label>
@@ -159,7 +159,7 @@ const LoadBoard: React.FC = () => {
                                         onChange={(e) => setDeliveryState(e.target.value)}
                                         className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                     />
-                                </div>
+                                </div> */}
                                 <div className="mb-4 mt-4">
                                     <label className="block text-primary font-normal mb-2">
                                         Radius (mi) <span className="text-red-500">*</span>
@@ -198,7 +198,7 @@ const LoadBoard: React.FC = () => {
                                     <option className="text-primary font-normal" value="Refrigerated">Refrigerated</option>
                                 </select>
                             </div>
-                            <div className="mb-4">
+                            {/* <div className="mb-4">
                                 <label className="block text-primary font-normal mb-2">
                                     Trailer Size <span className="text-red-500">*</span>
                                 </label>
@@ -211,8 +211,8 @@ const LoadBoard: React.FC = () => {
                                     <option className="text-primary font-normal" value="48 ft">48 ft</option>
                                     <option className="text-primary font-normal" value="53 ft">53 ft</option>
                                 </select>
-                            </div>
-                            <div className="mb-4">
+                            </div> */}
+                            {/* <div className="mb-4">
                                 <label className="block text-primary font-normal mb-2">
                                     Max Wt. <span className="text-red-500">*</span>
                                 </label>
@@ -223,7 +223,7 @@ const LoadBoard: React.FC = () => {
                                     onChange={(e) => setMaxWeight(e.target.value)}
                                     className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                 />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
