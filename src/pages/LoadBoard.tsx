@@ -10,11 +10,13 @@ import SideBar from '../components/SideBar';
 import { useAuth } from '../components/useAuth';
 
 type CardProps = {
+    pickupDate: Date | null;
     id: string;
     pickUp: string;
     drop: string;
     companyName: string;
     trailerType: string;
+    distance: number;
     trailerSize: string;
     loadPrice: number;
     onBookLoadClick: () => void;
@@ -46,7 +48,7 @@ const LoadBoard: React.FC = () => {
                     });
                     setAvailableDeliveryLocations(deliveryResponse.data);
                 }
-                
+
 
                 if (token) {
                     const quotesResponse = await axios.get('http://localhost:5000/api/quotes/', {
@@ -60,6 +62,7 @@ const LoadBoard: React.FC = () => {
                         drop: quote.destination,
                         companyName: quote.companyName,
                         trailerType: quote.trailerType,
+                        distance: quote.distance,
                         trailerSize: quote.trailerSize,
                         loadPrice: quote.price,
                         onBookLoadClick: () => { /* Handle book load click */ },
@@ -219,11 +222,14 @@ const LoadBoard: React.FC = () => {
                             drop={load.drop}
                             companyName={load.companyName}
                             trailerType={load.trailerType}
+                            distance={load.distance}
                             trailerSize={load.trailerSize}
                             loadPrice={load.loadPrice}
+                            pickupDate={load.pickupDate} // Pass pickUpDate here
                             onBookLoadClick={load.onBookLoadClick}
                         />
                     ))}
+
                 </form>
             </div>
         </div>
