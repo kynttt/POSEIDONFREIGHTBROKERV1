@@ -13,10 +13,12 @@ interface DecodedToken {
 export interface AuthContextType {
     isAuthenticated: boolean;
     role: string | null;
+    token: string | null; // Ensure token is defined here
     login: (token: string) => void;
     logout: () => void;
     checkUserRole: () => Promise<string | null>;
 }
+
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined); // Export AuthContext
 
