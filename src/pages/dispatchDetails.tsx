@@ -18,7 +18,7 @@ const DispatchDetails: React.FC = () => {
     <nav>
       <Navbar isAuthenticated={isAuthenticated} />
 
-      <div className=" max-h-screen bg-white flex flex-col md:flex-row items-center justify-center mt-32">
+      <div className=" max-h-screen bg-white flex flex-col md:flex-row items-center justify-center mt-32 ">
         <div className="border rounded-lg shadow-lg bg-white p-6 w-full md:w-8/12">
           <h2 className="text-2xl font-medium text-blue-700 mb-6 text-secondary text-center md:text-left">Dispatched Details</h2>
 
