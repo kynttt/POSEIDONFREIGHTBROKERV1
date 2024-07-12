@@ -18,7 +18,7 @@ const DispatchDetails: React.FC = () => {
     <nav>
       <Navbar isAuthenticated={isAuthenticated} />
 
-      <div className=" h-screen bg-white flex flex-col md:flex-row items-center justify-center   px-4 ">
+      <div className=" max-h-screen bg-white flex flex-col md:flex-row items-center justify-center mt-32">
         <div className="border rounded-lg shadow-lg bg-white p-6 w-full md:w-8/12">
           <h2 className="text-2xl font-medium text-blue-700 mb-6 text-secondary text-center md:text-left">Dispatched Details</h2>
 
@@ -54,7 +54,7 @@ const DispatchDetails: React.FC = () => {
           <hr className="border-t lg:border-secondary lg:border-2 mb-6 hidden md:block" />
 
           <h2 className="text-xl font-medium text-secondary mb-5 text-center md:text-left">Additional Details</h2>
-          <div className="overflow-x-auto pr-56">
+          <div className="overflow-x-auto pr-16">
             <div className="flex md:grid md:grid-cols-5 gap-4 items-center min-w-[768px]">
               <div className="flex-shrink-0 text-center md:text-left col-span-1 pb-2 md:pb-0">
                 <p className="text-gray-500 text-base font-medium mb-2">Trailer Type</p>
