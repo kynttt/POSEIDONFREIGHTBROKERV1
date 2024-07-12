@@ -1,38 +1,49 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import paymentData from './paymentData.json';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useAuth } from '../components/useAuth';
 import QuoteRequestModal from '../components/QuoteRequestModal';
 
-const generateRandomNumber = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 const PaymentComponent: React.FC = () => {
+    const [data, setData] = useState<any[]>([]);
     const [selectedAccount, setSelectedAccount] = useState<string>('Installment');
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated } = useAuth(); // Use useAuth hook to get isAuthenticated
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { price } = location.state || { price: 0 };
+    const navigate = useNavigate(); // Initialize useNavigate hook
 
+    // Log the authentication state when the component renders
+    console.log('User authenticated?', isAuthenticated);
+
+    useEffect(() => {
+        setData(paymentData);
+    }, []);
+
+    // Function to open the modal
     const openModal = () => {
         setIsModalOpen(true);
     };
 
+    // Function to close the modal
+    // const closeModal = () => {
+    //     setIsModalOpen(false);
+    // };
+
     const handleCancel = () => {
-        window.history.back();
+        window.history.back(); // Navigate back to the previous page
     };
 
+    // Function to handle payment term button click
     const handlePaymentTermClick = (term: string) => {
-        navigate('/invoice');
+        navigate('/invoice'); // Redirect to /invoice route
     };
 
     return (
         <>
-            <div className="bg-white sm:pt-16 lg:pt-24 min-h-screen pb-16">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            {/* <Navbar isAuthenticated={isAuthenticated} /> */}
+            <div className=" bg-white sm:pt-16 lg:pt-24 min-h-screen pb-16">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 ">
                     <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-secondary">Payment Method</h2>
 
                     <div className="bg-white rounded-lg p-4 sm:p-6 lg:p-10 border shadow">
@@ -60,23 +71,23 @@ const PaymentComponent: React.FC = () => {
                                 <div>
                                     <label className="block text-primary text-lg mb-2 font-normal lg:ml-60">Select Payment Terms <span className="text-red-500">*</span></label>
                                     <div className="flex space-x-8 justify-end">
-                                        <Button label="3 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('3 months')} type={''} />
-                                        <Button label="6 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('6 months')} type={''} />
-                                        <Button label="9 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('9 months')} type={''} />
+                                        <Button label="3 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('3 months')} />
+                                        <Button label="6 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('6 months')} />
+                                        <Button label="9 months" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => handlePaymentTermClick('9 months')} />
                                     </div>
                                 </div>
                             )}
                         </div>
 
                         <div className="mb-4">
-                            <p className="text-right text-primary font-medium mt-8">PAYMENT TOTAL: <span className='text-secondary'>${price.toFixed(2)}</span></p>
+                            <p className="text-right text-primary font-medium mt-8">PAYMENT TOTAL: <span className='text-secondary'>$804.20</span></p>
                         </div>
 
                         <div className="overflow-x-auto">
                             <h1 className='text-secondary text-lg mb-2 font-normal border-t-4 border-secondary pt-4'>Review Payment</h1>
                             <table className="min-w-full">
                                 <thead>
-                                    <tr className="border-b text-gray-500">
+                                    <tr className=" border-b text-gray-500">
                                         <th className="px-4 py-2 text-left font-medium">Customer PO</th>
                                         <th className="px-4 py-2 text-left font-medium">Freight Broker PO</th>
                                         <th className="px-4 py-2 text-left font-medium">Rate/Cost</th>
@@ -84,21 +95,23 @@ const PaymentComponent: React.FC = () => {
                                         <th className="px-4 py-2 text-left font-medium">Pay Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr className="border-b text-primary">
-                                        <td className="px-4 py-2">{generateRandomNumber(1000, 9999)}</td>
-                                        <td className="px-4 py-2">{generateRandomNumber(1000, 9999)}</td>
-                                        <td className="px-4 py-2">${price.toFixed(2)}</td>
-                                        <td className="px-4 py-2">${price.toFixed(2)}</td>
-                                        <td className="lg:px-4 py-2">
-                                            <input
-                                                type="text"
-                                                value={`$${price.toFixed(2)}`}
-                                                readOnly
-                                                className="block w-full bg-white border border-gray-200 text-blue-500 py-2 lg:px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            />
-                                        </td>
-                                    </tr>
+                                <tbody >
+                                    {data.map((item, index) => (
+                                        <tr key={index} className="border-b text-primary ">
+                                            <td className="px-4 py-2">{item.customerPO}</td>
+                                            <td className="px-4 py-2">{item.freightBrokerPO}</td>
+                                            <td className="px-4 py-2">${item.rateCost}</td>
+                                            <td className="px-4 py-2">${item.balance}</td>
+                                            <td className="lg:px-4 py-2">
+                                                <input
+                                                    type="text"
+                                                    value={`$${item.payAmount}`}
+                                                    readOnly
+                                                    className="block w-full bg-white border border-gray-200 text-blue-500 py-2 lg:px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
@@ -120,15 +133,18 @@ const PaymentComponent: React.FC = () => {
                                     available to it, including any right to seek payment of the transportation charges from the consignee or consignor.
                                 </p>
                             </div>
+
                         </div>
 
                         <div className="flex justify-start space-x-4 mt-8">
+                            {/* <Button label="Make Payment" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={() => { } } type={''} /> */}
                             <Button label="Make Payment" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={openModal} type={''} />
                             <Button label="Cancel" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={handleCancel} type={''} />
                         </div>
                     </div>
                 </div>
             </div>
+            {/* Render the QuoteRequestModal component conditionally */}
             {isModalOpen && <QuoteRequestModal isOpen={isModalOpen} />}
         </>
     );
