@@ -1,0 +1,38 @@
+{
+  "overview": {
+    "averageLeadTime": 5.3,
+    "onTimePickups": [
+      {"id": 1, "label": "On-Time Pickups", "value": "100%"},
+      {"id": 2, "label": "On-Time Pickups", "value": "100%"},
+      {"id": 3, "label": "On-Time Pickups", "value": "100%"},
+      {"id": 4, "label": "On-Time Pickups", "value": "100%"}
+    ],
+    "totalLoadsAnalytics": [
+      {"date": "01/05", "value": 40},
+      {"date": "01/06", "value": 50},
+      {"date": "01/07", "value": 35},
+      {"date": "01/08", "value": 55},
+      {"date": "01/09", "value": 30}
+    ]
+  },
+  "locations": [
+    {
+      "loadNumber": "ABC12345566",
+      "deliveryAddress": "Los Angeles, CA",
+      "deliveryDateTime": "01 July 2023 19:09 GMT",
+      "status": "Completed"
+    },
+    {
+      "loadNumber": "ABC12345567",
+      "deliveryAddress": "New York, NY",
+      "deliveryDateTime": "02 July 2023 18:09 GMT",
+      "status": "Completed"
+    },
+    {
+      "loadNumber": "ABC12345568",
+      "deliveryAddress": "Chicago, IL",
+      "deliveryDateTime": "03 July 2023 17:09 GMT",
+      "status": "In Transit"
+    }
+  ]
+}
