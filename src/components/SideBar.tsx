@@ -174,7 +174,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isAuthenticated }) => {
                         <>
                         <button
                             className="w-full flex items-center px-4 py-4 mb-2 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
-                            onClick={() => handleNavigation('/admin-dashboard')}
+                            onClick={() => handleNavigation('/shipper-dashboard')}
                         >
                             <FontAwesomeIcon icon={faTableColumns} />
 
