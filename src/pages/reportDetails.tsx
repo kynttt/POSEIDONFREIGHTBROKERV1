@@ -6,7 +6,7 @@ import { faCalendarAlt, faDownload, faFileLines, faPrint, faUpRightFromSquare } 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import SideBar from '../components/SideBar';
-import { useAuth } from '../components/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 
 

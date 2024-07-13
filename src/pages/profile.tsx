@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import profileImage from "../assets/img/profile.png";
 import SideBar from "../components/SideBar";
-import { useAuth } from "../components/useAuth";
+import { useAuth } from '../hooks/useAuth';
 import transactionsData from "../pages/profileTransactionFile.json";
 import ProfileTransactionCard from "../components/ProfileTransactionCard";
 import Button from "../components/Button";

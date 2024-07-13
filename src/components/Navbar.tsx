@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './useAuth';
+import { useAuth } from '../hooks/useAuth';
 import NotificationModal from './NotificationModal';
 
 interface NavbarProps {

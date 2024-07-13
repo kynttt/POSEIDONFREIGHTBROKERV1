@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Button from '../components/Button';
 import LoadCard from '../components/LoadCard';
 import SideBar from '../components/SideBar';
-import { useAuth } from '../components/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 type CardProps = {
     pickupDate: Date | null;

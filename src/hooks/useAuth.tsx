@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AuthContext, AuthContextType } from './AuthContext'; // Adjust path as per your actual file location
+import { AuthContext, AuthContextType } from '../context/AuthContext'; // Adjust path as per your actual file location
 
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);

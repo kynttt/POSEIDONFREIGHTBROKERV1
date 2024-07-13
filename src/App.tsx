@@ -11,7 +11,7 @@ import BookingConfirmation from './pages/bookingSuccessful';
 import UserPayables from './pages/userDashboard';
 import BillOfLadingPage from './pages/billOfLanding';
 import DispatchDetails from './pages/dispatchDetails';
-import { AuthProvider } from './components/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import PaymentOptionPage from './pages/paymentOptionPage';
 import ReportDetails from './pages/reportDetails';
 import NotFound from './pages/NotFound';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from './useAuth'; // Import the useAuth hook
+import { useAuth } from '../hooks/useAuth';
 
 interface DashboardCardProps {
   customerPO: string;

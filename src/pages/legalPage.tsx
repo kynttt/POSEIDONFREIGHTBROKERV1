@@ -10,7 +10,7 @@ import {
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
 import SideBar from "../components/SideBar";
-import { useAuth } from "../components/useAuth";
+import { useAuth } from '../hooks/useAuth';
 import Folder from "../components/LegalFolder";
 import foldersData from "../components/legalFolders.json";
 import filesData from "../components/legalFiles.json";

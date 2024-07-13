@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import DashboardCard from '../components/userDashboardCard';
 import userBookingData from './userBookingData.json';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/useAuth';
+import { useAuth } from '../hooks/useAuth';
 import SideBar from '../components/SideBar';
 
 

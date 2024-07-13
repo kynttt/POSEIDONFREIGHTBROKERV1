@@ -6,7 +6,7 @@ import googleIcon from '../assets/img/googleicon.png';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { useAuth } from '../components/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 interface DecodedToken {
   user: {

@@ -2,7 +2,7 @@ import React from 'react';
 import '../index.css'; // Ensure this file includes the @import for the Lexend font
 // import Footer from '../components/Footer';
 import TrailerTypes from '../components/TrailerTypes';
-import { useAuth } from '../components/useAuth';
+import { useAuth } from '../hooks/useAuth';
 import SideBar from '../components/SideBar';
 
 const TrailerOptionsPage: React.FC = () => {

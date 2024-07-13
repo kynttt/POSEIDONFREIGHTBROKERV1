@@ -6,7 +6,7 @@ import { OriginInput, DestinationInput } from './Inputs';
 import { MapComponent } from './MapComponent';
 import { calculateRoute } from './utils';
 import SideBar from '../../components/SideBar';
-import { useAuth } from '../../components/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import Button from '../../components/Button';
 
 // Import truck types and sizes data
