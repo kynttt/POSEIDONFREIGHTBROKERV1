@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
-import { useAuth } from '../hooks/useAuth';
+import { useAuthStore } from '../state/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -11,7 +11,7 @@ const BillofLandingPage: React.FC = () => {
     const handleConfirmBooking = () => {
         navigate('/booking-successful');
       };
-    const { isAuthenticated } = useAuth(); // Use useAuth hook to get isAuthenticated
+      const { isAuthenticated } = useAuthStore(); // Use useAuth hook to get isAuthenticated
 
     return (
         <nav className='bg-white'>

@@ -2,11 +2,11 @@ import React from 'react';
 import '../index.css'; // Ensure this file includes the @import for the Lexend font
 // import Footer from '../components/Footer';
 import TrailerTypes from '../components/TrailerTypes';
-import { useAuth } from '../hooks/useAuth';
+import { useAuthStore } from '../state/useAuthStore';
 import SideBar from '../components/SideBar';
 
 const TrailerOptionsPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore(); // Use Zustand store
 
   return (
     <div className="flex bg-gray-100 h-screen">

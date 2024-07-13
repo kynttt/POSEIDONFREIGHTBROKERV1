@@ -10,13 +10,13 @@ import {
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
 import SideBar from "../components/SideBar";
-import { useAuth } from '../hooks/useAuth';
+import { useAuthStore } from '../state/useAuthStore';
 import Folder from "../components/LegalFolder";
 import foldersData from "../components/legalFolders.json";
 import filesData from "../components/legalFiles.json";
 
 const LegalPage = () => {
-  const { isAuthenticated, role } = useAuth();
+  const { isAuthenticated } = useAuthStore();
   const [isListView, setIsListView] = useState(true); // State to track view mode
   const [showActionsIndex, setShowActionsIndex] = useState<number | null>(null); // State to track which ellipsis was clicked
 

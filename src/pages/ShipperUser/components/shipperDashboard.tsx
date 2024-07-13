@@ -9,7 +9,7 @@ import {
   Bar,
   ResponsiveContainer,
 } from "recharts";
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuthStore } from '../../../state/useAuthStore'; // Updated import
 
 
 
@@ -22,7 +22,7 @@ const data = [
 ];
 
 const ShipperDashboard = () => {
-  const { isAuthenticated, role } = useAuth();
+  const { isAuthenticated, role } = useAuthStore();
   return (
     <div className="bg-white h-screen flex flex-col md:flex-row">
       {/* Sidebar */}
@@ -63,7 +63,7 @@ const ShipperDashboard = () => {
               <input
                 type="date"
                 id="endDate"
-                className="border lg:w-1/2 rounded-lg p-2 text-sm"
+                className="border  rounded-lg p-2 text-sm"
               />
             </div>
           </div>
@@ -124,7 +124,7 @@ const ShipperDashboard = () => {
         </div>
 
         {/* Locations Section */}
-        <div className="rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
+        <div className="bg-white rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
           <h2 className="text-xl font-medium mb-4 text-secondary">Locations</h2>
           <input
             type="text"
