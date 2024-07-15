@@ -12,12 +12,13 @@ import Footer from '../components/Footer';
 import ServicesCardList from '../components/ServicesCardList';
 import ContactForm from '../components/ContactUs';
 import TrustedAmazon from '../components/TrustedAmazon';
-import { useAuth } from '../components/useAuth';
+import { useAuthStore } from '../state/useAuthStore';
 
 
+const LandingPage: React.FC = () => {
+  const {  isAuthenticated, role } = useAuthStore();
 
-const landingPage: React.FC = () => {
-  const { isAuthenticated, role } = useAuth();
+
   console.log('User authenticated?', isAuthenticated);
     console.log('User role:', role);
   return (
@@ -43,4 +44,4 @@ const landingPage: React.FC = () => {
   );
 };
 
-export default landingPage;
+export default LandingPage;

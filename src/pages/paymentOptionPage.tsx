@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 // import Navbar from '../components/Navbar';
 import Button from '../components/Button';
-import { useAuth } from '../components/useAuth';
+// import { useAuth } from '../hooks/useAuth';
 import QuoteRequestModal from '../components/QuoteRequestModal';
 
 const generateRandomNumber = (min: number, max: number) => {
@@ -11,7 +11,7 @@ const generateRandomNumber = (min: number, max: number) => {
 
 const PaymentComponent: React.FC = () => {
     const [selectedAccount, setSelectedAccount] = useState<string>('Installment');
-    const { isAuthenticated } = useAuth();
+    // const { isAuthenticated } = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();

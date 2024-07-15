@@ -6,7 +6,8 @@ import { faCalendarAlt, faDownload, faFileLines, faPrint, faUpRightFromSquare } 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import SideBar from '../components/SideBar';
-import { useAuth } from '../components/useAuth';
+import { useAuthStore } from '../state/useAuthStore';
+
 
 
 
@@ -14,7 +15,7 @@ const ReportDetails: React.FC = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [error, setError] = useState<string>('');
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
 
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);

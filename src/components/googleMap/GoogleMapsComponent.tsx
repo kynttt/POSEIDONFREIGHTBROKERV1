@@ -1,4 +1,4 @@
-import { LoadScript, Libraries } from '@react-google-maps/api';
+import { Libraries } from '@react-google-maps/api';
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
@@ -6,8 +6,10 @@ import { OriginInput, DestinationInput } from './Inputs';
 import { MapComponent } from './MapComponent';
 import { calculateRoute } from './utils';
 import SideBar from '../../components/SideBar';
-import { useAuth } from '../../components/useAuth';
+// import { useAuth } from '../../hooks/useAuth';
 import Button from '../../components/Button';
+import { useAuthStore } from '../../state/useAuthStore';
+
 
 // Import truck types and sizes data
 import truckTypes from './truckTypes.json';
@@ -18,7 +20,8 @@ const googleMapsApiKey = 'AIzaSyDp5QMSHGXXam62GT8ykvvZfWhQ_-rH1Xo'; // Replace w
 
 const QuoteDetails: React.FC = () => {
     const navigate = useNavigate();
-    const { isAuthenticated, login } = useAuth();
+    // const { isAuthenticated, login } = useAuth();
+    const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
     useEffect(() => {
         console.log('User is authenticated:', isAuthenticated);
@@ -147,7 +150,7 @@ const QuoteDetails: React.FC = () => {
             };
 
             // Retrieve the token from localStorage
-            const token = localStorage.getItem('accessToken');
+            const token = localStorage.getItem('authToken');
             if (!token) {
                 console.error('Access token not found in localStorage');
                 return; // Handle this case appropriately

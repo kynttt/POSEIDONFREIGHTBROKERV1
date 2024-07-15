@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './useAuth';
+import { useAuthStore } from "../state/useAuthStore";
+
+
 import NotificationModal from './NotificationModal';
 
 interface NavbarProps {
     isAuthenticated: boolean; // Prop to determine if user is authenticated
 }
 
-const Navbar: React.FC<NavbarProps> = ({ isAuthenticated }) => {
+const Navbar: React.FC<NavbarProps> = () => {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
-    const { logout, role } = useAuth(); // Use useAuth hook to get logout function and role
+    const { logout, isAuthenticated, role } = useAuthStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 

@@ -5,21 +5,19 @@ import appleIcon from '../assets/img/apple.png';
 import googleIcon from '../assets/img/googleicon.png';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
-import { useAuth } from '../components/useAuth';
+import {jwtDecode} from 'jwt-decode';
+import { useAuthStore } from '../state/useAuthStore';
 
 interface DecodedToken {
   user: {
     id: string;
-    role: string; // Updated to use role instead of isAdmin
-    // Add other properties as needed
+    role: string;
   };
-  // Add other top-level JWT properties as needed
 }
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const login = useAuthStore((state) => state.login);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -44,27 +42,24 @@ const LoginPage: React.FC = () => {
       });
 
       const token = response.data.token;
-      login(token); // Save token and set authentication state
+      login(token);
 
       const decodedToken = jwtDecode<DecodedToken>(token);
       const userRole = decodedToken.user && decodedToken.user.role;
 
       if (userRole === 'admin') {
-        navigate('/admin-dashboard'); // Navigate to load board for admins
+        navigate('/admin-dashboard');
       } else {
-        navigate('/user-payables'); // Navigate to user dashboard for regular users
+        navigate('/shipper-dashboard');
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (err.response && err.response.data) {
-          console.error('Login error response data:', err.response.data);
           setError(err.response.data.msg || 'Login failed.');
         } else {
-          console.error('Login error:', err.message);
           setError('Login failed.');
         }
       } else {
-        console.error('Unexpected error:', err);
         setError('An unexpected error occurred.');
       }
     } finally {
