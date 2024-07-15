@@ -38,7 +38,7 @@ const App: React.FC = () => {
         <Route path="/booking-successful" element={<PrivateRoute element={<BookingConfirmation />} />} />
         <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} />
         <Route path="/payment-option" element={<PrivateRoute element={<PaymentOptionPage />} />} />
-        <Route path="/accounting-report" element={<PrivateRoute element={<ReportDetails />} roles={['admin', 'accountant', 'dispatcher']} />} />
+        <Route path="/report-details" element={<PrivateRoute element={<ReportDetails />} roles={['admin', 'accountant', 'dispatcher']} />} />
         <Route path="/invoice" element={<PrivateRoute element={<Invoice />} />} />
         <Route path="/legal-page" element={<PrivateRoute element={<LegalPage />} roles={['lawyer']} />} />
         <Route path="/user-payables" element={<PrivateRoute element={<UserPayables />} roles={['user']} />} />
