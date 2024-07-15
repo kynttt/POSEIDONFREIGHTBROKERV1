@@ -23,6 +23,7 @@ import Profile from './pages/profile';
 import AccountingReports from './pages/accountingReport';
 import AccountingPayment from './pages/accountingPayment';
 import ShipperDashboard from './pages/ShipperUser/components/shipperDashboard';
+import PerformanceOverview from './pages/performanceGrade';
 
 // import PrivateRoute from './components/PrivateRoute';
 
@@ -53,6 +54,7 @@ const App: React.FC = () => {
           <Route path="/accounting-report" element={<AccountingReports />} />
           <Route path="/accounting-payment" element={<AccountingPayment />} />
           <Route path="/shipper-dashboard" element={<ShipperDashboard />} />
+          <Route path="/performance-grade" element={<PerformanceOverview />} />
 
  {/* Revise here if for private route implimentation */}
           {/* <Route
