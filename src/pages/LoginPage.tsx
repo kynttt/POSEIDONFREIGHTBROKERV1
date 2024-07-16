@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import signupImage from '../assets/img/signup.png';
+import signupImage from '../assets/img/signin.png';
 import appleIcon from '../assets/img/apple.png';
 import googleIcon from '../assets/img/googleicon.png';
 import Button from '../components/Button';
