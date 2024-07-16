@@ -178,7 +178,7 @@ const QuoteDetails: React.FC = () => {
 
                 // Redirect to payment option page
                 // Inside handleQuoteButtonClick in QuoteDetails.tsx
-                navigate('/payment-option', { state: { price } });
+                navigate('/payment-option', { state: { price, quoteId: data._id } });
 
 
             } catch (error: any) { // Explicitly specify 'any' or 'Error' as the type

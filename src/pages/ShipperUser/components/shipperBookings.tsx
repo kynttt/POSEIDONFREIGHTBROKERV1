@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const ShipperBookings = () => {
-  const [quotes, setQuotes] = useState<any[]>([]);
+  const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchQuotes = async () => {
+    const fetchBookings = async () => {
       try {
         const token = localStorage.getItem('authToken');
         if (!token) {
@@ -16,13 +16,13 @@ const ShipperBookings = () => {
           return;
         }
 
-        const quotesResponse = await axios.get('http://localhost:5000/api/quotes/user', {
+        const bookingsResponse = await axios.get('http://localhost:5000/api/bookings/user', {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
 
-        setQuotes(quotesResponse.data);
+        setBookings(bookingsResponse.data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -31,52 +31,53 @@ const ShipperBookings = () => {
       }
     };
 
-    fetchQuotes();
+    fetchBookings();
   }, []);
 
   return (
     <div className="bg-white rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
-      <h2 className="text-xl font-semibold mb-4 text-primary">Shipper Bookings</h2>
+      <h2 className="text-xl font-semibold mb-4 text-primary">My Shipments</h2>
 
       {loading ? (
-        <p className="text-gray-500">Loading quotes...</p>
+        <p className="text-gray-500">Loading bookings...</p>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-1    gap-4">
-          {quotes.map((quote: any, index: number) => (
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
+          {bookings.map((booking: any, index: number) => (
             <button
               key={index}
-              className="bg-light-grey text-left rounded-lg shadow p-4 md:p-6 mb-4 text-secondary font-normal grid  grid-cols-6 gap-4 overflow-x-auto"
+              className="bg-light-grey text-left items-center rounded-lg shadow p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-6 gap-4 overflow-x-auto"
             >
               <div>
                 <h3 className="text-gray-600 text-primary">Load Number</h3>
-                <p>{quote._id}</p>
+                <p>{booking.quote?._id}</p>
               </div>
-              
+
               <div>
                 <h3 className="text-gray-600 text-primary">Delivery Date & Time</h3>
-                <p>{quote.pickupDate}</p>
+                <p>{booking.quote?.pickupDate}</p>
               </div>
               <div>
                 <h3 className="text-gray-600 text-primary">Origin</h3>
-                <p>{quote.origin}</p>
+                <p>{booking.quote?.origin}</p>
               </div>
               <div>
                 <h3 className="text-gray-600 text-primary">Destination</h3>
-                <p>{quote.destination}</p>
+                <p>{booking.quote?.destination}</p>
               </div>
               <div>
                 <h3 className="text-gray-600 text-primary">Distance</h3>
-                <p>{quote.distance}</p>
+                <p>{booking.quote?.distance}</p>
               </div>
               <div className="flex items-center justify-between md:col-span-1">
                 <div>
                   <h3 className="text-gray-600 text-primary">Status</h3>
-                  <p>{quote.status}</p>
+                  <p>{booking.status}</p>
                 </div>
                 <FontAwesomeIcon icon={faCircleChevronRight} className="text-primary" />
               </div>
             </button>
           ))}
+
         </div>
       )}
     </div>
