@@ -178,7 +178,7 @@ const QuoteDetails: React.FC = () => {
 
                 // Redirect to payment option page
                 // Inside handleQuoteButtonClick in QuoteDetails.tsx
-                navigate('/payment-option', { state: { price } });
+                navigate('/payment-option', { state: { price, quoteId: data._id } });
 
 
             } catch (error: any) { // Explicitly specify 'any' or 'Error' as the type
@@ -198,7 +198,7 @@ const QuoteDetails: React.FC = () => {
         <div className='flex h-screen '>
             <SideBar isAuthenticated={isAuthenticated} />
             <div className="flex-1 bg-white min-h-screen overflow-y-auto">
-                <div className="lg:mx-20 py-20 px-4 shadow rounded-lg lg:mt-8">
+                <div className="lg:mx-20 py-16   px-4 shadow rounded-lg lg:mt-8">
                     <div className="mb-6">
                         <h2 className="text-2xl font-semibold lg:mb-12 text-primary">Request A Quote</h2>
                     </div>
@@ -222,17 +222,17 @@ const QuoteDetails: React.FC = () => {
                                     <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-gray-400" />Pickup Date <span className="text-red-500">*</span></h3>
                                     <input
                                         type="date"
-                                        className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal "
+                                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal "
                                         value={pickupDate}
                                         onChange={(e) => setPickupDate(e.target.value)}
                                     />
                                 </div>
                                 <div className="flex flex-wrap"> {/* Use flex and flex-wrap to display divs side by side */}
                                     <div className="w-full md:w-2/3 mb-8 md:mb-0 md:pr-4"> {/* Adjust width for different screen sizes */}
-                                        <div className="mb-2 mt-2">
+                                        <div className="mb-2 lg:mt-4">
                                             <h3 className="text-lg font-medium text-secondary my-2"><FontAwesomeIcon icon={faTruck} className="mr-2 text-gray-400" />Trailer Type <span className="text-red-500">*</span></h3>
                                             <select
-                                                className="p-2  border border-secondary rounded w-full bg-white text-primary font-normal"
+                                                className="p-2  border border-secondary rounded w-full bg-white text-gray-400 font-normal"
                                                 value={selectedTrailerType}
                                                 onChange={(e) => setSelectedTrailerType(e.target.value)}
                                             >
@@ -246,10 +246,10 @@ const QuoteDetails: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="w-full md:w-1/3"> {/* Adjust width for different screen sizes */}
-                                        <div className="mb-8">
-                                            <h3 className="text-lg font-medium text-secondary my-2"><FontAwesomeIcon icon={faRuler} className="mr-2 text-gray-400" />Size (ft)<span className="text-red-500">*</span></h3>
+                                        <div className="mb-4 lg:mt-4">
+                                            <h3 className="text-lg font-medium text-secondary my-2">Size (ft)<span className="text-red-500">*</span></h3>
                                             <select
-                                                className="p-2 border border-secondary rounded w-full bg-white text-primary font-normal"
+                                                className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
                                                 value={selectedTrailerSize}
                                                 onChange={(e) => setSelectedTrailerSize(parseInt(e.target.value))}
                                             >
