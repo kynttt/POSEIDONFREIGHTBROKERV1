@@ -85,32 +85,32 @@ const PerformanceGradeComponent: React.FC = () => {
     <div className="bg-white min-h-screen flex flex-col lg:flex-row">
       {/* Sidebar */}
       <Sidebar isAuthenticated={false} />
-      <div className="p-4 lg:px-8 xl:px-16 flex-1 overflow-x-hidden">
+      <div className="p-4 lg:px-20 flex-1 overflow-x-hidden">
         <div className="text-2xl font-semibold mb-6 text-gray-400">
           Performance
         </div>
         <div className="text-xl font-medium mb-7 mt-10 text-secondary">
           Performance Grade
         </div>
-
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+        
+        <div className="flex flex-col lg:flex-row gap-4">
           {/* Performance Grade/Score */}
-          <div className="bg-light-grey p-4 rounded-lg shadow text-center flex-1 mb-4 lg:mb-0 max-w-xs w-full lg:w-72 xl:w-80">
+          <div className="bg-light-grey p-4 rounded-lg shadow text-center flex-1 mb-4 lg:mb-0 max-w-xs w-full lg:w-72">
             <p className="text-gray-600 font-semibold text-primary text-left py-5 pl-5">
               Performance Grade/Score
             </p>
-            <div className="flex flex-col items-center justify-center mt-10">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-primary">
+            <div className="flex items-center justify-center mt-10">
+              <h1 className="text-5xl lg:text-7xl font-semibold text-primary">
                 A+
               </h1>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-primary mt-3 lg:mt-2">
+              <h3 className="text-3xl lg:text-5xl font-medium text-primary ml-4 mt-3 lg:mt-2">
                 99%
               </h3>
             </div>
           </div>
 
           {/* Dashboard Data */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4 mb-4 lg:mb-0 w-full lg:w-72 xl:w-80">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4 mb-4 lg:mb-0 w-full lg:w-72">
             {dashboardData.map((item, index) => (
               <div
                 key={index}
@@ -135,11 +135,11 @@ const PerformanceGradeComponent: React.FC = () => {
           </div>
 
           {/* Transparency Data */}
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+          <div className="flex flex-col lg:flex-row gap-4">
             {TransparencyData.map((item, index) => (
               <div
                 key={index}
-                className="bg-light-grey p-4 rounded-lg shadow text-center justify-center flex-1 mb-4 lg:mb-0 max-w-xs w-full lg:w-72 xl:w-80"
+                className="bg-light-grey p-4 rounded-lg shadow text-center justify-center flex-1 mb-4 lg:mb-0 max-w-xs w-full lg:w-72"
               >
                 <p className="text-gray-600 font-medium text-left text-primary sm:text-lg md:text-lg py-5 pl-5">
                   Transparency Focused
@@ -163,7 +163,7 @@ const PerformanceGradeComponent: React.FC = () => {
             <h2 className="text-xl font-semibold mb-4 text-primary">
               Total Loads Analytics
             </h2>
-            <div className="w-full h-60 md:h-72">
+            <div className="w-full h-60">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
