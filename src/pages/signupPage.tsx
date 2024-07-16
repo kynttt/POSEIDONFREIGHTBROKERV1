@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import signupImage from '../assets/img/createaccount.png';
+import signupImage from '../assets/img/DeliveredPackage.gif';
 import Button from '../components/Button';
 import googleIcon from '../assets/img/googleicon.png';
 import appleIcon from '../assets/img/apple.png';
@@ -230,7 +230,7 @@ const SignupPage = () => {
             <div className="text-center">
               <h1 className="text-sm font-normal text-left lg:pl-8 text-white">Welcome to</h1>
               <h1 className="text-4xl font-medium text-left text-white lg:pl-8">Freight Broker</h1>
-              <img src={signupImage} alt="Freight Booker" className="my-6 mx-auto" />
+              <img src={signupImage} alt="Freight Booker" className="my-6 mx-auto transform scale-x-[-1]" />
               <h2 className="text-3xl font-bold text-white">TRANSPORT</h2>
               <h2 className="text-3xl font-medium text-tertiary">LOGISTICS</h2>
             </div>
