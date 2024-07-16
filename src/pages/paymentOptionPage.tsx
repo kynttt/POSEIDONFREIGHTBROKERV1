@@ -110,7 +110,7 @@ const PaymentComponent = () => {
 
                         {/* Note Section */}
                         <div className="mt-8">
-                            <p className="text-primary text-lg font-normal border-t-4 border-secondary pt-2">
+                            <p className="text-primary text-lg font-normal pt-2">
                                 <span className="text-black text-lg mb-2 font-normal">Note:</span> Carrier liability for this shipment is not limited, except as specified in the Transportation Agreement between the parties.
                             </p>
                             <div className="text-gray-500 text-xs grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4 mt-2">
