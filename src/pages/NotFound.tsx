@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import NotFoundImage from '../assets/img/404.png';
 import Button from '../components/Button'; // Make sure this path is correct
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import { useAuthStore } from '../state/useAuthStore';
 
 
@@ -14,7 +14,7 @@ const NotFound: React.FC = () => {
 
     return (
         <>
-        <Navbar isAuthenticated={isAuthenticated} />
+        {/* <Navbar isAuthenticated={isAuthenticated} /> */}
         <div className=" border h-screen flex flex-col items-center justify-center bg-white text-center lg:pb-32 pb-4">
             <div className="flex justify-center items-center mb-4">
                 <img src={NotFoundImage} alt="404" className="max-w-full h-auto" />

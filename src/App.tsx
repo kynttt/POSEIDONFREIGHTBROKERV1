@@ -38,17 +38,17 @@ const App: React.FC = () => {
         <Route path="/booking-successful" element={<PrivateRoute element={<BookingConfirmation />} />} />
         <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} />
         <Route path="/payment-option" element={<PrivateRoute element={<PaymentOptionPage />} />} />
-        <Route path="/report-details" element={<PrivateRoute element={<ReportDetails />} roles={['admin', 'accountant', 'dispatcher']} />} />
+        <Route path="/report-details" element={<PrivateRoute element={<ReportDetails />} roles={['admin']} />} />
         <Route path="/invoice" element={<PrivateRoute element={<Invoice />} />} />
-        <Route path="/legal-page" element={<PrivateRoute element={<LegalPage />} roles={['lawyer']} />} />
+        <Route path="/legal-page" element={<PrivateRoute element={<LegalPage />} roles={['admin']} />} />
         <Route path="/user-payables" element={<PrivateRoute element={<UserPayables />} roles={['user']} />} />
         <Route path="/load-board" element={<PrivateRoute element={<LoadBoard />} roles={['admin']} />} />
         <Route path="/bill-lading" element={<PrivateRoute element={<BillOfLadingPage />} roles={['admin']} />} />
         <Route path="/admin-dashboard" element={<PrivateRoute element={<AdminDashboard />} roles={['admin']} />} />
         <Route path="/distance-calculator" element={<DistanceCalculator />} />
         <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
-        <Route path="/accounting-report" element={<PrivateRoute element={<AccountingReports />} roles={['admin', 'accountant', 'dispatcher']} />} />
-        <Route path="/accounting-payment" element={<PrivateRoute element={<AccountingPayment />} roles={['admin', 'accountant', 'dispatcher']} />} />
+        <Route path="/accounting-report" element={<PrivateRoute element={<AccountingReports />} roles={['admin']} />} />
+        <Route path="/accounting-payment" element={<PrivateRoute element={<AccountingPayment />} roles={['admin']} />} />
         <Route path="/shipper-dashboard" element={<PrivateRoute element={<ShipperDashboard />} roles={['user']} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
