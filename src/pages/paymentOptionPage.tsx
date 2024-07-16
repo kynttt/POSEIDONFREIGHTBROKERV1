@@ -1,32 +1,59 @@
-import React, { useState } from 'react';
+import axios from 'axios'; // Import axios or your HTTP client
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// import Navbar from '../components/Navbar';
 import Button from '../components/Button';
-// import { useAuth } from '../hooks/useAuth';
 import QuoteRequestModal from '../components/QuoteRequestModal';
 
-const generateRandomNumber = (min: number, max: number) => {
+const generateRandomNumber = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 const PaymentComponent: React.FC = () => {
-    const [selectedAccount, setSelectedAccount] = useState<string>('Installment');
-    // const { isAuthenticated } = useAuth();
+    const [selectedAccount, setSelectedAccount] = useState('Installment');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { price } = location.state || { price: 0 };
+    const { price, quoteId } = location.state || { price: 0, quoteId: null }; // Destructure price and quoteId from location.state
 
-    const openModal = () => {
-        setIsModalOpen(true);
+    const openModal = async () => {
+        if (!quoteId) {
+            console.error('No quoteId found in location state');
+            return;
+        }
+
+        const token = localStorage.getItem('authToken'); // Retrieve JWT token from local storage or wherever it's stored after login
+
+        if (!token) {
+            console.error('No token found');
+            // Handle token absence as needed, possibly redirect to login
+            return;
+        }
+
+        const bookingData = {
+            quote: quoteId, // Pass the quoteId as the value of 'quote' field
+            // Add any other relevant data needed for booking
+        };
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/bookings/', bookingData, {
+                headers: {
+                    Authorization: `Bearer ${token}` // Send JWT token in the Authorization header
+                }
+            });
+            console.log('Booking successful:', response.data);
+            setIsModalOpen(true); // Open modal on successful booking
+        } catch (error) {
+            console.error('Error booking:', error);
+            // Handle error as needed
+        }
     };
 
     const handleCancel = () => {
-        window.history.back();
+        window.history.back(); // Go back to the previous page
     };
 
     const handlePaymentTermClick = (term: string) => {
-        navigate('/invoice');
+        navigate('/invoice'); // Navigate to invoice page or handle payment terms
     };
 
     return (
@@ -123,7 +150,7 @@ const PaymentComponent: React.FC = () => {
                         </div>
 
                         <div className="flex justify-start space-x-4 mt-8">
-                            <Button label="Make Payment" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={openModal} type={''} />
+                            <Button label="Book" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={openModal} type={''} />
                             <Button label="Cancel" size="medium" bgColor="#252F70" hoverBgColor="white" onClick={handleCancel} type={''} />
                         </div>
                     </div>

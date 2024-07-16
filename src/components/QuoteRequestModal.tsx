@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
   const navigate = useNavigate();
 
   const handleNavigateToDashboard = () => {
-    navigate('/user-payables');
+    navigate('/shipper-dashboard');
 };
 
 
