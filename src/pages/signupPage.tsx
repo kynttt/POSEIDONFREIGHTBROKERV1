@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import signupImage from '../assets/img/signup.png';
+import signupImage from '../assets/img/createaccount.png';
 import Button from '../components/Button';
 import googleIcon from '../assets/img/googleicon.png';
 import appleIcon from '../assets/img/apple.png';
