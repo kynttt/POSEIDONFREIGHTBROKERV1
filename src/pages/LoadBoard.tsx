@@ -11,15 +11,17 @@ import { useAuthStore } from '../state/useAuthStore';
 
 
 type CardProps = {
-    pickupDate: Date | null;
+    pickupDate: Date ;
     id: string;
     pickUp: string;
     drop: string;
+    maxWeight: number;
     companyName: string;
     trailerType: string;
     distance: number;
     trailerSize: string;
     loadPrice: number;
+    commodity: string;
     onBookLoadClick: () => void;
 };
 
@@ -60,11 +62,14 @@ const LoadBoard: React.FC = () => {
                         id: quote._id,
                         pickUp: quote.origin,
                         drop: quote.destination,
+                        maxWeight: quote.maxWeight,
                         companyName: quote.companyName,
                         trailerType: quote.trailerType,
                         distance: quote.distance,
                         trailerSize: quote.trailerSize,
                         loadPrice: quote.price,
+                        commodity:quote.commodity,
+                        pickupDate:quote.pickupDate,
                         onBookLoadClick: () => { /* Handle book load click */ },
                     }));
                     setLoadCards(transformedData);
@@ -220,10 +225,12 @@ const LoadBoard: React.FC = () => {
                             id={load.id}
                             pickUp={load.pickUp}
                             drop={load.drop}
+                            maxWeight={load.maxWeight}
                             companyName={load.companyName}
                             trailerType={load.trailerType}
                             distance={load.distance}
                             trailerSize={load.trailerSize}
+                            commodity={load.commodity}
                             loadPrice={load.loadPrice}
                             pickupDate={load.pickupDate} // Pass pickUpDate here
                             onBookLoadClick={load.onBookLoadClick}
