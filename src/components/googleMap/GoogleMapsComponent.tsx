@@ -1,4 +1,4 @@
-import { LoadScript, Libraries } from '@react-google-maps/api';
+import { Libraries } from '@react-google-maps/api';
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useJsApiLoader } from '@react-google-maps/api';
@@ -6,19 +6,27 @@ import { OriginInput, DestinationInput } from './Inputs';
 import { MapComponent } from './MapComponent';
 import { calculateRoute } from './utils';
 import SideBar from '../../components/SideBar';
-import { useAuth } from '../../components/useAuth';
+// import { useAuth } from '../../hooks/useAuth';
 import Button from '../../components/Button';
+import { useAuthStore } from '../../state/useAuthStore';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt, faCalendarAlt, faTruck, faRuler, faBox, faWeight, faBuilding } from '@fortawesome/free-solid-svg-icons';
+
 
 // Import truck types and sizes data
 import truckTypes from './truckTypes.json';
 import truckSizes from './truckSizes.json';
 
 const libraries: Libraries = ['places'];
-const googleMapsApiKey = 'AIzaSyDp5QMSHGXXam62GT8ykvvZfWhQ_-rH1Xo'; // Replace with your Google Maps API key
+const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ''; // Provide an empty string as a fallback
+
+
+
 
 const QuoteDetails: React.FC = () => {
     const navigate = useNavigate();
-    const { isAuthenticated, login } = useAuth();
+    // const { isAuthenticated, login } = useAuth();
+    const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
     useEffect(() => {
         console.log('User is authenticated:', isAuthenticated);
@@ -147,7 +155,7 @@ const QuoteDetails: React.FC = () => {
             };
 
             // Retrieve the token from localStorage
-            const token = localStorage.getItem('accessToken');
+            const token = localStorage.getItem('authToken');
             if (!token) {
                 console.error('Access token not found in localStorage');
                 return; // Handle this case appropriately
@@ -173,7 +181,7 @@ const QuoteDetails: React.FC = () => {
 
                 // Redirect to payment option page
                 // Inside handleQuoteButtonClick in QuoteDetails.tsx
-                navigate('/payment-option', { state: { price } });
+                navigate('/payment-option', { state: { price, quoteId: data._id } });
 
 
             } catch (error: any) { // Explicitly specify 'any' or 'Error' as the type
@@ -190,134 +198,139 @@ const QuoteDetails: React.FC = () => {
     }
 
     return (
-        <div className='flex h-screen'>
+        <div className='flex h-screen '>
             <SideBar isAuthenticated={isAuthenticated} />
             <div className="flex-1 bg-white min-h-screen overflow-y-auto">
-                <div className="lg:mx-16 pt-20 px-4">
+                <div className="lg:mx-20 py-16   px-4 shadow rounded-lg lg:mt-8">
                     <div className="mb-6">
-                        <h2 className="text-2xl font-semibold lg:mb-12 text-secondary">Estimation Details</h2>
+                        <h2 className="text-2xl font-semibold lg:mb-12 text-primary">Request A Quote</h2>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-14 mt-4">
-                        <div className='lg:col-span-2'>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div className="md:col-span-1 lg:mx-4">
-                                    <h1 className='text-2xl font-medium text-secondary lg:mb-2'>Pick Up</h1>
-                                    <div className="mb-8 md:mb-0">
-                                        <h3 className="text-lg font-medium text-primary mb-2">Origin <span className="text-red-500">*</span></h3>
-                                        <OriginInput onLoad={onLoadA} onPlaceChanged={onPlaceChangedA} />
-                                    </div>
-                                    <div className="mb-8 md:mb-0">
-                                        <h3 className="text-lg font-medium text-primary mb-2">Pickup Date <span className="text-red-500">*</span></h3>
-                                        <input
-                                            type="date"
-                                            className="p-2 px-6 border-2 rounded w-full bg-white text-primary font-normal "
-                                            value={pickupDate}
-                                            onChange={(e) => setPickupDate(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="mb-8 md:mb-0">
-                                        <h3 className="text-lg font-medium text-primary my-2">Trailer Type <span className="text-red-500">*</span></h3>
-                                        <select
-                                            className="p-2 px-6 border-2 rounded w-full bg-white text-primary font-normal "
-                                            value={selectedTrailerType}
-                                            onChange={(e) => setSelectedTrailerType(e.target.value)}
-                                        >
-                                            <option value="">Select trailer type</option>
-                                            {truckTypes.map((type) => (  // Use `type` instead of `type: string`
-                                                <option key={type.type} value={type.type}>  {/* Access `type.type` for key and value */}
-                                                    {type.type}  {/* Access `type.type` for display text */}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="mb-8 md:mb-0">
-                                        <h3 className="text-lg font-medium text-primary my-2">Trailer Size <span className="text-red-500">*</span></h3>
-                                        <select
-                                            className="p-2 px-6 border-2 rounded w-full bg-white text-primary font-normal "
-                                            value={selectedTrailerSize}
-                                            onChange={(e) => setSelectedTrailerSize(parseInt(e.target.value))}
-                                        >
-                                            <option value={0}>Select trailer size</option>
-                                            {truckSizes.map((size: number) => (
-                                                <option key={size} value={size}>
-                                                    {size} ft
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-14 mt-4">
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+                            <div className="lg:col-span-1 lg:mx-4">
+
+                                <div className="mb-8 md:mb-0">
+
+                                    <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 text-gray-400" />Pickup Location <span className="text-red-500">*</span></h3>
+                                    <OriginInput onLoad={onLoadA} onPlaceChanged={onPlaceChangedA} />
                                 </div>
-                                <div className="md:col-span-1">
-                                    <div className="lg:border-l-4 border-secondary  lg:pl-12 ">
-                                        <h1 className='text-2xl font-medium text-secondary lg:mb-2'>Drop</h1>
-                                        <div className="mb-8 md:mb-0 lg:border-secondary">
-                                            <h3 className="text-lg font-medium text-primary mb-2">Destination <span className="text-red-500">*</span></h3>
-                                            <DestinationInput onLoad={onLoadB} onPlaceChanged={onPlaceChangedB} />
+
+                                <div className="mb-8 md:mb-0 lg:border-secondary">
+                                    <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 text-gray-400" />Drop-off Location <span className="text-red-500">*</span></h3>
+                                    <DestinationInput onLoad={onLoadB} onPlaceChanged={onPlaceChangedB} />
+                                </div>
+                                <div className="mb-8 md:mb-0">
+                                    <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-gray-400" />Pickup Date <span className="text-red-500">*</span></h3>
+                                    <input
+                                        type="date"
+                                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal "
+                                        value={pickupDate}
+                                        onChange={(e) => setPickupDate(e.target.value)}
+                                    />
+                                </div>
+                                <div className="flex flex-wrap"> {/* Use flex and flex-wrap to display divs side by side */}
+                                    <div className="w-full md:w-2/3 mb-8 md:mb-0 md:pr-4"> {/* Adjust width for different screen sizes */}
+                                        <div className="mb-2 lg:mt-4">
+                                            <h3 className="text-lg font-medium text-secondary my-2"><FontAwesomeIcon icon={faTruck} className="mr-2 text-gray-400" />Trailer Type <span className="text-red-500">*</span></h3>
+                                            <select
+                                                className="p-2  border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                                                value={selectedTrailerType}
+                                                onChange={(e) => setSelectedTrailerType(e.target.value)}
+                                            >
+                                                <option value="">Select trailer type</option>
+                                                {truckTypes.map((type) => (
+                                                    <option key={type.type} value={type.type}>
+                                                        {type.type}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
-                                        <h1 className='text-2xl font-medium text-secondary lg:mb-2 lg:mt-12'>Additional Details</h1>
-                                        <div className="mb-8 md:mb-0">
-                                            <h3 className="text-lg font-medium text-primary mb-2">Commodity <span className="text-red-500">*</span></h3>
-                                            <input
-                                                type="text"
-                                                className="p-2 px-6 border-2 rounded w-full bg-white text-primary font-normal "
-                                                placeholder="e.g. Electronics"
-                                                value={commodity}
-                                                onChange={(e) => setCommodity(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="mb-8 md:mb-0 mt-2">
-                                            <h3 className="text-lg font-medium text-primary mb-2">Maximum Weight <span className="text-red-500">*</span></h3>
-                                            <input
-                                                type="text"
-                                                className="p-2 px-6 border-2 rounded w-full bg-white text-primary font-normal "
-                                                placeholder="e.g. 1000lbs"
-                                                value={maxWeight}
-                                                onChange={(e) => setMaxWeight(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="mb-8 md:mb-0">
-                                            <h3 className="text-lg font-medium text-primary my-2">Company Name <span className="text-red-500">*</span></h3>
-                                            <input
-                                                type="text"
-                                                className="p-2 px-6 border-2 rounded w-full bg-white text-primary font-normal "
-                                                placeholder="Enter your company name"
-                                                value={companyName}
-                                                onChange={(e) => setCompanyName(e.target.value)}
-                                            />
+                                    </div>
+                                    <div className="w-full md:w-1/3"> {/* Adjust width for different screen sizes */}
+                                        <div className="mb-4 lg:mt-4">
+                                            <h3 className="text-lg font-medium text-secondary my-2">Size (ft)<span className="text-red-500">*</span></h3>
+                                            <select
+                                                className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                                                value={selectedTrailerSize}
+                                                onChange={(e) => setSelectedTrailerSize(parseInt(e.target.value))}
+                                            >
+                                                <option value={0}>Select size</option>
+                                                {truckSizes.map((size) => (
+                                                    <option key={size} value={size}>
+                                                        {size} ft
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+                                <div className="mb-8 md:mb-0">
+                                    <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faBox} className="mr-2 text-gray-400" />Commodity <span className="text-red-500">*</span></h3>
+                                    <input
+                                        type="text"
+                                        className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal "
+                                        placeholder="e.g. Electronics"
+                                        value={commodity}
+                                        onChange={(e) => setCommodity(e.target.value)}
+                                    />
+                                </div>
+                                <div className="mb-8 md:mb-0 mt-2">
+                                    <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faWeight} className="mr-2 text-gray-400" />Maximum Weight <span className="text-red-500">*</span></h3>
+                                    <input
+                                        type="text"
+                                        className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal "
+                                        placeholder="e.g. 1000lbs"
+                                        value={maxWeight}
+                                        onChange={(e) => setMaxWeight(e.target.value)}
+                                    />
+                                </div>
+                                <div className="mb-8 md:mb-0">
+                                    <h3 className="text-lg font-medium text-secondary my-2"><FontAwesomeIcon icon={faBuilding} className="mr-2 text-gray-400" />Company Name <span className="text-red-500">*</span></h3>
+                                    <input
+                                        type="text"
+                                        className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal "
+                                        placeholder="Enter your company name"
+                                        value={companyName}
+                                        onChange={(e) => setCompanyName(e.target.value)}
+                                    />
+                                </div>
+
                             </div>
-                            <div className="bg-light-grey p-4 lg:py-8 shadow-lg flex flex-col lg:flex-row justify-between items-center lg:mt-16 rounded-lg">
-                                <Button
-                                    label="GET THIS QUOTE"
-                                    size="xl"
-                                    bgColor="#7783D2"
-                                    hoverBgColor="white"
-                                    onClick={handleQuoteButtonClick}
-                                    className="extra-class-for-medium-button"
-                                    type="button"
+                            <div className="mt-4  lg:col-span-2">
+                                <MapComponent
+                                    map={map}
+                                    setMap={setMap}
+                                    directions={directions}
+                                    originLocation={originLocation}
+                                    destinationLocation={destinationLocation}
                                 />
-                                {distance && (
-                                    <div className="text-2xl font-medium text-gray-500 mb-4 lg:mb-0 lg:mr-4 p-4 rounded-lg">
-                                        Distance: <span className='font-normal italic text-primary'>{distance}</span>
-                                    </div>
-                                )}
-                                {price !== null && (
-                                    <div className="text-2xl font-medium text-gray-500 mb-4 lg:mb-0 lg:mr-4 p-4 rounded-lg">
-                                        Estimated Price: <span className='font-normal italic text-primary'>${price.toFixed(2)}</span>
-                                    </div>
-                                )}
+                                <div className="p-4 lg:py-8 shadow-lg flex flex-col lg:flex-row justify-between items-center lg:mt-8 rounded-lg">
+                                    <Button
+                                        label="GET THIS QUOTE"
+                                        size="xl"
+                                        bgColor="#7783D2"
+                                        hoverBgColor="white"
+                                        onClick={handleQuoteButtonClick}
+                                        className="extra-class-for-medium-button"
+                                        type="button"
+                                    />
+                                    {distance && (
+                                        <div className="text-2xl font-medium text-gray-500 mb-4 lg:mb-0 lg:mr-4 p-4 rounded-lg">
+                                            Distance: <span className='font-normal italic text-primary'>{distance}</span>
+                                        </div>
+                                    )}
+                                    {price !== null && (
+                                        <div className="text-2xl font-medium text-gray-500 mb-4 lg:mb-0 lg:mr-4 p-4 rounded-lg">
+                                            Estimated Price: <span className='font-normal italic text-primary'>${price.toFixed(2)}</span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        <div className="mt-4 md:col-span-2 lg:col-span-1">
-                            <MapComponent
-                                map={map}
-                                setMap={setMap}
-                                directions={directions}
-                                originLocation={originLocation}
-                                destinationLocation={destinationLocation}
-                            />
-                        </div>
+
+
                     </div>
                 </div>
             </div>

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import profileImage from "../assets/img/profile.png";
 import SideBar from "../components/SideBar";
-import { useAuth } from "../components/useAuth";
+import { useAuthStore } from '../state/useAuthStore';
 import transactionsData from "../pages/profileTransactionFile.json";
 import ProfileTransactionCard from "../components/ProfileTransactionCard";
 import Button from "../components/Button";
 
 const ProfileCard: React.FC = () => {
-  const { isAuthenticated, role } = useAuth();
+  const { isAuthenticated} = useAuthStore();
   const [showAllLarge, setShowAllLarge] = useState(false);
   const [showAllSmall, setShowAllSmall] = useState(false);
 

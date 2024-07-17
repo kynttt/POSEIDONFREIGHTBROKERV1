@@ -7,7 +7,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Button from '../components/Button';
 import LoadCard from '../components/LoadCard';
 import SideBar from '../components/SideBar';
-import { useAuth } from '../components/useAuth';
+import { useAuthStore } from '../state/useAuthStore';
+
 
 type CardProps = {
     pickupDate: Date | null;
@@ -23,8 +24,7 @@ type CardProps = {
 };
 
 const LoadBoard: React.FC = () => {
-    const { isAuthenticated, role, token } = useAuth(); // Using useAuth hook for authentication
-
+    const { isAuthenticated } = useAuthStore(); // Use Zustand store
     const [pickUpLocation, setPickUpLocation] = useState('');
     const [deliveryLocation, setDeliveryLocation] = useState('');
     const [pickUpDate, setPickUpDate] = useState<Date | null>(null);
@@ -38,7 +38,7 @@ const LoadBoard: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const token = localStorage.getItem('accessToken');
+            const token = localStorage.getItem('authToken');
             try {
                 if (pickUpLocation && token) {
                     const deliveryResponse = await axios.get(`http://localhost:5000/api/delivery-locations?pickUpLocation=${pickUpLocation}`, {
@@ -76,7 +76,7 @@ const LoadBoard: React.FC = () => {
         };
 
         fetchData();
-    }, [pickUpLocation, token]);
+    }, [pickUpLocation]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

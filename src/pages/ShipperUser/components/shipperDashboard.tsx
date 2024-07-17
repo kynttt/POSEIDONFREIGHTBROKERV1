@@ -1,4 +1,7 @@
-import Sidebar from "../../../components/SideBar";
+import Sidebar from '../../../components/SideBar';
+import ShipperBookings from './shipperBookings'; // Import LocationsList component
+import dashboardData from './shippersDashboardData.json'; // Import JSON data
+import { useAuthStore } from '../../../state/useAuthStore';
 import {
   LineChart,
   Line,
@@ -8,21 +11,16 @@ import {
   BarChart,
   Bar,
   ResponsiveContainer,
-} from "recharts";
+} from 'recharts';
 
-const data = [
-  { date: "01/03", value: 4 },
-  { date: "01/04", value: 5 },
-  { date: "01/05", value: 6 },
-  { date: "01/06", value: 5 },
-  { date: "01/07", value: 4 },
-];
 
 const ShipperDashboard = () => {
+  const { isAuthenticated } = useAuthStore();
+
   return (
     <div className="bg-white h-screen flex flex-col md:flex-row">
       {/* Sidebar */}
-      <Sidebar isAuthenticated={false} />
+      <Sidebar isAuthenticated={isAuthenticated} />
 
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 bg-gray-100 overflow-y-auto lg:px-20">
@@ -46,7 +44,7 @@ const ShipperDashboard = () => {
               <input
                 type="date"
                 id="startDate"
-                className="border rounded-lg p-2 text-sm"
+                className="border border-secondary bg-white rounded-lg p-2 text-sm text-gray-500"
               />
             </div>
             <div className="flex flex-col">
@@ -59,7 +57,7 @@ const ShipperDashboard = () => {
               <input
                 type="date"
                 id="endDate"
-                className="border lg:w-1/2 rounded-lg p-2 text-sm"
+                className="border border-secondary bg-white rounded-lg p-2 text-sm text-gray-500"
               />
             </div>
           </div>
@@ -70,10 +68,12 @@ const ShipperDashboard = () => {
               <p className="text-gray-600 font-semibold text-primary">
                 Average Lead Time (in days)
               </p>
-              <h3 className="text-4xl font-bold text-primary">5.3</h3>
+              <h3 className="text-4xl font-bold text-primary">
+                {dashboardData.overview.averageLeadTime}
+              </h3>
               <div className="w-full h-60">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data}>
+                  <LineChart data={dashboardData.overview.totalLoads}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
                     <Tooltip />
@@ -84,17 +84,17 @@ const ShipperDashboard = () => {
             </div>
 
             {/* On-Time Pickups (Grid) */}
-            <div className="grid  grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-              {[1, 2, 3, 4].map((index) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
+              {dashboardData.overview.onTimePickups.map((pickup) => (
                 <div
-                  key={index}
-                  className="bg-light-grey p-4 rounded-lg shadow text-center  border border-gray-200"
+                  key={pickup.id}
+                  className="bg-light-grey p-4 rounded-lg shadow text-center border border-gray-200"
                 >
                   <p className="text-gray-600 text-left font-medium text-primary text-base sm:text-lg md:text-xl">
                     On-Time Pickups
                   </p>
                   <h3 className="text-2xl text-left sm:text-3xl md:text-2xl font-bold text-primary">
-                    100%
+                    {pickup.percentage}%
                   </h3>
                 </div>
               ))}
@@ -107,7 +107,7 @@ const ShipperDashboard = () => {
               </h2>
               <div className="w-full h-60">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={data}>
+                  <BarChart data={dashboardData.overview.totalLoads}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
                     <Tooltip />
@@ -120,45 +120,7 @@ const ShipperDashboard = () => {
         </div>
 
         {/* Locations Section */}
-        <div className="rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
-          <h2 className="text-xl font-medium mb-4 text-secondary">Locations</h2>
-          <input
-            type="text"
-            className="border rounded-lg p-2 mb-4 w-full md:w-auto"
-            placeholder="All Locations"
-          />
-
-          {/* Sample Grids (to be replaced with dynamic data) */}
-          {[1, 2, 3].map((item) => (
-            <div
-              key={item}
-              className="bg-light-grey  rounded-lg shadow p-4 md:p-6 mb-4"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                  <h3 className="text-gray-600 text-primary">Load number</h3>
-                  <p>ABC12345566</p>
-                </div>
-                <div>
-                  <h3 className="text-gray-600 text-primary">
-                    Delivery Address
-                  </h3>
-                  <p>Los Angeles, CA</p>
-                </div>
-                <div>
-                  <h3 className="text-gray-600 text-primary">
-                    Delivery Date & Time
-                  </h3>
-                  <p>01 July 2023 19:09 GMT</p>
-                </div>
-                <div>
-                  <h3 className="text-gray-600 text-primary">Status</h3>
-                  <p>Completed</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <ShipperBookings />
       </div>
     </div>
   );

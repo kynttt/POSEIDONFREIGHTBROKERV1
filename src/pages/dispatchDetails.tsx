@@ -3,12 +3,12 @@ import Navbar from '../components/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/Button';
-import { useAuth } from '../components/useAuth';
+import { useAuthStore } from '../state/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 
 
 const DispatchDetails: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
   const handleButtonClick = () => {

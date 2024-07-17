@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import OverviewSection from '../components/OverviewSection';
 import ShipmentsAnalytics from '../components/ShipmentsAnalytics';
 import ShippersList from '../components/ShippersList';
@@ -6,11 +6,11 @@ import RecentTransactions from '../components/RecentTransactions';
 import overviewData from '../data/overviewData.json';
 import shippersData from '../data/shippersData.json';
 import transactionsData from '../data/transactionsData.json';
-import { useAuth } from '../../../components/useAuth';
+import { useAuthStore } from '../../../state/useAuthStore';
 import SideBar from '../../../components/SideBar';
 
 const AdminDashboard: React.FC = () => {
-  const { isAuthenticated, role } = useAuth();
+  const { isAuthenticated} = useAuthStore();
 
   const [overview, setOverview] = useState(overviewData);
   const [shippers, setShippers] = useState(shippersData);
