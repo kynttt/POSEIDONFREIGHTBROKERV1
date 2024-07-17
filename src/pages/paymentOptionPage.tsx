@@ -118,7 +118,7 @@ const PaymentComponent: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {[...Array(3)].map((_, index) => (
+                                    {[...Array(1)].map((_, index) => (
                                         <tr key={index} className="text-primary">
                                             <td className="px-4 py-2">{generateRandomNumber(1000, 9999)}</td>
                                             <td className="px-4 py-2">{generateRandomNumber(1000, 9999)}</td>
