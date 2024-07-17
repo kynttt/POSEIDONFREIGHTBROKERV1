@@ -110,9 +110,14 @@ const PaymentComponent = () => {
 
                         {/* Note Section */}
                         <div className="mt-8">
-                            <p className="text-primary text-lg font-normal pt-2">
-                                <span className="text-black text-lg mb-2 font-normal">Note:</span> Carrier liability for this shipment is not limited, except as specified in the Transportation Agreement between the parties.
-                            </p>
+                        <p className="text-primary text-lg font-normal pt-2 flex flex-col sm:flex-row">
+                                <span className="text-black text-lg mb-2 font-normal">Note:</span>
+                                <span className="sm:text-left sm:text-lg text-justify sm:flex-1 sm:ml-2">
+                                    Carrier liability for this shipment is not limited, except as specified in the Transportation Agreement between the parties.
+                                </span>
+                        </p>
+
+
                             <div className="text-gray-500 text-xs grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4 mt-2">
                                 <p className="lg:col-span-3 text-primary text-sm font-normal text-justify">
                                     The carrier shall not make delivery of this shipment without payment of charges and all other lawful fees. If a motor carrier, freight forwarder, broker
