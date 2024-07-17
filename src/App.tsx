@@ -22,6 +22,7 @@ import Profile from './pages/profile';
 import AccountingReports from './pages/accountingReport';
 import AccountingPayment from './pages/accountingPayment';
 import ShipperDashboard from './pages/ShipperUser/components/shipperDashboard';
+import PerformanceOverview from './pages/performanceGrade';
 
 import PrivateRoute from './components/PrivateRoute';
 
@@ -50,6 +51,7 @@ const App: React.FC = () => {
         <Route path="/accounting-report" element={<PrivateRoute element={<AccountingReports />} roles={['admin']} />} />
         <Route path="/accounting-payment" element={<PrivateRoute element={<AccountingPayment />} roles={['admin']} />} />
         <Route path="/shipper-dashboard" element={<PrivateRoute element={<ShipperDashboard />} roles={['user']} />} />
+        <Route path="/performance-grade" element={<PrivateRoute element={<PerformanceOverview />} roles={['user']} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
