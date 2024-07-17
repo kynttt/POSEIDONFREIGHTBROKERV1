@@ -108,8 +108,17 @@ const PaymentComponent = () => {
                             </table>
                         </div>
 
+                        <div className="flex items-center py-5 sm:mt-4 md:mt-6 lg:mt-8">
+                                <input type="checkbox" id="agreement" className="mr-2 w-6 h-6 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-7 lg:h-7 mb-2" />
+                                <label htmlFor="agreement" className="text-sm sm:text-base md:text-lg lg:text-xl mb-2 text-primary font-medium">
+                                    Affix your signature to the <a href="#" className="underline text-primary">agreement contract</a>.
+                                </label>
+                         </div>
+
+
+
                         {/* Note Section */}
-                        <div className="mt-8">
+                        <div className="mt-4">
                         <p className="text-primary text-lg font-normal pt-2 flex flex-col sm:flex-row">
                                 <span className="text-black text-lg mb-2 font-normal">Note:</span>
                                 <span className="sm:text-left sm:text-lg text-justify sm:flex-1 sm:ml-2">
