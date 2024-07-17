@@ -17,6 +17,7 @@ const SignupPage = () => {
     companyName: '',
   });
 
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -240,5 +241,4 @@ const SignupPage = () => {
     </div>
   );
 };
-
 export default SignupPage;
