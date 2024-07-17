@@ -19,7 +19,7 @@ import truckSizes from './truckSizes.json';
 
 const libraries: Libraries = ['places'];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ''; // Provide an empty string as a fallback
-console.log('Google Maps API Key:', process.env.REACT_APP_GOOGLE_MAPS_API);
+
 
 
 
