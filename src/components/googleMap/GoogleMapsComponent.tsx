@@ -18,7 +18,10 @@ import truckTypes from './truckTypes.json';
 import truckSizes from './truckSizes.json';
 
 const libraries: Libraries = ['places'];
-const googleMapsApiKey = 'AIzaSyDp5QMSHGXXam62GT8ykvvZfWhQ_-rH1Xo'; // Replace with your Google Maps API key
+const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ''; // Provide an empty string as a fallback
+console.log('Google Maps API Key:', process.env.REACT_APP_GOOGLE_MAPS_API);
+
+
 
 const QuoteDetails: React.FC = () => {
     const navigate = useNavigate();
