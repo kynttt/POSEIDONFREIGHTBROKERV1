@@ -72,7 +72,7 @@ const LoginPage: React.FC = () => {
       <div className="flex flex-col md:flex-row w-full max-w-4xl shadow-lg rounded-lg overflow-hidden">
         <div className="w-full md:w-1/2 bg-secondary flex flex-col justify-center items-center p-8">
           <h1 className="text-white text-4xl mb-4">Freight Broker</h1>
-          <img src={signupImage} alt="Freight Booker" className="w-full" />
+          <img src={signupImage} alt="Freight Booker" className="w-full"/>
           <p className="text-white text-2xl mt-4">Transport Logistics</p>
         </div>
         <div className="w-full md:w-1/2 bg-white flex flex-col justify-center p-8">
@@ -156,5 +156,4 @@ const LoginPage: React.FC = () => {
     </div>
   );
 };
-
 export default LoginPage;
