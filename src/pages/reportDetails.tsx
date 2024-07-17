@@ -33,7 +33,7 @@ const ReportDetails: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex h-screen bg-white">
       {/* <Navbar isAuthenticated={false} /> */}
       <SideBar isAuthenticated={isAuthenticated} />
       <div className="px-32 flex-1 min-h-screen overflow-y-auto">
