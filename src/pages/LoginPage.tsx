@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import signupImage from '../assets/img/signup.png';
+import signupImage from '../assets/img/DeliveredPackage.gif';
 import appleIcon from '../assets/img/apple.png';
 import googleIcon from '../assets/img/googleicon.png';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { useAuthStore } from '../state/useAuthStore';
 
 interface DecodedToken {
@@ -22,7 +22,7 @@ const LoginPage: React.FC = () => {
     email: '',
     password: '',
   });
-  
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -68,16 +68,18 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen justify-center items-center bg-gray-100">
-      <div className="flex flex-col md:flex-row w-full max-w-4xl shadow-lg rounded-lg overflow-hidden">
+    <div className="flex h-full lg:mt-36 md:mt-36 md:px-36 justify-center items-center p-4">
+      <div className="flex flex-col md:flex-row w-full max-w-full lg:max-w-4xl shadow-lg rounded-lg overflow-hidden">
+
         <div className="w-full md:w-1/2 bg-secondary flex flex-col justify-center items-center p-8">
-          <h1 className="text-white text-4xl mb-4">Freight Broker</h1>
-          <img src={signupImage} alt="Freight Booker" className="w-full" />
-          <p className="text-white text-2xl mt-4">Transport Logistics</p>
+          <h1 className="text-white text-2xl md:text-4xl mb-4 text-center">Freight Broker</h1>
+          <img src={signupImage} alt="Freight Booker" className="w-3/4 md:w-full mx-auto" />
+          <p className="text-white text-xl md:text-2xl mt-4 text-center">Transport Logistics</p>
         </div>
+
         <div className="w-full md:w-1/2 bg-white flex flex-col justify-center p-8">
           <div className="w-full max-w-sm mx-auto">
-            <h2 className="text-3xl font-bold mb-6 text-secondary text-center">Sign In</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-secondary text-center">Sign In</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-primary text-sm font-bold mb-2" htmlFor="email">
@@ -95,10 +97,10 @@ const LoginPage: React.FC = () => {
               </div>
               <div className="mb-6">
                 <div className="flex justify-between items-center">
-                  <label className="block text-primary text-sm font-bold mb-2 " htmlFor="password">
+                  <label className="block text-primary text-sm font-bold mb-2" htmlFor="password">
                     Password
                   </label>
-                  <a href="#" className="inline-block align-baseline font-medium text-sm text-blue-400 hover:text-blue-800">
+                  <a href="#" className="inline-block align-baseline font-medium text-sm text-blue-400 hover:text-blue-800 md:pl-10">
                     Forgot Password?
                   </a>
                 </div>
@@ -152,6 +154,7 @@ const LoginPage: React.FC = () => {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
