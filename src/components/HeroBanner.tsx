@@ -51,5 +51,4 @@ const HeroBanner: React.FC = () => {
     </div>
   );
 };
-
 export default HeroBanner;
