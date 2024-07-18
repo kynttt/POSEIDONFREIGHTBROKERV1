@@ -40,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = () => {
         <nav className="bg-[#7783D2] px-4 py-8 ">
             <div className="container mx-auto flex justify-between items-center">
                 <button
-                    className="text-white text-4xl lg:text-4xl font-normal hover:text-[#252F70]"
+                    className="text-black text-2xl lg:text-3xl font-normal hover:text-[#252F70]"
                     onClick={() => handleNavigation('/')}
                 >
                     Freight Broker
@@ -72,34 +72,34 @@ const Navbar: React.FC<NavbarProps> = () => {
                     {!isAuthenticated ? (
                         <>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-normal transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/')}
                             >
                                 HOME
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-normal transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('#services')}
+                            >
+                                ABOUT
+                            </button>
+                            <button
+                                className="text-primary no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                onClick={() => handleNavigation('#about')}
                             >
                                 SERVICES
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('#about')}
-                            >
-                                ABOUT US
-                            </button>
-                            <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-normal transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('#contacts')}
                             >
                                 CONTACTS
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-normal transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/signup')}
                             >
-                                CREATE ACCOUNT
+                                CAREERS
                             </button>
                         </>
                     ) : role === 'admin' ? (
@@ -188,7 +188,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                     {!isAuthenticated && (
                         <div className="flex justify-center items-center h-full">
                             <Button
-                                label="LOGIN"
+                                label="Get Started"
                                 size="medium"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
