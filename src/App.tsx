@@ -10,7 +10,7 @@ import NonBusinessPage from './pages/NonBusinessEmail';
 import BookingConfirmation from './pages/bookingSuccessful';
 import UserPayables from './pages/userDashboard';
 import BillOfLadingPage from './pages/billOfLanding';
-import DispatchDetails from './pages/dispatchDetails';
+// import DispatchDetails from './pages/dispatchDetails';
 import PaymentOptionPage from './pages/paymentOptionPage';
 import ReportDetails from './pages/reportDetails';
 import NotFound from './pages/NotFound';
@@ -38,7 +38,7 @@ const App: React.FC = () => {
         <Route path="/trailer-options" element={<PrivateRoute element={<TrailerOptionsPage />} />} />
         <Route path="/nonbusiness" element={<PrivateRoute element={<NonBusinessPage />} />} />
         <Route path="/booking-successful" element={<PrivateRoute element={<BookingConfirmation />} />} />
-        <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} />
+        {/* <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} /> */}
         <Route path="/payment-option" element={<PrivateRoute element={<PaymentOptionPage />} />} />
         <Route path="/report-details" element={<PrivateRoute element={<ReportDetails />} roles={['admin']} />} />
         <Route path="/invoice" element={<PrivateRoute element={<Invoice />} />} />
