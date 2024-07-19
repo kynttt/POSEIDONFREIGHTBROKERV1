@@ -97,9 +97,15 @@ const Navbar: React.FC<NavbarProps> = () => {
                             </button>
                             <button
                                 className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/signup')}
+                                onClick={() => handleNavigation('/#')}
                             >
                                 CAREERS
+                            </button>
+                            <button
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                onClick={() => handleNavigation('/signup')}
+                            >
+                                CREATE ACCOUNT
                             </button>
                         </>
                     ) : role === 'admin' ? (
