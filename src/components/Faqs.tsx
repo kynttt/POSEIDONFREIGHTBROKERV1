@@ -34,7 +34,7 @@ const FAQsPage: React.FC = () => {
             </div>
           </div>
           {/* Image display with responsive margin and padding */}
-          <div className="mt-8 lg:mt-14 flex justify-center lg:px-14 lg:pl-32">
+          <div className="mt-8 lg:mt-14 flex justify-center lg:pl-32">
             <img
               src={FaqsImage}
               alt="FAQS"
@@ -45,7 +45,7 @@ const FAQsPage: React.FC = () => {
       </div>
 
         {/* FAQ Section */}
-        <div className="lg:w-1/2 mt-24 lg:mt-32">
+        <div className="lg:w-1/2 mt-24 lg:mt-32 lg:pl-14">
           {faqs.map((faq, index) => (
             <div key={index} className="mb-8">
               <h2 className="text-xl font-medium text-primary mb-2">{faq.question}</h2>
