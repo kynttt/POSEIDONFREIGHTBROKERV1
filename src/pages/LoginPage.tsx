@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex h-full lg:mt-36 md:mt-36 md:px-36 justify-center items-center p-4">
+    <div className="bg-white flex h-screen  md:px-36 justify-center items-center p-4">
       <div className="flex flex-col md:flex-row w-full max-w-full lg:max-w-4xl shadow-lg rounded-lg overflow-hidden">
 
         <div className="w-full md:w-1/2 bg-secondary flex flex-col justify-center items-center p-8">
