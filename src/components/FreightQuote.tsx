@@ -50,10 +50,10 @@ const FreightQuote: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-gradient-to-r from-blue-400 to-purple-500">
-            <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20 lg:hidden">
-                <h2 className="text-3xl font-semibold text-[#252F70]">GET A</h2>
-                <h2 className="text-3xl font-semibold text-[#252F70]">FREIGHT QUOTE</h2>
+        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-[#B7C0F9] bg-opacity-83">
+            <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20">
+                <h2 className="text-4xl font-bold text-primary">GET A</h2>
+                <h2 className="text-4xl font-bold text-primary">FREIGHT QUOTE</h2>
             </div>
 
             <div 
