@@ -18,20 +18,32 @@ const HeroBanner: React.FC = () => {
         background: "linear-gradient(-180deg, #7783D2 13%, #F0F0F0 83%)",
       }}
     >
-      <div className="text-left md:px-30 lg:px-48 mt-24 md:mt-32 lg:mt-48">
+      <div className="text-left md:px-30 lg:px-40 mt-24 md:mt-32 lg:mt-48">
         <h1
           className="
           text-3xl md:text-4xl lg:text-5xl 
-          xl:text-6xl font-medium text-white
-          md:w-60 sm:w-60"
-          style={{ textShadow: "0px 4px 6px rgba(0, 0, 2, 0.5)" }}
+          xl:text-6xl font-medium text-white"
+          style={{ textShadow: "0px 4px 6px rgba(0, 0, 2, 0.3)" }}
         >
           TRANSPORT
         </h1>
-        <h2
-          className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black mt-2 mb-5 text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-600"
-        >
-          LOGISTICS
+
+        <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black mt-2 mb-5 relative">
+          <span
+            className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-600 relative z-10"
+            style={{ zIndex: 10 }}
+          >
+            LOGISTICS
+          </span>
+          <span
+            className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-600 absolute top-0 left-0 z-0"
+            style={{
+              filter: "drop-shadow(0 4px 2px rgba(0, 0, 0, 0.3))",
+              zIndex: 0,
+            }}
+          >
+            LOGISTICS
+          </span>
         </h2>
 
         <div className="flex justify-start mt-6 md:mt-8 lg:mt-12">
@@ -45,13 +57,12 @@ const HeroBanner: React.FC = () => {
             type=""
           />
         </div>
-        
       </div>
       <img
         src={heroBanner}
         alt="Hero Banner"
-        className="absolute right-0 top-5 w-[80%] md:w-[60%] lg:w-[45%] xl:w-[40%] h-auto object-contain" 
-        style={{ filter: "drop-shadow(10px 10px 6px rgba(2, 2, 2, 0.5)" }}
+        className="absolute right-0 top-0 md:top-5 w-[80%] md:w-[60%] lg:w-[45%] xl:w-[40%] h-auto object-contain"
+        style={{ filter: "drop-shadow(10px 10px 6px rgba(2, 2, 2, 0.5))" }}
       />
     </div>
   );
