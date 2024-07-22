@@ -50,14 +50,14 @@ const FreightQuote: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-[#B7C0F9] bg-opacity-83">
-            <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20">
+        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-[#B7C0F9] bg-opacity-83 gap-16">
+            <div className="text-left lg:text-left mb-8 lg:mb-0 lg:mx-40 ml-8 lg:ml-0">
                 <h2 className="text-4xl font-bold text-primary">GET A</h2>
                 <h2 className="text-4xl font-bold text-primary">FREIGHT QUOTE</h2>
             </div>
 
-            <div 
-                ref={ref} 
+            <div
+                ref={ref}
                 className={`flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto backdrop-filter backdrop-blur-lg bg-opacity-85 border border-current-200
                     transition-transform duration-1000 ${inView ? 'transform-none opacity-100' : 'transform translate-y-20 opacity-0'}`}
             >
@@ -69,7 +69,7 @@ const FreightQuote: React.FC = () => {
                             placeholder="Pick Up"
                             value={pickUp}
                             onChange={handlePickUpChange}
-                            className="text-black border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto  font-normal"
+                            className="text-black border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto font-normal"
                         />
                         <input
                             type="text"
@@ -91,7 +91,7 @@ const FreightQuote: React.FC = () => {
                             bgColor="#252F70"
                             hoverBgColor="white"
                             onClick={openModal}
-                            className="extra-class-for-medium-button " type={''}                        />
+                            className="extra-class-for-medium-button" type={''}                        />
                     </div>
                 </div>
             </div>
