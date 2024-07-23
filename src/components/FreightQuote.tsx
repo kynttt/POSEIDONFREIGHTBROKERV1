@@ -50,10 +50,10 @@ const FreightQuote: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-[#B7C0F9] bg-opacity-83 gap-16">
-            <div className="text-left lg:text-left mb-8 lg:mb-0 lg:mx-40 ml-8 lg:ml-0">
-                <h2 className="text-4xl font-bold text-primary">GET A</h2>
-                <h2 className="text-4xl font-bold text-primary">FREIGHT QUOTE</h2>
+        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-[#B7C0F9] bg-opacity-83 px-4 sm:px-8 lg:px-16 lg:gap-32">
+            <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20">
+                <h2 className="text-3xl font-semibold text-[#252F70]">GET A</h2>
+                <h2 className="text-3xl font-semibold text-[#252F70]">FREIGHT QUOTE</h2>
             </div>
 
             <div
@@ -63,27 +63,27 @@ const FreightQuote: React.FC = () => {
             >
                 <div className="flex flex-col w-full">
                     <h3 className="text-center text-lg font-semibold text-[#252F70] mb-8">Cost Calculator</h3>
-                    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full">
+                    <div className="flex flex-col md:flex-row md:space-x-4 md:space-y-0 space-y-4 w-full">
                         <input
                             type="text"
                             placeholder="Pick Up"
                             value={pickUp}
                             onChange={handlePickUpChange}
-                            className="text-black border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto font-normal"
+                            className="text-black border border-[#252F70] rounded px-4 py-2 bg-transparent w-full md:w-1/3 lg:w-1/4 font-normal"
                         />
                         <input
                             type="text"
                             placeholder="Destination"
                             value={destination}
                             onChange={handleDestinationChange}
-                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-auto text-black font-normal"
+                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full md:w-1/3 lg:w-1/4 text-black font-normal"
                         />
                         <input
                             type="text"
                             placeholder="Weight (lb)"
                             value={weight}
                             onChange={handleWeightChange}
-                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full lg:w-1/4 text-black font-normal"
+                            className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full md:w-1/4 lg:w-1/4 text-black font-normal"
                         />
                         <Button
                             label="Request a Quote"
@@ -95,10 +95,11 @@ const FreightQuote: React.FC = () => {
                     </div>
                 </div>
             </div>
+
             {showModal && (
                 <Modal closeModal={closeModal}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-6 sm:px-12 py-8">
-                        <div className="flex flex-col space-y-8 items-center">
+                        <div className="flex flex-row space-x-4 items-center w-full">
                             <Button
                                 label="Full Truckload"
                                 size="truckButton"
@@ -109,8 +110,6 @@ const FreightQuote: React.FC = () => {
                                 size="truckButton"
                                 bgColor="grey"
                                 onClick={handleTruckButtonClick} type={''}                            />
-                        </div>
-                        <div className="flex flex-col space-y-8 items-center">
                             <Button
                                 label="Dry Van"
                                 size="truckButton"
