@@ -79,13 +79,13 @@ const Navbar: React.FC<NavbarProps> = () => {
                             </button>
                             <button
                                 className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('#services')}
+                                onClick={() => handleNavigation('#about')}
                             >
                                 ABOUT
                             </button>
                             <button
                                 className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('#about')}
+                                onClick={() => handleNavigation('#services')}
                             >
                                 SERVICES
                             </button>
@@ -97,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             </button>
                             <button
                                 className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/#')}
+                                onClick={() => handleNavigation('#careers')}
                             >
                                 CAREERS
                             </button>
@@ -227,21 +227,29 @@ const Navbar: React.FC<NavbarProps> = () => {
                                 </button>
                                 <button
                                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
+                                    onClick={() => handleNavigation('#about')}
+                                >
+                                    ABOUT
+                                </button>
+                                <button
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('#services')}
                                 >
                                     SERVICES
                                 </button>
                                 <button
                                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
-                                    onClick={() => handleNavigation('#about')}
-                                >
-                                    ABOUT US
-                                </button>
-                                <button
-                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('#contacts')}
                                 >
                                     CONTACTS
+                                    
+                                </button>
+                                <button
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
+                                    onClick={() => handleNavigation('#careers')}
+                                >
+                                    CAREERS
+                                    
                                 </button>
                                 <button
                                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
