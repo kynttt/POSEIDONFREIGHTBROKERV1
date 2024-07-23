@@ -5,7 +5,7 @@ const FeaturesSection: React.FC = () => {
   return (
     <div className="bg-white flex flex-col items-center lg:flex-row lg:items-start px-4 md:px-8 lg:px-36">
       {/* Image Section */}
-      <div className="text-center mb-8 w-full lg:w-auto">
+      <div className="w-full lg:w-1/3 text-center mb-8">
         <div id="features" className="bg-white py-12">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
             <div className="text-start">
@@ -29,7 +29,7 @@ const FeaturesSection: React.FC = () => {
       </div>
 
       {/* Text Section */}
-      <div className="w-full lg:w-1/2 mt-0 mb-20 lg:mb-0 lg:mt-20">
+      <div className="w-full lg:w-2/3 mt-0 mb-20 lg:mb-0 lg:mt-20">
         {/* Flexbox layout for mobile and tablet, grid layout for large screens */}
         <div className="mt-14 flex flex-col lg:grid lg:grid-cols-2 gap-14">
           <div className="bg-white p-8">
