@@ -57,8 +57,6 @@ const FAQsPage: React.FC = () => {
           ))}
         </div>
       </div>
-
-    
   );
 };
 
