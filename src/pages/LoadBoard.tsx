@@ -8,6 +8,7 @@ import Button from '../components/Button';
 import LoadCard from '../components/LoadCard';
 import SideBar from '../components/SideBar';
 import { useAuthStore } from '../state/useAuthStore';
+import { fetchDeliveryLocations, fetchQuotes } from '../lib/apiCalls';
 
 
 type CardProps = {
@@ -40,48 +41,25 @@ const LoadBoard: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const token = localStorage.getItem('authToken');
-            try {
-                if (pickUpLocation && token) {
-                    const deliveryResponse = await axios.get(`http://localhost:5000/api/delivery-locations?pickUpLocation=${pickUpLocation}`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    setAvailableDeliveryLocations(deliveryResponse.data);
-                }
-
-
-                if (token) {
-                    const quotesResponse = await axios.get('http://localhost:5000/api/quotes/', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    const transformedData = quotesResponse.data.map((quote: any) => ({
-                        id: quote._id,
-                        pickUp: quote.origin,
-                        drop: quote.destination,
-                        maxWeight: quote.maxWeight,
-                        companyName: quote.companyName,
-                        trailerType: quote.trailerType,
-                        distance: quote.distance,
-                        trailerSize: quote.trailerSize,
-                        loadPrice: quote.price,
-                        commodity:quote.commodity,
-                        pickupDate:quote.pickupDate,
-                        onBookLoadClick: () => { /* Handle book load click */ },
-                    }));
-                    setLoadCards(transformedData);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                // Handle error (e.g., redirect to login if unauthorized)
+          const token = localStorage.getItem('authToken');
+          try {
+            if (pickUpLocation && token) {
+              const deliveryLocations = await fetchDeliveryLocations(pickUpLocation, token);
+              setAvailableDeliveryLocations(deliveryLocations);
             }
+    
+            if (token) {
+              const quotes = await fetchQuotes(token);
+              setLoadCards(quotes);
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+            // Handle error (e.g., redirect to login if unauthorized)
+          }
         };
-
+    
         fetchData();
-    }, [pickUpLocation]);
+      }, [pickUpLocation]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

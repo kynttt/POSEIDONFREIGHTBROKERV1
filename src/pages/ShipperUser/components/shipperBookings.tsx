@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { fetchUserBookings } from '../../../lib/apiCalls';
 
 const ShipperBookings = () => {
   const [bookings, setBookings] = useState<any[]>([]);
@@ -16,17 +16,11 @@ const ShipperBookings = () => {
           return;
         }
 
-        const bookingsResponse = await axios.get('http://localhost:5000/api/bookings/user', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-
-        setBookings(bookingsResponse.data);
+        const bookingsData = await fetchUserBookings(token);
+        setBookings(bookingsData);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
-        // Optionally handle error state or display an error message
         setLoading(false);
       }
     };
