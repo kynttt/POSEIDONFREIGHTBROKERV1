@@ -1,57 +1,70 @@
 import React from 'react';
 
-const Footer: React.FC = () => {
-    return (
-        <footer className="bg-secondary text-white py-8">
-            <div className="container mx-auto px-4 md:px-8 lg:px-14 grid grid-cols-1 lg:grid-cols-5 gap-8">
-                <div>
-                    <h2 className="font-medium mb-4 text-2xl">Freight Brokerage</h2>
-                    <h2 className="font-medium  text-2xl">Transport</h2>
-                    <h2 className="font-medium  text-2xl text-primary">Logistics</h2>
-                    
-                </div>
-                <div className='lg:ml-16'>
-                    <h2 className="font-medium mb-4 text-2xl">Trailers</h2>
-                    <ul>
-                        <li className='font-light'>Full Truckload</li>
-                        <li className='font-light'>Flat Bed</li>
-                        <li className='font-light'>Refrigerated Trailer</li>
-                        <li className='font-light'>Dry Van</li>
-                    </ul>
-                </div>
-                <div className='lg:ml-10'>
-                    <h2 className="font-medium mb-4 text-2xl">Services</h2>
-                    <ul>
-                        <li className='font-light'>Carriers</li>
-                        <li className='font-light'>Brokers</li>
-                        <li className='font-light'>Shippers</li>
-                    </ul>
-                </div>
-                <div >
-                    <h2 className="font-medium mb-4 text-2xl">Quick Links</h2>
-                    <ul>
-                        <li className='font-light'>About Us</li>
-                        <li className='font-light'>Services</li>
-                        <li className='font-light'>Careers</li>
-                        <li className='font-light'>FAQs</li>
-                    </ul>
-                </div>
-                <div>
-                    <h2 className="font-medium mb-4 text-2xl">Connect with us</h2>
-                    <address>
-                        <p className='font-light'>Freight Brokerage</p>
-                        <p className='font-light mb-4'>1020 A St SE Suit 7 Auburn WA 98002</p>
-                        <p className='font-light'>Email: <a href="mailto:info@pdienterprise.com" className="text-white underline font-light">info@pdienterprise.com</a></p>
-                        <p className='font-light'>PHONE: <a href="tel:+12532691300" className="text-white underline font-light">(253) 269 1300</a></p>
-                        <p className='font-light'>FAX: <a href="tel:+12532895660" className="text-white underline font-light">(253) 289 5660</a></p>
-                    </address>
-                </div>
-            </div>
-            <div className="border-t-2 border-white mt-8 pt-4">
-                <p className="text-center font-light">&copy; 2024 Freight Brokerage - All Rights Reserved.</p>
-            </div>
-        </footer>
-    );
-}
+const Footer = () => {
+  // Get current year
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="bg-[#B7C0F9] text-gray-300">
+      <div className="mx-auto py-6 lg:px-24 sm:px-6 flex flex-wrap justify-between border-b-4 border-white pt-10">
+        {/* Left Side (Freight Brokerage) */}
+        <div className="w-full md:w-auto mb-8 md:mb-0 flex-shrink-0 lg:mt-10">
+          <h2 className="text-3xl md:text-5xl text-primary font-bold md:mb-5">Freight Brokerage</h2>
+        </div>
+
+        {/* Right Side (Trailers, Services, Quick Links, Connect with us) */}
+        <div className="flex flex-wrap w-full md:w-auto gap-8 md:gap-20 mt-8 md:mt-0">
+          
+          {/* Trailers */}
+          <div className="w-full md:w-auto mb-4 md:mb-0">
+            <h3 className="font-bold mb-2 text-lg text-primary">Trailers</h3>
+            <ul className="list-none text-primary font-light">
+              <li>Full Truckload</li>
+              <li>Flat Bed</li>
+              <li>Refrigerated Trailer</li>
+              <li>Dry Van</li>
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div className="w-full md:w-auto mb-4 md:mb-0">
+            <h3 className="font-bold mb-2 text-lg text-primary">Services</h3>
+            <ul className="list-none text-primary font-light">
+              <li>Carriers</li>
+              <li>Brokers</li>
+              <li>Shippers</li>
+            </ul>
+          </div>
+
+          {/* Quick Links */}
+          <div className="w-full md:w-auto mb-4 md:mb-0">
+            <h3 className="font-bold mb-2 text-lg text-primary">Quick Links</h3>
+            <ul className="list-none text-primary font-light">
+              <li>About Us</li>
+              <li>Services</li>
+              <li>Careers</li>
+              <li>FAQs</li>
+            </ul>
+          </div>
+
+          {/* Connect with us */}
+          <div className="w-full md:w-auto mb-4 md:mb-0 text-primary font-light">
+            <h3 className="font-bold mb-2 text-lg text-primary">Connect with us</h3>
+            <p className="mb-2">Freight Brokerage</p>
+            <p>1020 A St SE Suit 7 Auburn WA 98002</p>
+            <p>Email: info@pdienterprise.com</p>
+            <p>PHONE: (253) 269 1300</p>
+            <p>FAX: (253) 289 5660</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Footer Bottom */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 text-center lg:mr-20 text-primary font-light">
+        <p>Copyright &copy; {currentYear} Freight Brokerage - All Rights Reserved.</p>
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;
