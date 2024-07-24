@@ -22,41 +22,34 @@ const FAQsPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white flex flex-col items-center lg:flex-row lg:items-start px-4 md:px-8 lg:px-36">
-      {/* Image Section */}
-      <div className="text-center mb-8 w-full lg:w-auto">
-        <div id="features" className="bg-white py-12">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-            <div className="text-start">
-              <h2 className="mt-4 text-3xl text-gray-600 tracking-wider text-primary font-">
-              FAQs
-              </h2>
-            </div>
-          </div>
-          {/* Image display with responsive margin and padding */}
-          <div className="mt-8 lg:mt-14 flex justify-center lg:pl-32">
+    <div className="bg-white flex flex-col  px-4 py-8 md:px-8 lg:px-32 lg:py-28">
+      <h2 className="text-left text-3xl text-gray-600 tracking-wider text-primary mb-8">
+        FAQs
+      </h2>
+      <div className="flex flex-col lg:flex-row items-center lg:items-start  lg:px-28">
+
+        {/* Image Section */}
+        <div className="text-center mb-8 lg:mb-0 lg:w-1/3 ">
           <img
             src={FaqsImage}
             alt="FAQS"
-            className="w-[396px] h-[386px] object-cover"
-            style={{ width: '396px', height: '386px' }}
+            className="lg:wfull lg:h-full "
           />
         </div>
 
-        </div>
-      </div>
-
         {/* FAQ Section */}
-        <div className="lg:w-1/2 lg:mt-32 lg:pl-14">
+        <div className="lg:w-2/3 ">
+
           {faqs.map((faq, index) => (
             <div key={index} className="mb-6">
               <h2 className="text-xl font-medium text-primary mb-2">{faq.question}</h2>
-              <p className="text-gray-500 text-sm font-normal mb-2 text-justify">{faq.answer}</p>
+              <p className="text-gray-500 text-md font-thin mb-2 text-justify">{faq.answer}</p>
               {index < faqs.length - 1 && <hr className="mt-6 border-light-grey" />}
             </div>
           ))}
         </div>
       </div>
+    </div>
   );
 };
 
