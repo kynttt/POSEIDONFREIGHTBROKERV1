@@ -35,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
     truckButton: 'w-72 h-16 text-lg',
     contactButton: 'w-full h-12 text-lg',
     bookingSuccessful: 'w-60 h-12 text-base',
-    homeButton: 'w-60 h-20 text-lg font-bold',
+    homeButton: 'w-64 h-16 text-lg font-bold',
   };
 
   // Define border and text color styles based on bgColor
