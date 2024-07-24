@@ -1,4 +1,5 @@
 import React from 'react';
+import FaqsImage from "../assets/img/faqs.png";
 
 const FAQsPage: React.FC = () => {
   const faqs = [
@@ -21,16 +22,32 @@ const FAQsPage: React.FC = () => {
   ];
 
   return (
-    <div className=" bg-white flex flex-col items-center mt-20">
-      <div className="w-full max-w-5xl p-8">
-        <h1 className="text-4xl font-medium text-primary my-10">FAQs</h1>
-        {faqs.map((faq, index) => (
-          <div key={index} className="mb-8">
-            <h2 className="text-xl font-medium text-secondary mb-2">{faq.question}</h2>
-            <p className="text-gray-500 text-sm font-normal mb-10 text-justify">{faq.answer}</p>
-            {index < faqs.length + 1 && <hr className="mt-6 border-light-grey" />}
-          </div>
-        ))}
+    <div className="bg-white flex flex-col  px-4 py-8 md:px-8 lg:px-32 lg:py-28">
+      <h2 className="text-left text-3xl text-gray-600 tracking-wider text-primary mb-8">
+        FAQs
+      </h2>
+      <div className="flex flex-col lg:flex-row items-center lg:items-start  lg:px-28">
+
+        {/* Image Section */}
+        <div className="text-center mb-8 lg:mb-0 lg:w-1/3 ">
+          <img
+            src={FaqsImage}
+            alt="FAQS"
+            className="lg:wfull lg:h-full "
+          />
+        </div>
+
+        {/* FAQ Section */}
+        <div className="lg:w-2/3 ">
+
+          {faqs.map((faq, index) => (
+            <div key={index} className="mb-6">
+              <h2 className="text-xl font-medium text-primary mb-2">{faq.question}</h2>
+              <p className="text-gray-500 text-md font-thin mb-2 text-justify">{faq.answer}</p>
+              {index < faqs.length - 1 && <hr className="mt-6 border-light-grey" />}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

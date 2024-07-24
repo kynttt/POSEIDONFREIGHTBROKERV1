@@ -305,7 +305,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             </button>
                                 <button
                                     className="block text-white hover:text-[#252F70] text-center transition duration-300"
-                                    onClick={() => handleNavigation('/quote-details')}
+                                    onClick={() => handleNavigation('/distance-calculator')}
                                 >
                                     REQUEST A QUOTE
                                 </button>
