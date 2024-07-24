@@ -18,7 +18,7 @@ const FeaturesSection: React.FC = () => {
             </div>
           </div>
           {/* Image display with responsive margin and padding */}
-          <div className="mt-8 lg:mt-14 flex justify-center px-20">
+          <div className="mt-8 lg:mt-24 flex justify-center px-6 lg:px-0">
             <img
               src={freightImage}
               alt="Freight"
@@ -29,14 +29,13 @@ const FeaturesSection: React.FC = () => {
       </div>
 
       {/* Text Section */}
-      <div className="w-full lg:w-2/3 mt-0 mb-20 lg:mb-0 lg:mt-20">
-        {/* Flexbox layout for mobile and tablet, grid layout for large screens */}
-        <div className="mt-14 flex flex-col lg:grid lg:grid-cols-2 gap-14">
+      <div className="w-full lg:w-2/3 mt-8 lg:mt-18">
+        <div className="mt-36 flex flex-col lg:grid lg:grid-cols-2 gap-20">
           <div className="bg-white p-8">
             <h3 className="text-lg font-bold text-primary text-center">
               FLAT RATE QUOTES
             </h3>
-            <p className="mt-2 font-normal text-lg text-gray-500 py-2 text-center">
+            <p className="mt-2 font-normal text-base text-gray-500 py-2 text-center">
               The freight quotes you’ll get are flat rates based on a shipment’s
               date, distance, and trailer type. These aren’t estimates, but
               actual market-based quotes you can book.
@@ -48,7 +47,7 @@ const FeaturesSection: React.FC = () => {
               <h3 className="text-lg font-bold text-primary text-center">
                 BOOK SHIPMENTS INSTANTLY
               </h3>
-              <p className="mt-2 font-normal text-lg text-gray-500 py-2 text-center">
+              <p className="mt-2 font-normal text-base text-gray-500 py-2 text-center">
                 Booking at your quoted rate only takes a couple of clicks. If
                 you don’t have an account, creating one takes less than 5
                 minutes.
@@ -61,10 +60,10 @@ const FeaturesSection: React.FC = () => {
               <h3 className="text-lg font-bold text-primary">
                 GET 24/7 SUPPORT
               </h3>
-              <p className="mt-2 font-normal text-lg text-gray-500 py-2 text-center">
-                We’ll keep you updated from the moment the BOL is <br />
-                generated to the second the carrier uploads the POD.
-              </p>
+              <p className="mt-2 font-normal text-base text-gray-500 py-2 text-center">
+                  We’ll keep you updated from the moment<br /> the BOL is 
+                  generated to the second the <br />carrier uploads the POD.
+                </p>
             </div>
           </div>
         </div>
