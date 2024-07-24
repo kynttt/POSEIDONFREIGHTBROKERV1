@@ -12,7 +12,7 @@ const HeroBanner: React.FC = () => {
 
   return (
     <div
-      className="relative flex flex-col md:flex-row justify-between items-start px-6 md:px-12 lg:px-24 xl:px-32 lg:w-full lg:h-5/6 md:h-screen md:h-1/2 sm:h-1/2"
+      className="relative flex flex-col md:flex-row justify-between items-start px-6 md:px-12 lg:px-24 xl:px-32 lg:w-full lg:h-5/6 md:h-5/6 md:h-1/2 sm:h-1/2"
       style={{
         background:
           "linear-gradient(-180deg, #7783D2 13%, #F0F0F0 83%)",
@@ -21,7 +21,7 @@ const HeroBanner: React.FC = () => {
       {/* Parent container for both text content and image */}
       <div className="flex flex-col md:flex-row items-start justify-between w-full lg:h-full mt-5 lg:mt-7">
         {/* Image Section (mobile first) */}
-        <div className="md:hidden w-full relative mb-8">
+        <div className="md:hidden w-full relative mb-8 ml-2">
           <img
             src={heroBanner}
             alt="Hero Banner"
@@ -31,7 +31,7 @@ const HeroBanner: React.FC = () => {
         </div>
 
         {/* Content Section */}
-        <div className="flex-1 md:px-10 lg:px-20 xl:px-40 md:mt-12 lg:mt-32 sm:mt-8 z-10">
+        <div className="flex-1 md:px-10 lg:px-10 md:mt-12 lg:mt-32 sm:mt-8 z-10">
           <h1
             className="text-3xl md:text-5xl xl:text-7xl font-medium text-white"
             style={{ textShadow: "0px 4px 6px rgba(0, 0, 2, 0.3)" }}
