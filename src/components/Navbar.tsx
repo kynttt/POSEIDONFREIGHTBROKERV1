@@ -318,8 +318,13 @@ const Navbar: React.FC<NavbarProps> = () => {
                                 TRUCKS
                             </button>
                                 <button
+<<<<<<< HEAD
                                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/quote-details')}
+=======
+                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    onClick={() => handleNavigation('/distance-calculator')}
+>>>>>>> 200e5100917f474ae682eb23cea90ee140de1020
                                 >
                                     REQUEST A QUOTE
                                 </button>
