@@ -250,7 +250,7 @@ const QuoteDetails: React.FC = () => {
                                     </div>
                                     <div className="w-full md:w-1/3"> {/* Adjust width for different screen sizes */}
                                         <div className="mb-4 lg:mt-4">
-                                            <h3 className="text-lg font-medium text-secondary my-2">Size (ft)<span className="text-red-500">*</span></h3>
+                                            <h3 className="text-lg font-medium text-secondary my-2">Size (ft)<span className="text-red-500"> *</span></h3>
                                             <select
                                                 className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
                                                 value={selectedTrailerSize}

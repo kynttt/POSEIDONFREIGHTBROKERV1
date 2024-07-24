@@ -25,6 +25,8 @@ import ShipperDashboard from './pages/ShipperUser/components/shipperDashboard';
 import PerformanceOverview from './pages/performanceGrade';
 
 import PrivateRoute from './components/PrivateRoute';
+// import StripeCheckout from './pages/Stripe/StripeCheckout';
+import MockCheckout from './pages/Stripe/MockCheckout';
 
 const App: React.FC = () => {
   return (
@@ -33,6 +35,8 @@ const App: React.FC = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/checkout" element={<StripeCheckout />} /> */}
+        <Route path="/mock-checkout" element={<MockCheckout />} />
         {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
         <Route path="/trailer-options" element={<PrivateRoute element={<TrailerOptionsPage />} />} />
         <Route path="/nonbusiness" element={<PrivateRoute element={<NonBusinessPage />} />} />
