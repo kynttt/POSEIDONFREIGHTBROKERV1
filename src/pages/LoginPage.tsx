@@ -1,5 +1,6 @@
+// LoginPage.tsx
+
 import React, { useState } from 'react';
-import axios from 'axios';
 import signupImage from '../assets/img/DeliveredPackage.gif';
 import appleIcon from '../assets/img/apple.png';
 import googleIcon from '../assets/img/googleicon.png';
@@ -7,6 +8,8 @@ import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { useAuthStore } from '../state/useAuthStore';
+import { loginUser } from '../lib/apiCalls';
+import axios from 'axios';
 
 interface DecodedToken {
   user: {
@@ -36,12 +39,9 @@ const LoginPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', {
-        email: formData.email,
-        password: formData.password,
-      });
-
-      const token = response.data.token;
+      const { email, password } = formData;
+      const response = await loginUser(email, password);
+      const token = response.token;
       login(token);
 
       const decodedToken = jwtDecode<DecodedToken>(token);
@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-white flex h-screen  md:px-36 justify-center items-center p-4">
+    <div className="bg-white flex h-screen md:px-36 justify-center items-center p-4">
       <div className="flex flex-col md:flex-row w-full max-w-full lg:max-w-4xl shadow-lg rounded-lg overflow-hidden">
 
         <div className="w-full md:w-1/2 bg-secondary flex flex-col justify-center items-center p-8">
