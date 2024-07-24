@@ -37,13 +37,13 @@ const Navbar: React.FC<NavbarProps> = () => {
 
     return (
         <>
-        <nav className="bg-[#7783D2] px-4 py-8 ">
+        <nav className="px-4 py-8" style={{ background: "linear-gradient(-180deg, #7783D2 0%, #F0F0F0 300%)" }}>
             <div className="container mx-auto flex justify-between items-center">
                 <button
-                    className="text-black text-2xl lg:text-3xl font-normal hover:text-[#252F70]"
+                    className="text-black text-2xl lg:text-3xl font-medium hover:text-[#252F70]"
                     onClick={() => handleNavigation('/')}
                 >
-                    Freight Broker
+                    Freight Logistics
                 </button>
                 {/* Hamburger menu for small screens */}
                 <div className="lg:hidden">
@@ -318,13 +318,8 @@ const Navbar: React.FC<NavbarProps> = () => {
                                 TRUCKS
                             </button>
                                 <button
-<<<<<<< HEAD
-                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
-                                    onClick={() => handleNavigation('/quote-details')}
-=======
                                     className="block text-white hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/distance-calculator')}
->>>>>>> 200e5100917f474ae682eb23cea90ee140de1020
                                 >
                                     REQUEST A QUOTE
                                 </button>
