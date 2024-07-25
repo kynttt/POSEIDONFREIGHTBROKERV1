@@ -23,7 +23,7 @@ const FAQsPage: React.FC = () => {
 
   return (
     <div className="bg-white flex flex-col  px-4 py-8 md:px-8 lg:px-32 lg:py-28">
-      <h2 className="text-left text-3xl text-gray-600 tracking-wider text-primary mb-8">
+      <h2 className="text-left text-3xl text-gray-600 tracking-wider text-primary mb-8 lg:px-8">
         FAQs
       </h2>
       <div className="flex flex-col lg:flex-row items-center lg:items-start  lg:px-28">
