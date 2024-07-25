@@ -15,7 +15,7 @@ const HeroBanner: React.FC = () => {
       className="relative flex flex-col md:flex-row justify-between items-start px-6 md:px-12 lg:px-24 xl:px-32 lg:w-full lg:h-5/6 md:h-5/6 md:h-1/2 sm:h-1/2"
       style={{
         background:
-          "linear-gradient(-180deg, #7783D2 1%, #f4f4f4 60%)",
+          "linear-gradient(-180deg, #adb4e4 0%, #ffffff 90%)",
       }}
     >
       {/* Parent container for both text content and image */}

@@ -37,10 +37,10 @@ const Navbar: React.FC<NavbarProps> = () => {
 
     return (
         <>
-        <nav className="px-4 py-8" style={{ background: "linear-gradient(-180deg, #7783D2 0%, #F0F0F0 300%)" }}>
+        <nav className="px-4 py-8" style={{ background: "linear-gradient(-180deg, #7783D2 5%, #adb4e4 100%)" }}>
             <div className="container mx-auto flex justify-between items-center">
                 <button
-                    className="text-black text-2xl lg:text-3xl font-medium hover:text-[#252F70]"
+                    className="text-white text-2xl lg:text-3xl font-medium hover:text-[#252F70]"
                     onClick={() => handleNavigation('/')}
                 >
                     Freight Logistics
@@ -72,40 +72,40 @@ const Navbar: React.FC<NavbarProps> = () => {
                     {!isAuthenticated ? (
                         <>
                             <button
-                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/')}
                             >
-                                HOME
+                                Home
                             </button>
                             <button
-                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('#about')}
                             >
-                                ABOUT
+                                About Us
                             </button>
                             <button
-                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('#services')}
                             >
-                                SERVICES
+                                Services
                             </button>
                             <button
-                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('#contacts')}
                             >
-                                CONTACTS 
+                                Contacts 
                             </button>
                             <button
-                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('#careers')}
                             >
-                                CAREERS
+                                Careers
                             </button>
                             <button
-                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/signup')}
                             >
-                                CREATE ACCOUNT
+                                Create Account
                             </button>
                         </>
                     ) : role === 'admin' ? (
