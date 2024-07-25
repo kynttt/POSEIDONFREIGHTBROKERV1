@@ -1,7 +1,11 @@
 import React from 'react';
-import FaqsImage from "../assets/img/faqs.png";
+import { useInView } from 'react-intersection-observer';
+import FaqsImage from '../assets/img/faqs.png';
 
 const FAQsPage: React.FC = () => {
+  const { ref: imageRef, inView: imageInView } = useInView({ threshold: 0.5 });
+  const { ref: contentRef, inView: contentInView } = useInView({ threshold: 0.5 });
+
   const faqs = [
     {
       question: 'How are shipment quotes generated?',
@@ -22,24 +26,33 @@ const FAQsPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white flex flex-col  px-4 py-8 md:px-8 lg:px-32 lg:py-24">
+    <div className="bg-white flex flex-col px-4 py-8 md:px-8 lg:px-32 lg:py-24">
       <h2 className="text-left text-3xl text-gray-600 tracking-wider text-primary mb-8 lg:px-8">
         FAQs
       </h2>
-      <div className="flex flex-col lg:flex-row items-center lg:items-start  lg:gap-8 lg:pl-28">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start lg:gap-8 lg:pl-28">
 
         {/* Image Section */}
-        <div className="text-center mb-8 lg:mb-0 lg:w-1/3 ">
+        <div
+          className={`text-center mb-8 lg:mb-0 lg:w-1/3 transition-transform duration-1000 ${
+            imageInView ? 'transform-none opacity-100' : 'transform -translate-x-20 opacity-0'
+          }`}
+          ref={imageRef}
+        >
           <img
             src={FaqsImage}
             alt="FAQS"
-            className="lg:wfull lg:h-full "
+            className="lg:w-full lg:h-full object-cover object-center"
           />
         </div>
 
         {/* FAQ Section */}
-        <div className="lg:w-2/3 ">
-
+        <div
+          className={`lg:w-2/3 transition-transform duration-1000 ${
+            contentInView ? 'transform-none opacity-100' : 'transform translate-x-20 opacity-0'
+          }`}
+          ref={contentRef}
+        >
           {faqs.map((faq, index) => (
             <div key={index} className="mb-6">
               <h2 className="text-xl font-medium text-primary mb-2">{faq.question}</h2>
