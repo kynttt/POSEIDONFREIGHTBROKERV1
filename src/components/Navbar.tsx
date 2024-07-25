@@ -37,13 +37,13 @@ const Navbar: React.FC<NavbarProps> = () => {
 
     return (
         <>
-        <nav className="bg-[#7783D2] px-4 py-8 ">
+        <nav className="px-4 py-8" style={{ background: "linear-gradient(-180deg, #7783D2 0%, #F0F0F0 300%)" }}>
             <div className="container mx-auto flex justify-between items-center">
                 <button
-                    className="text-white text-4xl lg:text-4xl font-normal hover:text-[#252F70]"
+                    className="text-black text-2xl lg:text-3xl font-medium hover:text-[#252F70]"
                     onClick={() => handleNavigation('/')}
                 >
-                    Freight Broker
+                    Freight Logistics
                 </button>
                 {/* Hamburger menu for small screens */}
                 <div className="lg:hidden">
@@ -72,31 +72,37 @@ const Navbar: React.FC<NavbarProps> = () => {
                     {!isAuthenticated ? (
                         <>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/')}
                             >
                                 HOME
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                onClick={() => handleNavigation('#about')}
+                            >
+                                ABOUT
+                            </button>
+                            <button
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('#services')}
                             >
                                 SERVICES
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('#about')}
-                            >
-                                ABOUT US
-                            </button>
-                            <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('#contacts')}
                             >
-                                CONTACTS
+                                CONTACTS 
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                onClick={() => handleNavigation('#careers')}
+                            >
+                                CAREERS
+                            </button>
+                            <button
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/signup')}
                             >
                                 CREATE ACCOUNT
@@ -105,31 +111,31 @@ const Navbar: React.FC<NavbarProps> = () => {
                     ) : role === 'admin' ? (
                         <>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/load-board')}
                             >
                                 LOADBOARD
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/admin-dashboard')}
                             >
                                 DASHBOARD
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/trailer-options')}
                             >
                                 TRUCKS
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/notification')}
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                onClick={handleNotificationClick}
                             >
                                 NOTIFICATION
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/profile')}
                             >
                                 PROFILE
@@ -138,37 +144,37 @@ const Navbar: React.FC<NavbarProps> = () => {
                     ) : (
                         <>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/admin-dashboard')}
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                                onClick={() => handleNavigation('/shipper-dashboard')}
                             >
                                 DASHBOARD
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={handleNotificationClick}
                             >
                                 NOTIFICATION
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/user-payables')}
                             >
                                 ACCOUNTS PAYABLE
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/trailer-options')}
                             >
                                 TRUCKS
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/distance-calculator')}
                             >
                                 REQUEST A QUOTE
                             </button>
                             <button
-                                className="text-white no-underline font-normal transition duration-300 hover:text-[#252F70]"
+                                className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                                 onClick={() => handleNavigation('/profile')}
                             >
                                 PROFILE
@@ -188,7 +194,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                     {!isAuthenticated && (
                         <div className="flex justify-center items-center h-full">
                             <Button
-                                label="LOGIN"
+                                label="Get Started"
                                 size="medium"
                                 bgColor="#252F70"
                                 hoverBgColor="white"
@@ -214,31 +220,39 @@ const Navbar: React.FC<NavbarProps> = () => {
                         {!isAuthenticated ? (
                             <>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/')}
                                 >
                                     HOME
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
+                                    onClick={() => handleNavigation('#about')}
+                                >
+                                    ABOUT
+                                </button>
+                                <button
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('#services')}
                                 >
                                     SERVICES
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
-                                    onClick={() => handleNavigation('#about')}
-                                >
-                                    ABOUT US
-                                </button>
-                                <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('#contacts')}
                                 >
                                     CONTACTS
+                                    
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
+                                    onClick={() => handleNavigation('#careers')}
+                                >
+                                    CAREERS
+                                    
+                                </button>
+                                <button
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/signup')}
                                 >
                                     CREATE ACCOUNT
@@ -247,31 +261,31 @@ const Navbar: React.FC<NavbarProps> = () => {
                         ) : role === 'admin' ? (
                             <>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/load-board')}
                                 >
                                     LOADBOARD
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/admin-dashboard')}
                                 >
                                     DASHBOARD
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/trailer-options')}
                                 >
                                     TRUCKS
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/notification')}
                                 >
                                     NOTIFICATION
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/profile')}
                                 >
                                     PROFILE
@@ -280,25 +294,25 @@ const Navbar: React.FC<NavbarProps> = () => {
                         ) : (
                             <>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
-                                    onClick={() => handleNavigation('/dashboard')}
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
+                                    onClick={() => handleNavigation('/shipper-dashboard')}
                                 >
                                     DASHBOARD
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/notification')}
                                 >
                                     NOTIFICATION
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/user-payables')}
                                 >
                                     ACCOUNTS PAYABLE
                                 </button>
                                 <button
-                                className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                 onClick={() => handleNavigation('/trailer-options')}
                             >
                                 TRUCKS
@@ -310,7 +324,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                                     REQUEST A QUOTE
                                 </button>
                                 <button
-                                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                                    className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                                     onClick={() => handleNavigation('/profile')}
                                 >
                                     PROFILE
