@@ -50,7 +50,7 @@ const FreightQuote: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center items-center py-20 bg-gradient-to-r from-blue-400 to-purple-500">
+        <div className="flex flex-col lg:flex-row justify-center items-center py-28 bg-freightquote-bg">
             <div className="text-center lg:text-left mb-8 lg:mb-0 lg:mx-20 lg:hidden">
                 <h2 className="text-3xl font-semibold text-[#252F70]">GET A</h2>
                 <h2 className="text-3xl font-semibold text-[#252F70]">FREIGHT QUOTE</h2>
@@ -58,7 +58,7 @@ const FreightQuote: React.FC = () => {
 
             <div 
                 ref={ref} 
-                className={`flex items-center bg-white shadow-2xl rounded-lg px-6 py-12 w-full lg:w-auto backdrop-filter backdrop-blur-lg bg-opacity-85 border border-current-200
+                className={`flex items-center bg-white shadow-2xl rounded-lg mx-4 px-6 py-16  lg:w-auto backdrop-filter  border border-current-200
                     transition-transform duration-1000 ${inView ? 'transform-none opacity-100' : 'transform translate-y-20 opacity-0'}`}
             >
                 <div className="flex flex-col w-full">
