@@ -130,7 +130,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             </button>
                             <button
                                 className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/notification')}
+                                onClick={handleNotificationClick}
                             >
                                 NOTIFICATION
                             </button>
@@ -145,7 +145,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                         <>
                             <button
                                 className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
-                                onClick={() => handleNavigation('/admin-dashboard')}
+                                onClick={() => handleNavigation('/shipper-dashboard')}
                             >
                                 DASHBOARD
                             </button>
@@ -295,7 +295,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             <>
                                 <button
                                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
-                                    onClick={() => handleNavigation('/dashboard')}
+                                    onClick={() => handleNavigation('/shipper-dashboard')}
                                 >
                                     DASHBOARD
                                 </button>
