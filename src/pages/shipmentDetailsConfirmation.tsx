@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../components/SideBar";
+import Sidebar from "../components/SideBar"; // Adjust the import path based on your project structure
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,18 +24,20 @@ const ShipmentDetailsConfirmation: React.FC = () => {
   };
 
   return (
-    <div className="bg-white h-screen flex flex-col md:flex-row">
+    <div className="bg-white min-h-screen flex flex-col md:flex-row">
+      {/* Sidebar */}
       <Sidebar isAuthenticated={false} />
 
-      <div className="p-8 bg-white flex-grow px-4 md:px-20">
+      {/* Main Content */}
+      <div className="p-8 bg-white flex-1 xl:px-20 md:px-5 min-h-screen">
         <h1 className="text-2xl font-bold text-left mt-10 mb-14 text-primary">
           Shipment Details Confirmation
         </h1>
 
-        <div className="bg-white grid grid-cols-1 md:grid-cols-2 gap-8 xl:gap-2 md:gap-12 mb-8">
-          <div className="md:mr-8">
-            <div className="grid grid-cols-1 gap-20 md:gap-10">
-              <div className="flex flex-col md:flex-row gap-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 xl:gap-2 md:gap-0 mb-8">
+          <div className="lg:ml-4">
+            <div className="grid grid-cols-1 lg:gap-10 md:gap-10">
+              <div className="flex flex-col lg:flex-row md:flex-row xl:gap-20  md:gap-2">
                 <div className="bg-white p-8 rounded-lg text-center flex-grow flex items-center lg:w-40 md:w-40 lg:h-48 md:h-48 shadow-lg">
                   <FontAwesomeIcon
                     icon={faLocationDot}
@@ -69,7 +71,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-white p-8 rounded-lg mt-5 w-full h-80 shadow-lg">
+              <div className="bg-white p-8 rounded-lg lg:mt-5 mt-5 md:mt-0 xl:w-full lg:w-full md:w-80 xl:h-80 lg:h-96 md:h-full shadow-lg">
                 <h2 className="font-medium text-lg text-secondary mb-2">
                   Other Details
                 </h2>
@@ -149,16 +151,14 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                         <p className="text-gray-500">Fruits, Vegetables</p>
                       </div>
                     </div>
-                    <div></div>
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
 
-          <div className="relative md:static md:mt-0 mt-10">
-            <div className="bg-white p-6 rounded-lg text-left lg:w-96 md:w-96 lg:h-full md:h-full shadow-lg">
+          <div className="relative md:static md:mt-0 mt-10 md:mr-22">
+            <div className="xl:ml-4 md:ml-24 bg-white p-6 rounded-lg text-left lg:w-96 md:w-72 lg:h-full md:h-full shadow-lg">
               <div className="flex items-center mb-4">
                 <FontAwesomeIcon
                   icon={faCircleDollarToSlot}
@@ -194,7 +194,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex justify-start space-x-4 mt-14">
+        <div className="flex justify-start space-x-4 mt-14 lg:ml-4 md:ml-2">
           <Button
             label="Next"
             size="medium"
