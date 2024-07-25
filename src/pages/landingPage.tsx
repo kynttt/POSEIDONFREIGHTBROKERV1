@@ -37,8 +37,8 @@ const LandingPage: React.FC = () => {
       <FeaturesSection />
       <AboutUs />
       <FAQsPage />
-      <ContactForm />
       <TrustedAmazon />
+      <ContactForm />
       <Footer/>
       {/* <SuccessPage /> */}
         
