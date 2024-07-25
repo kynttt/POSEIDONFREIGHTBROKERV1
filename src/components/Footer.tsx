@@ -6,14 +6,14 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#B7C0F9] text-gray-300">
-      <div className="mx-auto py-6 lg:px-24 sm:px-6 flex flex-wrap justify-between border-b-4 border-white pt-10">
+      <div className="mx-auto py-6 lg:mx-24 px-6 flex flex-wrap lg:justify-between border-b-2 border-white pt-10">
         {/* Left Side (Freight Brokerage) */}
         <div className="w-full md:w-auto mb-8 md:mb-0 flex-shrink-0 lg:mt-10">
           <h2 className="text-3xl md:text-5xl text-primary font-bold md:mb-5">Freight Brokerage</h2>
         </div>
 
         {/* Right Side (Trailers, Services, Quick Links, Connect with us) */}
-        <div className="flex flex-wrap w-full md:w-auto gap-8 md:gap-20 mt-8 md:mt-0">
+        <div className="flex flex-wrap w-full md:w-auto gap-8 lg:gap-20 mt-8 md:mt-0">
           
           {/* Trailers */}
           <div className="w-full md:w-auto mb-4 md:mb-0">
@@ -50,8 +50,8 @@ const Footer = () => {
           {/* Connect with us */}
           <div className="w-full md:w-auto mb-4 md:mb-0 text-primary font-light">
             <h3 className="font-bold mb-2 text-lg text-primary">Connect with us</h3>
-            <p className="mb-2">Freight Brokerage</p>
-            <p>1020 A St SE Suit 7 Auburn WA 98002</p>
+            <p>Freight Brokerage</p>
+            <p className="mb-2">1020 A St SE Suit 7 Auburn WA 98002</p>
             <p>Email: info@pdienterprise.com</p>
             <p>PHONE: (253) 269 1300</p>
             <p>FAX: (253) 289 5660</p>
@@ -60,7 +60,7 @@ const Footer = () => {
       </div>
       
       {/* Footer Bottom */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 text-center lg:mr-20 text-primary font-light">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center lg:mr-20 text-primary font-light">
         <p>Copyright &copy; {currentYear} Freight Brokerage - All Rights Reserved.</p>
       </div>
     </footer>
