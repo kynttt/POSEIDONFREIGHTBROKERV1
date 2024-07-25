@@ -3,7 +3,7 @@ import freightImage from "../assets/img/freight.png";
 
 const FeaturesSection: React.FC = () => {
   return (
-    <div className="bg-white flex flex-col items-center lg:flex-row lg:items-start px-4 md:px-8 lg:px-36">
+    <div className="bg-white flex flex-col items-center lg:flex-row lg:items-start px-4 md:px-8 lg:px-36 lg:py-8">
       {/* Image Section */}
       <div className="w-full lg:w-1/3 text-center mb-8">
         <div id="features" className="bg-white py-12">

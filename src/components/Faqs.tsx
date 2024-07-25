@@ -22,11 +22,11 @@ const FAQsPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white flex flex-col  px-4 py-8 md:px-8 lg:px-32 lg:py-28">
+    <div className="bg-white flex flex-col  px-4 py-8 md:px-8 lg:px-32 lg:py-24">
       <h2 className="text-left text-3xl text-gray-600 tracking-wider text-primary mb-8 lg:px-8">
         FAQs
       </h2>
-      <div className="flex flex-col lg:flex-row items-center lg:items-start  lg:px-28">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start  lg:gap-8 lg:pl-28">
 
         {/* Image Section */}
         <div className="text-center mb-8 lg:mb-0 lg:w-1/3 ">

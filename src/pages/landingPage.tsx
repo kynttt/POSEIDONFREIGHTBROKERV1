@@ -35,8 +35,8 @@ const LandingPage: React.FC = () => {
       {/* <Carousel /> */}
       <FreightQuote/>
       <FeaturesSection />
-      <FAQsPage />
       <AboutUs />
+      <FAQsPage />
       <ContactForm />
       <TrustedAmazon />
       <Footer/>
