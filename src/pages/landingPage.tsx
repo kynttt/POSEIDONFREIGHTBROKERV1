@@ -24,7 +24,7 @@ const LandingPage: React.FC = () => {
   console.log('User authenticated?', isAuthenticated);
     console.log('User role:', role);
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <header>
       <Navbar isAuthenticated={isAuthenticated} />
       </header>
