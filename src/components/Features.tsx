@@ -30,8 +30,8 @@ const FeaturesSection: React.FC = () => {
 
       {/* Text Section */}
       <div className="w-full lg:w-2/3 mt-8 lg:mt-18">
-        <div className="mt-36 flex flex-col lg:grid lg:grid-cols-2 gap-20">
-          <div className="bg-white p-8">
+        <div className="lg:mt-36 flex flex-col lg:grid lg:grid-cols-2 gap-20">
+          <div className="bg-white ">
             <h3 className="text-lg font-bold text-primary text-center">
               FLAT RATE QUOTES
             </h3>
@@ -42,7 +42,7 @@ const FeaturesSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-white p-8">
+          <div className="bg-white ">
             <div className="text-center">
               <h3 className="text-lg font-bold text-primary text-center">
                 BOOK SHIPMENTS INSTANTLY
@@ -55,18 +55,19 @@ const FeaturesSection: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white p-8 lg:col-span-2 flex justify-center mb-24">
+          
+        </div>
+        <div className="bg-white  text-center my-20 ">
             <div className="text-center">
               <h3 className="text-lg font-bold text-primary">
                 GET 24/7 SUPPORT
               </h3>
               <p className="mt-2 font-normal text-base text-gray-500 py-2 text-center">
-                  We’ll keep you updated from the moment<br /> the BOL is 
-                  generated to the second the <br />carrier uploads the POD.
+                  We’ll keep you updated from the moment the BOL is 
+                  generated to<br /> the second the carrier uploads the POD.
                 </p>
             </div>
           </div>
-        </div>
       </div>
     </div>
   );
