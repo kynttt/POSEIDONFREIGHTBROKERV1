@@ -42,13 +42,13 @@ import { useNavigate } from 'react-router-dom';
         <div className="text-center">
           <img src={OTPImage} alt="Verification" className="mx-auto mb-4 w-32 sm:w-48" />
           <h2 className="mb-2 text-xl font-semibold text-secondary">Booking Request Successful! </h2>
-          <p className="mb-6 font-normal text-sm text-primary">
+          <p className="mb-6 font-medium text-sm text-primary">
           Wait for the dispatcher to confirm your quote and booking.
           </p>
           
           <div className="flex justify-center">
             <Button
-              label="OK"
+              label="Confirm"
               size="medium"
               bgColor="#252F70"
               fontStyle="thin"
