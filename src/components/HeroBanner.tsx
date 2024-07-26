@@ -31,7 +31,7 @@ const HeroBanner: React.FC = () => {
         </div>
 
         {/* Content Section */}
-        <div className="flex-1   md:mt-12 lg:mt-32 sm:mt-8 z-10 lg:mr-6">
+        <div className="flex-1 md:mt-12 lg:mt-32 sm:mt-8 z-10 lg:mr-6">
           <h1
             className="text-3xl md:text-5xl xl:text-6xl font-medium text-white"
             style={{ textShadow: "0px 4px 6px rgba(0, 0, 2, 0.3)" }}

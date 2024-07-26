@@ -21,7 +21,7 @@ const FeaturesSection: React.FC = () => {
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
             <div className="text-start">
               <h2 className="text-lg tracking-tight text-primary tracking-wider font-normal">
-                FEATURES
+                Features
               </h2>
               <p className="mt-4 text-3xl text-gray-600 tracking-wider text-primary">
                 How it works
@@ -49,7 +49,7 @@ const FeaturesSection: React.FC = () => {
             ref={textRef1}
           >
             <h3 className="text-lg font-bold text-primary text-center">
-              FLAT RATE QUOTES
+              Flat Rate Quotes
             </h3>
             <p className="mt-2 font-normal text-base text-gray-500 py-2 text-center">
               The freight quotes you’ll get are flat rates based on a shipment’s
@@ -66,7 +66,7 @@ const FeaturesSection: React.FC = () => {
           >
             <div className="text-center">
               <h3 className="text-lg font-bold text-primary text-center">
-                BOOK SHIPMENTS INSTANTLY
+                Book Shipments Instantly
               </h3>
               <p className="mt-2 font-normal text-base text-gray-500 py-2 text-center">
                 Booking at your quoted rate only takes a couple of clicks. If
@@ -84,7 +84,7 @@ const FeaturesSection: React.FC = () => {
         >
           <div className="text-center">
             <h3 className="text-lg font-bold text-primary">
-              GET 24/7 SUPPORT
+              Get 24/7 Support
             </h3>
             <p className="mt-2 font-normal text-base text-gray-500 py-2 text-center">
               We’ll keep you updated from the moment the BOL is 
