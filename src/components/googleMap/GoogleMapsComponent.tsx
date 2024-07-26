@@ -206,7 +206,7 @@ const QuoteDetails: React.FC = () => {
         <div className='flex h-screen '>
             <SideBar isAuthenticated={isAuthenticated} />
             <div className="flex-1 bg-white min-h-screen overflow-y-auto">
-                <div className="lg:mx-20 py-16   px-4  rounded-lg lg:mt-8">
+                <div className="lg:mx-20 py-16   px-4  rounded-lg ">
                     <div className="mb-6">
                         <h2 className="text-2xl font-semibold lg:mb-12 text-primary">Request A Quote</h2>
                     </div>
