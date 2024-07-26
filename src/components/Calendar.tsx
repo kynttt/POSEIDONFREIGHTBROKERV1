@@ -71,7 +71,7 @@ const Calendar: React.FC<CalendarProps> = ({ value, onChange, className }) => {
         {daysArray.map((day, index) => (
           <div
             key={index}
-            className={`text-center p-2 rounded-full cursor-pointer ${
+            className={`text-center p-2 rounded-full cursor-pointer text-secondary ${
               day ? 
                 isSameDay(dayjs(new Date(currentDate.year(), currentDate.month(), day)), today) ? 'bg-secondary text-white' :
                 (selectedDate && isSameDay(dayjs(new Date(currentDate.year(), currentDate.month(), day)), selectedDate) ? 'bg-primary text-white' : 'hover:bg-blue-200 text-gray-700') 
