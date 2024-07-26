@@ -69,3 +69,26 @@ export const fetchUserBookings = async (token: string) => {
     });
     return response.data;
   };
+
+  // ShipperDetails
+  export const fetchBookingDetails = async (id: string) => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('No token found in localStorage');
+    }
+  
+    const response = await fetch(`http://localhost:5000/api/quotes/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+  
+    if (!response.ok) {
+      throw new Error('Failed to fetch booking details');
+    }
+  
+    const data = await response.json();
+    return data;
+  };
