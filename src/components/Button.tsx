@@ -58,7 +58,7 @@ const Button: React.FC<ButtonProps> = ({
         '--hover-bg-color': hoverBgColor,
         '--hover-text-color': hoverTextColor,
         '--hover-border-color': hoverBorderColor,
-        fontWeight: fontStyle === 'thin' ? 300 : 'inherit', // Set font weight to 300 for 'thin' style
+        fontWeight: fontStyle === 'thin' ? 500 : 'inherit', // Set font weight to 300 for 'thin' style
         color: textColorStyle, // Apply the dynamic text color inline
       }}
       onClick={onClick}
