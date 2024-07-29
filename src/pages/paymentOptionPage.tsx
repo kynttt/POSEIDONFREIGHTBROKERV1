@@ -6,6 +6,7 @@ import QuoteRequestModal from '../components/QuoteRequestModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/SideBar';
+import { bookQuote } from '../lib/apiCalls';
 
 const generateRandomNumber = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -24,30 +25,19 @@ const PaymentComponent: React.FC = () => {
             return;
         }
 
-        const token = localStorage.getItem('authToken'); // Retrieve JWT token from local storage or wherever it's stored after login
+        const token = localStorage.getItem('authToken');
 
         if (!token) {
             console.error('No token found');
-            // Handle token absence as needed, possibly redirect to login
             return;
         }
 
-        const bookingData = {
-            quote: quoteId, // Pass the quoteId as the value of 'quote' field
-            // Add any other relevant data needed for booking
-        };
-
         try {
-            const response = await axios.post('http://localhost:5000/api/bookings/', bookingData, {
-                headers: {
-                    Authorization: `Bearer ${token}` // Send JWT token in the Authorization header
-                }
-            });
-            console.log('Booking successful:', response.data);
-            setIsModalOpen(true); // Open modal on successful booking
+            const data = await bookQuote(quoteId, token); // Use the imported function
+            
+            setIsModalOpen(true);
         } catch (error) {
             console.error('Error booking:', error);
-            // Handle error as needed
         }
     };
 

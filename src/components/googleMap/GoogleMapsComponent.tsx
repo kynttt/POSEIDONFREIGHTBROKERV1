@@ -11,7 +11,7 @@ import Button from '../../components/Button';
 import { useAuthStore } from '../../state/useAuthStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faCalendarAlt, faTruck, faRuler, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
-
+import { createQuote } from '../../lib/apiCalls';
 
 // Import truck types and sizes data
 import truckTypes from './truckTypes.json';
@@ -141,10 +141,8 @@ const QuoteDetails: React.FC = () => {
     }, [distance, selectedTrailerType, selectedTrailerSize, maxWeight]);
 
     const handleQuoteButtonClick = async () => {
-
-
         if (!isAuthenticated) {
-            navigate('/login'); // Redirect to login page if not authenticated
+            navigate('/login');
         } else {
             const quoteDetails = {
                 origin,
@@ -158,43 +156,25 @@ const QuoteDetails: React.FC = () => {
                 distance,
                 price,
             };
-
-            // Retrieve the token from localStorage
+    
             const token = localStorage.getItem('authToken');
             if (!token) {
-                
-                return; // Handle this case appropriately
+                return;
             }
-
+    
             try {
-                const response = await fetch('http://localhost:5000/api/quotes/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(quoteDetails),
-                });
-
-                // Check if request was successful
-                if (!response.ok) {
-                    throw new Error('Failed to create quote');
-                }
-
-                const data = await response.json();
-                
-
-                // Redirect to payment option page
-                // Inside handleQuoteButtonClick in QuoteDetails.tsx
+                const data = await createQuote(quoteDetails, token); // Use the imported function
                 navigate('/payment-option', { state: { price, quoteId: data._id } });
-
-
-            } catch (error: any) { // Explicitly specify 'any' or 'Error' as the type
-                console.error('Error creating quote:', error.message);
-                // Handle error (e.g., show error message to user)
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    console.error('Error creating quote:', error.message);
+                } else {
+                    console.error('Unknown error occurred while creating quote');
+                }
             }
         }
     };
+    
 
 
 

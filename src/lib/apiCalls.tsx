@@ -92,3 +92,51 @@ export const fetchBookingDetails = async (id: string) => {
   const data = await response.json();
   return data;
 };
+
+// Create quote
+export const createQuote = async (quoteDetails: any, token: string) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/quotes/`, quoteDetails, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      // Handle the error as an instance of Error
+      console.error('Error creating quote:', error.message);
+    } else {
+      // Handle the case where error is not an instance of Error
+      console.error('Unknown error occurred while creating quote');
+    }
+    throw error;
+  }
+};
+
+
+// Book a quote
+export const bookQuote = async (quoteId: string, token: string) => {
+  const bookingData = {
+      quote: quoteId,
+  };
+
+  try {
+      const response = await axios.post(`${API_BASE_URL}/bookings/`, bookingData, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      return response.data;
+  } catch (error: unknown) {
+      if (error instanceof Error) {
+          console.error('Error booking:', error.message);
+      } else {
+          console.error('Unknown error occurred while booking');
+      }
+      throw error;
+  }
+};
+
