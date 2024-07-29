@@ -20,9 +20,6 @@ import { useAuthStore } from '../state/useAuthStore';
 const LandingPage: React.FC = () => {
   const {  isAuthenticated, role } = useAuthStore();
 
-
-  console.log('User authenticated?', isAuthenticated);
-    console.log('User role:', role);
   return (
     <div className="min-h-screen">
       <header>

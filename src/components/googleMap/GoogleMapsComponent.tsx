@@ -26,14 +26,14 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ''; // Provide 
 
 const QuoteDetails: React.FC = () => {
     const handleDateSelect = (date: Date) => {
-        console.log('Selected date:', date);
+        
     };
     const navigate = useNavigate();
     // const { isAuthenticated, login } = useAuth();
     const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
     useEffect(() => {
-        console.log('User is authenticated:', isAuthenticated);
+        
     }, [isAuthenticated]);
 
     const { isLoaded } = useJsApiLoader({
@@ -162,7 +162,7 @@ const QuoteDetails: React.FC = () => {
             // Retrieve the token from localStorage
             const token = localStorage.getItem('authToken');
             if (!token) {
-                console.error('Access token not found in localStorage');
+                
                 return; // Handle this case appropriately
             }
 
@@ -182,7 +182,7 @@ const QuoteDetails: React.FC = () => {
                 }
 
                 const data = await response.json();
-                console.log('Quote created:', data);
+                
 
                 // Redirect to payment option page
                 // Inside handleQuoteButtonClick in QuoteDetails.tsx

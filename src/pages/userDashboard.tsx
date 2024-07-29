@@ -14,8 +14,7 @@ const UserDashboard: React.FC = () => {
 
   // Log the authentication state and role when the component renders
   useEffect(() => {
-    console.log('User authenticated?', isAuthenticated);
-    console.log('User role:', role);
+    
     setData(userBookingData);
   }, [isAuthenticated, role]);
 
