@@ -13,10 +13,7 @@
         "type": "Dry Van",
         "pricePerMile": 1.8
     },
-    {
-        "type": "Full Truckload",
-        "pricePerMile": 1.6
-    },
+    
     {
         "type": "Stepdeck",
         "pricePerMile": 1.9
