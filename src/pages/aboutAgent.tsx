@@ -46,16 +46,16 @@ const AboutAgentPage: React.FC = () => {
 
         {/* FAQ Section */}
         <div
-          className={`lg:w-2/3 transition-transform duration-1000 ${
+          className={`lg:w-2/3 mt-10 transition-transform duration-1000 ${
             contentInView ? 'transform-none opacity-100' : 'transform translate-x-20 opacity-0'
           }`}
           ref={contentRef}
         >
           {faqs.map((faq, index) => (
             <div key={index} className="mb-6">
-              <h2 className="text-xl font-medium text-primary mb-2">{faq.question}</h2>
-              <p className="text-gray-500 text-md font-thin mb-2 text-justify">{faq.answer}</p>
-              {index < faqs.length - 1 && <hr className="mt-6 border-light-grey" />}
+              <h2 className="text-xl font-medium text-primary mb-4">{faq.question}</h2>
+              <p className="text-gray-500 text-md font-thin mb-4 text-justify">{faq.answer}</p>
+              {/* {index < faqs.length - 1 && <hr className="mt-6" />} */}
             </div>
           ))}
         </div>
