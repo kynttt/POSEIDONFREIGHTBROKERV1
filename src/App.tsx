@@ -26,7 +26,7 @@ import PerformanceOverview from './pages/performanceGrade';
 
 import PrivateRoute from './components/PrivateRoute';
 import ShipmentDetails from './pages/ShipmentDetails';
-import AgentPage from './pages/agentPage';
+import AgentPage from './pages/agentHeroPage';
 
 const App: React.FC = () => {
   return (
