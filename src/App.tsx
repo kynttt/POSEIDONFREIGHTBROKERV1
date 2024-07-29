@@ -26,6 +26,7 @@ import PerformanceOverview from './pages/performanceGrade';
 
 import PrivateRoute from './components/PrivateRoute';
 import ShipmentDetails from './pages/ShipmentDetails';
+import AboutAgentPage from './pages/aboutAgent';
 
 const App: React.FC = () => {
   return (
@@ -55,6 +56,7 @@ const App: React.FC = () => {
         <Route path="/performance-grade" element={<PrivateRoute element={<PerformanceOverview />} roles={['user']} />} />
         <Route path="/shipmentDetails/:id" element={<PrivateRoute element={<ShipmentDetails />} roles={['user']} />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/aboutAgent" element={<AboutAgentPage />} />
       </Routes>
     </Router>
   );
