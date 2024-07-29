@@ -29,7 +29,11 @@ const AgentPage: React.FC = () => {
               src={agentBanner}
               alt="Hero Banner"
               className="w-full h-auto object-cover"
-              style={{ filter: "drop-shadow(4px 4px 4px rgba(2, 2, 2, 0.5))" }}
+              style={{ 
+                height: "100%",
+                width: "100%",
+                filter: "drop-shadow(4px 4px 4px rgba(2, 2, 2, 0.5))" 
+              }}
             />
           </div>
 
@@ -55,13 +59,13 @@ const AgentPage: React.FC = () => {
                 AGENT
               </span>
             </h2>
-            <p className="lg:text-sm md:text-xl font-normal text-gray-500 justify-content mt-24">
+            <p className="lg:text-base md:text-xl font-thin text-gray-500 justify-content mt-24">
               Freight Solutions empowers every agent to run <br />
               their own business, supported by the extensive<br/>
-            resources of a major enterprise.
+              resources of a major enterprise.
             </p>
 
-            <div className="flex justify-start mt-6 md:mt-8 lg:mt-20 mb-8">
+            <div className="flex justify-start mt-6 md:mt-8 lg:mt-28 mb-8">
               <Button
                 label="APPLY NOW"
                 size="homeButton"
@@ -80,6 +84,12 @@ const AgentPage: React.FC = () => {
               src={agentBanner}
               alt="Hero Banner"
               className="w-full h-auto object-cover"
+              style={{ 
+                // height: "100%",
+                // width: "100%"
+                height: "480px",
+                width: "800px"
+              }}
             />
           </div>
         </div>
