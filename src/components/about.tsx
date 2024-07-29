@@ -7,7 +7,7 @@ const AboutUs: React.FC = () => {
   const { ref: textRef, inView: textInView } = useInView({ threshold: 0.5 });
 
   return (
-    <div className="bg-[#eaeefa] flex flex-col lg:flex-row items-center lg:items-center px-4 md:px-8 lg:px-20 xl:px-32">
+    <div id='about' className="bg-[#eaeefa] flex flex-col lg:flex-row items-center lg:items-center px-4 md:px-8 lg:px-20 xl:px-32">
       {/* Image Section */}
       <div
         className={`w-full lg:w-2/3 flex justify-end items-center mb-10 lg:order-last transition-transform duration-1000 ${
