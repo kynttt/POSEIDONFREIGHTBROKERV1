@@ -34,6 +34,13 @@ const ShipperBookings = () => {
     navigate(`/shipmentDetails/${id}`);
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length > maxLength) {
+      return `${text.substring(0, maxLength)}...`;
+    }
+    return text;
+  };
+
   return (
     <div className="bg-white rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
       <h2 className="text-xl font-semibold mb-4 text-primary">My Shipments</h2>
@@ -59,11 +66,11 @@ const ShipperBookings = () => {
               </div>
               <div>
                 <h3 className="text-gray-600 text-primary">Origin</h3>
-                <p>{booking.quote.origin}</p>
+                <p>{truncateText(booking.quote.origin, 20)}</p>
               </div>
               <div>
                 <h3 className="text-gray-600 text-primary">Destination</h3>
-                <p>{booking.quote.destination}</p>
+                <p>{truncateText(booking.quote.destination, 20)}</p>
               </div>
               <div>
                 <h3 className="text-gray-600 text-primary">Distance</h3>
