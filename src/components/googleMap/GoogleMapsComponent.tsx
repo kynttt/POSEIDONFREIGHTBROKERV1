@@ -12,6 +12,7 @@ import { useAuthStore } from '../../state/useAuthStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faCalendarAlt, faTruck, faRuler, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { createQuote } from '../../lib/apiCalls';
+import { calculatePrice } from './priceCalculator';
 
 // Import truck types and sizes data
 import truckTypes from './truckTypes.json';
@@ -116,27 +117,9 @@ const QuoteDetails: React.FC = () => {
     }, [map, originLocation, destinationLocation]);
 
     useEffect(() => {
-        // Calculate price whenever distance, trailer type, trailer size, or max weight changes
         if (distance && selectedTrailerType && selectedTrailerSize && maxWeight) {
-            // Fetch the selected trailer type object from truckTypes array
-            const selectedType = truckTypes.find(type => type.type === selectedTrailerType);
-
-            if (selectedType) {
-                // Example additional costs based on trailer size and max weight
-                const trailerSizeNum = selectedTrailerSize; // Use selected trailer size
-                const maxWeightNum = parseFloat(maxWeight); // Convert max weight string to number
-
-                // Calculate price based on distance and selected trailer type price per mile
-                const basePricePerMile = selectedType.pricePerMile;
-                const distanceNum = parseFloat(distance.replace(/[^\d.]/g, '')); // Convert distance string to number
-
-                // Example calculation based on distance, trailer size, max weight, etc.
-                const calculatedPrice = basePricePerMile * distanceNum +
-                    (trailerSizeNum * 10) +  // Example additional cost based on trailer size
-                    (maxWeightNum * 0.1);   // Example additional cost based on weight
-
-                setPrice(calculatedPrice);
-            }
+            const calculatedPrice = calculatePrice(distance, selectedTrailerType, selectedTrailerSize, maxWeight);
+            setPrice(calculatedPrice);
         }
     }, [distance, selectedTrailerType, selectedTrailerSize, maxWeight]);
 
