@@ -31,7 +31,10 @@ const QuoteDetails: React.FC = () => {
     };
     const navigate = useNavigate();
     // const { isAuthenticated, login } = useAuth();
-    const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+    const { isAuthenticated, userId } = useAuthStore(state => ({
+        isAuthenticated: state.isAuthenticated,
+        userId: state.userId, // Make sure userId is part of your store
+    }));
 
     useEffect(() => {
         
@@ -147,7 +150,7 @@ const QuoteDetails: React.FC = () => {
     
             try {
                 const data = await createQuote(quoteDetails, token); // Use the imported function
-                navigate('/payment-option', { state: { price, quoteId: data._id } });
+                navigate('/payment-option', { state: { price, quoteId: data._id,  userId } });
             } catch (error: unknown) {
                 if (error instanceof Error) {
                     console.error('Error creating quote:', error.message);

@@ -17,12 +17,30 @@ const UserDashboard: React.FC = () => {
     if (isAuthenticated) {
       const fetchData = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/api/invoices/user/${userId}`);
+          const token = useAuthStore.getState().token; // Access the token from Zustand store
+      
+          if (!token) {
+            console.error('No authentication token found');
+            return;
+          }
+      
+          const response = await axios.get(`http://localhost:5000/api/invoices/user/${userId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`, // Include the token in the headers
+              'Content-Type': 'application/json'
+            }
+          });
+      
           setData(response.data);
         } catch (error) {
-          console.error('Error fetching data:', error);
+          if (axios.isAxiosError(error)) {
+            console.error('API Error:', error.response?.data || error.message);
+          } else {
+            console.error('Unexpected Error:', error);
+          }
         }
       };
+      
 
       fetchData();
     }
@@ -85,11 +103,11 @@ const UserDashboard: React.FC = () => {
                         key={index}
                         customerPO={item.customerPO}
                         freightBrokerPO={item.freightBrokerPO}
-                        rate={item.rate}
+                        rate={item.amountDue}
                         paid={item.paid}
-                        balance={item.balance}
-                        invoiceDate={item.invoiceDate}
-                        deliveryDate={item.deliveryDate}
+                        balance={item.amountDue}
+                        invoiceDate={item.dateIssued}
+                        deliveryDate={item.quote?.pickupDate || 'N/A'}
                         status={item.status}
                       />
                     ))}
