@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import DashboardCard from '../components/userDashboardCard';
-import userBookingData from './userBookingData.json';
 // import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
@@ -11,12 +11,40 @@ const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
   const { isAuthenticated, role } = useAuthStore(); // Use Zustand store
+  const userId = useAuthStore(state => state.userId); // Assuming you have userId in your auth store
 
-  // Log the authentication state and role when the component renders
   useEffect(() => {
-    
-    setData(userBookingData);
-  }, [isAuthenticated, role]);
+    if (isAuthenticated) {
+      const fetchData = async () => {
+        try {
+          const token = useAuthStore.getState().token; // Access the token from Zustand store
+      
+          if (!token) {
+            console.error('No authentication token found');
+            return;
+          }
+      
+          const response = await axios.get(`http://localhost:5000/api/invoices/user/${userId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`, // Include the token in the headers
+              'Content-Type': 'application/json'
+            }
+          });
+      
+          setData(response.data);
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            console.error('API Error:', error.response?.data || error.message);
+          } else {
+            console.error('Unexpected Error:', error);
+          }
+        }
+      };
+      
+
+      fetchData();
+    }
+  }, [isAuthenticated, role, userId]);
 
   const handleQuoteButtonClick = () => {
     navigate('/payment-option');
@@ -24,8 +52,7 @@ const UserDashboard: React.FC = () => {
 
   return (
     <>
-      {/* <Navbar isAuthenticated={isAuthenticated} />
-       */}
+      {/* <Navbar isAuthenticated={isAuthenticated} /> */}
       <div className='flex h-screen'>
         <SideBar isAuthenticated={isAuthenticated} />
 
@@ -76,11 +103,11 @@ const UserDashboard: React.FC = () => {
                         key={index}
                         customerPO={item.customerPO}
                         freightBrokerPO={item.freightBrokerPO}
-                        rate={item.rate}
+                        rate={item.amountDue}
                         paid={item.paid}
-                        balance={item.balance}
-                        invoiceDate={item.invoiceDate}
-                        deliveryDate={item.deliveryDate}
+                        balance={item.amountDue}
+                        invoiceDate={item.dateIssued}
+                        deliveryDate={item.quote?.pickupDate || 'N/A'}
                         status={item.status}
                       />
                     ))}
