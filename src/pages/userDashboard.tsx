@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import DashboardCard from '../components/userDashboardCard';
-import userBookingData from './userBookingData.json';
 // import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
@@ -11,12 +11,22 @@ const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
   const { isAuthenticated, role } = useAuthStore(); // Use Zustand store
+  const userId = useAuthStore(state => state.userId); // Assuming you have userId in your auth store
 
-  // Log the authentication state and role when the component renders
   useEffect(() => {
-    
-    setData(userBookingData);
-  }, [isAuthenticated, role]);
+    if (isAuthenticated) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/invoices/user/${userId}`);
+          setData(response.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [isAuthenticated, role, userId]);
 
   const handleQuoteButtonClick = () => {
     navigate('/payment-option');
@@ -24,8 +34,7 @@ const UserDashboard: React.FC = () => {
 
   return (
     <>
-      {/* <Navbar isAuthenticated={isAuthenticated} />
-       */}
+      {/* <Navbar isAuthenticated={isAuthenticated} /> */}
       <div className='flex h-screen'>
         <SideBar isAuthenticated={isAuthenticated} />
 
