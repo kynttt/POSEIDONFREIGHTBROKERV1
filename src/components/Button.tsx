@@ -52,7 +52,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`button block text-white rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${sizeClasses[size]} ${borderStyle} ${className}`}
+      className={`button bg-primary  block text-white rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${sizeClasses[size]} ${borderStyle} ${className}`}
       // style={{
       //   backgroundColor: bgColor,
       //   '--hover-bg-color': hoverBgColor,
