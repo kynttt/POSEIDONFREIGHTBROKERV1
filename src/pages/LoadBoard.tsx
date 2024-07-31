@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
+// import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
@@ -10,9 +10,8 @@ import SideBar from '../components/SideBar';
 import { useAuthStore } from '../state/useAuthStore';
 import { fetchDeliveryLocations, fetchQuotes } from '../lib/apiCalls';
 
-
 type CardProps = {
-    pickupDate: Date ;
+    pickupDate: Date;
     id: string;
     pickUp: string;
     drop: string;
@@ -41,25 +40,25 @@ const LoadBoard: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-          const token = localStorage.getItem('authToken');
-          try {
-            if (pickUpLocation && token) {
-              const deliveryLocations = await fetchDeliveryLocations(pickUpLocation, token);
-              setAvailableDeliveryLocations(deliveryLocations);
+            const token = localStorage.getItem('authToken');
+            try {
+                if (pickUpLocation && token) {
+                    const deliveryLocations = await fetchDeliveryLocations(pickUpLocation, token);
+                    setAvailableDeliveryLocations(deliveryLocations);
+                }
+
+                if (token) {
+                    const quotes = await fetchQuotes(token);
+                    setLoadCards(quotes);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                // Handle error (e.g., redirect to login if unauthorized)
             }
-    
-            if (token) {
-              const quotes = await fetchQuotes(token);
-              setLoadCards(quotes);
-            }
-          } catch (error) {
-            console.error('Error fetching data:', error);
-            // Handle error (e.g., redirect to login if unauthorized)
-          }
         };
-    
+
         fetchData();
-      }, [pickUpLocation]);
+    }, [pickUpLocation]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -105,11 +104,14 @@ const LoadBoard: React.FC = () => {
                                     <DatePicker
                                         selected={pickUpDate}
                                         onChange={(date) => setPickUpDate(date)}
-                                        className="w-full border border-gray-300 p-2 rounded-md bg-white  font-thin text-black"
+                                        className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                         placeholderText="MM/DD/YYYY"
                                         dateFormat="MM/dd/yyyy"
                                     />
-                                    <div className="absolute top-2 right-2 cursor-pointer" onClick={() => document.querySelector('.react-datepicker-wrapper input')?.focus()}>
+                                    <div
+                                        className="absolute top-2 right-2 cursor-pointer"
+                                        onClick={() => (document.querySelector('.react-datepicker-wrapper input') as HTMLInputElement)?.focus()}
+                                    >
                                         <FontAwesomeIcon icon={faCalendarAlt} className="text-secondary" />
                                     </div>
                                 </div>
