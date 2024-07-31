@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import signupImage from '../assets/img/DeliveredPackage.gif';
 import Button from '../components/Button';
 import googleIcon from '../assets/img/googleicon.png';

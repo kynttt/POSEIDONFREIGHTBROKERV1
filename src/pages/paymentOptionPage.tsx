@@ -71,9 +71,10 @@ const PaymentComponent: React.FC = () => {
     };
 
     const handlePaymentTermClick = (term: string) => {
-        navigate('/invoice'); // Navigate to invoice page or handle payment terms
+        
+        navigate(`/invoice?term=${term}`); // Pass the term to the invoice page
     };
-
+    
     return (
         <>
             <div className="bg-white h-screen flex flex-col md:flex-row">

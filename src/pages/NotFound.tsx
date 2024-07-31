@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import NotFoundImage from '../assets/img/404.png';
 import Button from '../components/Button'; // Make sure this path is correct
 // import Navbar from '../components/Navbar';
-import { useAuthStore } from '../state/useAuthStore';
+// import { useAuthStore } from '../state/useAuthStore';
 
 
 
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuthStore();
+    // const { isAuthenticated } = useAuthStore();
 
     return (
         <>

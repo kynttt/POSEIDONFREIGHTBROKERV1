@@ -12,9 +12,9 @@ import SideBar from '../../../components/SideBar';
 const AdminDashboard: React.FC = () => {
   const { isAuthenticated} = useAuthStore();
 
-  const [overview, setOverview] = useState(overviewData);
-  const [shippers, setShippers] = useState(shippersData);
-  const [transactions, setTransactions] = useState(transactionsData);
+  const [overview] = useState(overviewData);
+  const [shippers] = useState(shippersData);
+  const [transactions] = useState(transactionsData);
 
   return (
     <div className="flex h-screen">

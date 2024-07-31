@@ -15,14 +15,14 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({
   label,
-  type,
+  // type,
   onClick,
   className,
   size = 'medium',
   bgColor = '#252F70',
   hoverBgColor = 'white',
   hoverTextColor = '#7783D2',
-  fontStyle = 'normal', // Default to normal font weight
+  // fontStyle = 'normal', // Default to normal font weight
   hoverBorderColor = 'black', // Default hover border color
 }) => {
   // Define fixed size classes based on the size prop
