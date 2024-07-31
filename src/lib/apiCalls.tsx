@@ -140,3 +140,23 @@ export const bookQuote = async (quoteId: string, token: string) => {
   }
 };
 
+
+// Create invoice
+export const createInvoice = async (invoiceData: any, token: string) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/invoices/`, invoiceData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error('API Error:', error.response?.data || error.message);
+    } else {
+      console.error('Unexpected Error:', error);
+    }
+    throw error;
+  }
+};

@@ -6,7 +6,7 @@ import QuoteRequestModal from '../components/QuoteRequestModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/SideBar';
-import { bookQuote } from '../lib/apiCalls';
+import { bookQuote, createInvoice  } from '../lib/apiCalls';
 
 const generateRandomNumber = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -48,12 +48,7 @@ const PaymentComponent: React.FC = () => {
             };
     
             // POST request to create an invoice
-            await axios.post('http://localhost:5000/api/invoices/', invoiceData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+            await createInvoice(invoiceData, token);
     
             setIsModalOpen(true);
         } catch (error) {
