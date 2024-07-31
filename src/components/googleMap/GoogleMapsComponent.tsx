@@ -10,7 +10,7 @@ import SideBar from '../../components/SideBar';
 import Button from '../../components/Button';
 import { useAuthStore } from '../../state/useAuthStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faCalendarAlt, faTruck, faRuler, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faCalendarAlt, faTruck, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { createQuote } from '../../lib/apiCalls';
 import { calculatePrice } from './priceCalculator';
 
@@ -26,9 +26,9 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ''; // Provide 
 
 
 const QuoteDetails: React.FC = () => {
-    const handleDateSelect = (date: Date) => {
+    // const handleDateSelect = (date: Date) => {
         
-    };
+    // };
     const navigate = useNavigate();
     // const { isAuthenticated, login } = useAuth();
     const { isAuthenticated, userId } = useAuthStore(state => ({
@@ -62,7 +62,7 @@ const QuoteDetails: React.FC = () => {
     const [commodity, setCommodity] = useState('');
     const [maxWeight, setMaxWeight] = useState('');
     const [companyName, setCompanyName] = useState('');
-    const [selectedDate, setSelectedDate] = useState<string>('');
+    // const [selectedDate, setSelectedDate] = useState<string>('');
 
     const onLoadA = useCallback((autocomplete: google.maps.places.Autocomplete) => {
         setAutocompleteA(autocomplete);

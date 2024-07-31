@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchBookingDetails } from '../lib/apiCalls';
 
 import SideBar from '../components/SideBar';
@@ -7,7 +7,7 @@ import { useAuthStore } from '../state/useAuthStore';
 
 const ShipmentDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>(); // Get the id from the URL
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { isAuthenticated } = useAuthStore(); // Use useAuth hook to get isAuthenticated
 
     const [booking, setBooking] = useState<any>(null);
@@ -40,9 +40,9 @@ const ShipmentDetails: React.FC = () => {
         fetchBookingDetail();
     }, [id]);
 
-    const handleConfirmBooking = () => {
-        navigate('/booking-successful');
-    };
+    // const handleConfirmBooking = () => {
+    //     navigate('/booking-successful');
+    // };
 
     if (loading) return <p className="text-gray-500">Loading booking details...</p>;
 

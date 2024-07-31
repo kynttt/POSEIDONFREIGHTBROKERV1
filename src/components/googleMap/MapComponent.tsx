@@ -24,7 +24,7 @@ interface MapComponentProps {
 }
 
 export const MapComponent: React.FC<MapComponentProps> = ({
-  map,
+  // map,
   setMap,
   directions,
   originLocation,
