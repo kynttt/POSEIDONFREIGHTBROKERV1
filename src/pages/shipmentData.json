@@ -1,0 +1,12 @@
+{
+    "pickupLocation": "Auburn, WS",
+    "dropoffLocation": "Dallas, TX",
+    "shipmentPrice": 4509,
+    "date": "6 July 2024 at 15:00 PM GMT",
+    "trailerType": "Flat bed",
+    "size": "48 ft.",
+    "companyName": "ABC Company, LLC",
+    "commodity": "Fruits, Vegetables",
+    "bolLink": "/path-to-bol.pdf"
+  }
+  

@@ -1,165 +1,177 @@
-import React from 'react';
-import Sidebar from '../components/SideBar';
-import Button from '../components/Button';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faLocationDot,
-  faTruck,
-  faCalendarAlt,
-  faBuilding,
-  faAppleAlt,
-  faCircleDollarToSlot,
-  faFileDownload,
-} from '@fortawesome/free-solid-svg-icons';
+  import React, { useEffect, useState } from 'react';
+  import { useLocation } from 'react-router-dom'; // Import useLocation to access location state
+  import SideBar from '../components/SideBar';
+  import { useAuthStore } from '../state/useAuthStore';
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { faLocationDot, faMoneyBill1Wave, faTruckFront, faCalendarDay, faBuilding, faBox, faRuler } from '@fortawesome/free-solid-svg-icons';
+  import Button from "../components/Button";
 
-const ShipmentDetailsConfirmation: React.FC = () => {
-  const navigate = useNavigate();
+  interface ShipmentDetailsProps {
+    origin: string;
+    destination: string;
+    price: number;
+    pickupDate: string;
+    trailerType: string;
+    trailerSize: string;
+    companyName: string;
+    commodity: string;
+    bolLink: string;
+  }
 
-  const handleNextClick = () => {
-    navigate('/payment-method');
-  };
+  const ShipmentDetailsConfirmation: React.FC = () => {
+    const { isAuthenticated } = useAuthStore();
+    const [data, setData] = useState<ShipmentDetailsProps | null>(null);
+    const location = useLocation(); // Use useLocation to access location state
 
-  const handleEditClick = () => {
-    navigate('/request-quote');
-  };
+    // Extract quoteId from location state
+    const quoteId = location.state?.quoteId;
 
-  return (
-    <div className="bg-white h-screen flex flex-col md:flex-row">
-      <Sidebar isAuthenticated={false} />
+    useEffect(() => {
+      if (quoteId) {
+        const token = localStorage.getItem('authToken'); // Or however you're storing your token
+        fetch(`http://localhost:5000/api/quotes/${quoteId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Assuming a Bearer token is required
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => setData(data))
+          .catch(error => console.error('Error fetching shipment data:', error));
+      }
+    }, [quoteId]);
 
-      <div className="p-8 bg-white flex-grow px-4 md:px-20">
-        <h1 className="text-2xl font-bold text-left mt-10 mb-14">Shipment Details Confirmation</h1>
+    if (!data) {
+      return <div>Loading...</div>; // Return a loading state or placeholder
+    }
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 xl:gap-2 md:gap-12 mb-8">
-          <div className="md:mr-8">
-            <div className="grid grid-cols-1 gap-8 md:gap-10">
-              <div className="flex flex-col md:flex-row gap-12">
-                <div className="bg-gray-100 p-8 rounded-lg text-center flex-grow flex items-center w-80">
-                  <FontAwesomeIcon icon={faLocationDot} className="text-blue-600 mr-2 mb-16" size="1x" />
-                  <div>
-                    <h2 className="font-semibold text-lg text-secondary">Pickup Location</h2>
-                    <p className="text-xl mt-7 pl-2 text-left text-gray-500">Auburn, WS</p>
-                  </div>
+    return (
+      <div className="flex w-full mx-auto">
+        <SideBar isAuthenticated={isAuthenticated} />
+        <div className='bg-white flex-1 p-4 lg:p-20 text-primary'>
+          <h2 className="text-2xl font-bold mb-6">Shipment Details Confirmation</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="md:col-span-2">
+              <div className='grid gap-8 md:grid-cols-2'>
+                <div className="bg-white shadow-lg rounded-lg p-4 lg:p-12">
+                  <h3 className="text-lg text-secondary font-medium">
+                    <span className='text-gray-500 mr-2'>
+                      <FontAwesomeIcon icon={faLocationDot} />
+                    </span>
+                    Pickup Location
+                  </h3>
+                  <p className='text-gray-500 py-4'>{data.origin}</p>
                 </div>
-                <div className="bg-gray-100 p-8 rounded-lg text-center flex-grow flex items-center w-80">
-                  <FontAwesomeIcon icon={faLocationDot} className="text-blue-600 mr-2 mb-16" size="1x" />
+                <div className="bg-white shadow-lg rounded-lg p-4 lg:p-12">
+                  <h3 className="text-lg text-secondary font-medium">
+                    <span className='text-gray-500 mr-2'>
+                      <FontAwesomeIcon icon={faLocationDot} />
+                    </span>
+                    Drop-off Location
+                  </h3>
+                  <p className='text-gray-500 py-4'>{data.destination}</p>
+                </div>
+              </div>
+              <div className="bg-white shadow-lg rounded-lg p-4 lg:p-12 md:mt-8">
+                <h3 className="text-lg text-secondary font-medium mb-4">Other Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
-                    <h2 className="font-semibold text-lg text-secondary">Drop-off Location</h2>
-                    <p className="text-xl mt-7 pl-2 text-left text-gray-500">Dallas, TX</p>
+                    <h4 className="font-medium text-secondary">
+                      <span className='text-gray-500 mr-2'>
+                        <FontAwesomeIcon icon={faTruckFront} />
+                      </span>
+                      Trailer Type
+                    </h4>
+                    <p className='text-gray-500 py-4 font-medium'>{data.trailerType}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-secondary">
+                      <span className='text-gray-500 mr-2'>
+                        <FontAwesomeIcon icon={faCalendarDay} />
+                      </span>
+                      Date & Time
+                    </h4>
+                    <p className='text-gray-500 py-4 font-medium'>{data.pickupDate}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-secondary">
+                      <span className='text-gray-500 mr-2'>
+                        <FontAwesomeIcon icon={faRuler} />
+                      </span>
+                      Size (ft.)
+                    </h4>
+                    <p className='text-gray-500 py-4 font-medium'>{data.trailerSize}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-secondary">
+                      <span className='text-gray-500 mr-2'>
+                        <FontAwesomeIcon icon={faBuilding} />
+                      </span>
+                      Company Name
+                    </h4>
+                    <p className='text-gray-500 py-4 font-medium'>{data.companyName}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-secondary">
+                      <span className='text-gray-500 mr-2'>
+                        <FontAwesomeIcon icon={faBox} />
+                      </span>
+                      Commodity
+                    </h4>
+                    <p className='text-gray-500 py-4 font-medium'>{data.commodity}</p>
                   </div>
                 </div>
               </div>
-
-              <div className="bg-gray-100 p-8 rounded-lg mt-5 w-full">
-                <h2 className="font-semibold text-lg text-secondary">Other Details</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                  <div className="flex flex-col">
-                    <div className="flex items-start">
-                      <p className="mr-2 text-sm text-secondary">
-                        <FontAwesomeIcon icon={faTruck} className="mr-2 text-gray-500" />
-                        Trailer Type:
-                      </p>
-                    </div>
-                    <div className="ml-8 text-sm mt-4">
-                      <p className="text-gray-500">Flat bed</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex items-center">
-                      <p className="mr-2 text-sm text-secondary">
-                        <FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-gray-500" />
-                        Date & Time:
-                      </p>
-                    </div>
-                    <div className="ml-8 text-sm mt-4">
-                      <p className="text-gray-500">6 July 2024 at 15:00 PM GMT</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex items-end">
-                      <p className="mr-2 text-sm text-secondary">
-                        <FontAwesomeIcon icon={faTruck} className="mr-2 text-gray-500" />
-                        Size (ft.)
-                      </p>
-                    </div>
-                    <div className="ml-8 text-sm mt-4">
-                      <p className="text-gray-500">48 ft.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                  <div className="flex flex-col">
-                    <div className="flex items-center">
-                      <p className="mr-2 text-sm text-secondary">
-                        <FontAwesomeIcon icon={faBuilding} className="mr-2 text-gray-500" />
-                        Company Name:
-                      </p>
-                    </div>
-                    <div className="ml-8 text-sm mt-4">
-                      <p className="text-gray-500">ABC Company, LLC</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex items-center">
-                      <p className="mr-2 text-sm text-secondary">
-                        <FontAwesomeIcon icon={faAppleAlt} className="mr-2 text-gray-500" />
-                        Commodity:
-                      </p>
-                    </div>
-                    <div className="ml-8 text-sm mt-4">
-                      <p className="text-gray-500">Fruits, Vegetables</p>
-                    </div>
-                  </div>
-                </div>
+            </div>
+            <div className="bg-white shadow-lg rounded-lg p-4 md:col-span-1 lg:p-12 flex flex-col justify-between h-full">
+              <div>
+                <h3 className="text-lg text-secondary font-medium">
+                  <span className='text-gray-500 mr-2'>
+                    <FontAwesomeIcon icon={faMoneyBill1Wave} />
+                  </span>
+                  Total Shipment Price
+                </h3>
+                <p className="text-5xl font-bold py-4">${data.price.toLocaleString()}</p>
+                <h4 className="font-medium text-secondary md:mt-8">
+                  <span className='text-gray-500 mr-2'>
+                    <FontAwesomeIcon icon={faMoneyBill1Wave} />
+                  </span>
+                  Taxes and other fees
+                </h4>
+                <p className='text-gray-500 py-4 font-medium'>{data.pickupDate}</p>
               </div>
-
-              
+              <a href={data.bolLink} className="text-blue-500 underline mt-2 block">Download BOL</a>
             </div>
           </div>
 
-
-          <div className="relative md:static mt-10 md:mt-0">
-            <div className="bg-gray-100 p-6 rounded-lg text-left w-96 px-10" style={{ height: '32rem' }}>
-              <div className="flex items-center mb-4">
-                <FontAwesomeIcon icon={faCircleDollarToSlot} className="text-blue-600 mr-4 text-gray-500" size="1x" />
-                <h2 className="font-semibold text-lg text-secondary">Total Shipment Price</h2>
-              </div>
-              <p className="text-4xl font-bold mb-16 pl-9 text-primary">$4,509</p>
-
-              <div className="flex items-center mb-3">
-                <FontAwesomeIcon icon={faCircleDollarToSlot} className="text-blue-600 mr-4 text-gray-500" size="1x" />
-                <p className="text-lg text-secondary">Taxes and other fees</p>
-              </div>
-              <p className="text-lg mb-32 pl-9">6 July 2024 at 15:00 PM GMT</p>
-
-              <div className="flex items-center">
-                <FontAwesomeIcon icon={faFileDownload} className="mr-2 text-gray-500" />
-                <p className="text-left text-secondary">Download BOL</p>
-              </div>
-            </div>
+          <div className="flex gap-8 lg:mt-16">
+            <Button
+              label="Next"
+              size="homeButton"
+              bgColor="#252F70"
+              fontStyle="normal"
+              onClick={() => {}}
+              className="extra-class-for-medium-button"
+              type=""
+            />
+            <Button
+              label="Back"
+              size="homeButton"
+              bgColor="#252F70"
+              fontStyle="normal"
+              onClick={() => {}}
+              className="extra-class-for-medium-button"
+              type=""
+            />
           </div>
-          
-        </div>
-
-        <div className="flex justify-start space-x-4 mt-14">
-          <Button
-            label="Next"
-            size="medium"
-            bgColor="#252F70"
-            hoverBgColor="white"
-            onClick={handleNextClick} type={''}          />
-          <Button
-            label="Edit"
-            size="medium"
-            bgColor="#252F70"
-            hoverBgColor="white"
-            onClick={handleEditClick} type={''}          />
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default ShipmentDetailsConfirmation;
+  export default ShipmentDetailsConfirmation;

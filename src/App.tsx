@@ -56,7 +56,8 @@ const App: React.FC = () => {
         <Route path="/performance-grade" element={<PrivateRoute element={<PerformanceOverview />} roles={['user']} />} />
         <Route path="/shipmentDetails/:id" element={<PrivateRoute element={<ShipmentDetails />} roles={['user']} />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/shipment-report" element={<ShipmentDetailsConfirmation />} />
+        <Route path="/shipment-report" element={<PrivateRoute element={<ShipmentDetailsConfirmation />} roles={['user']} />} />
+
       </Routes>
     </Router>
   );
