@@ -37,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = () => {
 
     return (
         <>
-        <nav className="px-4 py-8" style={{ background: "linear-gradient(-180deg, #7783D2 5%, #adb4e4 100%)" }}>
+        <nav className="px-4 py-8" style={{ background: "linear-gradient(-180deg, #7783D2 5%, #adb4e4 79%)" }}>
             <div className="container mx-auto flex justify-between items-center">
                 <button
                     className="text-white text-2xl lg:text-3xl font-medium hover:text-[#252F70]"
