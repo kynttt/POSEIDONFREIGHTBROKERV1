@@ -1,37 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DashboardCard from '../components/userDashboardCard';
-// import Navbar from '../components/Navbar';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../state/useAuthStore';
 import SideBar from '../components/SideBar';
+import { fetchUserInvoices } from '../lib/apiCalls'; // Import the new API call
 
 const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
-  const { isAuthenticated, role } = useAuthStore(); // Use Zustand store
-  const userId = useAuthStore(state => state.userId); // Assuming you have userId in your auth store
+  const { isAuthenticated, role } = useAuthStore();
+  const userId = useAuthStore(state => state.userId);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && userId) {
       const fetchData = async () => {
         try {
-          const token = useAuthStore.getState().token; // Access the token from Zustand store
-      
+          const token = useAuthStore.getState().token;
+
           if (!token) {
             console.error('No authentication token found');
             return;
           }
-      
-          const response = await axios.get(`http://localhost:5000/api/invoices/user/${userId}`, {
-            headers: {
-              'Authorization': `Bearer ${token}`, // Include the token in the headers
-              'Content-Type': 'application/json'
-            }
-          });
-      
-          setData(response.data);
+
+          const invoices = await fetchUserInvoices(userId, token); // Use the new API call
+          setData(invoices);
         } catch (error) {
           if (axios.isAxiosError(error)) {
             console.error('API Error:', error.response?.data || error.message);
@@ -40,7 +34,6 @@ const UserDashboard: React.FC = () => {
           }
         }
       };
-      
 
       fetchData();
     }
@@ -52,7 +45,6 @@ const UserDashboard: React.FC = () => {
 
   return (
     <>
-      {/* <Navbar isAuthenticated={isAuthenticated} /> */}
       <div className='flex h-screen'>
         <SideBar isAuthenticated={isAuthenticated} />
 

@@ -160,3 +160,25 @@ export const createInvoice = async (invoiceData: any, token: string) => {
     throw error;
   }
 };
+
+
+
+// Fetch User Invoices
+export const fetchUserInvoices = async (userId: string, token: string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/invoices/user/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error('API Error:', error.response?.data || error.message);
+    } else {
+      console.error('Unexpected Error:', error);
+    }
+    throw error;
+  }
+};
