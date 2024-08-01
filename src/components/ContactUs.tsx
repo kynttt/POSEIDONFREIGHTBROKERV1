@@ -3,9 +3,9 @@ import Button from './Button';
 
 const ContactForm: React.FC = () => {
   return (
-    <div id='contacts' className="bg-light-grey flex items-center justify-center w-screen p-4 pb-10">
-      <div className="p-8 container w-screen">
-        <h1 className="text-center text-2xl font-normal tracking-wider mb-8 text-blue-900 py-2">CONTACT US</h1>
+    <div id='contacts' className="bg-light-grey flex items-center justify-center w-screen p-4 pb-10 lg:py-20">
+      <div className=" container w-screen">
+        <h1 className="text-start text-2xl font-normal tracking-wider mb-8 text-blue-900 py-2">CONTACT US</h1>
         <div className="flex flex-col md:flex-row justify-center space-y-8 md:space-y-0 md:space-x-20">
         
           <div className="md:w-1/3">

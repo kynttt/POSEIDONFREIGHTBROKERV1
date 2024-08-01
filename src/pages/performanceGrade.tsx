@@ -192,11 +192,7 @@ const PerformanceGradeComponent: React.FC = () => {
               <h3 className="mr-4 text-sm font-light">
                 Showing 1 to 8 of 32 Entries
               </h3>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+              <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
             </div>
           </div>
 

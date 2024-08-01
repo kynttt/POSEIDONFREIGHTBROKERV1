@@ -26,6 +26,7 @@ import PerformanceOverview from './pages/performanceGrade';
 import ShipmentDetailsConfirmation from './pages/shipmentDetailsConfirmation';
 
 import PrivateRoute from './components/PrivateRoute';
+import ShipmentDetails from './pages/ShipmentDetails';
 
 const App: React.FC = () => {
   return (
@@ -53,6 +54,7 @@ const App: React.FC = () => {
         <Route path="/accounting-payment" element={<PrivateRoute element={<AccountingPayment />} roles={['admin']} />} />
         <Route path="/shipper-dashboard" element={<PrivateRoute element={<ShipperDashboard />} roles={['user']} />} />
         <Route path="/performance-grade" element={<PrivateRoute element={<PerformanceOverview />} roles={['user']} />} />
+        <Route path="/shipmentDetails/:id" element={<PrivateRoute element={<ShipmentDetails />} roles={['user']} />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/shipment-report" element={<ShipmentDetailsConfirmation />} />
       </Routes>

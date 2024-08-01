@@ -46,8 +46,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
     setIsModalOpen(true);
   };
 
-  console.log("User authenticated?", isAuthenticated);
-  console.log("User role:", role);
 
   return (
     <>

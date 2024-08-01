@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../../components/pagination'; // Import the Pagination component
 
 interface Transaction {

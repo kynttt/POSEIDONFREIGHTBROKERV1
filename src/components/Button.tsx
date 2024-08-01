@@ -5,7 +5,7 @@ interface ButtonProps {
   type: string;
   onClick?: () => void; // Optional onClick handler
   className?: string; // Optional class name for additional styling
-  size?: 'small' | 'medium' | 'large' | 'xl' | 'quoteButton' | 'truckButton' | 'contactButton' | 'bookingSuccessful'; // Optional size prop
+  size?: 'small' | 'medium' | 'large' | 'xl' | 'quoteButton' | 'truckButton' | 'contactButton' | 'bookingSuccessful' | 'homeButton'; // Optional size prop
   bgColor?: string; // Optional background color prop
   hoverBgColor?: string; // Optional hover background color prop
   hoverTextColor?: string; // Optional hover text color prop
@@ -15,14 +15,14 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({
   label,
-  type,
+  // type,
   onClick,
   className,
   size = 'medium',
   bgColor = '#252F70',
   hoverBgColor = 'white',
   hoverTextColor = '#7783D2',
-  fontStyle = 'normal', // Default to normal font weight
+  // fontStyle = 'normal', // Default to normal font weight
   hoverBorderColor = 'black', // Default hover border color
 }) => {
   // Define fixed size classes based on the size prop
@@ -35,6 +35,7 @@ const Button: React.FC<ButtonProps> = ({
     truckButton: 'w-72 h-16 text-lg',
     contactButton: 'w-full h-12 text-lg',
     bookingSuccessful: 'w-60 h-12 text-base',
+    homeButton: 'w-64 h-16 text-lg font-bold',
   };
 
   // Define border and text color styles based on bgColor
@@ -51,15 +52,15 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`button block text-white rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${sizeClasses[size]} ${borderStyle} ${className}`}
-      style={{
-        backgroundColor: bgColor,
-        '--hover-bg-color': hoverBgColor,
-        '--hover-text-color': hoverTextColor,
-        '--hover-border-color': hoverBorderColor,
-        fontWeight: fontStyle === 'thin' ? 300 : 'inherit', // Set font weight to 300 for 'thin' style
-        color: textColorStyle, // Apply the dynamic text color inline
-      }}
+      className={`button bg-primary  block text-white rounded transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${sizeClasses[size]} ${borderStyle} ${className}`}
+      // style={{
+      //   backgroundColor: bgColor,
+      //   '--hover-bg-color': hoverBgColor,
+      //   '--hover-text-color': hoverTextColor,
+      //   '--hover-border-color': hoverBorderColor,
+      //   fontWeight: fontStyle === 'thin' ? 500 : 'inherit', // Set font weight to 300 for 'thin' style
+      //   color: textColorStyle, // Apply the dynamic text color inline
+      // }}
       onClick={onClick}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = hoverBorderColor;

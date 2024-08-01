@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
@@ -8,10 +8,10 @@ import Button from '../components/Button';
 import LoadCard from '../components/LoadCard';
 import SideBar from '../components/SideBar';
 import { useAuthStore } from '../state/useAuthStore';
-
+import { fetchDeliveryLocations, fetchQuotes } from '../lib/apiCalls';
 
 type CardProps = {
-    pickupDate: Date ;
+    pickupDate: Date;
     id: string;
     pickUp: string;
     drop: string;
@@ -43,36 +43,13 @@ const LoadBoard: React.FC = () => {
             const token = localStorage.getItem('authToken');
             try {
                 if (pickUpLocation && token) {
-                    const deliveryResponse = await axios.get(`http://localhost:5000/api/delivery-locations?pickUpLocation=${pickUpLocation}`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    setAvailableDeliveryLocations(deliveryResponse.data);
+                    const deliveryLocations = await fetchDeliveryLocations(pickUpLocation, token);
+                    setAvailableDeliveryLocations(deliveryLocations);
                 }
 
-
                 if (token) {
-                    const quotesResponse = await axios.get('http://localhost:5000/api/quotes/', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    const transformedData = quotesResponse.data.map((quote: any) => ({
-                        id: quote._id,
-                        pickUp: quote.origin,
-                        drop: quote.destination,
-                        maxWeight: quote.maxWeight,
-                        companyName: quote.companyName,
-                        trailerType: quote.trailerType,
-                        distance: quote.distance,
-                        trailerSize: quote.trailerSize,
-                        loadPrice: quote.price,
-                        commodity:quote.commodity,
-                        pickupDate:quote.pickupDate,
-                        onBookLoadClick: () => { /* Handle book load click */ },
-                    }));
-                    setLoadCards(transformedData);
+                    const quotes = await fetchQuotes(token);
+                    setLoadCards(quotes);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -127,11 +104,14 @@ const LoadBoard: React.FC = () => {
                                     <DatePicker
                                         selected={pickUpDate}
                                         onChange={(date) => setPickUpDate(date)}
-                                        className="w-full border border-gray-300 p-2 rounded-md bg-white  font-thin text-black"
+                                        className="w-full border border-gray-300 p-2 rounded-md bg-white font-thin text-black"
                                         placeholderText="MM/DD/YYYY"
                                         dateFormat="MM/dd/yyyy"
                                     />
-                                    <div className="absolute top-2 right-2 cursor-pointer" onClick={() => document.querySelector('.react-datepicker-wrapper input')?.focus()}>
+                                    <div
+                                        className="absolute top-2 right-2 cursor-pointer"
+                                        onClick={() => (document.querySelector('.react-datepicker-wrapper input') as HTMLInputElement)?.focus()}
+                                    >
                                         <FontAwesomeIcon icon={faCalendarAlt} className="text-secondary" />
                                     </div>
                                 </div>

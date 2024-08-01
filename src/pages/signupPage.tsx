@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import signupImage from '../assets/img/DeliveredPackage.gif';
 import Button from '../components/Button';
 import googleIcon from '../assets/img/googleicon.png';
 import appleIcon from '../assets/img/apple.png';
 import OTPModal from '../components/OTPModal';
+import { registerUser } from '../lib/apiCalls';
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const SignupPage = () => {
     companyName: '',
   });
 
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -35,26 +36,13 @@ const SignupPage = () => {
     setError('');
     setSuccess(false);
 
-    // Validate required fields
     const errors: { [key: string]: string } = {};
-    if (!formData.name) {
-      errors.name = 'Name is required.';
-    }
-    if (!formData.address) {
-      errors.address = 'Address is required.';
-    }
-    if (!formData.postalCode) {
-      errors.postalCode = 'Postal Code is required.';
-    }
-    if (!formData.phone) {
-      errors.phone = 'Phone number is required.';
-    }
-    if (!formData.password) {
-      errors.password = 'Password is required.';
-    }
-    if (!formData.email) {
-      errors.email = 'Email is required.';
-    }
+    if (!formData.name) errors.name = 'Name is required.';
+    if (!formData.address) errors.address = 'Address is required.';
+    if (!formData.postalCode) errors.postalCode = 'Postal Code is required.';
+    if (!formData.phone) errors.phone = 'Phone number is required.';
+    if (!formData.password) errors.password = 'Password is required.';
+    if (!formData.email) errors.email = 'Email is required.';
 
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
@@ -62,30 +50,19 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users/register', {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        address: formData.address,
-        postalCode: formData.postalCode,
-        phone: formData.phone,
-        companyName: formData.companyName,
-        role: 'user', // Assuming a default role
-      });
-      if (response.data.token) {
+      const response = await registerUser(formData);
+      if (response.token) {
         setSuccess(true);
         openModal();
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        // Axios-specific error handling
         if (err.response && err.response.data) {
           setError(err.response.data.msg);
         } else {
           setError('An error occurred during registration.');
         }
       } else {
-        // Generic error handling
         setError('An unexpected error occurred.');
       }
     }

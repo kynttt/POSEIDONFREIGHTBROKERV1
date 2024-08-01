@@ -3,7 +3,7 @@ import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
-  height: '500px',
+  height: '575px',
   boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.3)', // Adding box shadow
   borderRadius: '8px', // Adding border radius
 };
@@ -24,7 +24,7 @@ interface MapComponentProps {
 }
 
 export const MapComponent: React.FC<MapComponentProps> = ({
-  map,
+  // map,
   setMap,
   directions,
   originLocation,
