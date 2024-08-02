@@ -150,7 +150,7 @@ const QuoteDetails: React.FC = () => {
     
             try {
                 const data = await createQuote(quoteDetails, token); // Use the imported function
-                navigate('/payment-option', { state: { price, quoteId: data._id,  userId } });
+                navigate('/shipment-report', { state: { price, quoteId: data._id,  userId } });
             } catch (error: unknown) {
                 if (error instanceof Error) {
                     console.error('Error creating quote:', error.message);

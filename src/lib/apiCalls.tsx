@@ -28,7 +28,10 @@ export const registerUser = async (formData: any) => {
   return response.data;
 };
 
-// LoadBoard
+
+
+// Quotes
+// Fetch all quotes
 export const fetchDeliveryLocations = async (pickUpLocation: string, token: string) => {
   const response = await axios.get(`${API_BASE_URL}/delivery-locations?pickUpLocation=${pickUpLocation}`, {
     headers: {
@@ -60,17 +63,8 @@ export const fetchQuotes = async (token: string) => {
   }));
 };
 
-// ShipperDashboard
-export const fetchUserBookings = async (token: string) => {
-  const response = await axios.get(`${API_BASE_URL}/bookings/user`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
-};
 
-// ShipperDetails
+// fetch quote using quoteID
 export const fetchBookingDetails = async (id: string) => {
   const token = localStorage.getItem('authToken');
   if (!token) {
@@ -117,30 +111,32 @@ export const createQuote = async (quoteDetails: any, token: string) => {
 };
 
 
-// Book a quote
-export const bookQuote = async (quoteId: string, token: string) => {
-  const bookingData = {
-      quote: quoteId,
-  };
 
+// Fetch quote details by ID
+export const fetchQuoteDetails = async (quoteId: string, token: string) => {
   try {
-      const response = await axios.post(`${API_BASE_URL}/bookings/`, bookingData, {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      });
-      return response.data;
+    const response = await axios.get(`${API_BASE_URL}/quotes/${quoteId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
   } catch (error: unknown) {
-      if (error instanceof Error) {
-          console.error('Error booking:', error.message);
-      } else {
-          console.error('Unknown error occurred while booking');
-      }
-      throw error;
+    if (axios.isAxiosError(error)) {
+      console.error('API Error:', error.response?.data || error.message);
+    } else {
+      console.error('Unexpected Error:', error);
+    }
+    throw error;
   }
 };
 
 
+
+
+
+// Invoice
 // Create invoice
 export const createInvoice = async (invoiceData: any, token: string) => {
   try {
@@ -181,4 +177,41 @@ export const fetchUserInvoices = async (userId: string, token: string) => {
     }
     throw error;
   }
+};
+
+
+
+
+// Bookings
+// Book a quote
+export const bookQuote = async (quoteId: string, token: string) => {
+  const bookingData = {
+      quote: quoteId,
+  };
+
+  try {
+      const response = await axios.post(`${API_BASE_URL}/bookings/`, bookingData, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+      return response.data;
+  } catch (error: unknown) {
+      if (error instanceof Error) {
+          console.error('Error booking:', error.message);
+      } else {
+          console.error('Unknown error occurred while booking');
+      }
+      throw error;
+  }
+};
+
+// Fetch User's Booking
+export const fetchUserBookings = async (token: string) => {
+  const response = await axios.get(`${API_BASE_URL}/bookings/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
 };
