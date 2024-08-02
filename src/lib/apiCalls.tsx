@@ -3,6 +3,9 @@ import axios from 'axios';
 // Set the base URL for the API
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+
+
+//Users
 // Login
 interface LoginResponse {
   token: string;
@@ -27,6 +30,8 @@ export const registerUser = async (formData: any) => {
   });
   return response.data;
 };
+
+
 
 
 

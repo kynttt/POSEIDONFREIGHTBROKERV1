@@ -1,178 +1,112 @@
-import React, { useState } from "react";
-import profileImage from "../assets/img/profile.png";
+import React, { useEffect, useState } from "react";
+import profileImage from "../assets/img/profilepic.jpg";
+import profileBgImage from "../assets/img/profilebg.jpg";
 import SideBar from "../components/SideBar";
 import { useAuthStore } from '../state/useAuthStore';
-import transactionsData from "../pages/profileTransactionFile.json";
-import ProfileTransactionCard from "../components/ProfileTransactionCard";
-import Button from "../components/Button";
+import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBuilding, faEnvelope, faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
+import ShipperBookings from "./ShipperUser/components/shipperBookings";
+import FreightQuoteMini from "../components/FreightQuoteMini";
 
 const ProfileCard: React.FC = () => {
-  const { isAuthenticated} = useAuthStore();
-  const [showAllLarge, setShowAllLarge] = useState(false);
-  const [showAllSmall, setShowAllSmall] = useState(false);
+  const { isAuthenticated, userId, token } = useAuthStore();
 
-  const handleSeeMoreSmall = () => {
-    setShowAllSmall(true);
-  };
+  const [userData, setUserData] = useState<any>(null);
 
-  const handleSeeMoreLarge = () => {
-    setShowAllLarge(true);
-  };
+  useEffect(() => {
+    if (isAuthenticated && userId && token) {
+      const fetchUserData = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/users/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
 
-  const handleShowLessSmall = () => {
-    setShowAllSmall(false);
-  };
+          setUserData(response.data);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
 
-  const handleShowLessLarge = () => {
-    setShowAllLarge(false);
-  };
-
-  // Determine number of transactions to show based on screen size
-  const transactionsToShowSmall = showAllSmall ? transactionsData.length : 5;
-  const transactionsToShowLarge = showAllLarge ? transactionsData.length : 10;
+      fetchUserData();
+    }
+  }, [isAuthenticated, userId, token]);
 
   return (
-    <>
-        <div className="flex flex-col md:flex-row">
-          <SideBar isAuthenticated={isAuthenticated} />
-          <div className="flex-1 p-4 md:p-8 bg-white h-auto md:h-screen overflow-y-auto">
-            <div className="max-w-4xl mx-auto bg-white overflow-hidden">
-              <div className="flex justify-between items-center p-4 md:p-8">
-                <h2 className="text-xl font-medium text-secondary">
-                  Account Details
-                </h2>
-              </div>
-                    <div className="flex justify-start items-center mt-4 md:mt-8 md:ml-4 lg:ml-8">
-                      <img
-                        className="w-32 h-32 md:w-52 md:h-52 object-cover rounded-full border-4 border-white"
-                        src={profileImage}
-                        alt="Profile"
-                      />
-                      <div className="text-center mt-2 md:ml-4 lg:ml-8">
-                        <h2 className="text-xl md:text-2xl font-medium text-secondary text-left">
-                          John Doe
-                        </h2>
-                        <p className="text-gray-500 text-left">Logistics</p>
-                        <p className="text-gray-500 text-left">NSW, Australia</p>
-                      </div>
-                    </div>
+    <div className="flex flex-col md:flex-row">
+      <SideBar isAuthenticated={isAuthenticated} />
+      <div className="flex-1  bg-white h-auto md:h-screen overflow-y-auto">
+        <div
+          className=" bg-cover bg-center overflow-hidden shadow-lg"
+          style={{ backgroundImage: `url(${profileBgImage})` }}
+        >
+          <div className="flex justify-between items-center p-4 md:p-8">
+            {/* <h2 className="text-xl font-medium text-secondary">Account Details</h2> */}
+          </div>
+          <div className="flex justify-start items-center relative mt-4 md:mt-8 md:ml-4 lg:ml-8 pt-28">
+            <img
+              className="w-32 h-32 md:w-52 md:h-52 object-cover rounded-full border-4 border-white absolute shadow-lg"
+              src={profileImage}
+              alt="Profile"
+              style={{ top: '-50px', left: '80px' }} // Adjust this value to move the image lower
+            />
+          </div>
 
-                  <div className="p-4 md:p-8">
-                        <div className="text-left mb-4">
-                          <h3 className="text-lg font-medium text-secondary">
-                            Personal Information
-                          </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                            <div className="flex">
-                              <p className="font-medium text-gray-500">Full name</p>
-                              <p className="ml-4 md:ml-16 font-medium text-primary">
-                                John Doe
-                              </p>
-                            </div>
-                            <div className="flex">
-                              <p className="text-gray-500">Phone number</p>
-                              <p className="ml-4 md:ml-8 font-medium text-primary">
-                                123-456-7890
-                              </p>
-                            </div>
-                            <div className="flex">
-                              <p className="text-gray-500 font-medium">Business email</p>
-                              <p className="ml-4 md:ml-6 font-medium text-primary">
-                                jdoe@email.com
-                              </p>
-                            </div>
-                            <div className="flex">
-                              <p className="text-gray-500">Company Name</p>
-                              <p className="ml-4 md:ml-6 font-medium text-primary">
-                                ABC Company
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                    <div>
-                          <h3 className="text-lg font-medium text-secondary mt-6 md:mt-10">
-                            Recent Transactions
-                          </h3>
-
-                          <div className="overflow-x-auto">
-                            {/* Table for larger screens */}
-                            <table className="min-w-full bg-white hidden sm:table">
-                              <thead>
-                                <tr className="text-left">
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">Load number</div>
-                                  </th>
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">
-                                      Truck Type & Size
-                                    </div>
-                                  </th>
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">Amount Paid</div>
-                                  </th>
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">
-                                      Payment Method
-                                    </div>
-                                  </th>
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">Date & Time</div>
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody className="text-gray-500 font-medium text-sm">
-                                {transactionsData
-                                  .slice(0, transactionsToShowLarge)
-                                  .map((transaction, index) => (
-                                    <tr key={index}>
-                                      <td className="py-2">{transaction.loadNumber}</td>
-                                      <td className="py-2">{transaction.truckType}</td>
-                                      <td className="py-2">{transaction.amountPaid}</td>
-                                      <td className="py-2">
-                                        {transaction.paymentMethod}
-                                      </td>
-                                      <td className="py-2">{transaction.dateTime}</td>
-                                    </tr>
-                                  ))}
-                              </tbody>
-                            </table>
-
-                            {/* Cards for smaller screens */}
-                            <div className="sm:hidden text-sm text-gray-500">
-                              {transactionsData
-                                .slice(0, transactionsToShowSmall)
-                                .map((transaction, index) => (
-                                  <ProfileTransactionCard
-                                    key={index}
-                                    transaction={transaction}
-                                  />
-                                ))}
-                            </div>
-                          </div>
-
-                      {/* Button for both screens */}
-                        <div className="text-right mt-6 md:mt-10 mr-4">
-                          <Button
-                    label={showAllLarge || showAllSmall ? "Show Less" : "See More"}
-                    size="small"
-                    bgColor="#252F70"
-                    hoverBgColor="white"
-                    onClick={() => {
-                      if (showAllLarge || showAllSmall) {
-                        handleShowLessLarge();
-                        handleShowLessSmall();
-                      } else {
-                        handleSeeMoreLarge();
-                        handleSeeMoreSmall();
-                      }
-                    } } type={""}                          />
-                        </div>
-                    </div>
+          <div className="p-4 md:pl-20  md:p-8 bg-light-grey mt-4">
+            <div className="text-left mb-4">
+              {/* <h3 className="text-lg font-medium text-white">Personal Information</h3> */}
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-2">
+                <div className="flex">
+                  {/* <p className="font-medium text-white">Full name</p> */}
+                  <p className="md:text-5xl ml-4  font-medium text-primary ">
+                    {userData?.name || 'John Doe'}
+                  </p>
+                </div>
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex items-center">
+                    {/* <p className="text-white font-medium">Business email</p> */}
+                    <p className=" md:ml-4 font-medium text-secondary bg-grey py-2 px-4 rounded"><span className="mr-2 text-gray-500"><FontAwesomeIcon icon={faEnvelope} /></span>
+                      {userData?.email || 'jdoe@email.com'}
+                    </p>
                   </div>
+                  <div className="flex items-center">
+                    {/* <p className="text-white">Phone number</p> */}
+                    <p className="ml-4  font-medium text-secondary bg-grey py-2 px-4 rounded"><span className="mr-2 text-gray-500"><FontAwesomeIcon icon={faMobileScreenButton} /></span>
+                      {userData?.phone || '123-456-7890'}
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    {/* <p className="text-white">Company Name</p> */}
+                    <p className="ml-4  font-medium text-secondary bg-grey py-2 px-4 rounded"><span className="mr-2 text-gray-500"><FontAwesomeIcon icon={faBuilding} /></span>
+                      {userData?.companyName || 'ABC Company'}
+                    </p>
+                  </div>
+                </div>
+
+
+              </div>
             </div>
           </div>
+
+
+
         </div>
-    </>
+        <div className="bg-grey ">
+          <div className="bg-grey p-4 md:p-12">
+            <div className="grid grid-cols-3 gap-8">
+              <div className="col-span-2  bg-white rounded-lg"> {/* 2/3 width */}
+                <div><ShipperBookings /></div>
+              </div>
+              <div className="col-span-1  bg-white rounded-lg"> {/* 1/3 width */}
+                      <FreightQuoteMini/>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
   );
 };
 
