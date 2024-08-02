@@ -42,7 +42,7 @@ const ShipperBookings = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
+    <div className="bg-white rounded-lg shadow p-4 md:p-6 ">
       <h2 className="text-xl font-semibold mb-4 text-primary">My Shipments</h2>
 
       {loading ? (
@@ -53,12 +53,12 @@ const ShipperBookings = () => {
             <button
               key={index}
               onClick={() => handleBookingClick(booking.quote._id)}
-              className="bg-light-grey text-left items-center rounded-lg shadow p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-6 gap-4 overflow-x-auto"
+              className="bg-light-grey text-left  rounded-lg shadow p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-5 gap-4 overflow-x-auto"
             >
-              <div>
+              {/* <div>
                 <h3 className="text-gray-600 text-primary">Load Number</h3>
                 <p>{booking.quote._id}</p>
-              </div>
+              </div> */}
 
               <div>
                 <h3 className="text-gray-600 text-primary">Delivery Date & Time</h3>
