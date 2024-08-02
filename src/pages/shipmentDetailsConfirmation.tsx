@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faMoneyBill1Wave, faTruckFront, faCalendarDay, faBuilding, faBox, faRuler } from '@fortawesome/free-solid-svg-icons';
 import Button from "../components/Button";
 import QuoteRequestModal from '../components/QuoteRequestModal';
+import { fetchBookingDetails, bookQuote } from '../lib/apiCalls'; // Import API calls
 
 
 interface ShipmentDetailsProps {
@@ -32,70 +33,31 @@ const ShipmentDetailsConfirmation: React.FC = () => {
 
   useEffect(() => {
     if (quoteId) {
-      const token = localStorage.getItem('authToken'); // Or however you're storing your token
-      fetch(`http://localhost:5000/api/quotes/${quoteId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`, // Assuming a Bearer token is required
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
+      fetchBookingDetails(quoteId)
         .then(data => setData(data))
         .catch(error => console.error('Error fetching shipment data:', error));
     }
   }, [quoteId]);
 
   const handleNextClick = () => {
-    if (data) {
-      const token = localStorage.getItem('authToken'); // Or however you're storing your token
-      const bookingData = {
-        // Include necessary fields from `data` for booking
-        origin: data.origin,
-        destination: data.destination,
-        price: data.price,
-        pickupDate: data.pickupDate,
-        trailerType: data.trailerType,
-        trailerSize: data.trailerSize,
-        companyName: data.companyName,
-        commodity: data.commodity,
-        quote: quoteId, // Include the quote field
-      };
-
-      fetch('http://localhost:5000/api/bookings/', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`, // Assuming a Bearer token is required
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookingData),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
+    if (data && quoteId) {
+      const token = localStorage.getItem('authToken');
+      bookQuote(quoteId, token || '')
         .then(responseData => {
           console.log('Booking created successfully:', responseData);
-          // Show the modal after booking is created successfully
           setShowModal(true);
         })
         .catch(error => console.error('Error creating booking:', error));
     }
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-    navigate('/'); // Redirect to home page or another page after closing the modal
-  };
+  // const closeModal = () => {
+  //   setShowModal(false);
+  //   navigate('/');
+  // };
 
   if (!data) {
-    return <div>Loading...</div>; // Return a loading state or placeholder
+    return <div>Loading...</div>;
   }
 
   return (
