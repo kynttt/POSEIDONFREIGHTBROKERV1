@@ -45,11 +45,12 @@ const ShipmentDetailsConfirmation: React.FC = () => {
       bookQuote(quoteId, token || '')
         .then(responseData => {
           console.log('Booking created successfully:', responseData);
-          setShowModal(true);
+          navigate('/payment', { state: { price: data.price } });
         })
         .catch(error => console.error('Error creating booking:', error));
     }
   };
+  
 
   // const closeModal = () => {
   //   setShowModal(false);
