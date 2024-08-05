@@ -20,27 +20,25 @@ const LandingPage: React.FC = () => {
   const { isAuthenticated } = useAuthStore();
 
   return (
-    <div className="min-h-screen">
-      <header>
+    <div className="w-full overflow-x-hidden">
+      <header className="w-full overflow-x-hidden">
         <Navbar isAuthenticated={isAuthenticated} />
       </header>
-      <Stack>
+      <Stack className="w-full overflow-x-hidden">
         <HeroBanner />
         <SeamlessFreightServices />
         {/* <ServicesCardList/> */}
         {/* <Carousel /> */}
-        <FreightQuote />
+        {/* <FreightQuote />
         <FeaturesSection />
         <AboutUs />
         <FAQsPage />
         <TrustedAmazon />
-        <ContactForm />
+        <ContactForm /> */}
 
         {/* <SuccessPage /> */}
       </Stack>
-      <footer>
-        <Footer />
-      </footer>
+      <footer>{/* <Footer /> */}</footer>
     </div>
   );
 };

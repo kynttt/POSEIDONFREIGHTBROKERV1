@@ -2,7 +2,7 @@ import React from "react";
 import heroBanner from "../assets/img/new-hero.png";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
-import { Flex, Stack } from "@mantine/core";
+import { Stack } from "@mantine/core";
 
 const HeroBanner: React.FC = () => {
   const navigate = useNavigate();
