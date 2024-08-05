@@ -28,7 +28,6 @@ const FreightQuote: React.FC = () => {
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
-      className="w-full"
     >
       <Flex
         direction={{
@@ -36,7 +35,6 @@ const FreightQuote: React.FC = () => {
           xs: "column",
           sm: "row",
         }}
-        justify={"center"}
         align="center"
         rowGap={20}
         columnGap={20}
@@ -110,7 +108,6 @@ function CalculatorComponent() {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="w-[90%]"
     >
       <Stack
         justify="center"

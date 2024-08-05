@@ -30,7 +30,8 @@ const LandingPage: React.FC = () => {
         {/* <ServicesCardList/> */}
         {/* <Carousel /> */}
         <FreightQuote />
-        {/* <FeaturesSection />
+        <FeaturesSection />
+        {/* 
         <AboutUs />
         <FAQsPage />
         <TrustedAmazon />
