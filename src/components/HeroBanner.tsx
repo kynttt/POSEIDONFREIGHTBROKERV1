@@ -13,7 +13,7 @@ const HeroBanner: React.FC = () => {
 
   return (
     <div
-      className="relative flex flex-col md:flex-row justify-between items-start px-20 lg:w-full lg:h-[83.33vh] md:h-[83.33vh] md:h-[50vh] sm:h-[50vh] overflow-hidden"
+      className="relative flex flex-col md:flex-row justify-between items-start px-20   lg:w-full lg:h-[83.33vh] md:h-[83.33vh] md:h-[50vh] sm:h-[50vh] overflow-hidden"
       // className="relative flex flex-col md:flex-row justify-between items-start px-6 md:px-12 lg:px-24 xl:px-32 lg:w-full lg:h-5/6 md:h-5/6 md:h-1/2 sm:h-1/2 overflow-hidden"
       style={{
         background: "linear-gradient(-180deg, #adb4e4 0%, #ffffff 90%)",

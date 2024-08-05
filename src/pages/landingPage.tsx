@@ -29,8 +29,8 @@ const LandingPage: React.FC = () => {
         <SeamlessFreightServices />
         {/* <ServicesCardList/> */}
         {/* <Carousel /> */}
-        {/* <FreightQuote />
-        <FeaturesSection />
+        <FreightQuote />
+        {/* <FeaturesSection />
         <AboutUs />
         <FAQsPage />
         <TrustedAmazon />
