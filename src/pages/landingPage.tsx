@@ -38,7 +38,9 @@ const LandingPage: React.FC = () => {
 
         {/* <SuccessPage /> */}
       </Stack>
-      <footer>{/* <Footer /> */}</footer>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };

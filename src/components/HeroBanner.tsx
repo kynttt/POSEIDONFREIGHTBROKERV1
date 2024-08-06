@@ -13,7 +13,7 @@ const HeroBanner: React.FC = () => {
 
   return (
     <div
-      className="relative flex flex-col md:flex-row justify-between items-start px-10 lg:px-20   lg:w-full lg:h-[83.33vh] md:h-[83.33vh] md:h-[50vh] sm:h-[50vh] overflow-hidden"
+      className="relative flex flex-col md:flex-row justify-between items-start px-10 lg:px-20 lg:w-full h-[80vh] "
       // className="relative flex flex-col md:flex-row justify-between items-start px-6 md:px-12 lg:px-24 xl:px-32 lg:w-full lg:h-5/6 md:h-5/6 md:h-1/2 sm:h-1/2 overflow-hidden"
       style={{
         background: "linear-gradient(-180deg, #adb4e4 0%, #ffffff 90%)",
@@ -37,12 +37,12 @@ const HeroBanner: React.FC = () => {
       <Stack className="z-10 h-full w-full" justify="center">
         <Stack className="" justify="center" w="full" gap={0}>
           <h1
-            className="text-3xl md:text-5xl xl:text-7xl font-medium text-white"
+            className="lg:text-7xl text-5xl  font-medium text-white"
             style={{ textShadow: "0px 4px 6px rgba(0, 0, 2, 0.6)" }}
           >
             TRANSPORT
           </h1>
-          <h2 className="text-2xl md:text-4xl xl:text-7xl font-black mt-2 mb-5 relative">
+          <h2 className="lg:text-7xl text-5xl font-black mt-2 mb-5 relative">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-600 relative z-10">
               LOGISTICS
             </span>
