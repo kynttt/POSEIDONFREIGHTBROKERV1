@@ -36,18 +36,19 @@ const Navbar: React.FC<NavbarProps> = () => {
   return (
     <>
       <nav
-        className="px-4 py-8"
+        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-8 w-full  "
         style={{
           background: "linear-gradient(-180deg, #7783D2 5%, #adb4e4 79%)",
         }}
       >
-        <div className="container mx-auto flex justify-between items-center">
+        <div className="flex justify-between items-center w-full ">
           <button
             className="text-white text-2xl lg:text-3xl font-medium hover:text-[#252F70]"
             onClick={() => handleNavigation("/")}
           >
             Freight Logistics
           </button>
+
           {/* Hamburger menu for small screens */}
           <div className="lg:hidden">
             <button
