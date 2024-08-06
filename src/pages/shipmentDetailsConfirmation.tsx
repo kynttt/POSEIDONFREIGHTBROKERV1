@@ -5,7 +5,7 @@ import { useAuthStore } from '../state/useAuthStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faMoneyBill1Wave, faTruckFront, faCalendarDay, faBuilding, faBox, faRuler } from '@fortawesome/free-solid-svg-icons';
 import Button from "../components/Button";
-import QuoteRequestModal from '../components/QuoteRequestModal';
+// import QuoteRequestModal from '../components/QuoteRequestModal';
 import { fetchBookingDetails, bookQuote } from '../lib/apiCalls'; // Import API calls
 
 
@@ -24,7 +24,7 @@ interface ShipmentDetailsProps {
 const ShipmentDetailsConfirmation: React.FC = () => {
   const { isAuthenticated } = useAuthStore();
   const [data, setData] = useState<ShipmentDetailsProps | null>(null);
-  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  // const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const location = useLocation(); // Use useLocation to access location state
   const navigate = useNavigate(); // Use useNavigate for navigation
 
@@ -43,13 +43,20 @@ const ShipmentDetailsConfirmation: React.FC = () => {
     if (data && quoteId) {
       const token = localStorage.getItem('authToken');
       bookQuote(quoteId, token || '')
-        .then(responseData => {
-          console.log('Booking created successfully:', responseData);
-          navigate('/payment', { state: { price: data.price } });
+        .then(() => {
+          // Console log removed
+          navigate('/payment', { 
+            state: { 
+              price: data.price, 
+              origin: data.origin, 
+              destination: data.destination 
+            } 
+          });
         })
         .catch(error => console.error('Error creating booking:', error));
     }
   };
+  
   
 
   // const closeModal = () => {
@@ -62,9 +69,9 @@ const ShipmentDetailsConfirmation: React.FC = () => {
   }
 
   return (
-    <div className="flex w-full mx-auto">
+    <div className="flex h-screen w-full mx-auto">
       <SideBar isAuthenticated={isAuthenticated} />
-      <div className='bg-white flex-1 p-4 lg:p-20 text-primary'>
+      <div className='bg-white flex-1 p-4 lg:p-20 text-primary overflow-y-auto'>
         <h2 className="text-2xl font-bold mb-6">Shipment Details Confirmation</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div className="md:col-span-2">
@@ -183,7 +190,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
       </div>
 
       
-      {showModal && <QuoteRequestModal isOpen={showModal} />}
+      {/* {showModal && <QuoteRequestModal isOpen={showModal} />} */}
     </div>
   );
 };

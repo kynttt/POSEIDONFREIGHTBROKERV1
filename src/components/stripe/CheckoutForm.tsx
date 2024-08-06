@@ -10,16 +10,14 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [paymentRequest, setPaymentRequest] = useState<any>(null); // Use any or a more specific type if available
+  const [loading, setLoading] = useState(false); // Add a loading state
 
   useEffect(() => {
     const initializePaymentRequest = async () => {
       if (!stripe) return;
 
-      // Verify that the price is a positive integer and in cents
-      if (price <= 0 || !Number.isInteger(price)) {
-        console.error('Invalid amount. Price should be a positive integer in cents.');
-        return;
-      }
+      // Ensure price is an integer and in cents
+      const priceInCents = Math.round(price); 
 
       // Create Payment Request with dynamic price
       const newPaymentRequest = stripe.paymentRequest({
@@ -27,7 +25,7 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
         currency: 'usd',
         total: {
           label: 'Total',
-          amount: price, // Use dynamic price
+          amount: priceInCents, // Use dynamic price in cents
         },
         requestPayerName: true,
         requestPayerEmail: true,
@@ -36,7 +34,7 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
       try {
         // Check if payment request can be made
         const result = await newPaymentRequest.canMakePayment();
-        if (result?.canMakePayment) {
+        if (result) {
           setPaymentRequest(newPaymentRequest);
         }
       } catch (error) {
@@ -50,9 +48,9 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!stripe || !elements) {
-      return;
-    }
+    if (!stripe || !elements || loading) return;
+
+    setLoading(true);
 
     const result = await stripe.confirmPayment({
       elements,
@@ -61,8 +59,10 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
       },
     });
 
+    setLoading(false);
+
     if (result.error) {
-      console.log(result.error.message);
+      console.error(result.error.message);
     } else {
       // Handle successful payment
     }
@@ -81,7 +81,7 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
     : undefined; // Ensure this is undefined if no paymentRequest
 
   return (
-    <form onSubmit={handleSubmit} className='bg-white p-4 rounded shadow-md'>
+    <form onSubmit={handleSubmit} className='p-4 md:p-8 rounded-lg shadow-md bg-white'>
       <h3 className='text-xl mb-4'>Payment Details</h3>
       <LinkAuthenticationElement />
       <PaymentElement />
@@ -90,9 +90,9 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
 
       {/* Render ExpressCheckoutElement if available */}
       {paymentRequest && (
-        <ExpressCheckoutElement options={paymentRequestButtonOptions as any} onConfirm={function (event: StripeExpressCheckoutElementConfirmEvent) {
-                  throw new Error('Function not implemented.');
-              } } />
+        <ExpressCheckoutElement options={paymentRequestButtonOptions as any} onConfirm={(event: StripeExpressCheckoutElementConfirmEvent) => {
+          // Implement the confirm handler
+        }} />
       )}
 
       {/* Render PaymentRequestButtonElement always */}
@@ -100,8 +100,8 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
         <PaymentRequestButtonElement options={paymentRequestButtonOptions as any} />
       )}
 
-      <button type="submit" disabled={!stripe} className='mt-4 p-2 bg-blue-500 text-white rounded'>
-        Submit Payment
+      <button type="submit" disabled={!stripe || loading} className='mt-4 py-4 px-16 bg-primary text-white rounded'>
+        {loading ? 'Processing...' : 'Book'}
       </button>
     </form>
   );
