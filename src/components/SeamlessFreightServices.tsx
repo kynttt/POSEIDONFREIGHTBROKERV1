@@ -27,12 +27,12 @@ const bannerData = [
 
 const SeamlessFreightServices: React.FC = () => {
   return (
-    <Stack w={"100%"} className="p-20" justify="center">
+    <Stack w={"100%"} className="p-10 lg:p-20" justify="center">
       <Stack className="text-left" gap={0.5}>
         <h1 className="text-base md:text-xl lg:text-xl font-normal mb-1 text-[#252F70]">
           SERVICES
         </h1>
-        <h2 className="text-4xl md:text-4xl lg:text-4xl font-medium text-[#252F70]">
+        <h2 className="text-4xl md:text-4xl lg:text-4xl font-black text-[#252F70]">
           Seamless Freight Services
         </h2>
       </Stack>
