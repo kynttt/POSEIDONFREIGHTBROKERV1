@@ -44,8 +44,7 @@ const FreightQuote: React.FC = () => {
             xs: "100%",
             lg: "30%",
           }}
-          className="text-center "
-          align="center"
+          justify="center"
         >
           <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-[#252F70]">
             GET A
