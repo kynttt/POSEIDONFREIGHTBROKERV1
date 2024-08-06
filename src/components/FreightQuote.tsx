@@ -125,7 +125,7 @@ function CalculatorComponent() {
         <Flex
           gap={20}
           justify={"center"}
-          align={"center"}
+          align={"flex-end"}
           w={{
             xs: "100%",
             lg: undefined,
