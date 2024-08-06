@@ -25,14 +25,14 @@ const HeroBanner: React.FC = () => {
         alt="Hero Banner"
         className="absolute inset-0 w-full lg:mt-12 h-full object-cover"
       />
-      {/* <div
+      <div
         className="absolute inset-0 bg-gradient-to-b"
         style={{
           zIndex: 1,
           background:
             "linear-gradient(to bottom, rgba(173, 180, 228, 0.8) 0%, transparent 100%)",
         }}
-      /> */}
+      />
 
       <Stack className="z-10 h-full w-full" justify="center">
         <Stack className="" justify="center" w="full" gap={0}>
