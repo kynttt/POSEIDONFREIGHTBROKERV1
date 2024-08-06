@@ -24,7 +24,7 @@ const ContactForm: React.FC = () => {
 
   return (
     <Flex
-      className="p-10 lg:p-20 w-full"
+      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem] w-full"
       direction={{ base: "column", lg: "row" }}
       gap={"4rem"}
       h={{
@@ -44,10 +44,10 @@ const ContactForm: React.FC = () => {
           }}
         >
           <Stack className="text-left" gap={0.5} w={"100%"}>
-            <h1 className="text-base md:text-xl lg:text-xl font-normal mb-1 text-[#252F70]">
+            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-[#252F70]">
               CONTACT US
             </h1>
-            <h2 className="text-4xl md:text-4xl lg:text-4xl font-black text-[#252F70]">
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-[#252F70]">
               Drop us a line
             </h2>
           </Stack>

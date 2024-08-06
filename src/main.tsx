@@ -8,6 +8,13 @@ import { createTheme, MantineProvider } from "@mantine/core";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
+  breakpoints: {
+    xs: "20em", // Approximately 320px
+    sm: "30em", // Approximately 480px
+    md: "48em", // Approximately 768px
+    lg: "75em", // Approximately 1200px
+    xl: "80em", // Approximately 1280px
+  },
   colors: {
     brand: [
       "#f0f5ff",

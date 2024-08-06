@@ -6,30 +6,36 @@ module.exports = {
     // Add more paths as needed for Tailwind CSS to scan for classes
   ],
   theme: {
+    screens: {
+      xs: "20em", // Approximately 320px
+    },
     extend: {
+      screens: {
+        sm: "30em", // Approximately 480px
+        md: "48em", // Approximately 768px
+        lg: "75em", // Approximately 1200px
+        xl: "80em", // Approximately 1280px
+      },
       fontWeight: {
-        'extrabold': 1500, // Example of extending fontWeight scale
-      }, 
+        extrabold: 1500, // Example of extending fontWeight scale
+      },
       height: {
-        '500px': '500px', // Example of extending height scale
+        "500px": "500px", // Example of extending height scale
       },
       width: {
-        '500px': '500px', // Example of extending height scale
+        "500px": "500px", // Example of extending height scale
       },
       colors: {
         // Define custom colors if needed
-        'primary': '#252F70',
-        'secondary': '#7783D2',
-        'tertiary': '#bbc1e8',
-        'white': '#FEFEFE',
-        'grey': '#DCDCDC',
-        'light-grey': '#eeeeee',
-        'green': '#54AB82',
-        'price': '#30D5C8',
-        'freightquote-bg':'#adb4e4'
-
-        
-
+        primary: "#252F70",
+        secondary: "#7783D2",
+        tertiary: "#bbc1e8",
+        white: "#FEFEFE",
+        grey: "#DCDCDC",
+        "light-grey": "#eeeeee",
+        green: "#54AB82",
+        price: "#30D5C8",
+        "freightquote-bg": "#adb4e4",
       },
     },
   },

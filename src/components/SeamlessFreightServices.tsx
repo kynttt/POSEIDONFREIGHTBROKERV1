@@ -27,18 +27,22 @@ const bannerData = [
 
 const SeamlessFreightServices: React.FC = () => {
   return (
-    <Stack w={"100%"} className="p-10 lg:p-20" justify="center">
+    <Stack
+      w={"100%"}
+      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem]"
+      justify="center"
+    >
       <Stack className="text-left" gap={0.5}>
-        <h1 className="text-base md:text-xl lg:text-xl font-normal mb-1 text-[#252F70]">
+        <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-primary">
           SERVICES
         </h1>
-        <h2 className="text-4xl md:text-4xl lg:text-4xl font-black text-[#252F70]">
+        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-primary">
           Seamless Freight Services
         </h2>
       </Stack>
       <Flex
         w="100%"
-        direction={{ base: "column", sm: "row" }}
+        direction={{ xs: "column", lg: "row" }}
         justify={"center"}
         gap={100}
       >
@@ -93,10 +97,10 @@ function Banner({
       <Stack align="center" w="100%" gap={50}>
         <Image src={imgSrc} alt={title} />
         <Stack w="100%" align="center" className="text-center">
-          <p className="text-sm md:text-base lg:text-lg text-primary">
+          <p className="xs:text-xl md:text-4xl lg:text-2xl  text-primary">
             {title}
           </p>
-          <p className="text-lg font-light text-gray-500 mx-auto">
+          <p className="xs:text-xl md:text-3xl lg:text-xl  font-light text-gray-500 mx-auto">
             {description}
           </p>
         </Stack>

@@ -51,10 +51,10 @@ const FAQsPage: React.FC = () => {
 
   const items = faqs.map((item) => (
     <Accordion.Item key={item.question} value={item.question}>
-      <Accordion.Control className="text-xl font-medium text-primary mb-2">
-        {item.question}
+      <Accordion.Control className="font-medium text-primary mb-2">
+        <QuestionComponent question={item.question} />
       </Accordion.Control>
-      <Accordion.Panel className="text-gray-500 text-md font-thin mb-2 text-justify">
+      <Accordion.Panel className="text-gray-500 xs:text-xl md:text-3xl lg:text-xl font-thin mb-2 text-justify">
         {item.answer}
       </Accordion.Panel>
     </Accordion.Item>
@@ -62,8 +62,8 @@ const FAQsPage: React.FC = () => {
 
   return (
     <Flex
-      className="p-10 lg:p-20"
-      direction={{ base: "column", sm: "row" }}
+      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem]"
+      direction={{ xs: "column", lg: "row" }}
       gap={"4rem"}
     >
       <motion.div
@@ -74,10 +74,10 @@ const FAQsPage: React.FC = () => {
       >
         <Stack>
           <Stack className="text-left" gap={0.5}>
-            <h1 className="text-base md:text-xl lg:text-xl font-normal mb-1 text-[#252F70]">
+            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-[#252F70]">
               FAQs
             </h1>
-            <h2 className="text-4xl md:text-4xl lg:text-4xl font-black text-[#252F70]">
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-[#252F70]">
               Frequently Asked Questions
             </h2>
           </Stack>
@@ -109,5 +109,9 @@ const FAQsPage: React.FC = () => {
     </Flex>
   );
 };
+
+function QuestionComponent({ question }: { question: string }) {
+  return <p className="xs:text-xl md:text-3xl lg:text-base">{question}</p>;
+}
 
 export default FAQsPage;

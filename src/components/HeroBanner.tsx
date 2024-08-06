@@ -13,7 +13,7 @@ const HeroBanner: React.FC = () => {
 
   return (
     <div
-      className="relative flex flex-col md:flex-row justify-between items-start px-10 lg:px-20 lg:w-full h-[80vh] "
+      className="relative flex flex-col md:flex-row justify-between items-start  xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] lg:w-full h-[80vh] "
       // className="relative flex flex-col md:flex-row justify-between items-start px-6 md:px-12 lg:px-24 xl:px-32 lg:w-full lg:h-5/6 md:h-5/6 md:h-1/2 sm:h-1/2 overflow-hidden"
       style={{
         background: "linear-gradient(-180deg, #adb4e4 0%, #ffffff 90%)",
@@ -25,24 +25,24 @@ const HeroBanner: React.FC = () => {
         alt="Hero Banner"
         className="absolute inset-0 w-full lg:mt-12 h-full object-cover"
       />
-      <div
+      {/* <div
         className="absolute inset-0 bg-gradient-to-b"
         style={{
           zIndex: 1,
           background:
             "linear-gradient(to bottom, rgba(173, 180, 228, 0.8) 0%, transparent 100%)",
         }}
-      />
+      /> */}
 
       <Stack className="z-10 h-full w-full" justify="center">
         <Stack className="" justify="center" w="full" gap={0}>
           <h1
-            className="lg:text-7xl text-5xl  font-medium text-white"
+            className="xs:text-5xl s:text-5xl md:text-7xl    font-medium text-white"
             style={{ textShadow: "0px 4px 6px rgba(0, 0, 2, 0.6)" }}
           >
             TRANSPORT
           </h1>
-          <h2 className="lg:text-7xl text-5xl font-black mt-2 mb-5 relative">
+          <h2 className="xs:text-5xl s:text-5xl md:text-7xl    font-black mt-2 mb-5 relative">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-600 relative z-10">
               LOGISTICS
             </span>

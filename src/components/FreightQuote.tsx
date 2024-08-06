@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
-import Button from "./Button";
 import Modal from "./Modal";
-import { Flex, Stack, TextInput } from "@mantine/core";
+import { Flex, Stack, TextInput, Button } from "@mantine/core";
 
 const FreightQuote: React.FC = () => {
   const controls = useAnimation();
@@ -28,30 +27,32 @@ const FreightQuote: React.FC = () => {
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
+      className="xs:p-[2rem] md:p-[8rem]  lg:p-[12rem] bg-freightquote-bg"
     >
       <Flex
         direction={{
-          base: "column",
           xs: "column",
-          sm: "row",
+          lg: "row",
         }}
         align="center"
-        rowGap={20}
-        columnGap={20}
-        className="bg-freightquote-bg"
+        gap={"5rem"}
         w={"100%"}
         py={28}
       >
         <Stack
           w={{
-            base: "100%",
-            sm: "30%",
+            xs: "100%",
+            lg: "30%",
           }}
-          className="text-center"
+          className="text-center "
           align="center"
         >
-          <h2 className="text-3xl font-black text-[#252F70]">GET A</h2>
-          <h2 className="text-3xl font-black text-[#252F70]">FREIGHT QUOTE</h2>
+          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-[#252F70]">
+            GET A
+          </h2>
+          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-[#252F70]">
+            FREIGHT QUOTE
+          </h2>
         </Stack>
         <CalculatorComponent />
       </Flex>
@@ -108,6 +109,7 @@ function CalculatorComponent() {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
+      className="xs:w-full lg:w-70%"
     >
       <Stack
         justify="center"
@@ -117,19 +119,27 @@ function CalculatorComponent() {
         px="md"
         py="xl"
       >
-        <h3 className="text-center text-lg font-black text-[#252F70]">
+        <h3 className="text-center xs:text-xl md:text-5xl  md:text-3xl font-black text-primary">
           Cost Calculator
         </h3>
         <Flex
           gap={20}
           justify={"center"}
           align={"center"}
+          w={{
+            xs: "100%",
+            lg: undefined,
+          }}
           direction={{
-            base: "column",
-            sm: "row",
+            xs: "column",
+            lg: "row",
           }}
         >
           <TextInput
+            w={{
+              xs: "100%",
+              lg: undefined,
+            }}
             type="text"
             label="Pick Up"
             className="text-[#252F70]"
@@ -137,6 +147,10 @@ function CalculatorComponent() {
             onChange={handlePickUpChange}
           />
           <TextInput
+            w={{
+              xs: "100%",
+              lg: undefined,
+            }}
             type="text"
             label="Destination"
             className="text-[#252F70]"
@@ -144,6 +158,10 @@ function CalculatorComponent() {
             onChange={handleDestinationChange}
           />
           <TextInput
+            w={{
+              xs: "100%",
+              lg: undefined,
+            }}
             type="text"
             label="Weight (lb)"
             className="text-[#252F70]"
@@ -151,14 +169,12 @@ function CalculatorComponent() {
             onChange={handleWeightChange}
           />
           <Button
-            label="Request a Quote"
-            size="quoteButton"
-            bgColor="#252F70"
-            hoverBgColor="white"
             onClick={openModal}
             className="extra-class-for-medium-button"
-            type={""}
-          />
+            fullWidth
+          >
+            Request a Quote
+          </Button>
         </Flex>
       </Stack>
       {showModal && (
@@ -166,35 +182,35 @@ function CalculatorComponent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-6 sm:px-12 py-8">
             <div className="flex flex-col space-y-8 items-center">
               <Button
-                label="Full Truckload"
+                c={"gray"}
                 size="truckButton"
-                bgColor="grey"
                 onClick={handleTruckButtonClick}
-                type={""}
-              />
+              >
+                Full Truckload
+              </Button>
               <Button
-                label="Refrigerated Trailer"
                 size="truckButton"
-                bgColor="grey"
+                c={"gray"}
                 onClick={handleTruckButtonClick}
-                type={""}
-              />
+              >
+                Refrigerated Trailer
+              </Button>
             </div>
             <div className="flex flex-col space-y-8 items-center">
               <Button
-                label="Dry Van"
                 size="truckButton"
-                bgColor="grey"
+                c={"gray"}
                 onClick={handleTruckButtonClick}
-                type={""}
-              />
+              >
+                Dry Van
+              </Button>
               <Button
-                label="Flatbed"
                 size="truckButton"
-                bgColor="grey"
+                c={"gray"}
                 onClick={handleTruckButtonClick}
-                type={""}
-              />
+              >
+                Flatbed
+              </Button>
             </div>
           </div>
         </Modal>

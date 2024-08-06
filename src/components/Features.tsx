@@ -40,7 +40,7 @@ const FeaturesSection: React.FC = () => {
   }, [textControls3, textInView3]);
 
   return (
-    <Stack className="p-10 lg:p-20" justify="center">
+    <Stack className="xs:p-[2rem] md:p-[8rem]  lg:p-[12rem]" justify="center">
       <Flex
         direction={{
           base: "column",
@@ -59,10 +59,10 @@ const FeaturesSection: React.FC = () => {
         >
           <Stack w={"100%"} gap={"3rem"}>
             <Stack className="text-left" gap={0.5} w={"100%"}>
-              <h1 className="text-base md:text-xl lg:text-xl font-normal mb-1 text-[#252F70]">
+              <h1 className="xs:text-2xl md:text-4xl lg:text-xlfont-normal mb-1 text-[#252F70]">
                 FEATURES
               </h1>
-              <h2 className="text-4xl md:text-4xl lg:text-4xl font-black text-[#252F70]">
+              <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-[#252F70]">
                 How it works
               </h2>
             </Stack>
@@ -135,8 +135,10 @@ function FeatureCard({
       className="lg:w-1/3 w-full "
     >
       <Stack w={"100%"}>
-        <h3 className="text-lg font-bold text-primary text-center">{title}</h3>
-        <p className="mt-2 font-normal text-base text-gray-500 py-2 text-center">
+        <h3 className="xs:text-xl md:text-4xl lg:text-xl font-bold text-primary text-center">
+          {title}
+        </h3>
+        <p className="xs:text-xl md:text-4xl lg:text-xl  font-normal text-base text-gray-500 py-2 text-center">
           {description}
         </p>
       </Stack>
