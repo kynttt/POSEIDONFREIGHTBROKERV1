@@ -10,21 +10,35 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
 export default function Stripe() {
   const location = useLocation();
   const [clientSecret, setClientSecret] = useState('');
-  
-  // Extract price from URL parameters
-  const query = new URLSearchParams(location.search);
-  const price = query.get('price') ? parseInt(query.get('price')!, 10) : 2000; // Default to 2000 if price is not provided
-  
+  const [price, setPrice] = useState<number | undefined>(undefined); // No default price
+
   useEffect(() => {
-    if (price <= 0) {
+    // Extract price from location.state
+    const statePrice = location.state?.price;
+
+    if (statePrice !== undefined) {
+      // Parse and validate the price
+      const parsedPrice = parseFloat(statePrice);
+      if (!isNaN(parsedPrice) && parsedPrice > 0) {
+        setPrice(parsedPrice);
+      } else {
+        console.error('Invalid price provided');
+      }
+    } else {
+      console.error('Price not provided');
+    }
+  }, [location.state]);
+
+  useEffect(() => {
+    if (price === undefined || price <= 0) {
       console.error('Invalid price.');
       return;
     }
-    
+
     const currency = 'usd'; // Example currency
 
-    // Fetch the client secret from your server with dynamic price
-    createPaymentIntent({ amount: price, currency })
+    // Fetch the client secret from your server with dynamic price in dollars
+    createPaymentIntent({ amount: price * 100, currency }) // Convert dollars to cents for Stripe
       .then((data) => {
         setClientSecret(data.clientSecret);
       })
@@ -42,10 +56,10 @@ export default function Stripe() {
     clientSecret && (
       <div className="flex flex-col items-center p-4">
         <div className="mb-4 text-lg font-semibold">
-          Price: ${price / 100} {/* Assuming price is in cents */}
+          Price: ${price!.toFixed(2)} {/* Display price in dollars */}
         </div>
         <Elements stripe={stripePromise} options={options}>
-          <CheckoutForm price={price} />
+          <CheckoutForm price={price!} />
         </Elements>
       </div>
     )
