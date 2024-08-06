@@ -24,7 +24,7 @@ const LandingPage: React.FC = () => {
       <header className="w-full overflow-x-hidden">
         <Navbar isAuthenticated={isAuthenticated} />
       </header>
-      <Stack className="w-full overflow-x-hidden">
+      <Stack className="w-full">
         <HeroBanner />
         <SeamlessFreightServices />
         {/* <ServicesCardList/> */}
@@ -33,11 +33,8 @@ const LandingPage: React.FC = () => {
         <FeaturesSection />
         <AboutUs />
         <FAQsPage />
-        {/* 
-       
-    
         <TrustedAmazon />
-        <ContactForm /> */}
+        <ContactForm />
 
         {/* <SuccessPage /> */}
       </Stack>
