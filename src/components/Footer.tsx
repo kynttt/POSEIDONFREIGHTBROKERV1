@@ -5,10 +5,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#B7C0F9] text-gray-300">
-      <div className="mx-auto py-6 lg:mx-24 px-6 flex lg:justify-between border-b-2 border-white pt-10 xs:flex-col lg:flex-row ">
+    <footer className="bg-[#B7C0F9] text-gray-300 xs:px-[2rem] md:px-[8rem] lg:px-[12rem]">
+      <div className="py-6  flex lg:justify-between border-b-2 border-white pt-10 xs:flex-col lg:flex-row ">
         {/* Left Side (Freight Brokerage) */}
-        <div className="w-full md:w-auto mb-8 md:mb-0 flex-shrink-0 lg:mt-10">
+        <div className="w-full md:w-auto  md:mb-0  lg:mt-10">
           <h2 className="text-3xl md:text-5xl text-primary font-bold md:mb-5">
             Freight Brokerage
           </h2>
