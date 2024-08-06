@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
 import AboutImage from "../assets/img/aboutus.png";
-import { Center, Flex, Image, Space, Stack } from "@mantine/core";
+import { Flex, Image, Stack } from "@mantine/core";
 
 const AboutUs: React.FC = () => {
   const { ref: imageRef, inView: imageInView } = useInView({ threshold: 0.5 });

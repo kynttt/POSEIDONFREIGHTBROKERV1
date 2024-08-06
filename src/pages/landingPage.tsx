@@ -32,9 +32,10 @@ const LandingPage: React.FC = () => {
         <FreightQuote />
         <FeaturesSection />
         <AboutUs />
+        <FAQsPage />
         {/* 
        
-        <FAQsPage />
+    
         <TrustedAmazon />
         <ContactForm /> */}
 
