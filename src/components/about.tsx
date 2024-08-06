@@ -1,41 +1,95 @@
-import React from 'react';
-import { useInView } from 'react-intersection-observer';
-import AboutImage from '../assets/img/aboutus.png';
+import React, { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { motion, useAnimation } from "framer-motion";
+import AboutImage from "../assets/img/aboutus.png";
+import { Center, Flex, Image, Space, Stack } from "@mantine/core";
 
 const AboutUs: React.FC = () => {
   const { ref: imageRef, inView: imageInView } = useInView({ threshold: 0.5 });
   const { ref: textRef, inView: textInView } = useInView({ threshold: 0.5 });
 
-  return (
-    <div id='about' className="bg-[#eaeefa] flex flex-col lg:flex-row items-center lg:items-center px-4 md:px-8 lg:px-20 xl:px-32">
-      {/* Image Section */}
-      <div
-        className={`w-full lg:w-2/3 flex justify-end items-center mb-10 lg:order-last transition-transform duration-1000 ${
-          imageInView ? 'transform-none opacity-100' : 'transform translate-x-20 opacity-0'
-        }`}
-        ref={imageRef}
-      >
-        <img
-          src={AboutImage}
-          alt="About Us"
-          className="lg:w-4/5 h-auto lg:max-h-full object-cover object-center"
-        />
-      </div>
+  const imageControls = useAnimation();
+  const textControls = useAnimation();
 
-      {/* Content Section */}
-      <div
-        className={`w-full lg:w-1/3 flex flex-col justify-center text-[#252F70] max-w-prose lg:ml-2px lg:mt-16 mb-5 transition-transform duration-1000 ${
-          textInView ? 'transform-none opacity-100' : 'transform -translate-x-20 opacity-0'
-        }`}
+  useEffect(() => {
+    if (imageInView) {
+      imageControls.start({ opacity: 1, x: 0, transition: { duration: 1 } });
+    }
+  }, [imageControls, imageInView]);
+
+  useEffect(() => {
+    if (textInView) {
+      textControls.start({ opacity: 1, x: 0, transition: { duration: 1 } });
+    }
+  }, [textControls, textInView]);
+
+  return (
+    <Flex
+      className="p-10 lg:p-20 bg-[#eaeefa]"
+      direction={{
+        base: "column",
+        lg: "row",
+      }}
+      gap={{
+        base: "3rem",
+        lg: "5rem",
+      }}
+      align={"center"}
+    >
+      <motion.div
         ref={textRef}
+        initial={{ opacity: 0, x: -20 }}
+        animate={textControls}
+        className="w-full lg:w-1/3"
       >
-        <p className="text-xl font-medium mb-4 lg:mb-8">About Us</p>
-        <h1 className="lg:ml-8 text-3xl text-gray-600 mb-4 lg:mb-8 text-primary">Transport and Logistics</h1>
-        <p className="lg:ml-8 text-gray-500 text-md font-normal leading-relaxed text-justify">
-          Welcome to Poseidon Distribution Inc. (PDI)! Based in Auburn, WA since 2017, PDI is a family-owned transportation company that merges the capabilities of a large business with the warmth of a family-oriented work culture. Our skilled team provides Full Truckload (FTL) services, including dry van, temperature-controlled reefer, and Flatbed Conestoga freights.
-        </p>
-      </div>
-    </div>
+        <Stack
+          w={{
+            base: "100%",
+          }}
+          gap={"2rem"}
+        >
+          <Stack
+            gap={0.5}
+            w={{
+              base: "100%",
+              lg: "50%",
+            }}
+          >
+            <h1 className="text-base md:text-xl lg:text-xl font-normal mb-1 text-[#252F70]">
+              ABOUT US
+            </h1>
+            <h2 className="text-4xl md:text-4xl lg:text-4xl font-black text-[#252F70]">
+              Transport and Logistics
+            </h2>
+          </Stack>
+          <p className="text-gray-500 text-md font-normal leading-relaxed text-justify">
+            Welcome to Poseidon Distribution Inc. (PDI)! Based in Auburn, WA
+            since 2017, PDI is a family-owned transportation company that merges
+            the capabilities of a large business with the warmth of a
+            family-oriented work culture. Our skilled team provides Full
+            Truckload (FTL) services, including dry van, temperature-controlled
+            reefer, and Flatbed Conestoga freights.
+          </p>
+        </Stack>
+      </motion.div>
+
+      <motion.div
+        ref={imageRef}
+        initial={{ opacity: 0, x: 20 }}
+        animate={imageControls}
+        className="w-full lg:w-2/3"
+      >
+        <Flex
+          align={"center"}
+          justify={"center"}
+          w={{
+            base: "100%",
+          }}
+        >
+          <Image src={AboutImage} alt="About Us" />
+        </Flex>
+      </motion.div>
+    </Flex>
   );
 };
 
