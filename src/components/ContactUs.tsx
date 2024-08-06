@@ -26,9 +26,9 @@ const ContactForm: React.FC = () => {
     <Flex
       className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem] w-full"
       direction={{ base: "column", lg: "row" }}
+      align={"center"}
       gap={"4rem"}
       h={{
-        base: "auto",
         lg: "100vh",
       }}
     >
@@ -80,15 +80,15 @@ const ContactForm: React.FC = () => {
         ref={mapRef}
         initial={{ opacity: 0, x: 20 }}
         animate={mapControls}
-        className="w-full lg:w-1/2 "
+        className="xs:w-full lg:w-1/2  xs:h-[300px] lg:h-full"
       >
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2705.8242246418104!2d-122.23099992322068!3d47.298234509220336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x549058759e5a35ef%3A0x737cc87bb84238e0!2s1020%20A%20St%20SE%20%23%207%2C%20Auburn%2C%20WA%2098002%2C%20USA!5e0!3m2!1sen!2sph!4v1719465675435!5m2!1sen!2sph"
-          className="border-0 rounded-md w-full h-[300px] lg:h-full"
+          className="border-0 rounded-md w-full h-full"
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
+        />
       </motion.div>
     </Flex>
   );
