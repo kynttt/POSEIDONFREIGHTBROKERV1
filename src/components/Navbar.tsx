@@ -128,31 +128,31 @@ const Navbar: React.FC<NavbarProps> = () => {
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/load-board")}
                 >
-                  LOADBOARD
+                  Loadboard
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/admin-dashboard")}
                 >
-                  DASHBOARD
+                  Dashboard
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/trailer-options")}
                 >
-                  TRUCKS
+                  Trucks
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={handleNotificationClick}
                 >
-                  NOTIFICATION
+                  Notifications
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/profile")}
                 >
-                  PROFILE
+                  Profile
                 </button>
               </>
             ) : (
@@ -161,37 +161,37 @@ const Navbar: React.FC<NavbarProps> = () => {
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/shipper-dashboard")}
                 >
-                  DASHBOARD
+                  Dashboard
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={handleNotificationClick}
                 >
-                  NOTIFICATION
+                  Notification
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/user-payables")}
                 >
-                  ACCOUNTS PAYABLE
+                  Accounts Payable
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/trailer-options")}
                 >
-                  TRUCKS
+                  Trucks
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/distance-calculator")}
                 >
-                  REQUEST A QUOTE
+                  Request A Quote
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
                   onClick={() => handleNavigation("/profile")}
                 >
-                  PROFILE
+                  Profile
                 </button>
               </>
             )}
@@ -237,37 +237,37 @@ const Navbar: React.FC<NavbarProps> = () => {
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/")}
                   >
-                    HOME
+                    Home
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("#about")}
                   >
-                    ABOUT
+                    About
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("#services")}
                   >
-                    SERVICES
+                    Services
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("#contacts")}
                   >
-                    CONTACTS
+                    Contacts
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("#careers")}
                   >
-                    CAREERS
+                    Careers
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/signup")}
                   >
-                    CREATE ACCOUNT
+                    Create Account
                   </button>
                 </>
               ) : role === "admin" ? (
@@ -276,31 +276,31 @@ const Navbar: React.FC<NavbarProps> = () => {
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/load-board")}
                   >
-                    LOADBOARD
+                    Loadboard
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/admin-dashboard")}
                   >
-                    DASHBOARD
+                    Dashboard
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/trailer-options")}
                   >
-                    TRUCKS
+                    Trucks
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/notification")}
                   >
-                    NOTIFICATION
+                    Notifications
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/profile")}
                   >
-                    PROFILE
+                    Profile
                   </button>
                 </>
               ) : (
@@ -309,37 +309,37 @@ const Navbar: React.FC<NavbarProps> = () => {
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/shipper-dashboard")}
                   >
-                    DASHBOARD
+                    Dashboard
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/notification")}
                   >
-                    NOTIFICATION
+                    Notifications
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/user-payables")}
                   >
-                    ACCOUNTS PAYABLE
+                    Accounts Payable
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/trailer-options")}
                   >
-                    TRUCKS
+                    Trucks
                   </button>
                   <button
                     className="block text-white hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/distance-calculator")}
                   >
-                    REQUEST A QUOTE
+                    Request A Quote
                   </button>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/profile")}
                   >
-                    PROFILE
+                    Profile
                   </button>
                 </>
               )}

@@ -27,7 +27,7 @@ const FreightQuote: React.FC = () => {
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
-      className="xs:p-[2rem] md:p-[8rem]  lg:p-[12rem] bg-freightquote-bg"
+      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] bg-freightquote-bg md:py-8"
     >
       <Flex
         direction={{
@@ -46,10 +46,10 @@ const FreightQuote: React.FC = () => {
           }}
           justify="center"
         >
-          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-[#252F70]">
+          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-primary">
             GET A
           </h2>
-          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-[#252F70]">
+          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-primary">
             FREIGHT QUOTE
           </h2>
         </Stack>
@@ -113,7 +113,7 @@ function CalculatorComponent() {
       <Stack
         justify="center"
         w="100%"
-        className="bg-white shadow-2xl"
+        className="bg-white shadow-2xl rounded-lg"
         gap={50}
         px="md"
         py="xl"

@@ -62,7 +62,7 @@ const FAQsPage: React.FC = () => {
 
   return (
     <Flex
-      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem]"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] my-6 md:my-20"
       direction={{ xs: "column", lg: "row" }}
       gap={"4rem"}
     >
@@ -74,10 +74,10 @@ const FAQsPage: React.FC = () => {
       >
         <Stack>
           <Stack className="text-left" gap={0.5}>
-            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-[#252F70]">
+            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-primary">
               FAQs
             </h1>
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-[#252F70]">
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-primary">
               Frequently Asked Questions
             </h2>
           </Stack>

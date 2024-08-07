@@ -25,7 +25,8 @@ const AboutUs: React.FC = () => {
 
   return (
     <Flex
-      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem] bg-[#eaeefa]"
+    id="about"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-14 md:py-14 bg-[#eaeefa]"
       direction={{
         base: "column",
         lg: "row",
@@ -43,6 +44,7 @@ const AboutUs: React.FC = () => {
         className="w-full lg:w-1/3"
       >
         <Stack
+        
           w={{
             base: "100%",
           }}

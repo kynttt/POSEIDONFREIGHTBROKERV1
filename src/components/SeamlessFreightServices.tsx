@@ -29,7 +29,7 @@ const SeamlessFreightServices: React.FC = () => {
   return (
     <Stack
       w={"100%"}
-      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem]"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] mb-[2rem]"
       justify="center"
     >
       <Stack className="text-left" gap={0.5}>
@@ -100,7 +100,7 @@ function Banner({
           <p className="xs:text-xl md:text-4xl lg:text-2xl  text-primary">
             {title}
           </p>
-          <p className="xs:text-xl md:text-3xl lg:text-xl  font-light text-gray-500 mx-auto">
+          <p className="md:text-3xl lg:text-base text-gray-500  font-normal mx-auto">
             {description}
           </p>
         </Stack>
