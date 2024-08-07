@@ -1,7 +1,7 @@
 import React, { useState, useCallback, memo } from "react";
 import Button from "./Button";
 import DispatchDetailsModal from "./DispatchDetailsModal";
-
+import { format } from "date-fns";
 interface CardProps {
   id: string;
   pickUp: string;
@@ -31,6 +31,7 @@ const LoadCard: React.FC<CardProps> = ({
   pickupDate,
   onBookLoadClick,
 }) => {
+  const formattedPickupDate = format(pickupDate, "MM/dd/yyyy");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBookLoadClick = useCallback(() => {
@@ -47,7 +48,7 @@ const LoadCard: React.FC<CardProps> = ({
   return (
     <div className="">
       <div className="bg-light-grey text-primary shadow-xl rounded-lg py-8 mb-4 text-xs my-8">
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-6 gap-4">
           <div className="flex items-center flex-col col-span-2 md:col-span-1">
             <div className="flex items-center">
               <p className="font-bold">Load Price</p>
@@ -80,7 +81,14 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-normal">{drop}</p>
             </div>
           </div>
-
+          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+            <div className="flex items-center">
+              <p className="font-bold">Pickup Date</p>
+            </div>
+            <div>
+              <p className="font-normal">{formattedPickupDate}</p>
+            </div>
+          </div>
           <div className="flex items-center justify-center col-span-2 md:col-span-1">
             <Button
               label="Book Load"

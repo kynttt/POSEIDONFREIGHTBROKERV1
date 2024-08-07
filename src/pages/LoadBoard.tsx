@@ -31,7 +31,7 @@ const LoadBoard: React.FC = () => {
   const [deliveryLocation, setDeliveryLocation] = useState("");
   const [pickUpDate, setPickUpDate] = useState<Date | null>(null);
   const [trailerType, setTrailerType] = useState("");
-  const [radius, setRadius] = useState("");
+  //   const [radius, setRadius] = useState("");
 
   // ! This is disabled because it is not used in the code
   //   const [availableDeliveryLocations, setAvailableDeliveryLocations] = useState<
@@ -51,7 +51,7 @@ const LoadBoard: React.FC = () => {
     setDeliveryLocation(queryDeliveryLocation);
     setPickUpDate(queryPickUpDate ? new Date(queryPickUpDate) : null);
     setTrailerType(queryTrailerType);
-    setRadius(queryRadius);
+    // setRadius(queryRadius);
 
     const filtered = loadCards.filter((load) => {
       return (
@@ -109,7 +109,7 @@ const LoadBoard: React.FC = () => {
         deliveryLocation,
         pickUpDate: pickUpDate ? pickUpDate.toISOString().split("T")[0] : "",
         trailerType,
-        radius,
+        // radius,
       };
 
       // Filter out empty or null values
@@ -127,7 +127,7 @@ const LoadBoard: React.FC = () => {
       deliveryLocation,
       pickUpDate,
       trailerType,
-      radius,
+      //   radius,
       setSearchParams,
     ]
   );
@@ -137,7 +137,7 @@ const LoadBoard: React.FC = () => {
     setDeliveryLocation("");
     setPickUpDate(null);
     setTrailerType("");
-    setRadius("");
+    // setRadius("");
     setSearchParams({});
   }, [setSearchParams]);
   const radiusOptions = useMemo(
@@ -223,7 +223,7 @@ const LoadBoard: React.FC = () => {
                     placeholder="Enter Delivery Location"
                   />
                 </div>
-                <div className="mb-4 mt-4">
+                {/* <div className="mb-4 mt-4">
                   <label className="block text-primary font-normal mb-2">
                     Radius (mi) <span className="text-red-500">*</span>
                   </label>
@@ -245,7 +245,7 @@ const LoadBoard: React.FC = () => {
                       </option>
                     ))}
                   </select>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -276,6 +276,9 @@ const LoadBoard: React.FC = () => {
                     value="Refrigerated"
                   >
                     Refrigerated
+                  </option>
+                  <option className="text-primary font-normal" value="Stepdeck">
+                    Step Deck
                   </option>
                 </select>
               </div>
