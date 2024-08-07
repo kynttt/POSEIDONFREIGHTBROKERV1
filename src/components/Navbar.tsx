@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = () => {
   return (
     <>
       <nav
-        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-8 w-full  "
+        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-8 w-full "
         style={{
           background: "linear-gradient(-180deg, #7783D2 5%, #adb4e4 79%)",
         }}
