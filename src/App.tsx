@@ -30,6 +30,7 @@ import ShipmentDetails from "./pages/ShipmentDetails";
 
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
+import Stripe from "./components/stripe/Stripe";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -162,6 +163,15 @@ const App: React.FC = () => {
             element={
               <PrivateRoute
                 element={<ShipmentDetailsConfirmation />}
+                roles={["user"]}
+              />
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <PrivateRoute
+                element={<Stripe />}
                 roles={["user"]}
               />
             }
