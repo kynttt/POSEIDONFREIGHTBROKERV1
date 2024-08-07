@@ -1,8 +1,6 @@
-module.exports = {
+export default {
   theme: {
-   
     extend: {
-     
       colors: {
         primary: "#252F70",
       },
