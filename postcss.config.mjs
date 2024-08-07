@@ -1,3 +1,8 @@
+import postcssPresetMantine from 'postcss-preset-mantine';
+import postcssSimpleVars from 'postcss-simple-vars';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
 export default {
   theme: {
     extend: {
@@ -10,8 +15,8 @@ export default {
     },
   },
   plugins: [
-    require("postcss-preset-mantine"),
-    require("postcss-simple-vars")({
+    postcssPresetMantine,
+    postcssSimpleVars({
       variables: {
         "mantine-breakpoint-xs": "36em",
         "mantine-breakpoint-sm": "48em",
@@ -20,7 +25,7 @@ export default {
         "mantine-breakpoint-xl": "88em",
       },
     }),
-    require("tailwindcss"),
-    require("autoprefixer"),
+    tailwindcss,
+    autoprefixer,
   ],
 };
