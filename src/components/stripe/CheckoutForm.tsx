@@ -1,5 +1,4 @@
 import { useStripe, useElements, PaymentElement, AddressElement, PaymentRequestButtonElement, LinkAuthenticationElement, ExpressCheckoutElement } from '@stripe/react-stripe-js';
-// import { StripeExpressCheckoutElementConfirmEvent } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 
 interface CheckoutFormProps {
@@ -17,7 +16,7 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
       if (!stripe) return;
 
       // Ensure price is an integer and in cents
-      const priceInCents = Math.round(price); 
+      const priceInCents = Math.round(price);
 
       // Create Payment Request with dynamic price
       const newPaymentRequest = stripe.paymentRequest({
@@ -52,10 +51,12 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
 
     setLoading(true);
 
+    const returnUrl = `${window.location.origin}/booking-successful`;
+
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:5173/booking-successful",
+        return_url: returnUrl,
       },
     });
 

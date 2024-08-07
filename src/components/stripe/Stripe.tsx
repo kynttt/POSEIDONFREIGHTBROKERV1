@@ -59,7 +59,7 @@ export default function Stripe() {
       createPaymentIntent({ amount: Math.round(parsedPrice * 100), currency })
         .then((data) => {
           setClientSecret(data.clientSecret);
-          console.log('Client secret:', data.clientSecret);
+          // console.log('Client secret:', data.clientSecret);
         })
         .catch((error) => {
           console.error('Error fetching client secret:', error);
