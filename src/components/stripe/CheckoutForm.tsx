@@ -1,5 +1,5 @@
 import { useStripe, useElements, PaymentElement, AddressElement, PaymentRequestButtonElement, LinkAuthenticationElement, ExpressCheckoutElement } from '@stripe/react-stripe-js';
-import { StripeExpressCheckoutElementConfirmEvent } from '@stripe/stripe-js';
+// import { StripeExpressCheckoutElementConfirmEvent } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 
 interface CheckoutFormProps {
@@ -90,7 +90,7 @@ const CheckoutForm = ({ price }: CheckoutFormProps) => {
 
       {/* Render ExpressCheckoutElement if available */}
       {paymentRequest && (
-        <ExpressCheckoutElement options={paymentRequestButtonOptions as any} onConfirm={(event: StripeExpressCheckoutElementConfirmEvent) => {
+        <ExpressCheckoutElement options={paymentRequestButtonOptions as any} onConfirm={() => {
           // Implement the confirm handler
         }} />
       )}
