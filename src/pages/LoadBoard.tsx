@@ -39,14 +39,13 @@ const LoadBoard: React.FC = () => {
   //   >([]);
   const [loadCards, setLoadCards] = useState<CardProps[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const [filteredLoadCards, setFilteredLoadCards] = useState<CardProps[]>([]);
   useEffect(() => {
     const queryPickUpLocation = searchParams.get("pickUpLocation") || "";
     const queryDeliveryLocation = searchParams.get("deliveryLocation") || "";
     const queryPickUpDate = searchParams.get("pickUpDate") || null;
     const queryTrailerType = searchParams.get("trailerType") || "";
     const queryRadius = searchParams.get("radius") || "";
-    const [filteredLoadCards, setFilteredLoadCards] = useState<CardProps[]>([]);
 
     setPickUpLocation(queryPickUpLocation);
     setDeliveryLocation(queryDeliveryLocation);
@@ -73,10 +72,6 @@ const LoadBoard: React.FC = () => {
 
     setFilteredLoadCards(filtered);
   }, [searchParams, loadCards]);
-  const radiusOptions = useMemo(
-    () => ["10 mi", "20 mi", "30 mi", "40 mi", "50 mi"],
-    []
-  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,18 +97,30 @@ const LoadBoard: React.FC = () => {
     };
 
     fetchData();
-  }, [pickUpLocation]);
+  }, []);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      setSearchParams({
+
+      // Create an object with the form values
+      const params = {
         pickUpLocation,
         deliveryLocation,
         pickUpDate: pickUpDate ? pickUpDate.toISOString().split("T")[0] : "",
         trailerType,
         radius,
-      });
+      };
+
+      // Filter out empty or null values
+      const filteredParams = Object.fromEntries(
+        Object.entries(params).filter(
+          ([_, value]) => value != null && value !== ""
+        )
+      );
+
+      // Set search parameters
+      setSearchParams(filteredParams);
     },
     [
       pickUpLocation,
@@ -133,7 +140,10 @@ const LoadBoard: React.FC = () => {
     setRadius("");
     setSearchParams({});
   }, [setSearchParams]);
-
+  const radiusOptions = useMemo(
+    () => ["10 mi", "20 mi", "30 mi", "40 mi", "50 mi"],
+    []
+  );
   return (
     <div className="flex h-screen">
       <SideBar isAuthenticated={isAuthenticated} />
@@ -302,7 +312,7 @@ const LoadBoard: React.FC = () => {
             </div>
           </div>
 
-          {filteredLoadCards.map((load) => (
+          {filteredLoadCards.map((load: any) => (
             <LoadCard
               key={load.id}
               id={load.id}
