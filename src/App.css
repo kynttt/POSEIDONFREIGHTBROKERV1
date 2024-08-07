@@ -1,10 +1,20 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+ 
   text-align: center;
+  box-sizing: border-box; /* Ensure padding and borders are included in the width/height */
+}
+html, body {
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  margin: 0; /* Ensure no default margin is added */
+  padding: 0; /* Ensure no default padding is added */
+  box-sizing: border-box; /* Apply box-sizing globally */
 }
 
+*, *::before, *::after {
+  box-sizing: inherit; /* Ensure all elements use the same box-sizing */
+}
 .logo {
   height: 6em;
   padding: 1.5em;

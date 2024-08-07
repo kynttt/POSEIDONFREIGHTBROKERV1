@@ -19,12 +19,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  /* ! Cause of extra unecessary horizontal scrollbar */
   min-height: 100vh;
-  min-width: 100vw;
+  /* min-width: 100vw;  */
   font-family: 'Lexend', sans-serif;
 }
 
