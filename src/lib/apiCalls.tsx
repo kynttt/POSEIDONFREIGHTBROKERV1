@@ -3,6 +3,11 @@ import axios from 'axios';
 // Set the base URL for the API
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+interface PaymentIntentParams {
+  amount: number; // Amount in the smallest currency unit (e.g., cents for USD)
+  currency: string; // Currency code (e.g., 'usd')
+}
+
 
 
 //Users
@@ -219,4 +224,17 @@ export const fetchUserBookings = async (token: string) => {
     },
   });
   return response.data;
+};
+
+export const createPaymentIntent = async ({ amount, currency }: PaymentIntentParams) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/payments/create-payment-intent`, {
+      amount,
+      currency,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating payment intent:', error);
+    throw error;
+  }
 };

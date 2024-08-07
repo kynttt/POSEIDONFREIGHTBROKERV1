@@ -27,6 +27,7 @@ import ShipmentDetailsConfirmation from './pages/shipmentDetailsConfirmation';
 
 import PrivateRoute from './components/PrivateRoute';
 import ShipmentDetails from './pages/ShipmentDetails';
+import Stripe from './components/stripe/Stripe';
 
 const App: React.FC = () => {
   return (
@@ -57,6 +58,7 @@ const App: React.FC = () => {
         <Route path="/shipmentDetails/:id" element={<PrivateRoute element={<ShipmentDetails />} roles={['user']} />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/shipment-report" element={<PrivateRoute element={<ShipmentDetailsConfirmation />} roles={['user']} />} />
+        <Route path="/payment" element={<PrivateRoute element={<Stripe />} roles={['user']} />} />
 
       </Routes>
     </Router>
