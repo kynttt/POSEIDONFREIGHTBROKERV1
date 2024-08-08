@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'; // Import useNaviga
 import SideBar from '../components/SideBar';
 import { useAuthStore } from '../state/useAuthStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faMoneyBill1Wave, faTruckFront, faCalendarDay, faBuilding, faBox, faRuler } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faMoneyBill1Wave, faTruckFront, faCalendarDay, faBuilding, faBox, faRuler, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import Button from "../components/Button";
 // import QuoteRequestModal from '../components/QuoteRequestModal';
 import { fetchBookingDetails, bookQuote } from '../lib/apiCalls'; // Import API calls
@@ -19,6 +19,7 @@ interface ShipmentDetailsProps {
   companyName: string;
   commodity: string;
   bolLink: string;
+  packaging: string;
 }
 
 const ShipmentDetailsConfirmation: React.FC = () => {
@@ -137,11 +138,20 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                 <div>
                   <h4 className="font-medium text-secondary">
                     <span className='text-gray-500 mr-2'>
-                      <FontAwesomeIcon icon={faBox} />
+                      <FontAwesomeIcon icon={faBoxOpen} />
                     </span>
                     Commodity
                   </h4>
                   <p className='text-gray-500 py-4 font-medium'>{data.commodity}</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-secondary">
+                    <span className='text-gray-500 mr-2'>
+                      <FontAwesomeIcon icon={faBox} />
+                    </span>
+                    Packaging
+                  </h4>
+                  <p className='text-gray-500 py-4 font-medium'>{data.packaging}</p>
                 </div>
               </div>
             </div>

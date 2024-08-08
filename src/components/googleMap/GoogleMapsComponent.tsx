@@ -10,7 +10,7 @@ import SideBar from '../../components/SideBar';
 import Button from '../../components/Button';
 import { useAuthStore } from '../../state/useAuthStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faCalendarAlt, faTruck, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faCalendarAlt, faTruck, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 import { createQuote } from '../../lib/apiCalls';
 import { calculatePrice } from './priceCalculator';
 
@@ -27,7 +27,7 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ''; // Provide 
 
 const QuoteDetails: React.FC = () => {
     // const handleDateSelect = (date: Date) => {
-        
+
     // };
     const navigate = useNavigate();
     // const { isAuthenticated, login } = useAuth();
@@ -37,7 +37,7 @@ const QuoteDetails: React.FC = () => {
     }));
 
     useEffect(() => {
-        
+
     }, [isAuthenticated]);
 
     const { isLoaded } = useJsApiLoader({
@@ -62,7 +62,21 @@ const QuoteDetails: React.FC = () => {
     const [commodity, setCommodity] = useState('');
     const [maxWeight, setMaxWeight] = useState('');
     const [companyName, setCompanyName] = useState('');
-    // const [selectedDate, setSelectedDate] = useState<string>('');
+    const [packagingNumber, setPackagingNumber] = useState('');
+    const [selectedPackagingType, setSelectedPackagingType] = useState('');
+    const [notes, setNotes] = useState('');
+
+    const [warnings, setWarnings] = useState({
+        origin: '',
+        destination: '',
+        pickupDate: '',
+        selectedTrailerType: '',
+        selectedTrailerSize: '',
+        commodity: '',
+        maxWeight: '',
+        companyName: '',
+        packaging: '',
+    });
 
     const onLoadA = useCallback((autocomplete: google.maps.places.Autocomplete) => {
         setAutocompleteA(autocomplete);
@@ -127,6 +141,24 @@ const QuoteDetails: React.FC = () => {
     }, [distance, selectedTrailerType, selectedTrailerSize, maxWeight]);
 
     const handleQuoteButtonClick = async () => {
+        const newWarnings = {
+            origin: !origin ? 'Please select a pickup location.' : '',
+            destination: !destination ? 'Please select a drop-off location.' : '',
+            pickupDate: !pickupDate ? 'Please select a pickup date.' : '',
+            selectedTrailerType: !selectedTrailerType ? 'Please select a trailer type.' : '',
+            selectedTrailerSize: selectedTrailerSize === 0 ? 'Please select a trailer size.' : '',
+            commodity: !commodity ? 'Please enter the commodity.' : '',
+            maxWeight: !maxWeight ? 'Please enter the maximum weight.' : '',
+            companyName: !companyName ? 'Please enter the company name.' : '',
+            packaging: (!packagingNumber || !selectedPackagingType) ? 'Please fill both packaging number and type.' : '',
+        };
+
+        setWarnings(newWarnings);
+
+        if (Object.values(newWarnings).some(warning => warning !== '')) {
+            return;
+        }
+
         if (!isAuthenticated) {
             navigate('/login');
         } else {
@@ -140,17 +172,19 @@ const QuoteDetails: React.FC = () => {
                 maxWeight,
                 companyName,
                 distance,
+                packaging: `${packagingNumber} ${selectedPackagingType}`,
                 price,
+                notes,
             };
-    
+
             const token = localStorage.getItem('authToken');
             if (!token) {
                 return;
             }
-    
+
             try {
-                const data = await createQuote(quoteDetails, token); // Use the imported function
-                navigate('/shipment-report', { state: { price, quoteId: data._id,  userId } });
+                const data = await createQuote(quoteDetails, token);
+                navigate('/shipment-report', { state: { price, quoteId: data._id, userId } });
             } catch (error: unknown) {
                 if (error instanceof Error) {
                     console.error('Error creating quote:', error.message);
@@ -160,13 +194,14 @@ const QuoteDetails: React.FC = () => {
             }
         }
     };
-    
+
 
 
 
     if (!isLoaded) {
         return <div>Loading...</div>; // Show a loading message until the script is loaded
     }
+
 
     return (
         <div className='flex h-screen '>
@@ -186,11 +221,13 @@ const QuoteDetails: React.FC = () => {
 
                                     <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 text-gray-400" />Pickup Location <span className="text-red-500">*</span></h3>
                                     <OriginInput onLoad={onLoadA} onPlaceChanged={onPlaceChangedA} />
+                                    {warnings.origin && <p className="text-red-500 text-sm">{warnings.origin}</p>}
                                 </div>
 
                                 <div className="mb-8 md:mb-0 lg:border-secondary">
                                     <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 text-gray-400" />Drop-off Location <span className="text-red-500">*</span></h3>
                                     <DestinationInput onLoad={onLoadB} onPlaceChanged={onPlaceChangedB} />
+                                    {warnings.destination && <p className="text-red-500 text-sm">{warnings.destination}</p>}
                                 </div>
                                 <div className="mb-8 md:mb-0">
                                     <h3 className="text-lg font-medium text-secondary mb-2"><FontAwesomeIcon icon={faCalendarAlt} className="mr-2 text-gray-400" />Pickup Date <span className="text-red-500">*</span></h3>
@@ -206,6 +243,7 @@ const QuoteDetails: React.FC = () => {
                                     onChange={(date) => setPickupDate(date)}
                                     className="border border-secondary rounded"
                                 />
+                                {warnings.pickupDate && <p className="text-red-500 text-sm">{warnings.pickupDate}</p>}
                                 {pickupDate && origin && destination && (
                                     <div className="flex flex-wrap">
                                         <div className="w-full md:w-2/3 mb-8 md:mb-0 md:pr-4">
@@ -226,6 +264,7 @@ const QuoteDetails: React.FC = () => {
                                                         </option>
                                                     ))}
                                                 </select>
+                                                {warnings.selectedTrailerType && <p className="text-red-500 text-sm">{warnings.selectedTrailerType}</p>}
                                             </div>
                                         </div>
                                         <div className="w-full md:w-1/3">
@@ -245,6 +284,7 @@ const QuoteDetails: React.FC = () => {
                                                         </option>
                                                     ))}
                                                 </select>
+                                                {warnings.selectedTrailerSize && <p className="text-red-500 text-sm">{warnings.selectedTrailerSize}</p>}
                                             </div>
                                         </div>
                                     </div>
@@ -264,6 +304,7 @@ const QuoteDetails: React.FC = () => {
                                                 value={commodity}
                                                 onChange={(e) => setCommodity(e.target.value)}
                                             />
+                                            {warnings.commodity && <p className="text-red-500 text-sm">{warnings.commodity}</p>}
                                         </div>
                                         <div className="mb-8 md:mb-0 mt-2">
                                             <h3 className="text-lg font-medium text-secondary mb-2">
@@ -277,6 +318,7 @@ const QuoteDetails: React.FC = () => {
                                                 value={maxWeight}
                                                 onChange={(e) => setMaxWeight(e.target.value)}
                                             />
+                                            {warnings.maxWeight && <p className="text-red-500 text-sm">{warnings.maxWeight}</p>}
                                         </div>
                                         <div className="mb-8 md:mb-0">
                                             <h3 className="text-lg font-medium text-secondary my-2">
@@ -290,6 +332,57 @@ const QuoteDetails: React.FC = () => {
                                                 value={companyName}
                                                 onChange={(e) => setCompanyName(e.target.value)}
                                             />
+                                            {warnings.companyName && <p className="text-red-500 text-sm">{warnings.companyName}</p>}
+                                        </div>
+                                        <div className="flex flex-wrap md:mt-4">
+                                            <div className="w-full md:w-1/3 mb-8 md:mb-0 md:pr-4">
+                                                <h3 className="text-lg font-medium text-secondary mb-2">
+                                                    <FontAwesomeIcon icon={faBox} className="mr-2 text-gray-400" />Packaging <span className="text-red-500">*</span>
+                                                </h3>
+                                                <input
+                                                    type="number"
+                                                    className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                                                    value={packagingNumber}
+                                                    onChange={(e) => setPackagingNumber(e.target.value)}
+                                                    placeholder="Enter number of packages"
+                                                />
+                                                {warnings.packaging && <p className="text-red-500 text-sm">{warnings.packaging}</p>}
+                                            </div>
+                                            <div className="w-full md:w-2/3 ">
+                                                <h3 className="text-lg font-medium text-secondary mb-2">
+                                                    Packaging Type <span className="text-red-500">*</span>
+                                                </h3>
+                                                <select
+                                                    className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                                                    value={selectedPackagingType}
+                                                    onChange={(e) => setSelectedPackagingType(e.target.value)}
+                                                >
+                                                    <option value="">Select packaging type</option>
+                                                    <option value="Box">Carton</option>
+                                                    <option value="Pallet">Floor</option>
+                                                    <option value="Loose">Loose</option>
+                                                    <option value="Pallet">Pallet</option>
+                                                    <option value="Roll">Roll</option>
+                                                    <option value="Skids">Skids</option>
+                                                    <option value="Others">Others</option>
+                                                </select>
+                                                {warnings.packaging && <p className="text-red-500 text-sm">{warnings.packaging}</p>}
+                                            </div>
+                                            <div className="mb-8 md:mb-0 w-full">
+                                                <h3 className="text-lg font-medium text-secondary my-2">
+                                                    <FontAwesomeIcon icon={faNoteSticky} className="mr-2 text-gray-400" />
+                                                    Additional Notes 
+                                                </h3>
+                                                <textarea
+                                                    className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                                                    placeholder="Enter your additional notes"
+                                                    value={notes}
+                                                    onChange={(e) => setNotes(e.target.value)}
+                                                    rows={3} // Ensure rows is a number
+                                                />
+                                                
+                                            </div>
+
                                         </div>
                                         <Button
                                             label="GET THIS QUOTE"
@@ -312,24 +405,24 @@ const QuoteDetails: React.FC = () => {
                                     originLocation={originLocation}
                                     destinationLocation={destinationLocation}
                                 />
-                                    <div className="p-4 lg:py-8 shadow-lg flex flex-col lg:flex-row justify-evenly text-center items-center lg:mt-8 rounded-lg">
-        <div className="flex flex-col items-center mb-4 lg:mb-0">
-            <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
-                <FontAwesomeIcon icon={faMapLocationDot} className="text-gray-500" /> Distance
-            </div>
-            <div className="text-primary text-4xl font-medium text-gray-500 p-4 rounded-lg" style={{ height: '60px' }}>
-                {distance ? distance : <span>&nbsp;</span>}
-            </div>
-        </div>
-        <div className="flex flex-col items-center">
-            <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
-                <FontAwesomeIcon icon={faMoneyBillWave} className="text-gray-500" /> Estimated Price
-            </div>
-            <div className="text-primary text-4xl font-large text-gray-500 p-4 rounded-lg" style={{ height: '60px' }}>
-                {price !== null ? `$ ${price.toFixed(2)}` : <span>&nbsp;</span>}
-            </div>
-        </div>
-    </div>
+                                <div className="p-4 lg:py-8 shadow-lg flex flex-col lg:flex-row justify-evenly text-center items-center lg:mt-8 rounded-lg">
+                                    <div className="flex flex-col items-center mb-4 lg:mb-0">
+                                        <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
+                                            <FontAwesomeIcon icon={faMapLocationDot} className="text-gray-500" /> Distance
+                                        </div>
+                                        <div className="text-primary text-4xl font-medium text-gray-500 p-4 rounded-lg" style={{ height: '60px' }}>
+                                            {distance ? distance : <span>&nbsp;</span>}
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col items-center">
+                                        <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
+                                            <FontAwesomeIcon icon={faMoneyBillWave} className="text-gray-500" /> Estimated Price
+                                        </div>
+                                        <div className="text-primary text-4xl font-large text-gray-500 p-4 rounded-lg" style={{ height: '60px' }}>
+                                            {price !== null ? `$ ${price.toFixed(2)}` : <span>&nbsp;</span>}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

@@ -88,14 +88,6 @@ const ShipmentDetails: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row mb-4">
-                                <div className="w-full sm:w-1/5 mb-4 sm:mb-0">
-                                    <label className="block text-primary text-base " htmlFor="notes">
-                                        Notes
-                                    </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.notes || 'N/A'}</p>
-                                </div>
-                            </div>
                         </div>
 
                         <hr className="border-t lg:border-1 w-full max-w-screen-2xl mx-auto hidden md:block" />
@@ -128,14 +120,7 @@ const ShipmentDetails: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row mb-4">
-                                <div className="w-full sm:w-1/5 mb-4 sm:mb-0">
-                                    <label className="block text-primary text-base " htmlFor="notes">
-                                        Notes
-                                    </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.notes || 'N/A'}</p>
-                                </div>
-                            </div>
+                            
                         </div>
 
                         {/* Additional Shipment Details */}
@@ -148,15 +133,20 @@ const ShipmentDetails: React.FC = () => {
                                     </label>
                                     <p className='text-secondary text-sm font-medium'>{booking.notes || 'N/A'}</p>
 
-                                    <label className="block text-primary text-base font-bold " htmlFor="commodity">
+                                    <label className="block text-primary text-base font-bold mt-2" htmlFor="commodity">
                                         Commodity
                                     </label>
                                     <p className='text-secondary text-sm font-medium'>{booking.commodity}</p>
 
-                                    <label className="block text-primary text-base font-bold " htmlFor="packaging">
-                                        Packaging <span className="text-red-600">*</span>
+                                    <label className="block text-primary text-base font-bold mt-2" htmlFor="packaging">
+                                        Packaging 
                                     </label>
                                     <p className='text-secondary text-sm font-medium'>{booking.packaging || 'TBA'}</p>
+                                    <label className="block text-primary text-base mt-2" htmlFor="notes">
+                                        Additional Notes
+                                    </label>
+                                    <p className='text-secondary text-sm font-medium'>{booking.notes || 'N/A'}</p>
+                            
                                 </div>
 
                                 <div className="w-full sm:w-1/2">
@@ -165,7 +155,7 @@ const ShipmentDetails: React.FC = () => {
                                     </label>
                                     <p className='text-secondary text-sm font-medium'>{booking.maxWeight}</p>
 
-                                    <label className="block text-primary text-base font-bold " htmlFor="total">
+                                    <label className="block text-primary text-base font-bold mt-2" htmlFor="total">
                                         Truck Type
                                     </label>
                                     <p className='text-secondary text-sm font-medium'>{booking.trailerType}</p>
@@ -184,7 +174,7 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-sm font-bold " htmlFor="customerReference">
                                         Carrier Name <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>{booking.notes || 'N/A'}</p>
+                                    <p className='text-secondary text-base font-medium'>{booking.carrier || 'N/A'}</p>
 
                                     <label className="block text-primary text-sm font-bold " htmlFor="commodity">
                                         Driver
@@ -214,7 +204,7 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-sm font-bold " htmlFor="customerReference">
                                         Bill of Lading (BOL) <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>{booking.notes || 'N/A'}</p>
+                                    <p className='text-secondary text-base font-medium'>{booking.bol || 'N/A'}</p>
                                 </div>
                             </div>
                         </div>

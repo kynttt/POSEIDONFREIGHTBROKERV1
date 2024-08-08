@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTruckFast } from '@fortawesome/free-solid-svg-icons';
 
+
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
 
 export default function Stripe() {

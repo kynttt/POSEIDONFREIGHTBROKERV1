@@ -8,12 +8,32 @@ const containerStyle = {
   borderRadius: '8px', // Adding border radius
 };
 
-
-
 const defaultCenter = {
   lat: -3.745,
   lng: -38.523,
 };
+
+// Custom styles for the map
+const mapStyles = [
+  {
+    "featureType": "landscape",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#e4e4e4"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#a8caea" 
+      }
+    ]
+  }
+];
 
 interface MapComponentProps {
   map: google.maps.Map | null;
@@ -24,7 +44,6 @@ interface MapComponentProps {
 }
 
 export const MapComponent: React.FC<MapComponentProps> = ({
-  // map,
   setMap,
   directions,
   originLocation,
@@ -35,9 +54,21 @@ export const MapComponent: React.FC<MapComponentProps> = ({
     center={defaultCenter}
     zoom={10}
     onLoad={(map) => setMap(map)}
+    options={{ styles: mapStyles }} // Applying custom styles
   >
     {originLocation && <Marker position={originLocation} label="A" />}
     {destinationLocation && <Marker position={destinationLocation} label="B" />}
-    {directions && <DirectionsRenderer directions={directions} />}
+    {directions && (
+      <DirectionsRenderer
+        directions={directions}
+        options={{
+          polylineOptions: {
+            strokeColor: '#7783D2', // Gray color for the route
+            strokeOpacity: 0.8,
+            strokeWeight: 5,
+          }
+        }}
+      />
+    )}
   </GoogleMap>
 );
