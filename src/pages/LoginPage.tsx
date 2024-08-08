@@ -1,15 +1,15 @@
 // LoginPage.tsx
 
-import React, { useState } from 'react';
-import signupImage from '../assets/img/DeliveredPackage.gif';
-import appleIcon from '../assets/img/apple.png';
-import googleIcon from '../assets/img/googleicon.png';
-import Button from '../components/Button';
-import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
-import { useAuthStore } from '../state/useAuthStore';
-import { loginUser } from '../lib/apiCalls';
-import axios from 'axios';
+import React, { useState } from "react";
+import signupImage from "../assets/img/DeliveredPackage.gif";
+import appleIcon from "../assets/img/apple.png";
+import googleIcon from "../assets/img/googleicon.png";
+import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { useAuthStore } from "../state/useAuthStore";
+import { loginUser } from "../lib/apiCalls";
+import axios from "axios";
 
 interface DecodedToken {
   user: {
@@ -22,20 +22,26 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+  const handleSignUpClick = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    navigate("/signup");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
@@ -47,20 +53,20 @@ const LoginPage: React.FC = () => {
       const decodedToken = jwtDecode<DecodedToken>(token);
       const userRole = decodedToken.user && decodedToken.user.role;
 
-      if (userRole === 'admin') {
-        navigate('/admin-dashboard');
+      if (userRole === "admin") {
+        navigate("/admin-dashboard");
       } else {
-        navigate('/shipper-dashboard');
+        navigate("/shipper-dashboard");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (err.response && err.response.data) {
-          setError(err.response.data.msg || 'Login failed.');
+          setError(err.response.data.msg || "Login failed.");
         } else {
-          setError('Login failed.');
+          setError("Login failed.");
         }
       } else {
-        setError('An unexpected error occurred.');
+        setError("An unexpected error occurred.");
       }
     } finally {
       setLoading(false);
@@ -70,19 +76,31 @@ const LoginPage: React.FC = () => {
   return (
     <div className="bg-white flex h-screen md:px-36 justify-center items-center p-4">
       <div className="flex flex-col md:flex-row w-full max-w-full lg:max-w-4xl shadow-lg rounded-lg overflow-hidden">
-
         <div className="w-full md:w-1/2 bg-secondary flex flex-col justify-center items-center p-8">
-          <h1 className="text-white text-2xl md:text-4xl mb-4 text-center">Freight Broker</h1>
-          <img src={signupImage} alt="Freight Booker" className="w-3/4 md:w-full mx-auto" />
-          <p className="text-white text-xl md:text-2xl mt-4 text-center">Transport Logistics</p>
+          <h1 className="text-white text-2xl md:text-4xl mb-4 text-center">
+            Freight Broker
+          </h1>
+          <img
+            src={signupImage}
+            alt="Freight Booker"
+            className="w-3/4 md:w-full mx-auto"
+          />
+          <p className="text-white text-xl md:text-2xl mt-4 text-center">
+            Transport Logistics
+          </p>
         </div>
 
         <div className="w-full md:w-1/2 bg-white flex flex-col justify-center p-8">
           <div className="w-full max-w-sm mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-secondary text-center">Sign In</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-secondary text-center">
+              Sign In
+            </h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="block text-primary text-sm font-bold mb-2" htmlFor="email">
+                <label
+                  className="block text-primary text-sm font-bold mb-2"
+                  htmlFor="email"
+                >
                   Email
                 </label>
                 <input
@@ -97,10 +115,16 @@ const LoginPage: React.FC = () => {
               </div>
               <div className="mb-6">
                 <div className="flex justify-between items-center">
-                  <label className="block text-primary text-sm font-bold mb-2" htmlFor="password">
+                  <label
+                    className="block text-primary text-sm font-bold mb-2"
+                    htmlFor="password"
+                  >
                     Password
                   </label>
-                  <a href="#" className="inline-block align-baseline font-medium text-sm text-blue-400 hover:text-blue-800 md:pl-10">
+                  <a
+                    href="#"
+                    className="inline-block align-baseline font-medium text-sm text-blue-400 hover:text-blue-800 md:pl-10"
+                  >
                     Forgot Password?
                   </a>
                 </div>
@@ -116,7 +140,7 @@ const LoginPage: React.FC = () => {
               </div>
               <div className="flex items-center justify-center">
                 <Button
-                  label={loading ? 'Logging In...' : 'Login'}
+                  label={loading ? "Logging In..." : "Login"}
                   size="medium"
                   bgColor="#252F70"
                   hoverBgColor="white"
@@ -128,7 +152,9 @@ const LoginPage: React.FC = () => {
             </form>
             <div className="mt-6 flex items-center">
               <div className="border-t-4 flex-grow border-secondary"></div>
-              <span className="px-3 text-gray-600 font-normal">or continue</span>
+              <span className="px-3 text-gray-600 font-normal">
+                or continue
+              </span>
               <div className="border-t-4 flex-grow border-secondary"></div>
             </div>
             <div className="mt-6 flex flex-col space-y-4">
@@ -149,12 +175,14 @@ const LoginPage: React.FC = () => {
             </div>
             <div className="mt-6 text-center">
               <p className="text-gray-600 font-medium">
-                Don’t have an account? <a href="/signup" className="text-blue-400">Sign Up</a>
+                Don’t have an account?{" "}
+                <a className="text-blue-400" onClick={handleSignUpClick}>
+                  Sign Up
+                </a>
               </p>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
