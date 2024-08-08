@@ -154,7 +154,7 @@ const ShipmentDetails: React.FC = () => {
                                     <p className='text-secondary text-sm font-medium'>{booking.commodity}</p>
 
                                     <label className="block text-primary text-base font-bold " htmlFor="packaging">
-                                        Packaging <span className="text-red-600">*</span>
+                                        Packaging 
                                     </label>
                                     <p className='text-secondary text-sm font-medium'>{booking.packaging || 'TBA'}</p>
                                 </div>
