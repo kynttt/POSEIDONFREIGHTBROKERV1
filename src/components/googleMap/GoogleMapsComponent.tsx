@@ -10,7 +10,7 @@ import SideBar from '../../components/SideBar';
 import Button from '../../components/Button';
 import { useAuthStore } from '../../state/useAuthStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faCalendarAlt, faTruck, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faCalendarAlt, faTruck, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 import { createQuote } from '../../lib/apiCalls';
 import { calculatePrice } from './priceCalculator';
 
@@ -64,6 +64,7 @@ const QuoteDetails: React.FC = () => {
     const [companyName, setCompanyName] = useState('');
     const [packagingNumber, setPackagingNumber] = useState('');
     const [selectedPackagingType, setSelectedPackagingType] = useState('');
+    const [notes, setNotes] = useState('');
 
     const [warnings, setWarnings] = useState({
         origin: '',
@@ -173,6 +174,7 @@ const QuoteDetails: React.FC = () => {
                 distance,
                 packaging: `${packagingNumber} ${selectedPackagingType}`,
                 price,
+                notes,
             };
 
             const token = localStorage.getItem('authToken');
@@ -366,6 +368,21 @@ const QuoteDetails: React.FC = () => {
                                                 </select>
                                                 {warnings.packaging && <p className="text-red-500 text-sm">{warnings.packaging}</p>}
                                             </div>
+                                            <div className="mb-8 md:mb-0 w-full">
+                                                <h3 className="text-lg font-medium text-secondary my-2">
+                                                    <FontAwesomeIcon icon={faNoteSticky} className="mr-2 text-gray-400" />
+                                                    Additional Notes 
+                                                </h3>
+                                                <textarea
+                                                    className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                                                    placeholder="Enter your additional notes"
+                                                    value={notes}
+                                                    onChange={(e) => setNotes(e.target.value)}
+                                                    rows={3} // Ensure rows is a number
+                                                />
+                                                
+                                            </div>
+
                                         </div>
                                         <Button
                                             label="GET THIS QUOTE"
