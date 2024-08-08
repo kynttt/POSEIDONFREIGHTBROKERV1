@@ -302,7 +302,7 @@ const QuoteDetails: React.FC = () => {
                                                 value={commodity}
                                                 onChange={(e) => setCommodity(e.target.value)}
                                             />
-                                             {warnings.commodity && <p className="text-red-500 text-sm">{warnings.commodity}</p>}
+                                            {warnings.commodity && <p className="text-red-500 text-sm">{warnings.commodity}</p>}
                                         </div>
                                         <div className="mb-8 md:mb-0 mt-2">
                                             <h3 className="text-lg font-medium text-secondary mb-2">
@@ -333,39 +333,39 @@ const QuoteDetails: React.FC = () => {
                                             {warnings.companyName && <p className="text-red-500 text-sm">{warnings.companyName}</p>}
                                         </div>
                                         <div className="flex flex-wrap md:mt-4">
-                                        <div className="w-full md:w-1/3 mb-8 md:mb-0 md:pr-4">
-                                            <h3 className="text-lg font-medium text-secondary mb-2">
-                                                <FontAwesomeIcon icon={faBox} className="mr-2 text-gray-400" />Packaging <span className="text-red-500">*</span>
-                                            </h3>
-                                            <input
-                                                type="number"
-                                                className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
-                                                value={packagingNumber}
-                                                onChange={(e) => setPackagingNumber(e.target.value)}
-                                                placeholder="Enter number of packages"
-                                            />
-                                            {warnings.packaging && <p className="text-red-500 text-sm">{warnings.packaging}</p>}
-                                        </div>
-                                        <div className="w-full md:w-2/3 ">
-                                            <h3 className="text-lg font-medium text-secondary mb-2">
-                                                Packaging Type <span className="text-red-500">*</span>
-                                            </h3>
-                                            <select
-                                                className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
-                                                value={selectedPackagingType}
-                                                onChange={(e) => setSelectedPackagingType(e.target.value)}
-                                            >
-                                                <option value="">Select packaging type</option>
-                                                <option value="Box">Carton</option>
-                                                <option value="Pallet">Floor</option>
-                                                <option value="Crate">Loose</option>
-                                                <option value="Crate">Pallet</option>
-                                                <option value="Crate">Roll</option>
-                                                <option value="Crate">Skids</option>
-                                                <option value="Container">Others</option>
-                                            </select>
-                                            {warnings.packaging && <p className="text-red-500 text-sm">{warnings.packaging}</p>}
-                                        </div>
+                                            <div className="w-full md:w-1/3 mb-8 md:mb-0 md:pr-4">
+                                                <h3 className="text-lg font-medium text-secondary mb-2">
+                                                    <FontAwesomeIcon icon={faBox} className="mr-2 text-gray-400" />Packaging <span className="text-red-500">*</span>
+                                                </h3>
+                                                <input
+                                                    type="number"
+                                                    className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                                                    value={packagingNumber}
+                                                    onChange={(e) => setPackagingNumber(e.target.value)}
+                                                    placeholder="Enter number of packages"
+                                                />
+                                                {warnings.packaging && <p className="text-red-500 text-sm">{warnings.packaging}</p>}
+                                            </div>
+                                            <div className="w-full md:w-2/3 ">
+                                                <h3 className="text-lg font-medium text-secondary mb-2">
+                                                    Packaging Type <span className="text-red-500">*</span>
+                                                </h3>
+                                                <select
+                                                    className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                                                    value={selectedPackagingType}
+                                                    onChange={(e) => setSelectedPackagingType(e.target.value)}
+                                                >
+                                                    <option value="">Select packaging type</option>
+                                                    <option value="Box">Carton</option>
+                                                    <option value="Pallet">Floor</option>
+                                                    <option value="Loose">Loose</option>
+                                                    <option value="Pallet">Pallet</option>
+                                                    <option value="Roll">Roll</option>
+                                                    <option value="Skids">Skids</option>
+                                                    <option value="Others">Others</option>
+                                                </select>
+                                                {warnings.packaging && <p className="text-red-500 text-sm">{warnings.packaging}</p>}
+                                            </div>
                                         </div>
                                         <Button
                                             label="GET THIS QUOTE"
