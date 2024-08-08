@@ -2,6 +2,7 @@ import React, { useState, useCallback, memo } from "react";
 import Button from "./Button";
 import DispatchDetailsModal from "./DispatchDetailsModal";
 import { format } from "date-fns";
+
 interface CardProps {
   id: string;
   pickUp: string;
@@ -32,6 +33,9 @@ const LoadCard: React.FC<CardProps> = ({
   onBookLoadClick,
 }) => {
   const formattedPickupDate = format(pickupDate, "MM/dd/yyyy");
+  const truncatedPickUp = pickUp.length > 25 ? `${pickUp.slice(0, 25)}...` : pickUp;
+  const truncatedDrop = drop.length > 25 ? `${drop.slice(0, 25)}...` : drop;
+  const formattedLoadPrice = loadPrice.toFixed(2);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBookLoadClick = useCallback(() => {
@@ -54,7 +58,7 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-bold">Load Price</p>
             </div>
             <div>
-              <p className="font-normal text-2xl text-price">${loadPrice}</p>
+              <p className="font-normal text-2xl text-price">${formattedLoadPrice}</p>
             </div>
           </div>
           <div className="flex items-left flex-col col-span-2 md:col-span-1">
@@ -70,7 +74,7 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-bold">Pick</p>
             </div>
             <div>
-              <p className="font-normal">{pickUp}</p>
+              <p className="font-normal">{truncatedPickUp}</p>
             </div>
           </div>
           <div className="flex items-left flex-col col-span-2 md:col-span-1">
@@ -78,7 +82,7 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-bold">Drop</p>
             </div>
             <div>
-              <p className="font-normal">{drop}</p>
+              <p className="font-normal">{truncatedDrop}</p>
             </div>
           </div>
           <div className="flex items-left flex-col col-span-2 md:col-span-1">

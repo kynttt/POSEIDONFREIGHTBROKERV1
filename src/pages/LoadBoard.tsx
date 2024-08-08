@@ -31,18 +31,13 @@ const LoadBoard: React.FC = () => {
   const [deliveryLocation, setDeliveryLocation] = useState("");
   const [pickUpDate, setPickUpDate] = useState<Date | null>(null);
   const [trailerType, setTrailerType] = useState("");
-  //   const [radius, setRadius] = useState("");
-
-  // ! This is disabled because it is not used in the code
-  //   const [availableDeliveryLocations, setAvailableDeliveryLocations] = useState<
-  //     string[]
-  //   >([]);
   const [loadCards, setLoadCards] = useState<CardProps[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredLoadCards, setFilteredLoadCards] = useState<CardProps[]>([]);
+
   useEffect(() => {
-    const queryPickUpLocation = searchParams.get("pickUpLocation") || "";
-    const queryDeliveryLocation = searchParams.get("deliveryLocation") || "";
+    const queryPickUpLocation = (searchParams.get("pickUpLocation") || "").toLowerCase();
+    const queryDeliveryLocation = (searchParams.get("deliveryLocation") || "").toLowerCase();
     const queryPickUpDate = searchParams.get("pickUpDate") || null;
     const queryTrailerType = searchParams.get("trailerType") || "";
     const queryRadius = searchParams.get("radius") || "";
@@ -51,15 +46,14 @@ const LoadBoard: React.FC = () => {
     setDeliveryLocation(queryDeliveryLocation);
     setPickUpDate(queryPickUpDate ? new Date(queryPickUpDate) : null);
     setTrailerType(queryTrailerType);
-    // setRadius(queryRadius);
 
     const filtered = loadCards.filter((load) => {
       return (
         (queryPickUpLocation
-          ? load.pickUp.includes(queryPickUpLocation)
+          ? load.pickUp.toLowerCase().includes(queryPickUpLocation)
           : true) &&
         (queryDeliveryLocation
-          ? load.drop.includes(queryDeliveryLocation)
+          ? load.drop.toLowerCase().includes(queryDeliveryLocation)
           : true) &&
         (queryPickUpDate
           ? new Date(load.pickupDate).toDateString() ===
@@ -77,15 +71,6 @@ const LoadBoard: React.FC = () => {
     const fetchData = async () => {
       const token = localStorage.getItem("authToken");
       try {
-        // ! This is disabled because it is not used in the code
-        // if (pickUpLocation && token) {
-        //   const deliveryLocations = await fetchDeliveryLocations(
-        //     pickUpLocation,
-        //     token
-        //   );
-        //   setAvailableDeliveryLocations(deliveryLocations);
-        // }
-
         if (token) {
           const quotes = await fetchQuotes(token);
           setLoadCards(quotes);
@@ -103,23 +88,19 @@ const LoadBoard: React.FC = () => {
     (e: React.FormEvent) => {
       e.preventDefault();
 
-      // Create an object with the form values
       const params = {
         pickUpLocation,
         deliveryLocation,
         pickUpDate: pickUpDate ? pickUpDate.toISOString().split("T")[0] : "",
         trailerType,
-        // radius,
       };
 
-      // Filter out empty or null values
       const filteredParams = Object.fromEntries(
         Object.entries(params).filter(
           ([_, value]) => value != null && value !== ""
         )
       );
 
-      // Set search parameters
       setSearchParams(filteredParams);
     },
     [
@@ -127,7 +108,6 @@ const LoadBoard: React.FC = () => {
       deliveryLocation,
       pickUpDate,
       trailerType,
-      //   radius,
       setSearchParams,
     ]
   );
@@ -137,13 +117,14 @@ const LoadBoard: React.FC = () => {
     setDeliveryLocation("");
     setPickUpDate(null);
     setTrailerType("");
-    // setRadius("");
     setSearchParams({});
   }, [setSearchParams]);
-  const radiusOptions = useMemo(
-    () => ["10 mi", "20 mi", "30 mi", "40 mi", "50 mi"],
-    []
-  );
+
+  // const radiusOptions = useMemo(
+  //   () => ["10 mi", "20 mi", "30 mi", "40 mi", "50 mi"],
+  //   []
+  // );
+
   return (
     <div className="flex h-screen">
       <SideBar isAuthenticated={isAuthenticated} />
@@ -156,7 +137,7 @@ const LoadBoard: React.FC = () => {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="mb-8 md:mb-0">
+            <div className="mb-2 md:mb-8">
               <h3 className="text-lg font-semibold text-secondary mb-4">
                 PICK UP
               </h3>
@@ -206,7 +187,7 @@ const LoadBoard: React.FC = () => {
               </div>
             </div>
 
-            <div className="mb-8 md:mb-0 lg:pl-8">
+            <div className="mb-2 md:mb-8 lg:pl-8">
               <h3 className="text-lg font-semibold text-secondary mb-4">
                 DROP
               </h3>
@@ -223,33 +204,10 @@ const LoadBoard: React.FC = () => {
                     placeholder="Enter Delivery Location"
                   />
                 </div>
-                {/* <div className="mb-4 mt-4">
-                  <label className="block text-primary font-normal mb-2">
-                    Radius (mi) <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={radius}
-                    onChange={(e) => setRadius(e.target.value)}
-                    className="w-full border border-gray-300 p-2 rounded-md bg-white text-black font-thin"
-                  >
-                    <option className="text-primary font-normal" value="">
-                      Select Radius
-                    </option>
-                    {radiusOptions.map((option) => (
-                      <option
-                        className="text-primary font-normal"
-                        key={option}
-                        value={parseInt(option)}
-                      >
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div> */}
               </div>
             </div>
 
-            <div className="mb-8 md:mb-0 lg:pl-8">
+            <div className="mb-2 md:mb-8 lg:pl-8">
               <h3 className="text-lg font-semibold text-secondary mb-4">
                 ADDITIONAL DETAILS
               </h3>
@@ -307,12 +265,17 @@ const LoadBoard: React.FC = () => {
             />
           </div>
 
-          <div>
+          {/* <div>
             <div className="flex justify-end">
               <a href="#" className="text-blue-500 hover:underline">
                 Sort & Filter
               </a>
             </div>
+          </div> */}
+
+          <div className="mt-8 flex md:justify-end gap-8 text-secondary font-normal">
+            <p >Total Loads: {loadCards.length}</p>
+            <p>Filtered Loads: {filteredLoadCards.length}</p>
           </div>
 
           {filteredLoadCards.map((load: any) => (
