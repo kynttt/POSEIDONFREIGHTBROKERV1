@@ -359,7 +359,7 @@ const QuoteDetails: React.FC = () => {
                                                 >
                                                     <option value="">Select packaging type</option>
                                                     <option value="Box">Carton</option>
-                                                    <option value="Pallet">Floor</option>
+                                                    <option value="Floor">Floor</option>
                                                     <option value="Loose">Loose</option>
                                                     <option value="Pallet">Pallet</option>
                                                     <option value="Roll">Roll</option>
