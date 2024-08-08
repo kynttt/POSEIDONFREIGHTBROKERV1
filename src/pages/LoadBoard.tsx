@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
@@ -120,10 +120,11 @@ const LoadBoard: React.FC = () => {
     setSearchParams({});
   }, [setSearchParams]);
 
-  // const radiusOptions = useMemo(
-  //   () => ["10 mi", "20 mi", "30 mi", "40 mi", "50 mi"],
-  //   []
-  // );
+  const handleButtonClick = useCallback(() => {
+    const event = new Event('submit', { bubbles: true });
+    const form = document.querySelector('form');
+    form?.dispatchEvent(event);
+  }, []);
 
   return (
     <div className="flex h-screen">
@@ -249,7 +250,7 @@ const LoadBoard: React.FC = () => {
               size="large"
               bgColor="#252F70"
               hoverBgColor="white"
-              onClick={handleSubmit}
+              onClick={handleButtonClick}
               className="extra-class-for-medium-button"
               type={""}
             />
