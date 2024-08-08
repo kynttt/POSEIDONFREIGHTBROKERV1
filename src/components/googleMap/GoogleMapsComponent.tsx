@@ -10,7 +10,7 @@ import SideBar from '../../components/SideBar';
 import Button from '../../components/Button';
 import { useAuthStore } from '../../state/useAuthStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faCalendarAlt, faTruck, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faCalendarAlt, faTruck, faBox, faWeight, faBuilding, faMapLocationDot, faMoneyBillWave, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 import { createQuote } from '../../lib/apiCalls';
 import { calculatePrice } from './priceCalculator';
 
@@ -370,7 +370,7 @@ const QuoteDetails: React.FC = () => {
                                             </div>
                                             <div className="mb-8 md:mb-0 w-full">
                                                 <h3 className="text-lg font-medium text-secondary my-2">
-                                                    <FontAwesomeIcon icon={faBuilding} className="mr-2 text-gray-400" />
+                                                    <FontAwesomeIcon icon={faNoteSticky} className="mr-2 text-gray-400" />
                                                     Additional Notes 
                                                 </h3>
                                                 <textarea
