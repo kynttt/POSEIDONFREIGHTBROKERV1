@@ -358,7 +358,7 @@ const QuoteDetails: React.FC = () => {
                                                     onChange={(e) => setSelectedPackagingType(e.target.value)}
                                                 >
                                                     <option value="">Select packaging type</option>
-                                                    <option value="Box">Carton</option>
+                                                    <option value="Carton">Carton</option>
                                                     <option value="Floor">Floor</option>
                                                     <option value="Loose">Loose</option>
                                                     <option value="Pallet">Pallet</option>

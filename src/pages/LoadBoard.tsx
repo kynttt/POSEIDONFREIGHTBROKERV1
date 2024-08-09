@@ -7,13 +7,14 @@ import Button from "../components/Button";
 import LoadCard from "../components/LoadCard";
 import SideBar from "../components/SideBar";
 import { useAuthStore } from "../state/useAuthStore";
-import { fetchQuotes } from "../lib/apiCalls";
+import { fetchBookings } from "../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
 
 type CardProps = {
   pickupDate: Date;
   id: string;
   pickUp: string;
+  status: string;
   drop: string;
   maxWeight: number;
   companyName: string;
@@ -72,7 +73,7 @@ const LoadBoard: React.FC = () => {
       const token = localStorage.getItem("authToken");
       try {
         if (token) {
-          const quotes = await fetchQuotes(token);
+          const quotes = await fetchBookings(token);
           setLoadCards(quotes);
         }
       } catch (error) {
@@ -284,6 +285,7 @@ const LoadBoard: React.FC = () => {
               key={load.id}
               id={load.id}
               pickUp={load.pickUp}
+              status={load.status}
               drop={load.drop}
               maxWeight={load.maxWeight}
               companyName={load.companyName}
@@ -291,7 +293,7 @@ const LoadBoard: React.FC = () => {
               distance={load.distance}
               trailerSize={load.trailerSize}
               commodity={load.commodity}
-              loadPrice={load.loadPrice}
+              price={load.price}
               pickupDate={load.pickupDate} // Pass pickUpDate here
               onBookLoadClick={load.onBookLoadClick}
             />

@@ -238,3 +238,128 @@ export const createPaymentIntent = async ({ amount, currency }: PaymentIntentPar
     throw error;
   }
 };
+
+
+// Fetch all bookings
+export const fetchBookings = async (token: string) => {
+  const response = await axios.get(`${API_BASE_URL}/bookings/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data.map((booking: any) => {
+    const quote = booking.quote;
+    return {
+      id: booking._id,
+      pickUp: quote.origin,
+      price: quote.price,
+      status: booking.status,
+      drop: quote.destination,
+      maxWeight: quote.maxWeight,
+      companyName: quote.companyName,
+      trailerType: quote.trailerType,
+      distance: quote.distance,
+      trailerSize: quote.trailerSize,
+      commodity: quote.commodity,
+      pickupDate: quote.pickupDate,
+      onBookLoadClick: () => { /* Handle book load click */ },
+    };
+  });
+};
+
+
+
+
+// Update booking details by quoteID
+interface BookingUpdate {
+  origin?: string;
+  price?: number;
+  destination?: string;
+  maxWeight?: number;
+  companyName?: string;
+  trailerType?: string;
+  distance?: number;
+  trailerSize?: string;
+  commodity?: string;
+  pickupDate?: string;
+  deliveryDate?: string;
+  notes?: string;
+  packaging?: string;
+  carrier?: string;
+  bol?: string;
+  status?: string; // Add status field
+  pickupTime?: string;
+  deliveryTime?: string;
+}
+
+export const updateBookingDetails = async (id: string, updatedData: BookingUpdate) => {
+  const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+      body: JSON.stringify(updatedData),
+  });
+
+  if (!response.ok) {
+      throw new Error('Failed to update booking details');
+  }
+
+  return response.json();
+};
+
+
+
+
+
+// Fetch a specific booking by ID
+export const fetchBookingById = async (id: string) => {
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    throw new Error('No token found in localStorage');
+  }
+
+  try {
+    const response = await axios.get(`${API_BASE_URL}/bookings/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const booking = response.data;
+    const quote = booking.quote;
+
+    return {
+      id: booking._id,
+      origin: quote.origin,
+      price: quote.price,
+      status: booking.status,
+      destination: quote.destination,
+      maxWeight: quote.maxWeight,
+      companyName: quote.companyName,
+      trailerType: quote.trailerType,
+      distance: quote.distance,
+      trailerSize: quote.trailerSize,
+      commodity: quote.commodity,
+      pickupDate: quote.pickupDate,
+      deliveryDate: quote.deliveryDate, // Assuming you need deliveryDate too
+      notes: quote.notes, // Assuming notes are part of booking
+      packaging: quote.packaging, // Assuming packaging is part of booking
+      carrier: booking.carrier, // Assuming carrier is part of booking
+      bol: booking.bol, // Assuming bol is part of booking
+      pickupTime: booking.pickupTime,
+      deliveryTime: booking.deliveryTime
+    };
+
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error('API Error:', error.response?.data || error.message);
+    } else {
+      console.error('Unexpected Error:', error);
+    }
+    throw error;
+  }
+};

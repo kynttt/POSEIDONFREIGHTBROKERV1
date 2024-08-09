@@ -31,6 +31,7 @@ import ShipmentDetails from "./pages/ShipmentDetails";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Stripe from "./components/stripe/Stripe";
+import EditLoad from "./pages/editLoad";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -176,7 +177,16 @@ const App: React.FC = () => {
               />
             }
           />
+          <Route
+            path="/editBooking/:id"
+            element={
+              <PrivateRoute element={<EditLoad />} roles={["admin"]} />
+            }
+          />
+          <Route path="*" element={<NotFound />} />
         </Routes>
+
+        
       </Router>
     </MantineProvider>
   );
