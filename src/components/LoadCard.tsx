@@ -1,10 +1,11 @@
-import React, { useState, useCallback, memo } from "react";
+import React, {  useCallback, memo } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import DispatchDetailsModal from "./DispatchDetailsModal";
 import { format } from "date-fns";
 
 interface CardProps {
   id: string;
+  status: string;
   pickUp: string;
   drop: string;
   maxWeight: number;
@@ -12,7 +13,7 @@ interface CardProps {
   trailerType: string;
   distance: number;
   trailerSize: string;
-  loadPrice: number;
+  price?: number;  // Make loadPrice optional
   commodity: string;
   pickupDate: Date;
   onBookLoadClick?: () => void;
@@ -20,39 +21,34 @@ interface CardProps {
 
 const LoadCard: React.FC<CardProps> = ({
   id,
+  status,
   pickUp,
   drop,
-  maxWeight,
-  companyName,
-  trailerType,
-  distance,
-  trailerSize,
-  commodity,
-  loadPrice,
+  // maxWeight,
+  // companyName,
+  // trailerType,
+  // distance,
+  // trailerSize,
+  // commodity,
+  price = 0,  // Provide a default value of 0
   pickupDate,
-  onBookLoadClick,
+  // onBookLoadClick,
 }) => {
+  const navigate = useNavigate();
+
   const formattedPickupDate = format(pickupDate, "MM/dd/yyyy");
   const truncatedPickUp = pickUp.length > 25 ? `${pickUp.slice(0, 25)}...` : pickUp;
   const truncatedDrop = drop.length > 25 ? `${drop.slice(0, 25)}...` : drop;
-  const formattedLoadPrice = loadPrice.toFixed(2);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const formattedLoadPrice = price.toFixed(2);
 
   const handleBookLoadClick = useCallback(() => {
-    if (onBookLoadClick) {
-      onBookLoadClick();
-    }
-    setIsModalOpen(true);
-  }, [onBookLoadClick]);
-
-  const handleCloseModal = useCallback(() => {
-    setIsModalOpen(false);
-  }, []);
+    navigate(`/editBooking/${id}`);
+  }, [navigate, id]);
 
   return (
     <div className="">
       <div className="bg-light-grey text-primary shadow-xl rounded-lg py-8 mb-4 text-xs my-8">
-        <div className="grid grid-cols-6 gap-4">
+        <div className="grid grid-cols-7 gap-4">
           <div className="flex items-center flex-col col-span-2 md:col-span-1">
             <div className="flex items-center">
               <p className="font-bold">Load Price</p>
@@ -93,9 +89,17 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-normal">{formattedPickupDate}</p>
             </div>
           </div>
+          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+            <div className="flex items-center">
+              <p className="font-bold">Status</p>
+            </div>
+            <div>
+              <p className="font-normal">{status}</p>
+            </div>
+          </div>
           <div className="flex items-center justify-center col-span-2 md:col-span-1">
             <Button
-              label="Book Load"
+              label="Check Load"
               size="medium"
               bgColor="#252F70"
               hoverBgColor="white"
@@ -106,21 +110,6 @@ const LoadCard: React.FC<CardProps> = ({
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <DispatchDetailsModal
-          id={id}
-          pickUp={pickUp}
-          drop={drop}
-          maxWeight={maxWeight}
-          trailerType={trailerType}
-          trailerSize={trailerSize}
-          distance={distance}
-          companyName={companyName}
-          commodity={commodity}
-          pickupDate={pickupDate}
-          onClose={handleCloseModal}
-        />
-      )}
     </div>
   );
 };
