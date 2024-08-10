@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import SideBar from "../components/SideBar";
+import SideBar from "../../../components/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faPrint } from "@fortawesome/free-solid-svg-icons";
-import PaymentCard from "../components/PaymentCardComponent"; // Import PaymentCard component
-import { useAuthStore } from '../state/useAuthStore';
+import PaymentCard from "../../../components/PaymentCardComponent"; // Import PaymentCard component
+import { useAuthStore } from '../../../state/useAuthStore';
 
 
 const AccountingPayment: React.FC = () => {

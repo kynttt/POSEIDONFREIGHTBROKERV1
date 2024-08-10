@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Button from "../components/Button";
-import LoadCard from "../components/LoadCard";
-import SideBar from "../components/SideBar";
-import { useAuthStore } from "../state/useAuthStore";
-import { fetchBookings } from "../lib/apiCalls";
+import Button from "../../../components/Button";
+import LoadCard from "../../../components/LoadCard";
+import SideBar from "../../../components/SideBar";
+import { useAuthStore } from "../../../state/useAuthStore";
+import { fetchBookings } from "../../../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
 
 type CardProps = {
@@ -21,7 +21,7 @@ type CardProps = {
   trailerType: string;
   distance: number;
   trailerSize: string;
-  loadPrice: number;
+  price: number;
   commodity: string;
   onBookLoadClick: () => void;
 };
@@ -35,10 +35,15 @@ const LoadBoard: React.FC = () => {
   const [loadCards, setLoadCards] = useState<CardProps[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredLoadCards, setFilteredLoadCards] = useState<CardProps[]>([]);
+  const [activeTab, setActiveTab] = useState<string>("Confirmed");
 
   useEffect(() => {
-    const queryPickUpLocation = (searchParams.get("pickUpLocation") || "").toLowerCase();
-    const queryDeliveryLocation = (searchParams.get("deliveryLocation") || "").toLowerCase();
+    const queryPickUpLocation = (
+      searchParams.get("pickUpLocation") || ""
+    ).toLowerCase();
+    const queryDeliveryLocation = (
+      searchParams.get("deliveryLocation") || ""
+    ).toLowerCase();
     const queryPickUpDate = searchParams.get("pickUpDate") || null;
     const queryTrailerType = searchParams.get("trailerType") || "";
     const queryRadius = searchParams.get("radius") || "";
@@ -98,19 +103,14 @@ const LoadBoard: React.FC = () => {
 
       const filteredParams = Object.fromEntries(
         Object.entries(params).filter(
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ([_, value]) => value != null && value !== ""
         )
       );
 
       setSearchParams(filteredParams);
     },
-    [
-      pickUpLocation,
-      deliveryLocation,
-      pickUpDate,
-      trailerType,
-      setSearchParams,
-    ]
+    [pickUpLocation, deliveryLocation, pickUpDate, trailerType, setSearchParams]
   );
 
   const handleClear = useCallback(() => {
@@ -122,10 +122,24 @@ const LoadBoard: React.FC = () => {
   }, [setSearchParams]);
 
   const handleButtonClick = useCallback(() => {
-    const event = new Event('submit', { bubbles: true });
-    const form = document.querySelector('form');
+    const event = new Event("submit", { bubbles: true });
+    const form = document.querySelector("form");
     form?.dispatchEvent(event);
   }, []);
+
+  // Sort load cards by status
+  const confirmedLoadCards = filteredLoadCards.filter(
+    (load) => load.status === "Confirmed"
+  );
+  const pendingLoadCards = filteredLoadCards.filter(
+    (load) => load.status === "Pending"
+  );
+  const inTransitLoadCards = filteredLoadCards.filter(
+    (load) => load.status === "In Transit"
+  );
+  const deliveredLoadCards = filteredLoadCards.filter(
+    (load) => load.status === "Delivered"
+  );
 
   return (
     <div className="flex h-screen">
@@ -139,7 +153,7 @@ const LoadBoard: React.FC = () => {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="mb-2 md:mb-8">
+          <div className="mb-2 md:mb-8">
               <h3 className="text-lg font-semibold text-secondary mb-4">
                 PICK UP
               </h3>
@@ -245,7 +259,7 @@ const LoadBoard: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div className="text-center flex gap-4">
             <Button
               label="Search"
               size="large"
@@ -255,7 +269,6 @@ const LoadBoard: React.FC = () => {
               className="extra-class-for-medium-button"
               type={""}
             />
-
             <Button
               label="Clear"
               size="large"
@@ -266,39 +279,147 @@ const LoadBoard: React.FC = () => {
               type={""}
             />
           </div>
+        </form>
 
-          {/* <div>
-            <div className="flex justify-end">
-              <a href="#" className="text-blue-500 hover:underline">
-                Sort & Filter
-              </a>
-            </div>
-          </div> */}
-
-          <div className="mt-8 flex md:justify-end gap-8 text-secondary font-normal">
-            <p >Total Loads: {loadCards.length}</p>
-            <p>Filtered Loads: {filteredLoadCards.length}</p>
+        <div className="lg:mx-16 py-10 px-4 bg-light-grey rounded-lg">
+          <div className="tabs flex gap-4">
+            <button
+              className={`tab ${
+                activeTab === "Confirmed"
+                  ? "active bg-primary"
+                  : "bg-secondary hover:bg-primary"
+              } py-2 px-4 rounded text-white transition-all duration-300`}
+              onClick={() => setActiveTab("Confirmed")}
+            >
+              Confirmed
+            </button>
+            <button
+              className={`tab ${
+                activeTab === "Pending"
+                  ? "active bg-primary"
+                  : "bg-secondary hover:bg-primary"
+              } py-2 px-4 rounded text-white transition-all duration-300`}
+              onClick={() => setActiveTab("Pending")}
+            >
+              Pending
+            </button>
+            <button
+              className={`tab ${
+                activeTab === "In Transit"
+                  ? "active bg-primary"
+                  : "bg-secondary hover:bg-primary"
+              } py-2 px-4 rounded text-white transition-all duration-300`}
+              onClick={() => setActiveTab("In Transit")}
+            >
+              In Transit
+            </button>
+            <button
+              className={`tab ${
+                activeTab === "Delivered"
+                  ? "active bg-primary"
+                  : "bg-secondary hover:bg-primary"
+              } py-2 px-4 rounded text-white transition-all duration-300`}
+              onClick={() => setActiveTab("Delivered")}
+            >
+              Delivered
+            </button>
           </div>
 
-          {filteredLoadCards.map((load: any) => (
-            <LoadCard
-              key={load.id}
-              id={load.id}
-              pickUp={load.pickUp}
-              status={load.status}
-              drop={load.drop}
-              maxWeight={load.maxWeight}
-              companyName={load.companyName}
-              trailerType={load.trailerType}
-              distance={load.distance}
-              trailerSize={load.trailerSize}
-              commodity={load.commodity}
-              price={load.price}
-              pickupDate={load.pickupDate} // Pass pickUpDate here
-              onBookLoadClick={load.onBookLoadClick}
-            />
-          ))}
-        </form>
+          {/* Show count of searched load cards */}
+          <div className="text-center font-semibold text-lg text-primary mb-4">
+            {activeTab === "Confirmed"
+              ? `${confirmedLoadCards.length} Confirmed Loads Found`
+              : activeTab === "Pending"
+              ? `${pendingLoadCards.length} Pending Loads Found`
+              : activeTab === "In Transit"
+              ? `${inTransitLoadCards.length} In Transit Loads Found`
+              : `${deliveredLoadCards.length} Delivered Loads Found`}
+          </div>
+
+          <div className="load-cards mt-8">
+            {activeTab === "Confirmed" && confirmedLoadCards.length > 0 ? (
+              confirmedLoadCards.map((load) => (
+                <LoadCard
+                  key={load.id}
+                  id={load.id}
+                  pickUp={load.pickUp}
+                  status={load.status}
+                  drop={load.drop}
+                  maxWeight={load.maxWeight}
+                  companyName={load.companyName}
+                  trailerType={load.trailerType}
+                  distance={load.distance}
+                  trailerSize={load.trailerSize}
+                  commodity={load.commodity}
+                  price={load.price}
+                  pickupDate={load.pickupDate} // Pass pickUpDate here
+                  onBookLoadClick={load.onBookLoadClick}
+                />
+              ))
+            ) : activeTab === "Pending" && pendingLoadCards.length > 0 ? (
+              pendingLoadCards.map((load) => (
+                <LoadCard
+                  key={load.id}
+                  id={load.id}
+                  pickUp={load.pickUp}
+                  status={load.status}
+                  drop={load.drop}
+                  maxWeight={load.maxWeight}
+                  companyName={load.companyName}
+                  trailerType={load.trailerType}
+                  distance={load.distance}
+                  trailerSize={load.trailerSize}
+                  commodity={load.commodity}
+                  price={load.price}
+                  pickupDate={load.pickupDate} // Pass pickUpDate here
+                  onBookLoadClick={load.onBookLoadClick}
+                />
+              ))
+            ) : activeTab === "In Transit" && inTransitLoadCards.length > 0 ? (
+              inTransitLoadCards.map((load) => (
+                <LoadCard
+                  key={load.id}
+                  id={load.id}
+                  pickUp={load.pickUp}
+                  status={load.status}
+                  drop={load.drop}
+                  maxWeight={load.maxWeight}
+                  companyName={load.companyName}
+                  trailerType={load.trailerType}
+                  distance={load.distance}
+                  trailerSize={load.trailerSize}
+                  commodity={load.commodity}
+                  price={load.price}
+                  pickupDate={load.pickupDate} // Pass pickUpDate here
+                  onBookLoadClick={load.onBookLoadClick}
+                />
+              ))
+            ) : activeTab === "Delivered" && deliveredLoadCards.length > 0 ? (
+              deliveredLoadCards.map((load) => (
+                <LoadCard
+                  key={load.id}
+                  id={load.id}
+                  pickUp={load.pickUp}
+                  status={load.status}
+                  drop={load.drop}
+                  maxWeight={load.maxWeight}
+                  companyName={load.companyName}
+                  trailerType={load.trailerType}
+                  distance={load.distance}
+                  trailerSize={load.trailerSize}
+                  commodity={load.commodity}
+                  price={load.price}
+                  pickupDate={load.pickupDate} // Pass pickUpDate here
+                  onBookLoadClick={load.onBookLoadClick}
+                />
+              ))
+            ) : (
+              <div className="text-center text-lg font-semibold text-secondary mt-4">
+                No {activeTab} loads found
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
