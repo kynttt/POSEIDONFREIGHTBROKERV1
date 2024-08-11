@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faMoneyBill1Wave, faTruckFront, faCalendarDay, faBuilding, faBox, faRuler, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import Button from "../components/Button";
 // import QuoteRequestModal from '../components/QuoteRequestModal';
-import { fetchBookingDetails, bookQuote } from '../lib/apiCalls'; // Import API calls
+import { fetchBookingDetails } from '../lib/apiCalls'; // Import API calls
 
 
 interface ShipmentDetailsProps {
@@ -31,6 +31,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
 
   // Extract quoteId from location state
   const quoteId = location.state?.quoteId;
+  // console.log('Quote ID:', quoteId);
 
   useEffect(() => {
     if (quoteId) {
@@ -40,23 +41,23 @@ const ShipmentDetailsConfirmation: React.FC = () => {
     }
   }, [quoteId]);
 
-  const handleNextClick = () => {
-    if (data && quoteId) {
-      const token = localStorage.getItem('authToken');
-      bookQuote(quoteId, token || '')
-        .then(() => {
-          // Console log removed
-          navigate('/payment', { 
-            state: { 
-              price: data.price, 
-              origin: data.origin, 
-              destination: data.destination 
-            } 
-          });
-        })
-        .catch(error => console.error('Error creating booking:', error));
-    }
-  };
+  // const handleNextClick = () => {
+  //   if (data && quoteId) {
+  //     const token = localStorage.getItem('authToken');
+  //     bookQuote(quoteId, token || '')
+  //       .then(() => {
+  //         // Console log removed
+  //         navigate('/payment', { 
+  //           state: { 
+  //             price: data.price, 
+  //             origin: data.origin, 
+  //             destination: data.destination 
+  //           } 
+  //         });
+  //       })
+  //       .catch(error => console.error('Error creating booking:', error));
+  //   }
+  // };
   
   
 
@@ -178,12 +179,26 @@ const ShipmentDetailsConfirmation: React.FC = () => {
         </div>
 
         <div className="flex gap-8 lg:mt-16">
-          <Button
+        <Button
             label="Next"
             size="homeButton"
             bgColor="#252F70"
             fontStyle="normal"
-            onClick={handleNextClick} // Add onClick handler for the Next button
+            onClick={() => navigate('/payment', { 
+              state: { 
+                price: data.price, 
+                origin: data.origin, 
+                destination: data.destination,
+                pickupDate: data.pickupDate,
+                trailerType: data.trailerType,
+                trailerSize: data.trailerSize,
+                companyName: data.companyName,
+                commodity: data.commodity,
+                bolLink: data.bolLink,
+                packaging: data.packaging,
+                quote: quoteId,
+              } 
+            })}
             className="extra-class-for-medium-button"
             type=""
           />

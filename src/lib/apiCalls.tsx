@@ -194,27 +194,42 @@ export const fetchUserInvoices = async (userId: string, token: string) => {
 
 // Bookings
 // Book a quote
-export const bookQuote = async (quoteId: string, token: string) => {
-  const bookingData = {
-      quote: quoteId,
-  };
+interface BookingData {
+  quote: string;
+  origin: string;
+  destination: string;
+  pickupDate: string;
+  trailerType: string;
+  trailerSize: string;
+  companyName: string;
+  commodity: string;
+  bolLink: string;
+  packaging: string;
+  price: number;
+}
 
+export const bookQuote = async (bookingData: BookingData, token: string) => {
   try {
-      const response = await axios.post(`${API_BASE_URL}/bookings/`, bookingData, {
-          headers: {
-              Authorization: `Bearer ${token}`,
-          },
-      });
-      return response.data;
+    
+    
+    const response = await axios.post(`${API_BASE_URL}/bookings/`, bookingData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    
+    // console.log('Response:', response.data);
+    return response.data;
   } catch (error: unknown) {
-      if (error instanceof Error) {
-          console.error('Error booking:', error.message);
-      } else {
-          console.error('Unknown error occurred while booking');
-      }
-      throw error;
+    if (error instanceof Error) {
+      console.error('Error booking:', error.message);
+    } else {
+      console.error('Unknown error occurred while booking');
+    }
+    throw error;
   }
 };
+
 
 // Fetch User's Booking
 export const fetchUserBookings = async (token: string) => {

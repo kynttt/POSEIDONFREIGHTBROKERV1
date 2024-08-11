@@ -282,7 +282,7 @@ const LoadBoard: React.FC = () => {
         </form>
 
         <div className="lg:mx-16 py-10 px-4 bg-light-grey rounded-lg">
-          <div className="tabs flex gap-4">
+          <div className="tabs flex gap-2">
             <button
               className={`tab ${
                 activeTab === "Confirmed"
