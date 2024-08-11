@@ -98,7 +98,7 @@ export default function Stripe() {
         </div>
         <div className="w-1/4">
           <Elements stripe={stripePromise} options={options}>
-            <CheckoutForm price={price!} />
+            <CheckoutForm/>
           </Elements>
         </div>
       </div>
