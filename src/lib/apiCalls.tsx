@@ -287,6 +287,7 @@ interface BookingUpdate {
   notes?: string;
   packaging?: string;
   carrier?: string;
+  driver?: string;
   bol?: string;
   status?: string; // Add status field
   pickupTime?: string;
@@ -349,6 +350,7 @@ export const fetchBookingById = async (id: string) => {
       notes: quote.notes, // Assuming notes are part of booking
       packaging: quote.packaging, // Assuming packaging is part of booking
       carrier: booking.carrier, // Assuming carrier is part of booking
+      driver: booking.driver,
       bol: booking.bol, // Assuming bol is part of booking
       pickupTime: booking.pickupTime,
       deliveryTime: booking.deliveryTime

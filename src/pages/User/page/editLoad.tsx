@@ -26,6 +26,7 @@ interface BookingUpdate {
   notes?: string;
   packaging?: string;
   carrier?: string;
+  driver?: string;
   bol?: string;
   pickupTime?: string;
   deliveryTime?: string;
@@ -90,8 +91,8 @@ const EditLoad: React.FC = () => {
         "trailerSize",
         "maxWeight",
         "pickupDate",
-        ,
         "deliveryDate",
+  
       ].includes(field);
       const updateData: BookingUpdate = isQuoteField
         ? { quote: { [field]: formState[field] } }
@@ -174,7 +175,8 @@ const EditLoad: React.FC = () => {
         <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
           <div className="w-full lg:w-2/3">
             <div className="bg-white p-6 w-full max-w-screen-2xl mx-auto border-b">
-              <h1 className="text-2xl font-medium mb-8 mt-4 text-secondary">
+            <div className="md:flex items-center">
+              <h1 className="text-2xl font-medium  text-secondary mr-auto my-2">
                 Shipment Summary
               </h1>
               {booking.status === "Delivered" ? (
@@ -190,7 +192,7 @@ const EditLoad: React.FC = () => {
                     Mark as In-Transit
                   </button>
                   <button
-                    className="ml-4 text-white bg-red-500 px-4 py-2 rounded"
+                    className="ml-4 text-white bg-red-600 px-4 py-2 rounded"
                     onClick={(event) => handleConfirmBooking(event, "cancel")}
                   >
                     Cancel Confirm
@@ -205,7 +207,7 @@ const EditLoad: React.FC = () => {
                     Mark as Delivered
                   </button>
                   <button
-                    className="ml-4 text-white bg-red-500 px-4 py-2 rounded"
+                    className="ml-4 text-white bg-red-600 px-4 py-2 rounded"
                     onClick={(event) => handleConfirmBooking(event, "cancel")}
                   >
                     Cancel Transit
@@ -221,6 +223,7 @@ const EditLoad: React.FC = () => {
                   </button>
                 </>
               )}
+              </div>
             </div>
 
             {/* Pick Up Details */}
@@ -264,6 +267,7 @@ const EditLoad: React.FC = () => {
                   >
                     Appointment
                   </label>
+                  <div className="flex gap-2 items-center">
                   {editingField.pickupDate ? (
                     <input
                       type="datetime-local"
@@ -285,8 +289,9 @@ const EditLoad: React.FC = () => {
                         : toggleEdit("pickupDate")
                     }
                   >
-                    {editingField.pickupDate ? "Save" : "Edit"}
+                    {editingField.pickupDate ? "Save" : "Schedule"}
                   </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -334,6 +339,7 @@ const EditLoad: React.FC = () => {
                   >
                     Appointment
                   </label>
+                  <div className="flex gap-2 items-center">
                   {editingField.deliveryDate ? (
                     <input
                       type="datetime-local"
@@ -344,7 +350,7 @@ const EditLoad: React.FC = () => {
                     />
                   ) : (
                     <p className="text-secondary text-sm font-medium">
-                      {new Date(booking.deliveryDate).toLocaleString()}
+                      {booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleString() : 'TBA'}
                     </p>
                   )}
                   <button
@@ -355,8 +361,9 @@ const EditLoad: React.FC = () => {
                         : toggleEdit("deliveryDate")
                     }
                   >
-                    {editingField.deliveryDate ? "Save" : "Edit"}
+                    {editingField.deliveryDate ? "Save" : "Schedule"}
                   </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -443,7 +450,7 @@ const EditLoad: React.FC = () => {
           </div>
 
           {/* Carrier */}
-          <div className="w-full md:w-1/3 lg:mt-32">
+          <div className="w-full md:w-1/3 lg:mt-24">
             <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto">
               <h2 className="text-xl mb-4 text-secondary">Carrier</h2>
               <div className="flex flex-col sm:flex-row mb-4">

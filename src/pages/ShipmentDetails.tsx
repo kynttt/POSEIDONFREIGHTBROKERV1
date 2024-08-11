@@ -116,7 +116,7 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-base  " htmlFor="appointment">
                                         Appointment <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{new Date(booking.pickupDate).toLocaleString()}</p>
+                                    <p className='text-secondary text-sm font-medium'>{booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleString() : 'TBA'}</p>
                                 </div>
                             </div>
 
@@ -172,14 +172,14 @@ const ShipmentDetails: React.FC = () => {
                             <div className="flex flex-col sm:flex-row mb-4 border-b py-4">
                                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                                     <label className="block text-primary text-sm font-bold " htmlFor="customerReference">
-                                        Carrier Name <span className="text-red-600">*</span>
+                                        Carrier Name
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>{booking.carrier || 'N/A'}</p>
+                                    <p className='text-secondary text-base font-medium'>{booking.carrier || 'TBA'}</p>
 
                                     <label className="block text-primary text-sm font-bold " htmlFor="commodity">
                                         Driver
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>{booking.commodity}</p>
+                                    <p className='text-secondary text-base font-medium'>{booking.driver || 'TBA'}</p>
                                 </div>
                             </div>
 
@@ -187,9 +187,9 @@ const ShipmentDetails: React.FC = () => {
                             <div className="flex flex-col sm:flex-row mb-4 border-b">
                                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                                     <label className="block text-primary text-sm font-bold" htmlFor="customerReference">
-                                        Base Rate <span className="text-red-600">*</span>
+                                        Base Rate 
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>{booking.price || 'N/A'}</p>
+                                    <p className='text-secondary text-base font-medium'>$ {booking.price || 'N/A'}</p>
 
                                     <label className="block text-primary text-sm font-bold " htmlFor="commodity">
                                         Distance

@@ -328,12 +328,12 @@ const LoadBoard: React.FC = () => {
           {/* Show count of searched load cards */}
           <div className="text-center font-semibold text-lg text-primary mb-4">
             {activeTab === "Confirmed"
-              ? `${confirmedLoadCards.length} Confirmed Loads Found`
+              ? `${confirmedLoadCards.length} Confirmed Load(s) Found`
               : activeTab === "Pending"
-              ? `${pendingLoadCards.length} Pending Loads Found`
+              ? `${pendingLoadCards.length} Pending Load(s) Found`
               : activeTab === "In Transit"
-              ? `${inTransitLoadCards.length} In Transit Loads Found`
-              : `${deliveredLoadCards.length} Delivered Loads Found`}
+              ? `${inTransitLoadCards.length} In Transit Load(s) Found`
+              : `${deliveredLoadCards.length} Delivered Load(s) Found`}
           </div>
 
           <div className="load-cards mt-8">
