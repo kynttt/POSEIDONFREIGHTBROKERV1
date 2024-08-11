@@ -111,7 +111,7 @@ const EditLoad: React.FC = () => {
   };
 
   const handleConfirmBooking = async (
-    event: React.MouseEvent<HTMLButtonElement>,
+    _event: React.MouseEvent<HTMLButtonElement>,
     action = "default"
   ) => {
     try {
