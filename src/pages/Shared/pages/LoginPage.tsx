@@ -1,14 +1,14 @@
 // LoginPage.tsx
 
 import React, { useState } from "react";
-import signupImage from "../assets/img/DeliveredPackage.gif";
-import appleIcon from "../assets/img/apple.png";
-import googleIcon from "../assets/img/googleicon.png";
-import Button from "../components/Button";
+import signupImage from "../../../assets/img/DeliveredPackage.gif";
+import appleIcon from "../../../assets/img/apple.png";
+import googleIcon from "../../../assets/img/googleicon.png";
+import Button from "../../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { useAuthStore } from "../state/useAuthStore";
-import { loginUser } from "../lib/apiCalls";
+import { useAuthStore } from "../../../state/useAuthStore";
+import { loginUser } from "../../../lib/apiCalls";
 import axios from "axios";
 
 interface DecodedToken {

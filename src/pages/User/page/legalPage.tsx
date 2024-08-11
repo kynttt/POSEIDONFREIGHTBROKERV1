@@ -9,11 +9,11 @@ import {
   faList,
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
-import SideBar from "../components/SideBar";
-import { useAuthStore } from '../state/useAuthStore';
-import Folder from "../components/LegalFolder";
-import foldersData from "../components/legalFolders.json";
-import filesData from "../components/legalFiles.json";
+import SideBar from "../../../components/SideBar";
+import { useAuthStore } from '../../../state/useAuthStore';
+import Folder from "../../../components/LegalFolder";
+import foldersData from "../../../components/legalFolders.json";
+import filesData from "../../../components/legalFiles.json";
 
 const LegalPage = () => {
   const { isAuthenticated } = useAuthStore();

@@ -1,26 +1,26 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/landingPage";
+import LandingPage from "./pages/Shared/pages/landingPage";
 import SignUpPage from "./pages/signupPage";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/Shared/pages/LoginPage";
 // import QuoteDetails from './pages/QuoteDetails';
 import TrailerOptionsPage from "./pages/TrailerOptionsPage";
-import LoadBoard from "./pages/LoadBoard";
+import LoadBoard from "./pages/User/page/LoadBoard";
 import NonBusinessPage from "./pages/NonBusinessEmail";
 import BookingConfirmation from "./pages/bookingSuccessful";
 import UserPayables from "./pages/userDashboard";
-import BillOfLadingPage from "./pages/billOfLanding";
+import BillOfLadingPage from "./pages/User/page/billOfLanding";
 // import DispatchDetails from './pages/dispatchDetails';
 import PaymentOptionPage from "./pages/paymentOptionPage";
 import ReportDetails from "./pages/reportDetails";
-import NotFound from "./pages/NotFound";
+import NotFound from "./pages/Shared/pages/NotFound";
 import Invoice from "./components/Invoice";
-import LegalPage from "./pages/legalPage";
+import LegalPage from "./pages/User/page/legalPage";
 import AdminDashboard from "./pages/User/page/AdminDashboard";
 import DistanceCalculator from "./components/googleMap/GoogleMapsComponent";
 import Profile from "./pages/profile";
 import AccountingReports from "./pages/accountingReport";
-import AccountingPayment from "./pages/accountingPayment";
+import AccountingPayment from "./pages/User/page/accountingPayment";
 import ShipperDashboard from "./pages/ShipperUser/components/shipperDashboard";
 import PerformanceOverview from "./pages/performanceGrade";
 import ShipmentDetailsConfirmation from "./pages/shipmentDetailsConfirmation";
@@ -31,7 +31,7 @@ import ShipmentDetails from "./pages/ShipmentDetails";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Stripe from "./components/stripe/Stripe";
-import EditLoad from "./pages/editLoad";
+import EditLoad from "./pages/User/page/editLoad";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,

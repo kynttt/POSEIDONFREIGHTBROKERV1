@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import paymentsData from "../pages/accountingPaymentsData.json"; // Import JSON data
+import paymentsData from "../pages/User/page/accountingPaymentsData.json"; // Import JSON data
 
 const PaymentCard: React.FC = () => {
   const [tableData, setTableData] = useState<any[]>([]); // State to hold table data
