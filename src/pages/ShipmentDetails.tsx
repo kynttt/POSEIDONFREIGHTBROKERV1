@@ -13,12 +13,12 @@ const ShipmentDetails: React.FC = () => {
     const [booking, setBooking] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
-    const truncateText = (text: string, maxLength: number): string => {
-        if (text.length <= maxLength) {
-            return text;
-        }
-        return `${text.slice(0, maxLength)}...`;
-    };
+    // const truncateText = (text: string, maxLength: number): string => {
+    //     if (text.length <= maxLength) {
+    //         return text;
+    //     }
+    //     return `${text.slice(0, maxLength)}...`;
+    // };
 
     const convertTo12HourFormat = (time: string) => {
         const [hours, minutes] = time.split(':');
@@ -171,7 +171,7 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-base font-bold " htmlFor="weight">
                                         Weight
                                     </label>
-                                    <p className='text-gray-500 text-sm font-medium'>{booking.maxWeight}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.maxWeight} lb</p>
 
                                     <label className="block text-primary text-base font-bold mt-2" htmlFor="total">
                                         Truck Type
