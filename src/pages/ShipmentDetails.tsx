@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchBookingDetails } from '../lib/apiCalls';
+import { fetchBookingById } from '../lib/apiCalls';
 
 import SideBar from '../components/SideBar';
 import { useAuthStore } from '../state/useAuthStore';
@@ -20,6 +20,17 @@ const ShipmentDetails: React.FC = () => {
         return `${text.slice(0, maxLength)}...`;
     };
 
+    const convertTo12HourFormat = (time: string) => {
+        const [hours, minutes] = time.split(':');
+        let hour = parseInt(hours);
+        const period = hour >= 12 ? 'PM' : 'AM';
+
+        hour = hour % 12 || 12; // Convert '0' hour to '12' and make sure '12' remains '12'
+
+        return `${hour}:${minutes} ${period}`;
+    };
+
+
     useEffect(() => {
         const fetchBookingDetail = async () => {
             try {
@@ -28,7 +39,7 @@ const ShipmentDetails: React.FC = () => {
                     return;
                 }
 
-                const bookingData = await fetchBookingDetails(id);
+                const bookingData = await fetchBookingById(id);
                 setBooking(bookingData);
                 setLoading(false);
             } catch (error) {
@@ -84,7 +95,10 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-base  " htmlFor="appointment">
                                         Appointment <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{new Date(booking.pickupDate).toLocaleString()}</p>
+                                    <p className="text-secondary text-sm font-medium">
+                                        {booking.pickupDate ? new Date(booking.pickupDate).toLocaleDateString() : 'TBA'},
+                                        {booking.pickupTime ? convertTo12HourFormat(booking.pickupTime) : '08:00am - 03:00pm'}
+                                    </p>
                                 </div>
                             </div>
 
@@ -116,11 +130,15 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-base  " htmlFor="appointment">
                                         Appointment <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleString() : 'TBA'}</p>
+                                    <p className="text-secondary text-sm font-medium">
+                                        {booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleDateString() : 'TBA'},
+                                        {booking.deliveryTime ? convertTo12HourFormat(booking.deliveryTime) : '08:00am - 03:00pm'}
+                                    </p>
+
                                 </div>
                             </div>
 
-                            
+
                         </div>
 
                         {/* Additional Shipment Details */}
@@ -139,14 +157,14 @@ const ShipmentDetails: React.FC = () => {
                                     <p className='text-secondary text-sm font-medium'>{booking.commodity}</p>
 
                                     <label className="block text-primary text-base font-bold mt-2" htmlFor="packaging">
-                                        Packaging 
+                                        Packaging
                                     </label>
                                     <p className='text-secondary text-sm font-medium'>{booking.packaging || 'TBA'}</p>
                                     <label className="block text-primary text-base mt-2" htmlFor="notes">
                                         Additional Notes
                                     </label>
                                     <p className='text-secondary text-sm font-medium'>{booking.notes || 'N/A'}</p>
-                            
+
                                 </div>
 
                                 <div className="w-full sm:w-1/2">
@@ -187,7 +205,7 @@ const ShipmentDetails: React.FC = () => {
                             <div className="flex flex-col sm:flex-row mb-4 border-b">
                                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                                     <label className="block text-primary text-sm font-bold" htmlFor="customerReference">
-                                        Base Rate 
+                                        Base Rate
                                     </label>
                                     <p className='text-secondary text-base font-medium'>$ {booking.price || 'N/A'}</p>
 
