@@ -13,12 +13,12 @@ const ShipmentDetails: React.FC = () => {
     const [booking, setBooking] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
-    const truncateText = (text: string, maxLength: number): string => {
-        if (text.length <= maxLength) {
-            return text;
-        }
-        return `${text.slice(0, maxLength)}...`;
-    };
+    // const truncateText = (text: string, maxLength: number): string => {
+    //     if (text.length <= maxLength) {
+    //         return text;
+    //     }
+    //     return `${text.slice(0, maxLength)}...`;
+    // };
 
     const convertTo12HourFormat = (time: string) => {
         const [hours, minutes] = time.split(':');
