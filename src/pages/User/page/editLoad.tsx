@@ -46,6 +46,15 @@ const EditLoad: React.FC = () => {
   const [formState, setFormState] = useState<any>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [editedFields, setEditedFields] = useState({
+    deliveryTime: false,
+    pickupTime: false,
+    deliveryDate: false,
+    carrier: false,
+    driver: false,
+  });
+  
+
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
@@ -73,14 +82,20 @@ const EditLoad: React.FC = () => {
     }));
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+    const { name, value } = e.target;
+    setFormState((prevState: any) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  
+    // Mark the field as edited
+    setEditedFields((prevEditedFields) => ({
+      ...prevEditedFields,
+      [name]: true,
+    }));
   };
+  
 
   const handleSave = async (field: string) => {
     try {
@@ -158,15 +173,15 @@ const EditLoad: React.FC = () => {
 
   if (!booking) return <p className="text-gray-500">No booking found.</p>;
 
-  const truncateText = (text: string | undefined, maxLength: number) => {
-    if (!text) {
-      return ""; // Return an empty string if text is undefined or null
-    }
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
-    }
-    return text;
-  };
+  // const truncateText = (text: string | undefined, maxLength: number) => {
+  //   if (!text) {
+  //     return ""; // Return an empty string if text is undefined or null
+  //   }
+  //   if (text.length > maxLength) {
+  //     return text.slice(0, maxLength) + "...";
+  //   }
+  //   return text;
+  // };
 
   return (
     <div className="flex h-screen">
@@ -216,11 +231,14 @@ const EditLoad: React.FC = () => {
                 ) : (
                   <>
                     <button
-                      className="text-sm ml-4 text-white bg-blue-600 px-4 py-2 rounded"
-                      onClick={(event) => handleConfirmBooking(event)}
-                    >
-                      Confirm Booking
-                    </button>
+  className={`px-4 py-2 bg-blue-600 text-white rounded ${
+    Object.values(editedFields).every((field) => field) ? "" : "opacity-50 cursor-not-allowed"
+  }`}
+  onClick={handleConfirmBooking}
+  disabled={!Object.values(editedFields).every((field) => field)}
+>
+  Confirm Booking
+</button>
                   </>
                 )}
               </div>
@@ -281,6 +299,7 @@ const EditLoad: React.FC = () => {
                         {new Date(booking.pickupDate).toLocaleDateString()}
                       </p>
                     )}
+                    {booking.status === "Pending" && (
                     <button
                       className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
                       onClick={() =>
@@ -291,6 +310,7 @@ const EditLoad: React.FC = () => {
                     >
                       {editingField.pickupDate ? "Save" : "Edit Date"}
                     </button>
+                    )}
                   </div>
                 </div>
 
@@ -299,7 +319,7 @@ const EditLoad: React.FC = () => {
                       className="block text-primary text-base"
                       htmlFor="pickupTime"
                     >
-                      Delivery Time <span className="text-red-600">*</span>
+                      Pick Up Time <span className="text-red-600">*</span>
                     </label>
                     <div className="flex gap-2 items-center">
                       {editingField.pickupTime ? (
@@ -317,6 +337,7 @@ const EditLoad: React.FC = () => {
                             : 'TBA'}
                         </p>
                       )}
+                      {booking.status === "Pending" && (
                       <button
                         className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
                         onClick={() =>
@@ -327,6 +348,7 @@ const EditLoad: React.FC = () => {
                       >
                         {editingField.pickupTime ? "Save" : "Edit Time"}
                       </button>
+                      )}
                     </div>
                   </div>
 
@@ -336,7 +358,7 @@ const EditLoad: React.FC = () => {
             <hr className="border-t lg:border-1 w-full max-w-screen-2xl mx-auto hidden md:block" />
 
             {/* Delivery Details */}
-            <div className="bg-white p-6 w-full max-w-screen-2xl mx-auto border-b">
+            <div className="bg-white p-6 w-full max-w-screen-2xl mx-auto ">
               <h2 className="text-xl mb-4 text-secondary">Delivery Details</h2>
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
@@ -362,7 +384,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-gray-500 text-sm font-medium">
-                      {truncateText(booking.destination, 30)}
+                      {booking.destination}
                     </p>
                   </div>
                 </div>
@@ -390,6 +412,7 @@ const EditLoad: React.FC = () => {
                         {booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleDateString() : 'TBA'}
                       </p>
                     )}
+                    {booking.status === "Pending" && (
                     <button
                       className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
                       onClick={() =>
@@ -400,6 +423,7 @@ const EditLoad: React.FC = () => {
                     >
                       {editingField.deliveryDate ? "Save" : "Edit Date"}
                     </button>
+                    )}
                   </div>
                 </div>
 
@@ -427,6 +451,7 @@ const EditLoad: React.FC = () => {
                             : 'TBA'}
                         </p>
                       )}
+                      {booking.status === "Pending" && (
                       <button
                         className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
                         onClick={() =>
@@ -437,6 +462,7 @@ const EditLoad: React.FC = () => {
                       >
                         {editingField.deliveryTime ? "Save" : "Edit Time"}
                       </button>
+                      )}
                     </div>
                   </div>
                 
@@ -501,7 +527,7 @@ const EditLoad: React.FC = () => {
                     Weight
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.maxWeight}
+                    {booking.maxWeight} lb
                   </p>
 
                   <label
@@ -528,8 +554,8 @@ const EditLoad: React.FC = () => {
           </div>
 
           {/* Carrier */}
-          <div className="w-full md:w-1/3 lg:mt-24">
-            <div className=" p-6 w-full max-w-screen-2xl mx-auto">
+          <div className="w-full md:w-1/3 lg:mt-24 ">
+            <div className="px-6 md:px-6 md:pt-2 w-full max-w-screen-2xl mx-auto border-b">
               <h2 className="text-xl mb-4 text-secondary">Carrier</h2>
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
@@ -552,6 +578,7 @@ const EditLoad: React.FC = () => {
                       {booking.carrier}
                     </p>
                   )}
+                  {booking.status === "Pending" && (
                   <button
                     className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
                     onClick={() =>
@@ -562,6 +589,7 @@ const EditLoad: React.FC = () => {
                   >
                     {editingField.carrier ? "Save" : "Edit Carrier"}
                   </button>
+                  )}
                 </div>
 
                 <div className="w-full sm:w-1/2 sm:pl-2">
@@ -584,6 +612,7 @@ const EditLoad: React.FC = () => {
                       {booking.driver}
                     </p>
                   )}
+                  {booking.status === "Pending" && (
                   <button
                     className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
                     onClick={() =>
@@ -594,6 +623,7 @@ const EditLoad: React.FC = () => {
                   >
                     {editingField.driver ? "Save" : "Edit Driver"}
                   </button>
+                  )}
                 </div>
               </div>
 
