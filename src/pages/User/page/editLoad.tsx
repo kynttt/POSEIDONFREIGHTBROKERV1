@@ -92,7 +92,7 @@ const EditLoad: React.FC = () => {
         "maxWeight",
         "pickupDate",
         "deliveryDate",
-  
+
       ].includes(field);
       const updateData: BookingUpdate = isQuoteField
         ? { quote: { [field]: formState[field] } }
@@ -117,7 +117,7 @@ const EditLoad: React.FC = () => {
   ) => {
     try {
       if (!id) return;
-  
+
       let newStatus = "";
       if (action === "cancel" && booking.status === "In Transit") {
         newStatus = "Confirmed"; // Revert to Confirmed status when canceling transit
@@ -136,14 +136,14 @@ const EditLoad: React.FC = () => {
             newStatus = "Confirmed";
         }
       }
-  
+
       await updateBookingDetails(id, { status: newStatus });
-  
+
       setBooking((prevBooking: any) => ({
         ...prevBooking,
         status: newStatus,
       }));
-  
+
       if (newStatus === "Confirmed") {
         setIsModalOpen(true); // Open the modal only if confirming the booking
       }
@@ -151,7 +151,7 @@ const EditLoad: React.FC = () => {
       console.error("Error updating booking status:", error);
     }
   };
-  
+
 
   if (loading)
     return <p className="text-gray-500">Loading booking details...</p>;
@@ -175,54 +175,54 @@ const EditLoad: React.FC = () => {
         <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
           <div className="w-full lg:w-2/3">
             <div className="bg-white p-6 w-full max-w-screen-2xl mx-auto border-b">
-            <div className="md:flex items-center">
-              <h1 className="text-2xl font-medium  text-secondary mr-auto my-2">
-                Shipment Summary
-              </h1>
-              {booking.status === "Delivered" ? (
-                <h2 className="text-2xl font-medium text-price">
-                  Successfully delivered!
-                </h2>
-              ) : booking.status === "Confirmed" ? (
-                <>
-                  <button
-                    className="ml-4 text-white bg-orange-500 px-4 py-2 rounded"
-                    onClick={(event) => handleConfirmBooking(event)}
-                  >
-                    Mark as In-Transit
-                  </button>
-                  <button
-                    className="ml-4 text-white bg-red-600 px-4 py-2 rounded"
-                    onClick={(event) => handleConfirmBooking(event, "cancel")}
-                  >
-                    Cancel Confirm
-                  </button>
-                </>
-              ) : booking.status === "In Transit" ? (
-                <>
-                  <button
-                    className="ml-4 text-white bg-price px-4 py-2 rounded"
-                    onClick={(event) => handleConfirmBooking(event)}
-                  >
-                    Mark as Delivered
-                  </button>
-                  <button
-                    className="ml-4 text-white bg-red-600 px-4 py-2 rounded"
-                    onClick={(event) => handleConfirmBooking(event, "cancel")}
-                  >
-                    Cancel Transit
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    className="ml-4 text-white bg-blue-600 px-4 py-2 rounded"
-                    onClick={(event) => handleConfirmBooking(event)}
-                  >
-                    Confirm Booking
-                  </button>
-                </>
-              )}
+              <div className="md:flex items-center">
+                <h1 className="text-2xl font-medium  text-secondary mr-auto my-2">
+                  Shipment Summary
+                </h1>
+                {booking.status === "Delivered" ? (
+                  <h2 className="text-2xl font-medium text-price">
+                    Successfully delivered!
+                  </h2>
+                ) : booking.status === "Confirmed" ? (
+                  <>
+                    <button
+                      className="ml-4 text-white bg-orange-500 px-4 py-2 rounded"
+                      onClick={(event) => handleConfirmBooking(event)}
+                    >
+                      Mark as In-Transit
+                    </button>
+                    <button
+                      className="ml-4 text-white bg-red-600 px-4 py-2 rounded"
+                      onClick={(event) => handleConfirmBooking(event, "cancel")}
+                    >
+                      Cancel Confirm
+                    </button>
+                  </>
+                ) : booking.status === "In Transit" ? (
+                  <>
+                    <button
+                      className="ml-4 text-white bg-price px-4 py-2 rounded"
+                      onClick={(event) => handleConfirmBooking(event)}
+                    >
+                      Mark as Delivered
+                    </button>
+                    <button
+                      className="ml-4 text-white bg-red-600 px-4 py-2 rounded"
+                      onClick={(event) => handleConfirmBooking(event, "cancel")}
+                    >
+                      Cancel Transit
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="ml-4 text-white bg-blue-600 px-4 py-2 rounded"
+                      onClick={(event) => handleConfirmBooking(event)}
+                    >
+                      Confirm Booking
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -268,31 +268,68 @@ const EditLoad: React.FC = () => {
                     Appointment
                   </label>
                   <div className="flex gap-2 items-center">
-                  {editingField.pickupDate ? (
-                    <input
-                      type="datetime-local"
-                      name="pickupDate"
-                      value={formState.pickupDate}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded"
-                    />
-                  ) : (
-                    <p className="text-secondary text-sm font-medium">
-                      {new Date(booking.pickupDate).toLocaleString()}
-                    </p>
-                  )}
-                  <button
-                    className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                    onClick={() =>
-                      editingField.pickupDate
-                        ? handleSave("pickupDate")
-                        : toggleEdit("pickupDate")
-                    }
-                  >
-                    {editingField.pickupDate ? "Save" : "Schedule"}
-                  </button>
+                    {editingField.pickupDate ? (
+                      <input
+                        type="date"
+                        name="pickupDate"
+                        value={formState.pickupDate}
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded"
+                      />
+                    ) : (
+                      <p className="text-secondary text-sm font-medium">
+                        {new Date(booking.pickupDate).toLocaleDateString()}
+                      </p>
+                    )}
+                    <button
+                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                      onClick={() =>
+                        editingField.pickupDate
+                          ? handleSave("pickupDate")
+                          : toggleEdit("pickupDate")
+                      }
+                    >
+                      {editingField.pickupDate ? "Save" : "Schedule"}
+                    </button>
                   </div>
                 </div>
+
+                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+                    <label
+                      className="block text-primary text-base"
+                      htmlFor="pickupTime"
+                    >
+                      Delivery Time <span className="text-red-600">*</span>
+                    </label>
+                    <div className="flex gap-2 items-center">
+                      {editingField.pickupTime ? (
+                        <input
+                          type="time"
+                          name="pickupTime"
+                          value={formState.pickupTime || ''}
+                          onChange={handleChange}
+                          className="w-full p-2 border border-gray-300 rounded"
+                        />
+                      ) : (
+                        <p className="text-secondary text-sm font-medium">
+                          {booking.pickupTime
+                            ? new Date(`1970-01-01T${booking.pickupTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                            : 'TBA'}
+                        </p>
+                      )}
+                      <button
+                        className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                        onClick={() =>
+                          editingField.pickupTime
+                            ? handleSave("pickupTime")
+                            : toggleEdit("pickupTime")
+                        }
+                      >
+                        {editingField.pickupTime ? "Save" : "Schedule"}
+                      </button>
+                    </div>
+                  </div>
+
               </div>
             </div>
 
@@ -337,35 +374,76 @@ const EditLoad: React.FC = () => {
                     className="block text-primary text-base"
                     htmlFor="deliveryDate"
                   >
-                    Appointment
+                    Appointment <span className="text-red-600">*</span>
                   </label>
                   <div className="flex gap-2 items-center">
-                  {editingField.deliveryDate ? (
-                    <input
-                      type="datetime-local"
-                      name="deliveryDate"
-                      value={formState.deliveryDate}
-                      onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded"
-                    />
-                  ) : (
-                    <p className="text-secondary text-sm font-medium">
-                      {booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleString() : 'TBA'}
-                    </p>
-                  )}
-                  <button
-                    className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                    onClick={() =>
-                      editingField.deliveryDate
-                        ? handleSave("deliveryDate")
-                        : toggleEdit("deliveryDate")
-                    }
-                  >
-                    {editingField.deliveryDate ? "Save" : "Schedule"}
-                  </button>
+                    {editingField.deliveryDate ? (
+                      <input
+                        type="date"
+                        name="deliveryDate"
+                        value={formState.deliveryDate}
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded"
+                      />
+                    ) : (
+                      <p className="text-secondary text-sm font-medium">
+                        {booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleDateString() : 'TBA'}
+                      </p>
+                    )}
+                    <button
+                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                      onClick={() =>
+                        editingField.deliveryDate
+                          ? handleSave("deliveryDate")
+                          : toggleEdit("deliveryDate")
+                      }
+                    >
+                      {editingField.deliveryDate ? "Save" : "Schedule"}
+                    </button>
                   </div>
                 </div>
+
+                
+                  <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+                    <label
+                      className="block text-primary text-base"
+                      htmlFor="deliveryTime"
+                    >
+                      Delivery Time <span className="text-red-600">*</span>
+                    </label>
+                    <div className="flex gap-2 items-center">
+                      {editingField.deliveryTime ? (
+                        <input
+                          type="time"
+                          name="deliveryTime"
+                          value={formState.deliveryTime || ''}
+                          onChange={handleChange}
+                          className="w-full p-2 border border-gray-300 rounded"
+                        />
+                      ) : (
+                        <p className="text-secondary text-sm font-medium">
+                          {booking.deliveryTime
+                            ? new Date(`1970-01-01T${booking.deliveryTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                            : 'TBA'}
+                        </p>
+                      )}
+                      <button
+                        className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                        onClick={() =>
+                          editingField.deliveryTime
+                            ? handleSave("deliveryTime")
+                            : toggleEdit("deliveryTime")
+                        }
+                      >
+                        {editingField.deliveryTime ? "Save" : "Schedule"}
+                      </button>
+                    </div>
+                  </div>
+                
               </div>
+
+              
+
             </div>
 
             <hr className="border-t lg:border-1 w-full max-w-screen-2xl mx-auto hidden md:block" />
@@ -459,7 +537,7 @@ const EditLoad: React.FC = () => {
                     className="block text-primary text-base"
                     htmlFor="carrier"
                   >
-                    Carrier Name
+                    Carrier Name <span className="text-red-600">*</span>
                   </label>
                   {editingField.carrier ? (
                     <input
@@ -491,7 +569,7 @@ const EditLoad: React.FC = () => {
                     className="block text-primary text-base"
                     htmlFor="driver"
                   >
-                    Driver
+                    Driver <span className="text-red-600">*</span>
                   </label>
                   {editingField.driver ? (
                     <input

@@ -114,9 +114,12 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                     <span className='text-gray-500 mr-2'>
                       <FontAwesomeIcon icon={faCalendarDay} />
                     </span>
-                    Date & Time
+                    Date
                   </h4>
-                  <p className='text-gray-500 py-4 font-medium'>{data.pickupDate}</p>
+                  <p className="text-gray-500 py-4 font-medium">
+  {data.pickupDate ? new Date(data.pickupDate).toLocaleDateString() : 'TBA'}
+</p>
+
                 </div>
                 <div>
                   <h4 className="font-medium text-secondary">
