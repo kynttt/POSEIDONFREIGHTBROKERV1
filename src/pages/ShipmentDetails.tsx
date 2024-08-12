@@ -4,8 +4,10 @@ import { fetchBookingById } from '../lib/apiCalls';
 
 import SideBar from '../components/SideBar';
 import { useAuthStore } from '../state/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 const ShipmentDetails: React.FC = () => {
+    const navigate = useNavigate();
     const { id } = useParams<{ id: string }>(); // Get the id from the URL
     // const navigate = useNavigate();
     const { isAuthenticated } = useAuthStore(); // Use useAuth hook to get isAuthenticated
@@ -50,6 +52,10 @@ const ShipmentDetails: React.FC = () => {
 
         fetchBookingDetail();
     }, [id]);
+
+    const handleViewBillOfLading = (id: string) => {
+        navigate(`/bol/${id}`);
+      };
 
     // const handleConfirmBooking = () => {
     //     navigate('/booking-successful');
@@ -219,9 +225,9 @@ const ShipmentDetails: React.FC = () => {
                             <h2 className="text-xl mb-2 text-secondary">Documents</h2>
                             <div className="flex flex-col sm:flex-row mb-4 border-b py-4">
                                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                                    <label className="block text-primary text-sm font-bold " htmlFor="customerReference">
+                                    <button onClick={() => handleViewBillOfLading('some-booking-id')} className="block text-primary text-sm font-bold " >
                                         Bill of Lading (BOL) <span className="text-red-600">*</span>
-                                    </label>
+                                    </button>
                                     <p className='text-gray-500 text-base font-medium'>{booking.bol || 'N/A'}</p>
                                 </div>
                             </div>

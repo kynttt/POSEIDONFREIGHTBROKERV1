@@ -32,6 +32,7 @@ import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Stripe from "./components/stripe/Stripe";
 import EditLoad from "./pages/User/page/editLoad";
+import Bol from "./pages/Shared/pages/bol";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -135,6 +136,12 @@ const App: React.FC = () => {
             path="/accounting-payment"
             element={
               <PrivateRoute element={<AccountingPayment />} roles={["admin"]} />
+            }
+          />
+          <Route
+            path="/bol"
+            element={
+              <PrivateRoute element={<Bol />}  />
             }
           />
           <Route
