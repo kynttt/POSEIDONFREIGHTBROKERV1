@@ -186,28 +186,28 @@ const EditLoad: React.FC = () => {
                 ) : booking.status === "Confirmed" ? (
                   <>
                     <button
-                      className="ml-4 text-white bg-orange-500 px-4 py-2 rounded"
+                      className="text-sm ml-4 text-white bg-orange-500 px-4 py-2 rounded"
                       onClick={(event) => handleConfirmBooking(event)}
                     >
                       Mark as In-Transit
                     </button>
                     <button
-                      className="ml-4 text-white bg-red-600 px-4 py-2 rounded"
+                      className="text-sm ml-4 text-white bg-red-600 px-4 py-2 rounded"
                       onClick={(event) => handleConfirmBooking(event, "cancel")}
                     >
-                      Cancel Confirm
+                      Cancel Confirmation
                     </button>
                   </>
                 ) : booking.status === "In Transit" ? (
                   <>
                     <button
-                      className="ml-4 text-white bg-price px-4 py-2 rounded"
+                      className="text-sm ml-4 text-white bg-price px-4 py-2 rounded"
                       onClick={(event) => handleConfirmBooking(event)}
                     >
                       Mark as Delivered
                     </button>
                     <button
-                      className="ml-4 text-white bg-red-600 px-4 py-2 rounded"
+                      className="text-sm ml-4 text-white bg-red-600 px-4 py-2 rounded"
                       onClick={(event) => handleConfirmBooking(event, "cancel")}
                     >
                       Cancel Transit
@@ -216,7 +216,7 @@ const EditLoad: React.FC = () => {
                 ) : (
                   <>
                     <button
-                      className="ml-4 text-white bg-blue-600 px-4 py-2 rounded"
+                      className="text-sm ml-4 text-white bg-blue-600 px-4 py-2 rounded"
                       onClick={(event) => handleConfirmBooking(event)}
                     >
                       Confirm Booking
@@ -227,7 +227,7 @@ const EditLoad: React.FC = () => {
             </div>
 
             {/* Pick Up Details */}
-            <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto">
+            <div className=" p-6 w-full max-w-screen-2xl mx-auto">
               <h2 className="text-xl mb-4 text-secondary">Pick Up Details</h2>
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
@@ -238,13 +238,13 @@ const EditLoad: React.FC = () => {
                     Facility / Company Name
                   </label>
                   <div>
-                    <p className="text-secondary text-sm font-medium">
+                    <p className="text-gray-500 text-sm font-medium">
                       {booking.companyName}
                     </p>
                   </div>
                 </div>
 
-                <div className="w-full sm:w-1/2 sm:pl-2">
+                <div className="w-full sm:w-1/2 ">
                   <label
                     className="block text-primary text-base"
                     htmlFor="origin"
@@ -252,8 +252,8 @@ const EditLoad: React.FC = () => {
                     Facility Address
                   </label>
                   <div>
-                    <p className="text-secondary text-sm font-medium">
-                      {truncateText(booking.origin, 30)}
+                    <p className="text-gray-500 text-sm font-medium">
+                      {booking.origin}
                     </p>
                   </div>
                 </div>
@@ -277,7 +277,7 @@ const EditLoad: React.FC = () => {
                         className="w-full p-2 border border-gray-300 rounded"
                       />
                     ) : (
-                      <p className="text-secondary text-sm font-medium">
+                      <p className="text-gray-500 text-sm font-medium">
                         {new Date(booking.pickupDate).toLocaleDateString()}
                       </p>
                     )}
@@ -289,7 +289,7 @@ const EditLoad: React.FC = () => {
                           : toggleEdit("pickupDate")
                       }
                     >
-                      {editingField.pickupDate ? "Save" : "Schedule"}
+                      {editingField.pickupDate ? "Save" : "Edit Date"}
                     </button>
                   </div>
                 </div>
@@ -311,7 +311,7 @@ const EditLoad: React.FC = () => {
                           className="w-full p-2 border border-gray-300 rounded"
                         />
                       ) : (
-                        <p className="text-secondary text-sm font-medium">
+                        <p className="text-gray-500 text-sm font-medium">
                           {booking.pickupTime
                             ? new Date(`1970-01-01T${booking.pickupTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                             : 'TBA'}
@@ -325,7 +325,7 @@ const EditLoad: React.FC = () => {
                             : toggleEdit("pickupTime")
                         }
                       >
-                        {editingField.pickupTime ? "Save" : "Schedule"}
+                        {editingField.pickupTime ? "Save" : "Edit Time"}
                       </button>
                     </div>
                   </div>
@@ -347,13 +347,13 @@ const EditLoad: React.FC = () => {
                     Facility / Company Name
                   </label>
                   <div>
-                    <p className="text-secondary text-sm font-medium">
+                    <p className="text-gray-500 text-sm font-medium">
                       {booking.companyName}
                     </p>
                   </div>
                 </div>
 
-                <div className="w-full sm:w-1/2 sm:pl-2">
+                <div className="w-full sm:w-1/2">
                   <label
                     className="block text-primary text-base"
                     htmlFor="destination"
@@ -361,7 +361,7 @@ const EditLoad: React.FC = () => {
                     Facility Address
                   </label>
                   <div>
-                    <p className="text-secondary text-sm font-medium">
+                    <p className="text-gray-500 text-sm font-medium">
                       {truncateText(booking.destination, 30)}
                     </p>
                   </div>
@@ -386,7 +386,7 @@ const EditLoad: React.FC = () => {
                         className="w-full p-2 border border-gray-300 rounded"
                       />
                     ) : (
-                      <p className="text-secondary text-sm font-medium">
+                      <p className="text-gray-500 text-sm font-medium">
                         {booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleDateString() : 'TBA'}
                       </p>
                     )}
@@ -398,7 +398,7 @@ const EditLoad: React.FC = () => {
                           : toggleEdit("deliveryDate")
                       }
                     >
-                      {editingField.deliveryDate ? "Save" : "Schedule"}
+                      {editingField.deliveryDate ? "Save" : "Edit Date"}
                     </button>
                   </div>
                 </div>
@@ -421,7 +421,7 @@ const EditLoad: React.FC = () => {
                           className="w-full p-2 border border-gray-300 rounded"
                         />
                       ) : (
-                        <p className="text-secondary text-sm font-medium">
+                        <p className="text-gray-500 text-sm font-medium">
                           {booking.deliveryTime
                             ? new Date(`1970-01-01T${booking.deliveryTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                             : 'TBA'}
@@ -435,7 +435,7 @@ const EditLoad: React.FC = () => {
                             : toggleEdit("deliveryTime")
                         }
                       >
-                        {editingField.deliveryTime ? "Save" : "Schedule"}
+                        {editingField.deliveryTime ? "Save" : "Edit Time"}
                       </button>
                     </div>
                   </div>
@@ -449,7 +449,7 @@ const EditLoad: React.FC = () => {
             <hr className="border-t lg:border-1 w-full max-w-screen-2xl mx-auto hidden md:block" />
 
             {/* Load Details */}
-            <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto">
+            <div className=" p-6 w-full max-w-screen-2xl mx-auto">
               <h2 className="text-xl mb-4 text-secondary">Load Details</h2>
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
@@ -459,7 +459,7 @@ const EditLoad: React.FC = () => {
                   >
                     Customer Reference # <span className="text-red-600">*</span>
                   </label>
-                  <p className="text-secondary text-sm font-medium">
+                  <p className="text-gray-500 text-sm font-medium">
                     {booking.notes || "N/A"}
                   </p>
 
@@ -469,7 +469,7 @@ const EditLoad: React.FC = () => {
                   >
                     Commodity
                   </label>
-                  <p className="text-secondary text-sm font-medium">
+                  <p className="text-gray-500 text-sm font-medium">
                     {booking.commodity}
                   </p>
 
@@ -479,7 +479,7 @@ const EditLoad: React.FC = () => {
                   >
                     Packaging
                   </label>
-                  <p className="text-secondary text-sm font-medium">
+                  <p className="text-gray-500 text-sm font-medium">
                     {booking.packaging || "TBA"}
                   </p>
                   <label
@@ -488,7 +488,7 @@ const EditLoad: React.FC = () => {
                   >
                     Additional Notes
                   </label>
-                  <p className="text-secondary text-sm font-medium">
+                  <p className="text-gray-500 text-sm font-medium">
                     {booking.notes || "N/A"}
                   </p>
                 </div>
@@ -500,7 +500,7 @@ const EditLoad: React.FC = () => {
                   >
                     Weight
                   </label>
-                  <p className="text-secondary text-sm font-medium">
+                  <p className="text-gray-500 text-sm font-medium">
                     {booking.maxWeight}
                   </p>
 
@@ -510,7 +510,7 @@ const EditLoad: React.FC = () => {
                   >
                     Truck Type
                   </label>
-                  <p className="text-secondary text-sm font-medium">
+                  <p className="text-gray-500 text-sm font-medium">
                     {booking.trailerType}
                   </p>
                   <label
@@ -519,7 +519,7 @@ const EditLoad: React.FC = () => {
                   >
                     Status
                   </label>
-                  <p className="text-secondary text-sm font-medium">
+                  <p className="text-gray-500 text-sm font-medium">
                     {booking.status}
                   </p>
                 </div>
@@ -529,7 +529,7 @@ const EditLoad: React.FC = () => {
 
           {/* Carrier */}
           <div className="w-full md:w-1/3 lg:mt-24">
-            <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto">
+            <div className=" p-6 w-full max-w-screen-2xl mx-auto">
               <h2 className="text-xl mb-4 text-secondary">Carrier</h2>
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
@@ -548,7 +548,7 @@ const EditLoad: React.FC = () => {
                       className="w-full p-2 border border-gray-300 rounded"
                     />
                   ) : (
-                    <p className="text-secondary text-sm font-medium">
+                    <p className="text-gray-500 text-sm font-medium">
                       {booking.carrier}
                     </p>
                   )}
@@ -560,7 +560,7 @@ const EditLoad: React.FC = () => {
                         : toggleEdit("carrier")
                     }
                   >
-                    {editingField.carrier ? "Save" : "Edit"}
+                    {editingField.carrier ? "Save" : "Edit Carrier"}
                   </button>
                 </div>
 
@@ -580,7 +580,7 @@ const EditLoad: React.FC = () => {
                       className="w-full p-2 border border-gray-300 rounded"
                     />
                   ) : (
-                    <p className="text-secondary text-sm font-medium">
+                    <p className="text-gray-500 text-sm font-medium">
                       {booking.driver}
                     </p>
                   )}
@@ -592,7 +592,7 @@ const EditLoad: React.FC = () => {
                         : toggleEdit("driver")
                     }
                   >
-                    {editingField.driver ? "Save" : "Edit"}
+                    {editingField.driver ? "Save" : "Edit Driver"}
                   </button>
                 </div>
               </div>
@@ -605,7 +605,7 @@ const EditLoad: React.FC = () => {
                   >
                     Base Rate
                   </label>
-                  <p className="text-secondary text-base font-medium">
+                  <p className="text-price text-base font-medium">
                     $ {booking.price || "N/A"}
                   </p>
 
@@ -615,7 +615,7 @@ const EditLoad: React.FC = () => {
                   >
                     Distance
                   </label>
-                  <p className="text-secondary text-base font-medium mb-4">
+                  <p className="text-gray-500 text-base font-medium mb-4">
                     {booking.distance}
                   </p>
                 </div>

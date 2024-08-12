@@ -95,7 +95,7 @@ export const calculatePrice = (
     if (!validSizesForType[trailerType].includes(selectedTrailerSize)) {
       if (trailerType === 'Dry Van' || trailerType === 'Refrigerated') {
         if (selectedTrailerSize === 48) {
-          alert(`The size 48 is invalid for ${trailerType}. Please select the correct size.`);
+          alert(`The size 48 is currently not available for ${trailerType}. Please select other available size.`);
           return null;
         }
       }
