@@ -9,20 +9,19 @@ import LoadBoard from "./pages/Admin/page/LoadBoard";
 import NonBusinessPage from "./pages/NonBusinessEmail";
 import BookingConfirmation from "./pages/bookingSuccessful";
 // import DispatchDetails from './pages/dispatchDetails';
-import PaymentOptionPage from "./pages/paymentOptionPage";
+import PaymentOptionPage from "./pages/ShipperUser/page/paymentOptionPage";
 import ReportDetails from "./pages/reportDetails";
 import NotFound from "./pages/Shared/pages/NotFound";
 import Invoice from "./components/Invoice";
 import AdminDashboard from "./pages/Admin/page/AdminDashboard";
-import DistanceCalculator from "./components/googleMap/GoogleMapsComponent";
+
 import AccountingReports from "./pages/accountingReport";
 import AccountingPayment from "./pages/Admin/page/accountingPayment";
-import ShipperDashboardPage from "./pages/ShipperUser/page/ShipperDashboardPage";
 import PerformanceOverview from "./pages/performanceGrade";
 import ShipmentDetailsConfirmation from "./pages/shipmentDetailsConfirmation";
 
 import PrivateRoute from "./components/PrivateRoute";
-import ShipmentDetails from "./pages/ShipmentDetails";
+import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
 
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
@@ -30,9 +29,13 @@ import Stripe from "./components/stripe/Stripe";
 import LegalPage from "./pages/Admin/page/LegalPage";
 import BillOfLandingPage from "./pages/Admin/page/BillOfLanding";
 import EditLoad from "./pages/Admin/page/EditLoad";
-import ShipperShellPage from "./pages/ShipperUser/page/ShipperShellPage";
-import ShipperUserPayablesPage from "./pages/ShipperUser/page/ShipperUserPayablesPage";
-import ProfileCard from "./pages/profile";
+import ShipperUserPayablesPage from "./pages/ShipperUser/page/shipperUserPayablesPage";
+
+import ShipperShellPage from "./pages/ShipperUser/page/shipperShellPage";
+import ShipperDashboardPage from "./pages/ShipperUser/page/shipperDashboardPage";
+import ShipperProfilePage from "./pages/ShipperUser/page/shipperProfilePage";
+import ShipmentRequestShellPage from "./pages/ShipmentRequest/shipmentRequestShellPage";
+import DistanceCalculatorPage from "./pages/ShipmentRequest/distanceCalculatorPage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -69,60 +72,75 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
           {/* Shipper User Routes */}
-          {/* <Route
-            path="/shipper-dashboard"
+          <Route
+            path="/s"
             element={
               <PrivateRoute element={<ShipperShellPage />} roles={["user"]} />
             }
-          ></Route> */}
-          <Route
-            path="/shipper-dashboard"
-            element={
-              <PrivateRoute
-                element={<ShipperDashboardPage />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
-            path="/user-payables"
-            element={
-              <PrivateRoute
-                element={<ShipperUserPayablesPage />}
-                roles={["user"]}
-              />
-            }
-          />
+          >
+            <Route
+              index
+              element={
+                <PrivateRoute
+                  element={<ShipperDashboardPage />}
+                  roles={["user"]}
+                />
+              }
+            />
+            <Route
+              path="shipper-dashboard"
+              element={
+                <PrivateRoute
+                  element={<ShipperDashboardPage />}
+                  roles={["user"]}
+                />
+              }
+            />
+            <Route
+              path="user-payables"
+              element={
+                <PrivateRoute
+                  element={<ShipperUserPayablesPage />}
+                  roles={["user"]}
+                />
+              }
+            />
+            <Route
+              path="performance-grade"
+              element={
+                <PrivateRoute
+                  element={<PerformanceOverview />}
+                  roles={["user"]}
+                />
+              }
+            />
+            <Route
+              path="shipmentDetails/:id"
+              element={
+                <PrivateRoute element={<ShipmentDetails />} roles={["user"]} />
+              }
+            />
 
-          <Route
-            path="/performance-grade"
-            element={
-              <PrivateRoute
-                element={<PerformanceOverview />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
-            path="/shipmentDetails/:id"
-            element={
-              <PrivateRoute element={<ShipmentDetails />} roles={["user"]} />
-            }
-          />
+            <Route
+              path="profile"
+              element={
+                <PrivateRoute
+                  element={<ShipperProfilePage />}
+                  roles={["user"]}
+                />
+              }
+            />
+            <Route
+              path="trailer-options"
+              element={<PrivateRoute element={<TrailerOptionsPage />} />}
+            />
 
-          <Route
-            path="/shipment-report"
-            element={
-              <PrivateRoute
-                element={<ShipmentDetailsConfirmation />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
-            path="/payment"
-            element={<PrivateRoute element={<Stripe />} roles={["user"]} />}
-          />
+            <Route
+              path="payment-option"
+              element={<PrivateRoute element={<PaymentOptionPage />} />}
+            />
+          </Route>
+
           {/* ==== END Shipper User Route=== */}
           <Route
             path="/trailer-options"
@@ -137,17 +155,28 @@ const App: React.FC = () => {
             element={<PrivateRoute element={<BookingConfirmation />} />}
           />
           {/* <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} /> */}
-          <Route
-            path="/payment-option"
-            element={<PrivateRoute element={<PaymentOptionPage />} />}
-          />
 
           <Route
             path="/invoice"
             element={<PrivateRoute element={<Invoice />} />}
           />
 
-          <Route path="/distance-calculator" element={<DistanceCalculator />} />
+          <Route path="/requests" element={<ShipmentRequestShellPage />}>
+            <Route index element={<DistanceCalculatorPage />} />
+            <Route
+              path="confirmation"
+              element={
+                <PrivateRoute
+                  element={<ShipmentDetailsConfirmation />}
+                  roles={["user"]}
+                />
+              }
+            />
+            <Route
+              path="payment"
+              element={<PrivateRoute element={<Stripe />} roles={["user"]} />}
+            />
+          </Route>
 
           {/* TODO the Profile page will now be under with ShipperProfilePage and AdminProfilePage but it still returning Profile Card */}
           {/* <Route

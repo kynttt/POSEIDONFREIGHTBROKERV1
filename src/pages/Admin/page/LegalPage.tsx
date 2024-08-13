@@ -9,7 +9,7 @@ import {
   faList,
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
-import SideBar from "../../../components/SideBar";
+import SideBar from "../../../components/Sidebar/SideBar";
 import { useAuthStore } from "../../../state/useAuthStore";
 import Folder from "../../../components/LegalFolder";
 import foldersData from "../../../components/legalFolders.json";

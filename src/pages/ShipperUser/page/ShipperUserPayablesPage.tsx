@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../state/useAuthStore";
 import { fetchUserInvoices } from "../../../lib/apiCalls";
 import Button from "../../../components/Button";
-import SideBar from "../../../components/SideBar";
 import UserDashboardCard from "../../../components/userDashboardCard";
 
 const ShipperUserPayablesPage: React.FC = () => {
@@ -40,14 +39,12 @@ const ShipperUserPayablesPage: React.FC = () => {
   }, [isAuthenticated, role, userId]);
 
   const handleQuoteButtonClick = () => {
-    navigate("/payment-option");
+    navigate("/s/payment-option");
   };
 
   return (
     <>
-      <div className="flex h-screen">
-        <SideBar isAuthenticated={isAuthenticated} />
-
+      <div className="flex h-full">
         <div className="flex-1 pt-8 bg-white sm:pt-16 lg:pt-24 overflow-y-auto pb-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-secondary">

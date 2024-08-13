@@ -1,7 +1,5 @@
-import Sidebar from "../../../components/SideBar";
 import ShipperBookings from "../components/shipperBookings"; // Import LocationsList component
 import dashboardData from "../components/shippersDashboardData.json"; // Import JSON data
-import { useAuthStore } from "../../../state/useAuthStore";
 import {
   LineChart,
   Line,
@@ -14,14 +12,10 @@ import {
 } from "recharts";
 
 const ShipperDashboardPage = () => {
-  const { isAuthenticated } = useAuthStore();
-
   return (
-    <div className="bg-white h-screen flex flex-col md:flex-row">
+    <div className="bg-white h-full flex flex-col md:flex-row">
       {/* Sidebar */}
-      <Sidebar isAuthenticated={isAuthenticated} />
 
-      {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 bg-gray-100 overflow-y-auto lg:px-20">
         <h1 className="text-2xl font-bold mb-4 text-gray-500">Dashboard</h1>
 

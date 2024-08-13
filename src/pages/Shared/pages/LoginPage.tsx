@@ -54,9 +54,11 @@ const LoginPage: React.FC = () => {
       const userRole = decodedToken.user && decodedToken.user.role;
 
       if (userRole === "admin") {
-        navigate("/admin-dashboard");
+        // navigate("/admin-dashboard");
+        navigate("/a");
       } else {
-        navigate("/shipper-dashboard");
+        // navigate("/shipper-dashboard");
+        navigate("/s");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {

@@ -8,7 +8,7 @@ const HeroBanner: React.FC = () => {
   const navigate = useNavigate();
 
   const handlePickup = () => {
-    navigate("/distance-calculator");
+    navigate("/requests");
   };
 
   return (

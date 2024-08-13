@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../../components/Button";
 import LoadCard from "../../../components/LoadCard";
-import SideBar from "../../../components/SideBar";
+import SideBar from "../../../components/Sidebar/SideBar";
 import { useAuthStore } from "../../../state/useAuthStore";
 import { fetchBookings } from "../../../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
@@ -153,7 +153,7 @@ const LoadBoard: React.FC = () => {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="mb-2 md:mb-8">
+            <div className="mb-2 md:mb-8">
               <h3 className="text-lg font-semibold text-secondary mb-4">
                 PICK UP
               </h3>

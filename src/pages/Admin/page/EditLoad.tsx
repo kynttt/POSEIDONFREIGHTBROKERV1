@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBookingById, updateBookingDetails } from "../../../lib/apiCalls";
-import SideBar from "../../../components/SideBar";
+import SideBar from "../../../components/Sidebar/SideBar";
 import { useAuthStore } from "../../../state/useAuthStore";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
 
@@ -53,7 +53,6 @@ const EditLoad: React.FC = () => {
     carrier: false,
     driver: false,
   });
-  
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
@@ -82,20 +81,19 @@ const EditLoad: React.FC = () => {
     }));
   };
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormState((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
-  
+
     // Mark the field as edited
     setEditedFields((prevEditedFields) => ({
       ...prevEditedFields,
       [name]: true,
     }));
   };
-  
 
   const handleSave = async (field: string) => {
     try {
@@ -107,7 +105,6 @@ const EditLoad: React.FC = () => {
         "maxWeight",
         "pickupDate",
         "deliveryDate",
-
       ].includes(field);
       const updateData: BookingUpdate = isQuoteField
         ? { quote: { [field]: formState[field] } }
@@ -166,7 +163,6 @@ const EditLoad: React.FC = () => {
       console.error("Error updating booking status:", error);
     }
   };
-
 
   if (loading)
     return <p className="text-gray-500">Loading booking details...</p>;
@@ -231,14 +227,18 @@ const EditLoad: React.FC = () => {
                 ) : (
                   <>
                     <button
-  className={`px-4 py-2 bg-blue-600 text-white rounded ${
-    Object.values(editedFields).every((field) => field) ? "" : "opacity-50 cursor-not-allowed"
-  }`}
-  onClick={handleConfirmBooking}
-  disabled={!Object.values(editedFields).every((field) => field)}
->
-  Confirm Booking
-</button>
+                      className={`px-4 py-2 bg-blue-600 text-white rounded ${
+                        Object.values(editedFields).every((field) => field)
+                          ? ""
+                          : "opacity-50 cursor-not-allowed"
+                      }`}
+                      onClick={handleConfirmBooking}
+                      disabled={
+                        !Object.values(editedFields).every((field) => field)
+                      }
+                    >
+                      Confirm Booking
+                    </button>
                   </>
                 )}
               </div>
@@ -300,44 +300,49 @@ const EditLoad: React.FC = () => {
                       </p>
                     )}
                     {booking.status === "Pending" && (
-                    <button
-                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                      onClick={() =>
-                        editingField.pickupDate
-                          ? handleSave("pickupDate")
-                          : toggleEdit("pickupDate")
-                      }
-                    >
-                      {editingField.pickupDate ? "Save" : "Edit Date"}
-                    </button>
+                      <button
+                        className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                        onClick={() =>
+                          editingField.pickupDate
+                            ? handleSave("pickupDate")
+                            : toggleEdit("pickupDate")
+                        }
+                      >
+                        {editingField.pickupDate ? "Save" : "Edit Date"}
+                      </button>
                     )}
                   </div>
                 </div>
 
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                    <label
-                      className="block text-primary text-base"
-                      htmlFor="pickupTime"
-                    >
-                      Pick Up Time <span className="text-red-600">*</span>
-                    </label>
-                    <div className="flex gap-2 items-center">
-                      {editingField.pickupTime ? (
-                        <input
-                          type="time"
-                          name="pickupTime"
-                          value={formState.pickupTime || ''}
-                          onChange={handleChange}
-                          className="w-full p-2 border border-gray-300 rounded"
-                        />
-                      ) : (
-                        <p className="text-gray-500 text-sm font-medium">
-                          {booking.pickupTime
-                            ? new Date(`1970-01-01T${booking.pickupTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                            : 'TBA'}
-                        </p>
-                      )}
-                      {booking.status === "Pending" && (
+                  <label
+                    className="block text-primary text-base"
+                    htmlFor="pickupTime"
+                  >
+                    Pick Up Time <span className="text-red-600">*</span>
+                  </label>
+                  <div className="flex gap-2 items-center">
+                    {editingField.pickupTime ? (
+                      <input
+                        type="time"
+                        name="pickupTime"
+                        value={formState.pickupTime || ""}
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded"
+                      />
+                    ) : (
+                      <p className="text-gray-500 text-sm font-medium">
+                        {booking.pickupTime
+                          ? new Date(
+                              `1970-01-01T${booking.pickupTime}`
+                            ).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : "TBA"}
+                      </p>
+                    )}
+                    {booking.status === "Pending" && (
                       <button
                         className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
                         onClick={() =>
@@ -348,10 +353,9 @@ const EditLoad: React.FC = () => {
                       >
                         {editingField.pickupTime ? "Save" : "Edit Time"}
                       </button>
-                      )}
-                    </div>
+                    )}
                   </div>
-
+                </div>
               </div>
             </div>
 
@@ -409,49 +413,55 @@ const EditLoad: React.FC = () => {
                       />
                     ) : (
                       <p className="text-gray-500 text-sm font-medium">
-                        {booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleDateString() : 'TBA'}
+                        {booking.deliveryDate
+                          ? new Date(booking.deliveryDate).toLocaleDateString()
+                          : "TBA"}
                       </p>
                     )}
                     {booking.status === "Pending" && (
-                    <button
-                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                      onClick={() =>
-                        editingField.deliveryDate
-                          ? handleSave("deliveryDate")
-                          : toggleEdit("deliveryDate")
-                      }
-                    >
-                      {editingField.deliveryDate ? "Save" : "Edit Date"}
-                    </button>
+                      <button
+                        className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                        onClick={() =>
+                          editingField.deliveryDate
+                            ? handleSave("deliveryDate")
+                            : toggleEdit("deliveryDate")
+                        }
+                      >
+                        {editingField.deliveryDate ? "Save" : "Edit Date"}
+                      </button>
                     )}
                   </div>
                 </div>
 
-                
-                  <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                    <label
-                      className="block text-primary text-base"
-                      htmlFor="deliveryTime"
-                    >
-                      Delivery Time <span className="text-red-600">*</span>
-                    </label>
-                    <div className="flex gap-2 items-center">
-                      {editingField.deliveryTime ? (
-                        <input
-                          type="time"
-                          name="deliveryTime"
-                          value={formState.deliveryTime || ''}
-                          onChange={handleChange}
-                          className="w-full p-2 border border-gray-300 rounded"
-                        />
-                      ) : (
-                        <p className="text-gray-500 text-sm font-medium">
-                          {booking.deliveryTime
-                            ? new Date(`1970-01-01T${booking.deliveryTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                            : 'TBA'}
-                        </p>
-                      )}
-                      {booking.status === "Pending" && (
+                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+                  <label
+                    className="block text-primary text-base"
+                    htmlFor="deliveryTime"
+                  >
+                    Delivery Time <span className="text-red-600">*</span>
+                  </label>
+                  <div className="flex gap-2 items-center">
+                    {editingField.deliveryTime ? (
+                      <input
+                        type="time"
+                        name="deliveryTime"
+                        value={formState.deliveryTime || ""}
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded"
+                      />
+                    ) : (
+                      <p className="text-gray-500 text-sm font-medium">
+                        {booking.deliveryTime
+                          ? new Date(
+                              `1970-01-01T${booking.deliveryTime}`
+                            ).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : "TBA"}
+                      </p>
+                    )}
+                    {booking.status === "Pending" && (
                       <button
                         className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
                         onClick={() =>
@@ -462,14 +472,10 @@ const EditLoad: React.FC = () => {
                       >
                         {editingField.deliveryTime ? "Save" : "Edit Time"}
                       </button>
-                      )}
-                    </div>
+                    )}
                   </div>
-                
+                </div>
               </div>
-
-              
-
             </div>
 
             <hr className="border-t lg:border-1 w-full max-w-screen-2xl mx-auto hidden md:block" />
@@ -579,16 +585,16 @@ const EditLoad: React.FC = () => {
                     </p>
                   )}
                   {booking.status === "Pending" && (
-                  <button
-                    className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                    onClick={() =>
-                      editingField.carrier
-                        ? handleSave("carrier")
-                        : toggleEdit("carrier")
-                    }
-                  >
-                    {editingField.carrier ? "Save" : "Edit Carrier"}
-                  </button>
+                    <button
+                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                      onClick={() =>
+                        editingField.carrier
+                          ? handleSave("carrier")
+                          : toggleEdit("carrier")
+                      }
+                    >
+                      {editingField.carrier ? "Save" : "Edit Carrier"}
+                    </button>
                   )}
                 </div>
 
@@ -613,16 +619,16 @@ const EditLoad: React.FC = () => {
                     </p>
                   )}
                   {booking.status === "Pending" && (
-                  <button
-                    className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                    onClick={() =>
-                      editingField.driver
-                        ? handleSave("driver")
-                        : toggleEdit("driver")
-                    }
-                  >
-                    {editingField.driver ? "Save" : "Edit Driver"}
-                  </button>
+                    <button
+                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                      onClick={() =>
+                        editingField.driver
+                          ? handleSave("driver")
+                          : toggleEdit("driver")
+                      }
+                    >
+                      {editingField.driver ? "Save" : "Edit Driver"}
+                    </button>
                   )}
                 </div>
               </div>

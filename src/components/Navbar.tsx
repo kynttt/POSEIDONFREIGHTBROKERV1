@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = () => {
   return (
     <>
       <nav
-        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-8 w-full "
+        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-8 "
         style={{
           background: "linear-gradient(-180deg, #7783D2 5%, #adb4e4 79%)",
         }}
@@ -159,7 +159,7 @@ const Navbar: React.FC<NavbarProps> = () => {
               <>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
-                  onClick={() => handleNavigation("/shipper-dashboard")}
+                  onClick={() => handleNavigation("/s/shipper-dashboard")}
                 >
                   Dashboard
                 </button>
@@ -183,7 +183,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                 </button>
                 <button
                   className="text-primary no-underline font-medium transition duration-300 hover:text-[#252F70]"
-                  onClick={() => handleNavigation("/distance-calculator")}
+                  onClick={() => handleNavigation("/requests")}
                 >
                   Request A Quote
                 </button>
@@ -307,7 +307,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                 <>
                   <button
                     className="block text-primary hover:text-[#252F70] text-center transition duration-300"
-                    onClick={() => handleNavigation("/shipper-dashboard")}
+                    onClick={() => handleNavigation("/s/shipper-dashboard")}
                   >
                     Dashboard
                   </button>
@@ -331,7 +331,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                   </button>
                   <button
                     className="block text-white hover:text-[#252F70] text-center transition duration-300"
-                    onClick={() => handleNavigation("/distance-calculator")}
+                    onClick={() => handleNavigation("/requests")}
                   >
                     Request A Quote
                   </button>

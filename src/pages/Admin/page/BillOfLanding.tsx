@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../../components/Button";
 import { useAuthStore } from "../../../state/useAuthStore";
 import { useNavigate } from "react-router-dom";
-import SideBar from "../../../components/SideBar";
+import SideBar from "../../../components/Sidebar/SideBar";
 
 const BillOfLandingPage: React.FC = () => {
   const navigate = useNavigate();

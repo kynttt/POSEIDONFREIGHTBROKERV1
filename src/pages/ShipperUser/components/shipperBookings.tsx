@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { fetchUserBookings } from '../../../lib/apiCalls';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { fetchUserBookings } from "../../../lib/apiCalls";
+import { useNavigate } from "react-router-dom";
 
 const ShipperBookings = () => {
   const [bookings, setBookings] = useState<any[]>([]);
@@ -12,16 +12,16 @@ const ShipperBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem("authToken");
         if (!token) {
-          console.error('No token found in localStorage');
+          console.error("No token found in localStorage");
           return;
         }
 
         const bookingsData = await fetchUserBookings(token);
         setBookings(bookingsData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -31,11 +31,13 @@ const ShipperBookings = () => {
   }, []);
 
   const handleBookingClick = (id: string) => {
-    navigate(`/shipmentDetails/${id}`);
+    navigate(`/s/shipmentDetails/${id}`);
   };
 
   const truncateText = (text: string, maxLength: number) => {
-    return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
   };
 
   return (
@@ -73,7 +75,10 @@ const ShipperBookings = () => {
                   <h3 className="text-gray-600 text-primary">Status</h3>
                   <p>{booking.status}</p>
                 </div>
-                <FontAwesomeIcon icon={faCircleChevronRight} className="text-primary" />
+                <FontAwesomeIcon
+                  icon={faCircleChevronRight}
+                  className="text-primary"
+                />
               </div>
             </button>
           ))}
