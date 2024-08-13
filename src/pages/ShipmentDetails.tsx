@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchBookingDetails } from '../lib/apiCalls';
+import { fetchBookingById } from '../lib/apiCalls';
 
 import SideBar from '../components/SideBar';
 import { useAuthStore } from '../state/useAuthStore';
@@ -13,12 +13,23 @@ const ShipmentDetails: React.FC = () => {
     const [booking, setBooking] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
-    const truncateText = (text: string, maxLength: number): string => {
-        if (text.length <= maxLength) {
-            return text;
-        }
-        return `${text.slice(0, maxLength)}...`;
+    // const truncateText = (text: string, maxLength: number): string => {
+    //     if (text.length <= maxLength) {
+    //         return text;
+    //     }
+    //     return `${text.slice(0, maxLength)}...`;
+    // };
+
+    const convertTo12HourFormat = (time: string) => {
+        const [hours, minutes] = time.split(':');
+        let hour = parseInt(hours);
+        const period = hour >= 12 ? 'PM' : 'AM';
+
+        hour = hour % 12 || 12; // Convert '0' hour to '12' and make sure '12' remains '12'
+
+        return `${hour}:${minutes} ${period}`;
     };
+
 
     useEffect(() => {
         const fetchBookingDetail = async () => {
@@ -28,7 +39,7 @@ const ShipmentDetails: React.FC = () => {
                     return;
                 }
 
-                const bookingData = await fetchBookingDetails(id);
+                const bookingData = await fetchBookingById(id);
                 setBooking(bookingData);
                 setLoading(false);
             } catch (error) {
@@ -61,21 +72,21 @@ const ShipmentDetails: React.FC = () => {
                         </div>
 
                         {/* Pick Up Details */}
-                        <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto ">
+                        <div className=" p-6 w-full max-w-screen-2xl mx-auto ">
                             <h2 className="text-xl  mb-4 text-secondary">Pick Up Details</h2>
                             <div className="flex flex-col sm:flex-row mb-4">
                                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                                     <label className="block text-primary text-base  " htmlFor="facilityName">
                                         Facility / Company Name
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.companyName}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.companyName}</p>
                                 </div>
 
                                 <div className="w-full sm:w-1/2 sm:pl-2">
                                     <label className="block text-primary text-base " htmlFor="facilityAddress">
                                         Facility Address
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{truncateText(booking.origin, 30)}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.origin}</p>
                                 </div>
                             </div>
 
@@ -84,7 +95,10 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-base  " htmlFor="appointment">
                                         Appointment <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{new Date(booking.pickupDate).toLocaleString()}</p>
+                                    <p className="text-gray-500 text-sm font-medium">
+                                        {booking.pickupDate ? new Date(booking.pickupDate).toLocaleDateString() : 'TBA'},
+                                        {booking.pickupTime ? convertTo12HourFormat(booking.pickupTime) : '08:00am - 03:00pm'}
+                                    </p>
                                 </div>
                             </div>
 
@@ -100,14 +114,14 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-base " htmlFor="facilityName">
                                         Facility / Company Name
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.companyName}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.companyName}</p>
                                 </div>
 
                                 <div className="w-full sm:w-1/2 sm:pl-2">
                                     <label className="block text-primary text-base " htmlFor="facilityAddress">
                                         Facility Address
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{truncateText(booking.destination, 30)}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.destination}</p>
                                 </div>
                             </div>
 
@@ -116,49 +130,53 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-base  " htmlFor="appointment">
                                         Appointment <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleString() : 'TBA'}</p>
+                                    <p className="text-gray-500 text-sm font-medium">
+                                        {booking.deliveryDate ? new Date(booking.deliveryDate).toLocaleDateString() : 'TBA'},
+                                        {booking.deliveryTime ? convertTo12HourFormat(booking.deliveryTime) : '08:00am - 03:00pm'}
+                                    </p>
+
                                 </div>
                             </div>
 
-                            
+
                         </div>
 
                         {/* Additional Shipment Details */}
-                        <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto">
+                        <div className=" p-6 w-full max-w-screen-2xl mx-auto">
                             <h2 className="text-xl mb-4 text-secondary">Additional Shipment Details</h2>
                             <div className="flex flex-col sm:flex-row mb-4">
                                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                                     <label className="block text-primary text-base font-bold " htmlFor="customerReference">
                                         Customer Reference # <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.notes || 'N/A'}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.notes || 'N/A'}</p>
 
                                     <label className="block text-primary text-base font-bold mt-2" htmlFor="commodity">
                                         Commodity
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.commodity}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.commodity}</p>
 
                                     <label className="block text-primary text-base font-bold mt-2" htmlFor="packaging">
-                                        Packaging 
+                                        Packaging
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.packaging || 'TBA'}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.packaging || 'TBA'}</p>
                                     <label className="block text-primary text-base mt-2" htmlFor="notes">
                                         Additional Notes
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.notes || 'N/A'}</p>
-                            
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.notes || 'N/A'}</p>
+
                                 </div>
 
                                 <div className="w-full sm:w-1/2">
                                     <label className="block text-primary text-base font-bold " htmlFor="weight">
                                         Weight
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.maxWeight}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.maxWeight} lb</p>
 
                                     <label className="block text-primary text-base font-bold mt-2" htmlFor="total">
                                         Truck Type
                                     </label>
-                                    <p className='text-secondary text-sm font-medium'>{booking.trailerType}</p>
+                                    <p className='text-gray-500 text-sm font-medium'>{booking.trailerType}</p>
                                 </div>
                             </div>
                         </div>
@@ -174,12 +192,12 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-sm font-bold " htmlFor="customerReference">
                                         Carrier Name
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>{booking.carrier || 'TBA'}</p>
+                                    <p className='text-gray-500 text-base font-medium'>{booking.carrier || 'TBA'}</p>
 
                                     <label className="block text-primary text-sm font-bold " htmlFor="commodity">
                                         Driver
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>{booking.driver || 'TBA'}</p>
+                                    <p className='text-gray-500 text-base font-medium'>{booking.driver || 'TBA'}</p>
                                 </div>
                             </div>
 
@@ -187,14 +205,14 @@ const ShipmentDetails: React.FC = () => {
                             <div className="flex flex-col sm:flex-row mb-4 border-b">
                                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                                     <label className="block text-primary text-sm font-bold" htmlFor="customerReference">
-                                        Base Rate 
+                                        Base Rate
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>$ {booking.price || 'N/A'}</p>
+                                    <p className='text-price text-base font-medium'>$ {booking.price || 'N/A'}</p>
 
                                     <label className="block text-primary text-sm font-bold " htmlFor="commodity">
                                         Distance
                                     </label>
-                                    <p className='text-secondary text-base font-medium mb-4'>{booking.distance}</p>
+                                    <p className='text-gray-500 text-base font-medium mb-4'>{booking.distance}</p>
                                 </div>
                             </div>
 
@@ -204,7 +222,7 @@ const ShipmentDetails: React.FC = () => {
                                     <label className="block text-primary text-sm font-bold " htmlFor="customerReference">
                                         Bill of Lading (BOL) <span className="text-red-600">*</span>
                                     </label>
-                                    <p className='text-secondary text-base font-medium'>{booking.bol || 'N/A'}</p>
+                                    <p className='text-gray-500 text-base font-medium'>{booking.bol || 'N/A'}</p>
                                 </div>
                             </div>
                         </div>

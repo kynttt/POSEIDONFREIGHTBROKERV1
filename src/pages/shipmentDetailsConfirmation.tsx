@@ -58,8 +58,8 @@ const ShipmentDetailsConfirmation: React.FC = () => {
   //       .catch(error => console.error('Error creating booking:', error));
   //   }
   // };
-  
-  
+
+
 
   // const closeModal = () => {
   //   setShowModal(false);
@@ -114,9 +114,12 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                     <span className='text-gray-500 mr-2'>
                       <FontAwesomeIcon icon={faCalendarDay} />
                     </span>
-                    Date & Time
+                    Date
                   </h4>
-                  <p className='text-gray-500 py-4 font-medium'>{data.pickupDate}</p>
+                  <p className="text-gray-500 py-4 font-medium">
+                    {data.pickupDate ? new Date(data.pickupDate).toLocaleDateString() : 'TBA'}
+                  </p>
+
                 </div>
                 <div>
                   <h4 className="font-medium text-secondary">
@@ -172,22 +175,22 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                 </span>
                 Taxes and other fees
               </h4>
-              <p className='text-gray-500 py-4 font-medium'>{data.pickupDate}</p>
+              <p className='text-gray-500 py-4 font-medium'>$ 0.00</p>
             </div>
             <a href={data.bolLink} className="text-blue-500 underline mt-2 block">Download BOL</a>
           </div>
         </div>
 
         <div className="flex gap-8 lg:mt-16">
-        <Button
+          <Button
             label="Next"
             size="homeButton"
             bgColor="#252F70"
             fontStyle="normal"
-            onClick={() => navigate('/payment', { 
-              state: { 
-                price: data.price, 
-                origin: data.origin, 
+            onClick={() => navigate('/payment', {
+              state: {
+                price: data.price,
+                origin: data.origin,
                 destination: data.destination,
                 pickupDate: data.pickupDate,
                 trailerType: data.trailerType,
@@ -197,7 +200,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                 bolLink: data.bolLink,
                 packaging: data.packaging,
                 quote: quoteId,
-              } 
+              }
             })}
             className="extra-class-for-medium-button"
             type=""
@@ -214,7 +217,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
         </div>
       </div>
 
-      
+
       {/* {showModal && <QuoteRequestModal isOpen={showModal} />} */}
     </div>
   );
