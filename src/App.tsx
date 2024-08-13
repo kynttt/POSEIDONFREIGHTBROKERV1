@@ -18,7 +18,7 @@ import AdminDashboard from "./pages/Admin/page/adminDashboardPage";
 import AccountingReports from "./pages/accountingReport";
 import AccountingPayment from "./pages/Admin/page/accountingPaymentPage";
 import PerformanceOverview from "./pages/performanceGrade";
-import ShipmentDetailsConfirmation from "./pages/shipmentDetailsConfirmation";
+import ShipmentDetailsConfirmation from "./pages/ShipmentRequest/shipmentDetailsConfirmation";
 
 import PrivateRoute from "./components/PrivateRoute";
 import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";

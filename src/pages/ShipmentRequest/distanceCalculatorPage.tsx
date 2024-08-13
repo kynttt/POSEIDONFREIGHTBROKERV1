@@ -228,7 +228,7 @@ export default function DistanceCalculatorPage() {
     return <div>Loading...</div>; // Show a loading message until the script is loaded
   }
   return (
-    <div className="flex h-screen flex-1">
+    <div className="flex h-full flex-1">
       {/* <SideBar isAuthenticated={isAuthenticated} /> */}
       <div className="flex-1 bg-white min-h-screen overflow-y-auto">
         <div className="lg:mx-20 py-16   px-4  rounded-lg ">

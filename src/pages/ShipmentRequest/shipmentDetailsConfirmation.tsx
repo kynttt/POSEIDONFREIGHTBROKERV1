@@ -11,9 +11,9 @@ import {
   faRuler,
   faBoxOpen,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "../components/Button";
+import Button from "../../components/Button";
 // import QuoteRequestModal from '../components/QuoteRequestModal';
-import { fetchBookingDetails } from "../lib/apiCalls"; // Import API calls
+import { fetchBookingDetails } from "../../lib/apiCalls"; // Import API calls
 
 interface ShipmentDetailsProps {
   origin: string;

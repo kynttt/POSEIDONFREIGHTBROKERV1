@@ -14,9 +14,14 @@ import notifications from "../../../components/notifications.json";
 import { useDisclosure } from "@mantine/hooks";
 export default function AdminShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
-  const visible = useMatches({
+  const headerVisible = useMatches({
     xs: false,
-    lg: true,
+    md: true,
+  });
+  const asideVisible = useMatches({
+    xs: true,
+
+    lg: false,
   });
   // const [opened, { toggle }] = useDisclosure();
   return (
@@ -30,14 +35,19 @@ export default function AdminShellPage() {
         <Sidebar close={close} closeVisible />
       </Drawer>
       <AppShell
-        header={{ height: 60, collapsed: visible }}
+        header={{ height: 60, collapsed: headerVisible }}
         navbar={{
-          width: 250,
+          width: {
+            base: 250,
+          },
           breakpoint: "sm",
-          collapsed: { mobile: true },
+          collapsed: {
+            mobile: asideVisible,
+            desktop: asideVisible,
+          },
         }}
       >
-        {!visible && (
+        {!headerVisible && (
           <AppShell.Header>
             <ShellHeader opened={opened} open={open} close={close} />
           </AppShell.Header>
@@ -47,7 +57,7 @@ export default function AdminShellPage() {
         </AppShell.Navbar>
 
         <AppShell.Main>
-          {visible && <ShellHeader />}
+          {headerVisible && <ShellHeader />}
           <Outlet />
         </AppShell.Main>
       </AppShell>
