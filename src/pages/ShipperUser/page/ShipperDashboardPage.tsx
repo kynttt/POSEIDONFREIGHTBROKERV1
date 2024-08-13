@@ -1,7 +1,7 @@
-import Sidebar from '../../../components/SideBar';
-import ShipperBookings from './shipperBookings'; // Import LocationsList component
-import dashboardData from './shippersDashboardData.json'; // Import JSON data
-import { useAuthStore } from '../../../state/useAuthStore';
+import Sidebar from "../../../components/SideBar";
+import ShipperBookings from "../components/shipperBookings"; // Import LocationsList component
+import dashboardData from "../components/shippersDashboardData.json"; // Import JSON data
+import { useAuthStore } from "../../../state/useAuthStore";
 import {
   LineChart,
   Line,
@@ -11,10 +11,9 @@ import {
   BarChart,
   Bar,
   ResponsiveContainer,
-} from 'recharts';
+} from "recharts";
 
-
-const ShipperDashboard = () => {
+const ShipperDashboardPage = () => {
   const { isAuthenticated } = useAuthStore();
 
   return (
@@ -126,4 +125,4 @@ const ShipperDashboard = () => {
   );
 };
 
-export default ShipperDashboard;
+export default ShipperDashboardPage;

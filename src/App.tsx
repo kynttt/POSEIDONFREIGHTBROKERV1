@@ -5,23 +5,19 @@ import SignUpPage from "./pages/signupPage";
 import LoginPage from "./pages/Shared/pages/LoginPage";
 // import QuoteDetails from './pages/QuoteDetails';
 import TrailerOptionsPage from "./pages/TrailerOptionsPage";
-import LoadBoard from "./pages/User/page/LoadBoard";
+import LoadBoard from "./pages/Admin/page/LoadBoard";
 import NonBusinessPage from "./pages/NonBusinessEmail";
 import BookingConfirmation from "./pages/bookingSuccessful";
-import UserPayables from "./pages/userDashboard";
-import BillOfLadingPage from "./pages/User/page/billOfLanding";
 // import DispatchDetails from './pages/dispatchDetails';
 import PaymentOptionPage from "./pages/paymentOptionPage";
 import ReportDetails from "./pages/reportDetails";
 import NotFound from "./pages/Shared/pages/NotFound";
 import Invoice from "./components/Invoice";
-import LegalPage from "./pages/User/page/legalPage";
-import AdminDashboard from "./pages/User/page/AdminDashboard";
+import AdminDashboard from "./pages/Admin/page/AdminDashboard";
 import DistanceCalculator from "./components/googleMap/GoogleMapsComponent";
-import Profile from "./pages/profile";
 import AccountingReports from "./pages/accountingReport";
-import AccountingPayment from "./pages/User/page/accountingPayment";
-import ShipperDashboard from "./pages/ShipperUser/components/shipperDashboard";
+import AccountingPayment from "./pages/Admin/page/accountingPayment";
+import ShipperDashboardPage from "./pages/ShipperUser/page/ShipperDashboardPage";
 import PerformanceOverview from "./pages/performanceGrade";
 import ShipmentDetailsConfirmation from "./pages/shipmentDetailsConfirmation";
 
@@ -31,7 +27,12 @@ import ShipmentDetails from "./pages/ShipmentDetails";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Stripe from "./components/stripe/Stripe";
-import EditLoad from "./pages/User/page/editLoad";
+import LegalPage from "./pages/Admin/page/LegalPage";
+import BillOfLandingPage from "./pages/Admin/page/BillOfLanding";
+import EditLoad from "./pages/Admin/page/EditLoad";
+import ShipperShellPage from "./pages/ShipperUser/page/ShipperShellPage";
+import ShipperUserPayablesPage from "./pages/ShipperUser/page/ShipperUserPayablesPage";
+import ProfileCard from "./pages/profile";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -67,6 +68,62 @@ const App: React.FC = () => {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
+          {/* Shipper User Routes */}
+          {/* <Route
+            path="/shipper-dashboard"
+            element={
+              <PrivateRoute element={<ShipperShellPage />} roles={["user"]} />
+            }
+          ></Route> */}
+          <Route
+            path="/shipper-dashboard"
+            element={
+              <PrivateRoute
+                element={<ShipperDashboardPage />}
+                roles={["user"]}
+              />
+            }
+          />
+          <Route
+            path="/user-payables"
+            element={
+              <PrivateRoute
+                element={<ShipperUserPayablesPage />}
+                roles={["user"]}
+              />
+            }
+          />
+
+          <Route
+            path="/performance-grade"
+            element={
+              <PrivateRoute
+                element={<PerformanceOverview />}
+                roles={["user"]}
+              />
+            }
+          />
+          <Route
+            path="/shipmentDetails/:id"
+            element={
+              <PrivateRoute element={<ShipmentDetails />} roles={["user"]} />
+            }
+          />
+
+          <Route
+            path="/shipment-report"
+            element={
+              <PrivateRoute
+                element={<ShipmentDetailsConfirmation />}
+                roles={["user"]}
+              />
+            }
+          />
+          <Route
+            path="/payment"
+            element={<PrivateRoute element={<Stripe />} roles={["user"]} />}
+          />
+          {/* ==== END Shipper User Route=== */}
           <Route
             path="/trailer-options"
             element={<PrivateRoute element={<TrailerOptionsPage />} />}
@@ -84,51 +141,36 @@ const App: React.FC = () => {
             path="/payment-option"
             element={<PrivateRoute element={<PaymentOptionPage />} />}
           />
-          <Route
-            path="/report-details"
-            element={
-              <PrivateRoute element={<ReportDetails />} roles={["admin"]} />
-            }
-          />
+
           <Route
             path="/invoice"
             element={<PrivateRoute element={<Invoice />} />}
           />
+
+          <Route path="/distance-calculator" element={<DistanceCalculator />} />
+
+          {/* TODO the Profile page will now be under with ShipperProfilePage and AdminProfilePage but it still returning Profile Card */}
+          {/* <Route
+            path="/profile"
+            element={<PrivateRoute element={<ProfileCard />} />}
+          /> */}
+
+          {/* !Admin */}
           <Route
             path="/legal-page"
             element={<PrivateRoute element={<LegalPage />} roles={["admin"]} />}
           />
-          <Route
-            path="/user-payables"
-            element={
-              <PrivateRoute element={<UserPayables />} roles={["user"]} />
-            }
-          />
-          <Route
-            path="/load-board"
-            element={<PrivateRoute element={<LoadBoard />} roles={["admin"]} />}
-          />
+
           <Route
             path="/bill-lading"
             element={
-              <PrivateRoute element={<BillOfLadingPage />} roles={["admin"]} />
+              <PrivateRoute element={<BillOfLandingPage />} roles={["admin"]} />
             }
           />
           <Route
             path="/admin-dashboard"
             element={
               <PrivateRoute element={<AdminDashboard />} roles={["admin"]} />
-            }
-          />
-          <Route path="/distance-calculator" element={<DistanceCalculator />} />
-          <Route
-            path="/profile"
-            element={<PrivateRoute element={<Profile />} />}
-          />
-          <Route
-            path="/accounting-report"
-            element={
-              <PrivateRoute element={<AccountingReports />} roles={["admin"]} />
             }
           />
           <Route
@@ -138,55 +180,33 @@ const App: React.FC = () => {
             }
           />
           <Route
-            path="/shipper-dashboard"
-            element={
-              <PrivateRoute element={<ShipperDashboard />} roles={["user"]} />
-            }
-          />
-          <Route
-            path="/performance-grade"
-            element={
-              <PrivateRoute
-                element={<PerformanceOverview />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
-            path="/shipmentDetails/:id"
-            element={
-              <PrivateRoute element={<ShipmentDetails />} roles={["user"]} />
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-          <Route
-            path="/shipment-report"
-            element={
-              <PrivateRoute
-                element={<ShipmentDetailsConfirmation />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
-            path="/payment"
-            element={
-              <PrivateRoute
-                element={<Stripe />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
             path="/editBooking/:id"
+            element={<PrivateRoute element={<EditLoad />} roles={["admin"]} />}
+          />
+          <Route
+            path="/load-board"
+            element={<PrivateRoute element={<LoadBoard />} roles={["admin"]} />}
+          />
+
+          <Route
+            path="/report-details"
             element={
-              <PrivateRoute element={<EditLoad />} roles={["admin"]} />
+              <PrivateRoute element={<ReportDetails />} roles={["admin"]} />
             }
           />
+
+          <Route
+            path="/accounting-report"
+            element={
+              <PrivateRoute element={<AccountingReports />} roles={["admin"]} />
+            }
+          />
+          {/* ==END ADMIN=== */}
+
+          <Route path="*" element={<NotFound />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
-
-        
       </Router>
     </MantineProvider>
   );

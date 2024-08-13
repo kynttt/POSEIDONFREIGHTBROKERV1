@@ -1,5 +1,5 @@
 // LegalPage.tsx
-import  { useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -10,7 +10,7 @@ import {
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
 import SideBar from "../../../components/SideBar";
-import { useAuthStore } from '../../../state/useAuthStore';
+import { useAuthStore } from "../../../state/useAuthStore";
 import Folder from "../../../components/LegalFolder";
 import foldersData from "../../../components/legalFolders.json";
 import filesData from "../../../components/legalFiles.json";
@@ -24,7 +24,7 @@ const LegalPage = () => {
   const files = filesData;
 
   const handleEllipsisClick = (index: number) => {
-    setShowActionsIndex(prevIndex => (prevIndex === index ? null : index));
+    setShowActionsIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   const handleActionClick = (action: string, index: number) => {
@@ -184,7 +184,9 @@ const LegalPage = () => {
                             </p>
                             <p
                               className="text-gray-500 hover:text-blue-500 cursor-pointer"
-                              onClick={() => handleActionClick("download", index)}
+                              onClick={() =>
+                                handleActionClick("download", index)
+                              }
                             >
                               Download
                             </p>
@@ -283,4 +285,3 @@ const LegalPage = () => {
 };
 
 export default LegalPage;
-

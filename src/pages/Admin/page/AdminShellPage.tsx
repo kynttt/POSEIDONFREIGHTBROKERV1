@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../state/useAuthStore";
+import { useAuthStore } from "../../../state/useAuthStore";
 
-interface PrivateRouteProps {
+interface AdminRouteProps {
   element: React.ReactElement;
-  roles?: string[];
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
+const AdminRoute: React.FC<AdminRouteProps> = ({ element }) => {
   const { isAuthenticated, role } = useAuthStore();
   const navigate = useNavigate();
   const [hasPermission, setHasPermission] = useState(true);
@@ -15,11 +14,11 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
-    } else if (roles && roles.length > 0 && !roles.includes(role || "")) {
+    } else if (role !== "admin") {
       console.log("You do not have permission to access this page.");
       setHasPermission(false);
     }
-  }, [isAuthenticated, role, roles, navigate]);
+  }, [isAuthenticated, role, navigate]);
 
   if (!isAuthenticated) {
     return null;
@@ -32,4 +31,4 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
   return element;
 };
 
-export default PrivateRoute;
+export default AdminRoute;
