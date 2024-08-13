@@ -6,20 +6,14 @@ import RecentTransactions from "../components/RecentTransactions";
 import overviewData from "../data/overviewData.json";
 import shippersData from "../data/shippersData.json";
 import transactionsData from "../data/transactionsData.json";
-import { useAuthStore } from "../../../state/useAuthStore";
-import SideBar from "../../../components/Sidebar/SideBar";
 
 const AdminDashboard: React.FC = () => {
-  const { isAuthenticated } = useAuthStore();
-
   const [overview] = useState(overviewData);
   const [shippers] = useState(shippersData);
   const [transactions] = useState(transactionsData);
 
   return (
-    <div className="flex h-screen">
-      <SideBar isAuthenticated={isAuthenticated} />
-
+    <div className="flex h-full">
       <div className="flex-1 pt-8 lg:px-18 bg-white pb-16 text-primary overflow-y-auto">
         <div className="container mx-auto  sm:px-6 ">
           <h6 className="text-medium font-medium text-secondary">

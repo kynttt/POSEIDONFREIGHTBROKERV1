@@ -11,14 +11,11 @@ import {
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import SideBar from "../components/Sidebar/SideBar";
-import { useAuthStore } from "../state/useAuthStore";
 
 const ReportDetails: React.FC = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [error, setError] = useState<string>("");
-  const { isAuthenticated } = useAuthStore();
 
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);
@@ -38,7 +35,7 @@ const ReportDetails: React.FC = () => {
   return (
     <div className="flex h-screen bg-white">
       {/* <Navbar isAuthenticated={false} /> */}
-      <SideBar isAuthenticated={isAuthenticated} />
+
       <div className="px-32 flex-1 min-h-screen overflow-y-auto">
         <h2 className="text-2xl text-gray-500 font-medium mb-4 text-left mt-5 lg:ml-10">
           REPORTING

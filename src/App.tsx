@@ -5,18 +5,18 @@ import SignUpPage from "./pages/signupPage";
 import LoginPage from "./pages/Shared/pages/LoginPage";
 // import QuoteDetails from './pages/QuoteDetails';
 import TrailerOptionsPage from "./pages/TrailerOptionsPage";
-import LoadBoard from "./pages/Admin/page/LoadBoard";
+import LoadBoard from "./pages/Admin/page/loadBoardPage";
 import NonBusinessPage from "./pages/NonBusinessEmail";
 import BookingConfirmation from "./pages/bookingSuccessful";
 // import DispatchDetails from './pages/dispatchDetails';
 import PaymentOptionPage from "./pages/ShipperUser/page/paymentOptionPage";
-import ReportDetails from "./pages/reportDetails";
+import ReportDetails from "./pages/ShipperUser/page/reportDetailsPage";
 import NotFound from "./pages/Shared/pages/NotFound";
 import Invoice from "./components/Invoice";
-import AdminDashboard from "./pages/Admin/page/AdminDashboard";
+import AdminDashboard from "./pages/Admin/page/adminDashboardPage";
 
 import AccountingReports from "./pages/accountingReport";
-import AccountingPayment from "./pages/Admin/page/accountingPayment";
+import AccountingPayment from "./pages/Admin/page/accountingPaymentPage";
 import PerformanceOverview from "./pages/performanceGrade";
 import ShipmentDetailsConfirmation from "./pages/shipmentDetailsConfirmation";
 
@@ -26,9 +26,9 @@ import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Stripe from "./components/stripe/Stripe";
-import LegalPage from "./pages/Admin/page/LegalPage";
-import BillOfLandingPage from "./pages/Admin/page/BillOfLanding";
-import EditLoad from "./pages/Admin/page/EditLoad";
+import LegalPage from "./pages/Admin/page/legalPage";
+import BillOfLandingPage from "./pages/Admin/page/billOfLandingPage";
+import EditLoad from "./pages/Admin/page/editLoadPage";
 import ShipperUserPayablesPage from "./pages/ShipperUser/page/shipperUserPayablesPage";
 
 import ShipperShellPage from "./pages/ShipperUser/page/shipperShellPage";
@@ -36,6 +36,8 @@ import ShipperDashboardPage from "./pages/ShipperUser/page/shipperDashboardPage"
 import ShipperProfilePage from "./pages/ShipperUser/page/shipperProfilePage";
 import ShipmentRequestShellPage from "./pages/ShipmentRequest/shipmentRequestShellPage";
 import DistanceCalculatorPage from "./pages/ShipmentRequest/distanceCalculatorPage";
+import AdminShellPage from "./pages/Admin/page/adminShellPage";
+
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -142,10 +144,7 @@ const App: React.FC = () => {
           </Route>
 
           {/* ==== END Shipper User Route=== */}
-          <Route
-            path="/trailer-options"
-            element={<PrivateRoute element={<TrailerOptionsPage />} />}
-          />
+
           <Route
             path="/nonbusiness"
             element={<PrivateRoute element={<NonBusinessPage />} />}
@@ -186,50 +185,79 @@ const App: React.FC = () => {
 
           {/* !Admin */}
           <Route
-            path="/legal-page"
-            element={<PrivateRoute element={<LegalPage />} roles={["admin"]} />}
-          />
-
-          <Route
-            path="/bill-lading"
+            path="/a"
             element={
-              <PrivateRoute element={<BillOfLandingPage />} roles={["admin"]} />
+              <PrivateRoute element={<AdminShellPage />} roles={["admin"]} />
             }
-          />
-          <Route
-            path="/admin-dashboard"
-            element={
-              <PrivateRoute element={<AdminDashboard />} roles={["admin"]} />
-            }
-          />
-          <Route
-            path="/accounting-payment"
-            element={
-              <PrivateRoute element={<AccountingPayment />} roles={["admin"]} />
-            }
-          />
-          <Route
-            path="/editBooking/:id"
-            element={<PrivateRoute element={<EditLoad />} roles={["admin"]} />}
-          />
-          <Route
-            path="/load-board"
-            element={<PrivateRoute element={<LoadBoard />} roles={["admin"]} />}
-          />
-
-          <Route
-            path="/report-details"
-            element={
-              <PrivateRoute element={<ReportDetails />} roles={["admin"]} />
-            }
-          />
-
-          <Route
-            path="/accounting-report"
-            element={
-              <PrivateRoute element={<AccountingReports />} roles={["admin"]} />
-            }
-          />
+          >
+            <Route
+              index
+              element={
+                <PrivateRoute element={<AdminDashboard />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="admin-dashboard"
+              element={
+                <PrivateRoute element={<AdminDashboard />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="legal-page"
+              element={
+                <PrivateRoute element={<LegalPage />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="trailer-options"
+              element={<PrivateRoute element={<TrailerOptionsPage />} />}
+            />
+            <Route
+              path="bill-lading"
+              element={
+                <PrivateRoute
+                  element={<BillOfLandingPage />}
+                  roles={["admin"]}
+                />
+              }
+            />
+            <Route
+              path="accounting-payment"
+              element={
+                <PrivateRoute
+                  element={<AccountingPayment />}
+                  roles={["admin"]}
+                />
+              }
+            />
+            <Route
+              path="editBooking/:id"
+              element={
+                <PrivateRoute element={<EditLoad />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="load-board"
+              element={
+                <PrivateRoute element={<LoadBoard />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="report-details"
+              element={
+                <PrivateRoute element={<ReportDetails />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="accounting-report"
+              element={
+                <PrivateRoute
+                  element={<AccountingReports />}
+                  roles={["admin"]}
+                />
+              }
+            />
+          </Route>
           {/* ==END ADMIN=== */}
 
           <Route path="*" element={<NotFound />} />

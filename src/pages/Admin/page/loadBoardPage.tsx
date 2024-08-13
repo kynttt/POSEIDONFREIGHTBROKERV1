@@ -5,8 +5,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../../components/Button";
 import LoadCard from "../../../components/LoadCard";
-import SideBar from "../../../components/Sidebar/SideBar";
-import { useAuthStore } from "../../../state/useAuthStore";
 import { fetchBookings } from "../../../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
 
@@ -27,7 +25,6 @@ type CardProps = {
 };
 
 const LoadBoard: React.FC = () => {
-  const { isAuthenticated } = useAuthStore(); // Use Zustand store
   const [pickUpLocation, setPickUpLocation] = useState("");
   const [deliveryLocation, setDeliveryLocation] = useState("");
   const [pickUpDate, setPickUpDate] = useState<Date | null>(null);
@@ -143,8 +140,6 @@ const LoadBoard: React.FC = () => {
 
   return (
     <div className="flex h-screen">
-      <SideBar isAuthenticated={isAuthenticated} />
-
       <div className="flex-1 bg-white min-h-screen overflow-y-auto">
         <form onSubmit={handleSubmit} className="lg:mx-16 py-10 px-4">
           <div className="mb-6">

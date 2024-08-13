@@ -9,14 +9,11 @@ import {
   faList,
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
-import SideBar from "../../../components/Sidebar/SideBar";
-import { useAuthStore } from "../../../state/useAuthStore";
 import Folder from "../../../components/LegalFolder";
 import foldersData from "../../../components/legalFolders.json";
 import filesData from "../../../components/legalFiles.json";
 
 const LegalPage = () => {
-  const { isAuthenticated } = useAuthStore();
   const [isListView, setIsListView] = useState(true); // State to track view mode
   const [showActionsIndex, setShowActionsIndex] = useState<number | null>(null); // State to track which ellipsis was clicked
 
@@ -45,8 +42,6 @@ const LegalPage = () => {
 
   return (
     <div className="flex h-screen bg-white">
-      <SideBar isAuthenticated={isAuthenticated} />
-
       <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
         <div className="flex flex-col md:flex-row justify-between items-start mt-4 mb-4 px-4 sm:px-6 md:px-12">
           <div className="mb-4 md:mb-8 md:ml-15">

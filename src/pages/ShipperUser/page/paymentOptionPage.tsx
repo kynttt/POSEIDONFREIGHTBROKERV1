@@ -5,7 +5,6 @@ import Button from "../../../components/Button";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
-import Sidebar from "../../../components/Sidebar/SideBar";
 import { bookQuote, createInvoice } from "../../../lib/apiCalls";
 
 const generateRandomNumber = (min: number, max: number): number => {

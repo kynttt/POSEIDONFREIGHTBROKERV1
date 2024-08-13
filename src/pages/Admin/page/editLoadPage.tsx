@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBookingById, updateBookingDetails } from "../../../lib/apiCalls";
-import SideBar from "../../../components/Sidebar/SideBar";
-import { useAuthStore } from "../../../state/useAuthStore";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
 
 interface QuoteUpdate {
@@ -36,7 +34,6 @@ interface BookingUpdate {
 
 const EditLoad: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { isAuthenticated } = useAuthStore();
 
   const [booking, setBooking] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -181,7 +178,6 @@ const EditLoad: React.FC = () => {
 
   return (
     <div className="flex h-screen">
-      <SideBar isAuthenticated={isAuthenticated} />
       <nav className="flex-1 bg-white overflow-y-auto lg:px-20">
         <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
           <div className="w-full lg:w-2/3">
