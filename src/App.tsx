@@ -26,7 +26,7 @@ import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Stripe from "./components/stripe/Stripe";
-import BillOfLandingPage from "./pages/Admin/page/billOfLandingPage";
+import BillOfLadingPage from "./pages/Admin/page/billOfLadingPage";
 import EditLoad from "./pages/Admin/page/editLoadPage";
 
 import ShipmentRequestShellPage from "./pages/ShipmentRequest/shipmentRequestShellPage";
@@ -37,6 +37,7 @@ import ShipperUserPayablesPage from "./pages/ShipperUser/page/ShipperUserPayable
 import ShipperProfilePage from "./pages/ShipperUser/page/ShipperProfilePage";
 import AdminShellPage from "./pages/Admin/page/AdminShellPage";
 import LegalPage from "./pages/Admin/page/LegalPage";
+import BillOfLading from "./pages/billOfLading";
 
 const theme = createTheme({
   primaryColor: "brand",
@@ -144,7 +145,10 @@ const App: React.FC = () => {
           </Route>
 
           {/* ==== END Shipper User Route=== */}
-
+          <Route
+            path="/bill-of-lading/:id"
+            element={<PrivateRoute element={<BillOfLading />} />}
+          />
           <Route
             path="/nonbusiness"
             element={<PrivateRoute element={<NonBusinessPage />} />}
@@ -216,7 +220,7 @@ const App: React.FC = () => {
               path="bill-lading"
               element={
                 <PrivateRoute
-                  element={<BillOfLandingPage />}
+                  element={<BillOfLadingPage />}
                   roles={["admin"]}
                 />
               }

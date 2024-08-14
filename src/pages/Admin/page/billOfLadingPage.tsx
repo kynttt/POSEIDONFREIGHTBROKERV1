@@ -1,21 +1,18 @@
 import React from "react";
 import Button from "../../../components/Button";
-import { useAuthStore } from "../../../state/useAuthStore";
 import { useNavigate } from "react-router-dom";
-import SideBar from "../../../components/Sidebar/SideBar";
 
-const BillOfLandingPage: React.FC = () => {
+const BillOfLadingPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleConfirmBooking = () => {
     navigate("/booking-successful");
   };
-  const { isAuthenticated } = useAuthStore(); // Use useAuth hook to get isAuthenticated
 
   return (
     <div className="flex h-screen">
       {/* <Navbar isAuthenticated={isAuthenticated} /> */}
-      <SideBar isAuthenticated={isAuthenticated} />
+
       <nav className="flex-1 bg-white overflow-y-auto">
         <div className=" bg-white p-6 w-full max-w-screen-2xl mx-auto">
           <h1 className="text-2xl font-medium mb-8 mt-4 text-secondary">
@@ -492,4 +489,4 @@ const BillOfLandingPage: React.FC = () => {
   );
 };
 
-export default BillOfLandingPage;
+export default BillOfLadingPage;
