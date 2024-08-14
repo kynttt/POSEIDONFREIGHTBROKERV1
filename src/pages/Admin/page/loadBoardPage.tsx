@@ -156,7 +156,7 @@ const LoadBoard: React.FC = () => {
   );
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-full">
       <div className="flex-1 bg-white min-h-screen overflow-y-auto">
         <form onSubmit={handleSubmit} className="lg:mx-16 py-10 px-4">
           <div className="mb-6">

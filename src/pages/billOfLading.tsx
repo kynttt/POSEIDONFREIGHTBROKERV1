@@ -6,6 +6,7 @@ import { fetchBookingById } from "../lib/apiCalls";
 import { useParams } from "react-router-dom";
 // import html2canvas from 'html2canvas';
 import SignatureCanvas from "react-signature-canvas";
+import { Quote } from "../utils/types";
 
 interface BookingData {
   notes: string;
@@ -39,12 +40,28 @@ const BillOfLading: React.FC = () => {
 
   useEffect(() => {
     const fetchBooking = async (id: string) => {
-      try {
-        const data = await fetchBookingById(id);
-        setBookingData(data as unknown as BookingData);
-      } catch (error) {
-        console.error("Error fetching booking data:", error);
-      }
+      const data = await fetchBookingById(id);
+      const quote = data.quote as Quote;
+      setBookingData({
+        notes: quote.notes || "",
+        origin: quote.origin,
+        billOfLadingNumber: "123456",
+        carrier: "Poseidon",
+        pickupDate: quote.pickupDate.toLocaleString(),
+        departureDate: quote.pickupDate.toLocaleString(),
+        trailerNumber: "123",
+        consignee: quote.destination,
+        companyName: quote.companyName,
+        shipper: quote.companyName,
+        destination: quote.destination,
+        phone: "123-456-7890",
+        packaging: `${quote.packaging}`,
+        maxWeight: quote.maxWeight,
+        price: quote.price,
+        emergencyPhoneNumber: "123-456-7890",
+        id: data._id!,
+        loadNumber: "12313213213",
+      });
     };
 
     if (id) {
