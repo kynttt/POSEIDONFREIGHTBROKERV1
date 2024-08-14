@@ -4,6 +4,8 @@ import { fetchBookingById } from '../lib/apiCalls';
 
 import SideBar from '../components/SideBar';
 import { useAuthStore } from '../state/useAuthStore';
+import { useNavigate } from 'react-router-dom';
+
 
 const ShipmentDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>(); // Get the id from the URL
@@ -12,6 +14,8 @@ const ShipmentDetails: React.FC = () => {
 
     const [booking, setBooking] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
 
     // const truncateText = (text: string, maxLength: number): string => {
     //     if (text.length <= maxLength) {
@@ -28,6 +32,10 @@ const ShipmentDetails: React.FC = () => {
         hour = hour % 12 || 12; // Convert '0' hour to '12' and make sure '12' remains '12'
 
         return `${hour}:${minutes} ${period}`;
+    };
+
+    const handleBillOfLadingClick = () => {
+        navigate(`/bill-of-lading/${id}`); // Navigate to /bill-of-lading
     };
 
 
@@ -218,11 +226,11 @@ const ShipmentDetails: React.FC = () => {
 
                             <h2 className="text-xl mb-2 text-secondary">Documents</h2>
                             <div className="flex flex-col sm:flex-row mb-4 border-b py-4">
-                                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                                    <label className="block text-primary text-sm font-bold " htmlFor="customerReference">
-                                        Bill of Lading (BOL) <span className="text-red-600">*</span>
-                                    </label>
-                                    <p className='text-gray-500 text-base font-medium'>{booking.bol || 'N/A'}</p>
+                                <div onClick={handleBillOfLadingClick} className="w-full sm:w-1/2 mb-4 sm:mb-0">
+                                    <button className="block text-primary text-sm font-bold bg-secondary text-white p-2 rounded-md" >
+                                        Bill of Lading (BOL)
+                                    </button>
+                                    {/* <p className='text-gray-500 text-base font-medium'>{booking.bol || 'N/A'}</p> */}
                                 </div>
                             </div>
                         </div>

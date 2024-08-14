@@ -37,6 +37,9 @@ module.exports = {
         price: "#30D5C8",
         "freightquote-bg": "#adb4e4",
       },
+      cursor: {
+        pen: 'url(/pen.png), auto',
+      },
     },
   },
   plugins: [

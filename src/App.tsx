@@ -32,6 +32,8 @@ import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Stripe from "./components/stripe/Stripe";
 import EditLoad from "./pages/User/page/editLoad";
+import BillOfLading from "./pages/billOfLading";
+import PdfGenerator from "./pages/PdfGenerator";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -141,6 +143,12 @@ const App: React.FC = () => {
             path="/shipper-dashboard"
             element={
               <PrivateRoute element={<ShipperDashboard />} roles={["user"]} />
+            }
+          />
+          <Route
+            path="/bill-of-lading/:id"
+            element={
+              <PrivateRoute element={<BillOfLading />}  />
             }
           />
           <Route
