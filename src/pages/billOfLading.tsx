@@ -35,6 +35,7 @@ const BillOfLading: React.FC = () => {
     const signatureRef = useRef<SignatureCanvas>(null);
     const [isSignatureSaved, setIsSignatureSaved] = useState(false);
     const [isSignaturePresent, setIsSignaturePresent] = useState(false);
+    const [isSigned, setIsSigned] = useState(false);
 
     useEffect(() => {
         const fetchBooking = async (id: string) => {
@@ -88,6 +89,7 @@ const BillOfLading: React.FC = () => {
     const handleSignatureEnd = () => {
         if (signatureRef.current) {
             setIsSignaturePresent(!signatureRef.current.isEmpty());
+            setIsSigned(true);
         }
     };
 
@@ -245,7 +247,7 @@ const BillOfLading: React.FC = () => {
                             expressly waives any other collection rights or remedies otherwise available to it, including any
                             right to seek payment of the transportation charges from the consignor or consignee.
 
-                            
+
 
                         </label>
 
@@ -257,17 +259,30 @@ const BillOfLading: React.FC = () => {
                         <label className="block font-bold p-2">Shipper Signature/Date</label>
                         {/* Signature Canvas */}
                         <div className="mt-4">
-                                
+
+                            <div className="relative">
+                                {/* Signature Canvas */}
                                 <SignatureCanvas
                                     ref={signatureRef}
                                     penColor="black"
                                     maxWidth={1.3}
                                     onEnd={handleSignatureEnd}
-                                    canvasProps={{ className: 'signatureCanvas border border-gray-500 w-full h-16', style: { cursor: 'crosshair' } }}
+                                    canvasProps={{
+                                        className: 'signatureCanvas border border-gray-500 w-full h-16',
+                                        style: { cursor: 'crosshair' }
+                                    }}
                                 />
 
-
+                                {/* "Sign Here" Text */}
+                                {!isSigned && (
+                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                        <span className="mb-24 text-gray-500 font-bold bg-yellow-200 p-1 text-xs rounded">Please Sign Below. . .</span>
+                                    </div>
+                                )}
                             </div>
+
+
+                        </div>
                         <p className='font-thin text-xs text-justify p-2'>This is to certify that the above
                             named materials are properly
                             classified, packaged, marked,
@@ -317,32 +332,32 @@ const BillOfLading: React.FC = () => {
 
             <div className='flex flex-col my-auto'>
 
-            {/* Download Button */}
-            <button
-                onClick={handleDownload}
-                className={`mt-4 p-2 text-white rounded ${isSignatureSaved ? 'bg-gray-500' : 'bg-gray-300 cursor-not-allowed'}`}
-                disabled={!isSignatureSaved}
-            >
-                Download PDF
-            </button>
-            {!isSignatureSaved && (
-                <>
-                    <button
-                        onClick={saveSignature}
-                        className={`mt-4 p-2 text-white rounded ${isSignaturePresent ? 'bg-blue-500' : 'bg-blue-300 cursor-not-allowed'}`}
-                        disabled={!isSignaturePresent}
+                {/* Download Button */}
+                <button
+                    onClick={handleDownload}
+                    className={`mt-4 p-2 text-white rounded ${isSignatureSaved ? 'bg-gray-500' : 'bg-gray-300 cursor-not-allowed'}`}
+                    disabled={!isSignatureSaved}
+                >
+                    Download PDF
+                </button>
+                {!isSignatureSaved && (
+                    <>
+                        <button
+                            onClick={saveSignature}
+                            className={`mt-4 p-2 text-white rounded ${isSignaturePresent ? 'bg-blue-500' : 'bg-blue-300 cursor-not-allowed'}`}
+                            disabled={!isSignaturePresent}
 
-                    >
-                        Save Signature
-                    </button>
-                    <button
-                        onClick={clearSignature}
-                        className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold  p-2 rounded"
-                    >
-                        Clear Signature
-                    </button>
-                </>
-            )}
+                        >
+                            Save Signature
+                        </button>
+                        <button
+                            onClick={clearSignature}
+                            className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold  p-2 rounded"
+                        >
+                            Clear Signature
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );
