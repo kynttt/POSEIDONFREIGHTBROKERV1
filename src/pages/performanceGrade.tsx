@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -90,7 +89,7 @@ const PerformanceGradeComponent: React.FC = () => {
   return (
     <div className="bg-white h-screen flex flex-col md:flex-row lg:flex-row">
       {/* Sidebar */}
-      <Sidebar isAuthenticated={false} />
+
       <div className="p-4 lg:px-20 flex-1 overflow-x-hidden">
         <div className="text-2xl font-semibold mb-6 text-gray-400">
           Performance
