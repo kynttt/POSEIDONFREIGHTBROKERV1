@@ -76,10 +76,13 @@ const LoadBoard: React.FC = () => {
       const token = localStorage.getItem("authToken");
       try {
         if (token) {
-          const booking = await fetchBookings(token);
-          const quotes = booking.map((book) => book.quote as Quote);
-          const cards: CardProps[] = quotes.map((quote) => ({
-            id: quote._id!,
+          const bookings = await fetchBookings(token);
+          const quotes = bookings.map((book) => ({
+            bookingId: book._id,
+            quote: book.quote as Quote,
+          }));
+          const cards: CardProps[] = quotes.map(({ bookingId, quote }) => ({
+            id: bookingId!,
             pickUp: quote.origin,
             status: "Confirmed",
             drop: quote.destination,
