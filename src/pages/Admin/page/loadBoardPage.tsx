@@ -79,23 +79,26 @@ const LoadBoard: React.FC = () => {
           const bookings = await fetchBookings(token);
           const quotes = bookings.map((book) => ({
             bookingId: book._id,
+            bookingStatus: book.status,
             quote: book.quote as Quote,
           }));
-          const cards: CardProps[] = quotes.map(({ bookingId, quote }) => ({
-            id: bookingId!,
-            pickUp: quote.origin,
-            status: "Confirmed",
-            drop: quote.destination,
-            maxWeight: quote.maxWeight,
-            companyName: quote.companyName,
-            trailerType: quote.trailerType,
-            distance: parseInt(quote.distance),
-            trailerSize: quote.trailerSize.toString(),
-            commodity: quote.commodity,
-            price: quote.price,
-            pickupDate: new Date(quote.pickupDate),
-            onBookLoadClick: () => {},
-          }));
+          const cards: CardProps[] = quotes.map(
+            ({ bookingId, bookingStatus, quote }) => ({
+              id: bookingId!,
+              pickUp: quote.origin,
+              status: bookingStatus,
+              drop: quote.destination,
+              maxWeight: quote.maxWeight,
+              companyName: quote.companyName,
+              trailerType: quote.trailerType,
+              distance: parseInt(quote.distance),
+              trailerSize: quote.trailerSize.toString(),
+              commodity: quote.commodity,
+              price: quote.price,
+              pickupDate: new Date(quote.pickupDate),
+              onBookLoadClick: () => {},
+            })
+          );
           setLoadCards(cards);
         }
       } catch (error) {
