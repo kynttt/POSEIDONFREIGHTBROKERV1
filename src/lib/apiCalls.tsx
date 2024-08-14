@@ -273,35 +273,14 @@ export const createPaymentIntent = async ({
 };
 
 // Fetch all bookings
-export const fetchBookings = async (
-  token: string
-): Promise<BookingCallback> => {
+export const fetchBookings = async (token: string): Promise<Booking[]> => {
   const response = await axios.get(`${API_BASE_URL}/bookings/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  return response.data.map((booking: Booking) => {
-    const quote = booking.quote as Quote;
-    return {
-      id: booking._id,
-      pickUp: quote.origin,
-      price: quote.price,
-      status: booking.status,
-      drop: quote.destination,
-      maxWeight: quote.maxWeight,
-      companyName: quote.companyName,
-      trailerType: quote.trailerType,
-      distance: quote.distance,
-      trailerSize: quote.trailerSize,
-      commodity: quote.commodity,
-      pickupDate: quote.pickupDate,
-      onBookLoadClick: () => {
-        /* Handle book load click */
-      },
-    };
-  });
+  return response.data as Booking[];
 };
 
 // Update booking details by quoteID

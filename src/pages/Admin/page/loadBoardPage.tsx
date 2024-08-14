@@ -7,6 +7,7 @@ import Button from "../../../components/Button";
 import LoadCard from "../../../components/LoadCard";
 import { fetchBookings } from "../../../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
+import { Quote } from "../../../utils/types";
 
 type CardProps = {
   pickupDate: Date;
@@ -75,8 +76,24 @@ const LoadBoard: React.FC = () => {
       const token = localStorage.getItem("authToken");
       try {
         if (token) {
-          const quotes = await fetchBookings(token);
-          setLoadCards(quotes);
+          const booking = await fetchBookings(token);
+          const quotes = booking.map((book) => book.quote as Quote);
+          const cards: CardProps[] = quotes.map((quote) => ({
+            id: quote._id!,
+            pickUp: quote.origin,
+            status: "Confirmed",
+            drop: quote.destination,
+            maxWeight: quote.maxWeight,
+            companyName: quote.companyName,
+            trailerType: quote.trailerType,
+            distance: parseInt(quote.distance),
+            trailerSize: quote.trailerSize.toString(),
+            commodity: quote.commodity,
+            price: quote.price,
+            pickupDate: new Date(quote.pickupDate),
+            onBookLoadClick: () => {},
+          }));
+          setLoadCards(cards);
         }
       } catch (error) {
         console.error("Error fetching data:", error);

@@ -1,3 +1,10 @@
+export type BookingStatus =
+  | "Pending"
+  | "Confirmed"
+  | "In Transit"
+  | "Delivered"
+  | "Cancelled";
+
 export interface Schema {
   _id?: string;
   createdAt?: string;
@@ -47,14 +54,17 @@ export interface Invoice extends Schema {
 
 export interface Booking extends Schema {
   quote: string | Quote;
-  status: "Pending" | "Confirmed" | "In Transit" | "Delivered" | "Cancelled";
+  status: BookingStatus;
   carrier?: string | null;
   driver?: string | null;
   pickupTime?: string | null;
   deliveryTime?: string | null;
 }
 
-export interface BookingCallback extends Booking {
+export interface BookingCallback extends Quote {
   id: string;
+  pickUp: string;
+  status: BookingStatus;
+  drop: string;
   onBookLoadClick: () => void;
 }
