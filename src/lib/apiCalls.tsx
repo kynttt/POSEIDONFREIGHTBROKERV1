@@ -1,11 +1,5 @@
 import axios from "axios";
-import {
-  Booking,
-  BookingCallback,
-  Invoice,
-  Quote,
-  RegisterFormData,
-} from "../utils/types";
+import { Booking, Invoice, Quote, RegisterFormData } from "../utils/types";
 
 // Set the base URL for the API
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
