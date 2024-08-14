@@ -30,6 +30,7 @@ import { calculatePrice } from "../../components/googleMap/priceCalculator";
 import truckTypes from "../../components/googleMap/truckTypes.json";
 import truckSizes from "../../components/googleMap/truckSizes.json";
 import Calendar from "../../components/Calendar";
+import { Quote } from "../../utils/types";
 
 const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
@@ -138,7 +139,7 @@ export default function DistanceCalculatorPage() {
         destinationLocation,
       });
     }
-  }, [originLocation, destinationLocation]);
+  }, [originLocation, destinationLocation, origin, destination, map]);
 
   useEffect(() => {
     if (map && originLocation && destinationLocation) {
@@ -189,18 +190,18 @@ export default function DistanceCalculatorPage() {
     if (!isAuthenticated) {
       navigate("/login");
     } else {
-      const quoteDetails = {
+      const quoteDetails: Quote = {
         origin,
         destination,
-        pickupDate,
+        pickupDate: new Date(pickupDate).toISOString(),
         trailerType: selectedTrailerType,
         trailerSize: selectedTrailerSize,
         commodity,
-        maxWeight,
+        maxWeight: parseInt(maxWeight),
         companyName,
         distance,
         packaging: `${packagingNumber} ${selectedPackagingType}`,
-        price,
+        price: parseFloat(price!.toFixed(2)),
         notes,
       };
 

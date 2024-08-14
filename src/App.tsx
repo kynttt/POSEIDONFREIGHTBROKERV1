@@ -26,17 +26,17 @@ import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import Stripe from "./components/stripe/Stripe";
-import LegalPage from "./pages/Admin/page/legalPage";
 import BillOfLandingPage from "./pages/Admin/page/billOfLandingPage";
 import EditLoad from "./pages/Admin/page/editLoadPage";
-import ShipperUserPayablesPage from "./pages/ShipperUser/page/shipperUserPayablesPage";
 
-import ShipperShellPage from "./pages/ShipperUser/page/shipperShellPage";
-import ShipperDashboardPage from "./pages/ShipperUser/page/shipperDashboardPage";
-import ShipperProfilePage from "./pages/ShipperUser/page/shipperProfilePage";
 import ShipmentRequestShellPage from "./pages/ShipmentRequest/shipmentRequestShellPage";
 import DistanceCalculatorPage from "./pages/ShipmentRequest/distanceCalculatorPage";
-import AdminShellPage from "./pages/Admin/page/adminShellPage";
+import ShipperShellPage from "./pages/ShipperUser/page/ShipperShellPage";
+import ShipperDashboardPage from "./pages/ShipperUser/page/ShipperDashboardPage";
+import ShipperUserPayablesPage from "./pages/ShipperUser/page/ShipperUserPayablesPage";
+import ShipperProfilePage from "./pages/ShipperUser/page/ShipperProfilePage";
+import AdminShellPage from "./pages/Admin/page/AdminShellPage";
+import LegalPage from "./pages/Admin/page/LegalPage";
 
 const theme = createTheme({
   primaryColor: "brand",

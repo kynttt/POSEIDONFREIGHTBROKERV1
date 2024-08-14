@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import profileImage from "../assets/img/profilepic.jpg";
 import profileBgImage from "../assets/img/profilebg.jpg";
-import SideBar from "../components/Sidebar/SideBar";
 import { useAuthStore } from "../state/useAuthStore";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,11 +11,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ShipperBookings from "./ShipperUser/components/shipperBookings";
 import FreightQuoteMini from "../components/FreightQuoteMini";
+import { User } from "../utils/types";
 
 const ProfileCard: React.FC = () => {
   const { isAuthenticated, userId, token } = useAuthStore();
 
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
     if (isAuthenticated && userId && token) {

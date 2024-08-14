@@ -5,10 +5,11 @@ import { useAuthStore } from "../../../state/useAuthStore";
 import { fetchUserInvoices } from "../../../lib/apiCalls";
 import Button from "../../../components/Button";
 import UserDashboardCard from "../../../components/userDashboardCard";
+import { Invoice, Quote } from "../../../utils/types";
 
 const ShipperUserPayablesPage: React.FC = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Invoice[]>([]);
   const { isAuthenticated, role } = useAuthStore();
   const userId = useAuthStore((state) => state.userId);
 
@@ -80,14 +81,14 @@ const ShipperUserPayablesPage: React.FC = () => {
                       <th className="px-4 py-2 text-left font-medium">
                         Select
                       </th>
-                      <th className="px-4 py-2 text-left font-medium">
+                      {/* <th className="px-4 py-2 text-left font-medium">
                         Customer PO
                       </th>
                       <th className="px-4 py-2 text-left font-medium">
-                        FreightBroker PO
-                      </th>
+                        FreightBroker PO */}
+                      {/* </th> */}
                       <th className="px-4 py-2 text-left font-medium">Rate</th>
-                      <th className="px-4 py-2 text-left font-medium">Paid</th>
+                      {/* <th className="px-4 py-2 text-left font-medium">Paid</th> */}
                       <th className="px-4 py-2 text-left font-medium">
                         Balance
                       </th>
@@ -106,14 +107,14 @@ const ShipperUserPayablesPage: React.FC = () => {
                     {data.map((item, index) => (
                       <UserDashboardCard
                         key={index}
-                        customerPO={item.customerPO}
-                        freightBrokerPO={item.freightBrokerPO}
-                        rate={item.amountDue}
-                        paid={item.paid}
-                        balance={item.amountDue}
-                        invoiceDate={item.dateIssued}
-                        deliveryDate={item.quote?.pickupDate || "N/A"}
-                        status={item.status}
+                        rate={item.amountDue.toString()}
+                        balance={item.amountDue.toString()}
+                        invoiceDate={item.dateIssued?.toString() || "N/A"}
+                        deliveryDate={
+                          (item.quote as Quote)?.pickupDate?.toLocaleString() ||
+                          "N/A"
+                        }
+                        status={item.status || "N/A"}
                       />
                     ))}
                   </tbody>

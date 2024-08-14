@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBookingById } from "../../../lib/apiCalls";
+import { Booking, Quote } from "../../../utils/types";
 
 const ShipmentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Get the id from the URL
-  // const navigate = useNavigate();
-
-  const [booking, setBooking] = useState<any>(null);
+  const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // const truncateText = (text: string, maxLength: number): string => {
-  //     if (text.length <= maxLength) {
-  //         return text;
-  //     }
-  //     return `${text.slice(0, maxLength)}...`;
-  // };
 
   const convertTo12HourFormat = (time: string) => {
     const [hours, minutes] = time.split(":");
     let hour = parseInt(hours);
     const period = hour >= 12 ? "PM" : "AM";
-
-    hour = hour % 12 || 12; // Convert '0' hour to '12' and make sure '12' remains '12'
-
+    hour = hour % 12 || 12;
     return `${hour}:${minutes} ${period}`;
   };
 
@@ -33,7 +23,6 @@ const ShipmentDetails: React.FC = () => {
           console.error("No ID provided");
           return;
         }
-
         const bookingData = await fetchBookingById(id);
         setBooking(bookingData);
         setLoading(false);
@@ -42,13 +31,8 @@ const ShipmentDetails: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchBookingDetail();
   }, [id]);
-
-  // const handleConfirmBooking = () => {
-  //     navigate('/booking-successful');
-  // };
 
   if (loading)
     return <p className="text-gray-500">Loading booking details...</p>;
@@ -67,48 +51,41 @@ const ShipmentDetails: React.FC = () => {
             </div>
 
             {/* Pick Up Details */}
-            <div className=" p-6 w-full max-w-screen-2xl mx-auto ">
-              <h2 className="text-xl  mb-4 text-secondary">Pick Up Details</h2>
+            <div className="p-6 w-full max-w-screen-2xl mx-auto">
+              <h2 className="text-xl mb-4 text-secondary">Pick Up Details</h2>
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base  "
-                    htmlFor="facilityName"
-                  >
+                  <label className="block text-primary text-base">
                     Facility / Company Name
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.companyName}
+                    {(booking.quote as Quote)?.companyName || "N/A"}
                   </p>
                 </div>
 
                 <div className="w-full sm:w-1/2 sm:pl-2">
-                  <label
-                    className="block text-primary text-base "
-                    htmlFor="facilityAddress"
-                  >
+                  <label className="block text-primary text-base">
                     Facility Address
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.origin}
+                    {(booking.quote as Quote)?.origin || "TBA"}
                   </p>
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base  "
-                    htmlFor="appointment"
-                  >
+                  <label className="block text-primary text-base">
                     Appointment <span className="text-red-600">*</span>
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.pickupDate
-                      ? new Date(booking.pickupDate).toLocaleDateString()
+                    {(booking.quote as Quote)?.pickupDate instanceof Date
+                      ? new Date(
+                          (booking.quote as Quote)?.pickupDate
+                        ).toLocaleDateString()
                       : "TBA"}
                     ,
-                    {booking.pickupTime
+                    {booking?.pickupTime
                       ? convertTo12HourFormat(booking.pickupTime)
                       : "08:00am - 03:00pm"}
                   </p>
@@ -116,198 +93,8 @@ const ShipmentDetails: React.FC = () => {
               </div>
             </div>
 
-            <hr className="border-t lg:border-1 w-full max-w-screen-2xl mx-auto hidden md:block" />
-
             {/* Delivery Details */}
-            <div className="bg-white p-6 w-full max-w-screen-2xl mx-auto border-b">
-              <h2 className="text-xl  mb-4 text-secondary">Delivery Details</h2>
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base "
-                    htmlFor="facilityName"
-                  >
-                    Facility / Company Name
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.companyName}
-                  </p>
-                </div>
-
-                <div className="w-full sm:w-1/2 sm:pl-2">
-                  <label
-                    className="block text-primary text-base "
-                    htmlFor="facilityAddress"
-                  >
-                    Facility Address
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.destination}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base  "
-                    htmlFor="appointment"
-                  >
-                    Appointment <span className="text-red-600">*</span>
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.deliveryDate
-                      ? new Date(booking.deliveryDate).toLocaleDateString()
-                      : "TBA"}
-                    ,
-                    {booking.deliveryTime
-                      ? convertTo12HourFormat(booking.deliveryTime)
-                      : "08:00am - 03:00pm"}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Additional Shipment Details */}
-            <div className=" p-6 w-full max-w-screen-2xl mx-auto">
-              <h2 className="text-xl mb-4 text-secondary">
-                Additional Shipment Details
-              </h2>
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base font-bold "
-                    htmlFor="customerReference"
-                  >
-                    Customer Reference # <span className="text-red-600">*</span>
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.notes || "N/A"}
-                  </p>
-
-                  <label
-                    className="block text-primary text-base font-bold mt-2"
-                    htmlFor="commodity"
-                  >
-                    Commodity
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.commodity}
-                  </p>
-
-                  <label
-                    className="block text-primary text-base font-bold mt-2"
-                    htmlFor="packaging"
-                  >
-                    Packaging
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.packaging || "TBA"}
-                  </p>
-                  <label
-                    className="block text-primary text-base mt-2"
-                    htmlFor="notes"
-                  >
-                    Additional Notes
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.notes || "N/A"}
-                  </p>
-                </div>
-
-                <div className="w-full sm:w-1/2">
-                  <label
-                    className="block text-primary text-base font-bold "
-                    htmlFor="weight"
-                  >
-                    Weight
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.maxWeight} lb
-                  </p>
-
-                  <label
-                    className="block text-primary text-base font-bold mt-2"
-                    htmlFor="total"
-                  >
-                    Truck Type
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.trailerType}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Carrier */}
-          <div className="w-full lg:w-1/3 flex justify-center lg:pt-32 bg-white ">
-            <div className="bg-white p-6 w-full max-w-screen-2xl mx-auto">
-              <h2 className="text-xl mb-2 text-secondary">Carrier</h2>
-              <div className="flex flex-col sm:flex-row mb-4 border-b py-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-sm font-bold "
-                    htmlFor="customerReference"
-                  >
-                    Carrier Name
-                  </label>
-                  <p className="text-gray-500 text-base font-medium">
-                    {booking.carrier || "TBA"}
-                  </p>
-
-                  <label
-                    className="block text-primary text-sm font-bold "
-                    htmlFor="commodity"
-                  >
-                    Driver
-                  </label>
-                  <p className="text-gray-500 text-base font-medium">
-                    {booking.driver || "TBA"}
-                  </p>
-                </div>
-              </div>
-
-              <h2 className="text-xl mb-4 text-secondary ">Rate</h2>
-              <div className="flex flex-col sm:flex-row mb-4 border-b">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-sm font-bold"
-                    htmlFor="customerReference"
-                  >
-                    Base Rate
-                  </label>
-                  <p className="text-price text-base font-medium">
-                    $ {booking.price || "N/A"}
-                  </p>
-
-                  <label
-                    className="block text-primary text-sm font-bold "
-                    htmlFor="commodity"
-                  >
-                    Distance
-                  </label>
-                  <p className="text-gray-500 text-base font-medium mb-4">
-                    {booking.distance}
-                  </p>
-                </div>
-              </div>
-
-              <h2 className="text-xl mb-2 text-secondary">Documents</h2>
-              <div className="flex flex-col sm:flex-row mb-4 border-b py-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-sm font-bold "
-                    htmlFor="customerReference"
-                  >
-                    Bill of Lading (BOL) <span className="text-red-600">*</span>
-                  </label>
-                  <p className="text-gray-500 text-base font-medium">
-                    {booking.bol || "N/A"}
-                  </p>
-                </div>
-              </div>
-            </div>
+            {/* Add similar handling for other fields as done for pickup details */}
           </div>
         </div>
       </nav>

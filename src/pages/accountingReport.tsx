@@ -1,11 +1,8 @@
 import { useState } from "react";
-import SideBar from "../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faPrint } from "@fortawesome/free-solid-svg-icons";
-import { useAuthStore } from "../state/useAuthStore";
 
 const AccountingReports: React.FC = () => {
-  const { isAuthenticated } = useAuthStore(); // Use useAuth hook to get isAuthenticated
   const [selectedYear, setSelectedYear] = useState<string>("2023");
 
   const handleChangeYear = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -14,7 +11,6 @@ const AccountingReports: React.FC = () => {
 
   return (
     <div className="bg-white flex flex-col md:flex-row font-lexend bg-">
-      <SideBar isAuthenticated={isAuthenticated} />
       <div className="flex-1 px-4 md:px-16 mt-4 md:mt-16">
         <h2 className="text-lg md:text-xl font-semibold mb-4 md:mb-8 text-gray-500">
           Reports

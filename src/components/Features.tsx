@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { motion, useAnimation } from "framer-motion";
+import { AnimationControls, motion, useAnimation } from "framer-motion";
 import freightImage from "../assets/img/freight.png";
 import { Flex, Image, Stack } from "@mantine/core";
 
@@ -40,7 +40,11 @@ const FeaturesSection: React.FC = () => {
   }, [textControls3, textInView3]);
 
   return (
-    <Stack id="services" className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] md:my-14 my-6" justify="center">
+    <Stack
+      id="services"
+      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] md:my-14 my-6"
+      justify="center"
+    >
       <Flex
         direction={{
           base: "column",
@@ -123,9 +127,9 @@ function FeatureCard({
 }: {
   title: string;
   description: string;
-  customRef?: any;
-  initial?: any;
-  animate?: any;
+  customRef?: React.Ref<HTMLDivElement>;
+  initial?: Record<string, unknown>;
+  animate?: AnimationControls;
 }) {
   return (
     <motion.div

@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import paymentsData from "../pages/Admin/page/accountingPaymentsData.json"; // Import JSON data
+interface PaymentData {
+  freightPO: string;
+  payStatus: string;
+  estimatedPaidDate: string;
+  paidDate: string;
+  invoiceNumber: string;
+  documents: string;
+  paidTotal: string;
+}
 
 const PaymentCard: React.FC = () => {
-  const [tableData, setTableData] = useState<any[]>([]); // State to hold table data
+  const [tableData, setTableData] = useState<PaymentData[]>([]); // State to hold table data
 
   useEffect(() => {
     // Simulate fetching or setting table data from an API or local storage

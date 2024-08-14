@@ -2,7 +2,24 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBookingById, updateBookingDetails } from "../../../lib/apiCalls";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
+import { Booking, Quote } from "../../../utils/types";
 
+type FormStateField = keyof FormState | keyof NonNullable<FormState["quote"]>;
+interface FormState {
+  pickupDate?: string;
+  pickupTime?: string;
+  deliveryDate?: string;
+  deliveryTime?: string;
+  carrier?: string;
+  driver?: string;
+  quote?: {
+    trailerSize?: string;
+    maxWeight?: number;
+    pickupDate?: string;
+    deliveryDate?: string;
+  };
+  // Add other fields as needed
+}
 interface QuoteUpdate {
   trailerSize?: string;
   maxWeight?: number;
@@ -35,12 +52,12 @@ interface BookingUpdate {
 const EditLoad: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const [booking, setBooking] = useState<any>(null);
+  const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
   const [editingField, setEditingField] = useState<{ [key: string]: boolean }>(
     {}
   );
-  const [formState, setFormState] = useState<any>({});
+  const [formState, setFormState] = useState<FormState>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [editedFields, setEditedFields] = useState({
@@ -60,7 +77,35 @@ const EditLoad: React.FC = () => {
         }
         const bookingData = await fetchBookingById(id);
         setBooking(bookingData);
-        setFormState(bookingData); // Initialize form state with fetched data
+        const pickupDate =
+          (bookingData.quote as Quote)?.pickupDate instanceof Date
+            ? ((bookingData.quote as Quote)?.pickupDate as Date)!.toISOString()
+            : ((bookingData.quote as Quote)?.pickupDate as string) || "";
+
+        const deliveryDate = (
+          (bookingData.quote as Quote)?.deliveryDate instanceof Date
+            ? ((bookingData.quote as Quote)
+                ?.deliveryDate as Date)!.toISOString()
+            : ((bookingData.quote as Quote)?.deliveryDate as
+                | string
+                | undefined) || ""
+        ).toString();
+        setFormState({
+          pickupDate,
+          deliveryDate,
+          pickupTime: bookingData.pickupTime || "",
+          deliveryTime: bookingData.deliveryTime || "",
+          carrier: bookingData.carrier || "",
+          driver: bookingData.driver || "",
+          quote: {
+            trailerSize: (
+              (bookingData.quote as Quote)?.trailerSize || ""
+            ).toString(),
+            maxWeight: (bookingData.quote as Quote)?.maxWeight || 0,
+            pickupDate,
+            deliveryDate,
+          },
+        }); // Initialize form state with fetched data
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -78,9 +123,9 @@ const EditLoad: React.FC = () => {
     }));
   };
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormState((prevState: any) => ({
+    setFormState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -92,42 +137,54 @@ const EditLoad: React.FC = () => {
     }));
   };
 
-  const handleSave = async (field: string) => {
+  const handleSave = async (field: FormStateField) => {
     try {
       if (!id) return;
 
-      // eslint-disable-next-line no-sparse-arrays
       const isQuoteField = [
         "trailerSize",
         "maxWeight",
         "pickupDate",
         "deliveryDate",
       ].includes(field);
+
       const updateData: BookingUpdate = isQuoteField
-        ? { quote: { [field]: formState[field] } }
-        : { [field]: formState[field] };
+        ? { quote: { [field]: formState.quote?.[field as keyof QuoteUpdate] } }
+        : { [field]: formState[field as keyof FormState] };
 
       await updateBookingDetails(id, updateData);
 
-      setBooking((prevBooking: any) => ({
-        ...prevBooking,
-        [field]: formState[field],
-      }));
+      setBooking((prevBooking) => {
+        if (!prevBooking) return prevBooking; // If prevBooking is null, return null
+
+        return {
+          ...prevBooking,
+          ...(isQuoteField
+            ? {
+                quote: {
+                  ...(prevBooking.quote as Quote),
+                  [field]: formState.quote?.[field as keyof QuoteUpdate],
+                },
+              }
+            : { [field]: formState[field as keyof FormState] }),
+        };
+      });
 
       setEditingField((prevState) => ({ ...prevState, [field]: false }));
     } catch (error) {
       console.error("Error updating field:", error);
     }
   };
-
   const handleConfirmBooking = async (
     _event: React.MouseEvent<HTMLButtonElement>,
     action = "default"
   ) => {
     try {
+      if (!booking) return;
       if (!id) return;
 
-      let newStatus = "";
+      let newStatus: Booking["status"]; // Ensure newStatus matches the expected type
+
       if (action === "cancel" && booking.status === "In Transit") {
         newStatus = "Confirmed"; // Revert to Confirmed status when canceling transit
       } else if (action === "cancel" && booking.status === "Confirmed") {
@@ -148,10 +205,14 @@ const EditLoad: React.FC = () => {
 
       await updateBookingDetails(id, { status: newStatus });
 
-      setBooking((prevBooking: any) => ({
-        ...prevBooking,
-        status: newStatus,
-      }));
+      setBooking((prevBooking) => {
+        if (!prevBooking) return null;
+
+        return {
+          ...prevBooking,
+          status: newStatus,
+        };
+      });
 
       if (newStatus === "Confirmed") {
         setIsModalOpen(true); // Open the modal only if confirming the booking
@@ -253,7 +314,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-gray-500 text-sm font-medium">
-                      {booking.companyName}
+                      {(booking?.quote as Quote)?.companyName || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -267,7 +328,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-gray-500 text-sm font-medium">
-                      {booking.origin}
+                      {(booking?.quote as Quote)?.origin || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -292,7 +353,12 @@ const EditLoad: React.FC = () => {
                       />
                     ) : (
                       <p className="text-gray-500 text-sm font-medium">
-                        {new Date(booking.pickupDate).toLocaleDateString()}
+                        {/* {new Date(booking.pickupDate).toLocaleDateString()} */}
+                        {(booking.quote as Quote)?.pickupDate
+                          ? new Date(
+                              (booking.quote as Quote)?.pickupDate
+                            ).toLocaleDateString()
+                          : "TBA"}
                       </p>
                     )}
                     {booking.status === "Pending" && (
@@ -370,7 +436,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-gray-500 text-sm font-medium">
-                      {booking.companyName}
+                      {(booking?.quote as Quote)?.companyName || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -384,7 +450,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-gray-500 text-sm font-medium">
-                      {booking.destination}
+                      {(booking?.quote as Quote)?.destination || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -409,8 +475,10 @@ const EditLoad: React.FC = () => {
                       />
                     ) : (
                       <p className="text-gray-500 text-sm font-medium">
-                        {booking.deliveryDate
-                          ? new Date(booking.deliveryDate).toLocaleDateString()
+                        {(booking.quote as Quote)?.deliveryDate
+                          ? new Date(
+                              (booking.quote as Quote).deliveryDate!
+                            ).toLocaleDateString()
                           : "TBA"}
                       </p>
                     )}
@@ -488,7 +556,7 @@ const EditLoad: React.FC = () => {
                     Customer Reference # <span className="text-red-600">*</span>
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.notes || "N/A"}
+                    {(booking.quote as Quote)?.notes || "N/A"}
                   </p>
 
                   <label
@@ -498,7 +566,7 @@ const EditLoad: React.FC = () => {
                     Commodity
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.commodity}
+                    {(booking.quote as Quote)?.commodity || "N/A"}
                   </p>
 
                   <label
@@ -508,7 +576,7 @@ const EditLoad: React.FC = () => {
                     Packaging
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.packaging || "TBA"}
+                    {(booking.quote as Quote)?.packaging || "N/A"}
                   </p>
                   <label
                     className="block text-primary text-base mt-2"
@@ -517,7 +585,7 @@ const EditLoad: React.FC = () => {
                     Additional Notes
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.notes || "N/A"}
+                    {(booking.quote as Quote)?.notes || "N/A"}
                   </p>
                 </div>
 
@@ -529,7 +597,7 @@ const EditLoad: React.FC = () => {
                     Weight
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.maxWeight} lb
+                    {(booking.quote as Quote)?.maxWeight} lb
                   </p>
 
                   <label
@@ -539,7 +607,7 @@ const EditLoad: React.FC = () => {
                     Truck Type
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {booking.trailerType}
+                    {(booking.quote as Quote)?.trailerType || "N/A"}
                   </p>
                   <label
                     className="block text-primary text-base font-bold mt-2"
@@ -638,7 +706,7 @@ const EditLoad: React.FC = () => {
                     Base Rate
                   </label>
                   <p className="text-price text-base font-medium">
-                    $ {booking.price || "N/A"}
+                    $ {(booking.quote as Quote)?.price || "N/A"}
                   </p>
 
                   <label
@@ -648,7 +716,7 @@ const EditLoad: React.FC = () => {
                     Distance
                   </label>
                   <p className="text-gray-500 text-base font-medium mb-4">
-                    {booking.distance}
+                    {(booking.quote as Quote)?.distance || "N/A"} miles
                   </p>
                 </div>
               </div>

@@ -2,18 +2,18 @@ import {
   faTableColumns,
   faMoneyCheckDollar,
   faCalculator,
-  faBell,
   faUser,
   faTruckFront,
   faListUl,
   faTruckFast,
   faFolderOpen,
 } from "@fortawesome/free-solid-svg-icons";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 export interface NavItem {
   label: string;
   path: string;
-  icon: any; // Icon from FontAwesome
+  icon: IconDefinition; // Icon from FontAwesome
 }
 
 export interface NavItems {

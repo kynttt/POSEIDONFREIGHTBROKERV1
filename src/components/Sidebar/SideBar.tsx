@@ -1,8 +1,6 @@
 import { useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { useNavigate } from "react-router-dom";
-
 import { useAuthStore } from "../../state/useAuthStore";
 import {
   ActionIcon,
@@ -26,10 +24,13 @@ export default function Sidebar({
   const navigate = useNavigate();
   const { isAuthenticated, role } = useAuthStore();
 
-  const handleNavigation = useCallback((path: string) => {
-    navigate(path);
-    close?.();
-  }, []);
+  const handleNavigation = useCallback(
+    (path: string) => {
+      navigate(path);
+      close?.();
+    },
+    [navigate, close]
+  );
 
   const getNavItems = () => {
     if (!isAuthenticated) {

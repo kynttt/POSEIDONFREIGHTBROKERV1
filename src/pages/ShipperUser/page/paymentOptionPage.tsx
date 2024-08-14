@@ -6,6 +6,7 @@ import QuoteRequestModal from "../../../components/QuoteRequestModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import { bookQuote, createInvoice } from "../../../lib/apiCalls";
+import { Invoice } from "../../../utils/types";
 
 const generateRandomNumber = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -38,7 +39,7 @@ const PaymentComponent: React.FC = () => {
       await bookQuote(quoteId, token);
 
       // Prepare data for creating an invoice
-      const invoiceData = {
+      const invoiceData: Invoice = {
         quote: quoteId, // Reference to the quote
         createdBy: userId, // User creating the invoice
         amountDue: price, // Assuming `price` is the amount due
