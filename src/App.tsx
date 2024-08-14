@@ -27,9 +27,12 @@ import ShipmentDetailsConfirmation from "./pages/shipmentDetailsConfirmation";
 
 import PrivateRoute from "./components/PrivateRoute";
 import ShipmentDetails from "./pages/ShipmentDetails";
+import { Notifications } from "@mantine/notifications";
 
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 import Stripe from "./components/stripe/Stripe";
 import EditLoad from "./pages/User/page/editLoad";
 const theme = createTheme({
@@ -61,133 +64,145 @@ const theme = createTheme({
 const App: React.FC = () => {
   return (
     <MantineProvider theme={theme}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
-          <Route
-            path="/trailer-options"
-            element={<PrivateRoute element={<TrailerOptionsPage />} />}
-          />
-          <Route
-            path="/nonbusiness"
-            element={<PrivateRoute element={<NonBusinessPage />} />}
-          />
-          <Route
-            path="/booking-successful"
-            element={<PrivateRoute element={<BookingConfirmation />} />}
-          />
-          {/* <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} /> */}
-          <Route
-            path="/payment-option"
-            element={<PrivateRoute element={<PaymentOptionPage />} />}
-          />
-          <Route
-            path="/report-details"
-            element={
-              <PrivateRoute element={<ReportDetails />} roles={["admin"]} />
-            }
-          />
-          <Route
-            path="/invoice"
-            element={<PrivateRoute element={<Invoice />} />}
-          />
-          <Route
-            path="/legal-page"
-            element={<PrivateRoute element={<LegalPage />} roles={["admin"]} />}
-          />
-          <Route
-            path="/user-payables"
-            element={
-              <PrivateRoute element={<UserPayables />} roles={["user"]} />
-            }
-          />
-          <Route
-            path="/load-board"
-            element={<PrivateRoute element={<LoadBoard />} roles={["admin"]} />}
-          />
-          <Route
-            path="/bill-lading"
-            element={
-              <PrivateRoute element={<BillOfLadingPage />} roles={["admin"]} />
-            }
-          />
-          <Route
-            path="/admin-dashboard"
-            element={
-              <PrivateRoute element={<AdminDashboard />} roles={["admin"]} />
-            }
-          />
-          <Route path="/distance-calculator" element={<DistanceCalculator />} />
-          <Route
-            path="/profile"
-            element={<PrivateRoute element={<Profile />} />}
-          />
-          <Route
-            path="/accounting-report"
-            element={
-              <PrivateRoute element={<AccountingReports />} roles={["admin"]} />
-            }
-          />
-          <Route
-            path="/accounting-payment"
-            element={
-              <PrivateRoute element={<AccountingPayment />} roles={["admin"]} />
-            }
-          />
-          <Route
-            path="/shipper-dashboard"
-            element={
-              <PrivateRoute element={<ShipperDashboard />} roles={["user"]} />
-            }
-          />
-          <Route
-            path="/performance-grade"
-            element={
-              <PrivateRoute
-                element={<PerformanceOverview />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
-            path="/shipmentDetails/:id"
-            element={
-              <PrivateRoute element={<ShipmentDetails />} roles={["user"]} />
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-          <Route
-            path="/shipment-report"
-            element={
-              <PrivateRoute
-                element={<ShipmentDetailsConfirmation />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
-            path="/payment"
-            element={
-              <PrivateRoute
-                element={<Stripe />}
-                roles={["user"]}
-              />
-            }
-          />
-          <Route
-            path="/editBooking/:id"
-            element={
-              <PrivateRoute element={<EditLoad />} roles={["admin"]} />
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-
-        
-      </Router>
+      <Notifications />
+      <ModalsProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
+            <Route
+              path="/trailer-options"
+              element={<PrivateRoute element={<TrailerOptionsPage />} />}
+            />
+            <Route
+              path="/nonbusiness"
+              element={<PrivateRoute element={<NonBusinessPage />} />}
+            />
+            <Route
+              path="/booking-successful"
+              element={<PrivateRoute element={<BookingConfirmation />} />}
+            />
+            {/* <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} /> */}
+            <Route
+              path="/payment-option"
+              element={<PrivateRoute element={<PaymentOptionPage />} />}
+            />
+            <Route
+              path="/report-details"
+              element={
+                <PrivateRoute element={<ReportDetails />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="/invoice"
+              element={<PrivateRoute element={<Invoice />} />}
+            />
+            <Route
+              path="/legal-page"
+              element={
+                <PrivateRoute element={<LegalPage />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="/user-payables"
+              element={
+                <PrivateRoute element={<UserPayables />} roles={["user"]} />
+              }
+            />
+            <Route
+              path="/load-board"
+              element={
+                <PrivateRoute element={<LoadBoard />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="/bill-lading"
+              element={
+                <PrivateRoute
+                  element={<BillOfLadingPage />}
+                  roles={["admin"]}
+                />
+              }
+            />
+            <Route
+              path="/admin-dashboard"
+              element={
+                <PrivateRoute element={<AdminDashboard />} roles={["admin"]} />
+              }
+            />
+            <Route
+              path="/distance-calculator"
+              element={<DistanceCalculator />}
+            />
+            <Route
+              path="/profile"
+              element={<PrivateRoute element={<Profile />} />}
+            />
+            <Route
+              path="/accounting-report"
+              element={
+                <PrivateRoute
+                  element={<AccountingReports />}
+                  roles={["admin"]}
+                />
+              }
+            />
+            <Route
+              path="/accounting-payment"
+              element={
+                <PrivateRoute
+                  element={<AccountingPayment />}
+                  roles={["admin"]}
+                />
+              }
+            />
+            <Route
+              path="/shipper-dashboard"
+              element={
+                <PrivateRoute element={<ShipperDashboard />} roles={["user"]} />
+              }
+            />
+            <Route
+              path="/performance-grade"
+              element={
+                <PrivateRoute
+                  element={<PerformanceOverview />}
+                  roles={["user"]}
+                />
+              }
+            />
+            <Route
+              path="/shipmentDetails/:id"
+              element={
+                <PrivateRoute element={<ShipmentDetails />} roles={["user"]} />
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+            <Route
+              path="/shipment-report"
+              element={
+                <PrivateRoute
+                  element={<ShipmentDetailsConfirmation />}
+                  roles={["user"]}
+                />
+              }
+            />
+            <Route
+              path="/payment"
+              element={<PrivateRoute element={<Stripe />} roles={["user"]} />}
+            />
+            <Route
+              path="/editBooking/:id"
+              element={
+                <PrivateRoute element={<EditLoad />} roles={["admin"]} />
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+      </ModalsProvider>
     </MantineProvider>
   );
 };
