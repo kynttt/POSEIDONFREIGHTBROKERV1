@@ -35,7 +35,9 @@ const ShipmentDetails: React.FC = () => {
     };
 
     const handleBillOfLadingClick = () => {
-        navigate(`/bill-of-lading/${id}`); // Navigate to /bill-of-lading
+        if (booking.status !== 'Pending') {
+            navigate(`/bill-of-lading/${id}`); // Navigate to /bill-of-lading if status is not Pending
+        }
     };
 
 
@@ -227,7 +229,8 @@ const ShipmentDetails: React.FC = () => {
                             <h2 className="text-xl mb-2 text-secondary">Documents</h2>
                             <div className="flex flex-col sm:flex-row mb-4 border-b py-4">
                                 <div onClick={handleBillOfLadingClick} className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                                    <button className="block text-primary text-sm font-bold bg-secondary text-white p-2 rounded-md" >
+                                    <button className={`block text-primary text-sm font-bold p-2 rounded-md ${booking.status === 'Pending' ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-secondary text-white cursor-pointer'}`} 
+                                        disabled={booking.status === 'Pending'} >
                                         Bill of Lading (BOL)
                                     </button>
                                     {/* <p className='text-gray-500 text-base font-medium'>{booking.bol || 'N/A'}</p> */}
