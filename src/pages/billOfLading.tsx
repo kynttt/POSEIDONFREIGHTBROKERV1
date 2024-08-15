@@ -46,7 +46,7 @@ const BillOfLading: React.FC = () => {
         notes: quote.notes || "",
         origin: quote.origin,
         billOfLadingNumber: "123456",
-        carrier: "Poseidon",
+        carrier: data.carrier ?? "No Assigned Carrier",
         pickupDate: quote.pickupDate.toLocaleString(),
         departureDate: quote.pickupDate.toLocaleString(),
         trailerNumber: "123",
