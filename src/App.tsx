@@ -38,6 +38,7 @@ import ShipperProfilePage from "./pages/ShipperUser/page/ShipperProfilePage";
 import AdminShellPage from "./pages/Admin/page/AdminShellPage";
 import LegalPage from "./pages/Admin/page/LegalPage";
 import BillOfLading from "./pages/billOfLading";
+import OfferPage from "./pages/Shared/pages/OfferPage";
 
 const theme = createTheme({
   primaryColor: "brand",
@@ -71,6 +72,8 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/offers" element={<OfferPage />} />
+
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
@@ -216,6 +219,7 @@ const App: React.FC = () => {
               path="trailer-options"
               element={<PrivateRoute element={<TrailerOptionsPage />} />}
             />
+
             <Route
               path="bill-lading"
               element={
