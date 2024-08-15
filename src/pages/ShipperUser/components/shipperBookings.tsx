@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { fetchUserBookings } from '../../../lib/apiCalls';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { fetchUserBookings } from "../../../lib/apiCalls";
+import { useNavigate } from "react-router-dom";
 import { Booking } from "../../../utils/types";
 
 const ShipperBookings = () => {
@@ -13,7 +13,6 @@ const ShipperBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-
         const bookingsData = await fetchUserBookings();
         setBookings(bookingsData);
       } catch (error) {

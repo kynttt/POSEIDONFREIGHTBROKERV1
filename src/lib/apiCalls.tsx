@@ -68,7 +68,7 @@ export const registerUser = async (formData: RegisterFormData) => {
 //   return response.data;
 // };
 
-export const fetchQuotes = async (token: string) => {
+export const fetchQuotes = async () => {
   const response = await axios.get(`${API_BASE_URL}/quotes/`, {
     // headers: {
     //   Authorization: `Bearer ${token}`,
@@ -116,7 +116,7 @@ export const fetchBookingDetails = async (id: string) => {
 };
 
 // Create quote
-export const createQuote = async (quoteDetails: Quote, token: string) => {
+export const createQuote = async (quoteDetails: Quote) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/quotes/`, quoteDetails, {
       headers: {
@@ -139,7 +139,7 @@ export const createQuote = async (quoteDetails: Quote, token: string) => {
 };
 
 // Fetch quote details by ID
-export const fetchQuoteDetails = async (quoteId: string, token: string) => {
+export const fetchQuoteDetails = async (quoteId: string) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/quotes/${quoteId}`, {
       headers: {
@@ -160,7 +160,7 @@ export const fetchQuoteDetails = async (quoteId: string, token: string) => {
 
 // Invoice
 // Create invoice
-export const createInvoice = async (invoiceData: Invoice, token: string) => {
+export const createInvoice = async (invoiceData: Invoice) => {
   try {
     const response = await axios.post(
       `${API_BASE_URL}/invoices/`,
@@ -184,7 +184,7 @@ export const createInvoice = async (invoiceData: Invoice, token: string) => {
 };
 
 // Fetch User Invoices
-export const fetchUserInvoices = async (userId: string, token: string) => {
+export const fetchUserInvoices = async (userId: string) => {
   try {
     const response = await axios.get(
       `${API_BASE_URL}/invoices/user/${userId}`,
@@ -222,7 +222,7 @@ interface BookingData {
   price: number;
 }
 
-export const bookQuote = async (bookingData: BookingData, token: string) => {
+export const bookQuote = async (bookingData: BookingData) => {
   try {
     const response = await axios.post(
       `${API_BASE_URL}/bookings/`,
@@ -265,14 +265,12 @@ export const createPaymentIntent = async ({
 }: PaymentIntentParams) => {
   try {
     const response = await axios.post(
-      
       `${API_BASE_URL}/payments/create-payment-intent`,
-     
+
       {
-          amount,
-          currency,
-        }
-    
+        amount,
+        currency,
+      }
     );
     return response.data;
   } catch (error) {
@@ -282,7 +280,7 @@ export const createPaymentIntent = async ({
 };
 
 // Fetch all bookings
-export const fetchBookings = async (token: string) => {
+export const fetchBookings = async () => {
   const response = await axios.get(
     `${API_BASE_URL}/bookings/`
     //    {
@@ -292,26 +290,28 @@ export const fetchBookings = async (token: string) => {
     // }
   );
 
-  return response.data.map((booking: any) => {
-    const quote = booking.quote;
-    return {
-      id: booking._id,
-      pickUp: quote.origin,
-      price: quote.price,
-      status: booking.status,
-      drop: quote.destination,
-      maxWeight: quote.maxWeight,
-      companyName: quote.companyName,
-      trailerType: quote.trailerType,
-      distance: quote.distance,
-      trailerSize: quote.trailerSize,
-      commodity: quote.commodity,
-      pickupDate: quote.pickupDate,
-      onBookLoadClick: () => {
-        /* Handle book load click */
-      },
-    };
-  });
+  // return response.data.map((booking: any) => {
+  //   const quote = booking.quote;
+  //   return {
+  //     id: booking._id,
+  //     pickUp: quote.origin,
+  //     price: quote.price,
+  //     status: booking.status,
+  //     drop: quote.destination,
+  //     maxWeight: quote.maxWeight,
+  //     companyName: quote.companyName,
+  //     trailerType: quote.trailerType,
+  //     distance: quote.distance,
+  //     trailerSize: quote.trailerSize,
+  //     commodity: quote.commodity,
+  //     pickupDate: quote.pickupDate,
+  //     onBookLoadClick: () => {
+  //       /* Handle book load click */
+  //     },
+  //   };
+  // });
+
+  return response.data as Booking[];
 };
 
 // Update booking details by quoteID
@@ -338,11 +338,9 @@ interface BookingUpdate {
 }
 
 export const updateBookingDetails = async (
-  
   id: string,
- 
-  updatedData: BookingUpdate
 
+  updatedData: BookingUpdate
 ) => {
   const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
     method: "PUT",

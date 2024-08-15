@@ -27,16 +27,9 @@ const PaymentComponent: React.FC = () => {
       return;
     }
 
-    const token = localStorage.getItem("authToken");
-
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
-
     try {
       // Handle booking if necessary
-      await bookQuote(quoteId, token);
+      await bookQuote(quoteId);
 
       // Prepare data for creating an invoice
       const invoiceData: Invoice = {
@@ -48,7 +41,7 @@ const PaymentComponent: React.FC = () => {
       };
 
       // POST request to create an invoice
-      await createInvoice(invoiceData, token);
+      await createInvoice(invoiceData);
 
       setIsModalOpen(true);
     } catch (error) {

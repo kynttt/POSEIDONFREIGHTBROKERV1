@@ -56,6 +56,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     const { userId } = get();
 
+    console.log(`Fetching user info for user ID: ${userId}`);
+
     if (!userId) {
       set({ isLoading: true, isError: false, error: null });
       try {

@@ -205,13 +205,8 @@ export default function DistanceCalculatorPage() {
         notes,
       };
 
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        return;
-      }
-
       try {
-        const data = await createQuote(quoteDetails, token);
+        const data = await createQuote(quoteDetails);
         navigate("/requests/confirmation", {
           state: { price, quoteId: data._id, userId },
         });
