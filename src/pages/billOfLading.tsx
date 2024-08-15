@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 // import axios from 'axios';
-import { fetchBookingById } from "../lib/apiCalls";
+import { fetchBookingById, uploadPdf } from "../lib/apiCalls";
 import { useParams } from "react-router-dom";
 // import html2canvas from 'html2canvas';
 import SignatureCanvas from "react-signature-canvas";
@@ -46,7 +46,7 @@ const BillOfLading: React.FC = () => {
         notes: quote.notes || "",
         origin: quote.origin,
         billOfLadingNumber: "123456",
-        carrier: data.carrier ?? "No Assigned Carrier",
+        carrier: "Poseidon",
         pickupDate: quote.pickupDate.toLocaleString(),
         departureDate: quote.pickupDate.toLocaleString(),
         trailerNumber: "123",
@@ -86,11 +86,34 @@ const BillOfLading: React.FC = () => {
     pdf.save("Bill_of_Lading.pdf");
   };
 
-  const saveSignature = () => {
+  const saveSignature = async () => {
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       const canvas = signatureRef.current.getCanvas();
-      if (canvas.toDataURL("image/png")) {
-        setIsSignatureSaved(true);
+      const imgData = canvas.toDataURL("image/png");
+  
+      // Generate the PDF document with the signature image
+      const pdf = new jsPDF();
+      pdf.text("Bill of Lading", 10, 10);
+      pdf.addImage(imgData, "PNG", 10, 20, 190, 60);
+  
+      // Convert the PDF to a Blob
+      const pdfBlob = pdf.output("blob");
+  
+      try {
+        // Call the separate API function to upload the PDF
+        const response = await uploadPdf(pdfBlob);
+        // console.log("Response:", response); // Log the response for debugging
+  
+        if (response.status === 201) { // Check for 201 status code if that is what your backend returns for success
+          setIsSignatureSaved(true);
+          localStorage.setItem('isSignatureSaved', 'true');
+          alert("Document saved successfully!");
+        } else {
+          alert("Failed to save document. Status code: " + response.status);
+        }
+      } catch (error) {
+        console.error("Error caught in saveSignature:", error); // Log the error for debugging
+        alert("An error occurred while saving the document.");
       }
     }
   };
