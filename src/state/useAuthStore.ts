@@ -62,7 +62,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         });
 
         return user;
-      } catch (error: any) {
+      } catch (error) {
         console.error("Failed to fetch user info:", error);
         set({
           isAuthenticated: false,

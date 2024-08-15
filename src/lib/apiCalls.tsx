@@ -18,15 +18,11 @@ interface PaymentIntentParams {
 // Login
 
 export const getUser = async () => {
-  try {
-    const response = await axiosInstance.get(`/account/`);
-    const data = response.data;
-    return {
-      ...data.data,
-    };
-  } catch (e) {
-    throw e;
-  }
+  const response = await axiosInstance.get(`/account/`);
+  const data = response.data;
+  return {
+    ...data.data,
+  };
 };
 
 export const loginUser = async (
