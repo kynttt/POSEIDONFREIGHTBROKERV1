@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../state/useAuthStore";
 
 import NotificationModal from "./NotificationModal";
+import { useMutation } from "@tanstack/react-query";
+import { logoutUser } from "../lib/apiCalls";
+import { LogoutResponse } from "../utils/types";
+import { notifications } from "@mantine/notifications";
 
 interface NavbarProps {
   isAuthenticated: boolean; // Prop to determine if user is authenticated
@@ -13,13 +17,39 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const { logout, isAuthenticated, role } = useAuthStore();
+  const { logoutUpdate, isAuthenticated, role } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleLogout = () => {
-    logout(); // Call logout function from AuthContext to clear authentication state
-    navigate("/login"); // Redirect to login page after logout
-  };
+  const mutation = useMutation<LogoutResponse, Error, undefined>({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      notifications.show({
+        title: "Logout successful",
+        message: "You have been logged out",
+        color: "green",
+      });
+      logoutUpdate();
+    },
+    onMutate: () => {
+      notifications.show({
+        title: "Logging out",
+        message: "Please wait...",
+        color: "blue",
+      });
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Logout failed",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
+
+  // const handleLogout = () => {
+  //   logout(); // Call logout function from AuthContext to clear authentication state
+  //   navigate("/login"); // Redirect to login page after logout
+  // };
 
   const handleNavigation = (path: string) => {
     if (path.startsWith("#")) {
@@ -201,7 +231,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                 size="medium"
                 bgColor="#252F70"
                 hoverBgColor="white"
-                onClick={handleLogout}
+                onClick={() => mutation.mutate(undefined)}
                 type=""
               />
             )}
@@ -350,7 +380,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                     size="small"
                     bgColor="#252F70"
                     hoverBgColor="white"
-                    onClick={handleLogout}
+                    onClick={() => mutation.mutate(undefined)}
                     type=""
                   />
                 </div>

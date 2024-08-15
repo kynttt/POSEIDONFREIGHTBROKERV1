@@ -4,7 +4,15 @@ export type BookingStatus =
   | "In Transit"
   | "Delivered"
   | "Cancelled";
+export interface LoginResponse {
+  token: string;
+  message: string;
+  data: User;
+}
 
+export interface LogoutResponse {
+  message: string;
+}
 export interface Schema {
   _id?: string;
   createdAt?: string;

@@ -1,8 +1,13 @@
 import axios from "axios";
-import { Booking, Invoice, Quote, RegisterFormData } from "../utils/types";
-
-// Set the base URL for the API
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+import axiosInstance from "./axiosInstance";
+import {
+  Booking,
+  Invoice,
+  LoginResponse,
+  LogoutResponse,
+  Quote,
+  RegisterFormData,
+} from "../utils/types";
 
 interface PaymentIntentParams {
   amount: number; // Amount in the smallest currency unit (e.g., cents for USD)
@@ -11,14 +16,14 @@ interface PaymentIntentParams {
 
 //Users
 // Login
-interface LoginResponse {
-  token: string;
-}
 
 export const getUser = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/account/`);
-    return response.data;
+    const response = await axiosInstance.get(`/account/`);
+    const data = response.data;
+    return {
+      ...data.data,
+    };
   } catch (e) {
     throw e;
   }
@@ -28,16 +33,21 @@ export const loginUser = async (
   email: string,
   password: string
 ): Promise<LoginResponse> => {
-  const response = await axios.post(`${API_BASE_URL}/account/login`, {
+  const response = await axiosInstance.post(`/account/login`, {
     email,
     password,
   });
   return response.data;
 };
 
+export const logoutUser = async (): Promise<LogoutResponse> => {
+  const response = await axiosInstance.post(`/account/logout`);
+  return response.data;
+};
+
 // Register
 export const registerUser = async (formData: RegisterFormData) => {
-  const response = await axios.post(`${API_BASE_URL}/account/register`, {
+  const response = await axiosInstance.post(`/account/register`, {
     name: formData.name,
     email: formData.email,
     password: formData.password,
@@ -58,7 +68,7 @@ export const registerUser = async (formData: RegisterFormData) => {
 //   token: string
 // ) => {
 //   const response = await axios.get(
-//     `${API_BASE_URL}/delivery-locations?pickUpLocation=${pickUpLocation}`,
+//     `/delivery-locations?pickUpLocation=${pickUpLocation}`,
 //     {
 //       headers: {
 //         Authorization: `Bearer ${token}`,
@@ -69,7 +79,7 @@ export const registerUser = async (formData: RegisterFormData) => {
 // };
 
 export const fetchQuotes = async () => {
-  const response = await axios.get(`${API_BASE_URL}/quotes/`, {
+  const response = await axiosInstance.get(`/quotes/`, {
     // headers: {
     //   Authorization: `Bearer ${token}`,
     // },
@@ -99,7 +109,7 @@ export const fetchBookingDetails = async (id: string) => {
   //   throw new Error("No token found in localStorage");
   // }
 
-  const response = await fetch(`${API_BASE_URL}/quotes/${id}`, {
+  const response = await fetch(`/quotes/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -118,7 +128,7 @@ export const fetchBookingDetails = async (id: string) => {
 // Create quote
 export const createQuote = async (quoteDetails: Quote) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/quotes/`, quoteDetails, {
+    const response = await axiosInstance.post(`/quotes/`, quoteDetails, {
       headers: {
         "Content-Type": "application/json",
         // Authorization: `Bearer ${token}`,
@@ -141,7 +151,7 @@ export const createQuote = async (quoteDetails: Quote) => {
 // Fetch quote details by ID
 export const fetchQuoteDetails = async (quoteId: string) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/quotes/${quoteId}`, {
+    const response = await axiosInstance.get(`/quotes/${quoteId}`, {
       headers: {
         // Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -162,16 +172,12 @@ export const fetchQuoteDetails = async (quoteId: string) => {
 // Create invoice
 export const createInvoice = async (invoiceData: Invoice) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/invoices/`,
-      invoiceData,
-      {
-        headers: {
-          // Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axiosInstance.post(`/invoices/`, invoiceData, {
+      headers: {
+        // Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -186,15 +192,12 @@ export const createInvoice = async (invoiceData: Invoice) => {
 // Fetch User Invoices
 export const fetchUserInvoices = async (userId: string) => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/invoices/user/${userId}`,
-      {
-        headers: {
-          // Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axiosInstance.get(`/invoices/user/${userId}`, {
+      headers: {
+        // Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -224,8 +227,8 @@ interface BookingData {
 
 export const bookQuote = async (bookingData: BookingData) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/bookings/`,
+    const response = await axiosInstance.post(
+      `/bookings/`,
       bookingData
       // {
       //   headers: {
@@ -248,8 +251,8 @@ export const bookQuote = async (bookingData: BookingData) => {
 
 // Fetch User's Booking
 export const fetchUserBookings = async () => {
-  const response = await axios.get(
-    `${API_BASE_URL}/bookings/user`
+  const response = await axiosInstance.get(
+    `/bookings/user`
     //    {
     //   headers: {
     //     Authorization: `Bearer ${token}`,
@@ -264,8 +267,8 @@ export const createPaymentIntent = async ({
   currency,
 }: PaymentIntentParams) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/payments/create-payment-intent`,
+    const response = await axiosInstance.post(
+      `/payments/create-payment-intent`,
 
       {
         amount,
@@ -281,8 +284,8 @@ export const createPaymentIntent = async ({
 
 // Fetch all bookings
 export const fetchBookings = async () => {
-  const response = await axios.get(
-    `${API_BASE_URL}/bookings/`
+  const response = await axiosInstance.get(
+    `/bookings/`
     //    {
     //   headers: {
     //     Authorization: `Bearer ${token}`,
@@ -342,7 +345,7 @@ export const updateBookingDetails = async (
 
   updatedData: BookingUpdate
 ) => {
-  const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
+  const response = await fetch(`/bookings/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -366,7 +369,7 @@ export const fetchBookingById = async (id: string) => {
   // }
 
   try {
-    const response = await axios.get(`${API_BASE_URL}/bookings/${id}`, {
+    const response = await axiosInstance.get(`/bookings/${id}`, {
       headers: {
         // Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

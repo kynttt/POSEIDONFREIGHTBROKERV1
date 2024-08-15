@@ -1,17 +1,15 @@
 import Cookies from "js-cookie";
 import { create } from "zustand";
 import { getUser } from "../lib/apiCalls";
+import { User } from "../utils/types";
 
 interface AuthState {
-  isAuthenticated: boolean | null;
   role: string | null;
   userId: string | null;
-  isLoading: boolean;
-  isError: boolean;
-  error: string | null;
+  isAuthenticated: boolean | null;
   login: (token: string) => void;
-  logout: () => void;
-  fetchUser: () => Promise<void>;
+  logoutUpdate: () => void;
+  fetchUser: () => Promise<User | undefined>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -23,26 +21,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   error: null,
 
   login: (token: string) => {
-    Cookies.set("authToken", token, { expires: 7 }); // Set cookie with 7 days expiration
+    const expires = new Date();
+    expires.setTime(expires.getTime() + 60 * 60 * 1000);
+    Cookies.set("authToken", token, { expires });
     set({
-      isAuthenticated: null,
-      isLoading: true,
-      isError: false,
-      error: null,
+      isAuthenticated: true,
     });
-    // Fetch the user information from the server after setting the token
-    get().fetchUser();
   },
 
-  logout: () => {
-    Cookies.remove("authToken");
+  logoutUpdate: () => {
     set({
       isAuthenticated: false,
       role: null,
       userId: null,
-      isLoading: false,
-      isError: false,
-      error: null,
     });
   },
 
@@ -50,16 +41,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const tokenFromCookies = Cookies.get("authToken");
 
     if (!tokenFromCookies) {
-      set({ isAuthenticated: false, isLoading: false });
+      set({
+        isAuthenticated: false,
+        role: null,
+        userId: null,
+      });
       return;
     }
 
     const { userId } = get();
 
-    console.log(`Fetching user info for user ID: ${userId}`);
-
     if (!userId) {
-      set({ isLoading: true, isError: false, error: null });
       try {
         const user = await getUser();
 
@@ -67,27 +59,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           isAuthenticated: true,
           role: user.role,
           userId: user._id,
-          isLoading: false,
-          isError: false,
-          error: null,
         });
+
+        return user;
       } catch (error: any) {
         console.error("Failed to fetch user info:", error);
         set({
           isAuthenticated: false,
           role: null,
           userId: null,
-          isLoading: false,
-          isError: true,
-          error:
-            error.response?.data?.msg ||
-            error.message ||
-            "Failed to fetch user info",
         });
         Cookies.remove("authToken");
+
+        throw error;
       }
-    } else {
-      set({ isAuthenticated: true, isLoading: false });
     }
   },
 }));

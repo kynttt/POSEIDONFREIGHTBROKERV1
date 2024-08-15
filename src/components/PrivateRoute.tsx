@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../state/useAuthStore";
 import { notifications } from "@mantine/notifications";
+import { useQuery } from "@tanstack/react-query";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
@@ -9,19 +11,28 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
-  const { isAuthenticated, role, isLoading, isError, fetchUser } =
-    useAuthStore();
+  const authToken = useMemo(() => Cookies.get("authToken"), []);
+  const { role, fetchUser, isAuthenticated } = useAuthStore();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["authUser", authToken],
+    queryFn: fetchUser,
+    enabled: !!Cookies.get("authToken"), // Only fetch if authToken exists
+    staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+  });
+
   const navigate = useNavigate();
   const [noPermission, setNoPermission] = React.useState(false);
 
   React.useEffect(() => {
-    if (isAuthenticated === null) {
+    if (!isAuthenticated) {
       fetchUser(); // Fetch user info if authentication state is unknown
     }
   }, [isAuthenticated, fetchUser]);
 
   React.useEffect(() => {
-    if (isLoading || isAuthenticated === null) {
+    if (isLoading && !data) {
       return;
     }
 
@@ -35,9 +46,9 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
     } else if (roles && roles.length > 0 && !roles.includes(role || "")) {
       setNoPermission(true);
     }
-  }, [isAuthenticated, isLoading, role, roles, navigate]);
+  }, [isAuthenticated, isLoading]);
 
-  if (isLoading || isAuthenticated === null) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 

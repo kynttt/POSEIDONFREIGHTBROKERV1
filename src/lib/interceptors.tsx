@@ -1,30 +1,31 @@
-import axios from "axios";
-import { Text } from "@mantine/core";
+import axiosInstance from "./axiosInstance";
+import { Button, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 const setupAxiosInterceptors = () => {
-  axios.interceptors.request.use((config) => {
+  axiosInstance.interceptors.request.use((config) => {
     config.withCredentials = true; // This ensures cookies are included with each request
     return config;
   });
 
-  axios.interceptors.response.use(
+  axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
       if (error.response && error.response.status === 401) {
         // Handle session expiration or invalid token
-        modals.openConfirmModal({
+        modals.open({
           title: "Session Expired",
+          withCloseButton: false,
           children: (
-            <Text size="sm">
-              Your session has expired. Please log in again.
-            </Text>
+            <>
+              <Text size="sm">
+                Your session has expired. Please log in again.
+              </Text>
+              <Button fullWidth onClick={() => modals.closeAll()} mt="md">
+                Login
+              </Button>
+            </>
           ),
-          labels: { confirm: "Log In", cancel: "Cancel" },
-          onConfirm: () => {
-            // Redirect to login page
-            window.location.href = "/login";
-          },
         });
       }
       return Promise.reject(error);
