@@ -1,63 +1,37 @@
-import {
-  ActionIcon,
-  AppShell,
-  Drawer,
-  Flex,
-  Popover,
-  useMatches,
-} from "@mantine/core";
+import { ActionIcon, AppShell, Flex, Popover, useMatches } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
 import notifications from "../../../components/notifications.json";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useHeadroom } from "@mantine/hooks";
 export default function AdminShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
-  const headerVisible = useMatches({
-    xs: false,
-    md: true,
-  });
-  const asideVisible = useMatches({
-    xs: true,
+  const pinned = useHeadroom({ fixedAt: 120 });
 
-    lg: false,
-  });
-  // const [opened, { toggle }] = useDisclosure();
   return (
     <section>
-      <Drawer
-        opened={opened}
-        onClose={close}
-        withCloseButton={false}
-        padding={0}
-      >
-        <Sidebar close={close} closeVisible />
-      </Drawer>
       <AppShell
-        header={{ height: 60, collapsed: headerVisible }}
+        layout="alt"
+        header={{ height: 60, collapsed: !pinned, offset: false }}
         navbar={{
           width: {
             base: 250,
           },
           breakpoint: "sm",
-          collapsed: {
-            mobile: asideVisible,
-            desktop: asideVisible,
-          },
+
+          collapsed: { mobile: !opened },
         }}
       >
-        {!headerVisible && (
-          <AppShell.Header>
-            <ShellHeader opened={opened} open={open} close={close} />
-          </AppShell.Header>
-        )}
+        <AppShell.Header>
+          <ShellHeader opened={opened} open={open} close={close} />
+        </AppShell.Header>
+
         <AppShell.Navbar>
-          <Sidebar />
+          <Sidebar close={close} closeVisible />
         </AppShell.Navbar>
 
         <AppShell.Main>
-          {headerVisible && <ShellHeader />}
           <Outlet />
         </AppShell.Main>
       </AppShell>
