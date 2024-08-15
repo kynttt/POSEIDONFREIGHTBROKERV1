@@ -238,7 +238,7 @@ const EditLoad: React.FC = () => {
   // };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen md:mt-12">
       <nav className="flex-1 bg-white overflow-y-auto lg:px-20">
         <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
           <div className="w-full lg:w-2/3">

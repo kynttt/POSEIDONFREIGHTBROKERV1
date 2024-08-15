@@ -371,3 +371,24 @@ export const fetchBookingById = async (id: string) => {
     throw error;
   }
 };
+
+
+export const uploadPdf = async (pdfBlob: Blob) => {
+  try {
+    const formData = new FormData();
+    formData.append("pdfDocument", pdfBlob, "document-with-signature.pdf");
+
+    const response = await axios.post(`${API_BASE_URL}/billOfLading`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response; // Ensure the response object is returned correctly
+  } catch (error) {
+    console.error("Error saving document:", error);
+    throw error; // Ensure errors are thrown for the catch block in saveSignature to handle
+  }
+};
+
+
