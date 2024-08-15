@@ -1,4 +1,4 @@
-import React, {  useCallback, memo } from "react";
+import React, { useCallback, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { format } from "date-fns";
@@ -13,7 +13,7 @@ interface CardProps {
   trailerType: string;
   distance: number;
   trailerSize: string;
-  price?: number;  // Make loadPrice optional
+  price?: number; // Make loadPrice optional
   commodity: string;
   pickupDate: Date;
   onBookLoadClick?: () => void;
@@ -30,19 +30,20 @@ const LoadCard: React.FC<CardProps> = ({
   // distance,
   // trailerSize,
   // commodity,
-  price = 0,  // Provide a default value of 0
+  price = 0, // Provide a default value of 0
   pickupDate,
   // onBookLoadClick,
 }) => {
   const navigate = useNavigate();
 
   const formattedPickupDate = format(pickupDate, "MM/dd/yyyy");
-  const truncatedPickUp = pickUp.length > 25 ? `${pickUp.slice(0, 25)}...` : pickUp;
+  const truncatedPickUp =
+    pickUp.length > 25 ? `${pickUp.slice(0, 25)}...` : pickUp;
   const truncatedDrop = drop.length > 25 ? `${drop.slice(0, 25)}...` : drop;
   const formattedLoadPrice = price.toFixed(2);
 
   const handleBookLoadClick = useCallback(() => {
-    navigate(`/editBooking/${id}`);
+    navigate(`/a/editBooking/${id}`);
   }, [navigate, id]);
 
   return (
@@ -54,7 +55,9 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-bold">Load Price</p>
             </div>
             <div>
-              <p className="font-normal text-2xl text-price">${formattedLoadPrice}</p>
+              <p className="font-normal text-2xl text-price">
+                ${formattedLoadPrice}
+              </p>
             </div>
           </div>
           <div className="flex items-left flex-col col-span-2 md:col-span-1">

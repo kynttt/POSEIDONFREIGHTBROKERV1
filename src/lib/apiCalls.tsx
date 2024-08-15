@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Booking, Invoice, Quote, RegisterFormData } from "../utils/types";
 
 // Set the base URL for the API
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -35,7 +36,7 @@ export const loginUser = async (
 };
 
 // Register
-export const registerUser = async (formData: any) => {
+export const registerUser = async (formData: RegisterFormData) => {
   const response = await axios.post(`${API_BASE_URL}/account/register`, {
     name: formData.name,
     email: formData.email,
@@ -44,27 +45,28 @@ export const registerUser = async (formData: any) => {
     postalCode: formData.postalCode,
     phone: formData.phone,
     companyName: formData.companyName,
-    role: "user", // Assuming a default role
+    role: "user",
   });
   return response.data;
 };
 
 // Quotes
 // Fetch all quotes
-export const fetchDeliveryLocations = async (
-  pickUpLocation: string,
-  token: string
-) => {
-  const response = await axios.get(
-    `${API_BASE_URL}/delivery-locations?pickUpLocation=${pickUpLocation}`
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // }
-  );
-  return response.data;
-};
+// ! This is temporary disable because there is no endpoint for this
+// export const fetchDeliveryLocations = async (
+//   pickUpLocation: string,
+//   token: string
+// ) => {
+//   const response = await axios.get(
+//     `${API_BASE_URL}/delivery-locations?pickUpLocation=${pickUpLocation}`,
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     }
+//   );
+//   return response.data;
+// };
 
 export const fetchQuotes = async (token: string) => {
   const response = await axios.get(`${API_BASE_URL}/quotes/`, {
@@ -72,7 +74,7 @@ export const fetchQuotes = async (token: string) => {
     //   Authorization: `Bearer ${token}`,
     // },
   });
-  return response.data.map((quote: any) => ({
+  return response.data.map((quote: Quote) => ({
     id: quote._id,
     pickUp: quote.origin,
     drop: quote.destination,
@@ -114,7 +116,7 @@ export const fetchBookingDetails = async (id: string) => {
 };
 
 // Create quote
-export const createQuote = async (quoteDetails: any, token: string) => {
+export const createQuote = async (quoteDetails: Quote, token: string) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/quotes/`, quoteDetails, {
       headers: {
@@ -123,7 +125,7 @@ export const createQuote = async (quoteDetails: any, token: string) => {
       },
     });
 
-    return response.data;
+    return response.data as Quote;
   } catch (error: unknown) {
     if (error instanceof Error) {
       // Handle the error as an instance of Error
@@ -158,7 +160,7 @@ export const fetchQuoteDetails = async (quoteId: string, token: string) => {
 
 // Invoice
 // Create invoice
-export const createInvoice = async (invoiceData: any, token: string) => {
+export const createInvoice = async (invoiceData: Invoice, token: string) => {
   try {
     const response = await axios.post(
       `${API_BASE_URL}/invoices/`,
@@ -263,11 +265,14 @@ export const createPaymentIntent = async ({
 }: PaymentIntentParams) => {
   try {
     const response = await axios.post(
+      
       `${API_BASE_URL}/payments/create-payment-intent`,
+     
       {
-        amount,
-        currency,
-      }
+          amount,
+          currency,
+        }
+    
     );
     return response.data;
   } catch (error) {
@@ -333,8 +338,11 @@ interface BookingUpdate {
 }
 
 export const updateBookingDetails = async (
+  
   id: string,
+ 
   updatedData: BookingUpdate
+
 ) => {
   const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
     method: "PUT",
@@ -367,31 +375,33 @@ export const fetchBookingById = async (id: string) => {
       },
     });
 
-    const booking = response.data;
-    const quote = booking.quote;
+    // const booking = response.data as Booking;
+    // const quote = booking.quote as Quote;
 
-    return {
-      id: booking._id,
-      origin: quote.origin,
-      price: quote.price,
-      status: booking.status,
-      destination: quote.destination,
-      maxWeight: quote.maxWeight,
-      companyName: quote.companyName,
-      trailerType: quote.trailerType,
-      distance: quote.distance,
-      trailerSize: quote.trailerSize,
-      commodity: quote.commodity,
-      pickupDate: quote.pickupDate,
-      deliveryDate: quote.deliveryDate, // Assuming you need deliveryDate too
-      notes: quote.notes, // Assuming notes are part of booking
-      packaging: quote.packaging, // Assuming packaging is part of booking
-      carrier: booking.carrier, // Assuming carrier is part of booking
-      driver: booking.driver,
-      bol: booking.bol, // Assuming bol is part of booking
-      pickupTime: booking.pickupTime,
-      deliveryTime: booking.deliveryTime,
-    };
+    // return {
+    //   id: booking._id,
+    //   origin: quote.origin,
+    //   price: quote.price,
+    //   status: booking.status,
+    //   destination: quote.destination,
+    //   maxWeight: quote.maxWeight,
+    //   companyName: quote.companyName,
+    //   trailerType: quote.trailerType,
+    //   distance: quote.distance,
+    //   trailerSize: quote.trailerSize,
+    //   commodity: quote.commodity,
+    //   pickupDate: quote.pickupDate,
+    //   deliveryDate: quote.deliveryDate, // Assuming you need deliveryDate too
+    //   notes: quote.notes, // Assuming notes are part of booking
+    //   packaging: quote.packaging, // Assuming packaging is part of booking
+    //   carrier: booking.carrier, // Assuming carrier is part of booking
+    //   driver: booking.driver,
+    //   // bol: booking.bol, // Assuming bol is part of booking
+    //   pickupTime: booking.pickupTime,
+    //   deliveryTime: booking.deliveryTime,
+    // };
+
+    return response.data as Booking;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       console.error("API Error:", error.response?.data || error.message);

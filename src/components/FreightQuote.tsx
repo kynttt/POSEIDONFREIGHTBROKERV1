@@ -100,7 +100,7 @@ function CalculatorComponent() {
   };
 
   const handleTruckButtonClick = () => {
-    navigate("/distance-calculator");
+    navigate("/requests");
   };
 
   return (
