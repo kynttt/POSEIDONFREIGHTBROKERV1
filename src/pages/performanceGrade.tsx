@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "../components/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -31,7 +30,10 @@ const PerformanceGradeComponent: React.FC = () => {
             100%
           </span>
           <span className="flex text-xs font-normal">
-            <FontAwesomeIcon icon={faCaretUp} className="text-green-200 px-2 mt-4" />
+            <FontAwesomeIcon
+              icon={faCaretUp}
+              className="text-green-200 px-2 mt-4"
+            />
             0.3% <br /> 1 week
           </span>
         </span>
@@ -45,7 +47,10 @@ const PerformanceGradeComponent: React.FC = () => {
             99.9%
           </span>
           <span className="flex text-xs font-normal">
-            <FontAwesomeIcon icon={faCaretDown} className="text-red-200 px-2 mt-3" />
+            <FontAwesomeIcon
+              icon={faCaretDown}
+              className="text-red-200 px-2 mt-3"
+            />
             0.3% <br /> 1 week
           </span>
         </span>
@@ -84,7 +89,7 @@ const PerformanceGradeComponent: React.FC = () => {
   return (
     <div className="bg-white h-screen flex flex-col md:flex-row lg:flex-row">
       {/* Sidebar */}
-      <Sidebar isAuthenticated={false} />
+
       <div className="p-4 lg:px-20 flex-1 overflow-x-hidden">
         <div className="text-2xl font-semibold mb-6 text-gray-400">
           Performance
@@ -94,91 +99,86 @@ const PerformanceGradeComponent: React.FC = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">
-  {/* Performance Grade/Score */}
-  <div className="bg-light-grey p-4 rounded-lg shadow text-center flex-1 mb-4 lg:mb-0 max-w-full lg:max-w-72">
-  <p className="text-gray-600 font-medium text-primary lg:text-base sm:text-lg md:text-xl text-left py-5 pl-5 flex items-center justify-center lg:justify-start">
-    Performance Grade/Score
-  </p>
-  <div className="flex items-center justify-center lg:justify-start mt-2 lg:mt-10">
-    <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold text-primary">
-      A+
-    </h1>
-    <h3 className="text-3xl md:text-4xl lg:text-5xl font-medium text-primary ml-4 mt-1 lg:mt-0">
-      99%
-    </h3>
-  </div>
-</div>
+          {/* Performance Grade/Score */}
+          <div className="bg-light-grey p-4 rounded-lg shadow text-center flex-1 mb-4 lg:mb-0 max-w-full lg:max-w-72">
+            <p className="text-gray-600 font-medium text-primary lg:text-base sm:text-lg md:text-xl text-left py-5 pl-5 flex items-center justify-center lg:justify-start">
+              Performance Grade/Score
+            </p>
+            <div className="flex items-center justify-center lg:justify-start mt-2 lg:mt-10">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold text-primary">
+                A+
+              </h1>
+              <h3 className="text-3xl md:text-4xl lg:text-5xl font-medium text-primary ml-4 mt-1 lg:mt-0">
+                99%
+              </h3>
+            </div>
+          </div>
 
+          {/* Dashboard Data */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4 mb-4 lg:mb-0 w-full lg:max-w-56">
+            {dashboardData.map((item, index) => (
+              <div
+                key={index}
+                className="bg-light-grey p-4 rounded-lg shadow text-center border border-gray-200"
+              >
+                <h2 className="text-gray-600 text-left font-medium text-primary text-base sm:text-lg md:text-xl">
+                  {item.type === "positive"
+                    ? "Good Performance"
+                    : "Performance Issues"}
+                </h2>
+                <div
+                  className={
+                    item.type === "positive"
+                      ? "text-green-500 mt-2 flex items-center justify-center"
+                      : "text-red-500 mt-2 flex items-center justify-center"
+                  }
+                >
+                  {item.additionalInfo}
+                </div>
+              </div>
+            ))}
+          </div>
 
+          {/* Transparency Data */}
+          <div className="flex flex-col lg:flex-row gap-4">
+            {transparencyData.map((item, index) => (
+              <div
+                key={index}
+                className="bg-light-grey p-4 rounded-lg shadow text-center justify-center flex-1 mb-4 lg:mb-0 max-w-full lg:max-w-60"
+              >
+                <p className="text-gray-600 font-medium text-left text-primary text-base sm:text-lg md:text-xl py-5 pl-5 lg:text-base">
+                  Transparency Focused
+                </p>
+                <div
+                  className={`${
+                    item.type === "positive"
+                      ? "text-green-500 mt-2 flex items-center justify-center"
+                      : "text-red-500 mt-2 flex items-center justify-center"
+                  }`}
+                >
+                  {item.additionalInfo}
+                </div>
+              </div>
+            ))}
+          </div>
 
-  {/* Dashboard Data */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-4 mb-4 lg:mb-0 w-full lg:max-w-56">
-    {dashboardData.map((item, index) => (
-      <div
-        key={index}
-        className="bg-light-grey p-4 rounded-lg shadow text-center border border-gray-200"
-      >
-        <h2 className="text-gray-600 text-left font-medium text-primary text-base sm:text-lg md:text-xl">
-          {item.type === "positive"
-            ? "Good Performance"
-            : "Performance Issues"}
-        </h2>
-        <div
-          className={
-            item.type === "positive"
-              ? "text-green-500 mt-2 flex items-center justify-center"
-              : "text-red-500 mt-2 flex items-center justify-center"
-          }
-        >
-          {item.additionalInfo}
+          {/* Total Loads Analytics */}
+          <div className="bg-light-grey rounded-lg shadow p-4 md:p-6 flex-1">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4 text-primary">
+              Total Loads Analytics
+            </h2>
+            <div className="w-full h-60">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#8884d8" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         </div>
-      </div>
-    ))}
-  </div>
-
-  {/* Transparency Data */}
-  <div className="flex flex-col lg:flex-row gap-4">
-    {transparencyData.map((item, index) => (
-      <div
-        key={index}
-        className="bg-light-grey p-4 rounded-lg shadow text-center justify-center flex-1 mb-4 lg:mb-0 max-w-full lg:max-w-60"
-      >
-        <p className="text-gray-600 font-medium text-left text-primary text-base sm:text-lg md:text-xl py-5 pl-5 lg:text-base">
-          Transparency Focused
-        </p>
-        <div
-          className={`${
-            item.type === "positive"
-              ? "text-green-500 mt-2 flex items-center justify-center"
-              : "text-red-500 mt-2 flex items-center justify-center"
-          }`}
-        >
-          {item.additionalInfo}
-        </div>
-      </div>
-    ))}
-  </div>
-
-  {/* Total Loads Analytics */}
-  <div className="bg-light-grey rounded-lg shadow p-4 md:p-6 flex-1">
-    <h2 className="text-xl md:text-2xl font-semibold mb-4 text-primary">
-      Total Loads Analytics
-    </h2>
-    <div className="w-full h-60">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <Tooltip />
-          <Bar dataKey="value" fill="#8884d8" />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  </div>
-</div>
-
-
-
 
         {/* Pagination and Table Section */}
         <div className="bg-light-grey p-4 rounded-lg shadow-lg mt-10">
@@ -192,7 +192,11 @@ const PerformanceGradeComponent: React.FC = () => {
               <h3 className="mr-4 text-sm font-light">
                 Showing 1 to 8 of 32 Entries
               </h3>
-              <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                handlePageChange={handlePageChange}
+              />
             </div>
           </div>
 

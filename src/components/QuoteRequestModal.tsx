@@ -1,14 +1,20 @@
 // import React from 'react';
-import ReactDOM from 'react-dom';
-import OTPImage from '../assets/img/quoteRequest.png';
-import Button from './Button';
-import { useNavigate } from 'react-router-dom'; 
+import ReactDOM from "react-dom";
+import OTPImage from "../assets/img/quoteRequest.png";
+import Button from "./Button";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../state/useAuthStore";
 
-const QuoteRequestModal = ({ isOpen }: { isOpen: boolean; }) => {
+const QuoteRequestModal = ({ isOpen }: { isOpen: boolean }) => {
   const navigate = useNavigate();
+  const { role } = useAuthStore();
 
   const handleNavigateToDashboard = () => {
-    navigate('/shipper-dashboard');
+    if (role === "admin") {
+      navigate("/a");
+    } else {
+      navigate("/s");
+    }
   };
 
   if (!isOpen) return null;
@@ -23,8 +29,14 @@ const QuoteRequestModal = ({ isOpen }: { isOpen: boolean; }) => {
           &times;
         </button> */}
         <div className="text-center">
-          <img src={OTPImage} alt="Verification" className="mx-auto mb-4 w-32 sm:w-48" />
-          <h2 className="mb-2 text-xl font-semibold text-secondary">Booking Request Successful!</h2>
+          <img
+            src={OTPImage}
+            alt="Verification"
+            className="mx-auto mb-4 w-32 sm:w-48"
+          />
+          <h2 className="mb-2 text-xl font-semibold text-secondary">
+            Booking Request Successful!
+          </h2>
           <p className="mb-6 font-medium text-sm text-primary">
             Wait for the dispatcher to confirm your quote and booking.
           </p>
@@ -36,7 +48,7 @@ const QuoteRequestModal = ({ isOpen }: { isOpen: boolean; }) => {
               fontStyle="thin"
               onClick={handleNavigateToDashboard}
               className="extra-class-for-medium-button"
-              type={''}
+              type={""}
             />
           </div>
         </div>

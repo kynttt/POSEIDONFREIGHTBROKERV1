@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import SideBar from "../../../components/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faPrint } from "@fortawesome/free-solid-svg-icons";
 import PaymentCard from "../../../components/PaymentCardComponent"; // Import PaymentCard component
-import { useAuthStore } from '../../../state/useAuthStore';
-
 
 const AccountingPayment: React.FC = () => {
-  const { isAuthenticated } = useAuthStore(); // Use useAuth hook to get isAuthenticated
   const [selectedBalance, setSelectedBalance] = useState<string>("All");
   const [selectedTimeRange, setSelectedTimeRange] =
     useState<string>("Past Hour");
@@ -24,7 +20,6 @@ const AccountingPayment: React.FC = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen font-lexend">
-      <SideBar isAuthenticated={isAuthenticated} />
       <div className="flex-1 overflow-y-auto px-4 md:px-16 mt-4 md:mt-16">
         <h2 className="text-lg md:text-xl font-medium mb-4 md:mb-10 text-gray-500">
           Payments
@@ -91,7 +86,6 @@ const AccountingPayment: React.FC = () => {
 
         {/* Render PaymentCard */}
         <PaymentCard />
-        
       </div>
     </div>
   );

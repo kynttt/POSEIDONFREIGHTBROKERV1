@@ -5,10 +5,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../../components/Button";
 import LoadCard from "../../../components/LoadCard";
-import SideBar from "../../../components/SideBar";
-import { useAuthStore } from "../../../state/useAuthStore";
 import { fetchBookings } from "../../../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
+import { Quote } from "../../../utils/types";
 
 type CardProps = {
   pickupDate: Date;
@@ -27,7 +26,6 @@ type CardProps = {
 };
 
 const LoadBoard: React.FC = () => {
-  const { isAuthenticated } = useAuthStore(); // Use Zustand store
   const [pickUpLocation, setPickUpLocation] = useState("");
   const [deliveryLocation, setDeliveryLocation] = useState("");
   const [pickUpDate, setPickUpDate] = useState<Date | null>(null);
@@ -78,8 +76,30 @@ const LoadBoard: React.FC = () => {
       const token = localStorage.getItem("authToken");
       try {
         if (token) {
-          const quotes = await fetchBookings(token);
-          setLoadCards(quotes);
+          const bookings = await fetchBookings(token);
+          const quotes = bookings.map((book) => ({
+            bookingId: book._id,
+            bookingStatus: book.status,
+            quote: book.quote as Quote,
+          }));
+          const cards: CardProps[] = quotes.map(
+            ({ bookingId, bookingStatus, quote }) => ({
+              id: bookingId!,
+              pickUp: quote.origin,
+              status: bookingStatus,
+              drop: quote.destination,
+              maxWeight: quote.maxWeight,
+              companyName: quote.companyName,
+              trailerType: quote.trailerType,
+              distance: parseInt(quote.distance),
+              trailerSize: quote.trailerSize.toString(),
+              commodity: quote.commodity,
+              price: quote.price,
+              pickupDate: new Date(quote.pickupDate),
+              onBookLoadClick: () => {},
+            })
+          );
+          setLoadCards(cards);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -142,9 +162,7 @@ const LoadBoard: React.FC = () => {
   );
 
   return (
-    <div className="flex h-screen">
-      <SideBar isAuthenticated={isAuthenticated} />
-
+    <div className="flex h-full">
       <div className="flex-1 bg-white min-h-screen overflow-y-auto">
         <form onSubmit={handleSubmit} className="lg:mx-16 py-10 px-4">
           <div className="mb-6">
@@ -153,7 +171,7 @@ const LoadBoard: React.FC = () => {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="mb-2 md:mb-8">
+            <div className="mb-2 md:mb-8">
               <h3 className="text-lg font-semibold text-secondary mb-4">
                 PICK UP
               </h3>

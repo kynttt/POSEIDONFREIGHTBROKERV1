@@ -1,7 +1,5 @@
-import Sidebar from '../../../components/SideBar';
-import ShipperBookings from './shipperBookings'; // Import LocationsList component
-import dashboardData from './shippersDashboardData.json'; // Import JSON data
-import { useAuthStore } from '../../../state/useAuthStore';
+import ShipperBookings from "../components/shipperBookings"; // Import LocationsList component
+import dashboardData from "../components/shippersDashboardData.json"; // Import JSON data
 import {
   LineChart,
   Line,
@@ -11,18 +9,13 @@ import {
   BarChart,
   Bar,
   ResponsiveContainer,
-} from 'recharts';
+} from "recharts";
 
-
-const ShipperDashboard = () => {
-  const { isAuthenticated } = useAuthStore();
-
+const ShipperDashboardPage = () => {
   return (
-    <div className="bg-white h-screen flex flex-col md:flex-row">
+    <div className="bg-white h-full flex flex-col md:flex-row">
       {/* Sidebar */}
-      <Sidebar isAuthenticated={isAuthenticated} />
 
-      {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 bg-gray-100 overflow-y-auto lg:px-20">
         <h1 className="text-2xl font-bold mb-4 text-gray-500">Dashboard</h1>
 
@@ -126,4 +119,4 @@ const ShipperDashboard = () => {
   );
 };
 
-export default ShipperDashboard;
+export default ShipperDashboardPage;
