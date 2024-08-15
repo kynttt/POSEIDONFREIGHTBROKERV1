@@ -1,63 +1,37 @@
-import {
-  ActionIcon,
-  AppShell,
-  Drawer,
-  Flex,
-  Popover,
-  useMatches,
-} from "@mantine/core";
+import { ActionIcon, AppShell, Flex, Popover, useMatches } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
 import notifications from "../../../components/notifications.json";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useHeadroom } from "@mantine/hooks";
+import HelpIcon from "../../../assets/help";
 export default function ShipperShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
-  const headerVisible = useMatches({
-    xs: false,
-    lg: true,
-  });
-  const asideVisible = useMatches({
-    xs: true,
 
-    lg: false,
-  });
-  // const [opened, { toggle }] = useDisclosure();
+  const pinned = useHeadroom({ fixedAt: 120 });
+
   return (
     <section>
-      <Drawer
-        opened={opened}
-        onClose={close}
-        withCloseButton={false}
-        padding={0}
-      >
-        <Sidebar close={close} closeVisible />
-      </Drawer>
       <AppShell
-        header={{ height: 60, collapsed: headerVisible }}
+        layout="alt"
+        header={{ height: 60, collapsed: !pinned, offset: false }}
         navbar={{
           width: {
             base: 250,
           },
           breakpoint: "sm",
-          collapsed: {
-            mobile: asideVisible,
-            desktop: asideVisible,
-          },
+          collapsed: { mobile: !opened },
         }}
       >
-        {!headerVisible && (
-          <AppShell.Header>
-            <ShellHeader opened={opened} open={open} close={close} />
-          </AppShell.Header>
-        )}
+        <AppShell.Header>
+          <ShellHeader opened={opened} open={open} close={close} />
+        </AppShell.Header>
+        )
         <AppShell.Navbar>
-          <Sidebar />
+          <Sidebar close={close} closeVisible />
         </AppShell.Navbar>
-
         <AppShell.Main>
-          {headerVisible && <ShellHeader />}
           <Outlet />
         </AppShell.Main>
       </AppShell>
@@ -79,7 +53,11 @@ function ShellHeader({
     lg: true,
   });
   return (
-    <Flex justify="flex-end" p={"lg"} gap={!visible ? "md" : 0}>
+    <Flex justify="flex-end" p={"lg"} gap={"md"}>
+      {" "}
+      <ActionIcon variant="subtle" aria-label="Settings" size="sm">
+        <HelpIcon />
+      </ActionIcon>
       <Popover position="bottom-start">
         <Popover.Target>
           <ActionIcon variant="subtle" aria-label="Settings" size="md">
