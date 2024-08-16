@@ -638,7 +638,7 @@ export default function DistanceCalculatorPage() {
               </div>
             )}
 
-            <div className="border border-secondary p-8 bg-white h-auto w-1/4 rounded-lg ">
+            <div className="border border-secondary p-8 bg-white h-auto w-1/4 rounded-lg shadow-xl">
 
             <div>
                     <h1 className="text-primary text-xl">Complete Your Details</h1>
@@ -650,7 +650,7 @@ export default function DistanceCalculatorPage() {
                 <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
                   <FontAwesomeIcon
                     icon={faMapLocationDot}
-                    className="text-gray-500"
+                    className="text-gray-400 w-6"
                   />{" "}
                   Distance
                 </div>
@@ -666,9 +666,9 @@ export default function DistanceCalculatorPage() {
                 <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
                   <FontAwesomeIcon
                     icon={faMoneyBillWave}
-                    className="text-gray-500"
+                    className="text-gray-400 w-6"
                   />{" "}
-                  Estimated Price
+                  Price
                 </div>
                 <div
                   className="text-primary text-4xl font-large text-gray-500 p-4 rounded-lg"
