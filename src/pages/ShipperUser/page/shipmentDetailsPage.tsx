@@ -109,15 +109,22 @@ const ShipmentDetails: React.FC = () => {
                     Appointment <span className="text-red-600">*</span>
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote)?.pickupDate instanceof Date
-                      ? new Date(
-                          (booking.quote as Quote)?.pickupDate
-                        ).toLocaleDateString()
-                      : "TBA"}
-                    ,
-                    {booking.pickupTime
-                      ? convertTo12HourFormat(booking.pickupTime)
-                      : "08:00am - 03:00pm"}
+                    <p className="text-gray-500 text-sm font-medium">
+                      <p className="text-gray-500 text-sm font-medium">
+                        {(booking.quote as Quote)?.pickupDate
+                          ? new Date(
+                              (booking.quote as Quote)?.pickupDate as
+                                | string
+                                | number
+                                | Date
+                            ).toLocaleDateString()
+                          : "TBA"}
+                        ,
+                        {booking.pickupTime
+                          ? convertTo12HourFormat(booking.pickupTime)
+                          : "08:00am - 03:00pm"}
+                      </p>
+                    </p>
                   </p>
                 </div>
               </div>
@@ -239,7 +246,7 @@ const ShipmentDetails: React.FC = () => {
                     Weight
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote).notes || "N/A"} lb
+                    {(booking.quote as Quote).maxWeight || "N/A"} lb
                   </p>
 
                   <label

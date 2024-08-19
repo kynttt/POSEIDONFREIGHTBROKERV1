@@ -20,6 +20,22 @@ interface FormState {
   // Add other fields as needed
 }
 
+const convertTo24HourFormat = (time12h: string): string => {
+  const [time, modifier] = time12h.split(' ');
+  let [hours, minutes] = time.split(':').map(Number);
+
+  if (modifier === 'PM' && hours !== 12) {
+    hours += 12;
+  }
+
+  if (modifier === 'AM' && hours === 12) {
+    hours = 0;
+  }
+
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+};
+
+
 const EditLoad: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
@@ -78,22 +94,20 @@ const EditLoad: React.FC = () => {
       )
     );
 
-    console.log(isAllPrepared);
+    // console.log(isAllPrepared);
   }, [booking, editingField, isAllPrepared]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
     let { value } = e.target;
-
-    // setFormState((prevState) => ({
-    //   ...prevState,
-    //   [name]: value,
-    // }));
-
+  
     if (name === "pickupDate" || name === "deliveryDate") {
       value = new Date(value).toISOString();
+    } else if (name === "pickupTime" || name === "deliveryTime") {
+      // Convert 12-hour format to 24-hour format
+      value = convertTo24HourFormat(value);
     }
-
+  
     setBooking((prevBooking) => {
       if (!prevBooking) return prevBooking;
       const data = {
@@ -107,10 +121,12 @@ const EditLoad: React.FC = () => {
             }
           : { [name]: value }),
       };
-
+  
       return data;
     });
   };
+  
+  
 
   const handleSave = async (field: FormStateField) => {
     try {
@@ -139,7 +155,7 @@ const EditLoad: React.FC = () => {
       if (!booking) return;
       if (!id) return;
 
-      console.log("Action:", action);
+      // console.log("Action:", action);
 
       let newStatus: Booking["status"]; // Ensure newStatus matches the expected type
 
@@ -351,21 +367,17 @@ const EditLoad: React.FC = () => {
                   <div className="flex gap-2 items-center">
                     {editingField.pickupTime ? (
                       <input
-                        type="time"
-                        name="pickupTime"
-                        value={
-                          booking.pickupTime
-                            ? new Date(
-                                `1970-01-01T${booking.pickupTime}`
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })
-                            : "TBA"
-                        }
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                      />
+                      type="time"
+                      name="pickupTime"
+                      value={
+                        booking.pickupTime
+                          ? new Date(`1970-01-01T${convertTo24HourFormat(booking.pickupTime)}`).toISOString().slice(11, 16)
+                          : "TBA"
+                      }
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                    
                     ) : (
                       <p className="text-gray-500 text-sm font-medium">
                         {booking.pickupTime
@@ -490,21 +502,17 @@ const EditLoad: React.FC = () => {
                   <div className="flex gap-2 items-center">
                     {editingField.deliveryTime ? (
                       <input
-                        type="time"
-                        name="deliveryTime"
-                        value={
-                          booking.deliveryTime
-                            ? new Date(
-                                `1970-01-01T${booking.deliveryTime}`
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })
-                            : "TBA"
-                        }
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                      />
+                      type="time"
+                      name="deliveryTime"
+                      value={
+                        booking.deliveryTime
+                          ? convertTo24HourFormat(booking.deliveryTime)
+                          : "00:00" // Provide a default value if deliveryTime is not set
+                      }
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                    
                     ) : (
                       <p className="text-gray-500 text-sm font-medium">
                         {booking.deliveryTime
