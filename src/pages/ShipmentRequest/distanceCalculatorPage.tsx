@@ -14,7 +14,7 @@ import { useAuthStore } from "../../state/useAuthStore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
-  faCalendarAlt,
+  // faCalendarAlt,
   faTruck,
   faBox,
   faWeight,
@@ -76,6 +76,68 @@ export default function DistanceCalculatorPage() {
   const [packagingNumber, setPackagingNumber] = useState("");
   const [selectedPackagingType, setSelectedPackagingType] = useState("");
   const [notes, setNotes] = useState("");
+  const [showFirstModal, setShowFirstModal] = useState(false);
+  const [showSecondModal, setShowSecondModal] = useState(false);
+  const [showThirdModal, setShowThirdModal] = useState(false);
+  const [showPrice, setShowPrice] = useState(false);
+
+  const saveDataToSessionStorage = () => {
+    const data = {
+      origin,
+      destination,
+      pickupDate,
+      selectedTrailerType,
+      selectedTrailerSize,
+      commodity,
+      maxWeight,
+      companyName,
+      packagingNumber,
+      selectedPackagingType,
+      notes,
+      distance,
+      price,
+    };
+    sessionStorage.setItem('distanceCalculatorData', JSON.stringify(data));
+  };
+
+  const handleConfirmFirstModal = () => {
+    saveDataToSessionStorage();
+    setShowFirstModal(false);
+    setShowSecondModal(true);
+  };
+
+  const handleConfirmSecondModal = () => {
+    saveDataToSessionStorage();
+    setShowSecondModal(false);
+    setShowThirdModal(true);
+  };
+
+  const handleConfirmThirdModal = () => {
+    sessionStorage.removeItem('distanceCalculatorData');
+    setShowThirdModal(false);
+    setShowPrice(true);
+  };
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('distanceCalculatorData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      setOrigin(data.origin || '');
+      setDestination(data.destination || '');
+      setPickupDate(data.pickupDate || '');
+      setSelectedTrailerType(data.selectedTrailerType || '');
+      setSelectedTrailerSize(data.selectedTrailerSize || 0);
+      setCommodity(data.commodity || '');
+      setMaxWeight(data.maxWeight || '');
+      setCompanyName(data.companyName || '');
+      setPackagingNumber(data.packagingNumber || '');
+      setSelectedPackagingType(data.selectedPackagingType || '');
+      setNotes(data.notes || '');
+      setDistance(data.distance || '');
+      setPrice(data.price || null);
+    }
+  }, []);
+  
 
   const [warnings, setWarnings] = useState({
     origin: "",
@@ -212,6 +274,7 @@ export default function DistanceCalculatorPage() {
 
       try {
         const data = await createQuote(quoteDetails, token);
+        
         navigate("/requests/confirmation", {
           state: { price, quoteId: data._id, userId },
         });
@@ -232,93 +295,122 @@ export default function DistanceCalculatorPage() {
     <div className="flex h-full flex-1">
       {/* <SideBar isAuthenticated={isAuthenticated} /> */}
       <div className="flex-1 bg-white min-h-screen overflow-y-auto">
-        <div className="lg:mx-20 py-16   px-4  rounded-lg ">
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-14 mt-4">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <div className="lg:col-span-1 lg:mx-4">
-                <div className="mb-8 md:mb-0">
-                  <h3 className="text-lg font-medium text-secondary mb-2">
-                    <FontAwesomeIcon
-                      icon={faMapMarkerAlt}
-                      className="mr-2 text-gray-400"
-                    />
-                    Pickup Location <span className="text-red-500">*</span>
-                  </h3>
-                  <OriginInput
-                    onLoad={onLoadA}
-                    onPlaceChanged={onPlaceChangedA}
-                  />
-                  {warnings.origin && (
-                    <p className="text-red-500 text-sm">{warnings.origin}</p>
-                  )}
-                </div>
+        <div className="relative">
+          <div className="mt-4  lg:col-span-3">
+            <MapComponent
+              map={map}
+              setMap={setMap}
+              directions={directions}
+              originLocation={originLocation}
+              destinationLocation={destinationLocation}
+            />
+          </div>
+        </div>
 
-                <div className="mb-8 md:mb-0 lg:border-secondary">
-                  <h3 className="text-lg font-medium text-secondary mb-2">
-                    <FontAwesomeIcon
-                      icon={faMapMarkerAlt}
-                      className="mr-2 text-gray-400"
-                    />
-                    Drop-off Location <span className="text-red-500">*</span>
-                  </h3>
-                  <DestinationInput
-                    onLoad={onLoadB}
-                    onPlaceChanged={onPlaceChangedB}
-                  />
-                  {warnings.destination && (
-                    <p className="text-red-500 text-sm">
-                      {warnings.destination}
-                    </p>
-                  )}
-                </div>
-                <div className="mb-8 md:mb-0">
-                  <h3 className="text-lg font-medium text-secondary mb-2">
-                    <FontAwesomeIcon
-                      icon={faCalendarAlt}
-                      className="mr-2 text-gray-400"
-                    />
-                    Pickup Date <span className="text-red-500">*</span>
-                  </h3>
-                  {/* <input
-                                        type="date"
-                                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal "
-                                        value={pickupDate}
-                                        onChange={(e) => setPickupDate(e.target.value)}
-                                    /> */}
-                </div>
-                <Calendar
-                  value={pickupDate}
-                  onChange={(date) => setPickupDate(date)}
-                  className="border border-secondary rounded"
+        {/* Calendar and Dialog */}
+        <div className=" flex justify-center w-full absolute  bottom-0 left-0 right-0 lg:mx-auto py-8   px-4  rounded-lg ">
+          <div className="lg:ml-80 gap-8 md:flex justify-center w-full">
+            {/* <div className="mb-8 md:mb-0">
+              <h3 className="text-lg font-medium text-secondary mb-2">
+                <FontAwesomeIcon
+                  icon={faCalendarAlt}
+                  className="mr-2 text-gray-400"
                 />
-                {warnings.pickupDate && (
-                  <p className="text-red-500 text-sm">{warnings.pickupDate}</p>
-                )}
-                {pickupDate && origin && destination && (
-                  <div className="flex flex-wrap">
-                    <div className="w-full md:w-2/3 mb-8 md:mb-0 md:pr-4">
+                Pickup Date <span className="text-red-500">*</span>
+              </h3>
+              
+            </div> */}
+            <Calendar
+              value={pickupDate}
+              onChange={(date) => {
+                setPickupDate(date);
+                setShowFirstModal(true); // Show the first modal when a date is picked
+              }}
+              className="border border-secondary rounded"
+            />
+
+            {warnings.pickupDate && (
+              <p className="text-red-500 text-sm">{warnings.pickupDate}</p>
+            )}
+
+            {showFirstModal && (
+              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
+                <div className="mx-2 bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg">
+                  <div>
+                    <h1 className="text-primary text-xl">Book Your Shipment</h1>
+                    <p className="text-gray-500 font-normal mb-8">
+                      Enter your shipment details and select your transportation
+                      option.
+                    </p>
+                  </div>
+
+                  <div className="md:flex gap-4">
+                    <div className="mb-8 md:mb-0 w-full">
+                      <h3 className="text-lg font-normal text-secondary mb-2">
+                        <FontAwesomeIcon
+                          icon={faMapMarkerAlt}
+                          className="mr-2 text-gray-400"
+                        />
+                        Pickup Location <span className="text-red-500">*</span>
+                      </h3>
+                      <OriginInput
+                        onLoad={onLoadA}
+                        onPlaceChanged={onPlaceChangedA}
+                      />
+                      {warnings.origin && (
+                        <p className="text-red-500 text-sm">
+                          {warnings.origin}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="mb-8 md:mb-0 lg:border-secondary w-full">
+                      <h3 className="text-lg font-normal text-secondary mb-2">
+                        <FontAwesomeIcon
+                          icon={faMapMarkerAlt}
+                          className="mr-2 text-gray-400"
+                        />
+                        Drop-off Location{" "}
+                        <span className="text-red-500">*</span>
+                      </h3>
+                      <DestinationInput
+                        onLoad={onLoadB}
+                        onPlaceChanged={onPlaceChangedB}
+                      />
+                      {warnings.destination && (
+                        <p className="text-red-500 text-sm">
+                          {warnings.destination}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className=" ">
+                    <div className="w-full md:w-full mb-8 md:mb-0 ">
                       <div className="mb-2 lg:mt-4">
-                        <h3 className="text-lg font-medium text-secondary my-2">
+                        <h3 className="text-lg font-normal text-secondary mb-2">
                           <FontAwesomeIcon
                             icon={faTruck}
                             className="mr-2 text-gray-400"
                           />
                           Trailer Type <span className="text-red-500">*</span>
                         </h3>
-                        <select
-                          className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
-                          value={selectedTrailerType}
-                          onChange={(e) =>
-                            setSelectedTrailerType(e.target.value)
-                          }
-                        >
-                          <option value="">Select trailer type</option>
+                        <div className="flex justify-between gap-2">
                           {truckTypes.map((type) => (
-                            <option key={type.type} value={type.type}>
+                            <button
+                              key={type.type}
+                              className={`p-2 bg-grey   rounded w-full md:w-full  text-primary font-normal ${
+                                selectedTrailerType === type.type
+                                  ? "bg-secondary text-white" // Highlight selected button
+                                  : ""
+                              }`}
+                              onClick={() => setSelectedTrailerType(type.type)}
+                            >
                               {type.type}
-                            </option>
+                            </button>
                           ))}
-                        </select>
+                        </div>
+
                         {warnings.selectedTrailerType && (
                           <p className="text-red-500 text-sm">
                             {warnings.selectedTrailerType}
@@ -326,25 +418,44 @@ export default function DistanceCalculatorPage() {
                         )}
                       </div>
                     </div>
-                    <div className="w-full md:w-1/3">
+
+                    <div className="w-full md:w-1/2 ">
                       <div className="mb-4 lg:mt-4">
-                        <h3 className="text-lg font-medium text-secondary my-2">
+                        <h3 className="text-lg font-normal text-secondary my-2">
                           Size (ft) <span className="text-red-500">*</span>
                         </h3>
-                        <select
-                          className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
-                          value={selectedTrailerSize}
-                          onChange={(e) =>
-                            setSelectedTrailerSize(parseInt(e.target.value))
-                          }
-                        >
-                          <option value={0}>Select size</option>
+                        <div className="flex  gap-2">
                           {truckSizes.map((size) => (
-                            <option key={size} value={size}>
-                              {size} ft
-                            </option>
+                            <button
+                              key={size}
+                              className={`p-2 bg-grey rounded w-full lg:w-full text-primary font-normal ${
+                                selectedTrailerSize === size
+                                  ? "bg-secondary text-white"
+                                  : ""
+                              } ${
+                                size === 48 &&
+                                (selectedTrailerType === "Dry Van" ||
+                                  selectedTrailerType === "Refrigerated")
+                                  ? "opacity-50 cursor-not-allowed"
+                                  : ""
+                              }`}
+                              onClick={() => setSelectedTrailerSize(size)}
+                              disabled={
+                                size === 48 &&
+                                (selectedTrailerType === "Dry Van" ||
+                                  selectedTrailerType === "Refrigerated")
+                              }
+                            >
+                              {size}
+                              {size === 48 &&
+                                (selectedTrailerType === "Dry Van" ||
+                                  selectedTrailerType === "Refrigerated") && (
+                                  <span className="ml-2 text-red-500">🚫</span> // Sign added here
+                                )}
+                            </button>
                           ))}
-                        </select>
+                        </div>
+
                         {warnings.selectedTrailerSize && (
                           <p className="text-red-500 text-sm">
                             {warnings.selectedTrailerSize}
@@ -353,195 +464,298 @@ export default function DistanceCalculatorPage() {
                       </div>
                     </div>
                   </div>
-                )}
 
-                {pickupDate && origin && destination && (
-                  <>
-                    <div className="mb-8 md:mb-0">
-                      <h3 className="text-lg font-medium text-secondary mb-2">
+                  <div className="flex justify-end">
+                    <button
+                      className={` py-2 px-4  rounded text-white 
+    ${
+      !origin || !destination || !selectedTrailerType || !selectedTrailerSize
+        ? "bg-gray-400 cursor-not-allowed w-1/3"
+        : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
+    }`}
+                      onClick={handleConfirmFirstModal}
+                      disabled={
+                        !origin ||
+                        !destination ||
+                        !selectedTrailerType ||
+                        !selectedTrailerSize
+                      }
+                    >
+                      Next . . .
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {showSecondModal && (
+              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
+                <div className="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg">
+                  <div>
+                    <h1 className="text-primary text-xl">Book Your Shipment</h1>
+                    <p className="text-gray-500 font-normal mb-8">
+                      Please provide the commodity type, weight, and packaging
+                      information for your shipment.
+                    </p>
+                  </div>
+                  <div className="mb-8 md:mb-0">
+                    <h3 className="text-lg font-normal text-secondary mb-2">
+                      <FontAwesomeIcon
+                        icon={faBox}
+                        className="mr-2 text-gray-400"
+                      />
+                      Commodity <span className="text-red-500">*</span>
+                    </h3>
+                    <input
+                      type="text"
+                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      placeholder="e.g. Electronics"
+                      value={commodity}
+                      onChange={(e) => setCommodity(e.target.value)}
+                    />
+                    {warnings.commodity && (
+                      <p className="text-red-500 text-sm">
+                        {warnings.commodity}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mb-8 md:mb-0 mt-2">
+                    <h3 className="text-lg font-normal text-secondary mb-2">
+                      <FontAwesomeIcon
+                        icon={faWeight}
+                        className="mr-2 text-gray-400"
+                      />
+                      Maximum Weight <span className="text-red-500">*</span>
+                    </h3>
+                    <input
+                      type="text"
+                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      placeholder="e.g. 1000lbs"
+                      value={maxWeight}
+                      onChange={(e) => setMaxWeight(e.target.value)}
+                    />
+                    {warnings.maxWeight && (
+                      <p className="text-red-500 text-sm">
+                        {warnings.maxWeight}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap md:mt-4">
+                    <div className="w-full md:w-1/3 mb-8 md:mb-0 md:pr-4">
+                      <h3 className="text-lg font-normal text-secondary mb-2">
                         <FontAwesomeIcon
                           icon={faBox}
                           className="mr-2 text-gray-400"
                         />
-                        Commodity <span className="text-red-500">*</span>
+                        Packaging <span className="text-red-500">*</span>
                       </h3>
                       <input
-                        type="text"
-                        className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
-                        placeholder="e.g. Electronics"
-                        value={commodity}
-                        onChange={(e) => setCommodity(e.target.value)}
+                        type="number"
+                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                        value={packagingNumber}
+                        onChange={(e) => setPackagingNumber(e.target.value)}
+                        placeholder="Enter no. of packages"
                       />
-                      {warnings.commodity && (
+                      {warnings.packaging && (
                         <p className="text-red-500 text-sm">
-                          {warnings.commodity}
+                          {warnings.packaging}
                         </p>
                       )}
                     </div>
-                    <div className="mb-8 md:mb-0 mt-2">
-                      <h3 className="text-lg font-medium text-secondary mb-2">
-                        <FontAwesomeIcon
-                          icon={faWeight}
-                          className="mr-2 text-gray-400"
-                        />
-                        Maximum Weight <span className="text-red-500">*</span>
+
+                    <div className="w-full md:w-2/3">
+                      <h3 className="text-lg font-normal text-secondary mb-2">
+                        Packaging Type <span className="text-red-500">*</span>
                       </h3>
-                      <input
-                        type="text"
-                        className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
-                        placeholder="e.g. 1000lbs"
-                        value={maxWeight}
-                        onChange={(e) => setMaxWeight(e.target.value)}
-                      />
-                      {warnings.maxWeight && (
+                      <select
+                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                        value={selectedPackagingType}
+                        onChange={(e) =>
+                          setSelectedPackagingType(e.target.value)
+                        }
+                      >
+                        <option value="">Select packaging type</option>
+                        <option value="Carton">Carton</option>
+                        <option value="Floor">Floor</option>
+                        <option value="Loose">Loose</option>
+                        <option value="Pallet">Pallet</option>
+                        <option value="Roll">Roll</option>
+                        <option value="Skids">Skids</option>
+                        <option value="Others">Others</option>
+                      </select>
+                      {warnings.packaging && (
                         <p className="text-red-500 text-sm">
-                          {warnings.maxWeight}
+                          {warnings.packaging}
                         </p>
                       )}
-                    </div>
-                    <div className="mb-8 md:mb-0">
-                      <h3 className="text-lg font-medium text-secondary my-2">
-                        <FontAwesomeIcon
-                          icon={faBuilding}
-                          className="mr-2 text-gray-400"
-                        />
-                        Company Name <span className="text-red-500">*</span>
-                      </h3>
-                      <input
-                        type="text"
-                        className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
-                        placeholder="Enter your company name"
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                      />
-                      {warnings.companyName && (
-                        <p className="text-red-500 text-sm">
-                          {warnings.companyName}
-                        </p>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap md:mt-4">
-                      <div className="w-full md:w-1/3 mb-8 md:mb-0 md:pr-4">
-                        <h3 className="text-lg font-medium text-secondary mb-2">
-                          <FontAwesomeIcon
-                            icon={faBox}
-                            className="mr-2 text-gray-400"
-                          />
-                          Packaging <span className="text-red-500">*</span>
-                        </h3>
-                        <input
-                          type="number"
-                          className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
-                          value={packagingNumber}
-                          onChange={(e) => setPackagingNumber(e.target.value)}
-                          placeholder="Enter number of packages"
-                        />
-                        {warnings.packaging && (
-                          <p className="text-red-500 text-sm">
-                            {warnings.packaging}
-                          </p>
-                        )}
-                      </div>
-                      <div className="w-full md:w-2/3 ">
-                        <h3 className="text-lg font-medium text-secondary mb-2">
-                          Packaging Type <span className="text-red-500">*</span>
-                        </h3>
-                        <select
-                          className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
-                          value={selectedPackagingType}
-                          onChange={(e) =>
-                            setSelectedPackagingType(e.target.value)
-                          }
-                        >
-                          <option value="">Select packaging type</option>
-                          <option value="Carton">Carton</option>
-                          <option value="Floor">Floor</option>
-                          <option value="Loose">Loose</option>
-                          <option value="Pallet">Pallet</option>
-                          <option value="Roll">Roll</option>
-                          <option value="Skids">Skids</option>
-                          <option value="Others">Others</option>
-                        </select>
-                        {warnings.packaging && (
-                          <p className="text-red-500 text-sm">
-                            {warnings.packaging}
-                          </p>
-                        )}
-                      </div>
-                      <div className="mb-8 md:mb-0 w-full">
-                        <h3 className="text-lg font-medium text-secondary my-2">
-                          <FontAwesomeIcon
-                            icon={faNoteSticky}
-                            className="mr-2 text-gray-400"
-                          />
-                          Additional Notes
-                        </h3>
-                        <textarea
-                          className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
-                          placeholder="Enter your additional notes"
-                          value={notes}
-                          onChange={(e) => setNotes(e.target.value)}
-                          rows={3} // Ensure rows is a number
-                        />
-                      </div>
-                    </div>
-                    <Button
-                      label="GET THIS QUOTE"
-                      size="xl"
-                      bgColor="#7783D2"
-                      hoverBgColor="white"
-                      onClick={handleQuoteButtonClick}
-                      className="extra-class-for-medium-button mt-8"
-                      type="button"
-                    />
-                  </>
-                )}
-              </div>
-              <div className="mt-4  lg:col-span-2">
-                <MapComponent
-                  map={map}
-                  setMap={setMap}
-                  directions={directions}
-                  originLocation={originLocation}
-                  destinationLocation={destinationLocation}
-                />
-                <div className="p-4 lg:py-8 shadow-lg flex flex-col lg:flex-row justify-evenly text-center items-center lg:mt-8 rounded-lg">
-                  <div className="flex flex-col items-center mb-4 lg:mb-0">
-                    <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
-                      <FontAwesomeIcon
-                        icon={faMapLocationDot}
-                        className="text-gray-500"
-                      />{" "}
-                      Distance
-                    </div>
-                    <div
-                      className="text-primary text-4xl font-medium text-gray-500 p-4 rounded-lg"
-                      style={{ height: "60px" }}
-                    >
-                      {distance ? distance : <span>&nbsp;</span>}
                     </div>
                   </div>
-                  <div className="flex flex-col items-center">
-                    <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
-                      <FontAwesomeIcon
-                        icon={faMoneyBillWave}
-                        className="text-gray-500"
-                      />{" "}
-                      Estimated Price
-                    </div>
-                    <div
-                      className="text-primary text-4xl font-large text-gray-500 p-4 rounded-lg"
-                      style={{ height: "60px" }}
+
+                  <div className="flex justify-end">
+                    <button
+                      className={`mt-4 py-2 px-4 rounded text-white 
+    ${
+      !commodity || !maxWeight || !packagingNumber || !selectedPackagingType
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-primary hover:bg-secondary cursor-pointer"
+    }`}
+                      onClick={handleConfirmSecondModal}
+                      disabled={
+                        !commodity ||
+                        !maxWeight ||
+                        !packagingNumber ||
+                        !selectedPackagingType
+                      }
                     >
-                      {price !== null ? (
-                        `$ ${price.toFixed(2)}`
-                      ) : (
-                        <span>&nbsp;</span>
-                      )}
-                    </div>
+                      Proceed
+                    </button>
                   </div>
                 </div>
               </div>
+            )}
+
+            {showThirdModal && (
+              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
+                <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
+                  <div>
+                    <h1 className="text-primary text-xl">Book Your Shipment</h1>
+                    <p className="text-gray-500 font-normal mb-8">
+                      Provide the consignee's information and any additional
+                      notes about the shipment.
+                    </p>
+                  </div>
+                  <div className="mb-8 md:mb-0">
+                    <h3 className="text-lg font-medium text-secondary my-2">
+                      <FontAwesomeIcon
+                        icon={faBuilding}
+                        className="mr-2 text-gray-400"
+                      />
+                      Company Name / Consignee{" "}
+                      <span className="text-red-500">*</span>
+                    </h3>
+                    <input
+                      type="text"
+                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      placeholder="Enter your company name"
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                    />
+                    {warnings.companyName && (
+                      <p className="text-red-500 text-sm">
+                        {warnings.companyName}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mb-8 md:mb-0 w-full">
+                    <h3 className="text-lg font-medium text-secondary my-2">
+                      <FontAwesomeIcon
+                        icon={faNoteSticky}
+                        className="mr-2 text-gray-400"
+                      />
+                      Additional Notes
+                    </h3>
+                    <textarea
+                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      placeholder="Enter your additional notes"
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="flex justify-end">
+                    <button
+                      className={`mt-4 py-2 px-4 rounded text-white 
+    ${
+      !companyName
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-primary hover:bg-secondary cursor-pointer"
+    }`}
+                      onClick={handleConfirmThirdModal}
+                      disabled={!companyName}
+                    >
+                      {!companyName ? "Almost There!" : "Done 🎉"}
+                    </button>
+                    
+                  </div>
+                  {companyName && (
+                    <p className="text-gray-500 font-normal ">Please check your price...</p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <div className="border border-secondary p-8 bg-white h-auto w-1/4 rounded-lg shadow-xl">
+
+            {showPrice ? (
+    <div>
+      <h1 className="text-primary text-xl">Your Quote is Ready!</h1>
+      <p className="text-gray-500 font-normal mb-8">
+        Your price has been calculated. You can now review your details and proceed to payment.
+      </p>
+    </div>
+  ) : (
+    <div>
+      <h1 className="text-primary text-xl">Complete Your Details</h1>
+      <p className="text-gray-500 font-normal mb-8">
+        Please fill out all required information so we can calculate the distance and price for your shipment.
+      </p>
+    </div>
+  )}
+              <div className="flex flex-col items-left mb-4 lg:mb-0">
+                <div className="text-primary text-2xl font-medium pt-4 rounded-lg">
+                  <FontAwesomeIcon
+                    icon={faMapLocationDot}
+                    className="text-gray-400 w-6"
+                  />{" "}
+                  Distance
+                </div>
+                {showPrice &&(
+                <div
+                  className="text-secondary text-4xl font-medium text-gray-500 p-4 rounded-lg"
+                  style={{ height: "60px" }}
+                >
+                  {distance ? distance : <span>&nbsp;</span>}
+                </div>
+                )}
+
+              </div>
+
+              <div className="flex flex-col items-left">
+                <div className="text-primary text-2xl font-medium pt-4 rounded-lg">
+                  <FontAwesomeIcon
+                    icon={faMoneyBillWave}
+                    className="text-gray-400 w-6"
+                  />{" "}
+                  Price
+                </div>
+                {showPrice &&(
+                <div
+                  className="text-secondary text-4xl font-large text-gray-500 p-4 rounded-lg"
+                  style={{ height: "60px" }}
+                >
+                  {price !== null ? (
+                    `$ ${price.toFixed(2)}`
+                  ) : (
+                    <span>&nbsp;</span>
+                  )}
+                </div>
+                )}
+              </div>
+{pickupDate && (
+              <Button
+                label="GET THIS QUOTE"
+                size="xl"
+                bgColor="#7783D2"
+                hoverBgColor="white"
+                onClick={handleQuoteButtonClick}
+                className="extra-class-for-medium-button mt-8"
+                type="button"
+              />
+            )}
             </div>
           </div>
         </div>

@@ -371,8 +371,8 @@ const EditLoad: React.FC = () => {
                       name="pickupTime"
                       value={
                         booking.pickupTime
-                          ? new Date(`1970-01-01T${convertTo24HourFormat(booking.pickupTime)}`).toISOString().slice(11, 16)
-                          : "TBA"
+                          ? convertTo24HourFormat(booking.pickupTime)
+                          : "00:00" // Provide a default value if deliveryTime is not set
                       }
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
