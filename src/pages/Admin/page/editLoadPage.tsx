@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { fetchBookingById, updateBookingDetails } from "../../../lib/apiCalls";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
 import { Booking, Quote } from "../../../utils/types";
-import { formatDateForInput, isQuote } from "../../../utils/helpers";
+import { formatDateForInput } from "../../../utils/helpers";
 
 type FormStateField = keyof FormState | keyof NonNullable<FormState["quote"]>;
 interface FormState {
@@ -62,9 +62,9 @@ const EditLoad: React.FC = () => {
 
   useEffect(() => {
     if (!booking) return;
-    if (!isQuote(booking.quote)) return;
 
     const { pickupDate, deliveryDate } = booking.quote as Quote;
+
     const { pickupTime, deliveryTime, carrier, driver } = booking;
 
     setIsAllPrepared(
@@ -79,10 +79,11 @@ const EditLoad: React.FC = () => {
     );
 
     console.log(isAllPrepared);
-  }, [booking, editingField]);
+  }, [booking, editingField, isAllPrepared]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let { name, value } = e.target;
+    const { name } = e.target;
+    let { value } = e.target;
 
     // setFormState((prevState) => ({
     //   ...prevState,

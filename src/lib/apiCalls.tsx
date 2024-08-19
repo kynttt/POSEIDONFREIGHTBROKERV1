@@ -277,29 +277,6 @@ export const fetchBookings = async (token: string): Promise<Booking[]> => {
   return response.data as Booking[];
 };
 
-// Update booking details by quoteID
-interface BookingUpdate {
-  origin?: string;
-  price?: number;
-  destination?: string;
-  maxWeight?: number;
-  companyName?: string;
-  trailerType?: string;
-  distance?: number;
-  trailerSize?: string;
-  commodity?: string;
-  pickupDate?: string;
-  deliveryDate?: string;
-  notes?: string;
-  packaging?: string;
-  carrier?: string;
-  driver?: string;
-  bol?: string;
-  status?: string; // Add status field
-  pickupTime?: string;
-  deliveryTime?: string;
-}
-
 export const updateBookingDetails = async (id: string, data: Booking) => {
   const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
     method: "PUT",
