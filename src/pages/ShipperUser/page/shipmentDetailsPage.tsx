@@ -109,16 +109,27 @@ const ShipmentDetails: React.FC = () => {
                     Appointment <span className="text-red-600">*</span>
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote)?.pickupDate instanceof Date
-                      ? new Date(
-                          (booking.quote as Quote)?.pickupDate
-                        ).toLocaleDateString()
-                      : "TBA"}
-                    ,
-                    {booking.pickupTime
-                      ? convertTo12HourFormat(booking.pickupTime)
-                      : "08:00am - 03:00pm"}
-                  </p>
+  {(() => {
+    const pickupDate = (booking.quote as Quote)?.pickupDate;
+    let formattedDate = "TBA";
+
+    if (pickupDate instanceof Date && !isNaN(pickupDate.getTime())) {
+      formattedDate = pickupDate.toLocaleDateString();
+    } else if (typeof pickupDate === 'string') {
+      const parsedDate = new Date(pickupDate);
+      if (!isNaN(parsedDate.getTime())) {
+        formattedDate = parsedDate.toLocaleDateString();
+      }
+    }
+
+    const formattedTime = booking.pickupTime
+      ? convertTo12HourFormat(booking.pickupTime)
+      : "08:00am - 03:00pm";
+
+    return `${formattedDate}, ${formattedTime}`;
+  })()}
+</p>
+
                 </div>
               </div>
             </div>
@@ -164,20 +175,28 @@ const ShipmentDetails: React.FC = () => {
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
                     <p className="text-gray-500 text-sm font-medium">
-                      <p className="text-gray-500 text-sm font-medium">
-                        {(booking.quote as Quote)?.deliveryDate
-                          ? new Date(
-                              (booking.quote as Quote)?.deliveryDate as
-                                | string
-                                | number
-                                | Date
-                            ).toLocaleDateString()
-                          : "TBA"}
-                        ,
-                        {booking.deliveryTime
-                          ? convertTo12HourFormat(booking.deliveryTime)
-                          : "08:00am - 03:00pm"}
-                      </p>
+                    <p className="text-gray-500 text-sm font-medium">
+  {(() => {
+    const deliveryDate = (booking.quote as Quote)?.deliveryDate;
+    let formattedDate = "TBA";
+
+    if (deliveryDate instanceof Date && !isNaN(deliveryDate.getTime())) {
+      formattedDate = deliveryDate.toLocaleDateString();
+    } else if (typeof deliveryDate === 'string' || typeof deliveryDate === 'number') {
+      const parsedDate = new Date(deliveryDate);
+      if (!isNaN(parsedDate.getTime())) {
+        formattedDate = parsedDate.toLocaleDateString();
+      }
+    }
+
+    const formattedTime = booking.deliveryTime
+      ? convertTo12HourFormat(booking.deliveryTime)
+      : "08:00am - 03:00pm";
+
+    return `${formattedDate}, ${formattedTime}`;
+  })()}
+</p>
+
                     </p>
                   </p>
                 </div>
@@ -239,7 +258,7 @@ const ShipmentDetails: React.FC = () => {
                     Weight
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote).notes || "N/A"} lb
+                    {(booking.quote as Quote).maxWeight || "N/A"} lb
                   </p>
 
                   <label

@@ -79,20 +79,65 @@ export default function DistanceCalculatorPage() {
   const [showFirstModal, setShowFirstModal] = useState(false);
   const [showSecondModal, setShowSecondModal] = useState(false);
   const [showThirdModal, setShowThirdModal] = useState(false);
+  const [showPrice, setShowPrice] = useState(false);
+
+  const saveDataToSessionStorage = () => {
+    const data = {
+      origin,
+      destination,
+      pickupDate,
+      selectedTrailerType,
+      selectedTrailerSize,
+      commodity,
+      maxWeight,
+      companyName,
+      packagingNumber,
+      selectedPackagingType,
+      notes,
+      distance,
+      price,
+    };
+    sessionStorage.setItem('distanceCalculatorData', JSON.stringify(data));
+  };
 
   const handleConfirmFirstModal = () => {
+    saveDataToSessionStorage();
     setShowFirstModal(false);
     setShowSecondModal(true);
   };
 
   const handleConfirmSecondModal = () => {
+    saveDataToSessionStorage();
     setShowSecondModal(false);
     setShowThirdModal(true);
   };
 
   const handleConfirmThirdModal = () => {
+    sessionStorage.removeItem('distanceCalculatorData');
     setShowThirdModal(false);
+    setShowPrice(true);
   };
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('distanceCalculatorData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      setOrigin(data.origin || '');
+      setDestination(data.destination || '');
+      setPickupDate(data.pickupDate || '');
+      setSelectedTrailerType(data.selectedTrailerType || '');
+      setSelectedTrailerSize(data.selectedTrailerSize || 0);
+      setCommodity(data.commodity || '');
+      setMaxWeight(data.maxWeight || '');
+      setCompanyName(data.companyName || '');
+      setPackagingNumber(data.packagingNumber || '');
+      setSelectedPackagingType(data.selectedPackagingType || '');
+      setNotes(data.notes || '');
+      setDistance(data.distance || '');
+      setPrice(data.price || null);
+    }
+  }, []);
+  
 
   const [warnings, setWarnings] = useState({
     origin: "",
@@ -229,6 +274,7 @@ export default function DistanceCalculatorPage() {
 
       try {
         const data = await createQuote(quoteDetails, token);
+        
         navigate("/requests/confirmation", {
           state: { price, quoteId: data._id, userId },
         });
@@ -288,7 +334,7 @@ export default function DistanceCalculatorPage() {
             )}
 
             {showFirstModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
+              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
                 <div className="mx-2 bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg">
                   <div>
                     <h1 className="text-primary text-xl">Book Your Shipment</h1>
@@ -425,7 +471,7 @@ export default function DistanceCalculatorPage() {
     ${
       !origin || !destination || !selectedTrailerType || !selectedTrailerSize
         ? "bg-gray-400 cursor-not-allowed w-1/3"
-        : "bg-primary hover:bg-blue-600 cursor-pointer"
+        : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
     }`}
                       onClick={handleConfirmFirstModal}
                       disabled={
@@ -443,7 +489,7 @@ export default function DistanceCalculatorPage() {
             )}
 
             {showSecondModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
                 <div className="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg">
                   <div>
                     <h1 className="text-primary text-xl">Book Your Shipment</h1>
@@ -553,7 +599,7 @@ export default function DistanceCalculatorPage() {
     ${
       !commodity || !maxWeight || !packagingNumber || !selectedPackagingType
         ? "bg-gray-400 cursor-not-allowed"
-        : "bg-primary hover:bg-blue-600 cursor-pointer"
+        : "bg-primary hover:bg-secondary cursor-pointer"
     }`}
                       onClick={handleConfirmSecondModal}
                       disabled={
@@ -563,7 +609,7 @@ export default function DistanceCalculatorPage() {
                         !selectedPackagingType
                       }
                     >
-                      Almost There . .
+                      Proceed
                     </button>
                   </div>
                 </div>
@@ -571,7 +617,7 @@ export default function DistanceCalculatorPage() {
             )}
 
             {showThirdModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
                 <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
                   <div>
                     <h1 className="text-primary text-xl">Book Your Shipment</h1>
@@ -626,52 +672,69 @@ export default function DistanceCalculatorPage() {
     ${
       !companyName
         ? "bg-gray-400 cursor-not-allowed"
-        : "bg-primary hover:bg-blue-600 cursor-pointer"
+        : "bg-primary hover:bg-secondary cursor-pointer"
     }`}
                       onClick={handleConfirmThirdModal}
                       disabled={!companyName}
                     >
-                      Done 🎉
+                      {!companyName ? "Almost There!" : "Done 🎉"}
                     </button>
+                    
                   </div>
+                  {companyName && (
+                    <p className="text-gray-500 font-normal ">Please check your price...</p>
+                  )}
                 </div>
               </div>
             )}
 
             <div className="border border-secondary p-8 bg-white h-auto w-1/4 rounded-lg shadow-xl">
 
-            <div>
-                    <h1 className="text-primary text-xl">Complete Your Details</h1>
-                    <p className="text-gray-500 font-normal mb-8">
-                    Please fill out all required information so we can calculate the distance and price for your shipment.
-                    </p>
-                  </div>
+            {showPrice ? (
+    <div>
+      <h1 className="text-primary text-xl">Your Quote is Ready!</h1>
+      <p className="text-gray-500 font-normal mb-8">
+        Your price has been calculated. You can now review your details and proceed to payment.
+      </p>
+    </div>
+  ) : (
+    <div>
+      <h1 className="text-primary text-xl">Complete Your Details</h1>
+      <p className="text-gray-500 font-normal mb-8">
+        Please fill out all required information so we can calculate the distance and price for your shipment.
+      </p>
+    </div>
+  )}
               <div className="flex flex-col items-left mb-4 lg:mb-0">
-                <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
+                <div className="text-primary text-2xl font-medium pt-4 rounded-lg">
                   <FontAwesomeIcon
                     icon={faMapLocationDot}
                     className="text-gray-400 w-6"
                   />{" "}
                   Distance
                 </div>
+                {showPrice &&(
                 <div
-                  className="text-primary text-4xl font-medium text-gray-500 p-4 rounded-lg"
+                  className="text-secondary text-4xl font-medium text-gray-500 p-4 rounded-lg"
                   style={{ height: "60px" }}
                 >
                   {distance ? distance : <span>&nbsp;</span>}
                 </div>
+                )}
+
               </div>
 
               <div className="flex flex-col items-left">
-                <div className="text-secondary text-2xl font-medium pt-4 rounded-lg">
+                <div className="text-primary text-2xl font-medium pt-4 rounded-lg">
                   <FontAwesomeIcon
                     icon={faMoneyBillWave}
                     className="text-gray-400 w-6"
                   />{" "}
                   Price
                 </div>
+                {showPrice &&(
                 <div
-                  className="text-primary text-4xl font-large text-gray-500 p-4 rounded-lg"
+                  className="text-secondary text-4xl font-large text-gray-500 p-4 rounded-lg"
                   style={{ height: "60px" }}
                 >
                   {price !== null ? (
@@ -680,6 +743,7 @@ export default function DistanceCalculatorPage() {
                     <span>&nbsp;</span>
                   )}
                 </div>
+                )}
               </div>
 {pickupDate && (
               <Button
