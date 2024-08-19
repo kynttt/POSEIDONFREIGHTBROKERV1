@@ -277,40 +277,14 @@ export const fetchBookings = async (token: string): Promise<Booking[]> => {
   return response.data as Booking[];
 };
 
-// Update booking details by quoteID
-interface BookingUpdate {
-  origin?: string;
-  price?: number;
-  destination?: string;
-  maxWeight?: number;
-  companyName?: string;
-  trailerType?: string;
-  distance?: number;
-  trailerSize?: string;
-  commodity?: string;
-  pickupDate?: string;
-  deliveryDate?: string;
-  notes?: string;
-  packaging?: string;
-  carrier?: string;
-  driver?: string;
-  bol?: string;
-  status?: string; // Add status field
-  pickupTime?: string;
-  deliveryTime?: string;
-}
-
-export const updateBookingDetails = async (
-  id: string,
-  updatedData: BookingUpdate
-) => {
+export const updateBookingDetails = async (id: string, data: Booking) => {
   const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
-    body: JSON.stringify(updatedData),
+    body: JSON.stringify(data),
   });
 
   if (!response.ok) {
@@ -372,17 +346,20 @@ export const fetchBookingById = async (id: string) => {
   }
 };
 
-
 export const uploadPdf = async (pdfBlob: Blob) => {
   try {
     const formData = new FormData();
     formData.append("pdfDocument", pdfBlob, "document-with-signature.pdf");
 
-    const response = await axios.post(`${API_BASE_URL}/billOfLading`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      `${API_BASE_URL}/billOfLading`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     return response; // Ensure the response object is returned correctly
   } catch (error) {
@@ -390,5 +367,3 @@ export const uploadPdf = async (pdfBlob: Blob) => {
     throw error; // Ensure errors are thrown for the catch block in saveSignature to handle
   }
 };
-
-

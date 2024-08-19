@@ -109,6 +109,7 @@ const ShipmentDetails: React.FC = () => {
                     Appointment <span className="text-red-600">*</span>
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
+<<<<<<< HEAD
   {(() => {
     const pickupDate = (booking.quote as Quote)?.pickupDate;
     let formattedDate = "TBA";
@@ -130,6 +131,25 @@ const ShipmentDetails: React.FC = () => {
   })()}
 </p>
 
+=======
+                    <p className="text-gray-500 text-sm font-medium">
+                      <p className="text-gray-500 text-sm font-medium">
+                        {(booking.quote as Quote)?.pickupDate
+                          ? new Date(
+                              (booking.quote as Quote)?.pickupDate as
+                                | string
+                                | number
+                                | Date
+                            ).toLocaleDateString()
+                          : "TBA"}
+                        ,
+                        {booking.pickupTime
+                          ? convertTo12HourFormat(booking.pickupTime)
+                          : "08:00am - 03:00pm"}
+                      </p>
+                    </p>
+                  </p>
+>>>>>>> 7fd271aa8aeddc4041c2fd103e49cd79c555e677
                 </div>
               </div>
             </div>
