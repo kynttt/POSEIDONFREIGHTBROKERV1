@@ -109,29 +109,6 @@ const ShipmentDetails: React.FC = () => {
                     Appointment <span className="text-red-600">*</span>
                   </label>
                   <p className="text-gray-500 text-sm font-medium">
-<<<<<<< HEAD
-  {(() => {
-    const pickupDate = (booking.quote as Quote)?.pickupDate;
-    let formattedDate = "TBA";
-
-    if (pickupDate instanceof Date && !isNaN(pickupDate.getTime())) {
-      formattedDate = pickupDate.toLocaleDateString();
-    } else if (typeof pickupDate === 'string') {
-      const parsedDate = new Date(pickupDate);
-      if (!isNaN(parsedDate.getTime())) {
-        formattedDate = parsedDate.toLocaleDateString();
-      }
-    }
-
-    const formattedTime = booking.pickupTime
-      ? convertTo12HourFormat(booking.pickupTime)
-      : "08:00am - 03:00pm";
-
-    return `${formattedDate}, ${formattedTime}`;
-  })()}
-</p>
-
-=======
                     <p className="text-gray-500 text-sm font-medium">
                       <p className="text-gray-500 text-sm font-medium">
                         {(booking.quote as Quote)?.pickupDate
@@ -149,7 +126,6 @@ const ShipmentDetails: React.FC = () => {
                       </p>
                     </p>
                   </p>
->>>>>>> 7fd271aa8aeddc4041c2fd103e49cd79c555e677
                 </div>
               </div>
             </div>
