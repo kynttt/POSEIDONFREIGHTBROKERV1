@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import signupImage from "../assets/img/DeliveredPackage.gif";
-import Button from "../components/Button";
+// import Button from "../components/Button";
 import googleIcon from "../assets/img/googleicon.png";
 import appleIcon from "../assets/img/apple.png";
 import OTPModal from "../components/OTPModal";
@@ -27,11 +27,32 @@ const SignupPage = () => {
     [key: string]: string;
   }>({});
 
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+
+  useEffect(() => {
+    // Retrieve data from session storage when the component mounts
+    const savedFormData = sessionStorage.getItem("signupFormData");
+    if (savedFormData) {
+      setFormData(JSON.parse(savedFormData));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save form data to session storage whenever it changes
+    sessionStorage.setItem("signupFormData", JSON.stringify(formData));
+  }, [formData]);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const updatedFormData = { ...formData, [e.target.name]: e.target.value };
+    setFormData(updatedFormData);
+    sessionStorage.setItem('signupFormData', JSON.stringify(updatedFormData));
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsTermsChecked(e.target.checked);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,9 +110,8 @@ const SignupPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
-                    validationErrors.name ? "border-red-500" : ""
-                  }`}
+                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.name ? "border-red-500" : ""
+                    }`}
                   placeholder="Enter your name"
                   required
                 />
@@ -111,9 +131,8 @@ const SignupPage = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={`mt-1 block w-full md:w-3/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
-                      validationErrors.address ? "border-red-500" : ""
-                    }`}
+                    className={`mt-1 block w-full md:w-3/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.address ? "border-red-500" : ""
+                      }`}
                     placeholder="City, State, Country"
                     required
                   />
@@ -122,9 +141,8 @@ const SignupPage = () => {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className={`mt-1 lg:mt-4 block w-full md:w-2/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
-                      validationErrors.postalCode ? "border-red-500" : ""
-                    }`}
+                    className={`mt-1 lg:mt-4 block w-full md:w-2/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.postalCode ? "border-red-500" : ""
+                      }`}
                     placeholder="Postal Code"
                     required
                   />
@@ -166,9 +184,8 @@ const SignupPage = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className={`block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
-                      validationErrors.phone ? "border-red-500" : ""
-                    }`}
+                    className={`block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.phone ? "border-red-500" : ""
+                      }`}
                     placeholder="Phone number"
                     required
                   />
@@ -188,9 +205,8 @@ const SignupPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
-                    validationErrors.password ? "border-red-500" : ""
-                  }`}
+                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.password ? "border-red-500" : ""
+                    }`}
                   placeholder="Enter your password"
                   required
                 />
@@ -209,9 +225,8 @@ const SignupPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
-                    validationErrors.email ? "border-red-500" : ""
-                  }`}
+                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.email ? "border-red-500" : ""
+                    }`}
                   placeholder="Enter your email"
                   required
                 />
@@ -221,15 +236,38 @@ const SignupPage = () => {
                   </p>
                 )}
               </div>
-              <div className="flex justify-center">
-                <Button
-                  label="Sign Up"
-                  size="medium"
-                  bgColor="#252F70"
-                  hoverBgColor="white"
-                  className="extra-class-for-medium-button"
-                  type="submit"
+              <div className="flex items-center justify-center mt-4">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  className="form-checkbox h-4 w-4 text-blue-600"
+                  checked={isTermsChecked}
+                  onChange={handleCheckboxChange}
                 />
+                <label htmlFor="terms" className="text-sm text-black font-normal ml-2">
+                  I agree to the{" "}
+                  <a 
+  href="/terms-and-agreement" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  className="text-blue-600"
+>
+  Terms of Service
+</a>
+
+                </label>
+              </div>
+
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className={` text-white w-full py-3 rounded-md btn medium extra-class-for-medium-button ${!isTermsChecked ? 'text-white w-full py-3 rounded-md opacity-20 cursor-not-allowed' : ''}`}
+                  style={{ backgroundColor: '#252F70' }}
+                  disabled={!isTermsChecked}
+                >
+                  Sign Up
+                </button>
                 <OTPModal isOpen={isModalOpen} onClose={closeModal} />
               </div>
               {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
@@ -239,7 +277,7 @@ const SignupPage = () => {
                   verification.
                 </p>
               )}
-              <p className="text-xs text-black font-thin mt-4 text-center">
+              <p className="text-sm text-black font-normal mt-4 text-center">
                 Already have an account?{" "}
                 <a href="/login" className="text-blue-600">
                   Login
