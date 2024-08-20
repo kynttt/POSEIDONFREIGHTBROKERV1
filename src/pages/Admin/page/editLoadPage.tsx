@@ -3,12 +3,11 @@ import { useParams } from "react-router-dom";
 import { fetchBookingById, updateBookingDetails } from "../../../lib/apiCalls";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
 import { Booking, Quote } from "../../../utils/types";
+import { formatDateForInput } from "../../../utils/helpers";
 
 type FormStateField = keyof FormState | keyof NonNullable<FormState["quote"]>;
 interface FormState {
-  pickupDate?: string;
   pickupTime?: string;
-  deliveryDate?: string;
   deliveryTime?: string;
   carrier?: string;
   driver?: string;
@@ -20,34 +19,22 @@ interface FormState {
   };
   // Add other fields as needed
 }
-interface QuoteUpdate {
-  trailerSize?: string;
-  maxWeight?: number;
-  // Add other quote fields as needed
-}
 
-interface BookingUpdate {
-  origin?: string;
-  price?: number;
-  destination?: string;
-  maxWeight?: number;
-  companyName?: string;
-  trailerType?: string;
-  distance?: number;
-  trailerSize?: string;
-  commodity?: string;
-  pickupDate?: string;
-  deliveryDate?: string;
-  notes?: string;
-  packaging?: string;
-  carrier?: string;
-  driver?: string;
-  bol?: string;
-  pickupTime?: string;
-  deliveryTime?: string;
-  status?: string; // Add status field
-  quote?: QuoteUpdate; // Include the quote property here
-}
+const convertTo24HourFormat = (time12h: string): string => {
+  const [time, modifier] = time12h.split(' ');
+  let [hours, minutes] = time.split(':').map(Number);
+
+  if (modifier === 'PM' && hours !== 12) {
+    hours += 12;
+  }
+
+  if (modifier === 'AM' && hours === 12) {
+    hours = 0;
+  }
+
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+};
+
 
 const EditLoad: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -57,16 +44,10 @@ const EditLoad: React.FC = () => {
   const [editingField, setEditingField] = useState<{ [key: string]: boolean }>(
     {}
   );
-  const [formState, setFormState] = useState<FormState>({});
+  // const [formState, setFormState] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [editedFields, setEditedFields] = useState({
-    deliveryTime: false,
-    pickupTime: false,
-    deliveryDate: false,
-    carrier: false,
-    driver: false,
-  });
+  const [isAllPrepared, setIsAllPrepared] = useState(false);
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
@@ -77,35 +58,7 @@ const EditLoad: React.FC = () => {
         }
         const bookingData = await fetchBookingById(id);
         setBooking(bookingData);
-        const pickupDate =
-          (bookingData.quote as Quote)?.pickupDate instanceof Date
-            ? ((bookingData.quote as Quote)?.pickupDate as Date)!.toISOString()
-            : ((bookingData.quote as Quote)?.pickupDate as string) || "";
 
-        const deliveryDate = (
-          (bookingData.quote as Quote)?.deliveryDate instanceof Date
-            ? ((bookingData.quote as Quote)
-                ?.deliveryDate as Date)!.toISOString()
-            : ((bookingData.quote as Quote)?.deliveryDate as
-                | string
-                | undefined) || ""
-        ).toString();
-        setFormState({
-          pickupDate,
-          deliveryDate,
-          pickupTime: bookingData.pickupTime || "",
-          deliveryTime: bookingData.deliveryTime || "",
-          carrier: bookingData.carrier || "",
-          driver: bookingData.driver || "",
-          quote: {
-            trailerSize: (
-              (bookingData.quote as Quote)?.trailerSize || ""
-            ).toString(),
-            maxWeight: (bookingData.quote as Quote)?.maxWeight || 0,
-            pickupDate,
-            deliveryDate,
-          },
-        }); // Initialize form state with fetched data
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -123,50 +76,69 @@ const EditLoad: React.FC = () => {
     }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  useEffect(() => {
+    if (!booking) return;
 
-    // Mark the field as edited
-    setEditedFields((prevEditedFields) => ({
-      ...prevEditedFields,
-      [name]: true,
-    }));
+    const { pickupDate, deliveryDate } = booking.quote as Quote;
+
+    const { pickupTime, deliveryTime, carrier, driver } = booking;
+
+    setIsAllPrepared(
+      !!(
+        pickupDate &&
+        deliveryDate &&
+        pickupTime &&
+        deliveryTime &&
+        carrier &&
+        driver
+      )
+    );
+
+    // console.log(isAllPrepared);
+  }, [booking, editingField, isAllPrepared]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    let { value } = e.target;
+  
+    if (name === "pickupDate" || name === "deliveryDate") {
+      value = new Date(value).toISOString();
+    } else if (name === "pickupTime" || name === "deliveryTime") {
+      // Convert 12-hour format to 24-hour format
+      value = convertTo24HourFormat(value);
+    }
+  
+    setBooking((prevBooking) => {
+      if (!prevBooking) return prevBooking;
+      const data = {
+        ...prevBooking,
+        ...(name === "pickupDate" || name === "deliveryDate"
+          ? {
+              quote: {
+                ...(prevBooking.quote as Quote),
+                [name]: value,
+              },
+            }
+          : { [name]: value }),
+      };
+  
+      return data;
+    });
   };
+  
+  
 
   const handleSave = async (field: FormStateField) => {
     try {
-      if (!id) return;
+      if (!id || !booking) return;
 
-      const isQuoteField = [
-        "trailerSize",
-        "maxWeight",
-        "pickupDate",
-        "deliveryDate",
-      ].includes(field);
-
-      const updateData: BookingUpdate = isQuoteField
-        ? { quote: { [field]: formState.quote?.[field as keyof QuoteUpdate] } }
-        : { [field]: formState[field as keyof FormState] };
-
-      await updateBookingDetails(id, updateData);
+      await updateBookingDetails(id, booking);
 
       setBooking((prevBooking) => {
-        if (!prevBooking) return prevBooking; // If prevBooking is null, return null
-
+        if (!prevBooking) return prevBooking;
         return {
           ...prevBooking,
-          ...(isQuoteField
-            ? {
-                quote: {
-                  ...(prevBooking.quote as Quote),
-                  [field]: formState.quote?.[field as keyof QuoteUpdate],
-                },
-              }
-            : { [field]: formState[field as keyof FormState] }),
+          [field]: booking?.[field as keyof Booking],
         };
       });
 
@@ -182,6 +154,8 @@ const EditLoad: React.FC = () => {
     try {
       if (!booking) return;
       if (!id) return;
+
+      // console.log("Action:", action);
 
       let newStatus: Booking["status"]; // Ensure newStatus matches the expected type
 
@@ -203,7 +177,10 @@ const EditLoad: React.FC = () => {
         }
       }
 
-      await updateBookingDetails(id, { status: newStatus });
+      await updateBookingDetails(id, {
+        ...booking,
+        status: newStatus,
+      });
 
       setBooking((prevBooking) => {
         if (!prevBooking) return null;
@@ -238,7 +215,7 @@ const EditLoad: React.FC = () => {
   // };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen md:mt-12">
       <nav className="flex-1 bg-white overflow-y-auto lg:px-20">
         <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
           <div className="w-full lg:w-2/3">
@@ -285,14 +262,12 @@ const EditLoad: React.FC = () => {
                   <>
                     <button
                       className={`px-4 py-2 bg-blue-600 text-white rounded ${
-                        Object.values(editedFields).every((field) => field)
-                          ? ""
+                        isAllPrepared
+                          ? "cursor-pointer"
                           : "opacity-50 cursor-not-allowed"
                       }`}
                       onClick={handleConfirmBooking}
-                      disabled={
-                        !Object.values(editedFields).every((field) => field)
-                      }
+                      disabled={!isAllPrepared}
                     >
                       Confirm Booking
                     </button>
@@ -347,7 +322,13 @@ const EditLoad: React.FC = () => {
                       <input
                         type="date"
                         name="pickupDate"
-                        value={formState.pickupDate}
+                        value={
+                          (booking.quote as Quote)?.pickupDate
+                            ? formatDateForInput(
+                                new Date((booking.quote as Quote)?.pickupDate)
+                              )
+                            : formatDateForInput(new Date()) // Default to today's date
+                        }
                         onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
                       />
@@ -386,12 +367,17 @@ const EditLoad: React.FC = () => {
                   <div className="flex gap-2 items-center">
                     {editingField.pickupTime ? (
                       <input
-                        type="time"
-                        name="pickupTime"
-                        value={formState.pickupTime || ""}
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                      />
+                      type="time"
+                      name="pickupTime"
+                      value={
+                        booking.pickupTime
+                          ? convertTo24HourFormat(booking.pickupTime)
+                          : "00:00" // Provide a default value if deliveryTime is not set
+                      }
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                    
                     ) : (
                       <p className="text-gray-500 text-sm font-medium">
                         {booking.pickupTime
@@ -469,7 +455,16 @@ const EditLoad: React.FC = () => {
                       <input
                         type="date"
                         name="deliveryDate"
-                        value={formState.deliveryDate}
+                        value={
+                          (booking.quote as Quote)?.pickupDate
+                            ? formatDateForInput(
+                                new Date(
+                                  (booking.quote as Quote)?.deliveryDate ||
+                                    formatDateForInput(new Date())
+                                )
+                              )
+                            : formatDateForInput(new Date()) // Default to today's date
+                        }
                         onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
                       />
@@ -507,12 +502,17 @@ const EditLoad: React.FC = () => {
                   <div className="flex gap-2 items-center">
                     {editingField.deliveryTime ? (
                       <input
-                        type="time"
-                        name="deliveryTime"
-                        value={formState.deliveryTime || ""}
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                      />
+                      type="time"
+                      name="deliveryTime"
+                      value={
+                        booking.deliveryTime
+                          ? convertTo24HourFormat(booking.deliveryTime)
+                          : "00:00" // Provide a default value if deliveryTime is not set
+                      }
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                    
                     ) : (
                       <p className="text-gray-500 text-sm font-medium">
                         {booking.deliveryTime
@@ -639,7 +639,7 @@ const EditLoad: React.FC = () => {
                     <input
                       type="text"
                       name="carrier"
-                      value={formState.carrier}
+                      value={booking.carrier || ""}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
                     />
@@ -673,7 +673,7 @@ const EditLoad: React.FC = () => {
                     <input
                       type="text"
                       name="driver"
-                      value={formState.driver}
+                      value={booking.driver || ""}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
                     />

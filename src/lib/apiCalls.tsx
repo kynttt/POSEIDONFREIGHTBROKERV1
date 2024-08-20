@@ -313,33 +313,10 @@ export const fetchBookings = async () => {
   return response.data as Booking[];
 };
 
-// Update booking details by quoteID
-interface BookingUpdate {
-  origin?: string;
-  price?: number;
-  destination?: string;
-  maxWeight?: number;
-  companyName?: string;
-  trailerType?: string;
-  distance?: number;
-  trailerSize?: string;
-  commodity?: string;
-  pickupDate?: string;
-  deliveryDate?: string;
-  notes?: string;
-  packaging?: string;
-  carrier?: string;
-  driver?: string;
-  bol?: string;
-  status?: string; // Add status field
-  pickupTime?: string;
-  deliveryTime?: string;
-}
 
 export const updateBookingDetails = async (
   id: string,
-
-  updatedData: BookingUpdate
+  data: Booking
 ) => {
   const response = await fetch(`/bookings/${id}`, {
     method: "PUT",
@@ -347,7 +324,7 @@ export const updateBookingDetails = async (
       "Content-Type": "application/json",
       // Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
-    body: JSON.stringify(updatedData),
+    body: JSON.stringify(data),
   });
 
   if (!response.ok) {
@@ -406,5 +383,27 @@ export const fetchBookingById = async (id: string) => {
       console.error("Unexpected Error:", error);
     }
     throw error;
+  }
+};
+
+export const uploadPdf = async (pdfBlob: Blob) => {
+  try {
+    const formData = new FormData();
+    formData.append("pdfDocument", pdfBlob, "document-with-signature.pdf");
+
+    const response = await axios.post(
+      `/billOfLading`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response; // Ensure the response object is returned correctly
+  } catch (error) {
+    console.error("Error saving document:", error);
+    throw error; // Ensure errors are thrown for the catch block in saveSignature to handle
   }
 };

@@ -159,11 +159,11 @@ const LoadBoard: React.FC = () => {
   );
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full md:mt-12">
       <div className="flex-1 bg-white min-h-screen overflow-y-auto">
         <form onSubmit={handleSubmit} className="lg:mx-16 py-10 px-4">
           <div className="mb-6">
-            <h2 className="text-2xl font-semibold lg:mb-20 text-secondary">
+            <h2 className="text-2xl font-semibold lg:mb-8 text-secondary">
               FIND LOADS
             </h2>
           </div>

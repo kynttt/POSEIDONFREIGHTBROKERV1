@@ -13,7 +13,7 @@ import {
 
 const ShipperDashboardPage = () => {
   return (
-    <div className="bg-white h-full flex flex-col md:flex-row">
+    <div className="bg-white h-full flex flex-col md:flex-row mt-6">
       {/* Sidebar */}
 
       <div className="flex-1 p-4 md:p-6 bg-gray-100 overflow-y-auto lg:px-20">
