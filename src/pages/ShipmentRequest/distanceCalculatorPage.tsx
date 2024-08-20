@@ -387,11 +387,10 @@ export default function DistanceCalculatorPage() {
                           {truckTypes.map((type) => (
                             <button
                               key={type.type}
-                              className={`p-2 bg-grey   rounded w-full md:w-full  text-primary font-normal ${
-                                selectedTrailerType === type.type
-                                  ? "bg-secondary text-white" // Highlight selected button
-                                  : ""
-                              }`}
+                              className={`px-2 py-3 bg-grey   rounded w-full md:w-full  text-primary font-normal ${selectedTrailerType === type.type
+                                ? "bg-secondary text-white" // Highlight selected button
+                                : ""
+                                }`}
                               onClick={() => setSelectedTrailerType(type.type)}
                             >
                               {type.type}
@@ -416,14 +415,12 @@ export default function DistanceCalculatorPage() {
                           {truckSizes.map((size) => (
                             <button
                               key={size}
-                              className={`p-2 bg-grey rounded w-full lg:w-full text-primary font-normal ${
-                                selectedTrailerSize === size
-                                  ? "bg-secondary text-white"
-                                  : ""
-                              } ${
-                                size === 48 &&
-                                (selectedTrailerType === "Dry Van" ||
-                                  selectedTrailerType === "Refrigerated")
+                              className={`px-2 py-3 bg-grey rounded w-full lg:w-full text-primary font-normal ${selectedTrailerSize === size
+                                ? "bg-secondary text-white"
+                                : ""
+                                } ${size === 48 &&
+                                  (selectedTrailerType === "Dry Van" ||
+                                    selectedTrailerType === "Refrigerated")
                                   ? "opacity-50 cursor-not-allowed"
                                   : ""
                               }`}
@@ -455,12 +452,11 @@ export default function DistanceCalculatorPage() {
 
                   <div className="flex justify-end">
                     <button
-                      className={` py-2 px-4  rounded text-white 
-    ${
-      !origin || !destination || !selectedTrailerType || !selectedTrailerSize
-        ? "bg-gray-400 cursor-not-allowed w-1/3"
-        : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
-    }`}
+                      className={` py-3 px-2  rounded text-white 
+    ${!origin || !destination || !selectedTrailerType || !selectedTrailerSize
+                          ? "bg-gray-400 cursor-not-allowed w-1/3"
+                          : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
+                        }`}
                       onClick={handleConfirmFirstModal}
                       disabled={
                         !origin ||
@@ -590,12 +586,11 @@ export default function DistanceCalculatorPage() {
 
                   <div className="flex justify-end">
                     <button
-                      className={`mt-4 py-2 px-4 rounded text-white 
-    ${
-      !commodity || !maxWeight || !packagingNumber || !selectedPackagingType
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-primary hover:bg-secondary cursor-pointer"
-    }`}
+                      className={`mt-4 py-3 px-4 rounded text-white 
+    ${!commodity || !maxWeight || !packagingNumber || !selectedPackagingType
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-primary hover:bg-secondary cursor-pointer"
+                        }`}
                       onClick={handleConfirmSecondModal}
                       disabled={
                         !commodity ||
@@ -614,7 +609,7 @@ export default function DistanceCalculatorPage() {
             {showThirdModal && (
               <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
                 <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
-                  <button
+                    <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowThirdModal(false)}
                     aria-label="Close"
@@ -670,12 +665,11 @@ export default function DistanceCalculatorPage() {
 
                   <div className="flex justify-end">
                     <button
-                      className={`mt-4 py-2 px-4 rounded text-white 
-    ${
-      !companyName
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-primary hover:bg-secondary cursor-pointer"
-    }`}
+                      className={`mt-4 py-3 px-4 rounded text-white 
+    ${!companyName
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-primary hover:bg-secondary cursor-pointer"
+                        }`}
                       onClick={handleConfirmThirdModal}
                       disabled={!companyName}
                     >
@@ -691,77 +685,69 @@ export default function DistanceCalculatorPage() {
               </div>
             )}
 
-            <div className="border border-secondary p-8 bg-white h-auto w-1/4 rounded-lg shadow-xl">
+            <div className="border border-secondary p-4 md:p-8 bg-white h-auto w-full md:w-1/2 lg:w-1/4 rounded-lg shadow-xl md:mt-0 xs:mt-4">
               {showPrice ? (
                 <div>
-                  <h1 className="text-primary text-xl">Your Quote is Ready!</h1>
-                  <p className="text-gray-500 font-normal mb-8">
-                    Your price has been calculated. You can now review your
-                    details and proceed to payment.
+                  <h1 className="text-primary text-lg md:text-xl">Your Quote is Ready!</h1>
+                  <p className="text-gray-500 text-sm md:text-base font-normal mb-4 md:mb-8">
+                    Your price has been calculated. You can now review your details and proceed to payment.
                   </p>
                 </div>
               ) : (
                 <div>
-                  <h1 className="text-primary text-xl">
-                    Complete Your Details
-                  </h1>
-                  <p className="text-gray-500 font-normal mb-8">
-                    Please fill out all required information so we can calculate
-                    the distance and price for your shipment.
+                  <h1 className="text-primary text-lg md:text-xl">Complete Your Details</h1>
+                  <p className="text-gray-500 text-sm md:text-base font-normal mb-4 md:mb-8">
+                    Please fill out all required information so we can calculate the distance and price for your shipment.
                   </p>
                 </div>
               )}
-              <div className="flex flex-col items-left mb-4 lg:mb-0">
-                <div className="text-primary text-2xl font-medium pt-4 rounded-lg">
+              <div className="flex flex-col items-start mb-4 lg:mb-0">
+                <div className="text-primary text-xl md:text-2xl font-medium pt-4 rounded-lg">
                   <FontAwesomeIcon
                     icon={faMapLocationDot}
-                    className="text-gray-400 w-6"
+                    className="text-gray-400 w-4 md:w-6"
                   />{" "}
                   Distance
                 </div>
                 {showPrice && (
                   <div
-                    className="text-secondary text-4xl font-medium text-gray-500 p-4 rounded-lg"
+                    className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
                     style={{ height: "60px" }}
                   >
                     {distance ? distance : <span>&nbsp;</span>}
                   </div>
                 )}
               </div>
-
-              <div className="flex flex-col items-left">
-                <div className="text-primary text-2xl font-medium pt-4 rounded-lg">
+              <div className="flex flex-col items-start">
+                <div className="text-primary text-xl md:text-2xl font-medium pt-4 rounded-lg">
                   <FontAwesomeIcon
                     icon={faMoneyBillWave}
-                    className="text-gray-400 w-6"
+                    className="text-gray-400 w-4 md:w-6"
                   />{" "}
                   Price
                 </div>
                 {showPrice && (
                   <div
-                    className="text-secondary text-4xl font-large text-gray-500 p-4 rounded-lg"
+                    className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
                     style={{ height: "60px" }}
                   >
-                    {price !== null ? (
-                      `$ ${price.toFixed(2)}`
-                    ) : (
-                      <span>&nbsp;</span>
-                    )}
+                    {price !== null ? `$ ${price.toFixed(2)}` : <span>&nbsp;</span>}
                   </div>
                 )}
               </div>
-              {pickupDate && (
+              {showPrice && (
                 <Button
                   label="GET THIS QUOTE"
-                  size="xl"
+                  size="large"
                   bgColor="#7783D2"
                   hoverBgColor="white"
                   onClick={handleQuoteButtonClick}
-                  className="extra-class-for-medium-button mt-8"
+                  className="extra-class-for-medium-button mt-4 md:mt-8"
                   type="button"
                 />
               )}
             </div>
+
           </div>
         </div>
       </div>

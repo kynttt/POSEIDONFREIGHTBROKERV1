@@ -3,7 +3,7 @@ import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
-  height: '575px',
+  height: '50vh', // Adjusted for responsive height
   boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.3)', // Adding box shadow
   borderRadius: '8px', // Adding border radius
 };
@@ -49,26 +49,28 @@ export const MapComponent: React.FC<MapComponentProps> = ({
   originLocation,
   destinationLocation,
 }) => (
-  <GoogleMap
-    mapContainerStyle={containerStyle}
-    center={defaultCenter}
-    zoom={10}
-    onLoad={(map) => setMap(map)}
-    options={{ styles: mapStyles }} // Applying custom styles
-  >
-    {originLocation && <Marker position={originLocation} label="A" />}
-    {destinationLocation && <Marker position={destinationLocation} label="B" />}
-    {directions && (
-      <DirectionsRenderer
-        directions={directions}
-        options={{
-          polylineOptions: {
-            strokeColor: '#7783D2', // Gray color for the route
-            strokeOpacity: 0.8,
-            strokeWeight: 5,
-          }
-        }}
-      />
-    )}
-  </GoogleMap>
+  <div className="map-container">
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={defaultCenter}
+      zoom={10}
+      onLoad={(map) => setMap(map)}
+      options={{ styles: mapStyles }} // Applying custom styles
+    >
+      {originLocation && <Marker position={originLocation} label="A" />}
+      {destinationLocation && <Marker position={destinationLocation} label="B" />}
+      {directions && (
+        <DirectionsRenderer
+          directions={directions}
+          options={{
+            polylineOptions: {
+              strokeColor: '#7783D2', // Gray color for the route
+              strokeOpacity: 0.8,
+              strokeWeight: 5,
+            }
+          }}
+        />
+      )}
+    </GoogleMap>
+  </div>
 );
