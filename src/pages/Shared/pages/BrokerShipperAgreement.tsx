@@ -10,15 +10,14 @@ const BrokerShipperAgreement: React.FC = () => {
     };
 
     const handleSubmit = () => {
-        if (agreed) {
-            // Handle the agreement submission logic here
-            alert("You have agreed to the terms of the contract.");
-            window.close(); // Close the current tab
-        } else {
-            alert("Please agree to the terms before proceeding.");
-        }
-    };
-    
+    if (agreed) {
+        // Handle the agreement submission logic here
+        alert("You have agreed to the terms of the contract.");
+        window.close(); // Close the current tab
+    } else {
+        alert("Please agree to the terms before proceeding.");
+    }
+};
 
     return (
         <div className="max-w-4xl mx-auto p-8 md:px-24 bg-white shadow-md">
