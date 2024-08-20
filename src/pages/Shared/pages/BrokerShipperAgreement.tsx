@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const BrokerShipperAgreement: React.FC = () => {
+    const navigate = useNavigate();
     const [agreed, setAgreed] = useState(false);
 
     const handleCheckboxChange = () => {
@@ -11,10 +13,12 @@ const BrokerShipperAgreement: React.FC = () => {
         if (agreed) {
             // Handle the agreement submission logic here
             alert("You have agreed to the terms of the contract.");
+            window.close(); // Close the current tab
         } else {
             alert("Please agree to the terms before proceeding.");
         }
     };
+    
 
     return (
         <div className="max-w-4xl mx-auto p-8 md:px-24 bg-white shadow-md">
@@ -40,46 +44,46 @@ const BrokerShipperAgreement: React.FC = () => {
             </p>
             </div>
 
-            <p className="text-base font-normal mb-4">
+            <p className="text-base font-normal mb-4 text-justify">
                 FREIGHT BROKER PARTNER AGREEMENT BETWEEN LICENSED TRANSPORTATION BROKER POSEIDON DISTRIBUTION INC. AND SHIPPER.
             </p>
 
-            <p className="text-base font-normal mb-4">
+            <p className="text-base font-normal mb-4 text-justify">
                 This Agreement constitutes a legally binding agreement effective on this day of <strong>{new Date().toLocaleDateString()}</strong> between Poseidon Distribution Inc. (referred to hereafter as, "Broker") and you, the user availing this service (referred to hereafter as, "Shipper"); collectively referred to as, the "Parties".
             </p>
 
 
-            <h2 className="text-lg font-bold mt-8 mb-4">RECITALS</h2>
-            <p className="text-base font-normal mb-4">
+            <h2 className="text-lg font-bold mt-8 mb-4 ">RECITALS</h2>
+            <p className="text-base font-normal mb-4 text-justify">
                 Poseidon Distribution Inc. is a licensed freight broker, duly authorized by the Federal
                 Motor Carrier Safety Administration (FMCSA) in Docket Number MC-1104674 or by
                 appropriate State agencies to arrange for and transportation of freight by motor vehicles
                 service on behalf of a motor carrier, consignor or consignee.
             </p>
-            <p className="text-base font-normal mb-4">
+            <p className="text-base font-normal mb-4 text-justify">
                 Shipper, to satisfy certain transportation needs, desires to utilize the services of Poseidon
                 Distribution Inc. to arrange for transportation of Shipper’s freight.
             </p>
 
             <h2 className="text-lg font-bold mt-8 mb-4">AGREEMENT</h2>
-            <p className="text-base font-normal mb-4">
+            <p className="text-base font-normal mb-4 text-justify">
                 1. The terms of this Agreement are intended to apply to all transactions between
                 the Parties for the duration of one (1) year, commencing on the date shown above, and
                 shall automatically renew for successive one year periods; provided that either Party may
                 terminate this Agreement on 30 days written notice to the other Party, with or without
                 cause, or as otherwise provided in this Agreement.
             </p>
-            <p className="text-base font-normal mb-4">
+            <p className="text-base font-normal mb-4 text-justify">
                 2. Acceptance of Goods for Transit. The Broker undertakes to arrange for any or all of
                 the following services (The Services): packing, crating, handling, loading, unloading,
                 storage or transport of goods for the Shipper. The Services shall be performed under the
                 following terms and conditions, which the Broker has made available to the Shipper.
             </p>
-            <p className="text-base font-normal mb-4">
+            <p className="text-base font-normal mb-4 text-justify">
                 3. The persons signing this Agreement are authorized to do so and intend to bind their
                 respective Parties.
             </p>
-            <p className="text-base font-normal mb-4">
+            <p className="text-base font-normal mb-4 text-justify">
                 NOW, THEREFORE, in consideration of the terms, covenants and conditions herein set
                 forth,
                 it is agreed:
@@ -88,7 +92,7 @@ const BrokerShipperAgreement: React.FC = () => {
             <h3 className="text-base font-normal mt-8 mb-4">
             4. Poseidon Distribution Inc./Broker is responsible for the following:
             </h3>
-            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2">
+            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2 text-justify">
                 <li>
                     The Broker shall procure the Services from third parties in the name, and on
                     behalf of, the Shipper.
@@ -120,7 +124,7 @@ const BrokerShipperAgreement: React.FC = () => {
             <h3 className="text-base font-normal mt-8 mb-4">
                 5. Shipper is responsible for the following:
             </h3>
-            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2">
+            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2 text-justify">
                 <li>
                     The Shipper warrants that it is either the owner or the authorized agent of the
                     owner of the goods.
@@ -191,7 +195,7 @@ const BrokerShipperAgreement: React.FC = () => {
                 6. Indemnification by the Shipper. The Shipper shall indemnify and hold the Broker
                 harmless for:
             </h3>
-            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2">
+            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2 text-justify">
                 <li>
                     All duties, taxes, fines, or other expenses incurred by the Broker caused by the
                     Shipper or any party acting on his behalf.
@@ -208,7 +212,7 @@ const BrokerShipperAgreement: React.FC = () => {
                 </li>
             </ul>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 7. Payments. Broker shall invoice Shipper for its services in accordance with the rates,
                 charges and provisions set forth, and any written supplements or revisions that are
                 mutually agreed to between the Parties in writing. If rates are negotiated between the
@@ -221,7 +225,7 @@ const BrokerShipperAgreement: React.FC = () => {
             <h3 className="text-base font-normal mt-8 mb-4">
                 8. Lien on Cargoes.
             </h3>
-            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2">
+            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2 text-justify">
                 <li>
                     The Broker shall have a general lien on any and all property of the Shipper in its
                     possession or control, for any claim for charges, expenses or advances incurred by
@@ -249,7 +253,7 @@ const BrokerShipperAgreement: React.FC = () => {
             <h3 className="text-base font-normal mt-8 mb-4">
                 9. Presentation of Claims and Liabilities.
             </h3>
-            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2">
+            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2 text-justify">
                 <li>
                     In the event that the goods are lost, damaged, delayed or otherwise received in a
                     manner inconsistent with its intended delivery, the Shipper shall give notice to the
@@ -292,11 +296,11 @@ const BrokerShipperAgreement: React.FC = () => {
             </ul>
 
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 10. Insurance. Broker agrees to procure and maintain at its own expense, at all times
                 during the term of this Agreement, the following insurance coverage amounts:
             </h3>
-            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2">
+            <ul className="text-base font-normal list-disc pl-8 mb-4 space-y-2 text-justify">
                 <li>
                     Comprehensive general liability insurance covering bodily injury and property
                     damage
@@ -312,25 +316,25 @@ const BrokerShipperAgreement: React.FC = () => {
 
             </ul>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 11. Surety Bond. Broker shall maintain a surety bond or trust fund agreement as required
                 by the Federal Motor Carrier Safety Administration in the amount of $75,000 or as
                 otherwise required by the FMCSA and furnish Shipper with proof upon request.
             </h3>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 12. Homeland Security. As applicable to each, respectively, Broker and Shipper shall
                 comply with state and federal Homeland Security related laws and regulations.
             </h3>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 13. Assignment/Modification of Agreement. Neither party may assign or transfer this
                 Agreement, in whole or in part, without the prior written consent of the other party. No
                 amendment or modification of the terms of this Agreement shall be binding unless in
                 writing and signed by the Parties.
             </h3>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 14. Severability/Survivability. In the event that the operation of any portion of this
                 Agreement results in a violation of any law, or any provision is determined by a court of
                 competent jurisdiction to be invalid or unenforceable, the Parties agree that such portion
@@ -339,14 +343,14 @@ const BrokerShipperAgreement: React.FC = () => {
                 survive the termination of this Agreement for any reason.
             </h3>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 15. Independent Contractor. It is understood between Broker and Shipper that Broker is
                 not an agent for the carrier or Shipper and shall remain at all times an independent
                 contractor. Shipper does not exercise or retain any control or supervision over Broker, its
                 operations, employees, or carriers.
             </h3>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 16. Non-waiver. Failure of either party to insist upon performance of any of the terms,
                 conditions or provisions of this Agreement, or to exercise any right or privilege herein, or
                 the waiver of any breach of any of the terms, conditions or provisions of this Agreement,
@@ -355,7 +359,7 @@ const BrokerShipperAgreement: React.FC = () => {
                 forbearance or waiver had occurred.
             </h3>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 17. Notices. Unless the Parties notify each other in writing of a change of address, any
                 and all notices required or permitted to be given under this Agreement shall be in writing
                 (or fax with machine imprint on paper acknowledging successful transmission or email
@@ -369,7 +373,7 @@ const BrokerShipperAgreement: React.FC = () => {
             </h3>
 
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 18. Indemnity. Broker and Shipper shall each defend, indemnify and hold harmless the
                 other party from and against all loss, damage, expense, including injury resulting in
                 death, and damage to property arising out of or in connection with the indemnifying
@@ -383,7 +387,7 @@ const BrokerShipperAgreement: React.FC = () => {
             </h3>
 
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 19. Force Majeure. Neither Broker nor Carrier shall be liable for any delay in the
                 performance of the Transportation Services resulting directly or indirectly from or
                 contributed to by any force majeure, including, but not limited to, act of God, acts of
@@ -392,20 +396,20 @@ const BrokerShipperAgreement: React.FC = () => {
             </h3>
 
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 20. Waiver of Certain Damages. In no event shall Broker or Carrier be liable for any
                 consequential, incidental, or special damages, which may arise, from loss, damage, non-
                 delivery, or delay of any shipment. This limitation shall apply to and include, but not
                 limited to damages for loss of profit, loss of income, or loss of business opportunity.
             </h3>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 21. Law and Jurisdiction. The terms and conditions of the Services to be provided shall
                 be governed by the Surface Transportation Act (49 USC 13101 et. seq.) where applicable
                 and otherwise shall be construed in accordance with the laws of the State of Washington.
             </h3>
 
-            <h3 className="text-base font-normal mt-8 mb-4">
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 22. Entire Agreement: This Agreement constitutes the entire agreement intended by and
                 between the Parties and supersedes all prior agreements, representations, warranties,
                 statements, promises, information, arrangements, and understandings, whether oral,
@@ -419,18 +423,18 @@ const BrokerShipperAgreement: React.FC = () => {
 
             
 
-            <p className="text-base font-semibold mb-4">
+            <p className="text-base font-semibold mb-4 text-justify">
                 By agreeing to these terms, you attest that all information provided
                 is accurate and verifiable. Furthermore, SHIPPER authorizes AOT Logistics and/or credit
                 agency to investigate all credit history, bank references and any other information
                 required to process this application and at any time in the future.
             </p>
 
-            <p className="text-base font-semibold mb-4">
+            <p className="text-base font-semibold mb-4 text-justify">
                     By using our services, you agree to the terms outlined in this Agreement. This Agreement is executed by the Parties as of the date you accept the terms by checking the box below.
                 </p>
 
-            <p className="text-base font-semibold mb-4">
+            <p className="text-base font-semibold mb-4 text-justify">
                 By checking the box below, you confirm that you have read, understood, and agree to the terms and conditions set forth in this Agreement.
             </p>
 
