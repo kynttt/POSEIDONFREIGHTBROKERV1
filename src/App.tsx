@@ -213,6 +213,15 @@ const App: React.FC = () => {
               }
             />
             <Route
+              path="profile"
+              element={
+                <PrivateRoute
+                  element={<ShipperProfilePage />}
+                  
+                />
+              }
+            />
+            <Route
               path="trailer-options"
               element={<PrivateRoute element={<TrailerOptionsPage />} />}
             />
