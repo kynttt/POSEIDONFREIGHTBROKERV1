@@ -38,6 +38,7 @@ import ShipperProfilePage from "./pages/ShipperUser/page/ShipperProfilePage";
 import AdminShellPage from "./pages/Admin/page/AdminShellPage";
 import LegalPage from "./pages/Admin/page/LegalPage";
 import BillOfLading from "./pages/billOfLading";
+import BrokerShipperAgreement from "./pages/Shared/pages/BrokerShipperAgreement";
 
 const theme = createTheme({
   primaryColor: "brand",
@@ -72,6 +73,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/terms-and-agreement" element={<BrokerShipperAgreement />} />
           <Route path="/login" element={<LoginPage />} />
           {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
           {/* Shipper User Routes */}
