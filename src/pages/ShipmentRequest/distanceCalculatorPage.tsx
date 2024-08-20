@@ -10,7 +10,7 @@ import { MapComponent } from "../../components/googleMap/MapComponent";
 import { calculateRoute } from "../../components/googleMap/utils";
 // import { useAuth } from '../../hooks/useAuth';
 import Button from "../../components/Button";
-import { useAuthStore } from "../../state/useAuthStore";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
@@ -39,13 +39,6 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide 
 export default function DistanceCalculatorPage() {
   // };
   const navigate = useNavigate();
-  // const { isAuthenticated, login } = useAuth();
-  const { isAuthenticated, userId } = useAuthStore((state) => ({
-    isAuthenticated: state.isAuthenticated,
-    userId: state.userId, // Make sure userId is part of your store
-  }));
-
-  useEffect(() => { }, [isAuthenticated]);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: googleMapsApiKey,
@@ -98,7 +91,7 @@ export default function DistanceCalculatorPage() {
       distance,
       price,
     };
-    sessionStorage.setItem('distanceCalculatorData', JSON.stringify(data));
+    sessionStorage.setItem("distanceCalculatorData", JSON.stringify(data));
   };
 
   const handleConfirmFirstModal = () => {
@@ -114,31 +107,30 @@ export default function DistanceCalculatorPage() {
   };
 
   const handleConfirmThirdModal = () => {
-    sessionStorage.removeItem('distanceCalculatorData');
+    sessionStorage.removeItem("distanceCalculatorData");
     setShowThirdModal(false);
     setShowPrice(true);
   };
 
   useEffect(() => {
-    const savedData = sessionStorage.getItem('distanceCalculatorData');
+    const savedData = sessionStorage.getItem("distanceCalculatorData");
     if (savedData) {
       const data = JSON.parse(savedData);
-      setOrigin(data.origin || '');
-      setDestination(data.destination || '');
-      setPickupDate(data.pickupDate || '');
-      setSelectedTrailerType(data.selectedTrailerType || '');
+      setOrigin(data.origin || "");
+      setDestination(data.destination || "");
+      setPickupDate(data.pickupDate || "");
+      setSelectedTrailerType(data.selectedTrailerType || "");
       setSelectedTrailerSize(data.selectedTrailerSize || 0);
-      setCommodity(data.commodity || '');
-      setMaxWeight(data.maxWeight || '');
-      setCompanyName(data.companyName || '');
-      setPackagingNumber(data.packagingNumber || '');
-      setSelectedPackagingType(data.selectedPackagingType || '');
-      setNotes(data.notes || '');
-      setDistance(data.distance || '');
+      setCommodity(data.commodity || "");
+      setMaxWeight(data.maxWeight || "");
+      setCompanyName(data.companyName || "");
+      setPackagingNumber(data.packagingNumber || "");
+      setSelectedPackagingType(data.selectedPackagingType || "");
+      setNotes(data.notes || "");
+      setDistance(data.distance || "");
       setPrice(data.price || null);
     }
   }, []);
-
 
   const [warnings, setWarnings] = useState({
     origin: "",
@@ -250,35 +242,29 @@ export default function DistanceCalculatorPage() {
       return;
     }
 
-    if (!isAuthenticated) {
-      navigate("/login");
-    } else {
-      const quoteDetails: Quote = {
-        origin,
-        destination,
-        pickupDate: new Date(pickupDate).toISOString(),
-        trailerType: selectedTrailerType,
-        trailerSize: selectedTrailerSize,
-        commodity,
-        maxWeight: parseInt(maxWeight),
-        companyName,
-        distance,
-        packaging: `${packagingNumber} ${selectedPackagingType}`,
-        price: parseFloat(price!.toFixed(2)),
-        notes,
-      };
+    const quoteDetails: Quote = {
+      origin,
+      destination,
+      pickupDate: new Date(pickupDate).toISOString(),
+      trailerType: selectedTrailerType,
+      trailerSize: selectedTrailerSize,
+      commodity,
+      maxWeight: parseInt(maxWeight),
+      companyName,
+      distance,
+      packaging: `${packagingNumber} ${selectedPackagingType}`,
+      price: parseFloat(price!.toFixed(2)),
+      notes,
+    };
 
-      try {
-        const data = await createQuote(quoteDetails);
-        navigate("/requests/confirmation", {
-          state: { price, quoteId: data._id, userId },
-        });
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error creating quote:", error.message);
-        } else {
-          console.error("Unknown error occurred while creating quote");
-        }
+    try {
+      const data = await createQuote(quoteDetails);
+      navigate("/requests/confirmation?quoteId=" + data._id);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error creating quote:", error.message);
+      } else {
+        console.error("Unknown error occurred while creating quote");
       }
     }
   };
@@ -401,10 +387,11 @@ export default function DistanceCalculatorPage() {
                           {truckTypes.map((type) => (
                             <button
                               key={type.type}
-                              className={`p-2 bg-grey   rounded w-full md:w-full  text-primary font-normal ${selectedTrailerType === type.type
-                                ? "bg-secondary text-white" // Highlight selected button
-                                : ""
-                                }`}
+                              className={`p-2 bg-grey   rounded w-full md:w-full  text-primary font-normal ${
+                                selectedTrailerType === type.type
+                                  ? "bg-secondary text-white" // Highlight selected button
+                                  : ""
+                              }`}
                               onClick={() => setSelectedTrailerType(type.type)}
                             >
                               {type.type}
@@ -429,15 +416,17 @@ export default function DistanceCalculatorPage() {
                           {truckSizes.map((size) => (
                             <button
                               key={size}
-                              className={`p-2 bg-grey rounded w-full lg:w-full text-primary font-normal ${selectedTrailerSize === size
-                                ? "bg-secondary text-white"
-                                : ""
-                                } ${size === 48 &&
-                                  (selectedTrailerType === "Dry Van" ||
-                                    selectedTrailerType === "Refrigerated")
+                              className={`p-2 bg-grey rounded w-full lg:w-full text-primary font-normal ${
+                                selectedTrailerSize === size
+                                  ? "bg-secondary text-white"
+                                  : ""
+                              } ${
+                                size === 48 &&
+                                (selectedTrailerType === "Dry Van" ||
+                                  selectedTrailerType === "Refrigerated")
                                   ? "opacity-50 cursor-not-allowed"
                                   : ""
-                                }`}
+                              }`}
                               onClick={() => setSelectedTrailerSize(size)}
                               disabled={
                                 size === 48 &&
@@ -467,10 +456,11 @@ export default function DistanceCalculatorPage() {
                   <div className="flex justify-end">
                     <button
                       className={` py-2 px-4  rounded text-white 
-    ${!origin || !destination || !selectedTrailerType || !selectedTrailerSize
-                          ? "bg-gray-400 cursor-not-allowed w-1/3"
-                          : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
-                        }`}
+    ${
+      !origin || !destination || !selectedTrailerType || !selectedTrailerSize
+        ? "bg-gray-400 cursor-not-allowed w-1/3"
+        : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
+    }`}
                       onClick={handleConfirmFirstModal}
                       disabled={
                         !origin ||
@@ -601,10 +591,11 @@ export default function DistanceCalculatorPage() {
                   <div className="flex justify-end">
                     <button
                       className={`mt-4 py-2 px-4 rounded text-white 
-    ${!commodity || !maxWeight || !packagingNumber || !selectedPackagingType
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-primary hover:bg-secondary cursor-pointer"
-                        }`}
+    ${
+      !commodity || !maxWeight || !packagingNumber || !selectedPackagingType
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-primary hover:bg-secondary cursor-pointer"
+    }`}
                       onClick={handleConfirmSecondModal}
                       disabled={
                         !commodity ||
@@ -623,7 +614,7 @@ export default function DistanceCalculatorPage() {
             {showThirdModal && (
               <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
                 <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
-                <button
+                  <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowThirdModal(false)}
                     aria-label="Close"
@@ -680,38 +671,43 @@ export default function DistanceCalculatorPage() {
                   <div className="flex justify-end">
                     <button
                       className={`mt-4 py-2 px-4 rounded text-white 
-    ${!companyName
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-primary hover:bg-secondary cursor-pointer"
-                        }`}
+    ${
+      !companyName
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-primary hover:bg-secondary cursor-pointer"
+    }`}
                       onClick={handleConfirmThirdModal}
                       disabled={!companyName}
                     >
                       {!companyName ? "Almost There!" : "Done 🎉"}
                     </button>
-
                   </div>
                   {companyName && (
-                    <p className="text-gray-500 font-normal ">Please check your price...</p>
+                    <p className="text-gray-500 font-normal ">
+                      Please check your price...
+                    </p>
                   )}
                 </div>
               </div>
             )}
 
             <div className="border border-secondary p-8 bg-white h-auto w-1/4 rounded-lg shadow-xl">
-
               {showPrice ? (
                 <div>
                   <h1 className="text-primary text-xl">Your Quote is Ready!</h1>
                   <p className="text-gray-500 font-normal mb-8">
-                    Your price has been calculated. You can now review your details and proceed to payment.
+                    Your price has been calculated. You can now review your
+                    details and proceed to payment.
                   </p>
                 </div>
               ) : (
                 <div>
-                  <h1 className="text-primary text-xl">Complete Your Details</h1>
+                  <h1 className="text-primary text-xl">
+                    Complete Your Details
+                  </h1>
                   <p className="text-gray-500 font-normal mb-8">
-                    Please fill out all required information so we can calculate the distance and price for your shipment.
+                    Please fill out all required information so we can calculate
+                    the distance and price for your shipment.
                   </p>
                 </div>
               )}
@@ -731,7 +727,6 @@ export default function DistanceCalculatorPage() {
                     {distance ? distance : <span>&nbsp;</span>}
                   </div>
                 )}
-
               </div>
 
               <div className="flex flex-col items-left">

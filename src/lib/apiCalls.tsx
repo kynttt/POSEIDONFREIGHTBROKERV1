@@ -2,17 +2,15 @@ import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import {
   Booking,
+  BookingData,
   Invoice,
   LoginResponse,
   LogoutResponse,
+  PaymentIntentParams,
   Quote,
   RegisterFormData,
+  StripeClientSecret,
 } from "../utils/types";
-
-interface PaymentIntentParams {
-  amount: number; // Amount in the smallest currency unit (e.g., cents for USD)
-  currency: string; // Currency code (e.g., 'usd')
-}
 
 //Users
 // Login
@@ -98,29 +96,6 @@ export const fetchQuotes = async () => {
   }));
 };
 
-// fetch quote using quoteID
-export const fetchBookingDetails = async (id: string) => {
-  // const token = localStorage.getItem("authToken");
-  // if (!token) {
-  //   throw new Error("No token found in localStorage");
-  // }
-
-  const response = await fetch(`/quotes/${id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      // Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch booking details");
-  }
-
-  const data = await response.json();
-  return data;
-};
-
 // Create quote
 export const createQuote = async (quoteDetails: Quote) => {
   try {
@@ -145,7 +120,10 @@ export const createQuote = async (quoteDetails: Quote) => {
 };
 
 // Fetch quote details by ID
-export const fetchQuoteDetails = async (quoteId: string) => {
+export const fetchQuoteDetails = async (quoteId: string | null) => {
+  if (!quoteId) {
+    throw new Error("No quote ID provided");
+  }
   try {
     const response = await axiosInstance.get(`/quotes/${quoteId}`, {
       headers: {
@@ -153,7 +131,7 @@ export const fetchQuoteDetails = async (quoteId: string) => {
         "Content-Type": "application/json",
       },
     });
-    return response.data;
+    return response.data as Quote;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       console.error("API Error:", error.response?.data || error.message);
@@ -205,23 +183,7 @@ export const fetchUserInvoices = async (userId: string) => {
   }
 };
 
-// Bookings
-// Book a quote
-interface BookingData {
-  quote: string;
-  origin: string;
-  destination: string;
-  pickupDate: string;
-  trailerType: string;
-  trailerSize: string;
-  companyName: string;
-  commodity: string;
-  bolLink: string;
-  packaging: string;
-  price: number;
-}
-
-export const bookQuote = async (bookingData: BookingData) => {
+export const createBookQuote = async (bookingData: BookingData) => {
   try {
     const response = await axiosInstance.post(
       `/bookings/`,
@@ -234,7 +196,7 @@ export const bookQuote = async (bookingData: BookingData) => {
     );
 
     // console.log('Response:', response.data);
-    return response.data;
+    return response.data as Booking;
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error booking:", error.message);
@@ -271,7 +233,7 @@ export const createPaymentIntent = async ({
         currency,
       }
     );
-    return response.data;
+    return response.data as StripeClientSecret;
   } catch (error) {
     console.error("Error creating payment intent:", error);
     throw error;
@@ -313,25 +275,25 @@ export const fetchBookings = async () => {
   return response.data as Booking[];
 };
 
+export const updateBookingDetails = async (id: string, data: Booking) => {
+  try {
+    const response = await axiosInstance.put(`/bookings/${id}`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    });
 
-export const updateBookingDetails = async (
-  id: string,
-  data: Booking
-) => {
-  const response = await fetch(`/bookings/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      // Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to update booking details");
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || "Failed to update booking details"
+      );
+    } else {
+      throw new Error("Failed to update booking details");
+    }
   }
-
-  return response.json();
 };
 
 // Fetch a specific booking by ID
@@ -391,15 +353,11 @@ export const uploadPdf = async (pdfBlob: Blob) => {
     const formData = new FormData();
     formData.append("pdfDocument", pdfBlob, "document-with-signature.pdf");
 
-    const response = await axios.post(
-      `/billOfLading`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const response = await axios.post(`/billOfLading`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return response; // Ensure the response object is returned correctly
   } catch (error) {

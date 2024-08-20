@@ -5,7 +5,7 @@ import Button from "../../../components/Button";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
-import { bookQuote, createInvoice } from "../../../lib/apiCalls";
+import { createBookQuote, createInvoice } from "../../../lib/apiCalls";
 import { Invoice } from "../../../utils/types";
 
 const generateRandomNumber = (min: number, max: number): number => {
@@ -29,7 +29,7 @@ const PaymentComponent: React.FC = () => {
 
     try {
       // Handle booking if necessary
-      await bookQuote(quoteId);
+      await createBookQuote(quoteId);
 
       // Prepare data for creating an invoice
       const invoiceData: Invoice = {
