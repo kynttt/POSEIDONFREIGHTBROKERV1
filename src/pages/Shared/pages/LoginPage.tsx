@@ -44,9 +44,9 @@ const LoginPage: React.FC = () => {
       return response;
     },
     onSuccess: (data: LoginResponse) => {
-      const token = data.token;
-      login(token);
-
+      login({
+        user: data.data,
+      });
       if (data.data.role === "admin") {
         // navigate("/admin-dashboard");
         navigate("/a");
@@ -65,10 +65,25 @@ const LoginPage: React.FC = () => {
             color: "red",
           });
         } else if (error.response.status === 409) {
+          const userRole = error.response.data.data.role;
+
           notifications.show({
             position: "top-right",
-            title: "Something went wrong",
-            message: "The device is already logged in",
+            title: "User already logged in",
+            message: "It means you are already logged in this device",
+            color: "orange",
+          });
+
+          if (userRole === "admin") {
+            navigate("/a");
+          } else {
+            navigate("/s");
+          }
+        } else if (error.response.status === 403) {
+          notifications.show({
+            position: "top-right",
+            title: "Forbidden",
+            message: error.response.data.message,
             color: "red",
           });
         } else {

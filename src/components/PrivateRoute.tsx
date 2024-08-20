@@ -1,9 +1,10 @@
-import React, { useMemo } from "react";
-import Cookies from "js-cookie";
+import React from "react";
+
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../state/useAuthStore";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
+import { getUser } from "../lib/apiCalls";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
@@ -11,15 +12,15 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
-  const authToken = useMemo(() => Cookies.get("authToken"), []);
-  const { role, fetchUser, isAuthenticated } = useAuthStore();
+  const { role, isAuthenticated, login } = useAuthStore();
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["authUser", authToken],
-    queryFn: fetchUser,
-    enabled: !!Cookies.get("authToken"), // Only fetch if authToken exists
-    staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["authUser"],
+    queryFn: getUser,
+    enabled: false, // Prevent automatic fetching
     refetchOnWindowFocus: false, // Prevent refetch on window focus
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const navigate = useNavigate();
@@ -27,12 +28,18 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
 
   React.useEffect(() => {
     if (!isAuthenticated) {
-      fetchUser(); // Fetch user info if authentication state is unknown
+      refetch();
     }
-  }, [isAuthenticated, fetchUser]);
+  }, [isAuthenticated, refetch]);
 
   React.useEffect(() => {
-    if (isLoading && !data) {
+    if (data) {
+      login({ user: data });
+    }
+  }, [data]);
+
+  React.useEffect(() => {
+    if (isLoading) {
       return;
     }
 
@@ -46,7 +53,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
     } else if (roles && roles.length > 0 && !roles.includes(role || "")) {
       setNoPermission(true);
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, navigate, role, roles]);
 
   if (isLoading) {
     return <div>Loading...</div>;

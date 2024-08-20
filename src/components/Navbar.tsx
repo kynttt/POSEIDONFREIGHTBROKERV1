@@ -10,11 +10,8 @@ import { logoutUser } from "../lib/apiCalls";
 import { LogoutResponse } from "../utils/types";
 import { notifications } from "@mantine/notifications";
 
-interface NavbarProps {
-  isAuthenticated: boolean; // Prop to determine if user is authenticated
-}
 
-const Navbar: React.FC<NavbarProps> = () => {
+const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { logoutUpdate, isAuthenticated, role } = useAuthStore();

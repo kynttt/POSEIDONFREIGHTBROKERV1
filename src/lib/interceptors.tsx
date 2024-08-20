@@ -21,7 +21,15 @@ const setupAxiosInterceptors = () => {
               <Text size="sm">
                 Your session has expired. Please log in again.
               </Text>
-              <Button fullWidth onClick={() => modals.closeAll()} mt="md">
+              <Button
+                fullWidth
+                onClick={() => {
+                  // Redirect to login page
+                  window.location.href = "/login";
+                  modals.closeAll();
+                }}
+                mt="md"
+              >
                 Login
               </Button>
             </>

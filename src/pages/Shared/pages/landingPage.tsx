@@ -13,16 +13,13 @@ import Footer from "../../../components/Footer";
 import SeamlessFreightServices from "../../../components/SeamlessFreightServices";
 import ContactForm from "../../../components/ContactUs";
 import TrustedAmazon from "../../../components/TrustedAmazon";
-import { useAuthStore } from "../../../state/useAuthStore";
 import { Stack } from "@mantine/core";
 
 const LandingPage: React.FC = () => {
-  const { isAuthenticated } = useAuthStore();
-
   return (
     <div className="w-full">
       <header className="w-full">
-        <Navbar isAuthenticated={isAuthenticated} />
+        <Navbar />
       </header>
       <Stack w="100%">
         <HeroBanner />

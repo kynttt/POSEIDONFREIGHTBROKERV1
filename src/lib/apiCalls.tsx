@@ -10,6 +10,7 @@ import {
   Quote,
   RegisterFormData,
   StripeClientSecret,
+  User,
 } from "../utils/types";
 
 //Users
@@ -18,8 +19,10 @@ import {
 export const getUser = async () => {
   const response = await axiosInstance.get(`/account/`);
   const data = response.data;
+  const user = data.data as User;
+
   return {
-    ...data.data,
+    ...user,
   };
 };
 
