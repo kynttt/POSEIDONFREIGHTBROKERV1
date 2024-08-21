@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../state/useAuthStore";
 import {
   ActionIcon,
-  Button,
   Flex,
   FloatingPosition,
   Menu,
@@ -14,7 +13,6 @@ import {
 import { navItems } from "./navItem";
 import {
   faClose,
-  faPerson,
   faSignOut,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";

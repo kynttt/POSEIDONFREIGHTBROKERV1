@@ -1,10 +1,11 @@
 import React from "react";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../state/useAuthStore";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../lib/apiCalls";
+import { set } from "date-fns";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
@@ -13,7 +14,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
   const { role, isAuthenticated, login, userId } = useAuthStore();
-  const location = useLocation(); // Get the current location
+  const [isSetupComplete, setIsSetupComplete] = React.useState(false);
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["authUser", userId],
     queryFn: getUser,
@@ -41,17 +42,24 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
       return;
     }
 
-    if (!isAuthenticated) {
-      console.log(location.pathname);
+    if (!isAuthenticated && !isSetupComplete) {
       notifications.show({
         color: "red",
         title: "Access Denied",
         message: "You must be logged in to access this page.",
       });
       navigate("/login");
+
+      return;
+    } else if (!isAuthenticated && isSetupComplete) {
+      navigate("/login");
+      return;
     } else if (roles && roles.length > 0 && !roles.includes(role || "")) {
       setNoPermission(true);
+      return;
     }
+
+    setIsSetupComplete(true);
   }, [isAuthenticated, isLoading, navigate, role, roles]);
 
   if (isLoading) {
