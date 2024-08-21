@@ -7,6 +7,8 @@ import {
   faListUl,
   faTruckFast,
   faFolderOpen,
+  faTruckDroplet,
+  faTruckPickup,
 } from "@fortawesome/free-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
@@ -33,6 +35,11 @@ export const navItems: NavItems = {
     { label: "Documents", path: "/a/legal-page", icon: faFolderOpen },
     { label: "Transactions", path: "/a/report-details", icon: faTruckFast },
     { label: "Trucks", path: "/a/trailer-options", icon: faTruckFront },
+    {
+      label: "Truck Management",
+      path: "/a/truck-management",
+      icon: faTruckPickup,
+    },
     // { label: "Notification", path: "/a/notification", icon: faBell },
   ],
   user: [
