@@ -35,14 +35,31 @@ const CheckoutForm = ({
   );
   const mutation = useMutation<Booking, Error, BookingData>({
     mutationFn: createBookQuote,
-    onSuccess: () => {
+    onSuccess: async () => {
       notifications.show({
         title: "Booking successful",
         message: "Payment will be processed.",
         color: "green",
       });
 
-      navigate("/booking-successful");
+      if (!stripe || !elements) return;
+
+      const returnUrl = `${window.location.origin}/booking-successful`;
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: returnUrl,
+        },
+      });
+      if (result.error) {
+        notifications.show({
+          title: "Payment Failed",
+          message: result.error.message,
+          color: "red",
+        });
+      } else {
+        navigate("/booking-successful");
+      }
       // if (!bookingSuccessful) {
       //   // If booking failed, exit early and do not proceed to payment
       //   console.error("Booking failed, payment will not be processed.");
