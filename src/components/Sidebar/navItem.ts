@@ -7,7 +7,6 @@ import {
   faListUl,
   faTruckFast,
   faFolderOpen,
-  faTruckDroplet,
   faTruckPickup,
 } from "@fortawesome/free-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../state/useAuthStore";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
   const { role, isAuthenticated, login, userId } = useAuthStore();
-
+  const location = useLocation(); // Get the current location
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["authUser", userId],
     queryFn: getUser,
@@ -42,6 +42,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
     }
 
     if (!isAuthenticated) {
+      console.log(location.pathname);
       notifications.show({
         color: "red",
         title: "Access Denied",
