@@ -12,6 +12,7 @@ import {
 import ShipperBookings from "./ShipperUser/components/shipperBookings";
 import FreightQuoteMini from "../components/FreightQuoteMini";
 import { User } from "../utils/types";
+import SavedRoutes from "./ShipperUser/components/savedRoutes";
 
 const ProfileCard: React.FC = () => {
   const { isAuthenticated, userId, token } = useAuthStore();
@@ -108,7 +109,7 @@ const ProfileCard: React.FC = () => {
                 {" "}
                 {/* 2/3 width */}
                 <div>
-                  <ShipperBookings />
+                  <SavedRoutes />
                 </div>
               </div>
               <div className="col-span-1  bg-white rounded-lg">

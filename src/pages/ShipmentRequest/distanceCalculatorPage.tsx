@@ -519,7 +519,7 @@ export default function DistanceCalculatorPage() {
                     </h3>
                     <input
                       type="text"
-                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      className="p-2 px-6  rounded w-full bg-light-grey text-primary font-normal"
                       placeholder="e.g. Electronics"
                       value={commodity}
                       onChange={(e) => setCommodity(e.target.value)}
@@ -541,7 +541,7 @@ export default function DistanceCalculatorPage() {
                     </h3>
                     <input
                       type="text"
-                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      className="p-2 px-6  rounded w-full bg-light-grey text-primary font-normal"
                       placeholder="e.g. 1000lbs"
                       value={maxWeight}
                       onChange={(e) => setMaxWeight(e.target.value)}
@@ -564,7 +564,7 @@ export default function DistanceCalculatorPage() {
                       </h3>
                       <input
                         type="number"
-                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                        className="p-2  rounded w-full bg-light-grey text-gray-400 font-normal"
                         value={packagingNumber}
                         onChange={(e) => setPackagingNumber(e.target.value)}
                         placeholder="Enter no. of packages"
@@ -581,7 +581,7 @@ export default function DistanceCalculatorPage() {
                         Packaging Type <span className="text-red-500">*</span>
                       </h3>
                       <select
-                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                        className="p-2  rounded w-full bg-light-grey text-gray-400 font-normal"
                         value={selectedPackagingType}
                         onChange={(e) =>
                           setSelectedPackagingType(e.target.value)
@@ -654,7 +654,7 @@ export default function DistanceCalculatorPage() {
                     </h3>
                     <input
                       type="text"
-                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      className="p-2 px-6  rounded w-full bg-light-grey text-primary font-normal"
                       placeholder="Enter your company name"
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
@@ -675,7 +675,7 @@ export default function DistanceCalculatorPage() {
                       Additional Notes
                     </h3>
                     <textarea
-                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      className="p-2 px-6  rounded w-full bg-light-grey text-primary font-normal"
                       placeholder="Enter your additional notes"
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
