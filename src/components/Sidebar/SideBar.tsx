@@ -13,6 +13,10 @@ import {
 } from "@mantine/core";
 import { navItems } from "./navItem";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { useMutation } from "@tanstack/react-query";
+import { LogoutResponse } from "../../utils/types";
+import { logoutUser } from "../../lib/apiCalls";
+import { notifications } from "@mantine/notifications";
 
 export default function Sidebar({
   closeVisible = false,
@@ -118,7 +122,32 @@ function ProfileItem({
 }: {
   handleNavigation: (path: string) => void;
 }) {
-  const { logout, role } = useAuthStore();
+  const { logoutUpdate, role } = useAuthStore();
+  const mutation = useMutation<LogoutResponse, Error, undefined>({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      notifications.show({
+        title: "Logout successful",
+        message: "You have been logged out",
+        color: "green",
+      });
+      logoutUpdate();
+    },
+    onMutate: () => {
+      notifications.show({
+        title: "Logging out",
+        message: "Please wait...",
+        color: "blue",
+      });
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Logout failed",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
   const position: FloatingPosition | undefined = useMatches({
     xs: "top",
     lg: "right",
@@ -157,7 +186,7 @@ function ProfileItem({
             variant="transparent"
             color="red"
             onClick={() => {
-              logout();
+              mutation.mutate(undefined);
             }}
             fullWidth
           >

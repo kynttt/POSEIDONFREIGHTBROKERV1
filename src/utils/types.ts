@@ -4,7 +4,15 @@ export type BookingStatus =
   | "In Transit"
   | "Delivered"
   | "Cancelled";
+export interface LoginResponse {
+  token: string;
+  message: string;
+  data: User;
+}
 
+export interface LogoutResponse {
+  message: string;
+}
 export interface Schema {
   _id?: string;
   createdAt?: string;
@@ -25,7 +33,20 @@ export interface User extends Schema {
 export interface RegisterFormData extends User {
   password: string;
 }
-
+// Bookings
+// Book a quote
+export interface BookingData {
+  quote: string;
+  origin: string;
+  destination: string;
+  pickupDate: string;
+  trailerType: string;
+  companyName: string;
+  commodity: string;
+  // bolLink: string; ! This is temporarily comment because it is not include in Booking Schema
+  // packaging: string; ! Not include in Booking Schema rather in Quote schema
+  price: number;
+}
 export interface Quote extends Schema {
   origin: string;
   destination: string;
@@ -50,6 +71,14 @@ export interface Invoice extends Schema {
   amountDue: number;
   status?: "Unpaid" | "Paid" | "Overdue";
   booking?: string[] | Booking[];
+}
+
+export interface PaymentIntentParams {
+  amount: number; // Amount in the smallest currency unit (e.g., cents for USD)
+  currency: string; // Currency code (e.g., 'usd')
+}
+export interface StripeClientSecret {
+  clientSecret: string;
 }
 
 export interface Booking extends Schema {

@@ -1,4 +1,11 @@
-import { ActionIcon, AppShell, Flex, Popover, useMatches } from "@mantine/core";
+import {
+  ActionIcon,
+  AppShell,
+  Flex,
+  Popover,
+  rem,
+  useMatches,
+} from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,14 +31,14 @@ export default function ShipperShellPage() {
           collapsed: { mobile: !opened },
         }}
       >
-        <AppShell.Header>
+        <AppShell.Header >
           <ShellHeader opened={opened} open={open} close={close} />
         </AppShell.Header>
         )
         <AppShell.Navbar>
           <Sidebar close={close} closeVisible />
         </AppShell.Navbar>
-        <AppShell.Main>
+        <AppShell.Main pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}>
           <Outlet />
         </AppShell.Main>
       </AppShell>

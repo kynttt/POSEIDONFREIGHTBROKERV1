@@ -6,16 +6,18 @@ import appleIcon from "../../../assets/img/apple.png";
 import googleIcon from "../../../assets/img/googleicon.png";
 import Button from "../../../components/Button";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+
 import { useAuthStore } from "../../../state/useAuthStore";
 import { loginUser } from "../../../lib/apiCalls";
-import axios from "axios";
 
-interface DecodedToken {
-  user: {
-    id: string;
-    role: string;
-  };
+import { useMutation } from "@tanstack/react-query";
+import { LoginResponse } from "../../../utils/types";
+import axios from "axios";
+import { notifications } from "@mantine/notifications";
+
+interface LoginData {
+  email: string;
+  password: string;
 }
 
 const LoginPage: React.FC = () => {
@@ -26,53 +28,79 @@ const LoginPage: React.FC = () => {
     password: "",
   });
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
   const handleSignUpClick = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
     navigate("/signup");
   };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const { email, password } = formData;
-      const response = await loginUser(email, password);
-      const token = response.token;
-      login(token);
-
-      const decodedToken = jwtDecode<DecodedToken>(token);
-      const userRole = decodedToken.user && decodedToken.user.role;
-
-      if (userRole === "admin") {
+  const mutation = useMutation<LoginResponse, Error, LoginData>({
+    mutationFn: async (data: LoginData) => {
+      const response = await loginUser(data.email, data.password);
+      return response;
+    },
+    onSuccess: (data: LoginResponse) => {
+      login({
+        user: data.data,
+      });
+      if (data.data.role === "admin") {
         // navigate("/admin-dashboard");
         navigate("/a");
       } else {
         // navigate("/shipper-dashboard");
         navigate("/s");
       }
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        if (err.response && err.response.data) {
-          setError(err.response.data.msg || "Login failed.");
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 400) {
+          notifications.show({
+            position: "top-right",
+            title: "Something went wrong",
+            message: "Invalid email or password",
+            color: "red",
+          });
+        } else if (error.response.status === 409) {
+          const userRole = error.response.data.data.role;
+
+          notifications.show({
+            position: "top-right",
+            title: "User already logged in",
+            message: "It means you are already logged in this device",
+            color: "orange",
+          });
+
+          if (userRole === "admin") {
+            navigate("/a");
+          } else {
+            navigate("/s");
+          }
+        } else if (error.response.status === 403) {
+          notifications.show({
+            position: "top-right",
+            title: "Forbidden",
+            message: error.response.data.message,
+            color: "red",
+          });
         } else {
-          setError("Login failed.");
+          notifications.show({
+            position: "top-right",
+            title: "Something went wrong",
+            message: "Please try again later",
+            color: "red",
+          });
         }
-      } else {
-        setError("An unexpected error occurred.");
       }
-    } finally {
-      setLoading(false);
-    }
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate(formData);
   };
 
   return (
@@ -142,7 +170,7 @@ const LoginPage: React.FC = () => {
               </div>
               <div className="flex items-center justify-center">
                 <Button
-                  label={loading ? "Logging In..." : "Login"}
+                  label={mutation.isPending ? "Logging In..." : "Login"}
                   size="medium"
                   bgColor="#252F70"
                   hoverBgColor="white"
@@ -150,7 +178,6 @@ const LoginPage: React.FC = () => {
                   type="submit"
                 />
               </div>
-              {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
             </form>
             <div className="mt-6 flex items-center">
               <div className="border-t-4 flex-grow border-secondary"></div>

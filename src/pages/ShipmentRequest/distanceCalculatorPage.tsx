@@ -10,7 +10,7 @@ import { MapComponent } from "../../components/googleMap/MapComponent";
 import { calculateRoute } from "../../components/googleMap/utils";
 // import { useAuth } from '../../hooks/useAuth';
 import Button from "../../components/Button";
-import { useAuthStore } from "../../state/useAuthStore";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
@@ -40,13 +40,6 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide 
 export default function DistanceCalculatorPage() {
   // };
   const navigate = useNavigate();
-  // const { isAuthenticated, login } = useAuth();
-  const { isAuthenticated, userId } = useAuthStore((state) => ({
-    isAuthenticated: state.isAuthenticated,
-    userId: state.userId, // Make sure userId is part of your store
-  }));
-
-  useEffect(() => { }, [isAuthenticated]);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: googleMapsApiKey,
@@ -110,7 +103,7 @@ export default function DistanceCalculatorPage() {
       distance,
       price,
     };
-    sessionStorage.setItem('distanceCalculatorData', JSON.stringify(data));
+    sessionStorage.setItem("distanceCalculatorData", JSON.stringify(data));
   };
 
   const handleConfirmFirstModal = () => {
@@ -126,31 +119,32 @@ export default function DistanceCalculatorPage() {
   };
 
   const handleConfirmThirdModal = () => {
-    sessionStorage.removeItem('distanceCalculatorData');
+    sessionStorage.removeItem("distanceCalculatorData");
     setShowThirdModal(false);
     setShowPrice(true);
   };
 
   useEffect(() => {
-    const savedData = sessionStorage.getItem('distanceCalculatorData');
+    const savedData = sessionStorage.getItem("distanceCalculatorData");
     if (savedData) {
       const data = JSON.parse(savedData);
-      setOrigin(data.origin || '');
-      setDestination(data.destination || '');
-      setPickupDate(data.pickupDate || '');
-      setSelectedTrailerType(data.selectedTrailerType || '');
+      setOrigin(data.origin || "");
+      setDestination(data.destination || "");
+      setPickupDate(data.pickupDate || "");
+      setSelectedTrailerType(data.selectedTrailerType || "");
       setSelectedTrailerSize(data.selectedTrailerSize || 0);
-      setCommodity(data.commodity || '');
-      setMaxWeight(data.maxWeight || '');
-      setCompanyName(data.companyName || '');
-      setPackagingNumber(data.packagingNumber || '');
-      setSelectedPackagingType(data.selectedPackagingType || '');
-      setNotes(data.notes || '');
-      setDistance(data.distance || '');
+      setCommodity(data.commodity || "");
+      setMaxWeight(data.maxWeight || "");
+      setCompanyName(data.companyName || "");
+      setPackagingNumber(data.packagingNumber || "");
+      setSelectedPackagingType(data.selectedPackagingType || "");
+      setNotes(data.notes || "");
+      setDistance(data.distance || "");
       setPrice(data.price || null);
     }
   }, []);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (location.state) {
       const { origin, destination } = location.state as { origin: string; destination: string };
@@ -160,6 +154,8 @@ export default function DistanceCalculatorPage() {
   }, [location.state]);
 
 
+=======
+>>>>>>> 58cd50ea985af0a92c6f4f40639a335b3cae87da
   const [warnings, setWarnings] = useState({
     origin: "",
     destination: "",
@@ -270,41 +266,29 @@ export default function DistanceCalculatorPage() {
       return;
     }
 
-    if (!isAuthenticated) {
-      navigate("/login");
-    } else {
-      const quoteDetails: Quote = {
-        origin,
-        destination,
-        pickupDate: new Date(pickupDate).toISOString(),
-        trailerType: selectedTrailerType,
-        trailerSize: selectedTrailerSize,
-        commodity,
-        maxWeight: parseInt(maxWeight),
-        companyName,
-        distance,
-        packaging: `${packagingNumber} ${selectedPackagingType}`,
-        price: parseFloat(price!.toFixed(2)),
-        notes,
-      };
+    const quoteDetails: Quote = {
+      origin,
+      destination,
+      pickupDate: new Date(pickupDate).toISOString(),
+      trailerType: selectedTrailerType,
+      trailerSize: selectedTrailerSize,
+      commodity,
+      maxWeight: parseInt(maxWeight),
+      companyName,
+      distance,
+      packaging: `${packagingNumber} ${selectedPackagingType}`,
+      price: parseFloat(price!.toFixed(2)),
+      notes,
+    };
 
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        return;
-      }
-
-      try {
-        const data = await createQuote(quoteDetails, token);
-
-        navigate("/requests/confirmation", {
-          state: { price, quoteId: data._id, userId },
-        });
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error creating quote:", error.message);
-        } else {
-          console.error("Unknown error occurred while creating quote");
-        }
+    try {
+      const data = await createQuote(quoteDetails);
+      navigate("/requests/confirmation?quoteId=" + data._id);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error creating quote:", error.message);
+      } else {
+        console.error("Unknown error occurred while creating quote");
       }
     }
   };
@@ -467,7 +451,7 @@ export default function DistanceCalculatorPage() {
                                     selectedTrailerType === "Refrigerated")
                                   ? "opacity-50 cursor-not-allowed"
                                   : ""
-                                }`}
+                              }`}
                               onClick={() => setSelectedTrailerSize(size)}
                               disabled={
                                 size === 48 &&
@@ -653,7 +637,7 @@ export default function DistanceCalculatorPage() {
             {showThirdModal && (
               <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
                 <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
-                  <button
+                    <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowThirdModal(false)}
                     aria-label="Close"
@@ -719,10 +703,11 @@ export default function DistanceCalculatorPage() {
                     >
                       {!companyName ? "Almost There!" : "Done 🎉"}
                     </button>
-
                   </div>
                   {companyName && (
-                    <p className="text-gray-500 font-normal ">Please check your price...</p>
+                    <p className="text-gray-500 font-normal ">
+                      Please check your price...
+                    </p>
                   )}
                 </div>
               </div>
