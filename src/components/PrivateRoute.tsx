@@ -5,7 +5,6 @@ import { useAuthStore } from "../state/useAuthStore";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../lib/apiCalls";
-import { set } from "date-fns";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
