@@ -12,15 +12,13 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
-  const { role, isAuthenticated, login } = useAuthStore();
+  const { role, isAuthenticated, login, userId } = useAuthStore();
 
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["authUser"],
+    queryKey: ["authUser", userId],
     queryFn: getUser,
     enabled: false, // Prevent automatic fetching
     refetchOnWindowFocus: false, // Prevent refetch on window focus
-    staleTime: 0,
-    gcTime: 0,
   });
 
   const navigate = useNavigate();
@@ -36,7 +34,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
     if (data) {
       login({ user: data });
     }
-  }, [data]);
+  }, [data, login]);
 
   React.useEffect(() => {
     if (isLoading) {
@@ -69,5 +67,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
 
   return element;
 };
+const memoized = React.memo(PrivateRoute);
 
-export default React.memo(PrivateRoute);
+export default memoized;

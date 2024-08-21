@@ -1,6 +1,8 @@
 import axiosInstance from "./axiosInstance";
-import { Button, Text } from "@mantine/core";
+
 import { modals } from "@mantine/modals";
+
+import SessionExpired from "../components/SessionExpired";
 
 const setupAxiosInterceptors = () => {
   axiosInstance.interceptors.request.use((config) => {
@@ -16,24 +18,7 @@ const setupAxiosInterceptors = () => {
         modals.open({
           title: "Session Expired",
           withCloseButton: false,
-          children: (
-            <>
-              <Text size="sm">
-                Your session has expired. Please log in again.
-              </Text>
-              <Button
-                fullWidth
-                onClick={() => {
-                  // Redirect to login page
-                  window.location.href = "/login";
-                  modals.closeAll();
-                }}
-                mt="md"
-              >
-                Login
-              </Button>
-            </>
-          ),
+          children: <SessionExpired />,
         });
       }
       return Promise.reject(error);

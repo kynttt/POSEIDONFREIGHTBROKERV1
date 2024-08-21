@@ -74,7 +74,7 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        <Notifications />
+        <Notifications position="top-right" />
         <ModalsProvider>
           <Router>
             <Routes>
@@ -238,15 +238,10 @@ const App: React.FC = () => {
                   }
                 />
                 <Route
-              path="profile"
-              element={
-                <PrivateRoute
-                  element={<ShipperProfilePage />}
-                  
+                  path="profile"
+                  element={<PrivateRoute element={<ShipperProfilePage />} />}
                 />
-              }
-            />
-            <Route
+                <Route
                   path="trailer-options"
                   element={<PrivateRoute element={<TrailerOptionsPage />} />}
                 />

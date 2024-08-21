@@ -10,7 +10,6 @@ import { logoutUser } from "../lib/apiCalls";
 import { LogoutResponse } from "../utils/types";
 import { notifications } from "@mantine/notifications";
 
-
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
