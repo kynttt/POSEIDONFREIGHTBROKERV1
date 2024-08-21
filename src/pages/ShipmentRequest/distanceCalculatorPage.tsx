@@ -32,6 +32,7 @@ import truckTypes from "../../components/googleMap/truckTypes.json";
 import truckSizes from "../../components/googleMap/truckSizes.json";
 import Calendar from "../../components/Calendar";
 import { Quote } from "../../utils/types";
+import { useLocation } from 'react-router-dom';
 
 const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
@@ -81,6 +82,17 @@ export default function DistanceCalculatorPage() {
   const [showSecondModal, setShowSecondModal] = useState(false);
   const [showThirdModal, setShowThirdModal] = useState(false);
   const [showPrice, setShowPrice] = useState(false);
+
+  const location = useLocation();
+
+  const handleOriginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOrigin(event.target.value); // Update origin as the user types
+  };
+
+  const handleDestinationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDestination(event.target.value); // Update destination as the user types
+  };
+ 
 
   const saveDataToSessionStorage = () => {
     const data = {
@@ -138,6 +150,14 @@ export default function DistanceCalculatorPage() {
       setPrice(data.price || null);
     }
   }, []);
+
+  useEffect(() => {
+    if (location.state) {
+      const { origin, destination } = location.state as { origin: string; destination: string };
+      if (origin) setOrigin(origin);
+      if (destination) setDestination(destination);
+    }
+  }, [location.state]);
 
 
   const [warnings, setWarnings] = useState({
@@ -364,6 +384,8 @@ export default function DistanceCalculatorPage() {
                       <OriginInput
                         onLoad={onLoadA}
                         onPlaceChanged={onPlaceChangedA}
+                        value={origin}
+                        onChange={handleOriginChange}
                       />
                       {warnings.origin && (
                         <p className="text-red-500 text-sm">
@@ -384,6 +406,8 @@ export default function DistanceCalculatorPage() {
                       <DestinationInput
                         onLoad={onLoadB}
                         onPlaceChanged={onPlaceChangedB}
+                        value={destination}
+                        onChange={handleDestinationChange}
                       />
                       {warnings.destination && (
                         <p className="text-red-500 text-sm">

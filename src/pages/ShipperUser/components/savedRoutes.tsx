@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { fetchUserBookings } from "../../../lib/apiCalls";
 import { useNavigate } from "react-router-dom";
-import { Booking } from "../../../utils/types";
+import { Booking, Quote } from "../../../utils/types";
 
 const SavedRoutes = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -31,8 +31,8 @@ const SavedRoutes = () => {
     fetchBookings();
   }, []);
 
-  const handleBookingClick = () => {
-    navigate(`/requests`);
+  const handleBookingClick = (origin: string, destination: string) => {
+    navigate('/requests', { state: { origin, destination } });
   };
 
   const truncateText = (text: string, maxLength: number) => {
@@ -48,25 +48,20 @@ const SavedRoutes = () => {
       {loading ? (
         <p className="text-gray-500">Loading bookings...</p>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {bookings.map((booking, index: number) => (
             <button
               key={index}
               onClick={() => {
-                if (booking._id) {
-                  handleBookingClick();
+                // Check if booking.quote is an object
+                if (booking._id && typeof booking.quote === 'object' && booking.quote !== null) {
+                  handleBookingClick(booking.quote.origin, booking.quote.destination);
                 }
               }}
-              className="bg-light-grey text-left rounded-lg shadow p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-3 gap-4 overflow-x-auto w-1/2"
+              className="bg-light-grey text-left rounded-lg shadow p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-3 gap-4 overflow-x-auto"
             >
               {typeof booking.quote === "object" && booking.quote !== null ? (
                 <>
-                  {/* <div>
-                    <h3 className="text-gray-600 text-primary">Pick Up Date</h3>
-                    <p>
-                      {new Date(booking.quote.pickupDate).toLocaleDateString()}
-                    </p>
-                  </div> */}
                   <div>
                     <h3 className="text-gray-600 text-primary">Origin</h3>
                     <p>{truncateText(booking.quote.origin, 20)}</p>
@@ -75,10 +70,6 @@ const SavedRoutes = () => {
                     <h3 className="text-gray-600 text-primary">Destination</h3>
                     <p>{truncateText(booking.quote.destination, 20)}</p>
                   </div>
-                  {/* <div>
-                    <h3 className="text-gray-600 text-primary">Distance</h3>
-                    <p>{booking.quote.distance} miles</p>
-                  </div> */}
                 </>
               ) : (
                 <div>
@@ -86,10 +77,6 @@ const SavedRoutes = () => {
                 </div>
               )}
               <div className="flex items-center justify-between md:col-span-1">
-                {/* <div>
-                  <h3 className="text-gray-600 text-primary">Status</h3>
-                  <p>{booking.status}</p>
-                </div> */}
                 <FontAwesomeIcon
                   icon={faCircleChevronRight}
                   className="text-primary"
