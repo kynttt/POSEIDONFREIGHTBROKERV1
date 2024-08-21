@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import profileImage from "../assets/img/profilepic.jpg";
 import profileBgImage from "../assets/img/profilebg.jpg";
 import { useAuthStore } from "../state/useAuthStore";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBuilding,
@@ -12,22 +11,18 @@ import {
 import ShipperBookings from "./ShipperUser/components/shipperBookings";
 import FreightQuoteMini from "../components/FreightQuoteMini";
 import { User } from "../utils/types";
+import axiosInstance from "../lib/axiosInstance";
 
 const ProfileCard: React.FC = () => {
-  const { isAuthenticated, userId, token } = useAuthStore();
+  const { isAuthenticated, userId } = useAuthStore();
 
   const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
-    if (isAuthenticated && userId && token) {
+    if (isAuthenticated && userId) {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get(
-            `http://localhost:5000/api/users/${userId}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+          const response = await axiosInstance.get(`/users/${userId}`);
 
           setUserData(response.data);
         } catch (error) {
@@ -37,7 +32,7 @@ const ProfileCard: React.FC = () => {
 
       fetchUserData();
     }
-  }, [isAuthenticated, userId, token]);
+  }, [isAuthenticated, userId]);
 
   return (
     <div className="flex flex-col md:flex-row">

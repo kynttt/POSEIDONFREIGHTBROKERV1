@@ -2,38 +2,94 @@ import {
   useStripe,
   useElements,
   PaymentElement,
-  AddressElement,
+  // AddressElement,
   PaymentRequestButtonElement,
   LinkAuthenticationElement,
 } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { bookQuote } from "../../lib/apiCalls";
+import { useNavigate } from "react-router-dom";
+import { createBookQuote } from "../../lib/apiCalls";
 import { PaymentRequest } from "@stripe/stripe-js";
+import { Booking, BookingData, Quote } from "../../utils/types";
+import { useMutation } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
 
-const CheckoutForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
-    null
-  );
-  const [loading, setLoading] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const {
+const CheckoutForm = ({
+  quote: {
+    _id,
     price,
     origin,
     destination,
     pickupDate,
     trailerType,
-    trailerSize,
     companyName,
     commodity,
-    bolLink,
-    packaging,
-    quote,
-  } = location.state;
+  },
+}: {
+  quote: Quote;
+}) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
+    null
+  );
+  const mutation = useMutation<Booking, Error, BookingData>({
+    mutationFn: createBookQuote,
+    onSuccess: async () => {
+      notifications.show({
+        title: "Booking successful",
+        message: "Payment will be processed.",
+        color: "green",
+      });
+
+      if (!stripe || !elements) return;
+
+      const returnUrl = `${window.location.origin}/booking-successful`;
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: returnUrl,
+        },
+      });
+      if (result.error) {
+        notifications.show({
+          title: "Payment Failed",
+          message: result.error.message,
+          color: "red",
+        });
+      } else {
+        navigate("/booking-successful");
+      }
+      // if (!bookingSuccessful) {
+      //   // If booking failed, exit early and do not proceed to payment
+      //   console.error("Booking failed, payment will not be processed.");
+      //   return;
+      // }
+      // const returnUrl = `${window.location.origin}/booking-successful`;
+      // const result = await stripe.confirmPayment({
+      //   elements,
+      //   confirmParams: {
+      //     return_url: returnUrl,
+      //   },
+      // });
+      // if (result.error) {
+      //   console.error("Payment error:", result.error.message);
+      //   setLoading(false);
+      // } else {
+      //   setLoading(false);
+      //   navigate("/booking-successful"); // Navigate to the success page after payment
+      // }
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Booking failed, payment will not be processed.",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initializePaymentRequest = async () => {
@@ -65,77 +121,28 @@ const CheckoutForm = () => {
     initializePaymentRequest();
   }, [stripe, price]);
 
-  const handleBookQuote = async () => {
-    const token = localStorage.getItem("authToken");
-
-    if (!token || !quote) {
-      console.error("Missing quoteId or token");
-      return false; // Return false to indicate failure
-    }
-
-    try {
-      const bookingData = {
-        quote,
-        origin,
-        destination,
-        pickupDate,
-        trailerType,
-        trailerSize,
-        companyName,
-        commodity,
-        bolLink,
-        packaging,
-        price,
-      };
-
-      await bookQuote(bookingData, token);
-
-      return true; // Return true to indicate success
-    } catch (error) {
-      console.error("Error creating booking:", error);
-      return false; // Return false to indicate failure
-    }
-  };
-
   const handlePaymentSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
 
-    if (!stripe || !elements || loading) return;
+    if (!stripe || !elements || mutation.isPending) return;
 
-    setLoading(true);
+    const bookingData: BookingData = {
+      quote: _id!,
+      origin,
+      destination,
+      pickupDate:
+        typeof pickupDate === "string" ? pickupDate : pickupDate.toISOString(),
+      trailerType,
+      // trailerSize, ! This field is not include in Booking Schema
+      companyName,
+      commodity,
 
-    try {
-      const bookingSuccessful = await handleBookQuote();
+      price,
+    };
 
-      if (!bookingSuccessful) {
-        // If booking failed, exit early and do not proceed to payment
-        console.error("Booking failed, payment will not be processed.");
-        setLoading(false);
-        return;
-      }
-
-      const returnUrl = `${window.location.origin}/booking-successful`;
-
-      const result = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: returnUrl,
-        },
-      });
-
-      if (result.error) {
-        console.error("Payment error:", result.error.message);
-        setLoading(false);
-      } else {
-        setLoading(false);
-        navigate("/booking-successful"); // Navigate to the success page after payment
-      }
-    } catch (error) {
-      console.error("Error during payment process:", error);
-      setLoading(false);
-    }
+    mutation.mutate(bookingData);
   };
 
   return (
@@ -146,7 +153,7 @@ const CheckoutForm = () => {
       <h3 className="text-xl mb-4">Payment Details</h3>
       <LinkAuthenticationElement />
       <PaymentElement />
-      <AddressElement options={{ mode: "billing" }} />
+      {/* <AddressElement options={{ mode: "billing" }} /> */}
 
       {paymentRequest && (
         <PaymentRequestButtonElement options={{ paymentRequest }} />
@@ -154,10 +161,10 @@ const CheckoutForm = () => {
 
       <button
         type="submit"
-        disabled={!stripe || loading}
+        disabled={!stripe || !elements || mutation.isPending}
         className="mt-4 py-4 px-16 bg-primary text-white rounded"
       >
-        {loading ? "Processing..." : "Confirm Payment"}
+        {mutation.isPending ? "Processing..." : "Confirm Payment"}
       </button>
     </form>
   );

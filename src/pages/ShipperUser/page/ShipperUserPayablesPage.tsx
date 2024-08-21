@@ -17,14 +17,7 @@ const ShipperUserPayablesPage: React.FC = () => {
     if (isAuthenticated && userId) {
       const fetchData = async () => {
         try {
-          const token = useAuthStore.getState().token;
-
-          if (!token) {
-            console.error("No authentication token found");
-            return;
-          }
-
-          const invoices = await fetchUserInvoices(userId, token); // Use the new API call
+          const invoices = await fetchUserInvoices(userId); // Use the new API call
           setData(invoices);
         } catch (error) {
           if (axios.isAxiosError(error)) {

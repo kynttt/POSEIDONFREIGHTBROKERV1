@@ -41,7 +41,7 @@ const LegalPage = () => {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-full bg-white">
       <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
         <div className="flex flex-col md:flex-row justify-between items-start mt-4 mb-4 px-4 sm:px-6 md:px-12">
           <div className="mb-4 md:mb-8 md:ml-15">

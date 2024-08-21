@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,40 +13,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/Button";
 // import QuoteRequestModal from '../components/QuoteRequestModal';
-import { fetchBookingDetails } from "../../lib/apiCalls"; // Import API calls
-
-interface ShipmentDetailsProps {
-  origin: string;
-  destination: string;
-  price: number;
-  pickupDate: string;
-  trailerType: string;
-  trailerSize: string;
-  companyName: string;
-  commodity: string;
-  bolLink: string;
-  packaging: string;
-}
+import { fetchQuoteDetails } from "../../lib/apiCalls"; // Import API calls
+import { useQuery } from "@tanstack/react-query";
 
 const ShipmentDetailsConfirmation: React.FC = () => {
-  const [data, setData] = useState<ShipmentDetailsProps | null>(null);
   // const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-  const location = useLocation(); // Use useLocation to access location state
-  const navigate = useNavigate(); // Use useNavigate for navigation
-
-  // Extract quoteId from location state
-  const quoteId = location.state?.quoteId;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const quoteId = searchParams.get("quoteId");
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["bookingDetails", quoteId],
+    queryFn: () => fetchQuoteDetails(quoteId),
+    refetchOnWindowFocus: false,
+    staleTime: 600000, // 10 minutes
+    gcTime: 1800000, // 30 minutes
+  });
   // console.log('Quote ID:', quoteId);
-
-  useEffect(() => {
-    if (quoteId) {
-      fetchBookingDetails(quoteId)
-        .then((data) => setData(data))
-        .catch((error) =>
-          console.error("Error fetching shipment data:", error)
-        );
-    }
-  }, [quoteId]);
 
   // const handleNextClick = () => {
   //   if (data && quoteId) {
@@ -71,8 +54,16 @@ const ShipmentDetailsConfirmation: React.FC = () => {
   //   navigate('/');
   // };
 
-  if (!data) {
+  if (isLoading) {
     return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Something went wrong. Please try again later.</div>;
+  }
+
+  if (!data) {
+    return <div>No data found</div>;
   }
 
   return (
@@ -198,12 +189,12 @@ const ShipmentDetailsConfirmation: React.FC = () => {
               </h4>
               <p className="text-gray-500 py-4 font-medium">$ 0.00</p>
             </div>
-            <a
-              href={data.bolLink}
+            {/* <a
+              href={""}
               className="text-blue-500 underline mt-2 block"
             >
               Download BOL
-            </a>
+            </a> */}
           </div>
         </div>
 
@@ -213,23 +204,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
             size="homeButton"
             bgColor="#252F70"
             fontStyle="normal"
-            onClick={() =>
-              navigate("/requests/payment", {
-                state: {
-                  price: data.price,
-                  origin: data.origin,
-                  destination: data.destination,
-                  pickupDate: data.pickupDate,
-                  trailerType: data.trailerType,
-                  trailerSize: data.trailerSize,
-                  companyName: data.companyName,
-                  commodity: data.commodity,
-                  bolLink: data.bolLink,
-                  packaging: data.packaging,
-                  quote: quoteId,
-                },
-              })
-            }
+            onClick={() => navigate("/requests/payment?quoteId=" + quoteId)}
             className="extra-class-for-medium-button"
             type=""
           />

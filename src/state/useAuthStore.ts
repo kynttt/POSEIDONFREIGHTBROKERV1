@@ -1,55 +1,42 @@
-import { create } from 'zustand';
-import {jwtDecode} from 'jwt-decode';
-
-interface DecodedToken {
-  user: {
-    id: string;
-    role: string;
-  };
-}
-
+import { create } from "zustand";
+import { User } from "../utils/types";
+import { persist } from "zustand/middleware";
 interface AuthState {
-  isAuthenticated: boolean;
-  token: string | null;
   role: string | null;
   userId: string | null;
-  login: (token: string) => void;
-  logout: () => void;
+  isAuthenticated: boolean | null;
+  login: ({ user }: { user: User }) => void;
+  logoutUpdate: () => void;
 }
 
-const getInitialState = () => {
-  const token = localStorage.getItem('authToken');
-  if (token) {
-    const decodedToken = jwtDecode<DecodedToken>(token);
-    return {
-      isAuthenticated: true,
-      token,
-      role: decodedToken.user.role,
-      userId: decodedToken.user.id,
-    };
-  }
-  return {
-    isAuthenticated: false,
-    token: null,
-    role: null,
-    userId: null,
-  };
-};
+export const useAuthStore = create(
+  persist<AuthState>(
+    (set) => ({
+      isAuthenticated: null,
+      role: null,
+      userId: null,
+      isLoading: false,
+      isError: false,
+      error: null,
 
-export const useAuthStore = create<AuthState>((set) => ({
-  ...getInitialState(),
-  login: (token: string) => {
-    localStorage.setItem('authToken', token);
-    const decodedToken = jwtDecode<DecodedToken>(token);
-    set({
-      isAuthenticated: true,
-      token,
-      role: decodedToken.user.role,
-      userId: decodedToken.user.id,
-    });
-  },
-  logout: () => {
-    localStorage.removeItem('authToken');
-    set({ isAuthenticated: false, token: null, role: null, userId: null });
-  },
-}));
+      login: ({ user }: { user: User }) => {
+        set({
+          role: user.role,
+          userId: user._id,
+          isAuthenticated: true,
+        });
+      },
+
+      logoutUpdate: () => {
+        set({
+          isAuthenticated: false,
+          role: null,
+          userId: null,
+        });
+      },
+    }),
+    {
+      name: "auth-storage",
+    }
+  )
+);

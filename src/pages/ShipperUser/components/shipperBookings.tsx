@@ -13,13 +13,7 @@ const ShipperBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const token = localStorage.getItem("authToken");
-        if (!token) {
-          console.error("No token found in localStorage");
-          return;
-        }
-
-        const bookingsData = await fetchUserBookings(token);
+        const bookingsData = await fetchUserBookings();
         setBookings(bookingsData);
       } catch (error) {
         console.error("Error fetching data:", error);
