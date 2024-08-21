@@ -41,17 +41,17 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
       return;
     }
 
-    if (!isAuthenticated && !isSetupComplete) {
-      notifications.show({
-        color: "red",
-        title: "Access Denied",
-        message: "You must be logged in to access this page.",
-      });
+    if (!isAuthenticated) {
+      console.log(location.pathname);
+      if (!isSetupComplete) {
+        notifications.show({
+          color: "red",
+          title: "Access Denied",
+          message: "You must be logged in to access this page.",
+        });
+      }
       navigate("/login");
 
-      return;
-    } else if (!isAuthenticated && isSetupComplete) {
-      navigate("/login");
       return;
     } else if (roles && roles.length > 0 && !roles.includes(role || "")) {
       setNoPermission(true);
