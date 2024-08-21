@@ -97,3 +97,18 @@ export interface BookingCallback extends Quote {
   drop: string;
   onBookLoadClick: () => void;
 }
+export interface Pricing {
+  minDistance: number;
+  maxDistance?: number;
+  pricePerMile: number;
+}
+
+export interface Size {
+  size: number;
+  pricing: Pricing[];
+}
+
+export interface TruckCatalog {
+  truckType: string;
+  sizes: Size[];
+}

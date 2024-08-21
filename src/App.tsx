@@ -45,6 +45,8 @@ import BrokerShipperAgreement from "./pages/Shared/pages/BrokerShipperAgreement"
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./lib/queryClient";
+import ManagementShellPage from "./pages/Admin/page/managementShellPage";
+import TruckManagementPage from "./pages/Admin/page/truckManagementPage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -180,6 +182,7 @@ const App: React.FC = () => {
                 }
               >
                 <Route index element={<AdminDashboard />} />
+
                 <Route path="admin-dashboard" element={<AdminDashboard />} />
                 <Route path="legal-page" element={<LegalPage />} />
                 <Route path="profile" element={<ShipperProfilePage />} />
@@ -187,6 +190,10 @@ const App: React.FC = () => {
                   path="trailer-options"
                   element={<TrailerOptionsPage />}
                 />
+                <Route path="management" element={<ManagementShellPage />}>
+                  <Route index element={<TruckManagementPage />} />
+                  <Route path="truck" element={<TruckManagementPage />} />
+                </Route>
                 <Route path="bill-lading" element={<BillOfLadingPage />} />
                 <Route
                   path="accounting-payment"

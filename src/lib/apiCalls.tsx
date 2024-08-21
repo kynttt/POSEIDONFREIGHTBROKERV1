@@ -10,6 +10,7 @@ import {
   Quote,
   RegisterFormData,
   StripeClientSecret,
+  TruckCatalog,
   User,
 } from "../utils/types";
 
@@ -367,4 +368,10 @@ export const uploadPdf = async (pdfBlob: Blob) => {
     console.error("Error saving document:", error);
     throw error; // Ensure errors are thrown for the catch block in saveSignature to handle
   }
+};
+
+export const listTrucks = async () => {
+  const response = await axiosInstance.get(`/trucks`);
+
+  return response.data as TruckCatalog[];
 };
