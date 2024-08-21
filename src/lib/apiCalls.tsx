@@ -356,7 +356,7 @@ export const uploadPdf = async (pdfBlob: Blob) => {
     const formData = new FormData();
     formData.append("pdfDocument", pdfBlob, "document-with-signature.pdf");
 
-    const response = await axios.post(`/billOfLading`, formData, {
+    const response = await axiosInstance.post(`/billOfLading`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

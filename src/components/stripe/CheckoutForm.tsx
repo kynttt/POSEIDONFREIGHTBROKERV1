@@ -2,7 +2,7 @@ import {
   useStripe,
   useElements,
   PaymentElement,
-  AddressElement,
+  // AddressElement,
   PaymentRequestButtonElement,
   LinkAuthenticationElement,
 } from "@stripe/react-stripe-js";
@@ -153,7 +153,7 @@ const CheckoutForm = ({
       <h3 className="text-xl mb-4">Payment Details</h3>
       <LinkAuthenticationElement />
       <PaymentElement />
-      <AddressElement options={{ mode: "billing" }} />
+      {/* <AddressElement options={{ mode: "billing" }} /> */}
 
       {paymentRequest && (
         <PaymentRequestButtonElement options={{ paymentRequest }} />
