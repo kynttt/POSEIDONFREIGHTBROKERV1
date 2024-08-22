@@ -21,7 +21,7 @@ const ShippersList: React.FC = () => {
     const loadShippers = async () => {
       try {
         const data = await fetchUsers();
-        console.log('Fetched Users:', data); // Check fetched data
+        
         setShippers(data);
       } catch (error) {
         console.error('Error fetching shippers:', error);
@@ -47,7 +47,7 @@ const ShippersList: React.FC = () => {
   const displayedShippers = shippers.slice(startIndex, endIndex);
 
   const handleRowClick = (id: string) => {
-    console.log('Navigating to user-transaction with ID:', id); // Debugging log
+    
     navigate(`/a/user-transaction/${id}`);
   };
   
@@ -57,7 +57,7 @@ const ShippersList: React.FC = () => {
   }
 
   return (
-    <div className="bg-light-grey p-4 rounded-lg shadow-lg">
+    <div className="bg-light-grey p-4 rounded-lg shadow-lg h-full">
       <div>
         <h3 className="text-2xl font-medium mb-4 border-b-2 border-secondary flex justify-between items-center lg:pb-2">
           Users
