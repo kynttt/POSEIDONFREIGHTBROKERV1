@@ -182,6 +182,13 @@ export default function DistanceCalculatorPage() {
     }
   };
 
+  const handlePackagingNumberChange = (e: { target: { value: any; }; }) => {
+    let value = e.target.value;
+    // Convert value to a number and ensure it's not negative
+    value = value < 0 ? 0 : value;
+    setPackagingNumber(value);
+  };
+
   useEffect(() => {
     if (originLocation && destinationLocation) {
       calculateRoute({
@@ -316,7 +323,7 @@ export default function DistanceCalculatorPage() {
 
             {showFirstModal && (
               <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
-                <div className="mx-2 bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg relative">
+                <div className="mx-2 bg-white rounded-lg lg:p-10 p-6 w-full max-w-2xl shadow-lg relative ">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowFirstModal(false)}
@@ -334,7 +341,7 @@ export default function DistanceCalculatorPage() {
 
                   <div className="md:flex gap-4">
                     <div className="mb-8 md:mb-0 w-full">
-                      <h3 className="text-lg font-normal text-secondary mb-2">
+                      <h3 className="text-md font-normal text-secondary mb-2">
                         <FontAwesomeIcon
                           icon={faMapMarkerAlt}
                           className="mr-2 text-gray-400"
@@ -353,7 +360,7 @@ export default function DistanceCalculatorPage() {
                     </div>
 
                     <div className="mb-8 md:mb-0 lg:border-secondary w-full">
-                      <h3 className="text-lg font-normal text-secondary mb-2">
+                      <h3 className="text-md font-normal text-secondary mb-2">
                         <FontAwesomeIcon
                           icon={faMapMarkerAlt}
                           className="mr-2 text-gray-400"
@@ -376,7 +383,7 @@ export default function DistanceCalculatorPage() {
                   <div className=" ">
                     <div className="w-full md:w-full mb-8 md:mb-0 ">
                       <div className="mb-2 lg:mt-4">
-                        <h3 className="text-lg font-normal text-secondary mb-2">
+                        <h3 className="text-md font-normal text-secondary mb-2">
                           <FontAwesomeIcon
                             icon={faTruck}
                             className="mr-2 text-gray-400"
@@ -387,7 +394,7 @@ export default function DistanceCalculatorPage() {
                           {truckTypes.map((type) => (
                             <button
                               key={type.type}
-                              className={`px-2 py-3 bg-grey   rounded w-full md:w-full  text-primary font-normal ${selectedTrailerType === type.type
+                              className={` py-3 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${selectedTrailerType === type.type
                                 ? "bg-secondary text-white" // Highlight selected button
                                 : ""
                                 }`}
@@ -408,14 +415,14 @@ export default function DistanceCalculatorPage() {
 
                     <div className="w-full md:w-1/2 ">
                       <div className="mb-4 lg:mt-4">
-                        <h3 className="text-lg font-normal text-secondary my-2">
+                        <h3 className="text-md font-normal text-secondary my-2">
                           Size (ft) <span className="text-red-500">*</span>
                         </h3>
                         <div className="flex  gap-2">
                           {truckSizes.map((size) => (
                             <button
                               key={size}
-                              className={`px-2 py-3 bg-grey rounded w-full lg:w-full text-primary font-normal ${selectedTrailerSize === size
+                              className={` py-3 bg-grey rounded-lg w-full lg:w-full text-black font-normal ${selectedTrailerSize === size
                                 ? "bg-secondary text-white"
                                 : ""
                                 } ${size === 48 &&
@@ -423,7 +430,7 @@ export default function DistanceCalculatorPage() {
                                     selectedTrailerType === "Refrigerated")
                                   ? "opacity-50 cursor-not-allowed"
                                   : ""
-                              }`}
+                                }`}
                               onClick={() => setSelectedTrailerSize(size)}
                               disabled={
                                 size === 48 &&
@@ -474,7 +481,7 @@ export default function DistanceCalculatorPage() {
 
             {showSecondModal && (
               <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
-                <div className="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg relative">
+                <div className="bg-white rounded-lg lg:p-10 p-6 w-full max-w-2xl shadow-lg relative">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowSecondModal(false)}
@@ -490,7 +497,7 @@ export default function DistanceCalculatorPage() {
                     </p>
                   </div>
                   <div className="mb-8 md:mb-0">
-                    <h3 className="text-lg font-normal text-secondary mb-2">
+                    <h3 className="text-md font-normal text-secondary mb-2">
                       <FontAwesomeIcon
                         icon={faBox}
                         className="mr-2 text-gray-400"
@@ -499,7 +506,7 @@ export default function DistanceCalculatorPage() {
                     </h3>
                     <input
                       type="text"
-                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      className="p-2 px-6 border rounded w-full bg-light-grey text-primary font-normal"
                       placeholder="e.g. Electronics"
                       value={commodity}
                       onChange={(e) => setCommodity(e.target.value)}
@@ -512,19 +519,20 @@ export default function DistanceCalculatorPage() {
                   </div>
 
                   <div className="mb-8 md:mb-0 mt-2">
-                    <h3 className="text-lg font-normal text-secondary mb-2">
+                    <h3 className="text-md font-normal text-secondary mb-2">
                       <FontAwesomeIcon
                         icon={faWeight}
                         className="mr-2 text-gray-400"
                       />
-                      Maximum Weight <span className="text-red-500">*</span>
+                      Maximum Weight (lbs) <span className="text-red-500">*</span>
                     </h3>
                     <input
-                      type="text"
-                      className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
+                      type="number"
+                      className="p-2 px-6  rounded w-full bg-light-grey text-primary font-normal"
                       placeholder="e.g. 1000lbs"
                       value={maxWeight}
                       onChange={(e) => setMaxWeight(e.target.value)}
+                      min="0"
                     />
                     {warnings.maxWeight && (
                       <p className="text-red-500 text-sm">
@@ -535,7 +543,7 @@ export default function DistanceCalculatorPage() {
 
                   <div className="flex flex-wrap md:mt-4">
                     <div className="w-full md:w-1/3 mb-8 md:mb-0 md:pr-4">
-                      <h3 className="text-lg font-normal text-secondary mb-2">
+                      <h3 className="text-md font-normal text-secondary mb-2">
                         <FontAwesomeIcon
                           icon={faBox}
                           className="mr-2 text-gray-400"
@@ -544,10 +552,11 @@ export default function DistanceCalculatorPage() {
                       </h3>
                       <input
                         type="number"
-                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                        className="p-2 rounded w-full bg-light-grey text-primary font-normal"
                         value={packagingNumber}
-                        onChange={(e) => setPackagingNumber(e.target.value)}
+                        onChange={handlePackagingNumberChange}
                         placeholder="Enter no. of packages"
+                        min="0" // This ensures only non-negative values are allowed
                       />
                       {warnings.packaging && (
                         <p className="text-red-500 text-sm">
@@ -557,17 +566,17 @@ export default function DistanceCalculatorPage() {
                     </div>
 
                     <div className="w-full md:w-2/3">
-                      <h3 className="text-lg font-normal text-secondary mb-2">
+                      <h3 className="text-md font-normal text-secondary mb-2">
                         Packaging Type <span className="text-red-500">*</span>
                       </h3>
                       <select
-                        className="p-2 border border-secondary rounded w-full bg-white text-gray-400 font-normal"
+                        className="p-2 rounded w-full bg-light-grey text-primary font-normal"
                         value={selectedPackagingType}
                         onChange={(e) =>
                           setSelectedPackagingType(e.target.value)
                         }
                       >
-                        <option value="">Select packaging type</option>
+                        <option className="text-gray-400" value="">Select packaging type</option>
                         <option value="Carton">Carton</option>
                         <option value="Floor">Floor</option>
                         <option value="Loose">Loose</option>
@@ -608,8 +617,8 @@ export default function DistanceCalculatorPage() {
 
             {showThirdModal && (
               <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
-                <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
-                    <button
+                <div className="bg-white rounded-lg shadow-lg lg:p-10 p-6 w-full max-w-2xl relative">
+                  <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => setShowThirdModal(false)}
                     aria-label="Close"
@@ -624,7 +633,7 @@ export default function DistanceCalculatorPage() {
                     </p>
                   </div>
                   <div className="mb-8 md:mb-0">
-                    <h3 className="text-lg font-medium text-secondary my-2">
+                    <h3 className="text-md font-medium text-secondary my-2">
                       <FontAwesomeIcon
                         icon={faBuilding}
                         className="mr-2 text-gray-400"
@@ -647,7 +656,7 @@ export default function DistanceCalculatorPage() {
                   </div>
 
                   <div className="mb-8 md:mb-0 w-full">
-                    <h3 className="text-lg font-medium text-secondary my-2">
+                    <h3 className="text-md font-medium text-secondary my-2">
                       <FontAwesomeIcon
                         icon={faNoteSticky}
                         className="mr-2 text-gray-400"
@@ -678,7 +687,7 @@ export default function DistanceCalculatorPage() {
                   </div>
                   {companyName && (
                     <p className="text-gray-500 font-normal ">
-                      Please check your price...
+                      Please check your quote...
                     </p>
                   )}
                 </div>
