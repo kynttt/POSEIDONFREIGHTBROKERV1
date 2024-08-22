@@ -37,7 +37,7 @@ const AdminDashboard: React.FC = () => {
 
             {/* ShippersList component */}
             <div className="lg:col-span-1">
-              <ShippersList shippers={shippers} />
+              <ShippersList />
             </div>
           </div>
 

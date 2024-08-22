@@ -45,7 +45,6 @@ import BrokerShipperAgreement from "./pages/Shared/pages/BrokerShipperAgreement"
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./lib/queryClient";
-import UsersTransactionList from "./pages/Admin/page/usersTransactionList";
 import UserTransactionsList from "./pages/Admin/page/usersTransactionList";
 const theme = createTheme({
   primaryColor: "brand",
