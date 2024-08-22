@@ -298,33 +298,7 @@ export const createPaymentIntent = async ({
 export const fetchBookings = async () => {
   const response = await axiosInstance.get(
     `/bookings/`
-    //    {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // }
   );
-
-  // return response.data.map((booking: any) => {
-  //   const quote = booking.quote;
-  //   return {
-  //     id: booking._id,
-  //     pickUp: quote.origin,
-  //     price: quote.price,
-  //     status: booking.status,
-  //     drop: quote.destination,
-  //     maxWeight: quote.maxWeight,
-  //     companyName: quote.companyName,
-  //     trailerType: quote.trailerType,
-  //     distance: quote.distance,
-  //     trailerSize: quote.trailerSize,
-  //     commodity: quote.commodity,
-  //     pickupDate: quote.pickupDate,
-  //     onBookLoadClick: () => {
-  //       /* Handle book load click */
-  //     },
-  //   };
-  // });
 
   return response.data as Booking[];
 };
