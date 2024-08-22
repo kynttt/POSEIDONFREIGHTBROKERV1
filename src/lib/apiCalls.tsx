@@ -14,8 +14,8 @@ import {
 } from "../utils/types";
 
 //Users
-// Login
 
+// Get Specific User
 export const getUser = async () => {
   const response = await axiosInstance.get(`/account/`);
   const data = response.data;
@@ -26,6 +26,20 @@ export const getUser = async () => {
   };
 };
 
+
+// Get All Users
+export const fetchUsers = async () => {
+  try {
+    const response = await axiosInstance.get(`/users/`);
+    return response.data; // Adjust based on your actual data structure
+  } catch (error) {
+    console.error('Error fetching shippers:', error);
+    throw error;
+  }
+};
+
+
+// Login
 export const loginUser = async (
   email: string,
   password: string
@@ -222,6 +236,43 @@ export const fetchUserBookings = async () => {
   );
   return response.data;
 };
+
+
+
+export const fetchUserBookingById = async (id: string) => {
+  if (!id) {
+    throw new Error('No user ID provided');
+  }
+
+  try {
+    const response = await axiosInstance.get(`/bookings/user/${id}`);
+    
+    // Check if response is successful
+    if (response.status === 200) {
+      // Map the response data to match the expected structure
+      return response.data.map((booking: any) => ({
+        id: booking._id,
+        origin: booking.quote.origin,
+        destination: booking.quote.destination,
+        price: booking.quote.price,
+        pickupDate: booking.quote.pickupDate,
+        deliveryDate: booking.quote.deliveryDate,
+        pickupTime: booking.pickupTime,
+        deliveryTime: booking.deliveryTime,
+        carrier: booking.carrier,
+        status: booking.status,
+      }));
+    } else {
+      throw new Error(`Unexpected response status: ${response.status}`);
+    }
+  } catch (error) {
+    // Handle errors from the API call or other unexpected issues
+    console.error('Error fetching user bookings:', error);
+    throw new Error('Failed to fetch user bookings');
+  }
+};
+
+
 
 export const createPaymentIntent = async ({
   amount,
