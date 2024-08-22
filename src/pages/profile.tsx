@@ -22,9 +22,10 @@ const ProfileCard: React.FC = () => {
     if (isAuthenticated && userId) {
       const fetchUserData = async () => {
         try {
-          const response = await axiosInstance.get(`/users/${userId}`);
+          const response = await axiosInstance.get(`/account`);
+          console.log("API Response:", response.data);
 
-          setUserData(response.data);
+          setUserData(response.data.data);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
