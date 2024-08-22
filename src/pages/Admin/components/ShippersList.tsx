@@ -1,16 +1,39 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react';
 import Pagination from '../../../components/pagination'; // Import Pagination component
+import { fetchUsers } from '../../../lib/apiCalls'; // Import the API function
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 interface Shipper {
+  _id: string; // Use _id as the ID field
   name: string;
   email: string;
+  role: string;
 }
 
-const ShippersList: React.FC<{ shippers: Shipper[] }> = ({ shippers }) => {
-  const itemsPerPage = 5;
+const ShippersList: React.FC = () => {
+  const [shippers, setShippers] = useState<Shipper[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const itemsPerPage = 5;
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  useEffect(() => {
+    const loadShippers = async () => {
+      try {
+        const data = await fetchUsers();
+        console.log('Fetched Users:', data); // Check fetched data
+        setShippers(data);
+      } catch (error) {
+        console.error('Error fetching shippers:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    loadShippers();
+  }, []);
+  
+
   const totalPages = Math.ceil(shippers.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
@@ -23,11 +46,21 @@ const ShippersList: React.FC<{ shippers: Shipper[] }> = ({ shippers }) => {
   const endIndex = startIndex + itemsPerPage;
   const displayedShippers = shippers.slice(startIndex, endIndex);
 
+  const handleRowClick = (id: string) => {
+    console.log('Navigating to user-transaction with ID:', id); // Debugging log
+    navigate(`/a/user-transaction/${id}`);
+  };
+  
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="bg-light-grey p-4 rounded-lg shadow-lg">
       <div>
         <h3 className="text-2xl font-medium mb-4 border-b-2 border-secondary flex justify-between items-center lg:pb-2">
-          Shippers
+          Users
           <span className="text-xs">
             <a href="#">View All</a>
           </span>
@@ -36,30 +69,33 @@ const ShippersList: React.FC<{ shippers: Shipper[] }> = ({ shippers }) => {
       <div className="overflow-x-auto">
         <table className="min-w-full border-b-2 border-secondary">
           <thead>
-            <tr className="">
+            <tr>
               <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Business Emails</th>
-              <th className="px-4 py-2 text-center">Action</th>
+              <th className="px-4 py-2 text-left">Business Email</th>
+              <th className="px-4 py-2 text-left">Role</th>
             </tr>
           </thead>
           <tbody>
-            {displayedShippers.map((shipper, index) => (
-              <tr key={index}>
-                <td className="px-4 py-2 text-secondary font-normal">{shipper.name}</td>
-                <td className="px-4 py-2 text-secondary font-normal">{shipper.email}</td>
-                <td className="px-4 py-2 text-secondary flex justify-center">
-                  <button className="text-secondary focus:outline-none">
-                    <FontAwesomeIcon icon={faEllipsisV} />
-                  </button>
-                </td>
-              </tr>
-            ))}
+          {displayedShippers.map((shipper) => (
+  <tr
+    key={shipper._id} // Use shipper._id as key
+    className="cursor-pointer hover:bg-gray-100"
+    onClick={() => handleRowClick(shipper._id)} // Pass shipper._id
+  >
+    <td className="px-4 py-2 text-secondary font-normal">{shipper.name}</td>
+    <td className="px-4 py-2 text-secondary font-normal">{shipper.email}</td>
+    <td className="px-4 py-2 text-secondary font-normal">{shipper.role}</td>
+  </tr>
+))}
           </tbody>
         </table>
       </div>
 
-      {/* Render Pagination component */}
-      <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };
