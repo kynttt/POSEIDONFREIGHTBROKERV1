@@ -375,3 +375,9 @@ export const listTrucks = async () => {
 
   return response.data as TruckCatalog[];
 };
+
+export const createTruck = async (truck: TruckCatalog) => {
+  const response = await axiosInstance.post(`/trucks`, truck);
+
+  return response.data as TruckCatalog;
+};

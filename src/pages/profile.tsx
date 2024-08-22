@@ -12,7 +12,6 @@ import ShipperBookings from "./ShipperUser/components/shipperBookings";
 import FreightQuoteMini from "../components/FreightQuoteMini";
 import { User } from "../utils/types";
 import axiosInstance from "../lib/axiosInstance";
-import { getUser } from "../lib/apiCalls";
 
 const ProfileCard: React.FC = () => {
   const { isAuthenticated, userId } = useAuthStore();
@@ -23,9 +22,9 @@ const ProfileCard: React.FC = () => {
     if (isAuthenticated && userId) {
       const fetchUserData = async () => {
         try {
-          const response = await getUser();
+          const response = await axiosInstance.get(`/users/${userId}`);
 
-          setUserData(response);
+          setUserData(response.data);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
