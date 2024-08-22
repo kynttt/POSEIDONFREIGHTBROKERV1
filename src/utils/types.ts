@@ -112,3 +112,7 @@ export interface TruckCatalog extends Schema {
   truckType: string;
   sizes: Size[];
 }
+export interface PriceError {
+  errors: string[];
+  invalidIndices: Record<number, number[]>;
+}

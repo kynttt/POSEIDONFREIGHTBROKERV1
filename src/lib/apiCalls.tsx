@@ -385,3 +385,9 @@ export const createTruck = async (truck: TruckCatalog) => {
 export const deleteTruck = async (truckId: string) => {
   await axiosInstance.delete(`/trucks/${truckId}`);
 };
+
+export const updateTruck = async (truck: TruckCatalog) => {
+  const response = await axiosInstance.put(`/trucks/${truck._id!}`, truck);
+
+  return response.data as TruckCatalog;
+};

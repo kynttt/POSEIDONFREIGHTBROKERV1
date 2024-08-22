@@ -3,6 +3,7 @@ import { TruckCatalog, Pricing } from "../utils/types";
 
 interface TruckState {
   truckCatalog: TruckCatalog | null;
+  setCatalog: (catalog: TruckCatalog) => void;
   addTruckCatalogName: (truckType: string) => void;
   addTruckSizes: (sizes: number[]) => void;
   updatePricing: (
@@ -18,6 +19,7 @@ interface TruckState {
 export const useNewTruckCatalog = create<TruckState>((set) => ({
   truckCatalog: null,
 
+  setCatalog: (catalog) => set({ truckCatalog: catalog }),
   addTruckCatalogName: (truckType) =>
     set({
       truckCatalog: {

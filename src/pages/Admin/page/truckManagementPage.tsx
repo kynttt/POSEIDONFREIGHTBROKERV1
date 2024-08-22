@@ -24,11 +24,17 @@ import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { useNewTruckCatalog } from "../../../hooks/useNewTruckCatalog";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { TruckCatalog } from "../../../utils/types";
-import { createTruck, deleteTruck, listTrucks } from "../../../lib/apiCalls";
+import { PriceError, TruckCatalog } from "../../../utils/types";
+import {
+  createTruck,
+  deleteTruck,
+  listTrucks,
+  updateTruck,
+} from "../../../lib/apiCalls";
 import { notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
 import queryClient from "../../../lib/queryClient";
+import { validatePricing } from "../../../utils/helpers";
 
 export default function TruckManagementPage() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -67,6 +73,16 @@ export default function TruckManagementPage() {
 }
 
 function TruckList() {
+  const [opened, { open, close }] = useDisclosure(false);
+  const [selectedCatalog, setSelectedCatalog] = useState<TruckCatalog | null>(
+    null
+  );
+
+  const isFullScreen = useMatches({
+    xs: true,
+    md: false,
+  });
+
   const { data, isLoading } = useQuery({
     queryKey: ["truck-catalogs"],
     queryFn: listTrucks,
@@ -86,44 +102,139 @@ function TruckList() {
     },
   });
   return (
-    <DataTable
-      columns={[
-        { accessor: "truckType" },
-        {
-          accessor: "sizes",
-          render: (value) => (
-            <Group gap={5}>
-              {value.sizes.map((size) => (
-                <Badge key={size.size + value._id!}>{size.size}</Badge>
-              ))}
-            </Group>
-          ),
-        },
-        {
-          accessor: "actions",
-          title: <Box mr={6}>Row actions</Box>,
-          textAlign: "right",
-          render: (catalog) => (
-            <Group key={catalog._id!} gap={14} justify="right" wrap="nowrap">
-              <ActionIcon size="sm" variant="subtle" color="blue">
-                <FontAwesomeIcon icon={faEdit} />
-              </ActionIcon>
-              <ActionIcon
-                size="sm"
-                variant="subtle"
-                color="red"
-                onClick={() => mutation.mutate(catalog._id!)}
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </ActionIcon>
-            </Group>
-          ),
-        },
-      ]}
-      records={data}
-      fetching={isLoading || mutation.isPending}
-      idAccessor="_id"
-    />
+    <>
+      <Modal
+        opened={opened}
+        onClose={close}
+        title={`Edit ${selectedCatalog?.truckType || ""}`}
+        size="lg"
+        fullScreen={isFullScreen}
+        centered
+      >
+        <EditTruckCatalog truckCatalogCache={selectedCatalog} close={close} />
+      </Modal>
+      <DataTable
+        columns={[
+          { accessor: "truckType" },
+          {
+            accessor: "sizes",
+            render: (value) => (
+              <Group gap={5}>
+                {value.sizes.map((size) => (
+                  <Badge key={size.size + value._id!}>{size.size}</Badge>
+                ))}
+              </Group>
+            ),
+          },
+          {
+            accessor: "actions",
+            title: <Box mr={6}>Row actions</Box>,
+            textAlign: "right",
+            render: (catalog) => (
+              <>
+                <Group
+                  key={catalog._id!}
+                  gap={14}
+                  justify="right"
+                  wrap="nowrap"
+                >
+                  <ActionIcon
+                    size="sm"
+                    variant="subtle"
+                    color="blue"
+                    onClick={() => {
+                      setSelectedCatalog(catalog);
+                      open();
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </ActionIcon>
+                  <ActionIcon
+                    size="sm"
+                    variant="subtle"
+                    color="red"
+                    onClick={() => mutation.mutate(catalog._id!)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </ActionIcon>
+                </Group>
+              </>
+            ),
+          },
+        ]}
+        records={data}
+        fetching={isLoading || mutation.isPending}
+        idAccessor="_id"
+      />
+    </>
+  );
+}
+
+function EditTruckCatalog({
+  close,
+  truckCatalogCache,
+}: {
+  close: () => void;
+  truckCatalogCache: TruckCatalog | null;
+}) {
+  const setCatalog = useNewTruckCatalog((state) => state.setCatalog);
+  const truckCatalog = useNewTruckCatalog((state) => state.truckCatalog);
+  const resetState = useNewTruckCatalog((state) => state.resetTruckCatalog);
+
+  const sizes = useNewTruckCatalog((state) => state.truckCatalog?.sizes || []);
+  const [invalidIndices, setInvalidIndices] = useState<
+    Record<number, number[]>
+  >({});
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const mutation = useMutation<TruckCatalog, AxiosError, TruckCatalog>({
+    mutationFn: updateTruck,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["truck-catalogs"],
+      });
+      close();
+      notifications.show({
+        title: "Truck catalog updated",
+        message: "Truck catalog has been updated successfully",
+        color: "green",
+      });
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Truck catalog update failed",
+        message: JSON.stringify(error.response?.data) || "An error occurred",
+        color: "red",
+      });
+    },
+  });
+  useEffect(() => {
+    setCatalog(truckCatalogCache!);
+    return () => {
+      resetState();
+    };
+  }, [truckCatalogCache, resetState, setCatalog]);
+
+  const handleNext = () => {
+    const { errors, invalidIndices } = validatePricing({ sizes });
+    setErrors(errors); // Save errors
+    setInvalidIndices(invalidIndices); // Save invalid indices to state
+    if (errors.length === 0) {
+      mutation.mutate(truckCatalog!);
+    } else {
+      notifications.show({
+        title: "Invalid Pricing Data",
+        message: errors.join("\n"),
+        color: "red",
+        withBorder: true,
+        autoClose: false,
+      });
+    }
+  };
+  return (
+    <TruckPricesForm priceError={{ invalidIndices, errors }}>
+      <Button onClick={handleNext}>Save</Button>
+    </TruckPricesForm>
   );
 }
 
@@ -235,71 +346,11 @@ function CreateTruckStep2({
   const [invalidIndices, setInvalidIndices] = useState<
     Record<number, number[]>
   >({});
-
-  function validatePricing(): {
-    errors: string[];
-    invalidIndices: Record<number, number[]>;
-  } {
-    const errors: string[] = [];
-    const invalidIndices: Record<number, number[]> = {};
-
-    sizes.forEach((size, sizeIndex) => {
-      size.pricing.forEach((pricing, pricingIndex) => {
-        const invalidPricing = [];
-
-        if (pricing.minDistance === undefined || isNaN(pricing.minDistance)) {
-          errors.push(
-            `Min Distance is invalid for Size ${size.size}, Pricing #${
-              pricingIndex + 1
-            }`
-          );
-          invalidPricing.push(pricingIndex);
-        }
-        if (pricing.maxDistance !== undefined && isNaN(pricing.maxDistance)) {
-          errors.push(
-            `Max Distance is invalid for Size ${size.size}, Pricing #${
-              pricingIndex + 1
-            }`
-          );
-          invalidPricing.push(pricingIndex);
-        }
-        if (
-          pricing.pricePerMile === undefined ||
-          pricing.pricePerMile <= 0 ||
-          isNaN(pricing.pricePerMile)
-        ) {
-          errors.push(
-            `Price per Mile is invalid for Size ${size.size}, Pricing #${
-              pricingIndex + 1
-            }`
-          );
-          invalidPricing.push(pricingIndex);
-        }
-        if (
-          pricing.maxDistance !== undefined &&
-          pricing.minDistance !== undefined &&
-          pricing.minDistance > pricing.maxDistance
-        ) {
-          errors.push(
-            `Min Distance cannot be greater than Max Distance for Size ${
-              size.size
-            }, Pricing #${pricingIndex + 1}`
-          );
-          invalidPricing.push(pricingIndex);
-        }
-
-        if (invalidPricing.length > 0) {
-          invalidIndices[sizeIndex] = invalidIndices[sizeIndex] || [];
-          invalidIndices[sizeIndex].push(pricingIndex);
-        }
-      });
-    });
-
-    return { errors, invalidIndices };
-  }
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleNext = () => {
-    const { errors, invalidIndices } = validatePricing();
+    const { errors, invalidIndices } = validatePricing({ sizes });
+    setErrors(errors); // Save errors
     setInvalidIndices(invalidIndices); // Save invalid indices to state
     if (errors.length === 0) {
       next();
@@ -313,7 +364,26 @@ function CreateTruckStep2({
       });
     }
   };
+  return (
+    <TruckPricesForm priceError={{ invalidIndices, errors }}>
+      <Group justify="flex-end">
+        <Button onClick={prev} variant="outline">
+          Back
+        </Button>
+        <Button onClick={handleNext}>Next</Button>
+      </Group>
+    </TruckPricesForm>
+  );
+}
 
+function TruckPricesForm({
+  priceError: { invalidIndices },
+  children,
+}: {
+  priceError: PriceError;
+  children?: React.ReactNode;
+}) {
+  const sizes = useNewTruckCatalog((state) => state.truckCatalog?.sizes || []);
   return (
     <Stack w="100%">
       {sizes.map((size, index) => (
@@ -326,12 +396,7 @@ function CreateTruckStep2({
           </Fieldset>
         </Group>
       ))}
-      <Group justify="flex-end">
-        <Button onClick={prev} variant="outline">
-          Back
-        </Button>
-        <Button onClick={handleNext}>Next</Button>
-      </Group>
+      {children}
     </Stack>
   );
 }
