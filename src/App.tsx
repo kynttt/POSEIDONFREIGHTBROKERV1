@@ -25,6 +25,7 @@ import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
 import { Notifications } from "@mantine/notifications";
 
 import "@mantine/core/styles.css";
+import "mantine-datatable/styles.layer.css";
 import "@mantine/notifications/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
@@ -192,7 +193,10 @@ const App: React.FC = () => {
                 />
                 <Route path="management" element={<ManagementShellPage />}>
                   <Route index element={<TruckManagementPage />} />
-                  <Route path="truck" element={<TruckManagementPage />} />
+                  <Route
+                    path="truck-catalog"
+                    element={<TruckManagementPage />}
+                  />
                 </Route>
                 <Route path="bill-lading" element={<BillOfLadingPage />} />
                 <Route

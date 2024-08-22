@@ -108,7 +108,7 @@ export interface Size {
   pricing: Pricing[];
 }
 
-export interface TruckCatalog {
+export interface TruckCatalog extends Schema {
   truckType: string;
   sizes: Size[];
 }

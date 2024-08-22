@@ -1,5 +1,6 @@
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { DataTable } from "mantine-datatable";
 import {
   Button,
   Card,
@@ -15,15 +16,19 @@ import {
   TagsInput,
   CloseButton,
   useMatches,
+  Badge,
+  ActionIcon,
+  Box,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { useNewTruckCatalog } from "../../../hooks/useNewTruckCatalog";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { TruckCatalog } from "../../../utils/types";
-import { createTruck } from "../../../lib/apiCalls";
+import { createTruck, deleteTruck, listTrucks } from "../../../lib/apiCalls";
 import { notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
+import queryClient from "../../../lib/queryClient";
 
 export default function TruckManagementPage() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -62,10 +67,63 @@ export default function TruckManagementPage() {
 }
 
 function TruckList() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["truck-catalogs"],
+    queryFn: listTrucks,
+  });
+
+  const mutation = useMutation<void, AxiosError, string>({
+    mutationFn: deleteTruck,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["truck-catalogs"],
+      });
+      notifications.show({
+        title: "Truck catalog deleted",
+        message: "Truck catalog has been deleted successfully",
+        color: "green",
+      });
+    },
+  });
   return (
-    <div>
-      <h1>Truck List</h1>
-    </div>
+    <DataTable
+      columns={[
+        { accessor: "truckType" },
+        {
+          accessor: "sizes",
+          render: (value) => (
+            <Group gap={5}>
+              {value.sizes.map((size) => (
+                <Badge key={size.size + value._id!}>{size.size}</Badge>
+              ))}
+            </Group>
+          ),
+        },
+        {
+          accessor: "actions",
+          title: <Box mr={6}>Row actions</Box>,
+          textAlign: "right",
+          render: (catalog) => (
+            <Group key={catalog._id!} gap={14} justify="right" wrap="nowrap">
+              <ActionIcon size="sm" variant="subtle" color="blue">
+                <FontAwesomeIcon icon={faEdit} />
+              </ActionIcon>
+              <ActionIcon
+                size="sm"
+                variant="subtle"
+                color="red"
+                onClick={() => mutation.mutate(catalog._id!)}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </ActionIcon>
+            </Group>
+          ),
+        },
+      ]}
+      records={data}
+      fetching={isLoading || mutation.isPending}
+      idAccessor="_id"
+    />
   );
 }
 
@@ -374,6 +432,9 @@ function CreateTruckComplete({
   const mutation = useMutation<TruckCatalog, AxiosError, TruckCatalog>({
     mutationFn: createTruck,
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["truck-catalogs"],
+      });
       onCloseModal();
       notifications.show({
         title: "Truck catalog created",

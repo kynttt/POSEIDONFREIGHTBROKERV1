@@ -12,16 +12,16 @@ export default function ManagementShellPage() {
         <h1 className="text-5xl text-primary">Management</h1>
         <Space />
         <Tabs
-          value={tabValue || "truck"}
+          value={tabValue || "truck-catalog"}
           onChange={(value) => navigate(`${value}`)}
           w="100%"
         >
           <Tabs.List>
             <Tabs.Tab
-              value="truck"
+              value="truck-catalog"
               leftSection={<FontAwesomeIcon icon={faTruckFast} />}
             >
-              Truck
+              Truck Catalog
             </Tabs.Tab>
           </Tabs.List>
         </Tabs>
