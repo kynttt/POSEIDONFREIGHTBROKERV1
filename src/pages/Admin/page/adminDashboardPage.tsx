@@ -4,12 +4,10 @@ import ShipmentsAnalytics from "../components/ShipmentsAnalytics";
 import ShippersList from "../components/ShippersList";
 import RecentTransactions from "../components/RecentTransactions";
 import overviewData from "../data/overviewData.json";
-import shippersData from "../data/shippersData.json";
 import transactionsData from "../data/transactionsData.json";
 
 const AdminDashboard: React.FC = () => {
   const [overview] = useState(overviewData);
-  const [shippers] = useState(shippersData);
   const [transactions] = useState(transactionsData);
 
   return (
