@@ -292,19 +292,19 @@ const ShipmentDetails: React.FC = () => {
           </div>
 
           {/* Carrier */}
-          <div className="w-full lg:w-1/3  justify-center lg:pt-32 bg-light-grey ">
-            <div className="bg-white  p-6 rounded-lg shadow-lg md:px-12 md:py-10">
+          <div className="w-full lg:w-1/3  justify-center lg:pt-28 bg-light-grey ">
+            <div className="bg-white w-full p-6 rounded-lg shadow-lg md:px-12 md:py-10">
               <h2 className="text-xl mb-6 text-secondary">Carrier <p className="text-base text-gray-500 font-normal">Details on Carrier and Assigned Driver</p></h2>
 
-              <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+              <div className="w-full sm:w-full mb-4 sm:mb-0">
                 <label
                   className="block text-primary text-base font-medium"
                   htmlFor="customerReference"
                 >
                   <FontAwesomeIcon icon={faTruckFront} className="mr-2" /> Carrier Name
                 </label>
-                <p className="text-gray-500 text-base font-medium my-2">
-                  {booking.carrier || "TBA"}
+                <p className="text-base text-gray-500 font-normal my-2">
+                  {booking.carrier || "Please wait for the confirmation..."}
                 </p>
 
                 <label
@@ -313,8 +313,8 @@ const ShipmentDetails: React.FC = () => {
                 >
                   <FontAwesomeIcon icon={faUser} className="mr-2" />Driver
                 </label>
-                <p className="text-gray-500 text-base font-medium my-2">
-                  {booking.driver || "TBA"}
+                <p className="text-base text-gray-500 font-normal my-2">
+                  {booking.driver || "Please wait for the confirmation..."}
                 </p>
               </div>
             </div>
@@ -329,7 +329,7 @@ const ShipmentDetails: React.FC = () => {
                 >
                   <FontAwesomeIcon icon={faDollarSign} className="mr-2" />Base Rate
                 </label>
-                <p className="text-price text-base font-medium my-2">
+                <p className="text-base text-gray-500 font-normal my-2">
                   $ {(booking.quote as Quote).price || "N/A"}
                 </p>
 
@@ -339,7 +339,7 @@ const ShipmentDetails: React.FC = () => {
                 >
                   <FontAwesomeIcon icon={faMapLocationDot} className="mr-2" />Distance
                 </label>
-                <p className="text-gray-500 text-base font-medium  my-2">
+                <p className="text-base text-gray-500 font-normal my-2">
                   {(booking.quote as Quote).distance || "N/A"}
                 </p>
               </div>
