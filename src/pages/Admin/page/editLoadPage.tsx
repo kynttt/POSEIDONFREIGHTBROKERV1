@@ -4,6 +4,28 @@ import { fetchBookingById, updateBookingDetails } from "../../../lib/apiCalls";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
 import { Booking, Quote } from "../../../utils/types";
 import { formatDateForInput } from "../../../utils/helpers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBox,
+  faBoxOpen,
+  faBuilding,
+  faCalendarCheck,
+  faCircleCheck,
+  faClock,
+  faDollarSign,
+  faFloppyDisk,
+  faHashtag,
+  faLocationDot,
+  faMapLocationDot,
+  faNoteSticky,
+  faPenToSquare,
+  faQuestionCircle,
+  faTruckFast,
+  faTruckFront,
+  faTruckMoving,
+  faUser,
+  faWeightScale,
+} from "@fortawesome/free-solid-svg-icons";
 
 type FormStateField = keyof FormState | keyof NonNullable<FormState["quote"]>;
 interface FormState {
@@ -48,6 +70,20 @@ const EditLoad: React.FC = () => {
   // const [formState, setFormState] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "Pending":
+        return faClock;
+      case "Confirmed":
+        return faCalendarCheck;
+      case "In Transit":
+        return faTruckFast;
+      case "Delivered":
+        return faCircleCheck;
+      default:
+        return faQuestionCircle;
+    }
+  };
   const [isAllPrepared, setIsAllPrepared] = useState(false);
 
   useEffect(() => {
@@ -214,11 +250,11 @@ const EditLoad: React.FC = () => {
   // };
 
   return (
-    <div className="flex h-screen md:mt-12">
-      <nav className="flex-1 bg-white overflow-y-auto lg:px-20">
+    <div className="flex min-h-screen md:mt-12 ">
+      <nav className="flex-1 bg-light-grey overflow-y-auto lg:px-20">
         <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
           <div className="w-full lg:w-2/3">
-            <div className="bg-white p-6 w-full max-w-screen-2xl mx-auto border-b">
+            <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto">
               <div className="md:flex items-center">
                 <h1 className="text-2xl font-medium  text-secondary mr-auto my-2">
                   Shipment Summary
@@ -276,362 +312,451 @@ const EditLoad: React.FC = () => {
             </div>
 
             {/* Pick Up Details */}
-            <div className=" p-6 w-full max-w-screen-2xl mx-auto">
-              <h2 className="text-xl mb-4 text-secondary">Pick Up Details</h2>
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="companyName"
-                  >
-                    Facility / Company Name
-                  </label>
-                  <div>
-                    <p className="text-gray-500 text-sm font-medium">
-                      {(booking?.quote as Quote)?.companyName || "N/A"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="w-full sm:w-1/2 ">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="origin"
-                  >
-                    Facility Address
-                  </label>
-                  <div>
-                    <p className="text-gray-500 text-sm font-medium">
-                      {(booking?.quote as Quote)?.origin || "N/A"}
-                    </p>
-                  </div>
+            <div className=" p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl md:px-12 md:py-10 shadow-lg">
+            <h2 className="text-xl  mb-4 text-secondary ">Pick Up Details
+              <p className="text-base text-gray-500 font-normal">Full Overview of Pickup Timing and Address</p>
+              </h2>
+              {/* <div className="flex flex-col sm:flex-row mb-4"> */}
+              <div className="flex items-center justify-between py-2 ">
+                <label
+                  className="block text-primary text-base  font-medium"
+                  htmlFor="facilityName"
+                >
+                  <FontAwesomeIcon icon={faBuilding} className="mr-2" />
+                  Facility / Company Name
+                </label>
+                <div>
+                  <p className="text-base text-gray-500 font-normal">
+                    {(booking?.quote as Quote)?.companyName || "N/A"}
+                  </p>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="pickupDate"
-                  >
-                    Appointment
-                  </label>
-                  <div className="flex gap-2 items-center">
-                    {editingField.pickupDate ? (
-                      <input
-                        type="date"
-                        name="pickupDate"
-                        value={
-                          (booking.quote as Quote)?.pickupDate
-                            ? formatDateForInput(
-                                new Date((booking.quote as Quote)?.pickupDate)
-                              )
-                            : formatDateForInput(new Date()) // Default to today's date
-                        }
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                      />
-                    ) : (
-                      <p className="text-gray-500 text-sm font-medium">
-                        {/* {new Date(booking.pickupDate).toLocaleDateString()} */}
-                        {(booking.quote as Quote)?.pickupDate
-                          ? new Date(
-                              (booking.quote as Quote)?.pickupDate
-                            ).toLocaleDateString()
-                          : "TBA"}
-                      </p>
-                    )}
-                    {booking.status === "Pending" && (
-                      <button
-                        className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                        onClick={() =>
-                          editingField.pickupDate
-                            ? handleSave("pickupDate")
-                            : toggleEdit("pickupDate")
-                        }
-                      >
-                        {editingField.pickupDate ? "Save" : "Edit Date"}
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="pickupTime"
-                  >
-                    Pick Up Time <span className="text-red-600">*</span>
-                  </label>
-                  <div className="flex gap-2 items-center">
-                    {editingField.pickupTime ? (
-                      <input
-                        type="time"
-                        name="pickupTime"
-                        value={
-                          booking.pickupTime
-                            ? convertTo24HourFormat(booking.pickupTime)
-                            : "00:00" // Provide a default value if deliveryTime is not set
-                        }
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                      />
-                    ) : (
-                      <p className="text-gray-500 text-sm font-medium">
-                        {booking.pickupTime
-                          ? new Date(
-                              `1970-01-01T${booking.pickupTime}`
-                            ).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })
-                          : "TBA"}
-                      </p>
-                    )}
-                    {booking.status === "Pending" && (
-                      <button
-                        className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                        onClick={() =>
-                          editingField.pickupTime
-                            ? handleSave("pickupTime")
-                            : toggleEdit("pickupTime")
-                        }
-                      >
-                        {editingField.pickupTime ? "Save" : "Edit Time"}
-                      </button>
-                    )}
-                  </div>
+              <div className="flex items-center justify-between py-2 ">
+                <label
+                  className="block text-primary text-base font-medium"
+                  htmlFor="facilityAddress"
+                >
+                  <FontAwesomeIcon icon={faLocationDot} className="mr-2" />
+                  Facility Address
+                </label>
+                <div>
+                  <p className="text-base text-gray-500 font-normal">
+                    {(booking?.quote as Quote)?.origin || "N/A"}
+                  </p>
                 </div>
               </div>
+              {/* </div> */}
+
+              {/* <div className="flex flex-col sm:flex-row mb-4"> */}
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base  font-medium"
+                  htmlFor="appointment"
+                >
+                  <FontAwesomeIcon icon={faCalendarCheck} className="mr-2" />
+                  Appointment <span className="text-red-600">*</span>
+                </label>
+                <div className="flex gap-2 items-center">
+                  {editingField.pickupDate ? (
+                    <input
+                      type="date"
+                      name="pickupDate"
+                      value={
+                        (booking.quote as Quote)?.pickupDate
+                          ? formatDateForInput(
+                              new Date((booking.quote as Quote)?.pickupDate)
+                            )
+                          : formatDateForInput(new Date()) // Default to today's date
+                      }
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  ) : (
+                    <p className="text-base text-gray-500 font-normal">
+                      {/* {new Date(booking.pickupDate).toLocaleDateString()} */}
+                      {(booking.quote as Quote)?.pickupDate
+                        ? new Date(
+                            (booking.quote as Quote)?.pickupDate
+                          ).toLocaleDateString()
+                        : "TBA"}
+                    </p>
+                  )}
+                  {booking.status === "Pending" && (
+                    <button
+                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                      onClick={() =>
+                        editingField.pickupDate
+                          ? handleSave("pickupDate")
+                          : toggleEdit("pickupDate")
+                      }
+                    >
+                      {editingField.pickupDate ? (
+                        <FontAwesomeIcon
+                          icon={faFloppyDisk}
+                          className="text-primary"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="text-primary"
+                        />
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base  font-medium"
+                  htmlFor="pickupTime"
+                >
+                  <FontAwesomeIcon icon={faClock} className="mr-2" />
+                  Pick Up Time <span className="text-red-600">*</span>
+                </label>
+                <div className="flex gap-2 items-center">
+                  {editingField.pickupTime ? (
+                    <input
+                      type="time"
+                      name="pickupTime"
+                      value={
+                        booking.pickupTime
+                          ? convertTo24HourFormat(booking.pickupTime)
+                          : "00:00" // Provide a default value if deliveryTime is not set
+                      }
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  ) : (
+                    <p
+                      className={` font-medium ${
+                        booking.pickupTime ? "text-base text-gray-500 font-normal" : "text-red-500 text-base  font-normal"
+                      }`}
+                    >
+                      {booking.pickupTime
+                        ? new Date(
+                            `1970-01-01T${booking.pickupTime}`
+                          ).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "Edit Pick-up Time Here..."}
+                    </p>
+                  )}
+                  {booking.status === "Pending" && (
+                    <button
+                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                      onClick={() =>
+                        editingField.pickupTime
+                          ? handleSave("pickupTime")
+                          : toggleEdit("pickupTime")
+                      }
+                    >
+                      {editingField.pickupTime ? (
+                        <FontAwesomeIcon
+                          icon={faFloppyDisk}
+                          className="text-primary"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="text-primary"
+                        />
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
+              {/* </div> */}
             </div>
-
-            <hr className="border-t lg:border-1 w-full max-w-screen-2xl mx-auto hidden md:block" />
 
             {/* Delivery Details */}
-            <div className="bg-white p-6 w-full max-w-screen-2xl mx-auto ">
-              <h2 className="text-xl mb-4 text-secondary">Delivery Details</h2>
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="destinationCompanyName"
-                  >
-                    Facility / Company Name
-                  </label>
-                  <div>
-                    <p className="text-gray-500 text-sm font-medium">
-                      {(booking?.quote as Quote)?.companyName || "N/A"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="w-full sm:w-1/2">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="destination"
-                  >
-                    Facility Address
-                  </label>
-                  <div>
-                    <p className="text-gray-500 text-sm font-medium">
-                      {(booking?.quote as Quote)?.destination || "N/A"}
-                    </p>
-                  </div>
+            <div className="p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl md:px-12 md:py-10 shadow-lg my-6">
+            <h2 className="text-xl  mb-4 text-secondary">Delivery Details <p className="text-base text-gray-500 font-normal">Delivery Schedule and Address Breakdown</p></h2>
+              {/* <div className="flex flex-col sm:flex-row mb-4"> */}
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base  font-medium"
+                  htmlFor="facilityName"
+                >
+                  <FontAwesomeIcon icon={faBuilding} className="mr-2" />
+                  Facility / Company Name
+                </label>
+                <div>
+                  <p className="text-base text-gray-500 font-normal">
+                    {(booking?.quote as Quote)?.companyName || "N/A"}
+                  </p>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="deliveryDate"
-                  >
-                    Appointment <span className="text-red-600">*</span>
-                  </label>
-                  <div className="flex gap-2 items-center">
-                    {editingField.deliveryDate ? (
-                      <input
-                        type="date"
-                        name="deliveryDate"
-                        value={
-                          (booking.quote as Quote)?.pickupDate
-                            ? formatDateForInput(
-                                new Date(
-                                  (booking.quote as Quote)?.deliveryDate ||
-                                    formatDateForInput(new Date())
-                                )
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base font-medium"
+                  htmlFor="facilityAddress"
+                >
+                  <FontAwesomeIcon icon={faLocationDot} className="mr-2" />
+                  Facility Address
+                </label>
+                <div>
+                  <p className="text-base text-gray-500 font-normal">
+                    {(booking?.quote as Quote)?.destination || "N/A"}
+                  </p>
+                </div>
+              </div>
+              {/* </div> */}
+
+              {/* <div className="flex flex-col sm:flex-row mb-4"> */}
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base  font-medium"
+                  htmlFor="appointment"
+                >
+                  <FontAwesomeIcon icon={faCalendarCheck} className="mr-2" />
+                  Appointment <span className="text-red-600">*</span>
+                </label>
+                <div className="flex gap-2 items-center">
+                  {editingField.deliveryDate ? (
+                    <input
+                      type="date"
+                      name="deliveryDate"
+                      value={
+                        (booking.quote as Quote)?.pickupDate
+                          ? formatDateForInput(
+                              new Date(
+                                (booking.quote as Quote)?.deliveryDate ||
+                                  formatDateForInput(new Date())
                               )
-                            : formatDateForInput(new Date()) // Default to today's date
-                        }
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                      />
-                    ) : (
-                      <p className="text-gray-500 text-sm font-medium">
-                        {(booking.quote as Quote)?.deliveryDate
-                          ? new Date(
-                              (booking.quote as Quote).deliveryDate!
-                            ).toLocaleDateString()
-                          : "TBA"}
-                      </p>
-                    )}
-                    {booking.status === "Pending" && (
-                      <button
-                        className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                        onClick={() =>
-                          editingField.deliveryDate
-                            ? handleSave("deliveryDate")
-                            : toggleEdit("deliveryDate")
-                        }
-                      >
-                        {editingField.deliveryDate ? "Save" : "Edit Date"}
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="deliveryTime"
-                  >
-                    Delivery Time <span className="text-red-600">*</span>
-                  </label>
-                  <div className="flex gap-2 items-center">
-                    {editingField.deliveryTime ? (
-                      <input
-                        type="time"
-                        name="deliveryTime"
-                        value={
-                          booking.deliveryTime
-                            ? convertTo24HourFormat(booking.deliveryTime)
-                            : "00:00" // Provide a default value if deliveryTime is not set
-                        }
-                        onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded"
-                      />
-                    ) : (
-                      <p className="text-gray-500 text-sm font-medium">
-                        {booking.deliveryTime
-                          ? new Date(
-                              `1970-01-01T${booking.deliveryTime}`
-                            ).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })
-                          : "TBA"}
-                      </p>
-                    )}
-                    {booking.status === "Pending" && (
-                      <button
-                        className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
-                        onClick={() =>
-                          editingField.deliveryTime
-                            ? handleSave("deliveryTime")
-                            : toggleEdit("deliveryTime")
-                        }
-                      >
-                        {editingField.deliveryTime ? "Save" : "Edit Time"}
-                      </button>
-                    )}
-                  </div>
+                            )
+                          : formatDateForInput(new Date()) // Default to today's date
+                      }
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  ) : (
+                    <p
+                      className={`font-medium ${
+                        (booking.quote as Quote)?.deliveryDate
+                          ? "text-base text-gray-500 font-normal"
+                          : "text-red-500 text-base  font-normal"
+                      }`}
+                    >
+                      {(booking.quote as Quote)?.deliveryDate
+                        ? new Date(
+                            (booking.quote as Quote).deliveryDate!
+                          ).toLocaleDateString()
+                        : "Edit Delivery Date Here..."}
+                    </p>
+                  )}
+                  {booking.status === "Pending" && (
+                    <button
+                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                      onClick={() =>
+                        editingField.deliveryDate
+                          ? handleSave("deliveryDate")
+                          : toggleEdit("deliveryDate")
+                      }
+                    >
+                      {editingField.deliveryDate ? (
+                        <FontAwesomeIcon
+                          icon={faFloppyDisk}
+                          className="text-primary"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="text-primary"
+                        />
+                      )}
+                    </button>
+                  )}
                 </div>
               </div>
+
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base  font-medium"
+                  htmlFor="deliveryTime"
+                >
+                  <FontAwesomeIcon icon={faClock} className="mr-2" />
+                  Delivery Time <span className="text-red-600">*</span>
+                </label>
+                <div className="flex gap-2 items-center">
+                  {editingField.deliveryTime ? (
+                    <input
+                      type="time"
+                      name="deliveryTime"
+                      value={
+                        booking.deliveryTime
+                          ? convertTo24HourFormat(booking.deliveryTime)
+                          : "00:00" // Provide a default value if deliveryTime is not set
+                      }
+                      onChange={handleChange}
+                      className="w-full p-2 border border-gray-300 rounded"
+                    />
+                  ) : (
+                    <p
+                      className={` font-medium ${
+                        booking.deliveryTime ? "text-base text-gray-500 font-normal" : "text-red-500 text-base  font-normal"
+                      }`}
+                    >
+                      {booking.deliveryTime
+                        ? new Date(
+                            `1970-01-01T${booking.deliveryTime}`
+                          ).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "Edit Delivery Time Here..."}
+                    </p>
+                  )}
+                  {booking.status === "Pending" && (
+                    <button
+                      className="text-blue-600 underline text-sm bg-grey px-4 py-1 rounded"
+                      onClick={() =>
+                        editingField.deliveryTime
+                          ? handleSave("deliveryTime")
+                          : toggleEdit("deliveryTime")
+                      }
+                    >
+                      {editingField.deliveryTime ? (
+                        <FontAwesomeIcon
+                          icon={faFloppyDisk}
+                          className="text-primary"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="text-primary"
+                        />
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
+              {/* </div> */}
             </div>
 
-            <hr className="border-t lg:border-1 w-full max-w-screen-2xl mx-auto hidden md:block" />
-
             {/* Load Details */}
-            <div className=" p-6 w-full max-w-screen-2xl mx-auto">
-              <h2 className="text-xl mb-4 text-secondary">Load Details</h2>
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+            <div className=" p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl md:px-12 md:py-10 shadow-lg my-6">
+            <h2 className="text-xl mb-4 text-secondary">
+                Additional Shipment Details<p className="text-base text-gray-500 font-normal">Extra Shipment Information and Coordination Overview</p>
+              </h2>
+              {/* <div className="flex flex-col sm:flex-row mb-4"> */}
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center space-x-2">
+                  <FontAwesomeIcon
+                    icon={getStatusIcon(booking.status)}
+                    className="text-primary"
+                  />
                   <label
-                    className="block text-primary text-base font-bold "
-                    htmlFor="customerReference"
-                  >
-                    Customer Reference # <span className="text-red-600">*</span>
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote)?.notes || "N/A"}
-                  </p>
-
-                  <label
-                    className="block text-primary text-base font-bold mt-2"
-                    htmlFor="commodity"
-                  >
-                    Commodity
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote)?.commodity || "N/A"}
-                  </p>
-
-                  <label
-                    className="block text-primary text-base font-bold mt-2"
-                    htmlFor="packaging"
-                  >
-                    Packaging
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote)?.packaging || "N/A"}
-                  </p>
-                  <label
-                    className="block text-primary text-base mt-2"
-                    htmlFor="notes"
-                  >
-                    Additional Notes
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote)?.notes || "N/A"}
-                  </p>
-                </div>
-
-                <div className="w-full sm:w-1/2">
-                  <label
-                    className="block text-primary text-base font-bold "
-                    htmlFor="weight"
-                  >
-                    Weight
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote)?.maxWeight} lb
-                  </p>
-
-                  <label
-                    className="block text-primary text-base font-bold mt-2"
-                    htmlFor="total"
-                  >
-                    Truck Type
-                  </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {(booking.quote as Quote)?.trailerType || "N/A"}
-                  </p>
-                  <label
-                    className="block text-primary text-base font-bold mt-2"
+                    className="block text-primary text-base font-bold"
                     htmlFor="status"
                   >
                     Status
                   </label>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {booking.status}
-                  </p>
                 </div>
+                <p className="text-base text-gray-500 font-normal">
+                  {booking.status}
+                </p>
               </div>
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base font-medium "
+                  htmlFor="customerReference"
+                >
+                  <FontAwesomeIcon icon={faHashtag} className="mr-2" />
+                  Customer Reference No. <span className="text-red-600">*</span>
+                </label>
+                <p className="text-base text-gray-500 font-normal">
+                  {(booking.quote as Quote)?.notes || "N/A"}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base font-medium "
+                  htmlFor="commodity"
+                >
+                  <FontAwesomeIcon icon={faBoxOpen} className="mr-2" />
+                  Commodity
+                </label>
+                <p className="text-base text-gray-500 font-normal">
+                  {(booking.quote as Quote)?.commodity || "N/A"}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base font-medium "
+                  htmlFor="packaging"
+                >
+                  <FontAwesomeIcon icon={faBox} className="mr-2" />
+                  Packaging
+                </label>
+                <p className="text-base text-gray-500 font-normal">
+                  {(booking.quote as Quote)?.packaging || "N/A"}
+                </p>
+              </div>
+              
+
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base font-medium "
+                  htmlFor="weight"
+                >
+                  <FontAwesomeIcon icon={faWeightScale} className="mr-2" />
+                  Weight
+                </label>
+                <p className="text-base text-gray-500 font-normal">
+                  {(booking.quote as Quote)?.maxWeight} lb
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base font-medium "
+                  htmlFor="total"
+                >
+                  <FontAwesomeIcon icon={faTruckMoving} className="mr-2" />
+                  Truck Type
+                </label>
+                <p className="text-base text-gray-500 font-normal">
+                  {(booking.quote as Quote)?.trailerType || "N/A"}
+                </p>
+              </div>
+              
+              <div className="flex items-center justify-between py-2">
+                <label
+                  className="block text-primary text-base font-medium "
+                  htmlFor="notes"
+                >
+                  <FontAwesomeIcon icon={faNoteSticky} className="mr-2" />
+                  Additional Notes
+                </label>
+                <p className="text-base text-gray-500 font-normal">
+                  {(booking.quote as Quote)?.notes || "N/A"}
+                </p>
+              </div>
+
+              {/* </div> */}
             </div>
           </div>
 
           {/* Carrier */}
           <div className="w-full md:w-1/3 lg:mt-24 ">
-            <div className="px-6 md:px-6 md:pt-2 w-full max-w-screen-2xl mx-auto border-b">
-              <h2 className="text-xl mb-4 text-secondary">Carrier</h2>
-              <div className="flex flex-col sm:flex-row mb-4">
-                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="carrier"
-                  >
-                    Carrier Name <span className="text-red-600">*</span>
-                  </label>
+            <div className="bg-white w-full p-6 rounded-lg shadow-lg md:px-12 md:py-10">
+            <h2 className="text-xl mb-6 text-secondary">Carrier <p className="text-base text-gray-500 font-normal">Details on Carrier and Assigned Driver</p></h2>
+              {/* <div className="flex flex-col sm:flex-row mb-4"> */}
+              <div className="w-full sm:w-full mb-4 sm:mb-0 ">
+                <label
+                  className="block text-primary text-base font-medium"
+                  htmlFor="carrier"
+                >
+                  <FontAwesomeIcon icon={faTruckFront} className="mr-2" />{" "}
+                  Carrier Name
+                </label>
+                <div className="flex gap-2 items-center ">
                   {editingField.carrier ? (
                     <input
                       type="text"
@@ -639,10 +764,15 @@ const EditLoad: React.FC = () => {
                       value={booking.carrier || ""}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
+                      placeholder="Enter carrier name..."
                     />
-                  ) : (
-                    <p className="text-gray-500 text-sm font-medium">
+                  ) : booking.carrier ? (
+                    <p className="text-base text-gray-500 font-normal my-2">
                       {booking.carrier}
+                    </p>
+                  ) : (
+                    <p className="text-red-500 text-base  font-normal">
+                      Edit Carrier Here...
                     </p>
                   )}
                   {booking.status === "Pending" && (
@@ -654,18 +784,31 @@ const EditLoad: React.FC = () => {
                           : toggleEdit("carrier")
                       }
                     >
-                      {editingField.carrier ? "Save" : "Edit Carrier"}
+                      {editingField.carrier ? (
+                        <FontAwesomeIcon
+                          icon={faFloppyDisk}
+                          className="text-primary"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="text-primary"
+                        />
+                      )}
                     </button>
                   )}
                 </div>
+              </div>
 
-                <div className="w-full sm:w-1/2 sm:pl-2">
-                  <label
-                    className="block text-primary text-base"
-                    htmlFor="driver"
-                  >
-                    Driver <span className="text-red-600">*</span>
-                  </label>
+              <div className="w-full sm:w-full mb-4 sm:mb-0">
+                <label
+                  className="block text-primary text-base font-medium"
+                  htmlFor="driver"
+                >
+                  <FontAwesomeIcon icon={faUser} className="mr-2" />
+                  Driver
+                </label>
+                <div className="flex gap-2 items-center ">
                   {editingField.driver ? (
                     <input
                       type="text"
@@ -673,10 +816,15 @@ const EditLoad: React.FC = () => {
                       value={booking.driver || ""}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
+                      placeholder="Enter driver's name..."
                     />
-                  ) : (
-                    <p className="text-gray-500 text-sm font-medium">
+                  ) : booking.driver ? (
+                    <p className="text-base text-gray-500 font-normal my-2">
                       {booking.driver}
+                    </p>
+                  ) : (
+                    <p className="text-red-500 text-base  font-normal">
+                      Edit Driver's Name Here...
                     </p>
                   )}
                   {booking.status === "Pending" && (
@@ -688,32 +836,48 @@ const EditLoad: React.FC = () => {
                           : toggleEdit("driver")
                       }
                     >
-                      {editingField.driver ? "Save" : "Edit Driver"}
+                      {editingField.driver ? (
+                        <FontAwesomeIcon
+                          icon={faFloppyDisk}
+                          className="text-primary"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="text-primary"
+                        />
+                      )}
                     </button>
                   )}
                 </div>
               </div>
+              </div>
+
+              {/* </div> */}
+              <div className="bg-white w-full p-6 rounded-lg shadow-lg md:px-12 md:py-10 my-6">
+              <h2 className="text-xl mb-4 text-secondary ">Rate <p className="text-base text-gray-500 font-normal">Cost and Distance Calculation Summary</p></h2>
 
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                   <label
-                    className="block text-primary text-sm font-bold"
+                    className="block text-primary text-base font-medium"
                     htmlFor="customerReference"
                   >
+                    <FontAwesomeIcon icon={faDollarSign} className="mr-2" />
                     Base Rate
                   </label>
-                  <p className="text-price text-base font-medium">
+                  <p className="text-base text-gray-500 font-normal my-2">
                     $ {(booking.quote as Quote)?.price || "N/A"}
                   </p>
 
                   <label
-                    className="block text-primary text-sm font-bold "
-                    htmlFor="commodity"
-                  >
-                    Distance
-                  </label>
-                  <p className="text-gray-500 text-base font-medium mb-4">
-                    {(booking.quote as Quote)?.distance || "N/A"} miles
+                  className="block text-primary text-base font-medium "
+                  htmlFor="commodity"
+                >
+                  <FontAwesomeIcon icon={faMapLocationDot} className="mr-2" />Distance (mi)
+                </label>
+                  <p className="text-base text-gray-500 font-normal my-2">
+                    {(booking.quote as Quote)?.distance || "N/A"} 
                   </p>
                 </div>
               </div>

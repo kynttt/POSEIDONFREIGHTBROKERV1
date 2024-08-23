@@ -64,9 +64,9 @@ const ShipmentDetails: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <nav className="flex-1 bg-light-grey ">
-        <div className="flex flex-col lg:flex-row justify-evenly w-full ">
-          <div className="w-full lg:w-1/2">
+      <nav className="flex-1 bg-light-grey lg:px-20">
+        <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
+          <div className="w-full lg:w-2/3">
             <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto ">
               <h1 className="text-2xl font-medium mb-4 mt-4 text-secondary">
                 Shipment Summary
