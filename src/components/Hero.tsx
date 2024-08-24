@@ -20,16 +20,18 @@ const HeroBanner: React.FC = () => {
             <h2 className="text-xl md:text-2xl font-semibold mb-2 md:mb-4">
               TRUST RATING
             </h2>
+            <div className="mx-6">
             <CircularProgressbar
               value={trustRating}
               text={`${trustRating}%`}
               strokeWidth={5} // Adjust the stroke width here
               styles={buildStyles({
                 textColor: "#fff",
-                pathColor: "#FAB440",
+                pathColor: "#C008FE",
                 trailColor: "#d6d6d6",
               })}
             />
+            </div>
             <p className="mt-2 md:mt-4 text-xs md:text-sm font-light">
               Our dedication to reliable and efficient freight solutions
               builds lasting trust with shippers and carriers, ensuring
@@ -54,7 +56,7 @@ const HeroBanner: React.FC = () => {
         </div>
       </div>
 
-      <div className="border border-purple-50 border-opacity-5 rounded-2xl absolute bottom-44 left-1/2 transform -translate-x-1/2 w-1/2 p-8 text-white z-20 bg-gray-900/50 backdrop-blur-sm ">
+      <div className="shadow-2xl border border-purple-50 border-opacity-5 rounded-2xl absolute bottom-44 left-1/2 transform -translate-x-1/2 w-1/2 p-8 text-white z-20 bg-gray-900/50 backdrop-blur-sm ">
   <FreightQuote2/>
 </div>
 

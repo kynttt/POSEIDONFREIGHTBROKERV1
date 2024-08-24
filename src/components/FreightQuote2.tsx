@@ -89,7 +89,7 @@ const FreightQuoteMini: React.FC = () => {
     <Button
       label="Request a Quote"
       size="quoteButton"
-      bgColor="#FAB440"
+      bgColor="#C008FE"
       hoverBgColor="white"
       onClick={handleTruckButtonClick}
       className="" // Add margin-top to separate from inputs if needed
