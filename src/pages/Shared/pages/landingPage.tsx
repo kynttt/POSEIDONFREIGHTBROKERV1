@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../../components/Navbar";
 import "../../../index.css"; // Ensure this file includes the @import for the Lexend font
-import HeroBanner from "../../../components/HeroBanner";
+import HeroBanner from "../../../components/Hero";
 // import Carousel from '../components/Carousel';
 import FreightQuote from "../../../components/FreightQuote";
 import AboutUs from "../../../components/about";

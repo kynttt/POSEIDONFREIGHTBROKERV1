@@ -62,9 +62,9 @@ const Navbar: React.FC = () => {
   return (
     <>
       <nav
-        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-8 "
+        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-8 border-b-4 border-gray-900"
         style={{
-          background: "linear-gradient(-180deg, #7783D2 5%, #adb4e4 79%)",
+          background: "#0d0e12",
         }}
       >
         <div className="flex justify-between items-center w-full ">
