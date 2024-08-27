@@ -37,7 +37,7 @@ export default function Stripe() {
   const mutation = useMutation<StripeClientSecret, Error, PaymentIntentParams>({
     mutationFn: createPaymentIntent,
     onSuccess: (data) => {
-      console.log("Client secret:", data.clientSecret);
+      // console.log("Client secret:", data.clientSecret);
       setClientSecret(data.clientSecret);
     },
     onError: (error) => {
@@ -72,7 +72,7 @@ export default function Stripe() {
       //   .catch((error) => {
       //     console.error("Error fetching client secret:", error);
       //   });
-      console.log("Executing mutation");
+      // console.log("Executing mutation");
       mutation.mutate({ amount: Math.round(price * 100), currency });
     } else {
       console.error("Invalid price or missing details.");
@@ -155,9 +155,9 @@ export default function Stripe() {
     );
   }
   if (isQueryLoading || (mutation.isPending && !clientSecret)) {
-    console.log(
-      `isQueryLoading: ${isQueryLoading} mutation.isPending: ${mutation.isPending}`
-    );
+    // console.log(
+    //   `isQueryLoading: ${isQueryLoading} mutation.isPending: ${mutation.isPending}`
+    // );
     return (
       <div className="flex items-center justify-center h-screen">
         <p>Loading...</p>

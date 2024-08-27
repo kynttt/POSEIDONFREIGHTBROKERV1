@@ -4,18 +4,16 @@ import ShipmentsAnalytics from "../components/ShipmentsAnalytics";
 import ShippersList from "../components/ShippersList";
 import RecentTransactions from "../components/RecentTransactions";
 import overviewData from "../data/overviewData.json";
-import shippersData from "../data/shippersData.json";
 import transactionsData from "../data/transactionsData.json";
 
 const AdminDashboard: React.FC = () => {
   const [overview] = useState(overviewData);
-  const [shippers] = useState(shippersData);
   const [transactions] = useState(transactionsData);
 
   return (
     <div className="flex h-full">
       <div className="flex-1 pt-8 lg:px-18 bg-white pb-16 text-primary overflow-y-auto">
-        <div className="container mx-auto  sm:px-6 ">
+        <div className=" mx-4 lg:mx-20  ">
           <h6 className="text-medium font-medium text-secondary">
             Hello Admin!
           </h6>
@@ -37,7 +35,7 @@ const AdminDashboard: React.FC = () => {
 
             {/* ShippersList component */}
             <div className="lg:col-span-1">
-              <ShippersList shippers={shippers} />
+              <ShippersList />
             </div>
           </div>
 

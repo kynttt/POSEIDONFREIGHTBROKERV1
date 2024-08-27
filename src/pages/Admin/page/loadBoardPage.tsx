@@ -33,7 +33,7 @@ const LoadBoard: React.FC = () => {
   const [loadCards, setLoadCards] = useState<CardProps[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredLoadCards, setFilteredLoadCards] = useState<CardProps[]>([]);
-  const [activeTab, setActiveTab] = useState<string>("Confirmed");
+  const [activeTab, setActiveTab] = useState<string>("Pending");
 
   useEffect(() => {
     const queryPickUpLocation = (
@@ -298,16 +298,7 @@ const LoadBoard: React.FC = () => {
 
         <div className="lg:mx-16 py-10 px-4 bg-light-grey rounded-lg">
           <div className="tabs flex gap-2">
-            <button
-              className={`tab ${
-                activeTab === "Confirmed"
-                  ? "active bg-primary"
-                  : "bg-secondary hover:bg-primary"
-              } py-2 px-4 rounded text-white transition-all duration-300`}
-              onClick={() => setActiveTab("Confirmed")}
-            >
-              Confirmed
-            </button>
+            
             <button
               className={`tab ${
                 activeTab === "Pending"
@@ -317,6 +308,16 @@ const LoadBoard: React.FC = () => {
               onClick={() => setActiveTab("Pending")}
             >
               Pending
+            </button>
+            <button
+              className={`tab ${
+                activeTab === "Confirmed"
+                  ? "active bg-primary"
+                  : "bg-secondary hover:bg-primary"
+              } py-2 px-4 rounded text-white transition-all duration-300`}
+              onClick={() => setActiveTab("Confirmed")}
+            >
+              Confirmed
             </button>
             <button
               className={`tab ${
