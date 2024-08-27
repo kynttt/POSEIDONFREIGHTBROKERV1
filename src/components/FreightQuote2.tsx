@@ -15,17 +15,17 @@ const FreightQuoteMini: React.FC = () => {
     threshold: 0.5,
   });
 
-  const openModal = () => {
-    // Check if all required inputs are populated
-    if (
-      pickUp.trim() !== "" &&
-      destination.trim() !== ""
-    ) {
-      setShowModal(true);
-    } else {
-      alert("Please fill in all fields before requesting a quote.");
-    }
-  };
+//   const openModal = () => {
+//     // Check if all required inputs are populated
+//     if (
+//       pickUp.trim() !== "" &&
+//       destination.trim() !== ""
+//     ) {
+//       setShowModal(true);
+//     } else {
+//       alert("Please fill in all fields before requesting a quote.");
+//     }
+//   };
 
   const closeModal = () => {
     setShowModal(false);
