@@ -24,14 +24,22 @@ import {
   faNoteSticky,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { createQuote } from "../../lib/apiCalls";
+import { createQuote, getPricePerMile, listTrucks } from "../../lib/apiCalls";
 import { calculatePrice } from "../../components/googleMap/priceCalculator";
 
 // Import truck types and sizes data
-import truckTypes from "../../components/googleMap/truckTypes.json";
-import truckSizes from "../../components/googleMap/truckSizes.json";
 import Calendar from "../../components/Calendar";
-import { Quote } from "../../utils/types";
+import {
+  GetPriceMileData,
+  GetPriceMileResponse,
+  Quote,
+  TruckCatalog,
+} from "../../utils/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { LoadingOverlay } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { AxiosError } from "axios";
+import { set } from "date-fns";
 
 const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
@@ -62,7 +70,9 @@ export default function DistanceCalculatorPage() {
   const [price, setPrice] = useState<number | null>(null); // State to hold calculated price
 
   const [pickupDate, setPickupDate] = useState("");
-  const [selectedTrailerType, setSelectedTrailerType] = useState<string>("");
+  const [selectedTrailerType, setSelectedTrailerType] = useState<
+    TruckCatalog | undefined
+  >(undefined);
   const [selectedTrailerSize, setSelectedTrailerSize] = useState<number>(0);
   const [commodity, setCommodity] = useState("");
   const [maxWeight, setMaxWeight] = useState("");
@@ -74,6 +84,70 @@ export default function DistanceCalculatorPage() {
   const [showSecondModal, setShowSecondModal] = useState(false);
   const [showThirdModal, setShowThirdModal] = useState(false);
   const [showPrice, setShowPrice] = useState(false);
+
+  const { data, isLoading, refetch, isError, error } = useQuery({
+    queryKey: ["truck-catalogs", "distance-calculator"],
+    enabled: false,
+    staleTime: undefined,
+    gcTime: undefined,
+    queryFn: listTrucks,
+  });
+
+  const mutation = useMutation<
+    GetPriceMileResponse,
+    AxiosError,
+    GetPriceMileData
+  >({
+    mutationFn: getPricePerMile,
+    onSuccess: (data) => {
+      const calculatedPrice = calculatePrice(
+        distance,
+        data.pricePerMile,
+        maxWeight
+      );
+      setPrice(calculatedPrice);
+    },
+    onError: (error) => {
+      console.error("Error fetching price data:", error.message);
+      notifications.show({
+        title: "Error",
+        message: "An error occurred while calculating the price",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (showFirstModal === true) {
+      refetch();
+    }
+  }, [showFirstModal, refetch]);
+
+  useEffect(() => {
+    if (data && data.length == 0) {
+      notifications.show({
+        title: "No Trailers Found",
+        message: "It seems there are no trailers stored in the database",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      notifications.show({
+        title: "Error",
+        message: "An error occurred while fetching truck data",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+    }
+  }, [isError]);
 
   const saveDataToSessionStorage = () => {
     const data = {
@@ -182,7 +256,7 @@ export default function DistanceCalculatorPage() {
     }
   };
 
-  const handlePackagingNumberChange = (e: { target: { value: any; }; }) => {
+  const handlePackagingNumberChange = (e: { target: { value: any } }) => {
     let value = e.target.value;
     // Convert value to a number and ensure it's not negative
     value = value < 0 ? 0 : value;
@@ -212,15 +286,14 @@ export default function DistanceCalculatorPage() {
     }
   }, [map, originLocation, destinationLocation]);
 
+  // ! HEREEEE
   useEffect(() => {
     if (distance && selectedTrailerType && selectedTrailerSize && maxWeight) {
-      const calculatedPrice = calculatePrice(
-        distance,
-        selectedTrailerType,
-        selectedTrailerSize,
-        maxWeight
-      );
-      setPrice(calculatedPrice);
+      mutation.mutate({
+        distance: parseFloat(distance.replace(/[^\d.]/g, "")),
+        trailerSize: selectedTrailerSize,
+        truckId: selectedTrailerType._id!,
+      });
     }
   }, [distance, selectedTrailerType, selectedTrailerSize, maxWeight]);
 
@@ -249,11 +322,15 @@ export default function DistanceCalculatorPage() {
       return;
     }
 
+    if (!selectedTrailerType) {
+      return;
+    }
+
     const quoteDetails: Quote = {
       origin,
       destination,
       pickupDate: new Date(pickupDate).toISOString(),
-      trailerType: selectedTrailerType,
+      trailerType: selectedTrailerType.truckType,
       trailerSize: selectedTrailerSize,
       commodity,
       maxWeight: parseInt(maxWeight),
@@ -338,142 +415,176 @@ export default function DistanceCalculatorPage() {
                       option.
                     </p>
                   </div>
-
-                  <div className="md:flex gap-4">
-                    <div className="mb-8 md:mb-0 w-full">
-                      <h3 className="text-md font-normal text-secondary mb-2">
-                        <FontAwesomeIcon
-                          icon={faMapMarkerAlt}
-                          className="mr-2 text-gray-400"
-                        />
-                        Pickup Location <span className="text-red-500">*</span>
-                      </h3>
-                      <OriginInput
-                        onLoad={onLoadA}
-                        onPlaceChanged={onPlaceChangedA}
-                      />
-                      {warnings.origin && (
-                        <p className="text-red-500 text-sm">
-                          {warnings.origin}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="mb-8 md:mb-0 lg:border-secondary w-full">
-                      <h3 className="text-md font-normal text-secondary mb-2">
-                        <FontAwesomeIcon
-                          icon={faMapMarkerAlt}
-                          className="mr-2 text-gray-400"
-                        />
-                        Drop-off Location{" "}
-                        <span className="text-red-500">*</span>
-                      </h3>
-                      <DestinationInput
-                        onLoad={onLoadB}
-                        onPlaceChanged={onPlaceChangedB}
-                      />
-                      {warnings.destination && (
-                        <p className="text-red-500 text-sm">
-                          {warnings.destination}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className=" ">
-                    <div className="w-full md:w-full mb-8 md:mb-0 ">
-                      <div className="mb-2 lg:mt-4">
+                  <div className="relative">
+                    <LoadingOverlay
+                      visible={isLoading}
+                      zIndex={1000}
+                      overlayProps={{ radius: "sm", blur: 2 }}
+                    />
+                    <div className="md:flex gap-4">
+                      <div className="mb-8 md:mb-0 w-full">
                         <h3 className="text-md font-normal text-secondary mb-2">
                           <FontAwesomeIcon
-                            icon={faTruck}
+                            icon={faMapMarkerAlt}
                             className="mr-2 text-gray-400"
                           />
-                          Trailer Type <span className="text-red-500">*</span>
+                          Pickup Location{" "}
+                          <span className="text-red-500">*</span>
                         </h3>
-                        <div className="flex justify-between gap-2">
-                          {truckTypes.map((type) => (
-                            <button
-                              key={type.type}
-                              className={` py-3 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${selectedTrailerType === type.type
-                                ? "bg-secondary text-white" // Highlight selected button
-                                : ""
-                                }`}
-                              onClick={() => setSelectedTrailerType(type.type)}
-                            >
-                              {type.type}
-                            </button>
-                          ))}
-                        </div>
-
-                        {warnings.selectedTrailerType && (
+                        <OriginInput
+                          onLoad={onLoadA}
+                          onPlaceChanged={onPlaceChangedA}
+                        />
+                        {warnings.origin && (
                           <p className="text-red-500 text-sm">
-                            {warnings.selectedTrailerType}
+                            {warnings.origin}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="mb-8 md:mb-0 lg:border-secondary w-full">
+                        <h3 className="text-md font-normal text-secondary mb-2">
+                          <FontAwesomeIcon
+                            icon={faMapMarkerAlt}
+                            className="mr-2 text-gray-400"
+                          />
+                          Drop-off Location{" "}
+                          <span className="text-red-500">*</span>
+                        </h3>
+                        <DestinationInput
+                          onLoad={onLoadB}
+                          onPlaceChanged={onPlaceChangedB}
+                        />
+                        {warnings.destination && (
+                          <p className="text-red-500 text-sm">
+                            {warnings.destination}
                           </p>
                         )}
                       </div>
                     </div>
 
-                    <div className="w-full md:w-1/2 ">
-                      <div className="mb-4 lg:mt-4">
-                        <h3 className="text-md font-normal text-secondary my-2">
-                          Size (ft) <span className="text-red-500">*</span>
-                        </h3>
-                        <div className="flex  gap-2">
-                          {truckSizes.map((size) => (
-                            <button
-                              key={size}
-                              className={` py-3 bg-grey rounded-lg w-full lg:w-full text-black font-normal ${selectedTrailerSize === size
-                                ? "bg-secondary text-white"
-                                : ""
-                                } ${size === 48 &&
+                    <div className=" ">
+                      <div className="w-full md:w-full mb-8 md:mb-0 ">
+                        <div className="mb-2 lg:mt-4">
+                          <h3 className="text-md font-normal text-secondary mb-2">
+                            <FontAwesomeIcon
+                              icon={faTruck}
+                              className="mr-2 text-gray-400"
+                            />
+                            Trailer Type <span className="text-red-500">*</span>
+                          </h3>
+                          <div className="flex justify-between gap-2">
+                            {[...(data || [])].map((type) => (
+                              <button
+                                key={type._id}
+                                className={` py-3 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
+                                  selectedTrailerType === type
+                                    ? "bg-secondary text-white" // Highlight selected button
+                                    : ""
+                                }`}
+                                onClick={() => setSelectedTrailerType(type)}
+                              >
+                                {type.truckType}
+                              </button>
+                            ))}
+                          </div>
+
+                          {warnings.selectedTrailerType && (
+                            <p className="text-red-500 text-sm">
+                              {warnings.selectedTrailerType}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="w-full md:w-1/2 ">
+                        <div className="mb-4 lg:mt-4">
+                          <h3 className="text-md font-normal text-secondary my-2">
+                            Size (ft) <span className="text-red-500">*</span>
+                          </h3>
+                          <div className="flex  gap-2">
+                            {selectedTrailerType &&
+                              selectedTrailerType.sizes.map((size) => (
+                                <button
+                                  key={size.size}
+                                  className={` py-3 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
+                                    selectedTrailerSize === size.size
+                                      ? "bg-secondary text-white" // Highlight selected button
+                                      : ""
+                                  }`}
+                                  onClick={() =>
+                                    setSelectedTrailerSize(size.size)
+                                  }
+                                >
+                                  {size.size}
+                                </button>
+                              ))}
+                            {!selectedTrailerType && (
+                              <p className="text-red-500 text-sm">
+                                Please select a trailer type first
+                              </p>
+                            )}
+                            {/* {truckSizes.map((size) => (
+                              <button
+                                key={size}
+                                className={` py-3 bg-grey rounded-lg w-full lg:w-full text-black font-normal ${
+                                  selectedTrailerSize === size
+                                    ? "bg-secondary text-white"
+                                    : ""
+                                } ${
+                                  size === 48 &&
                                   (selectedTrailerType === "Dry Van" ||
                                     selectedTrailerType === "Refrigerated")
-                                  ? "opacity-50 cursor-not-allowed"
-                                  : ""
+                                    ? "opacity-50 cursor-not-allowed"
+                                    : ""
                                 }`}
-                              onClick={() => setSelectedTrailerSize(size)}
-                              disabled={
-                                size === 48 &&
-                                (selectedTrailerType === "Dry Van" ||
-                                  selectedTrailerType === "Refrigerated")
-                              }
-                            >
-                              {size}
-                              {size === 48 &&
-                                (selectedTrailerType === "Dry Van" ||
-                                  selectedTrailerType === "Refrigerated") && (
-                                  <span className="ml-2 text-red-500">🚫</span> // Sign added here
-                                )}
-                            </button>
-                          ))}
-                        </div>
+                                onClick={() => setSelectedTrailerSize(size)}
+                                disabled={
+                                  size === 48 &&
+                                  (selectedTrailerType === "Dry Van" ||
+                                    selectedTrailerType === "Refrigerated")
+                                }
+                              >
+                                {size}
+                                {size === 48 &&
+                                  (selectedTrailerType === "Dry Van" ||
+                                    selectedTrailerType === "Refrigerated") && (
+                                    <span className="ml-2 text-red-500">
+                                      🚫
+                                    </span> // Sign added here
+                                  )}
+                              </button>
+                            ))} */}
+                          </div>
 
-                        {warnings.selectedTrailerSize && (
-                          <p className="text-red-500 text-sm">
-                            {warnings.selectedTrailerSize}
-                          </p>
-                        )}
+                          {warnings.selectedTrailerSize && (
+                            <p className="text-red-500 text-sm">
+                              {warnings.selectedTrailerSize}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex justify-end">
-                    <button
-                      className={` py-3 px-2  rounded text-white 
-    ${!origin || !destination || !selectedTrailerType || !selectedTrailerSize
-                          ? "bg-gray-400 cursor-not-allowed w-1/3"
-                          : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
-                        }`}
-                      onClick={handleConfirmFirstModal}
-                      disabled={
-                        !origin ||
-                        !destination ||
-                        !selectedTrailerType ||
-                        !selectedTrailerSize
-                      }
-                    >
-                      Next . . .
-                    </button>
+                    <div className="flex justify-end">
+                      <button
+                        className={` py-3 px-2  rounded text-white 
+    ${
+      !origin || !destination || !selectedTrailerType || !selectedTrailerSize
+        ? "bg-gray-400 cursor-not-allowed w-1/3"
+        : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
+    }`}
+                        onClick={handleConfirmFirstModal}
+                        disabled={
+                          !origin ||
+                          !destination ||
+                          !selectedTrailerType ||
+                          !selectedTrailerSize
+                        }
+                      >
+                        Next . . .
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -524,7 +635,8 @@ export default function DistanceCalculatorPage() {
                         icon={faWeight}
                         className="mr-2 text-gray-400"
                       />
-                      Maximum Weight (lbs) <span className="text-red-500">*</span>
+                      Maximum Weight (lbs){" "}
+                      <span className="text-red-500">*</span>
                     </h3>
                     <input
                       type="number"
@@ -576,7 +688,9 @@ export default function DistanceCalculatorPage() {
                           setSelectedPackagingType(e.target.value)
                         }
                       >
-                        <option className="text-gray-400" value="">Select packaging type</option>
+                        <option className="text-gray-400" value="">
+                          Select packaging type
+                        </option>
                         <option value="Carton">Carton</option>
                         <option value="Floor">Floor</option>
                         <option value="Loose">Loose</option>
@@ -596,10 +710,11 @@ export default function DistanceCalculatorPage() {
                   <div className="flex justify-end">
                     <button
                       className={`mt-4 py-3 px-4 rounded text-white 
-    ${!commodity || !maxWeight || !packagingNumber || !selectedPackagingType
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-primary hover:bg-secondary cursor-pointer"
-                        }`}
+    ${
+      !commodity || !maxWeight || !packagingNumber || !selectedPackagingType
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-primary hover:bg-secondary cursor-pointer"
+    }`}
                       onClick={handleConfirmSecondModal}
                       disabled={
                         !commodity ||
@@ -675,10 +790,11 @@ export default function DistanceCalculatorPage() {
                   <div className="flex justify-end">
                     <button
                       className={`mt-4 py-3 px-4 rounded text-white 
-    ${!companyName
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-primary hover:bg-secondary cursor-pointer"
-                        }`}
+    ${
+      !companyName
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-primary hover:bg-secondary cursor-pointer"
+    }`}
                       onClick={handleConfirmThirdModal}
                       disabled={!companyName}
                     >
@@ -697,16 +813,22 @@ export default function DistanceCalculatorPage() {
             <div className="border border-secondary p-4 md:p-8 bg-white h-auto w-full md:w-1/2 lg:w-1/4 rounded-lg shadow-xl md:mt-0 xs:mt-4">
               {showPrice ? (
                 <div>
-                  <h1 className="text-primary text-lg md:text-xl">Your Quote is Ready!</h1>
+                  <h1 className="text-primary text-lg md:text-xl">
+                    Your Quote is Ready!
+                  </h1>
                   <p className="text-gray-500 text-sm md:text-base font-normal mb-4 md:mb-8">
-                    Your price has been calculated. You can now review your details and proceed to payment.
+                    Your price has been calculated. You can now review your
+                    details and proceed to payment.
                   </p>
                 </div>
               ) : (
                 <div>
-                  <h1 className="text-primary text-lg md:text-xl">Complete Your Details</h1>
+                  <h1 className="text-primary text-lg md:text-xl">
+                    Complete Your Details
+                  </h1>
                   <p className="text-gray-500 text-sm md:text-base font-normal mb-4 md:mb-8">
-                    Please fill out all required information so we can calculate the distance and price for your shipment.
+                    Please fill out all required information so we can calculate
+                    the distance and price for your shipment.
                   </p>
                 </div>
               )}
@@ -735,12 +857,21 @@ export default function DistanceCalculatorPage() {
                   />{" "}
                   Price
                 </div>
+                {mutation.isPending && (
+                  <div className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg">
+                    Calculating price...
+                  </div>
+                )}
                 {showPrice && (
                   <div
                     className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
                     style={{ height: "60px" }}
                   >
-                    {price !== null ? `$ ${price.toFixed(2)}` : <span>&nbsp;</span>}
+                    {price !== null ? (
+                      `$ ${price.toFixed(2)}`
+                    ) : (
+                      <span>&nbsp;</span>
+                    )}
                   </div>
                 )}
               </div>
@@ -756,7 +887,6 @@ export default function DistanceCalculatorPage() {
                 />
               )}
             </div>
-
           </div>
         </div>
       </div>

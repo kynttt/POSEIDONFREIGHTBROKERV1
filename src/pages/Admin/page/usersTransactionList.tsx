@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchUserBookingById } from '../../../lib/apiCalls'; // Import the API function
-import Pagination from '../../../components/pagination'; // Import Pagination component
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { fetchUserBookingById } from "../../../lib/apiCalls"; // Import the API function
+import Pagination from "../../../components/pagination"; // Import Pagination component
 
 interface Transaction {
   id: string;
@@ -30,7 +30,7 @@ const UserTransactionsList: React.FC = () => {
           const data = await fetchUserBookingById(id); // Fetch transactions based on user ID
           setTransactions(data);
         } catch (error) {
-          console.error('Error fetching transactions:', error);
+          console.error("Error fetching transactions:", error);
         } finally {
           setLoading(false);
         }
@@ -87,17 +87,37 @@ const UserTransactionsList: React.FC = () => {
               </thead>
               <tbody>
                 {displayedTransactions.map((transaction) => (
-                  <tr className='border-b-2' key={transaction.id}>
-                    <td className="px-4 py-2 text-secondary font-normal">{transaction.id}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">{transaction.origin}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">{transaction.destination}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">${transaction.price}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">{new Date(transaction.pickupDate).toLocaleDateString()}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">{new Date(transaction.deliveryDate).toLocaleDateString()}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">{renderNoData(transaction.pickupTime)}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">{renderNoData(transaction.deliveryTime)}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">{renderNoData(transaction.carrier)}</td>
-                    <td className="px-4 py-2 text-secondary font-normal">{renderNoData(transaction.status)}</td>
+                  <tr className="border-b-2" key={transaction.id}>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {transaction.id}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {transaction.origin}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {transaction.destination}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      ${transaction.price}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {new Date(transaction.pickupDate).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {new Date(transaction.deliveryDate).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {renderNoData(transaction.pickupTime)}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {renderNoData(transaction.deliveryTime)}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {renderNoData(transaction.carrier)}
+                    </td>
+                    <td className="px-4 py-2 text-secondary font-normal">
+                      {renderNoData(transaction.status)}
+                    </td>
                   </tr>
                 ))}
               </tbody>

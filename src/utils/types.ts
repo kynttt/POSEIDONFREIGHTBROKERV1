@@ -116,3 +116,12 @@ export interface PriceError {
   errors: string[];
   invalidIndices: Record<number, number[]>;
 }
+
+export interface GetPriceMileData {
+  truckId: string;
+  distance: number;
+  trailerSize: number;
+}
+export interface GetPriceMileResponse {
+  pricePerMile: number;
+}

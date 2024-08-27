@@ -3,6 +3,8 @@ import axiosInstance from "./axiosInstance";
 import {
   Booking,
   BookingData,
+  GetPriceMileData,
+  GetPriceMileResponse,
   Invoice,
   LoginResponse,
   LogoutResponse,
@@ -27,18 +29,16 @@ export const getUser = async () => {
   };
 };
 
-
 // Get All Users
 export const fetchUsers = async () => {
   try {
     const response = await axiosInstance.get(`/users/`);
     return response.data; // Adjust based on your actual data structure
   } catch (error) {
-    console.error('Error fetching shippers:', error);
+    console.error("Error fetching shippers:", error);
     throw error;
   }
 };
-
 
 // Login
 export const loginUser = async (
@@ -238,16 +238,14 @@ export const fetchUserBookings = async () => {
   return response.data;
 };
 
-
-
 export const fetchUserBookingById = async (id: string) => {
   if (!id) {
-    throw new Error('No user ID provided');
+    throw new Error("No user ID provided");
   }
 
   try {
     const response = await axiosInstance.get(`/bookings/user/${id}`);
-    
+
     // Check if response is successful
     if (response.status === 200) {
       // Map the response data to match the expected structure
@@ -268,12 +266,10 @@ export const fetchUserBookingById = async (id: string) => {
     }
   } catch (error) {
     // Handle errors from the API call or other unexpected issues
-    console.error('Error fetching user bookings:', error);
-    throw new Error('Failed to fetch user bookings');
+    console.error("Error fetching user bookings:", error);
+    throw new Error("Failed to fetch user bookings");
   }
 };
-
-
 
 export const createPaymentIntent = async ({
   amount,
@@ -297,9 +293,7 @@ export const createPaymentIntent = async ({
 
 // Fetch all bookings
 export const fetchBookings = async () => {
-  const response = await axiosInstance.get(
-    `/bookings/`
-  );
+  const response = await axiosInstance.get(`/bookings/`);
 
   return response.data as Booking[];
 };
@@ -415,4 +409,25 @@ export const updateTruck = async (truck: TruckCatalog) => {
   const response = await axiosInstance.put(`/trucks/${truck._id!}`, truck);
 
   return response.data as TruckCatalog;
+};
+
+export const getPricePerMile = async ({
+  truckId,
+  distance,
+  trailerSize,
+}: GetPriceMileData) => {
+  const response = await axiosInstance.post(
+    `/trucks/${truckId}/price-per-mile`,
+    {
+      distance,
+      trailerSize,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return response.data as GetPriceMileResponse;
 };
