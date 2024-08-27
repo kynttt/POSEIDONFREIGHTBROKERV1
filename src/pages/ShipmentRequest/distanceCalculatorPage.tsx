@@ -1,4 +1,6 @@
 import { Libraries } from "@react-google-maps/api";
+import { useAuthStore } from "../../state/useAuthStore";
+
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
@@ -32,13 +34,45 @@ import truckTypes from "../../components/googleMap/truckTypes.json";
 import truckSizes from "../../components/googleMap/truckSizes.json";
 import Calendar from "../../components/Calendar";
 import { Quote } from "../../utils/types";
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css"; // Import the driver.js CSS
 
 const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
 
 export default function DistanceCalculatorPage() {
+  const { role } = useAuthStore();
+  const [isTourStarted, setIsTourStarted] = useState(false);
   // };
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if (!isTourStarted && role === "user") {
+      setIsTourStarted(true);
+
+      const driverObj = driver({
+        showProgress: true,
+        steps: [
+          {
+            element: "#calendar",
+            popover: {
+              title: "Pick a Date",
+              description:
+                "Select a date for the pickup of your shipment. Ensure it aligns with your desired schedule.",
+              side: "right",
+              align: "start",
+            },
+          },
+          
+          // Add more steps if needed
+        ],
+      });
+
+      // Start the tour
+      driverObj.drive();
+    }
+  }, [isTourStarted, role]); // Only run once when the component mounts
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: googleMapsApiKey,
@@ -309,6 +343,7 @@ export default function DistanceCalculatorPage() {
               
             </div> */}
             <Calendar
+            id="calendar"
               value={pickupDate}
               onChange={(date) => {
                 setPickupDate(date);
