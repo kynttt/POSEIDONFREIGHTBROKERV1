@@ -483,7 +483,7 @@ export default function DistanceCalculatorPage() {
                             {[...(data || [])].map((type) => (
                               <button
                                 key={type._id}
-                                className={` py-3 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
+                                className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
                                   selectedTrailerType === type
                                     ? "bg-secondary text-white" // Highlight selected button
                                     : ""
@@ -513,7 +513,7 @@ export default function DistanceCalculatorPage() {
                               selectedTrailerType.sizes.map((size) => (
                                 <button
                                   key={size.size}
-                                  className={` py-3 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
+                                  className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
                                     selectedTrailerSize === size.size
                                       ? "bg-secondary text-white" // Highlight selected button
                                       : ""

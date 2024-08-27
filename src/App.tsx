@@ -189,9 +189,9 @@ const App: React.FC = () => {
                 <Route path="legal-page" element={<LegalPage />} />
                 <Route path="profile" element={<ShipperProfilePage />} />
                 <Route
-  path="user-transaction/:id"
-  element={<PrivateRoute element={<UserTransactionsList />} />}
-/>
+                  path="user-transaction/:id"
+                  element={<PrivateRoute element={<UserTransactionsList />} />}
+                />
 
                 <Route
                   path="trailer-options"

@@ -42,7 +42,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
     }
 
     if (!isAuthenticated) {
-      console.log(location.pathname);
+      // console.log(location.pathname);
       if (!isSetupComplete) {
         notifications.show({
           color: "red",
