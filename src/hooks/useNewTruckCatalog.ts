@@ -11,9 +11,11 @@ interface TruckState {
     pricingIndex: number,
     updatedPricing: Pricing
   ) => void;
+  addTruckSize: (size: number) => void;
   resetTruckCatalog: () => void;
   addPricingFresh: (sizeSelected: number) => void;
   removePricing: (sizeIndex: number, pricingIndex: number) => void;
+  removeSize: (sizeIndex: number) => void;
 }
 
 export const useNewTruckCatalog = create<TruckState>((set) => ({
@@ -43,7 +45,23 @@ export const useNewTruckCatalog = create<TruckState>((set) => ({
       }
       return state;
     }),
+  addTruckSize: (size) =>
+    set((state) => {
+      if (state.truckCatalog) {
+        const updatedSizes = [
+          ...state.truckCatalog.sizes,
+          { size, pricing: [] },
+        ];
 
+        return {
+          truckCatalog: {
+            ...state.truckCatalog,
+            sizes: updatedSizes,
+          },
+        };
+      }
+      return state;
+    }),
   updatePricing: (sizeIndex, pricingIndex, updatedPricing) =>
     set((state) => {
       if (state.truckCatalog && state.truckCatalog.sizes[sizeIndex]) {
@@ -89,6 +107,22 @@ export const useNewTruckCatalog = create<TruckState>((set) => ({
       if (state.truckCatalog && state.truckCatalog.sizes[sizeIndex]) {
         const updatedSizes = [...state.truckCatalog.sizes];
         updatedSizes[sizeIndex].pricing.splice(pricingIndex, 1);
+
+        return {
+          truckCatalog: {
+            ...state.truckCatalog,
+            sizes: updatedSizes,
+          },
+        };
+      }
+      return state;
+    }),
+
+  removeSize: (sizeIndex) =>
+    set((state) => {
+      if (state.truckCatalog) {
+        const updatedSizes = [...state.truckCatalog.sizes];
+        updatedSizes.splice(sizeIndex, 1);
 
         return {
           truckCatalog: {

@@ -1,4 +1,9 @@
-import { faAdd, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAdd,
+  faClose,
+  faEdit,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DataTable } from "mantine-datatable";
 import {
@@ -19,6 +24,7 @@ import {
   Badge,
   ActionIcon,
   Box,
+  Popover,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
@@ -179,9 +185,15 @@ function EditTruckCatalog({
 }) {
   const setCatalog = useNewTruckCatalog((state) => state.setCatalog);
   const truckCatalog = useNewTruckCatalog((state) => state.truckCatalog);
+
   const resetState = useNewTruckCatalog((state) => state.resetTruckCatalog);
 
   const sizes = useNewTruckCatalog((state) => state.truckCatalog?.sizes || []);
+  const removeSize = useNewTruckCatalog((state) => state.removeSize);
+  const addTruckSize = useNewTruckCatalog((state) => state.addTruckSize);
+  const [newSize, setNewSize] = useState<number | undefined>(undefined);
+  const [opened, setOpened] = useState(false);
+
   const [invalidIndices, setInvalidIndices] = useState<
     Record<number, number[]>
   >({});
@@ -215,7 +227,7 @@ function EditTruckCatalog({
     };
   }, [truckCatalogCache, resetState, setCatalog]);
 
-  const handleNext = () => {
+  const handleSave = () => {
     const { errors, invalidIndices } = validatePricing({ sizes });
     setErrors(errors); // Save errors
     setInvalidIndices(invalidIndices); // Save invalid indices to state
@@ -231,10 +243,77 @@ function EditTruckCatalog({
       });
     }
   };
+  const handleRemoveSize = (index: number) => {
+    removeSize(index);
+  };
+
+  const handleAddSize = () => {
+    if (newSize !== undefined) {
+      addTruckSize(newSize);
+      setNewSize(undefined);
+      setOpened(false);
+    }
+  };
+
   return (
-    <TruckPricesForm priceError={{ invalidIndices, errors }}>
-      <Button onClick={handleNext}>Save</Button>
-    </TruckPricesForm>
+    <Stack>
+      <Group gap={5}>
+        {sizes.map((size, index) => (
+          <Badge
+            key={index}
+            size="lg"
+            variant="outline"
+            rightSection={
+              <ActionIcon
+                variant="transparent"
+                size="xs"
+                onClick={() => handleRemoveSize(index)}
+              >
+                <FontAwesomeIcon icon={faClose} />
+              </ActionIcon>
+            }
+          >
+            {size.size}
+          </Badge>
+        ))}
+        <Popover
+          width={200}
+          position="bottom"
+          withArrow
+          shadow="md"
+          opened={opened}
+          onChange={setOpened}
+        >
+          <Popover.Target>
+            <Button
+              size="xs"
+              radius="lg"
+              leftSection={<FontAwesomeIcon icon={faAdd} />}
+              onClick={() => setOpened((o) => !o)}
+            >
+              New Size
+            </Button>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Group>
+              <NumberInput
+                label="Size"
+                placeholder="What is the size?"
+                value={newSize}
+                onChange={(value) => setNewSize(Number(value))}
+                required
+              />
+              <Button fullWidth onClick={handleAddSize}>
+                Add
+              </Button>
+            </Group>
+          </Popover.Dropdown>
+        </Popover>
+      </Group>
+      <TruckPricesForm priceError={{ invalidIndices, errors }}>
+        <Button onClick={handleSave}>Save</Button>
+      </TruckPricesForm>
+    </Stack>
   );
 }
 
