@@ -44,8 +44,9 @@ interface FormState {
 
 const convertTo24HourFormat = (time12h: string): string => {
   const [time, modifier] = time12h.split(" ");
-  let [hours, minutes] = time.split(":").map(Number);
-
+  const timeMap = time.split(":").map(Number);
+  let hours = timeMap[0];
+  const minutes = timeMap[1];
   if (modifier === "PM" && hours !== 12) {
     hours += 12;
   }

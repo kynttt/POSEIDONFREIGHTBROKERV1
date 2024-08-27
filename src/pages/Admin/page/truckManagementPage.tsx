@@ -24,7 +24,7 @@ import {
   ActionIcon,
   Box,
   Popover,
-  NativeSelect,
+  Select,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
@@ -359,7 +359,9 @@ function CreateTruckStep1({ onNext }: { onNext: () => void }) {
   const addTruckCatalogName = useNewTruckCatalog(
     (state) => state.addTruckCatalogName
   );
-
+  const truckCatalogName = useNewTruckCatalog(
+    (state) => state.truckCatalog?.truckType || undefined
+  );
   const addTruckSizes = useNewTruckCatalog((state) => state.addTruckSizes);
   const hasTruckCatalog = useNewTruckCatalog(
     (state) => !!state.truckCatalog && !!state.truckCatalog.truckType
@@ -387,11 +389,17 @@ function CreateTruckStep1({ onNext }: { onNext: () => void }) {
         value={truckCatalogName}
         onChange={(event) => addTruckCatalogName(event.currentTarget.value)}
       /> */}
-      <NativeSelect
+      <Select
         label="Trailer Type"
-        description="Select your desired trailer type"
+        placeholder="Select your desired trailer type"
+        value={truckCatalogName}
         data={trailerTypes}
-        onChange={(event) => addTruckCatalogName(event.currentTarget.value)}
+        required
+        onChange={(value) => {
+          if (value) {
+            addTruckCatalogName(value);
+          }
+        }}
       />
       <TagsInput
         splitChars={[",", " ", "|"]}
