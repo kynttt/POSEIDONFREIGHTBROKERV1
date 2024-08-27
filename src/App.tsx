@@ -25,6 +25,7 @@ import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
 import { Notifications } from "@mantine/notifications";
 
 import "@mantine/core/styles.css";
+import "mantine-datatable/styles.layer.css";
 import "@mantine/notifications/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
@@ -45,6 +46,8 @@ import BrokerShipperAgreement from "./pages/Shared/pages/BrokerShipperAgreement"
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./lib/queryClient";
+import ManagementShellPage from "./pages/Admin/page/managementShellPage";
+import TruckManagementPage from "./pages/Admin/page/truckManagementPage";
 import UserTransactionsList from "./pages/Admin/page/usersTransactionList";
 const theme = createTheme({
   primaryColor: "brand",
@@ -83,7 +86,10 @@ const App: React.FC = () => {
               <Route path="/" element={<LandingPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/terms-and-agreement" element={<BrokerShipperAgreement />} />
+              <Route
+                path="/terms-and-agreement"
+                element={<BrokerShipperAgreement />}
+              />
               {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
               {/* Shipper User Routes */}
               <Route
@@ -95,70 +101,31 @@ const App: React.FC = () => {
                   />
                 }
               >
-                <Route
-                  index
-                  element={
-                    <PrivateRoute
-                      element={<ShipperDashboardPage />}
-                      roles={["user"]}
-                    />
-                  }
-                />
+                <Route index element={<ShipperDashboardPage />} />
                 <Route
                   path="shipper-dashboard"
-                  element={
-                    <PrivateRoute
-                      element={<ShipperDashboardPage />}
-                      roles={["user"]}
-                    />
-                  }
+                  element={<ShipperDashboardPage />}
                 />
                 <Route
                   path="user-payables"
-                  element={
-                    <PrivateRoute
-                      element={<ShipperUserPayablesPage />}
-                      roles={["user"]}
-                    />
-                  }
+                  element={<ShipperUserPayablesPage />}
                 />
                 <Route
                   path="performance-grade"
-                  element={
-                    <PrivateRoute
-                      element={<PerformanceOverview />}
-                      roles={["user"]}
-                    />
-                  }
+                  element={<PerformanceOverview />}
                 />
                 <Route
                   path="shipmentDetails/:id"
-                  element={
-                    <PrivateRoute
-                      element={<ShipmentDetails />}
-                      roles={["user"]}
-                    />
-                  }
+                  element={<ShipmentDetails />}
                 />
 
-                <Route
-                  path="profile"
-                  element={
-                    <PrivateRoute
-                      element={<ShipperProfilePage />}
-                      roles={["user"]}
-                    />
-                  }
-                />
+                <Route path="profile" element={<ShipperProfilePage />} />
                 <Route
                   path="trailer-options"
-                  element={<PrivateRoute element={<TrailerOptionsPage />} />}
+                  element={<TrailerOptionsPage />}
                 />
 
-                <Route
-                  path="payment-option"
-                  element={<PrivateRoute element={<PaymentOptionPage />} />}
-                />
+                <Route path="payment-option" element={<PaymentOptionPage />} />
               </Route>
 
               {/* ==== END Shipper User Route=== */}
@@ -216,90 +183,38 @@ const App: React.FC = () => {
                   />
                 }
               >
+                <Route index element={<AdminDashboard />} />
+
+                <Route path="admin-dashboard" element={<AdminDashboard />} />
+                <Route path="legal-page" element={<LegalPage />} />
+                <Route path="profile" element={<ShipperProfilePage />} />
                 <Route
-                  index
-                  element={
-                    <PrivateRoute
-                      element={<AdminDashboard />}
-                      roles={["admin"]}
-                    />
-                  }
+                  path="user-transaction/:id"
+                  element={<PrivateRoute element={<UserTransactionsList />} />}
                 />
-                <Route
-                  path="admin-dashboard"
-                  element={
-                    <PrivateRoute
-                      element={<AdminDashboard />}
-                      roles={["admin"]}
-                    />
-                  }
-                />
-                <Route
-                  path="legal-page"
-                  element={
-                    <PrivateRoute element={<LegalPage />} roles={["admin"]} />
-                  }
-                />
-                <Route
-                  path="profile"
-                  element={<PrivateRoute element={<ShipperProfilePage />} />}
-                />
-                <Route
-  path="user-transaction/:id"
-  element={<PrivateRoute element={<UserTransactionsList />} />}
-/>
 
                 <Route
                   path="trailer-options"
-                  element={<PrivateRoute element={<TrailerOptionsPage />} />}
+                  element={<TrailerOptionsPage />}
                 />
-                <Route
-                  path="bill-lading"
-                  element={
-                    <PrivateRoute
-                      element={<BillOfLadingPage />}
-                      roles={["admin"]}
-                    />
-                  }
-                />
+                <Route path="management" element={<ManagementShellPage />}>
+                  <Route index element={<TruckManagementPage />} />
+                  <Route
+                    path="truck-catalog"
+                    element={<TruckManagementPage />}
+                  />
+                </Route>
+                <Route path="bill-lading" element={<BillOfLadingPage />} />
                 <Route
                   path="accounting-payment"
-                  element={
-                    <PrivateRoute
-                      element={<AccountingPayment />}
-                      roles={["admin"]}
-                    />
-                  }
+                  element={<AccountingPayment />}
                 />
-                <Route
-                  path="editBooking/:id"
-                  element={
-                    <PrivateRoute element={<EditLoad />} roles={["admin"]} />
-                  }
-                />
-                <Route
-                  path="load-board"
-                  element={
-                    <PrivateRoute element={<LoadBoard />} roles={["admin"]} />
-                  }
-                />
-                <Route
-                  path="report-details"
-                  element={
-                    <PrivateRoute
-                      element={<ReportDetails />}
-                      roles={["admin"]}
-                    />
-                  }
-                />
+                <Route path="editBooking/:id" element={<EditLoad />} />
+                <Route path="load-board" element={<LoadBoard />} />
+                <Route path="report-details" element={<ReportDetails />} />
                 <Route
                   path="accounting-report"
-                  element={
-                    <PrivateRoute
-                      element={<AccountingReports />}
-                      roles={["admin"]}
-                    />
-                  }
+                  element={<AccountingReports />}
                 />
               </Route>
               {/* ==END ADMIN=== */}
