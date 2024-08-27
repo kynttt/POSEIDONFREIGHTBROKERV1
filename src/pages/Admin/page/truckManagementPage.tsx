@@ -12,7 +12,6 @@ import {
   Fieldset,
   Flex,
   Group,
-  Input,
   Modal,
   NumberInput,
   ScrollArea,
@@ -25,6 +24,7 @@ import {
   ActionIcon,
   Box,
   Popover,
+  NativeSelect,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
@@ -41,6 +41,7 @@ import { notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
 import queryClient from "../../../lib/queryClient";
 import { validatePricing } from "../../../utils/helpers";
+import { trailerTypes } from "../../../components/googleMap/priceCalculator";
 
 export default function TruckManagementPage() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -358,9 +359,7 @@ function CreateTruckStep1({ onNext }: { onNext: () => void }) {
   const addTruckCatalogName = useNewTruckCatalog(
     (state) => state.addTruckCatalogName
   );
-  const truckCatalogName = useNewTruckCatalog(
-    (state) => state.truckCatalog?.truckType || ""
-  );
+
   const addTruckSizes = useNewTruckCatalog((state) => state.addTruckSizes);
   const hasTruckCatalog = useNewTruckCatalog(
     (state) => !!state.truckCatalog && !!state.truckCatalog.truckType
@@ -383,9 +382,15 @@ function CreateTruckStep1({ onNext }: { onNext: () => void }) {
 
   return (
     <Stack>
-      <Input
+      {/* <Input
         placeholder="Truck Catalog"
         value={truckCatalogName}
+        onChange={(event) => addTruckCatalogName(event.currentTarget.value)}
+      /> */}
+      <NativeSelect
+        label="Trailer Type"
+        description="Select your desired trailer type"
+        data={trailerTypes}
         onChange={(event) => addTruckCatalogName(event.currentTarget.value)}
       />
       <TagsInput

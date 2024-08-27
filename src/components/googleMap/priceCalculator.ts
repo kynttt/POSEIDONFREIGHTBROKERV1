@@ -2,6 +2,7 @@
 
 // type TrailerType = "Dry Van" | "Refrigerated" | "Flatbed" | "Stepdeck";
 
+export const trailerTypes = ["Dry Van", "Refrigerated", "Flatbed", "Stepdeck"];
 export const calculatePrice = (
   distance: string,
   pricePerMile: number,
