@@ -73,7 +73,7 @@ const FreightQuoteMini: React.FC = () => {
       placeholder="Pick Up"
       value={pickUp}
       onChange={handlePickUpChange}
-      className="text-white border border-[#252F70] rounded px-4 py-2 bg-transparent w-full font-normal"
+      className="text-white border border-white border-opacity-10 rounded px-4 py-2 bg-transparent w-full font-normal"
     />
   </div>
   <div>
@@ -82,17 +82,17 @@ const FreightQuoteMini: React.FC = () => {
       placeholder="Destination"
       value={destination}
       onChange={handleDestinationChange}
-      className="border border-[#252F70] rounded px-4 py-2 bg-transparent w-full text-white font-normal"
+      className="border border-white border-opacity-10 rounded px-4 py-2 bg-transparent w-full text-white font-normal"
     />
   </div>
   <div>
     <Button
       label="Request a Quote"
       size="quoteButton"
-      bgColor="#C008FE"
+      bgColor="#7783D2"
       hoverBgColor="white"
       onClick={handleTruckButtonClick}
-      className="" // Add margin-top to separate from inputs if needed
+      className="w-full" // Add margin-top to separate from inputs if needed
       type={""}
     />
   </div>

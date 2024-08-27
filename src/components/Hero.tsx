@@ -15,7 +15,7 @@ const HeroBanner: React.FC = () => {
       />
 
       <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-3 gap-4 text-white p-8 z-10">
-        <div className="lg:mt-28 w-1/2 h-1/3 mx-auto text-white flex items-center justify-center">
+        <div className="lg:mt-28 w-2/5 h-1/3 mx-auto text-white flex items-center justify-center">
           <div className="p-4 md:p-6 text-center bg-accentBg rounded-2xl shadow-2xl">
             <h2 className="text-xl md:text-2xl font-semibold mb-2 md:mb-4">
               TRUST RATING
@@ -27,7 +27,7 @@ const HeroBanner: React.FC = () => {
               strokeWidth={5} // Adjust the stroke width here
               styles={buildStyles({
                 textColor: "#fff",
-                pathColor: "#C008FE",
+                pathColor: "#7783D2",
                 trailColor: "#d6d6d6",
               })}
             />
@@ -56,7 +56,7 @@ const HeroBanner: React.FC = () => {
         </div>
       </div>
 
-      <div className="shadow-2xl border border-purple-50 border-opacity-5 rounded-2xl absolute bottom-44 left-1/2 transform -translate-x-1/2 w-1/2 p-8 text-white z-20 bg-gray-900/50 backdrop-blur-sm ">
+      <div className="shadow-2xl w-3/5 border border-purple-50 border-opacity-5 rounded-2xl absolute bottom-44 left-1/2 transform -translate-x-1/2 w-1/2 py-12 px-20 text-white z-20 bg-gray-900/50 backdrop-blur-sm ">
   <FreightQuote2/>
 </div>
 
