@@ -39,7 +39,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { LoadingOverlay } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
-import { set } from "date-fns";
 
 const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
