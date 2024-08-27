@@ -47,57 +47,63 @@ export default function Sidebar({
   };
 
   useEffect(() => {
-    if (!isTourStarted && role === "user") {
-      setIsTourStarted(true);
-
-      const driverObj = driver({
-        showProgress: true,
-        steps: [
-          {
-            element: "#request-quote-tab",
-            popover: {
-              title: "Request a Quote",
-              description:
-                "Click here to request a new quote for your shipping needs.",
-              side: "right",
-              align: "start",
+    if (isAuthenticated && role === "user" && !isTourStarted) {
+      const hasTourBeenShown = localStorage.getItem("tourShown");
+  
+      if (!hasTourBeenShown) {
+        setIsTourStarted(true);
+  
+        const driverObj = driver({
+          showProgress: true,
+          steps: [
+            {
+              element: "#request-quote-tab",
+              popover: {
+                title: "Request a Quote",
+                description: "Click here to request a new quote for your shipping needs.",
+                side: "right",
+                align: "start",
+              },
             },
-          },
-          {
-            element: "#dashboard-tab", // ID for the Dashboard tab
-            popover: {
-              title: "Dashboard",
-              description: "Navigate to your dashboard to view your activities.",
-              side: "right",
-              align: "start",
+            {
+              element: "#dashboard-tab",
+              popover: {
+                title: "Dashboard",
+                description: "Navigate to your dashboard to view your activities.",
+                side: "right",
+                align: "start",
+              },
             },
-          },
-          {
-            element: "#payables-tab", // ID for the Payables tab
-            popover: {
-              title: "Payables",
-              description: "Check your payables and payment status here.",
-              side: "right",
-              align: "start",
+            {
+              element: "#payables-tab",
+              popover: {
+                title: "Payables",
+                description: "Check your payables and payment status here.",
+                side: "right",
+                align: "start",
+              },
             },
-          },
-          {
-            element: "#trucks-tab", // ID for the Trucks tab
-            popover: {
-              title: "Trucks",
-              description: "View details of trucks in the fleet.",
-              side: "right",
-              align: "start",
+            {
+              element: "#trucks-tab",
+              popover: {
+                title: "Trucks",
+                description: "View details of trucks in the fleet.",
+                side: "right",
+                align: "start",
+              },
             },
-          },
-          // Add more steps if needed
-        ],
-      });
-
-      // Start the tour
-      driverObj.drive();
+            // Add more steps if needed
+          ],
+        });
+  
+        // Start the tour
+        driverObj.drive();
+        // Set flag in local storage after tour is started (if there's no callback for tour completion)
+        localStorage.setItem("tourShown", "true");
+        setIsTourStarted(false); // Reset the state
+      }
     }
-  }, [isTourStarted, role]); // Only run once when the component mounts
+  }, [isTourStarted, role, isAuthenticated]);
 
   return (
     <Stack
@@ -163,7 +169,7 @@ export default function Sidebar({
                     : item.label === "Trucks"
                     ? "trucks-tab"
                     : undefined
-                } // Add ID for the "Request Quote" tab
+                }
                 className="w-full flex items-center px-4 py-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
                 onClick={() => handleNavigation(item.path)}
               >
@@ -217,8 +223,7 @@ function ProfileItem({
   const position: FloatingPosition = useMatches({
     xs: "top",
     lg: "right",
-  }) as FloatingPosition; // Cast to FloatingPosition type
-  
+  }) as FloatingPosition;
 
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
