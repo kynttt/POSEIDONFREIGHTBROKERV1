@@ -12,7 +12,7 @@ import {
   useMatches,
 } from "@mantine/core";
 import { navItems } from "./navItem";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { faClose, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useMutation } from "@tanstack/react-query";
 import { LogoutResponse } from "../../utils/types";
 import { logoutUser } from "../../lib/apiCalls";
@@ -157,7 +157,7 @@ export default function Sidebar({
         <Stack mt={"sm"}>
           <nav>
             {getNavItems().map((item) => (
-              <button
+              <div
                 key={item.label}
                 id={
                   item.label === "Request Quote"
@@ -177,7 +177,7 @@ export default function Sidebar({
                 <span className="font-medium ml-6 text-gray-500">
                   {item.label}
                 </span>
-              </button>
+              </div>
             ))}
           </nav>
         </Stack>
@@ -228,7 +228,7 @@ function ProfileItem({
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-        <button className="flex items-center px-4 -mx-2 mt-5">
+        <div className="flex items-center px-4 -mx-2 mt-5">
           <img
             className="object-cover mx-2 rounded-full h-9 w-9"
             src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
@@ -237,34 +237,34 @@ function ProfileItem({
           <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
             John Doe
           </span>
-        </button>
+        </div>
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item>
-          <Button
-            variant="light"
-            onClick={() => {
-              role === "admin"
-                ? handleNavigation("/a/profile")
-                : handleNavigation("/s/profile");
-            }}
-            fullWidth
-          >
-            Profile
-          </Button>
+        <Menu.Item
+          variant="light"
+          leftSection={
+            <FontAwesomeIcon icon={faUser} className="text-gray-500" />
+          }
+          onClick={() => {
+            role === "admin"
+              ? handleNavigation("/a/profile")
+              : handleNavigation("/s/profile");
+          }}
+        >
+          Profile
         </Menu.Item>
-        <Menu.Item>
-          <Button
-            variant="transparent"
-            color="red"
-            onClick={() => {
-              mutation.mutate(undefined);
-            }}
-            fullWidth
-          >
-            Logout
-          </Button>
+        <Menu.Item
+          variant="transparent"
+          color="red"
+          leftSection={
+            <FontAwesomeIcon icon={faSignOut} className="text-red-500" />
+          }
+          onClick={() => {
+            mutation.mutate(undefined);
+          }}
+        >
+          Logout
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

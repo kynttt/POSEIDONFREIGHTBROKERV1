@@ -13,7 +13,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
   const { role, isAuthenticated, login, userId } = useAuthStore();
-
+  const [isSetupComplete, setIsSetupComplete] = React.useState(false);
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["authUser", userId],
     queryFn: getUser,
@@ -42,16 +42,24 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
     }
 
     if (!isAuthenticated) {
-      notifications.show({
-        color: "red",
-        title: "Access Denied",
-        message: "You must be logged in to access this page.",
-      });
+      // console.log(location.pathname);
+      if (!isSetupComplete) {
+        notifications.show({
+          color: "red",
+          title: "Access Denied",
+          message: "You must be logged in to access this page.",
+        });
+      }
       navigate("/login");
+
+      return;
     } else if (roles && roles.length > 0 && !roles.includes(role || "")) {
       setNoPermission(true);
+      return;
     }
-  }, [isAuthenticated, isLoading, navigate, role, roles]);
+
+    setIsSetupComplete(true);
+  }, [isAuthenticated, isLoading, navigate, role, roles, isSetupComplete]);
 
   if (isLoading) {
     return <div>Loading...</div>;
