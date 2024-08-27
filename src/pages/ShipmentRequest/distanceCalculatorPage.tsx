@@ -203,6 +203,10 @@ export default function DistanceCalculatorPage() {
       setDistance(data.distance || "");
       setPrice(data.price || null);
     }
+
+    return () => {
+      sessionStorage.removeItem("distanceCalculatorData");
+    };
   }, []);
 
   const [warnings, setWarnings] = useState({
