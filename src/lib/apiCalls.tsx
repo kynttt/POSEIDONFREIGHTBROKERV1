@@ -249,18 +249,21 @@ export const fetchUserBookingById = async (id: string) => {
     // Check if response is successful
     if (response.status === 200) {
       // Map the response data to match the expected structure
-      return response.data.map((booking: any) => ({
-        id: booking._id,
-        origin: booking.quote.origin,
-        destination: booking.quote.destination,
-        price: booking.quote.price,
-        pickupDate: booking.quote.pickupDate,
-        deliveryDate: booking.quote.deliveryDate,
-        pickupTime: booking.pickupTime,
-        deliveryTime: booking.deliveryTime,
-        carrier: booking.carrier,
-        status: booking.status,
-      }));
+      return response.data.map((booking: Booking) => {
+        const quote = booking.quote as Quote;
+        return {
+          id: booking._id,
+          origin: quote.origin,
+          destination: quote.destination,
+          price: quote.price,
+          pickupDate: quote.pickupDate,
+          deliveryDate: quote.deliveryDate,
+          pickupTime: booking.pickupTime,
+          deliveryTime: booking.deliveryTime,
+          carrier: booking.carrier,
+          status: booking.status,
+        };
+      });
     } else {
       throw new Error(`Unexpected response status: ${response.status}`);
     }

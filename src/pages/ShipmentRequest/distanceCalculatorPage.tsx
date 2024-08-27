@@ -76,7 +76,7 @@ export default function DistanceCalculatorPage() {
   const [commodity, setCommodity] = useState("");
   const [maxWeight, setMaxWeight] = useState("");
   const [companyName, setCompanyName] = useState("");
-  const [packagingNumber, setPackagingNumber] = useState("");
+  const [packagingNumber, setPackagingNumber] = useState<number | undefined>();
   const [selectedPackagingType, setSelectedPackagingType] = useState("");
   const [notes, setNotes] = useState("");
   const [showFirstModal, setShowFirstModal] = useState(false);
@@ -146,7 +146,7 @@ export default function DistanceCalculatorPage() {
         autoClose: 5000,
       });
     }
-  }, [isError]);
+  }, [isError, error]);
 
   const saveDataToSessionStorage = () => {
     const data = {
@@ -254,12 +254,15 @@ export default function DistanceCalculatorPage() {
       }
     }
   };
-
-  const handlePackagingNumberChange = (e: { target: { value: any } }) => {
-    let value = e.target.value;
-    // Convert value to a number and ensure it's not negative
-    value = value < 0 ? 0 : value;
-    setPackagingNumber(value);
+  const handlePackagingNumberChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      setPackagingNumber(value);
+    } else {
+      setPackagingNumber(0); // or handle the error as needed
+    }
   };
 
   useEffect(() => {

@@ -59,7 +59,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, roles }) => {
     }
 
     setIsSetupComplete(true);
-  }, [isAuthenticated, isLoading, navigate, role, roles]);
+  }, [isAuthenticated, isLoading, navigate, role, roles, isSetupComplete]);
 
   if (isLoading) {
     return <div>Loading...</div>;

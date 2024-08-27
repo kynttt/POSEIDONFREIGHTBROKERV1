@@ -318,7 +318,6 @@ function EditTruckCatalog({
 }
 
 function CreateTruckShell({ onCloseModal }: { onCloseModal: () => void }) {
-  const {} = useNewTruckCatalog();
   const [active, setActive] = useState(0);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
