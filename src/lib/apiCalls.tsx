@@ -3,6 +3,8 @@ import axiosInstance from "./axiosInstance";
 import {
   Booking,
   BookingData,
+  GetPriceMileData,
+  GetPriceMileResponse,
   Invoice,
   LoginResponse,
   LogoutResponse,
@@ -10,6 +12,7 @@ import {
   Quote,
   RegisterFormData,
   StripeClientSecret,
+  TruckCatalog,
   User,
 } from "../utils/types";
 
@@ -26,18 +29,16 @@ export const getUser = async () => {
   };
 };
 
-
 // Get All Users
 export const fetchUsers = async () => {
   try {
     const response = await axiosInstance.get(`/users/`);
     return response.data; // Adjust based on your actual data structure
   } catch (error) {
-    console.error('Error fetching shippers:', error);
+    console.error("Error fetching shippers:", error);
     throw error;
   }
 };
-
 
 // Login
 export const loginUser = async (
@@ -237,42 +238,41 @@ export const fetchUserBookings = async () => {
   return response.data;
 };
 
-
-
 export const fetchUserBookingById = async (id: string) => {
   if (!id) {
-    throw new Error('No user ID provided');
+    throw new Error("No user ID provided");
   }
 
   try {
     const response = await axiosInstance.get(`/bookings/user/${id}`);
-    
+
     // Check if response is successful
     if (response.status === 200) {
       // Map the response data to match the expected structure
-      return response.data.map((booking: any) => ({
-        id: booking._id,
-        origin: booking.quote.origin,
-        destination: booking.quote.destination,
-        price: booking.quote.price,
-        pickupDate: booking.quote.pickupDate,
-        deliveryDate: booking.quote.deliveryDate,
-        pickupTime: booking.pickupTime,
-        deliveryTime: booking.deliveryTime,
-        carrier: booking.carrier,
-        status: booking.status,
-      }));
+      return response.data.map((booking: Booking) => {
+        const quote = booking.quote as Quote;
+        return {
+          id: booking._id,
+          origin: quote.origin,
+          destination: quote.destination,
+          price: quote.price,
+          pickupDate: quote.pickupDate,
+          deliveryDate: quote.deliveryDate,
+          pickupTime: booking.pickupTime,
+          deliveryTime: booking.deliveryTime,
+          carrier: booking.carrier,
+          status: booking.status,
+        };
+      });
     } else {
       throw new Error(`Unexpected response status: ${response.status}`);
     }
   } catch (error) {
     // Handle errors from the API call or other unexpected issues
-    console.error('Error fetching user bookings:', error);
-    throw new Error('Failed to fetch user bookings');
+    console.error("Error fetching user bookings:", error);
+    throw new Error("Failed to fetch user bookings");
   }
 };
-
-
 
 export const createPaymentIntent = async ({
   amount,
@@ -296,9 +296,7 @@ export const createPaymentIntent = async ({
 
 // Fetch all bookings
 export const fetchBookings = async () => {
-  const response = await axiosInstance.get(
-    `/bookings/`
-  );
+  const response = await axiosInstance.get(`/bookings/`);
 
   return response.data as Booking[];
 };
@@ -392,4 +390,47 @@ export const uploadPdf = async (pdfBlob: Blob) => {
     console.error("Error saving document:", error);
     throw error; // Ensure errors are thrown for the catch block in saveSignature to handle
   }
+};
+
+export const listTrucks = async () => {
+  const response = await axiosInstance.get(`/trucks`);
+
+  return response.data as TruckCatalog[];
+};
+
+export const createTruck = async (truck: TruckCatalog) => {
+  const response = await axiosInstance.post(`/trucks`, truck);
+
+  return response.data as TruckCatalog;
+};
+
+export const deleteTruck = async (truckId: string) => {
+  await axiosInstance.delete(`/trucks/${truckId}`);
+};
+
+export const updateTruck = async (truck: TruckCatalog) => {
+  const response = await axiosInstance.put(`/trucks/${truck._id!}`, truck);
+
+  return response.data as TruckCatalog;
+};
+
+export const getPricePerMile = async ({
+  truckId,
+  distance,
+  trailerSize,
+}: GetPriceMileData) => {
+  const response = await axiosInstance.post(
+    `/trucks/${truckId}/price-per-mile`,
+    {
+      distance,
+      trailerSize,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return response.data as GetPriceMileResponse;
 };

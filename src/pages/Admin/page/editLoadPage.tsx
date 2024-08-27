@@ -44,8 +44,9 @@ interface FormState {
 
 const convertTo24HourFormat = (time12h: string): string => {
   const [time, modifier] = time12h.split(" ");
-  const [minutes] = time.split(":").map(Number);
-  let [hours] = time.split(":").map(Number);
+  const timeMap = time.split(":").map(Number);
+  let hours = timeMap[0];
+  const minutes = timeMap[1];
   if (modifier === "PM" && hours !== 12) {
     hours += 12;
   }
@@ -313,8 +314,11 @@ const EditLoad: React.FC = () => {
 
             {/* Pick Up Details */}
             <div className=" p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl md:px-12 md:py-10 shadow-lg">
-            <h2 className="text-xl  mb-4 text-secondary ">Pick Up Details
-              <p className="text-base text-gray-500 font-normal">Full Overview of Pickup Timing and Address</p>
+              <h2 className="text-xl  mb-4 text-secondary ">
+                Pick Up Details
+                <p className="text-base text-gray-500 font-normal">
+                  Full Overview of Pickup Timing and Address
+                </p>
               </h2>
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               <div className="flex items-center justify-between py-2 ">
@@ -431,7 +435,9 @@ const EditLoad: React.FC = () => {
                   ) : (
                     <p
                       className={` font-medium ${
-                        booking.pickupTime ? "text-base text-gray-500 font-normal" : "text-red-500 text-base  font-normal"
+                        booking.pickupTime
+                          ? "text-base text-gray-500 font-normal"
+                          : "text-red-500 text-base  font-normal"
                       }`}
                     >
                       {booking.pickupTime
@@ -473,7 +479,12 @@ const EditLoad: React.FC = () => {
 
             {/* Delivery Details */}
             <div className="p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl md:px-12 md:py-10 shadow-lg my-6">
-            <h2 className="text-xl  mb-4 text-secondary">Delivery Details <p className="text-base text-gray-500 font-normal">Delivery Schedule and Address Breakdown</p></h2>
+              <h2 className="text-xl  mb-4 text-secondary">
+                Delivery Details{" "}
+                <p className="text-base text-gray-500 font-normal">
+                  Delivery Schedule and Address Breakdown
+                </p>
+              </h2>
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               <div className="flex items-center justify-between py-2">
                 <label
@@ -597,7 +608,9 @@ const EditLoad: React.FC = () => {
                   ) : (
                     <p
                       className={` font-medium ${
-                        booking.deliveryTime ? "text-base text-gray-500 font-normal" : "text-red-500 text-base  font-normal"
+                        booking.deliveryTime
+                          ? "text-base text-gray-500 font-normal"
+                          : "text-red-500 text-base  font-normal"
                       }`}
                     >
                       {booking.deliveryTime
@@ -639,8 +652,11 @@ const EditLoad: React.FC = () => {
 
             {/* Load Details */}
             <div className=" p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl md:px-12 md:py-10 shadow-lg my-6">
-            <h2 className="text-xl mb-4 text-secondary">
-                Additional Shipment Details<p className="text-base text-gray-500 font-normal">Extra Shipment Information and Coordination Overview</p>
+              <h2 className="text-xl mb-4 text-secondary">
+                Additional Shipment Details
+                <p className="text-base text-gray-500 font-normal">
+                  Extra Shipment Information and Coordination Overview
+                </p>
               </h2>
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               <div className="flex items-center justify-between py-2">
@@ -698,7 +714,6 @@ const EditLoad: React.FC = () => {
                   {(booking.quote as Quote)?.packaging || "N/A"}
                 </p>
               </div>
-              
 
               <div className="flex items-center justify-between py-2">
                 <label
@@ -725,7 +740,7 @@ const EditLoad: React.FC = () => {
                   {(booking.quote as Quote)?.trailerType || "N/A"}
                 </p>
               </div>
-              
+
               <div className="flex items-center justify-between py-2">
                 <label
                   className="block text-primary text-base font-medium "
@@ -746,7 +761,12 @@ const EditLoad: React.FC = () => {
           {/* Carrier */}
           <div className="w-full md:w-1/3 lg:mt-24 ">
             <div className="bg-white w-full p-6 rounded-lg shadow-lg md:px-12 md:py-10">
-            <h2 className="text-xl mb-6 text-secondary">Carrier <p className="text-base text-gray-500 font-normal">Details on Carrier and Assigned Driver</p></h2>
+              <h2 className="text-xl mb-6 text-secondary">
+                Carrier{" "}
+                <p className="text-base text-gray-500 font-normal">
+                  Details on Carrier and Assigned Driver
+                </p>
+              </h2>
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               <div className="w-full sm:w-full mb-4 sm:mb-0 ">
                 <label
@@ -851,11 +871,16 @@ const EditLoad: React.FC = () => {
                   )}
                 </div>
               </div>
-              </div>
+            </div>
 
-              {/* </div> */}
-              <div className="bg-white w-full p-6 rounded-lg shadow-lg md:px-12 md:py-10 my-6">
-              <h2 className="text-xl mb-4 text-secondary ">Rate <p className="text-base text-gray-500 font-normal">Cost and Distance Calculation Summary</p></h2>
+            {/* </div> */}
+            <div className="bg-white w-full p-6 rounded-lg shadow-lg md:px-12 md:py-10 my-6">
+              <h2 className="text-xl mb-4 text-secondary ">
+                Rate{" "}
+                <p className="text-base text-gray-500 font-normal">
+                  Cost and Distance Calculation Summary
+                </p>
+              </h2>
 
               <div className="flex flex-col sm:flex-row mb-4">
                 <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
@@ -871,13 +896,14 @@ const EditLoad: React.FC = () => {
                   </p>
 
                   <label
-                  className="block text-primary text-base font-medium "
-                  htmlFor="commodity"
-                >
-                  <FontAwesomeIcon icon={faMapLocationDot} className="mr-2" />Distance (mi)
-                </label>
+                    className="block text-primary text-base font-medium "
+                    htmlFor="commodity"
+                  >
+                    <FontAwesomeIcon icon={faMapLocationDot} className="mr-2" />
+                    Distance (mi)
+                  </label>
                   <p className="text-base text-gray-500 font-normal my-2">
-                    {(booking.quote as Quote)?.distance || "N/A"} 
+                    {(booking.quote as Quote)?.distance || "N/A"}
                   </p>
                 </div>
               </div>
