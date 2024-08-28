@@ -6,6 +6,7 @@ type CalendarProps = {
   value?: string;
   onChange?: (date: string) => void;
   className?: string;
+  id: string;
 };
 
 const Calendar: React.FC<CalendarProps> = ({ value, onChange, className }) => {
