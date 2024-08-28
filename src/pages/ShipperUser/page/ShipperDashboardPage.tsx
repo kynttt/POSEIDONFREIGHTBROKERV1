@@ -23,7 +23,7 @@ const ShipperDashboardPage = () => {
   });
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [allBookings, setAllBookings] = useState<Booking[]>([]); // State to store all bookings
-  const [filteredBookings, setFilteredBookings] = useState<Booking[]>([]); // State to store filtered bookings
+  const [, setFilteredBookings] = useState<Booking[]>([]); // State to store filtered bookings
 
   const fetchBookings = useCallback(async () => {
     try {
@@ -102,21 +102,21 @@ const ShipperDashboardPage = () => {
     setSelectedDate(e.target.value);
   };
 
-  // Filter bookings by selected date
-  const handleFilterClick = () => {
-    if (selectedDate) {
-      const filtered = allBookings.filter((booking) => {
-        if (isQuote(booking.quote)) {
-          return (
-            new Date(booking.quote.pickupDate).toISOString().split("T")[0] ===
-            selectedDate
-          );
-        }
-        return false;
-      });
-      setFilteredBookings(filtered);
-    }
-  };
+  // // Filter bookings by selected date
+  // const handleFilterClick = () => {
+  //   if (selectedDate) {
+  //     const filtered = allBookings.filter((booking) => {
+  //       if (isQuote(booking.quote)) {
+  //         return (
+  //           new Date(booking.quote.pickupDate).toISOString().split("T")[0] ===
+  //           selectedDate
+  //         );
+  //       }
+  //       return false;
+  //     });
+  //     setFilteredBookings(filtered);
+  //   }
+  // };
 
   // Clear the filter and show all bookings
   const handleClearFilterClick = () => {

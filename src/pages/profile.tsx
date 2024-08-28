@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ShipperBookings from "./ShipperUser/components/shipperBookings";
 import FreightQuoteMini from "../components/FreightQuoteMini";
-import { User } from "../utils/types";
+import { Booking, User } from "../utils/types";
 import axiosInstance from "../lib/axiosInstance";
 
 const ProfileCard: React.FC = () => {
@@ -104,7 +104,9 @@ const ProfileCard: React.FC = () => {
                 {" "}
                 {/* 2/3 width */}
                 <div>
-                  <ShipperBookings />
+                  <ShipperBookings onDataFetched={function (): void {
+                    throw new Error("Function not implemented.");
+                  } } selectedDate={null} />
                 </div>
               </div>
               <div className="col-span-1  bg-white rounded-lg">
