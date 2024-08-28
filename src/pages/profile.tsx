@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ShipperBookings from "./ShipperUser/components/shipperBookings";
 import FreightQuoteMini from "../components/FreightQuoteMini";
-import { Booking, User } from "../utils/types";
+import { User } from "../utils/types";
 import axiosInstance from "../lib/axiosInstance";
 
 const ProfileCard: React.FC = () => {
