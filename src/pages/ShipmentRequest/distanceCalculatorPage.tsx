@@ -2,7 +2,7 @@ import { Libraries } from "@react-google-maps/api";
 import { useAuthStore } from "../../state/useAuthStore";
 
 import { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
 import {
   OriginInput,
@@ -26,7 +26,11 @@ import {
   faNoteSticky,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { getPricePerMile, listTrucks } from "../../lib/apiCalls";
+import {
+  fetchQuoteDetails,
+  getPricePerMile,
+  listTrucks,
+} from "../../lib/apiCalls";
 import { calculatePrice } from "../../components/googleMap/priceCalculator";
 
 // Import truck types and sizes data
@@ -47,6 +51,9 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide 
 export default function DistanceCalculatorPage() {
   const { role } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const quoteId = searchParams.get("quoteId");
   // };
   const navigate = useNavigate();
 
@@ -54,17 +61,6 @@ export default function DistanceCalculatorPage() {
     googleMapsApiKey: googleMapsApiKey,
     libraries: libraries,
   });
-  // const [warnings, setWarnings] = useState({
-  //   origin: "",
-  //   destination: "",
-  //   pickupDate: "",
-  //   selectedTrailerType: "",
-  //   selectedTrailerSize: "",
-  //   commodity: "",
-  //   maxWeight: "",
-  //   companyName: "",
-  //   packaging: "",
-  // });
 
   const {
     data: dataState,
@@ -73,6 +69,7 @@ export default function DistanceCalculatorPage() {
     init: initDistanceCalculator,
     generateWarning,
   } = useDistanceCalculator();
+
   /// <<<--- MAP RELATED STATES --->>>
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [destinationLocation, setDestinationLocation] =
@@ -98,15 +95,27 @@ export default function DistanceCalculatorPage() {
   const {
     data: listTrucksData,
     isLoading,
-    refetch,
     isError,
     error,
   } = useQuery({
     queryKey: ["truck-catalogs", "distance-calculator"],
-    enabled: false,
+
     staleTime: undefined,
     gcTime: undefined,
     queryFn: listTrucks,
+  });
+
+  const {
+    data,
+    isLoading: isQueryLoading,
+    error: savedQuoteError,
+  } = useQuery({
+    enabled: !!quoteId && !!listTrucksData && listTrucksData.length > 0,
+    queryKey: ["bookingDetails", quoteId],
+    queryFn: () => fetchQuoteDetails(quoteId),
+    refetchOnWindowFocus: false,
+    staleTime: 600000, // 10 minutes
+    gcTime: 1800000, // 30 minutes
   });
 
   const mutation = useMutation<
@@ -149,6 +158,47 @@ export default function DistanceCalculatorPage() {
       });
     },
   });
+
+  useEffect(() => {
+    if (data && listTrucksData && listTrucksData.length > 0) {
+      const {
+        origin,
+        destination,
+        pickupDate,
+        trailerType,
+        trailerSize,
+        commodity,
+        maxWeight,
+        companyName,
+        packaging,
+        notes,
+        distance,
+        price,
+      } = data;
+
+      const packagingSplit = packaging.split(" ");
+
+      const trailerTypeFound = listTrucksData!.find(
+        (type) => type.truckType === trailerType
+      );
+
+      initDistanceCalculator({
+        packagingNumber: parseInt(packagingSplit[0], 10),
+        packagingType: packagingSplit[1],
+        origin,
+        destination,
+        pickupDate: new Date(pickupDate).toLocaleDateString(),
+        trailerType: trailerTypeFound,
+        trailerSize,
+        commodity,
+        maxWeight: maxWeight.toString(),
+        companyName,
+        notes: notes || undefined,
+        distance,
+        price,
+      });
+    }
+  }, [data, isQueryLoading]);
 
   useEffect(() => {
     if (!isTourStarted && role === "user") {
@@ -199,7 +249,16 @@ export default function DistanceCalculatorPage() {
         autoClose: 5000,
       });
     }
-  }, [isError, error]);
+    if (savedQuoteError) {
+      notifications.show({
+        title: "Error",
+        message: "An error occurred while fetching old quote data",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+    }
+  }, [isError, error, savedQuoteError]);
 
   useEffect(() => {
     if (originLocation && destinationLocation) {
@@ -405,7 +464,7 @@ export default function DistanceCalculatorPage() {
                   ...dataState!,
                   pickupDate: date,
                 });
-                refetch();
+
                 setShowFirstModal(true); // Show the first modal when a date is picked
               }}
               className="border border-secondary rounded"

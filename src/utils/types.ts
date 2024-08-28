@@ -61,7 +61,7 @@ export interface Quote extends Schema {
   trailerSize: number;
   commodity: string;
   maxWeight: number;
-  packaging: number | string;
+  packaging: string;
   companyName: string;
   distance: string;
   price: number;

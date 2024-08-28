@@ -142,22 +142,14 @@ export const fetchQuoteDetails = async (quoteId: string | null) => {
   if (!quoteId) {
     throw new Error("No quote ID provided");
   }
-  try {
-    const response = await axiosInstance.get(`/quotes/${quoteId}`, {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data as Quote;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      console.error("API Error:", error.response?.data || error.message);
-    } else {
-      console.error("Unexpected Error:", error);
-    }
-    throw error;
-  }
+
+  const response = await axiosInstance.get(`/quotes/${quoteId}`, {
+    headers: {
+      // Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data as Quote;
 };
 
 // Invoice
@@ -396,6 +388,12 @@ export const listTrucks = async () => {
   const response = await axiosInstance.get(`/trucks`);
 
   return response.data as TruckCatalog[];
+};
+
+export const getTruck = async (truckId: string) => {
+  const response = await axiosInstance.get(`/trucks/${truckId}`);
+
+  return response.data as TruckCatalog;
 };
 
 export const createTruck = async (truck: TruckCatalog) => {
