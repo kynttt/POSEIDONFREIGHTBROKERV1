@@ -380,6 +380,7 @@ export default function DistanceCalculatorPage() {
       packaging: `${packagingNumber} ${selectedPackagingType}`,
       price: parseFloat(price!.toFixed(2)),
       notes,
+      unit: ""
     };
 
     try {
