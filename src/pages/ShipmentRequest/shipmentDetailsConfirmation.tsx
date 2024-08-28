@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationDot,
@@ -13,22 +13,102 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../components/Button";
 // import QuoteRequestModal from '../components/QuoteRequestModal';
-import { fetchQuoteDetails } from "../../lib/apiCalls"; // Import API calls
-import { useQuery } from "@tanstack/react-query";
+import { createQuote } from "../../lib/apiCalls"; // Import API calls
+import { useMutation } from "@tanstack/react-query";
+import useDistanceCalculator from "../../hooks/useDistanceCalculator";
+import { notifications } from "@mantine/notifications";
+import { Quote } from "../../utils/types";
 
 const ShipmentDetailsConfirmation: React.FC = () => {
-  // const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-  const location = useLocation();
   const navigate = useNavigate();
-  const searchParams = new URLSearchParams(location.search);
-  const quoteId = searchParams.get("quoteId");
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["bookingDetails", quoteId],
-    queryFn: () => fetchQuoteDetails(quoteId),
-    refetchOnWindowFocus: false,
-    staleTime: 600000, // 10 minutes
-    gcTime: 1800000, // 30 minutes
+
+  const { data } = useDistanceCalculator();
+  const quoteMutation = useMutation<Quote, Error, Quote>({
+    mutationFn: createQuote,
+    onMutate: () => {
+      notifications.show({
+        title: "Creating Quote",
+        message: "Please wait...",
+        color: "blue",
+        icon: true,
+        autoClose: 5000,
+      });
+    },
+    onSuccess: (data) => {
+      notifications.show({
+        title: "Quote Created",
+        message:
+          "Your quote has been successfully created. You will be redirected to the confirmation page shortly.",
+        color: "green",
+        icon: true,
+        autoClose: 5000,
+      });
+      // navigate("/requests/confirmation?quoteId=" + data._id);
+      navigate("/requests/payment?quoteId=" + data._id!);
+    },
+    onError: () => {
+      notifications.show({
+        title: "Error",
+        message: "An error occurred while creating the quote",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+    },
   });
+
+  const nextHandler = () => {
+    if (!data) return;
+    const {
+      trailerType,
+      origin,
+      destination,
+      pickupDate,
+      trailerSize,
+      commodity,
+      maxWeight,
+      companyName,
+      distance,
+      packagingNumber,
+      packagingType,
+      price,
+      notes,
+    } = data!;
+    if (
+      !trailerType ||
+      !origin ||
+      !destination ||
+      !pickupDate ||
+      !trailerSize ||
+      !commodity ||
+      !maxWeight ||
+      !companyName ||
+      !distance ||
+      !packagingNumber ||
+      !packagingType ||
+      !price
+    ) {
+      return;
+    }
+
+    const quoteDetails: Quote = {
+      origin,
+      destination,
+      pickupDate: new Date(pickupDate).toISOString(),
+      trailerType: trailerType.truckType,
+      trailerSize: trailerSize,
+      commodity,
+      maxWeight: parseInt(maxWeight),
+      companyName,
+      distance,
+      packaging: `${packagingNumber} ${packagingType}`,
+      price: parseFloat(price!.toFixed(2)),
+      notes,
+      unit: "",
+    };
+
+    quoteMutation.mutate(quoteDetails);
+  };
   // console.log('Quote ID:', quoteId);
 
   // const handleNextClick = () => {
@@ -54,18 +134,6 @@ const ShipmentDetailsConfirmation: React.FC = () => {
   //   navigate('/');
   // };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Something went wrong. Please try again later.</div>;
-  }
-
-  if (!data) {
-    return <div>No data found</div>;
-  }
-
   return (
     <div className="flex h-screen w-full mx-auto">
       <div className="bg-white flex-1 p-4 lg:p-20 text-primary overflow-y-auto">
@@ -82,7 +150,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                   </span>
                   Pickup Location
                 </h3>
-                <p className="text-gray-500 py-4">{data.origin}</p>
+                <p className="text-gray-500 py-4">{data!.origin}</p>
               </div>
               <div className="bg-white shadow-lg rounded-lg p-4 lg:p-12">
                 <h3 className="text-lg text-secondary font-medium">
@@ -91,7 +159,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                   </span>
                   Drop-off Location
                 </h3>
-                <p className="text-gray-500 py-4">{data.destination}</p>
+                <p className="text-gray-500 py-4">{data!.destination}</p>
               </div>
             </div>
             <div className="bg-white shadow-lg rounded-lg p-4 lg:p-12 md:mt-8">
@@ -107,7 +175,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                     Trailer Type
                   </h4>
                   <p className="text-gray-500 py-4 font-medium">
-                    {data.trailerType}
+                    {data!.trailerType?.truckType}
                   </p>
                 </div>
                 <div>
@@ -118,8 +186,8 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                     Date
                   </h4>
                   <p className="text-gray-500 py-4 font-medium">
-                    {data.pickupDate
-                      ? new Date(data.pickupDate).toLocaleDateString()
+                    {data!.pickupDate
+                      ? new Date(data!.pickupDate).toUTCString()
                       : "TBA"}
                   </p>
                 </div>
@@ -131,7 +199,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                     Size (ft.)
                   </h4>
                   <p className="text-gray-500 py-4 font-medium">
-                    {data.trailerSize}
+                    {data!.trailerSize}
                   </p>
                 </div>
                 <div>
@@ -142,7 +210,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                     Company Name
                   </h4>
                   <p className="text-gray-500 py-4 font-medium">
-                    {data.companyName}
+                    {data!.companyName}
                   </p>
                 </div>
                 <div>
@@ -153,7 +221,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                     Commodity
                   </h4>
                   <p className="text-gray-500 py-4 font-medium">
-                    {data.commodity}
+                    {data!.commodity}
                   </p>
                 </div>
                 <div>
@@ -164,7 +232,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                     Packaging
                   </h4>
                   <p className="text-gray-500 py-4 font-medium">
-                    {data.packaging}
+                    {data!.packagingNumber} {data!.packagingType}
                   </p>
                 </div>
               </div>
@@ -179,7 +247,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                 Total Shipment Price
               </h3>
               <p className="text-5xl font-bold py-4">
-                ${data.price.toLocaleString()}
+                ${data?.price ? data!.price.toFixed(2) : "0.00"}
               </p>
               <h4 className="font-medium text-secondary md:mt-8">
                 <span className="text-gray-500 mr-2">
@@ -204,7 +272,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
             size="homeButton"
             bgColor="#252F70"
             fontStyle="normal"
-            onClick={() => navigate("/requests/payment?quoteId=" + quoteId)}
+            onClick={() => nextHandler()}
             className="extra-class-for-medium-button"
             type=""
           />

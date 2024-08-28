@@ -26,7 +26,7 @@ import {
   faNoteSticky,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { createQuote, getPricePerMile, listTrucks } from "../../lib/apiCalls";
+import { getPricePerMile, listTrucks } from "../../lib/apiCalls";
 import { calculatePrice } from "../../components/googleMap/priceCalculator";
 
 // Import truck types and sizes data
@@ -34,11 +34,7 @@ import Calendar from "../../components/Calendar";
 // import { Quote } from "../../utils/types";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css"; // Import the driver.js CSS
-import {
-  GetPriceMileData,
-  GetPriceMileResponse,
-  Quote,
-} from "../../utils/types";
+import { GetPriceMileData, GetPriceMileResponse } from "../../utils/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { LoadingOverlay } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -74,7 +70,6 @@ export default function DistanceCalculatorPage() {
     data: dataState,
     warnings,
     update: updateState,
-    dispose: disposeState,
     init: initDistanceCalculator,
     generateWarning,
   } = useDistanceCalculator();
@@ -92,23 +87,6 @@ export default function DistanceCalculatorPage() {
     useState<google.maps.DirectionsResult | null>(null);
   /// <<<--- MAP RELATED STATES END --->>>
 
-  // const [origin, setOrigin] = useState("");
-  // const [destination, setDestination] = useState("");
-
-  // const [distance, setDistance] = useState("");
-  // const [price, setPrice] = useState<number | null>(null); // State to hold calculated price
-
-  // const [pickupDate, setPickupDate] = useState("");
-  // const [selectedTrailerType, setSelectedTrailerType] = useState<
-  //   TruckCatalog | undefined
-  // >(undefined);
-  // const [selectedTrailerSize, setSelectedTrailerSize] = useState<number>(0);
-  // const [commodity, setCommodity] = useState("");
-  // const [maxWeight, setMaxWeight] = useState("");
-  // const [companyName, setCompanyName] = useState("");
-  // const [packagingNumber, setPackagingNumber] = useState<number | undefined>();
-  // const [selectedPackagingType, setSelectedPackagingType] = useState("");
-  // const [notes, setNotes] = useState("");
   const [showPrice, setShowPrice] = useState(false);
 
   /// <<<--- MODAL STATES --->>>
@@ -223,24 +201,6 @@ export default function DistanceCalculatorPage() {
     }
   }, [isError, error]);
 
-  // const saveDataToSessionStorage = () => {
-  //   const data = {
-  //     origin,
-  //     destination,
-  //     pickupDate,
-  //     selectedTrailerType,
-  //     selectedTrailerSize,
-  //     commodity,
-  //     maxWeight,
-  //     companyName,
-  //     packagingNumber,
-  //     selectedPackagingType,
-  //     notes,
-  //     distance,
-  //     price,
-  //   };
-  //   sessionStorage.setItem("distanceCalculatorData", JSON.stringify(data));
-  // };
   useEffect(() => {
     if (originLocation && destinationLocation) {
       const origin = dataState?.origin || "";
@@ -268,30 +228,11 @@ export default function DistanceCalculatorPage() {
     dataState?.origin,
     dataState?.destination,
   ]);
-  useEffect(() => {
-    initDistanceCalculator(null);
-    // const savedData = sessionStorage.getItem("distanceCalculatorData");
-    // if (savedData) {
-    //   const data = JSON.parse(savedData);
-    //   setOrigin(data.origin || "");
-    //   setDestination(data.destination || "");
-    //   setPickupDate(data.pickupDate || "");
-    //   setSelectedTrailerType(data.selectedTrailerType || "");
-    //   setSelectedTrailerSize(data.selectedTrailerSize || 0);
-    //   setCommodity(data.commodity || "");
-    //   setMaxWeight(data.maxWeight || "");
-    //   setCompanyName(data.companyName || "");
-    //   setPackagingNumber(data.packagingNumber || "");
-    //   setSelectedPackagingType(data.selectedPackagingType || "");
-    //   setNotes(data.notes || "");
-    //   setDistance(data.distance || "");
-    //   setPrice(data.price || null);
-    // }
 
-    return () => {
-      // sessionStorage.removeItem("distanceCalculatorData");
-      disposeState();
-    };
+  useEffect(() => {
+    if (!dataState) {
+      initDistanceCalculator(null);
+    }
   }, []);
 
   useEffect(() => {
@@ -393,29 +334,7 @@ export default function DistanceCalculatorPage() {
   };
 
   const handleQuoteButtonClick = async () => {
-    // const newWarnings = {
-    //   origin: !origin ? "Please select a pickup location." : "",
-    //   destination: !destination ? "Please select a drop-off location." : "",
-    //   pickupDate: !pickupDate ? "Please select a pickup date." : "",
-    //   selectedTrailerType: !selectedTrailerType
-    //     ? "Please select a trailer type."
-    //     : "",
-    //   selectedTrailerSize:
-    //     selectedTrailerSize === 0 ? "Please select a trailer size." : "",
-    //   commodity: !commodity ? "Please enter the commodity." : "",
-    //   maxWeight: !maxWeight ? "Please enter the maximum weight." : "",
-    //   companyName: !companyName ? "Please enter the company name." : "",
-    //   packaging:
-    //     !packagingNumber || !selectedPackagingType
-    //       ? "Please fill both packaging number and type."
-    //       : "",
-    // };
-
-    // setWarnings(newWarnings);
-
-    // if (Object.values(newWarnings).some((warning) => warning !== "")) {
-    //   return;
-    // }
+    if (mutation.isPending) return;
 
     generateWarning();
 
@@ -430,65 +349,19 @@ export default function DistanceCalculatorPage() {
       return;
     }
 
-    if (!dataState) return;
-    const {
-      trailerType,
-      origin,
-      destination,
-      pickupDate,
-      trailerSize,
-      commodity,
-      maxWeight,
-      companyName,
-      distance,
-      packagingNumber,
-      packagingType,
-      price,
-      notes,
-    } = dataState!;
-    if (
-      !trailerType ||
-      !origin ||
-      !destination ||
-      !pickupDate ||
-      !trailerSize ||
-      !commodity ||
-      !maxWeight ||
-      !companyName ||
-      !distance ||
-      !packagingNumber ||
-      !packagingType ||
-      !price
-    ) {
-      return;
-    }
+    // try {
+    //   const data = await createQuote(quoteDetails);
+    //   navigate("/requests/confirmation?quoteId=" + data._id);
+    // } catch (error: unknown) {
+    //   if (error instanceof Error) {
+    //     console.error("Error creating quote:", error.message);
+    //   } else {
+    //     console.error("Unknown error occurred while creating quote");
+    //   }
+    // }
 
-    const quoteDetails: Quote = {
-      origin,
-      destination,
-      pickupDate: new Date(pickupDate).toISOString(),
-      trailerType: trailerType.truckType,
-      trailerSize: trailerSize,
-      commodity,
-      maxWeight: parseInt(maxWeight),
-      companyName,
-      distance,
-      packaging: `${packagingNumber} ${packagingType}`,
-      price: parseFloat(price!.toFixed(2)),
-      notes,
-      unit: "",
-    };
-
-    try {
-      const data = await createQuote(quoteDetails);
-      navigate("/requests/confirmation?quoteId=" + data._id);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Error creating quote:", error.message);
-      } else {
-        console.error("Unknown error occurred while creating quote");
-      }
-    }
+    // quoteMutation.mutate(quoteDetails);
+    navigate("/requests/confirmation");
   };
 
   if (!isLoaded) {
@@ -852,6 +725,7 @@ export default function DistanceCalculatorPage() {
                       </h3>
                       <select
                         className="p-2 rounded w-full bg-light-grey text-primary font-normal"
+                        value={dataState?.packagingType}
                         onChange={(e) =>
                           // setSelectedPackagingType(e.target.value)
                           updateState({

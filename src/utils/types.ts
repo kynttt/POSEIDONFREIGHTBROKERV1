@@ -10,6 +10,10 @@ export interface LoginResponse {
   data: User;
 }
 
+export interface Point {
+  lng: number;
+  lat: number;
+}
 export interface LogoutResponse {
   message: string;
 }

@@ -66,7 +66,7 @@ function warningGenerator(
   if (!data.commodity) warning.commodity = "Please enter the commodity.";
   if (!data.maxWeight) warning.maxWeight = "Please enter the maximum weight.";
   if (!data.companyName) warning.companyName = "Please enter the company name.";
-  if (!data.packagingNumber || data.packagingType)
+  if (!data.packagingNumber && data.packagingType)
     warning.packaging = "Please fill both packaging number and type.";
 
   const allNull = Object.values(warning).every((value) => value === null);
