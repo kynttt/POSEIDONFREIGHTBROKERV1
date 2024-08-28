@@ -104,7 +104,9 @@ const ProfileCard: React.FC = () => {
                 {" "}
                 {/* 2/3 width */}
                 <div>
-                  <ShipperBookings />
+                  <ShipperBookings onDataFetched={function (): void {
+                    throw new Error("Function not implemented.");
+                  } } selectedDate={null} />
                 </div>
               </div>
               <div className="col-span-1  bg-white rounded-lg">

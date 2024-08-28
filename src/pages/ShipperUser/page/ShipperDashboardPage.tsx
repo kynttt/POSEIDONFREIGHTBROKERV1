@@ -1,5 +1,5 @@
-import ShipperBookings from "../components/shipperBookings"; // Import LocationsList component
-import dashboardData from "../components/shippersDashboardData.json"; // Import JSON data
+import { useState, useEffect, useCallback } from "react";
+import ShipperBookings from "../components/shipperBookings";
 import {
   LineChart,
   Line,
@@ -10,21 +10,126 @@ import {
   Bar,
   ResponsiveContainer,
 } from "recharts";
+import { Booking, Quote } from "../../../utils/types";
+import { fetchUserBookings } from "../../../lib/apiCalls";
 
 const ShipperDashboardPage = () => {
+  const [totalLoadsData, setTotalLoadsData] = useState<any[]>([]);
+  const [statusCounts, setStatusCounts] = useState<{ [key: string]: number }>({
+    Pending: 0,
+    Confirmed: 0,
+    "In Transit": 0,
+    Delivered: 0,
+  });
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [allBookings, setAllBookings] = useState<Booking[]>([]); // State to store all bookings
+  const [, setFilteredBookings] = useState<Booking[]>([]); // State to store filtered bookings
+
+  const fetchBookings = useCallback(async () => {
+    try {
+      const bookingsData = await fetchUserBookings();
+  
+      // Conversion factor from feet to miles
+      const FEET_TO_MILES_CONVERSION = 5280;
+  
+      // Object to store date-wise counts and total miles
+      const dateCounts: { [date: string]: { count: number; totalMiles: number } } = {};
+  
+      bookingsData.forEach((booking: Booking) => {
+        if (isQuote(booking.quote)) {
+          const quote = booking.quote as Quote;
+          const date = new Date(quote.pickupDate).toLocaleDateString(); // Extract date
+          let distanceStr = quote.distance || "0"; // Default to '0' if undefined
+          const unit = quote.unit || "miles"; // Default to 'miles' if undefined
+  
+          // Sanitize distanceStr: Remove commas and any other non-numeric characters except the decimal point
+          distanceStr = distanceStr.replace(/[^0-9.]/g, "");
+  
+          // Convert distance to a number
+          const distance = parseFloat(distanceStr);
+  
+          // Convert to miles if the unit is feet
+          const miles = unit === "feet" ? distance / FEET_TO_MILES_CONVERSION : distance;
+  
+          // If this date isn't in the object yet, initialize it
+          if (!dateCounts[date]) {
+            dateCounts[date] = { count: 0, totalMiles: 0 };
+          }
+  
+          // Increment the count and total miles for this date
+          dateCounts[date].count += 1;
+          dateCounts[date].totalMiles += miles;
+        }
+      });
+  
+      // Convert the dateCounts object to an array format for the chart
+      const processedData = Object.keys(dateCounts).map((date) => ({
+        date,
+        count: dateCounts[date].count,
+        totalMiles: dateCounts[date].totalMiles,
+      }));
+  
+      setTotalLoadsData(processedData);
+  
+      // Count bookings by status
+      const statusCounts = bookingsData.reduce(
+        (acc: { [key: string]: number }, booking: Booking) => {
+          const status = booking.status;
+          acc[status] = (acc[status] || 0) + 1;
+          return acc;
+        },
+        {}
+      );
+  
+      setStatusCounts(statusCounts);
+      setAllBookings(bookingsData); // Set all bookings
+      setFilteredBookings(bookingsData); // Initialize filtered bookings
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, []);
+  
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
+
+  const isQuote = (quote: string | Quote): quote is Quote => {
+    return typeof quote !== "string";
+  };
+
+  // Handler to track the selected date
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value);
+  };
+
+  // // Filter bookings by selected date
+  // const handleFilterClick = () => {
+  //   if (selectedDate) {
+  //     const filtered = allBookings.filter((booking) => {
+  //       if (isQuote(booking.quote)) {
+  //         return (
+  //           new Date(booking.quote.pickupDate).toISOString().split("T")[0] ===
+  //           selectedDate
+  //         );
+  //       }
+  //       return false;
+  //     });
+  //     setFilteredBookings(filtered);
+  //   }
+  // };
+
+  // Clear the filter and show all bookings
+  const handleClearFilterClick = () => {
+    setSelectedDate(null);
+    setFilteredBookings(allBookings); // Reset to all bookings
+  };
+
   return (
     <div className="bg-white h-full flex flex-col md:flex-row mt-6">
-      {/* Sidebar */}
-
       <div className="flex-1 p-4 md:p-6 bg-gray-100 overflow-y-auto lg:px-20">
         <h1 className="text-2xl font-bold mb-4 text-gray-500">Dashboard</h1>
-
-        {/* Overview Section */}
         <div className="bg-white rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
           <h2 className="text-xl font-semibold mb-4 text-primary">Overview</h2>
-          <span className="text-base font-semibold mb-4 md:mb-6 text-secondary">
-            Date Time Range
-          </span>
 
           <div className="grid lg:w-1/2 grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-6">
             <div className="flex flex-col">
@@ -32,79 +137,83 @@ const ShipperDashboardPage = () => {
                 htmlFor="startDate"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                Start Date
+                Search Pickup Date
               </label>
               <input
                 type="date"
                 id="startDate"
                 className="border border-secondary bg-white rounded-lg p-2 text-sm text-gray-500"
+                value={selectedDate || ""} // Set input value
+                onChange={handleDateChange} // Update the selected date
               />
             </div>
-            <div className="flex flex-col">
-              <label
-                htmlFor="endDate"
-                className="text-sm font-medium text-gray-700 mb-1"
+
+            {/* Filter and Clear Filter Buttons */}
+            <div className="flex items-end gap-4">
+              {/* <button
+                onClick={handleFilterClick}
+                className="bg-primary text-white rounded-lg px-4 py-2 text-sm"
               >
-                End Date
-              </label>
-              <input
-                type="date"
-                id="endDate"
-                className="border border-secondary bg-white rounded-lg p-2 text-sm text-gray-500"
-              />
+                Filter
+              </button> */}
+              <button
+                onClick={handleClearFilterClick}
+                className="bg-gray-400 text-white rounded-lg px-4 py-2 text-sm"
+              >
+                Clear Filter
+              </button>
             </div>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-4">
-            {/* Average Lead Time */}
             <div className="bg-light-grey p-4 rounded-lg shadow text-center flex-1">
               <p className="text-gray-600 font-semibold text-primary">
-                Average Lead Time (in days)
+                Total Miles Per Day
               </p>
-              <h3 className="text-4xl font-bold text-primary">
-                {dashboardData.overview.averageLeadTime}
-              </h3>
               <div className="w-full h-60">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={dashboardData.overview.totalLoads}>
+                  <LineChart data={totalLoadsData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
                     <Tooltip />
-                    <Line type="monotone" dataKey="value" stroke="#8884d8" />
+                    <Line
+                      type="monotone"
+                      dataKey="totalMiles"
+                      stroke="#8884d8"
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
-            {/* On-Time Pickups (Grid) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-              {dashboardData.overview.onTimePickups.map((pickup) => (
+              {Object.entries(statusCounts).map(([status, count]) => (
                 <div
-                  key={pickup.id}
+                  key={status}
                   className="bg-light-grey p-4 rounded-lg shadow text-center border border-gray-200"
                 >
                   <p className="text-gray-600 text-left font-medium text-primary text-base sm:text-lg md:text-xl">
-                    On-Time Pickups
+                    {status}
                   </p>
-                  <h3 className="text-2xl text-left sm:text-3xl md:text-2xl font-bold text-primary">
-                    {pickup.percentage}%
+                  <h3 className="text-2xl text-left sm:text-3xl md:text-2xl font-bold text-secondary">
+                    {count}
                   </h3>
                 </div>
               ))}
             </div>
 
-            {/* Total Loads Analytics */}
+            {/* Daily Booking Analytics */}
             <div className="bg-light-grey rounded-lg shadow p-4 md:p-6 flex-1">
               <h2 className="text-xl font-semibold mb-4 text-primary">
-                Total Loads Analytics
+                Daily Booking Analytics
               </h2>
               <div className="w-full h-60">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={dashboardData.overview.totalLoads}>
+                  <BarChart data={totalLoadsData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
                     <Tooltip />
-                    <Bar dataKey="value" fill="#8884d8" />
+                    <Bar dataKey="count" fill="#8884d8" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -112,8 +221,7 @@ const ShipperDashboardPage = () => {
           </div>
         </div>
 
-        {/* Locations Section */}
-        <ShipperBookings />
+        <ShipperBookings onDataFetched={fetchBookings} selectedDate={selectedDate} /> {/* Pass selectedDate to ShipperBookings */}
       </div>
     </div>
   );

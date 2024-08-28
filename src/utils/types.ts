@@ -48,6 +48,7 @@ export interface BookingData {
   price: number;
 }
 export interface Quote extends Schema {
+  unit: string;
   origin: string;
   destination: string;
   pickupDate: Date | string;
