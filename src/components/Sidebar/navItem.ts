@@ -8,6 +8,7 @@ import {
   faTruckFast,
   faFolderOpen,
   faCog,
+  faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
@@ -45,11 +46,13 @@ export const navItems: NavItems = {
     { label: "Dashboard", path: "/s/shipper-dashboard", icon: faTableColumns },
     { label: "Payables", path: "/s/user-payables", icon: faMoneyCheckDollar },
     { label: "Trucks", path: "/s/trailer-options", icon: faTruckFront },
+
     {
       label: "Request Quote",
       path: "/requests",
       icon: faCalculator,
     },
+    { label: "Saved Quotes", path: "/s/saved-quotes", icon: faHistory },
     // { label: "Notification", path: "/s/notification", icon: faBell },
   ],
 };

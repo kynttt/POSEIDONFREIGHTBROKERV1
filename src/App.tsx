@@ -49,6 +49,7 @@ import queryClient from "./lib/queryClient";
 import ManagementShellPage from "./pages/Admin/page/managementShellPage";
 import TruckManagementPage from "./pages/Admin/page/truckManagementPage";
 import UserTransactionsList from "./pages/Admin/page/usersTransactionList";
+import SavedQuotePage from "./pages/ShipperUser/page/savedQuotePage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -110,6 +111,7 @@ const App: React.FC = () => {
                   path="user-payables"
                   element={<ShipperUserPayablesPage />}
                 />
+                <Route path="saved-quotes" element={<SavedQuotePage />} />
                 <Route
                   path="performance-grade"
                   element={<PerformanceOverview />}

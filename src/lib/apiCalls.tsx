@@ -152,6 +152,13 @@ export const fetchQuoteDetails = async (quoteId: string | null) => {
   return response.data as Quote;
 };
 
+// Get Quotes based on user
+export const fetchUserQuotes = async () => {
+  const response = await axiosInstance.get(`/quotes/user`);
+
+  return response.data as Quote[];
+};
+
 // Invoice
 // Create invoice
 export const createInvoice = async (invoiceData: Invoice) => {
