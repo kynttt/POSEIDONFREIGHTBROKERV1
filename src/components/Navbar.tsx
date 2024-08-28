@@ -112,37 +112,37 @@ const Navbar: React.FC = () => {
             {!isAuthenticated ? (
               <>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/")}
                 >
                   Home
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("#about")}
                 >
                   About Us
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("#services")}
                 >
                   Services
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("#contacts")}
                 >
                   Contacts
                 </button>
-                <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                {/* <button
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("#careers")}
                 >
                   Careers
-                </button>
+                </button> */}
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/signup")}
                 >
                   Create Account
@@ -151,31 +151,31 @@ const Navbar: React.FC = () => {
             ) : role === "admin" ? (
               <>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/a/load-board")}
                 >
                   Loadboard
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/a/admin-dashboard")}
                 >
                   Dashboard
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/a/trailer-options")}
                 >
                   Trucks
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={handleNotificationClick}
                 >
                   Notifications
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/a/profile")}
                 >
                   Profile
@@ -190,31 +190,31 @@ const Navbar: React.FC = () => {
                   Dashboard
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={handleNotificationClick}
                 >
                   Notification
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/user-payables")}
                 >
                   Accounts Payable
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/trailer-options")}
                 >
                   Trucks
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/requests")}
                 >
                   Request A Quote
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-[#252F70]"
+                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/profile")}
                 >
                   Profile
