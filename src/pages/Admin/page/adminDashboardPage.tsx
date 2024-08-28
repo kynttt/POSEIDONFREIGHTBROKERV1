@@ -4,11 +4,11 @@ import ShipmentsAnalytics from "../components/ShipmentsAnalytics";
 import ShippersList from "../components/ShippersList";
 import RecentTransactions from "../components/RecentTransactions";
 import overviewData from "../data/overviewData.json";
-import transactionsData from "../data/transactionsData.json";
+// import transactionsData from "../data/transactionsData.json";
 
 const AdminDashboard: React.FC = () => {
   const [overview] = useState(overviewData);
-  const [transactions] = useState(transactionsData);
+  // const [transactions] = useState(transactionsData);
 
   return (
     <div className="flex h-full">
@@ -41,7 +41,7 @@ const AdminDashboard: React.FC = () => {
 
           {/* RecentTransactions component */}
           <div className="mt-8">
-            <RecentTransactions transactions={transactions} />
+            <RecentTransactions  />
           </div>
         </div>
       </div>
