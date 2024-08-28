@@ -108,7 +108,7 @@ const LoginPage: React.FC = () => {
       <div className="flex flex-col md:flex-row w-full max-w-full lg:max-w-4xl shadow-lg rounded-lg overflow-hidden">
         <div className="w-full md:w-1/2 bg-secondary flex flex-col justify-center items-center p-8">
           <h1 className="text-white text-2xl md:text-4xl mb-4 text-center">
-            Freight Broker
+            Poseidon Freight
           </h1>
           <img
             src={signupImage}
