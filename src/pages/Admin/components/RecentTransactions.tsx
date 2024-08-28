@@ -12,6 +12,7 @@ interface BookingData {
     price: number;
   };
   status: string;
+  
 }
 
 // Define the Booking interface to match the data structure from the API
@@ -40,7 +41,7 @@ const RecentTransactions: React.FC = () => {
       setLoading(true);
       try {
         const data: Booking[] = await fetchBookings(); // Fetch data using your function
-
+  
         // Convert the fetched data into the BookingData type and filter out bookings without deliveryDate
         const filteredBookings: BookingData[] = data
           .filter((booking) => booking._id && typeof booking.quote !== 'string' && (booking.quote as Quote).deliveryDate) // Ensure _id, quote, and deliveryDate are valid
@@ -53,7 +54,7 @@ const RecentTransactions: React.FC = () => {
             },
             status: booking.status,
           }));
-
+  
         // Set the bookings state with filtered and transformed data
         setBookings(filteredBookings);
       } catch (err) {
@@ -63,7 +64,7 @@ const RecentTransactions: React.FC = () => {
         setLoading(false); // Set loading to false after data fetch
       }
     };
-
+  
     fetchData();
   }, []); // Empty dependency array ensures this effect runs once on mount
 
@@ -80,14 +81,15 @@ const RecentTransactions: React.FC = () => {
       case 'Pending':
         return 'text-red-600';
       case 'Confirmed':
-        return 'text-green-500';
+        return 'text-blue-500';
       default:
-        return 'text-gray-600';
+        return 'text-price';
     }
   };
 
   // Function to format date to 'YYYY-MM-DD'
-  const formatDate = (date: Date | string) => {
+  const formatDate = (date: Date | string | null | undefined) => {
+    if (!date) return 'N/A'; // Handle null or undefined cases
     if (typeof date === 'string') {
       date = new Date(date);
     }
@@ -122,17 +124,22 @@ const RecentTransactions: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {displayedBookings.map((booking, index) => (
-                <tr key={index}>
-                  <td className="px-4 py-2 text-secondary font-normal">{booking._id}</td>
-                  <td className="px-4 py-2 text-secondary font-normal">{booking.quote.destination}</td>
-                  <td className="px-4 py-2 text-secondary font-normal">{booking.quote.deliveryDate}</td>
-                  <td className="px-4 py-2 text-secondary font-normal">${booking.quote.price}</td>
-                  <td className={`px-4 py-2 font-normal ${getStatusColor(booking.status)}`}>
-                    {booking.status}
-                  </td>
-                </tr>
-              ))}
+            {displayedBookings.map((booking, index) => (
+  <tr key={index}>
+    <td className="px-4 py-2 text-secondary font-normal">{booking._id}</td>
+    <td className="px-4 py-2 text-secondary font-normal">
+      {booking.quote.destination.length > 25
+        ? booking.quote.destination.substring(0, 25) + '...'
+        : booking.quote.destination}
+    </td>
+    <td className="px-4 py-2 text-secondary font-normal">{booking.quote.deliveryDate}</td>
+    <td className="px-4 py-2 text-secondary font-normal">${booking.quote.price}</td>
+    <td className={`px-4 py-2 font-normal ${getStatusColor(booking.status)}`}>
+      {booking.status}
+    </td>
+  </tr>
+))}
+
             </tbody>
           </table>
           <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
