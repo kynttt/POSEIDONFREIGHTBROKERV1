@@ -7,6 +7,8 @@ import appleIcon from "../assets/img/apple.png";
 import OTPModal from "../components/OTPModal";
 import { registerUser } from "../lib/apiCalls";
 import { RegisterFormData } from "../utils/types";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -26,6 +28,8 @@ const SignupPage = () => {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string;
   }>({});
+  // const [phone, setPhone] = useState("");
+  // const [value, setValue] = React.useState('');
 
   const [isTermsChecked, setIsTermsChecked] = useState(false);
 
@@ -48,7 +52,12 @@ const SignupPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedFormData = { ...formData, [e.target.name]: e.target.value };
     setFormData(updatedFormData);
-    sessionStorage.setItem('signupFormData', JSON.stringify(updatedFormData));
+    sessionStorage.setItem("signupFormData", JSON.stringify(updatedFormData));
+  };
+  const handlePhoneChange = (value?: string) => {
+    const updatedFormData = { ...formData, phone: value || "" };
+    setFormData(updatedFormData);
+    sessionStorage.setItem("signupFormData", JSON.stringify(updatedFormData));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,9 +119,10 @@ const SignupPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.name ? "border-red-500" : ""
-                    }`}
-                  placeholder="Enter your first name and last name"
+                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                    validationErrors.name ? "border-red-500" : ""
+                  }`}
+                  placeholder="Enter your First Name and Last Name"
                   required
                 />
                 {validationErrors.name && (
@@ -131,8 +141,9 @@ const SignupPage = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-3/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.address ? "border-red-500" : ""
-                      }`}
+                    className={`mt-1  block w-full md:w-3/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                      validationErrors.address ? "border-red-500" : ""
+                    }`}
                     placeholder="City, State, Country"
                     required
                   />
@@ -141,8 +152,9 @@ const SignupPage = () => {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-2/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.postalCode ? "border-red-500" : ""
-                      }`}
+                    className={`mt-1  block w-full md:w-2/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                      validationErrors.postalCode ? "border-red-500" : ""
+                    }`}
                     placeholder="Postal Code"
                     required
                   />
@@ -176,18 +188,15 @@ const SignupPage = () => {
                   Phone number *
                 </label>
                 <div className="flex mt-1">
-                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
-                    🇺🇸
-                  </span>
-                  <input
+                  <PhoneInput
+                    defaultCountry="US" // Can be changed or omitted
                     type="tel"
                     name="phone"
                     value={formData.phone}
-                    onChange={handleChange}
-                    className={`block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.phone ? "border-red-500" : ""
-                      }`}
-                    placeholder="Phone number"
-                    required
+                    onChange={handlePhoneChange}
+                    className="w-full border border-gray-300 rounded-md bg-white text-gray-700 h-10 p-4"
+                    international
+                    countryCallingCodeEditable={false}
                   />
                 </div>
                 {validationErrors.phone && (
@@ -205,8 +214,9 @@ const SignupPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.password ? "border-red-500" : ""
-                    }`}
+                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                    validationErrors.password ? "border-red-500" : ""
+                  }`}
                   placeholder="Enter your password"
                   required
                 />
@@ -225,8 +235,9 @@ const SignupPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${validationErrors.email ? "border-red-500" : ""
-                    }`}
+                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                    validationErrors.email ? "border-red-500" : ""
+                  }`}
                   placeholder="Enter your email"
                   required
                 />
@@ -245,25 +256,31 @@ const SignupPage = () => {
                   checked={isTermsChecked}
                   onChange={handleCheckboxChange}
                 />
-                <label htmlFor="terms" className="text-sm text-black font-normal ml-2">
+                <label
+                  htmlFor="terms"
+                  className="text-sm text-black font-normal ml-2"
+                >
                   I agree to the{" "}
-                  <a 
-  href="/terms-and-agreement" 
-  target="_blank" 
-  rel="noopener noreferrer" 
-  className="text-blue-600"
->
-  Terms of Service
-</a>
-
+                  <a
+                    href="/terms-and-agreement"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600"
+                  >
+                    Terms of Service
+                  </a>
                 </label>
               </div>
 
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className={` text-white w-full py-3 rounded-md btn medium extra-class-for-medium-button ${!isTermsChecked ? 'text-white w-full py-3 rounded-md opacity-20 cursor-not-allowed' : ''}`}
-                  style={{ backgroundColor: '#252F70' }}
+                  className={` text-white w-full py-3 rounded-md btn medium extra-class-for-medium-button ${
+                    !isTermsChecked
+                      ? "text-white w-full py-3 rounded-md opacity-20 cursor-not-allowed"
+                      : ""
+                  }`}
+                  style={{ backgroundColor: "#252F70" }}
                   disabled={!isTermsChecked}
                 >
                   Sign Up
