@@ -19,6 +19,7 @@ import { logoutUser } from "../../lib/apiCalls";
 import { notifications } from "@mantine/notifications";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css"; // Import the driver.js CSS
+import profilePic from "../../assets/img/profilepic.jpg";
 
 export default function Sidebar({
   closeVisible = false,
@@ -28,7 +29,7 @@ export default function Sidebar({
   close?: () => void;
 }) {
   const navigate = useNavigate();
-  const { isAuthenticated, role } = useAuthStore();
+  const { isAuthenticated, role,  name } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
 
   const handleNavigation = useCallback(
@@ -170,7 +171,7 @@ export default function Sidebar({
                     ? "trucks-tab"
                     : undefined
                 }
-                className="w-full flex items-center px-4 py-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
+                className="w-full cursor-pointer flex items-center px-4 py-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
                 onClick={() => handleNavigation(item.path)}
               >
                 <FontAwesomeIcon icon={item.icon} />
@@ -183,15 +184,17 @@ export default function Sidebar({
         </Stack>
       </Stack>
 
-      <ProfileItem handleNavigation={handleNavigation} />
+      <ProfileItem handleNavigation={handleNavigation} name={name} />
     </Stack>
   );
 }
 
 function ProfileItem({
   handleNavigation,
+  name, // Accept userName as a prop
 }: {
   handleNavigation: (path: string) => void;
+  name: string | null; // Ensure userName is passed as a prop
 }) {
   const { logoutUpdate, role } = useAuthStore();
   const mutation = useMutation<LogoutResponse, Error, undefined>({
@@ -228,14 +231,15 @@ function ProfileItem({
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-        <div className="flex items-center px-4 -mx-2 mt-5">
-          <img
+      <div className="flex items-center py-2 px-4 mx-1 mt-5 shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer">
+
+        <img
             className="object-cover mx-2 rounded-full h-9 w-9"
-            src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+            src={profilePic} // Use the imported image
             alt="avatar"
           />
-          <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
-            John Doe
+           <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
+            {name || "John Doe"} {/* Display the user's name */}
           </span>
         </div>
       </Menu.Target>
