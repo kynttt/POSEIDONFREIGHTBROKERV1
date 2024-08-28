@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 interface AuthState {
   role: string | null;
   userId: string | null;
+  name: string | null;
   isAuthenticated: boolean | null;
   login: ({ user }: { user: User }) => void;
   logoutUpdate: () => void;
@@ -15,6 +16,7 @@ export const useAuthStore = create(
       isAuthenticated: null,
       role: null,
       userId: null,
+      name: null,
       isLoading: false,
       isError: false,
       error: null,
@@ -23,6 +25,7 @@ export const useAuthStore = create(
         set({
           role: user.role,
           userId: user._id,
+          name: user.name,
           isAuthenticated: true,
         });
       },
@@ -32,6 +35,7 @@ export const useAuthStore = create(
           isAuthenticated: false,
           role: null,
           userId: null,
+          name: null,
         });
       },
     }),
