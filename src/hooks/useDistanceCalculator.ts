@@ -6,6 +6,7 @@ const localStorageName = "distance-calculator-storage";
 
 interface DistanceCalculatorWarning {
   origin: string | null;
+
   destination: string | null;
   pickupDate: string | null;
   trailerType: string | null;
