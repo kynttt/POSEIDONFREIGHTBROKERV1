@@ -135,7 +135,7 @@ function TruckList() {
           },
           {
             accessor: "actions",
-            title: <Box mr={6}>Row actions</Box>,
+            title: <Box mr={6}>Actions</Box>,
             textAlign: "right",
             render: (catalog) => (
               <>

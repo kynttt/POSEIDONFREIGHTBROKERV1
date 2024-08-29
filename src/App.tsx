@@ -27,6 +27,8 @@ import { Notifications } from "@mantine/notifications";
 import "@mantine/core/styles.css";
 import "mantine-datatable/styles.layer.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/dates/styles.css";
+
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import Stripe from "./components/stripe/Stripe";

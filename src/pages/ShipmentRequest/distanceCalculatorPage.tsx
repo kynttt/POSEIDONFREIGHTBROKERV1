@@ -508,7 +508,6 @@ export default function DistanceCalculatorPage() {
                           <span className="text-red-500">*</span>
                         </h3>
                         <OriginInput
-                          value={dataState?.origin}
                           onLoad={onLoadA}
                           onPlaceChanged={onPlaceChangedA}
                         />
@@ -529,7 +528,6 @@ export default function DistanceCalculatorPage() {
                           <span className="text-red-500">*</span>
                         </h3>
                         <DestinationInput
-                          value={dataState?.destination}
                           onLoad={onLoadB}
                           onPlaceChanged={onPlaceChangedB}
                         />

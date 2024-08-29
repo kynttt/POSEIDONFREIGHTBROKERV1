@@ -153,8 +153,21 @@ export const fetchQuoteDetails = async (quoteId: string | null) => {
 };
 
 // Get Quotes based on user
-export const fetchUserQuotes = async () => {
-  const response = await axiosInstance.get(`/quotes/user`);
+export const listUserQuotes = async ({
+  queries,
+}: {
+  queries: string | undefined;
+}) => {
+  // Base URL
+  let url = `/quotes/user?orderDesc=createdAt`;
+
+  // Append queries if defined
+  if (queries) {
+    url += `&${queries}`;
+  }
+
+  // Make the API call
+  const response = await axiosInstance.get(url);
 
   return response.data as Quote[];
 };
