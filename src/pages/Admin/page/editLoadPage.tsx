@@ -227,7 +227,7 @@ const EditLoad: React.FC = () => {
         };
       });
 
-      if (newStatus === "Confirmed") {
+      if (action !== "cancel" && newStatus === "Confirmed") {
         setIsModalOpen(true); // Open the modal only if confirming the booking
       }
     } catch (error) {

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import OverviewSection from "../components/OverviewSection";
 import ShipmentsAnalytics from "../components/ShipmentsAnalytics";
 import ShippersList from "../components/ShippersList";
 import RecentTransactions from "../components/RecentTransactions";
-import overviewData from "../data/overviewData.json";
+// import overviewData from "../data/overviewData.json";
 // import transactionsData from "../data/transactionsData.json";
 
 const AdminDashboard: React.FC = () => {
-  const [overview] = useState(overviewData);
+  // const [overview] = useState(overviewData);
   // const [transactions] = useState(transactionsData);
 
   return (
@@ -25,7 +25,7 @@ const AdminDashboard: React.FC = () => {
           </h6>
 
           {/* OverviewSection component */}
-          <OverviewSection data={overview} />
+          <OverviewSection />
 
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* ShipmentsAnalytics component */}
