@@ -10,6 +10,10 @@ export interface LoginResponse {
   data: User;
 }
 
+export interface Point {
+  lng: number;
+  lat: number;
+}
 export interface LogoutResponse {
   message: string;
 }
@@ -57,7 +61,7 @@ export interface Quote extends Schema {
   trailerSize: number;
   commodity: string;
   maxWeight: number;
-  packaging: number | string;
+  packaging: string;
   companyName: string;
   distance: string;
   price: number;

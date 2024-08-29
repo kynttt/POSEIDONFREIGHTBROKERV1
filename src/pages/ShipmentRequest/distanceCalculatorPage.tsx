@@ -2,7 +2,7 @@ import { Libraries } from "@react-google-maps/api";
 import { useAuthStore } from "../../state/useAuthStore";
 
 import { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
 import {
   OriginInput,
@@ -26,7 +26,11 @@ import {
   faNoteSticky,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { createQuote, getPricePerMile, listTrucks } from "../../lib/apiCalls";
+import {
+  fetchQuoteDetails,
+  getPricePerMile,
+  listTrucks,
+} from "../../lib/apiCalls";
 import { calculatePrice } from "../../components/googleMap/priceCalculator";
 
 // Import truck types and sizes data
@@ -34,16 +38,12 @@ import Calendar from "../../components/Calendar";
 // import { Quote } from "../../utils/types";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css"; // Import the driver.js CSS
-import {
-  GetPriceMileData,
-  GetPriceMileResponse,
-  Quote,
-  TruckCatalog,
-} from "../../utils/types";
+import { GetPriceMileData, GetPriceMileResponse } from "../../utils/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { LoadingOverlay } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
+import useDistanceCalculator from "../../hooks/useDistanceCalculator";
 
 const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
@@ -51,9 +51,154 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide 
 export default function DistanceCalculatorPage() {
   const { role } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const quoteId = searchParams.get("quoteId");
   // };
   const navigate = useNavigate();
 
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: googleMapsApiKey,
+    libraries: libraries,
+  });
+
+  const {
+    data: dataState,
+    warnings,
+    update: updateState,
+    init: initDistanceCalculator,
+    generateWarning,
+  } = useDistanceCalculator();
+
+  /// <<<--- MAP RELATED STATES --->>>
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [destinationLocation, setDestinationLocation] =
+    useState<google.maps.LatLng | null>(null);
+  const [autocompleteA, setAutocompleteA] =
+    useState<google.maps.places.Autocomplete | null>(null);
+  const [autocompleteB, setAutocompleteB] =
+    useState<google.maps.places.Autocomplete | null>(null);
+  const [originLocation, setOriginLocation] =
+    useState<google.maps.LatLng | null>(null);
+  const [directions, setDirections] =
+    useState<google.maps.DirectionsResult | null>(null);
+  /// <<<--- MAP RELATED STATES END --->>>
+
+  const [showPrice, setShowPrice] = useState(false);
+
+  /// <<<--- MODAL STATES --->>>
+  const [showFirstModal, setShowFirstModal] = useState(false);
+  const [showSecondModal, setShowSecondModal] = useState(false);
+  const [showThirdModal, setShowThirdModal] = useState(false);
+  /// <<<--- MODAL STATES END --->>>
+
+  const {
+    data: listTrucksData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["truck-catalogs", "distance-calculator"],
+
+    staleTime: undefined,
+    gcTime: undefined,
+    queryFn: listTrucks,
+  });
+
+  const {
+    data,
+    isLoading: isQueryLoading,
+    error: savedQuoteError,
+  } = useQuery({
+    enabled: !!quoteId && !!listTrucksData && listTrucksData.length > 0,
+    queryKey: ["bookingDetails", quoteId],
+    queryFn: () => fetchQuoteDetails(quoteId),
+    refetchOnWindowFocus: false,
+    staleTime: 600000, // 10 minutes
+    gcTime: 1800000, // 30 minutes
+  });
+
+  const mutation = useMutation<
+    GetPriceMileResponse,
+    AxiosError,
+    GetPriceMileData
+  >({
+    mutationFn: getPricePerMile,
+    onSuccess: (data) => {
+      if (!dataState) {
+        return;
+      }
+
+      if (!dataState.distance && !dataState.maxWeight) {
+        return;
+      }
+      const calculatedPrice = calculatePrice(
+        dataState.distance!,
+        data.pricePerMile,
+        dataState.maxWeight!
+      );
+
+      if (!calculatePrice) {
+        return;
+      }
+      // setPrice(calculatedPrice);
+      updateState({
+        ...dataState!,
+        price: calculatedPrice!,
+      });
+    },
+    onError: (error) => {
+      console.error("Error fetching price data:", error.message);
+      notifications.show({
+        title: "Error",
+        message: "An error occurred while calculating the price",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (data && listTrucksData && listTrucksData.length > 0) {
+      const {
+        origin,
+        destination,
+        pickupDate,
+        trailerType,
+        trailerSize,
+        commodity,
+        maxWeight,
+        companyName,
+        packaging,
+        notes,
+        distance,
+        price,
+      } = data;
+
+      const packagingSplit = packaging.split(" ");
+
+      const trailerTypeFound = listTrucksData!.find(
+        (type) => type.truckType === trailerType
+      );
+
+      initDistanceCalculator({
+        packagingNumber: parseInt(packagingSplit[0], 10),
+        packagingType: packagingSplit[1],
+        origin,
+        destination,
+        pickupDate: new Date(pickupDate).toLocaleDateString(),
+        trailerType: trailerTypeFound,
+        trailerSize,
+        commodity,
+        maxWeight: maxWeight.toString(),
+        companyName,
+        notes: notes || undefined,
+        distance,
+        price,
+      });
+    }
+  }, [data, isQueryLoading]);
 
   useEffect(() => {
     if (!isTourStarted && role === "user") {
@@ -72,7 +217,7 @@ export default function DistanceCalculatorPage() {
               align: "start",
             },
           },
-          
+
           // Add more steps if needed
         ],
       });
@@ -82,85 +227,8 @@ export default function DistanceCalculatorPage() {
     }
   }, [isTourStarted, role]); // Only run once when the component mounts
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: googleMapsApiKey,
-    libraries: libraries,
-  });
-
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [autocompleteA, setAutocompleteA] =
-    useState<google.maps.places.Autocomplete | null>(null);
-  const [autocompleteB, setAutocompleteB] =
-    useState<google.maps.places.Autocomplete | null>(null);
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
-  const [originLocation, setOriginLocation] =
-    useState<google.maps.LatLng | null>(null);
-  const [destinationLocation, setDestinationLocation] =
-    useState<google.maps.LatLng | null>(null);
-  const [directions, setDirections] =
-    useState<google.maps.DirectionsResult | null>(null);
-  const [distance, setDistance] = useState("");
-  const [price, setPrice] = useState<number | null>(null); // State to hold calculated price
-
-  const [pickupDate, setPickupDate] = useState("");
-  const [selectedTrailerType, setSelectedTrailerType] = useState<
-    TruckCatalog | undefined
-  >(undefined);
-  const [selectedTrailerSize, setSelectedTrailerSize] = useState<number>(0);
-  const [commodity, setCommodity] = useState("");
-  const [maxWeight, setMaxWeight] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [packagingNumber, setPackagingNumber] = useState<number | undefined>();
-  const [selectedPackagingType, setSelectedPackagingType] = useState("");
-  const [notes, setNotes] = useState("");
-  const [showFirstModal, setShowFirstModal] = useState(false);
-  const [showSecondModal, setShowSecondModal] = useState(false);
-  const [showThirdModal, setShowThirdModal] = useState(false);
-  const [showPrice, setShowPrice] = useState(false);
-
-  const { data, isLoading, refetch, isError, error } = useQuery({
-    queryKey: ["truck-catalogs", "distance-calculator"],
-    enabled: false,
-    staleTime: undefined,
-    gcTime: undefined,
-    queryFn: listTrucks,
-  });
-
-  const mutation = useMutation<
-    GetPriceMileResponse,
-    AxiosError,
-    GetPriceMileData
-  >({
-    mutationFn: getPricePerMile,
-    onSuccess: (data) => {
-      const calculatedPrice = calculatePrice(
-        distance,
-        data.pricePerMile,
-        maxWeight
-      );
-      setPrice(calculatedPrice);
-    },
-    onError: (error) => {
-      console.error("Error fetching price data:", error.message);
-      notifications.show({
-        title: "Error",
-        message: "An error occurred while calculating the price",
-        color: "red",
-        icon: true,
-        autoClose: 5000,
-      });
-    },
-  });
-
   useEffect(() => {
-    if (showFirstModal === true) {
-      refetch();
-    }
-  }, [showFirstModal, refetch]);
-
-  useEffect(() => {
-    if (data && data.length == 0) {
+    if (listTrucksData && listTrucksData.length == 0) {
       notifications.show({
         title: "No Trailers Found",
         message: "It seems there are no trailers stored in the database",
@@ -169,7 +237,7 @@ export default function DistanceCalculatorPage() {
         autoClose: 5000,
       });
     }
-  }, [data]);
+  }, [listTrucksData]);
 
   useEffect(() => {
     if (error) {
@@ -181,80 +249,59 @@ export default function DistanceCalculatorPage() {
         autoClose: 5000,
       });
     }
-  }, [isError, error]);
-
-  const saveDataToSessionStorage = () => {
-    const data = {
-      origin,
-      destination,
-      pickupDate,
-      selectedTrailerType,
-      selectedTrailerSize,
-      commodity,
-      maxWeight,
-      companyName,
-      packagingNumber,
-      selectedPackagingType,
-      notes,
-      distance,
-      price,
-    };
-    sessionStorage.setItem("distanceCalculatorData", JSON.stringify(data));
-  };
-
-  const handleConfirmFirstModal = () => {
-    saveDataToSessionStorage();
-    setShowFirstModal(false);
-    setShowSecondModal(true);
-  };
-
-  const handleConfirmSecondModal = () => {
-    saveDataToSessionStorage();
-    setShowSecondModal(false);
-    setShowThirdModal(true);
-  };
-
-  const handleConfirmThirdModal = () => {
-    sessionStorage.removeItem("distanceCalculatorData");
-    setShowThirdModal(false);
-    setShowPrice(true);
-  };
+    if (savedQuoteError) {
+      notifications.show({
+        title: "Error",
+        message: "An error occurred while fetching old quote data",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+    }
+  }, [isError, error, savedQuoteError]);
 
   useEffect(() => {
-    const savedData = sessionStorage.getItem("distanceCalculatorData");
-    if (savedData) {
-      const data = JSON.parse(savedData);
-      setOrigin(data.origin || "");
-      setDestination(data.destination || "");
-      setPickupDate(data.pickupDate || "");
-      setSelectedTrailerType(data.selectedTrailerType || "");
-      setSelectedTrailerSize(data.selectedTrailerSize || 0);
-      setCommodity(data.commodity || "");
-      setMaxWeight(data.maxWeight || "");
-      setCompanyName(data.companyName || "");
-      setPackagingNumber(data.packagingNumber || "");
-      setSelectedPackagingType(data.selectedPackagingType || "");
-      setNotes(data.notes || "");
-      setDistance(data.distance || "");
-      setPrice(data.price || null);
-    }
+    if (originLocation && destinationLocation) {
+      const origin = dataState?.origin || "";
+      const destination = dataState?.destination || "";
 
-    return () => {
-      sessionStorage.removeItem("distanceCalculatorData");
-    };
+      calculateRoute({
+        origin,
+        destination,
+        onDirections: setDirections,
+        onDistance: (value) => {
+          updateState({
+            ...dataState!,
+            distance: value,
+          });
+        },
+        map,
+        originLocation,
+        destinationLocation,
+      });
+    }
+  }, [
+    originLocation,
+    destinationLocation,
+    origin,
+    dataState?.origin,
+    dataState?.destination,
+  ]);
+
+  useEffect(() => {
+    if (!dataState) {
+      initDistanceCalculator(null);
+    }
   }, []);
 
-  const [warnings, setWarnings] = useState({
-    origin: "",
-    destination: "",
-    pickupDate: "",
-    selectedTrailerType: "",
-    selectedTrailerSize: "",
-    commodity: "",
-    maxWeight: "",
-    companyName: "",
-    packaging: "",
-  });
+  useEffect(() => {
+    if (map && originLocation && destinationLocation) {
+      const bounds = new google.maps.LatLngBounds();
+      bounds.extend(originLocation);
+      bounds.extend(destinationLocation);
+      map.fitBounds(bounds);
+    }
+  }, [map, originLocation, destinationLocation]);
 
   const onLoadA = useCallback(
     (autocomplete: google.maps.places.Autocomplete) => {
@@ -269,12 +316,28 @@ export default function DistanceCalculatorPage() {
     },
     []
   );
-
+  const pricingCalculateHandler = () => {
+    if (dataState) {
+      const { distance, maxWeight, trailerType, trailerSize } = dataState;
+      if (distance && maxWeight && trailerType && trailerSize) {
+        console.log(distance, maxWeight, trailerType, trailerSize);
+        mutation.mutate({
+          distance: parseFloat(distance.replace(/[^\d.]/g, "")),
+          truckId: trailerType._id!,
+          trailerSize: trailerSize,
+        });
+      }
+    }
+  };
   const onPlaceChangedA = () => {
     if (autocompleteA) {
       const place = autocompleteA.getPlace();
       if (place.formatted_address) {
-        setOrigin(place.formatted_address);
+        // setOrigin(place.formatted_address);
+        updateState({
+          ...dataState!,
+          origin: place.formatted_address,
+        });
       }
       if (place.geometry && place.geometry.location) {
         setOriginLocation(place.geometry.location);
@@ -286,7 +349,11 @@ export default function DistanceCalculatorPage() {
     if (autocompleteB) {
       const place = autocompleteB.getPlace();
       if (place.formatted_address) {
-        setDestination(place.formatted_address);
+        // setDestination(place.formatted_address);
+        updateState({
+          ...dataState!,
+          destination: place.formatted_address,
+        });
       }
       if (place.geometry && place.geometry.location) {
         setDestinationLocation(place.geometry.location);
@@ -298,101 +365,62 @@ export default function DistanceCalculatorPage() {
   ) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value)) {
-      setPackagingNumber(value);
-    } else {
-      setPackagingNumber(0); // or handle the error as needed
+      // setPackagingNumber(value);
+      updateState({
+        ...dataState!,
+        packagingNumber: value,
+      });
     }
   };
 
-  useEffect(() => {
-    if (originLocation && destinationLocation) {
-      calculateRoute({
-        origin,
-        destination,
-        setDirections,
-        setDistance,
-        map,
-        originLocation,
-        destinationLocation,
-      });
-    }
-  }, [originLocation, destinationLocation, origin, destination, map]);
+  const handleConfirmFirstModal = () => {
+    // saveDataToSessionStorage();
 
-  useEffect(() => {
-    if (map && originLocation && destinationLocation) {
-      const bounds = new google.maps.LatLngBounds();
-      bounds.extend(originLocation);
-      bounds.extend(destinationLocation);
-      map.fitBounds(bounds);
-    }
-  }, [map, originLocation, destinationLocation]);
+    setShowFirstModal(false);
+    setShowSecondModal(true);
+  };
 
-  // ! HEREEEE
-  useEffect(() => {
-    if (distance && selectedTrailerType && selectedTrailerSize && maxWeight) {
-      mutation.mutate({
-        distance: parseFloat(distance.replace(/[^\d.]/g, "")),
-        trailerSize: selectedTrailerSize,
-        truckId: selectedTrailerType._id!,
-      });
-    }
-  }, [distance, selectedTrailerType, selectedTrailerSize, maxWeight]);
+  const handleConfirmSecondModal = () => {
+    // saveDataToSessionStorage();
+    setShowSecondModal(false);
+    setShowThirdModal(true);
+  };
+
+  const handleConfirmThirdModal = () => {
+    pricingCalculateHandler();
+    setShowThirdModal(false);
+    setShowPrice(true);
+  };
 
   const handleQuoteButtonClick = async () => {
-    const newWarnings = {
-      origin: !origin ? "Please select a pickup location." : "",
-      destination: !destination ? "Please select a drop-off location." : "",
-      pickupDate: !pickupDate ? "Please select a pickup date." : "",
-      selectedTrailerType: !selectedTrailerType
-        ? "Please select a trailer type."
-        : "",
-      selectedTrailerSize:
-        selectedTrailerSize === 0 ? "Please select a trailer size." : "",
-      commodity: !commodity ? "Please enter the commodity." : "",
-      maxWeight: !maxWeight ? "Please enter the maximum weight." : "",
-      companyName: !companyName ? "Please enter the company name." : "",
-      packaging:
-        !packagingNumber || !selectedPackagingType
-          ? "Please fill both packaging number and type."
-          : "",
-    };
+    if (mutation.isPending) return;
 
-    setWarnings(newWarnings);
+    generateWarning();
 
-    if (Object.values(newWarnings).some((warning) => warning !== "")) {
+    if (warnings) {
+      notifications.show({
+        title: "Error",
+        message: "Please fill in all required fields",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
       return;
     }
 
-    if (!selectedTrailerType) {
-      return;
-    }
+    // try {
+    //   const data = await createQuote(quoteDetails);
+    //   navigate("/requests/confirmation?quoteId=" + data._id);
+    // } catch (error: unknown) {
+    //   if (error instanceof Error) {
+    //     console.error("Error creating quote:", error.message);
+    //   } else {
+    //     console.error("Unknown error occurred while creating quote");
+    //   }
+    // }
 
-    const quoteDetails: Quote = {
-      origin,
-      destination,
-      pickupDate: new Date(pickupDate).toISOString(),
-      trailerType: selectedTrailerType.truckType,
-      trailerSize: selectedTrailerSize,
-      commodity,
-      maxWeight: parseInt(maxWeight),
-      companyName,
-      distance,
-      packaging: `${packagingNumber} ${selectedPackagingType}`,
-      price: parseFloat(price!.toFixed(2)),
-      notes,
-      unit: ""
-    };
-
-    try {
-      const data = await createQuote(quoteDetails);
-      navigate("/requests/confirmation?quoteId=" + data._id);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Error creating quote:", error.message);
-      } else {
-        console.error("Unknown error occurred while creating quote");
-      }
-    }
+    // quoteMutation.mutate(quoteDetails);
+    navigate("/requests/confirmation");
   };
 
   if (!isLoaded) {
@@ -428,16 +456,21 @@ export default function DistanceCalculatorPage() {
               
             </div> */}
             <Calendar
-            id="calendar"
-              value={pickupDate}
+              id="calendar"
+              value={dataState?.pickupDate}
               onChange={(date) => {
-                setPickupDate(date);
+                // setPickupDate(date);
+                updateState({
+                  ...dataState!,
+                  pickupDate: date,
+                });
+
                 setShowFirstModal(true); // Show the first modal when a date is picked
               }}
               className="border border-secondary rounded"
             />
 
-            {warnings.pickupDate && (
+            {warnings?.pickupDate && (
               <p className="text-red-500 text-sm">{warnings.pickupDate}</p>
             )}
 
@@ -478,7 +511,7 @@ export default function DistanceCalculatorPage() {
                           onLoad={onLoadA}
                           onPlaceChanged={onPlaceChangedA}
                         />
-                        {warnings.origin && (
+                        {warnings?.origin && (
                           <p className="text-red-500 text-sm">
                             {warnings.origin}
                           </p>
@@ -498,7 +531,7 @@ export default function DistanceCalculatorPage() {
                           onLoad={onLoadB}
                           onPlaceChanged={onPlaceChangedB}
                         />
-                        {warnings.destination && (
+                        {warnings?.destination && (
                           <p className="text-red-500 text-sm">
                             {warnings.destination}
                           </p>
@@ -517,24 +550,29 @@ export default function DistanceCalculatorPage() {
                             Trailer Type <span className="text-red-500">*</span>
                           </h3>
                           <div className="flex justify-between gap-2">
-                            {[...(data || [])].map((type) => (
+                            {[...(listTrucksData || [])].map((type) => (
                               <button
                                 key={type._id}
                                 className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
-                                  selectedTrailerType === type
+                                  dataState?.trailerType === type
                                     ? "bg-secondary text-white" // Highlight selected button
                                     : ""
                                 }`}
-                                onClick={() => setSelectedTrailerType(type)}
+                                onClick={() => {
+                                  updateState({
+                                    ...dataState!,
+                                    trailerType: type,
+                                  });
+                                }}
                               >
                                 {type.truckType}
                               </button>
                             ))}
                           </div>
 
-                          {warnings.selectedTrailerType && (
+                          {warnings?.trailerType && (
                             <p className="text-red-500 text-sm">
-                              {warnings.selectedTrailerType}
+                              {warnings.trailerType}
                             </p>
                           )}
                         </div>
@@ -546,23 +584,28 @@ export default function DistanceCalculatorPage() {
                             Size (ft) <span className="text-red-500">*</span>
                           </h3>
                           <div className="flex  gap-2">
-                            {selectedTrailerType &&
-                              selectedTrailerType.sizes.map((size) => (
+                            {dataState &&
+                              dataState.trailerType &&
+                              dataState.trailerType.sizes.map((size) => (
                                 <button
                                   key={size.size}
                                   className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
-                                    selectedTrailerSize === size.size
+                                    dataState.trailerSize === size.size
                                       ? "bg-secondary text-white" // Highlight selected button
                                       : ""
                                   }`}
                                   onClick={() =>
-                                    setSelectedTrailerSize(size.size)
+                                    // setSelectedTrailerSize(size.size)
+                                    updateState({
+                                      ...dataState!,
+                                      trailerSize: size.size,
+                                    })
                                   }
                                 >
                                   {size.size}
                                 </button>
                               ))}
-                            {!selectedTrailerType && (
+                            {!dataState?.trailerType && (
                               <p className="text-red-500 text-sm">
                                 Please select a trailer type first
                               </p>
@@ -600,9 +643,9 @@ export default function DistanceCalculatorPage() {
                             ))} */}
                           </div>
 
-                          {warnings.selectedTrailerSize && (
+                          {warnings?.trailerSize && (
                             <p className="text-red-500 text-sm">
-                              {warnings.selectedTrailerSize}
+                              {warnings.trailerSize}
                             </p>
                           )}
                         </div>
@@ -613,16 +656,19 @@ export default function DistanceCalculatorPage() {
                       <button
                         className={` py-3 px-2  rounded text-white 
     ${
-      !origin || !destination || !selectedTrailerType || !selectedTrailerSize
+      !dataState?.origin ||
+      !dataState?.destination ||
+      !dataState?.trailerType ||
+      !dataState?.trailerSize
         ? "bg-gray-400 cursor-not-allowed w-1/3"
         : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
     }`}
                         onClick={handleConfirmFirstModal}
                         disabled={
-                          !origin ||
-                          !destination ||
-                          !selectedTrailerType ||
-                          !selectedTrailerSize
+                          !dataState?.origin ||
+                          !dataState?.destination ||
+                          !dataState?.trailerType ||
+                          !dataState?.trailerSize
                         }
                       >
                         Next . . .
@@ -662,10 +708,16 @@ export default function DistanceCalculatorPage() {
                       type="text"
                       className="p-2 px-6 border rounded w-full bg-light-grey text-primary font-normal"
                       placeholder="e.g. Electronics"
-                      value={commodity}
-                      onChange={(e) => setCommodity(e.target.value)}
+                      value={dataState?.commodity}
+                      onChange={(e) => {
+                        // setCommodity(e.target.value);
+                        updateState({
+                          ...dataState!,
+                          commodity: e.target.value,
+                        });
+                      }}
                     />
-                    {warnings.commodity && (
+                    {warnings?.commodity && (
                       <p className="text-red-500 text-sm">
                         {warnings.commodity}
                       </p>
@@ -685,11 +737,17 @@ export default function DistanceCalculatorPage() {
                       type="number"
                       className="p-2 px-6  rounded w-full bg-light-grey text-primary font-normal"
                       placeholder="e.g. 1000lbs"
-                      value={maxWeight}
-                      onChange={(e) => setMaxWeight(e.target.value)}
+                      value={dataState?.maxWeight}
+                      onChange={(e) => {
+                        // setMaxWeight(e.target.value);
+                        updateState({
+                          ...dataState!,
+                          maxWeight: e.target.value,
+                        });
+                      }}
                       min="0"
                     />
-                    {warnings.maxWeight && (
+                    {warnings?.maxWeight && (
                       <p className="text-red-500 text-sm">
                         {warnings.maxWeight}
                       </p>
@@ -708,12 +766,12 @@ export default function DistanceCalculatorPage() {
                       <input
                         type="number"
                         className="p-2 rounded w-full bg-light-grey text-primary font-normal"
-                        value={packagingNumber}
+                        value={dataState?.packagingNumber}
                         onChange={handlePackagingNumberChange}
                         placeholder="Enter no. of packages"
                         min="0" // This ensures only non-negative values are allowed
                       />
-                      {warnings.packaging && (
+                      {warnings?.packaging && (
                         <p className="text-red-500 text-sm">
                           {warnings.packaging}
                         </p>
@@ -726,9 +784,13 @@ export default function DistanceCalculatorPage() {
                       </h3>
                       <select
                         className="p-2 rounded w-full bg-light-grey text-primary font-normal"
-                        value={selectedPackagingType}
+                        value={dataState?.packagingType}
                         onChange={(e) =>
-                          setSelectedPackagingType(e.target.value)
+                          // setSelectedPackagingType(e.target.value)
+                          updateState({
+                            ...dataState!,
+                            packagingType: e.target.value,
+                          })
                         }
                       >
                         <option className="text-gray-400" value="">
@@ -742,7 +804,7 @@ export default function DistanceCalculatorPage() {
                         <option value="Skids">Skids</option>
                         <option value="Others">Others</option>
                       </select>
-                      {warnings.packaging && (
+                      {warnings?.packaging && (
                         <p className="text-red-500 text-sm">
                           {warnings.packaging}
                         </p>
@@ -754,16 +816,19 @@ export default function DistanceCalculatorPage() {
                     <button
                       className={`mt-4 py-3 px-4 rounded text-white 
     ${
-      !commodity || !maxWeight || !packagingNumber || !selectedPackagingType
+      !dataState?.commodity ||
+      !dataState?.maxWeight ||
+      !dataState?.packagingNumber ||
+      !dataState?.packagingType
         ? "bg-gray-400 cursor-not-allowed"
         : "bg-primary hover:bg-secondary cursor-pointer"
     }`}
                       onClick={handleConfirmSecondModal}
                       disabled={
-                        !commodity ||
-                        !maxWeight ||
-                        !packagingNumber ||
-                        !selectedPackagingType
+                        !dataState?.commodity ||
+                        !dataState?.maxWeight ||
+                        !dataState?.packagingNumber ||
+                        !dataState?.packagingType
                       }
                     >
                       Proceed
@@ -803,10 +868,16 @@ export default function DistanceCalculatorPage() {
                       type="text"
                       className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
                       placeholder="Enter your company name"
-                      value={companyName}
-                      onChange={(e) => setCompanyName(e.target.value)}
+                      value={dataState?.companyName}
+                      onChange={(e) => {
+                        // setCompanyName(e.target.value)
+                        updateState({
+                          ...dataState!,
+                          companyName: e.target.value,
+                        });
+                      }}
                     />
-                    {warnings.companyName && (
+                    {warnings?.companyName && (
                       <p className="text-red-500 text-sm">
                         {warnings.companyName}
                       </p>
@@ -824,8 +895,14 @@ export default function DistanceCalculatorPage() {
                     <textarea
                       className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
                       placeholder="Enter your additional notes"
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
+                      value={dataState?.notes}
+                      onChange={(e) => {
+                        // setNotes(e.target.value)
+                        updateState({
+                          ...dataState!,
+                          notes: e.target.value,
+                        });
+                      }}
                       rows={3}
                     />
                   </div>
@@ -834,17 +911,17 @@ export default function DistanceCalculatorPage() {
                     <button
                       className={`mt-4 py-3 px-4 rounded text-white 
     ${
-      !companyName
+      !dataState?.companyName
         ? "bg-gray-400 cursor-not-allowed"
         : "bg-primary hover:bg-secondary cursor-pointer"
     }`}
                       onClick={handleConfirmThirdModal}
-                      disabled={!companyName}
+                      disabled={!dataState?.companyName}
                     >
-                      {!companyName ? "Almost There!" : "Done 🎉"}
+                      {!dataState?.companyName ? "Almost There!" : "Done 🎉"}
                     </button>
                   </div>
-                  {companyName && (
+                  {dataState?.companyName && (
                     <p className="text-gray-500 font-normal ">
                       Please check your quote...
                     </p>
@@ -888,7 +965,8 @@ export default function DistanceCalculatorPage() {
                     className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
                     style={{ height: "60px" }}
                   >
-                    {distance ? distance : <span>&nbsp;</span>}
+                    {/* {distance ? distance : <span>&nbsp;</span>} */}
+                    {dataState?.distance || <span>&nbsp;</span>}
                   </div>
                 )}
               </div>
@@ -910,8 +988,14 @@ export default function DistanceCalculatorPage() {
                     className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
                     style={{ height: "60px" }}
                   >
-                    {price !== null ? (
+                    {/* {price !== null ? (
                       `$ ${price.toFixed(2)}`
+                    ) : (
+                      <span>&nbsp;</span>
+                    )} */}
+
+                    {dataState?.price !== null ? (
+                      `$ ${(dataState?.price || 0.0).toFixed(2)}`
                     ) : (
                       <span>&nbsp;</span>
                     )}

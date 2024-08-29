@@ -31,14 +31,14 @@ export default function ShipperShellPage() {
           collapsed: { mobile: !opened },
         }}
       >
-        <AppShell.Header >
+        <AppShell.Header>
           <ShellHeader opened={opened} open={open} close={close} />
         </AppShell.Header>
         )
         <AppShell.Navbar>
           <Sidebar close={close} closeVisible />
         </AppShell.Navbar>
-        <AppShell.Main pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}>
+        <AppShell.Main pt={`calc(${rem(50)} + var(--mantine-spacing-md))`}>
           <Outlet />
         </AppShell.Main>
       </AppShell>

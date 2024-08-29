@@ -13,8 +13,15 @@ import {
 import { Booking, Quote } from "../../../utils/types";
 import { fetchUserBookings } from "../../../lib/apiCalls";
 
+interface ProcessedDataInterface {
+  date: string;
+  count: number;
+  totalMiles: number;
+}
 const ShipperDashboardPage = () => {
-  const [totalLoadsData, setTotalLoadsData] = useState<any[]>([]);
+  const [totalLoadsData, setTotalLoadsData] = useState<
+    ProcessedDataInterface[]
+  >([]);
   const [statusCounts, setStatusCounts] = useState<{ [key: string]: number }>({
     Pending: 0,
     Confirmed: 0,
@@ -229,8 +236,11 @@ const ShipperDashboardPage = () => {
             </div>
           </div>
         </div>
-
-        <ShipperBookings onDataFetched={fetchBookings} selectedDate={selectedDate} /> {/* Pass selectedDate to ShipperBookings */}
+        <ShipperBookings
+          onDataFetched={fetchBookings}
+          selectedDate={selectedDate}
+        />{" "}
+        {/* Pass selectedDate to ShipperBookings */}
       </div>
     </div>
   );

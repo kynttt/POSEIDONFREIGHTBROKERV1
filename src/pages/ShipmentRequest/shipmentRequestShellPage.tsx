@@ -2,6 +2,8 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AppShell, Flex, useMatches } from "@mantine/core";
 import { Outlet, useNavigate } from "react-router-dom";
+import useDistanceCalculator from "../../hooks/useDistanceCalculator";
+import { useEffect } from "react";
 
 export default function ShipmentRequestShellPage() {
   const headerVisible = useMatches({
@@ -13,6 +15,15 @@ export default function ShipmentRequestShellPage() {
 
     lg: false,
   });
+
+  const { dispose } = useDistanceCalculator();
+
+  useEffect(() => {
+    return () => {
+      // sessionStorage.removeItem("distanceCalculatorData");
+      dispose();
+    };
+  }, []);
   return (
     <section>
       <AppShell
