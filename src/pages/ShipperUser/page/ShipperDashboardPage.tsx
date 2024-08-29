@@ -13,8 +13,15 @@ import {
 import { Booking, Quote } from "../../../utils/types";
 import { fetchUserBookings } from "../../../lib/apiCalls";
 
+interface ProcessedDataInterface {
+  date: string;
+  count: number;
+  totalMiles: number;
+}
 const ShipperDashboardPage = () => {
-  const [totalLoadsData, setTotalLoadsData] = useState<any[]>([]);
+  const [totalLoadsData, setTotalLoadsData] = useState<
+    ProcessedDataInterface[]
+  >([]);
   const [statusCounts, setStatusCounts] = useState<{ [key: string]: number }>({
     Pending: 0,
     Confirmed: 0,
@@ -28,49 +35,52 @@ const ShipperDashboardPage = () => {
   const fetchBookings = useCallback(async () => {
     try {
       const bookingsData = await fetchUserBookings();
-  
+
       // Conversion factor from feet to miles
       const FEET_TO_MILES_CONVERSION = 5280;
-  
+
       // Object to store date-wise counts and total miles
-      const dateCounts: { [date: string]: { count: number; totalMiles: number } } = {};
-  
+      const dateCounts: {
+        [date: string]: { count: number; totalMiles: number };
+      } = {};
+
       bookingsData.forEach((booking: Booking) => {
         if (isQuote(booking.quote)) {
           const quote = booking.quote as Quote;
           const date = new Date(quote.pickupDate).toLocaleDateString(); // Extract date
           let distanceStr = quote.distance || "0"; // Default to '0' if undefined
           const unit = quote.unit || "miles"; // Default to 'miles' if undefined
-  
+
           // Sanitize distanceStr: Remove commas and any other non-numeric characters except the decimal point
           distanceStr = distanceStr.replace(/[^0-9.]/g, "");
-  
+
           // Convert distance to a number
           const distance = parseFloat(distanceStr);
-  
+
           // Convert to miles if the unit is feet
-          const miles = unit === "feet" ? distance / FEET_TO_MILES_CONVERSION : distance;
-  
+          const miles =
+            unit === "feet" ? distance / FEET_TO_MILES_CONVERSION : distance;
+
           // If this date isn't in the object yet, initialize it
           if (!dateCounts[date]) {
             dateCounts[date] = { count: 0, totalMiles: 0 };
           }
-  
+
           // Increment the count and total miles for this date
           dateCounts[date].count += 1;
           dateCounts[date].totalMiles += miles;
         }
       });
-  
+
       // Convert the dateCounts object to an array format for the chart
       const processedData = Object.keys(dateCounts).map((date) => ({
         date,
         count: dateCounts[date].count,
         totalMiles: dateCounts[date].totalMiles,
       }));
-  
+
       setTotalLoadsData(processedData);
-  
+
       // Count bookings by status
       const statusCounts = bookingsData.reduce(
         (acc: { [key: string]: number }, booking: Booking) => {
@@ -80,7 +90,7 @@ const ShipperDashboardPage = () => {
         },
         {}
       );
-  
+
       setStatusCounts(statusCounts);
       setAllBookings(bookingsData); // Set all bookings
       setFilteredBookings(bookingsData); // Initialize filtered bookings
@@ -88,7 +98,7 @@ const ShipperDashboardPage = () => {
       console.error("Error fetching data:", error);
     }
   }, []);
-  
+
   useEffect(() => {
     fetchBookings();
   }, [fetchBookings]);
@@ -220,8 +230,11 @@ const ShipperDashboardPage = () => {
             </div>
           </div>
         </div>
-
-        <ShipperBookings onDataFetched={fetchBookings} selectedDate={selectedDate} /> {/* Pass selectedDate to ShipperBookings */}
+        <ShipperBookings
+          onDataFetched={fetchBookings}
+          selectedDate={selectedDate}
+        />{" "}
+        {/* Pass selectedDate to ShipperBookings */}
       </div>
     </div>
   );
