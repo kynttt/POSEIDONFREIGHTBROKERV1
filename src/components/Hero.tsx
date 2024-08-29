@@ -8,7 +8,7 @@ const HeroBanner: React.FC = () => {
   const trustRating = 95; // Example trust rating value
 
   return (
-    <div className="relative w-full h-screen overflow-hidden h-[90vh]">
+    <div className="relative w-full overflow-hidden h-[90vh]">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${heroTruck})` }}
@@ -56,7 +56,7 @@ const HeroBanner: React.FC = () => {
         </div>
       </div>
 
-      <div className="shadow-2xl w-11/12 sm:w-4/5 md:w-3/5 lg:w-3/5 border border-purple-50 border-opacity-5 rounded-2xl absolute bottom-20 sm:bottom-28 md:bottom-24 left-1/2 transform -translate-x-1/2 py-8 sm:py-10 md:py-12 px-6 sm:px-12 lg:px-20 text-white z-20 bg-gray-900/50 backdrop-blur-sm">
+      <div className="shadow-2xl w-11/12 sm:w-4/5 md:w-3/5 lg:w-3/5 border border-purple-50 border-opacity-5 rounded-2xl absolute bottom-20 sm:bottom-28 md:bottom-16 left-1/2 transform -translate-x-1/2 py-8 sm:py-10 md:py-12 px-6 sm:px-12 lg:px-20 text-white z-20 bg-gray-900/50 backdrop-blur-sm">
   <FreightQuote2/>
 </div>
 
