@@ -35,6 +35,7 @@ module.exports = {
         "light-grey": "#eeeeee",
         green: "#54AB82",
         price: "#30D5C8",
+        accentBg: "#11141b",
         "freightquote-bg": "#adb4e4",
       },
     },
