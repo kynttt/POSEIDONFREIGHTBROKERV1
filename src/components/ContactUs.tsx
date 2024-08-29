@@ -25,7 +25,7 @@ const ContactForm: React.FC = () => {
   return (
     <Flex
     id="contacts"
-      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem] w-full"
+      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem] w-full bg-accentBg"
       direction={{ base: "column", lg: "row" }}
       align={"center"}
       gap={"4rem"}
@@ -45,10 +45,10 @@ const ContactForm: React.FC = () => {
           }}
         >
           <Stack className="text-left" gap={0.5} w={"100%"}>
-            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-primary">
+            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
               CONTACT US
             </h1>
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-primary">
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white lg:mb-6">
               Drop us a line
             </h2>
           </Stack>
@@ -73,7 +73,7 @@ const ContactForm: React.FC = () => {
               autosize
               minRows={10}
             />
-            <Button size="lg">Submit</Button>
+            <Button size="lg" >Submit</Button>
           </Stack>
         </Stack>
       </motion.div>
@@ -83,12 +83,12 @@ const ContactForm: React.FC = () => {
         animate={mapControls}
         className="xs:w-full lg:w-1/2  xs:h-[300px] lg:h-full"
       >
-        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-primary">
+        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white lg:mb-8">
               Our Location
             </h2>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2705.8242246418104!2d-122.23099992322068!3d47.298234509220336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x549058759e5a35ef%3A0x737cc87bb84238e0!2s1020%20A%20St%20SE%20%23%207%2C%20Auburn%2C%20WA%2098002%2C%20USA!5e0!3m2!1sen!2sph!4v1719465675435!5m2!1sen!2sph"
-          className="border-0 rounded-md w-full h-full md:mt-4"
+          className="border-0 rounded-md w-full h-4/5 md:mt-4"
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

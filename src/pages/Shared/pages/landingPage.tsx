@@ -21,7 +21,7 @@ const LandingPage: React.FC = () => {
       <header className="w-full">
         <Navbar />
       </header>
-      <Stack w="100%">
+      <Stack w="100%" gap={0}>
         <HeroBanner />
         <SeamlessFreightServices />
         {/* <ServicesCardList /> */}

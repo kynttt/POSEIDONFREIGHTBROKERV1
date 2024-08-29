@@ -49,7 +49,7 @@ const HeroBanner: React.FC = () => {
           </h1>
         </div>
 
-        <div className="hidden lg:flex italic w-2/3 mx-auto flex items-center lg:mb-52 font-normal text-xl">
+        <div className="hidden lg:flex italic w-1/2 mx-auto flex items-center lg:mb-52 font-normal text-xl">
           Connecting Shippers and Carriers with Precision, Reliability, and
           Unmatched Expertise, Ensuring Your Cargo Moves Safely and
           Efficiently Across Every Mile.
