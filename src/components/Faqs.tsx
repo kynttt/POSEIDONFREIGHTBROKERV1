@@ -62,7 +62,7 @@ const FAQsPage: React.FC = () => {
 
   return (
     <Flex
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-6 md:py-20 bg-accentBg"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-6 md:py-40 bg-accentBg"
       direction={{ xs: "column", lg: "row" }}
       gap={"4rem"}
     >

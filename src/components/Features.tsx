@@ -42,7 +42,7 @@ const FeaturesSection: React.FC = () => {
   return (
     <Stack
       id="services"
-      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] md:py-24 py-6 bg-accentBg"
+      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] md:py-40 py-6 bg-accentBg"
       justify="center"
     >
       <Flex

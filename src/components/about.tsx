@@ -26,7 +26,7 @@ const AboutUs: React.FC = () => {
   return (
     <Flex
     id="about"
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-14 md:py-14 bg-darkBg"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-14 md:py-20 bg-accentBg"
       direction={{
         base: "column",
         lg: "row",
