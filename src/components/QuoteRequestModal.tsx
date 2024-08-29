@@ -35,14 +35,14 @@ const QuoteRequestModal = ({ isOpen }: { isOpen: boolean }) => {
             className="mx-auto mb-4 w-32 sm:w-48"
           />
           <h2 className="mb-2 text-xl font-semibold text-secondary">
-            Booking Request Successful!
+            Booking Confirmed!
           </h2>
           <p className="mb-6 font-medium text-sm text-primary">
-            Wait for the dispatcher to confirm your quote and booking.
+          Ready to schedule the next booking?
           </p>
           <div className="flex justify-center">
             <Button
-              label="Confirm"
+              label="Ok"
               size="medium"
               bgColor="#252F70"
               fontStyle="thin"
