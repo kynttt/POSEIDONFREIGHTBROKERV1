@@ -187,7 +187,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
                   </h4>
                   <p className="text-gray-500 py-4 font-medium">
                     {data!.pickupDate
-                      ? new Date(data!.pickupDate).toUTCString()
+                      ? new Date(data!.pickupDate).toLocaleDateString()
                       : "TBA"}
                   </p>
                 </div>

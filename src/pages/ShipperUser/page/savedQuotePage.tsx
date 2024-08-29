@@ -69,13 +69,28 @@ function HistoryQuotes() {
       }
     }
     const mergedQueries = queries.join("&");
-    console.log(createdDateRange?.[0]?.toUTCString());
     setMergedQueries(mergedQueries);
   }, [originQueryDebounce, destinationDebounceQuery, createdDateRange]);
 
   useEffect(() => {
     refetch();
   }, [mergedQueries, refetch]);
+
+  // Filter duplicates based on origin and destination
+  const filterDuplicates = (quotes: Quote[]) => {
+    const seen = new Set<string>();
+    return quotes.filter((quote) => {
+      const key = `${quote.origin}-${quote.destination}`;
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
+    });
+  };
+
+  const filteredData = data ? filterDuplicates(data) : [];
+
   return (
     <>
       <DataTable
@@ -131,7 +146,6 @@ function HistoryQuotes() {
             ),
             filtering: destinationQuery !== "",
           },
-
           {
             accessor: "trailer",
             render: (quote) => `${quote.trailerType} (${quote.trailerSize})`,
@@ -185,7 +199,7 @@ function HistoryQuotes() {
         ]}
         striped={true}
         highlightOnHover
-        records={data}
+        records={filteredData}
         fetching={isLoading}
         idAccessor={"_id"}
       />
