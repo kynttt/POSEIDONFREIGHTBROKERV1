@@ -52,7 +52,7 @@ function HistoryQuotes() {
   };
 
   useEffect(() => {
-    let queries = [];
+    const queries: string[] = [];
     if (originQueryDebounce) {
       queries.push(`origin=${originQueryDebounce}`);
     }
@@ -75,7 +75,7 @@ function HistoryQuotes() {
 
   useEffect(() => {
     refetch();
-  }, [mergedQueries]);
+  }, [mergedQueries, refetch]);
   return (
     <>
       <DataTable
