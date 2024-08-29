@@ -46,10 +46,10 @@ const FreightQuote: React.FC = () => {
           }}
           justify="center"
         >
-          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-primary">
+          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-white">
             GET A
           </h2>
-          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-primary">
+          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-white">
             FREIGHT QUOTE
           </h2>
         </Stack>
@@ -118,7 +118,7 @@ function CalculatorComponent() {
         px="md"
         py="xl"
       >
-        <h3 className="text-center xs:text-xl md:text-5xl  md:text-3xl font-black text-primary">
+        <h3 className="text-center xs:text-xl md:text-4xl  font-black text-primary">
           Cost Calculator
         </h3>
         <Flex

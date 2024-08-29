@@ -29,14 +29,15 @@ const SeamlessFreightServices: React.FC = () => {
   return (
     <Stack
       w={"100%"}
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-20"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-32 bg-accentBg"
       justify="center"
+      
     >
       <Stack className="text-left" gap={0.5}>
-        <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-primary">
+        <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
           SERVICES
         </h1>
-        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-primary">
+        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white">
           Seamless Freight Services
         </h2>
       </Stack>
@@ -97,10 +98,10 @@ function Banner({
       <Stack align="center" w="100%" gap={50}>
         <Image src={imgSrc} alt={title} w="auto" fit="contain" />
         <Stack w="100%" align="center" className="text-center">
-          <p className="xs:text-xl md:text-4xl lg:text-2xl  text-primary">
+          <p className="xs:text-xl md:text-4xl lg:text-2xl  text-teal ">
             {title}
           </p>
-          <p className="md:text-3xl lg:text-base text-gray-500  font-normal mx-auto">
+          <p className="md:text-3xl lg:text-base text-white  font-normal mx-auto">
             {description}
           </p>
         </Stack>

@@ -40,9 +40,7 @@ const ShipperDashboardPage = () => {
       const FEET_TO_MILES_CONVERSION = 5280;
 
       // Object to store date-wise counts and total miles
-      const dateCounts: {
-        [date: string]: { count: number; totalMiles: number };
-      } = {};
+      const dateCounts: { [date: string]: { count: number; totalMiles: number } } = {};
 
       bookingsData.forEach((booking: Booking) => {
         if (isQuote(booking.quote)) {
@@ -58,8 +56,7 @@ const ShipperDashboardPage = () => {
           const distance = parseFloat(distanceStr);
 
           // Convert to miles if the unit is feet
-          const miles =
-            unit === "feet" ? distance / FEET_TO_MILES_CONVERSION : distance;
+          const miles = unit === "feet" ? distance / FEET_TO_MILES_CONVERSION : distance;
 
           // If this date isn't in the object yet, initialize it
           if (!dateCounts[date]) {
@@ -181,23 +178,27 @@ const ShipperDashboardPage = () => {
                 Total Miles Per Day
               </p>
               <div className="w-full h-60">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={totalLoadsData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <Tooltip />
-                    <Line
-                      type="monotone"
-                      dataKey="totalMiles"
-                      stroke="#8884d8"
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                {totalLoadsData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={totalLoadsData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <Tooltip />
+                      <Line
+                        type="monotone"
+                        dataKey="totalMiles"
+                        stroke="#8884d8"
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <p className="text-gray-500">No data available</p>
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-              {Object.entries(statusCounts).map(([status, count]) => (
+              {["Pending", "Confirmed", "In Transit", "Delivered"].map((status) => (
                 <div
                   key={status}
                   className="bg-light-grey p-4 rounded-lg shadow text-center border border-gray-200"
@@ -206,11 +207,12 @@ const ShipperDashboardPage = () => {
                     {status}
                   </p>
                   <h3 className="text-2xl text-left sm:text-3xl md:text-2xl font-bold text-secondary">
-                    {count}
+                    {statusCounts[status] || 0} {/* Display the count or 0 if no data */}
                   </h3>
                 </div>
               ))}
             </div>
+
 
             {/* Daily Booking Analytics */}
             <div className="bg-light-grey rounded-lg shadow p-4 md:p-6 flex-1">
@@ -218,14 +220,18 @@ const ShipperDashboardPage = () => {
                 Daily Booking Analytics
               </h2>
               <div className="w-full h-60">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={totalLoadsData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="#8884d8" />
-                  </BarChart>
-                </ResponsiveContainer>
+                {totalLoadsData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={totalLoadsData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <Tooltip />
+                      <Bar dataKey="count" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <p className="text-gray-500">No data available</p>
+                )}
               </div>
             </div>
           </div>

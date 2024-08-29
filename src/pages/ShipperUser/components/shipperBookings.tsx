@@ -59,7 +59,7 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
           {bookings.length === 0 ? (
-            <p className="text-gray-500">No bookings found for the selected date.</p>
+            <p className="text-gray-500 font-normal">No bookings found for this day.</p>
           ) : (
             bookings.map((booking, index: number) => (
               <button
