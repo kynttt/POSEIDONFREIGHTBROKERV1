@@ -42,7 +42,7 @@ const FeaturesSection: React.FC = () => {
   return (
     <Stack
       id="services"
-      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] md:my-14 my-6"
+      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] md:py-24 py-6 bg-accentBg"
       justify="center"
     >
       <Flex
@@ -63,10 +63,10 @@ const FeaturesSection: React.FC = () => {
         >
           <Stack w={"100%"} gap={"3rem"}>
             <Stack className="text-left" gap={0.5} w={"100%"}>
-              <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-primary">
+              <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
                 FEATURES
               </h1>
-              <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-primary">
+              <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white">
                 How it works
               </h2>
             </Stack>
@@ -139,10 +139,10 @@ function FeatureCard({
       className="lg:w-1/3 w-full "
     >
       <Stack w={"100%"}>
-        <h3 className="xs:text-xl md:text-4xl lg:text-xl font-bold text-primary text-center">
+        <h3 className="xs:text-xl md:text-4xl lg:text-xl font-bold text-primary text-teal">
           {title}
         </h3>
-        <p className="md:text-3xl lg:text-base text-gray-500  font-normal py-2 text-center text-justify">
+        <p className="md:text-3xl lg:text-base text-white  font-normal py-2 text-center text-justify">
           {description}
         </p>
       </Stack>

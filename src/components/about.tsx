@@ -26,7 +26,7 @@ const AboutUs: React.FC = () => {
   return (
     <Flex
     id="about"
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-14 md:py-14 bg-[#eaeefa]"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-14 md:py-14 bg-darkBg"
       direction={{
         base: "column",
         lg: "row",
@@ -57,14 +57,14 @@ const AboutUs: React.FC = () => {
               lg: "50%",
             }}
           >
-            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-[#252F70]">
+            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
               ABOUT US
             </h1>
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-[#252F70]">
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-teal">
               Transport and Logistics
             </h2>
           </Stack>
-          <p className="md:text-3xl lg:text-base text-gray-500  font-normal leading-relaxed text-justify">
+          <p className="md:text-3xl lg:text-base text-white font-normal leading-relaxed text-justify">
             Welcome to Poseidon Distribution Inc. (PDI)! Based in Auburn, WA
             since 2017, PDI is a family-owned transportation company that merges
             the capabilities of a large business with the warmth of a

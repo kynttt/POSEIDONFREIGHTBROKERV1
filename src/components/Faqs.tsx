@@ -54,7 +54,7 @@ const FAQsPage: React.FC = () => {
       <Accordion.Control className="font-medium text-primary mb-2">
         <QuestionComponent question={item.question} />
       </Accordion.Control>
-      <Accordion.Panel className="text-gray-500 xs:text-xl md:text-3xl lg:text-xl font-thin mb-2 text-justify">
+      <Accordion.Panel className="text-white xs:text-xl md:text-3xl lg:text-xl font-thin mb-2 text-justify">
         {item.answer}
       </Accordion.Panel>
     </Accordion.Item>
@@ -62,7 +62,7 @@ const FAQsPage: React.FC = () => {
 
   return (
     <Flex
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] my-6 md:my-20"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-6 md:py-20 bg-accentBg"
       direction={{ xs: "column", lg: "row" }}
       gap={"4rem"}
     >
@@ -74,10 +74,10 @@ const FAQsPage: React.FC = () => {
       >
         <Stack>
           <Stack className="text-left" gap={0.5}>
-            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-primary">
+            {/* <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
               FAQs
-            </h1>
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-primary">
+            </h1> */}
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white">
               Frequently Asked Questions
             </h2>
           </Stack>
@@ -111,7 +111,7 @@ const FAQsPage: React.FC = () => {
 };
 
 function QuestionComponent({ question }: { question: string }) {
-  return <p className="xs:text-xl md:text-3xl lg:text-base">{question}</p>;
+  return <p className="xs:text-xl md:text-3xl lg:text-base text-teal">{question}</p>;
 }
 
 export default FAQsPage;
