@@ -49,6 +49,7 @@ const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
 
 export default function DistanceCalculatorPage() {
+  const [showCalendar, setShowCalendar] = useState(true);
   const { role } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
   const location = useLocation();
@@ -390,6 +391,7 @@ export default function DistanceCalculatorPage() {
     pricingCalculateHandler();
     setShowThirdModal(false);
     setShowPrice(true);
+    setShowCalendar(true)
   };
 
   const handleQuoteButtonClick = async () => {
@@ -444,7 +446,9 @@ export default function DistanceCalculatorPage() {
 
         {/* Calendar and Dialog */}
         <div className=" flex justify-center w-full absolute  bottom-0 left-0 right-0 lg:mx-auto py-8   px-4  rounded-lg ">
-          <div className="lg:ml-80 gap-8 md:flex justify-center w-full">
+          <div
+            className="lg:ml-80 gap-8 md:flex justify-center w-full transition-transform duration-300 transform scale-90 hover:scale-100 focus-within:scale-100"
+          >
             {/* <div className="mb-8 md:mb-0">
               <h3 className="text-lg font-medium text-secondary mb-2">
                 <FontAwesomeIcon
@@ -455,35 +459,42 @@ export default function DistanceCalculatorPage() {
               </h3>
               
             </div> */}
-            <Calendar
-              id="calendar"
-              value={dataState?.pickupDate}
-              onChange={(date) => {
-                // setPickupDate(date);
-                updateState({
-                  ...dataState!,
-                  pickupDate: date,
-                });
+            {showCalendar && (
+              <Calendar
+                id="calendar"
+                value={dataState?.pickupDate}
+                onChange={(date) => {
+                  // setPickupDate(date);
+                  updateState({
+                    ...dataState!,
+                    pickupDate: date,
+                  });
 
-                setShowFirstModal(true); // Show the first modal when a date is picked
-              }}
-              className="border border-secondary rounded"
-            />
+                  setShowFirstModal(true); // Show the first modal when a date is picked
+                  setShowCalendar(false)
+                }}
+                className="border border-secondary rounded"
+              />
+            )}
 
             {warnings?.pickupDate && (
               <p className="text-red-500 text-sm">{warnings.pickupDate}</p>
             )}
 
             {showFirstModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
+              <div className="fixed inset-0 flex items-center justify-center  z-50">
                 <div className="mx-2 bg-white rounded-lg lg:p-10 p-6 w-full max-w-2xl shadow-lg relative ">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
-                    onClick={() => setShowFirstModal(false)}
+                    onClick={() => {
+                      setShowFirstModal(false);
+                      setShowCalendar(true);
+                    }}
                     aria-label="Close"
                   >
                     <FontAwesomeIcon icon={faTimes} />
                   </button>
+
                   <div>
                     <h1 className="text-primary text-xl">Book Your Shipment</h1>
                     <p className="text-gray-500 font-normal mb-8">
@@ -553,11 +564,10 @@ export default function DistanceCalculatorPage() {
                             {[...(listTrucksData || [])].map((type) => (
                               <button
                                 key={type._id}
-                                className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
-                                  dataState?.trailerType === type
+                                className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${dataState?.trailerType === type
                                     ? "bg-secondary text-white" // Highlight selected button
                                     : ""
-                                }`}
+                                  }`}
                                 onClick={() => {
                                   updateState({
                                     ...dataState!,
@@ -589,11 +599,10 @@ export default function DistanceCalculatorPage() {
                               dataState.trailerType.sizes.map((size) => (
                                 <button
                                   key={size.size}
-                                  className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
-                                    dataState.trailerSize === size.size
+                                  className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${dataState.trailerSize === size.size
                                       ? "bg-secondary text-white" // Highlight selected button
                                       : ""
-                                  }`}
+                                    }`}
                                   onClick={() =>
                                     // setSelectedTrailerSize(size.size)
                                     updateState({
@@ -655,14 +664,13 @@ export default function DistanceCalculatorPage() {
                     <div className="flex justify-end">
                       <button
                         className={` py-3 px-2  rounded text-white 
-    ${
-      !dataState?.origin ||
-      !dataState?.destination ||
-      !dataState?.trailerType ||
-      !dataState?.trailerSize
-        ? "bg-gray-400 cursor-not-allowed w-1/3"
-        : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
-    }`}
+    ${!dataState?.origin ||
+                            !dataState?.destination ||
+                            !dataState?.trailerType ||
+                            !dataState?.trailerSize
+                            ? "bg-gray-400 cursor-not-allowed w-1/3"
+                            : "bg-primary hover:bg-secondary cursor-pointer w-1/3"
+                          }`}
                         onClick={handleConfirmFirstModal}
                         disabled={
                           !dataState?.origin ||
@@ -815,14 +823,13 @@ export default function DistanceCalculatorPage() {
                   <div className="flex justify-end">
                     <button
                       className={`mt-4 py-3 px-4 rounded text-white 
-    ${
-      !dataState?.commodity ||
-      !dataState?.maxWeight ||
-      !dataState?.packagingNumber ||
-      !dataState?.packagingType
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-primary hover:bg-secondary cursor-pointer"
-    }`}
+    ${!dataState?.commodity ||
+                          !dataState?.maxWeight ||
+                          !dataState?.packagingNumber ||
+                          !dataState?.packagingType
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-primary hover:bg-secondary cursor-pointer"
+                        }`}
                       onClick={handleConfirmSecondModal}
                       disabled={
                         !dataState?.commodity ||
@@ -910,11 +917,10 @@ export default function DistanceCalculatorPage() {
                   <div className="flex justify-end">
                     <button
                       className={`mt-4 py-3 px-4 rounded text-white 
-    ${
-      !dataState?.companyName
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-primary hover:bg-secondary cursor-pointer"
-    }`}
+    ${!dataState?.companyName
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-primary hover:bg-secondary cursor-pointer"
+                        }`}
                       onClick={handleConfirmThirdModal}
                       disabled={!dataState?.companyName}
                     >
