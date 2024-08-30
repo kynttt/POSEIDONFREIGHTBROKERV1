@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import signupImage from "../assets/img/DeliveredPackage.gif";
+// import signupImage from "../assets/img/DeliveredPackage.gif";
 // import Button from "../components/Button";
 import googleIcon from "../assets/img/googleicon.png";
 import appleIcon from "../assets/img/apple.png";
@@ -9,6 +9,7 @@ import { registerUser } from "../lib/apiCalls";
 import { RegisterFormData } from "../utils/types";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { NeatGradient } from "@firecms/neat";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -32,6 +33,42 @@ const SignupPage = () => {
   // const [value, setValue] = React.useState('');
 
   const [isTermsChecked, setIsTermsChecked] = useState(false);
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const gradientRef = useRef<NeatGradient | null>(null);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    gradientRef.current = new NeatGradient({
+      ref: canvasRef.current,
+      colors: [
+        { color: "#02FFE2", enabled: true },
+        { color: "#C108FE", enabled: true },
+        { color: "#0459FE", enabled: true },
+        { color: "#6084F0", enabled: true },
+        { color: "#a2d2ff", enabled: false },
+      ],
+      speed: 4,
+      horizontalPressure: 3,
+      verticalPressure: 3,
+      waveFrequencyX: 2,
+      waveFrequencyY: 4,
+      waveAmplitude: 5,
+      shadows: 0,
+      highlights: 2,
+      colorBrightness: 1,
+      colorSaturation: 3,
+      wireframe: false,
+      colorBlending: 5,
+      backgroundColor: "#003FFF",
+      backgroundAlpha: 1,
+      resolution: 1,
+      
+    });
+
+    return gradientRef.current.destroy;
+  }, []);
 
   useEffect(() => {
     // Retrieve data from session storage when the component mounts
@@ -102,16 +139,23 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen flex items-center justify-center">
-      <div className="container mx-auto p-4 md:p-8">
+    <div className="bg-white h-screen flex items-center justify-center">
+      <canvas
+        ref={canvasRef}
+        className="absolute top-0 left-0 w-full h-full z-0"
+        style={{ isolation: "isolate" }}
+      />
+      <div className="absolute top-0 left-0 w-full h-full bg-black/10 z-1"></div>
+      <div className="container mx-auto p-4 md:p-8 z-10">
         <div className="flex flex-col md:flex-row items-center md:items-stretch justify-center w-full space-y-8 md:space-y-0 md:space-x-8">
-          <div className="w-full md:w-2/3 lg:w-1/3 bg-white p-8 px-4 rounded-lg shadow-lg h-full">
-            <h2 className="text-2xl font-bold mb-6 text-secondary">
+        <div className="w-full md:w-2/3 lg:w-5/12 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-30 p-8 px-4 lg:px-8 rounded-lg shadow-lg ">
+
+            <h2 className="text-2xl font-bold mb-6 text-white">
               Create an Account
             </h2>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
-                <label className="block text-sm font-medium text-primary">
+                <label className="block text-sm font-medium text-white">
                   Name *
                 </label>
                 <input
@@ -119,7 +163,7 @@ const SignupPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                  className={`mt-1 block w-full border  rounded-md border-white bg-transparent text-black placeholder-white font-thin h-10 p-4 ${
                     validationErrors.name ? "border-red-500" : ""
                   }`}
                   placeholder="Enter your First Name and Last Name"
@@ -132,7 +176,7 @@ const SignupPage = () => {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary">
+                <label className="block text-sm font-medium text-white">
                   Address *
                 </label>
                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-1 md:space-x-4">
@@ -141,7 +185,7 @@ const SignupPage = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-3/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                    className={`mt-1  block w-full md:w-3/5 border border-white  rounded-md bg-transparent placeholder-white text-gray-700 font-thin h-10 p-4 ${
                       validationErrors.address ? "border-red-500" : ""
                     }`}
                     placeholder="City, State, Country"
@@ -152,7 +196,7 @@ const SignupPage = () => {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-2/5 border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                    className={`mt-1  block w-full md:w-2/5 border border-white bg-transparent text-black placeholder-white rounded-md  font-thin h-10 p-4 ${
                       validationErrors.postalCode ? "border-red-500" : ""
                     }`}
                     placeholder="Postal Code"
@@ -171,7 +215,7 @@ const SignupPage = () => {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary">
+                <label className="block text-sm font-medium text-white">
                   Company Name
                 </label>
                 <input
@@ -179,12 +223,12 @@ const SignupPage = () => {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4"
+                  className="mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md  font-thin h-10 p-4"
                   placeholder="Company name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary">
+                <label className="block text-sm font-medium text-white">
                   Phone number *
                 </label>
                 <div className="flex mt-1">
@@ -194,7 +238,7 @@ const SignupPage = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handlePhoneChange}
-                    className="w-full border border-gray-300 rounded-md bg-white text-gray-700 h-10 p-4"
+                    className="w-full border border-white bg-transparent text-black placeholder-white rounded-md bg-white text-gray-700 h-10 p-4"
                     international
                     countryCallingCodeEditable={false}
                   />
@@ -206,7 +250,7 @@ const SignupPage = () => {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary">
+                <label className="block text-sm font-medium text-white">
                   Password *
                 </label>
                 <input
@@ -214,7 +258,7 @@ const SignupPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                  className={`mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md font-thin h-10 p-4 ${
                     validationErrors.password ? "border-red-500" : ""
                   }`}
                   placeholder="Enter your password"
@@ -227,7 +271,7 @@ const SignupPage = () => {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary">
+                <label className="block text-sm font-medium text-white">
                   Email *
                 </label>
                 <input
@@ -235,7 +279,7 @@ const SignupPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-gray-300 rounded-md bg-white text-gray-700 font-thin h-10 p-4 ${
+                  className={`mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md font-thin h-10 p-4 ${
                     validationErrors.email ? "border-red-500" : ""
                   }`}
                   placeholder="Enter your email"
@@ -258,14 +302,14 @@ const SignupPage = () => {
                 />
                 <label
                   htmlFor="terms"
-                  className="text-sm text-black font-normal ml-2"
+                  className="text-sm text-light-grey font-normal ml-2"
                 >
                   I agree to the{" "}
                   <a
                     href="/terms-and-agreement"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600"
+                    className="text-white"
                   >
                     Terms of Service
                   </a>
@@ -294,9 +338,9 @@ const SignupPage = () => {
                   verification.
                 </p>
               )}
-              <p className="text-sm text-black font-normal mt-4 text-center">
+              <p className="text-sm text-light-grey font-normal mt-4 text-center">
                 Already have an account?{" "}
-                <a href="/login" className="text-blue-600">
+                <a href="/login" className="text-white">
                   Login
                 </a>
               </p>
@@ -318,7 +362,7 @@ const SignupPage = () => {
               </button>
             </div>
           </div>
-          <div className="w-full md:w-2/3 lg:w-1/3 bg-secondary flex items-center justify-center lg:p-8 p-4 md:p-16 rounded-lg shadow-md h-100">
+          {/* <div className="w-full md:w-2/3 lg:w-1/3 bg-secondary flex items-center justify-center lg:p-8 p-4 md:p-16 rounded-lg shadow-md h-100">
             <div className="text-center">
               <h1 className="text-lg font-normal text-left lg:pl-8 text-white">
                 Welcome to
@@ -334,7 +378,7 @@ const SignupPage = () => {
               <h2 className="text-3xl font-bold text-white">TRANSPORT</h2>
               <h2 className="text-3xl font-medium text-tertiary">LOGISTICS</h2>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
