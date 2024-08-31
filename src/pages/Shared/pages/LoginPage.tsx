@@ -164,11 +164,11 @@ const LoginPage: React.FC = () => {
 
             <div className="w-full max-w-sm mx-auto">
               <div className="flex flex-col items-center">
-                <img
+                {/* <img
                   src="/pos-logo.png" // Image path assuming it's in the public directory
                   alt="Poseidon Logo"
                   className="mb-4 w-32 h-auto" // Adjust width and height as needed
-                />
+                /> */}
                 <h2 className="text-2xl md:text-3xl font-bold mb-6 text-white text-center">
                   Sign In
                 </h2>
@@ -177,7 +177,7 @@ const LoginPage: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label
-                    className="block text-primary text-sm font-bold mb-2"
+                    className="block text-white text-sm font-bold mb-2"
                     htmlFor="email"
                   >
                     Email
@@ -195,7 +195,7 @@ const LoginPage: React.FC = () => {
                 <div className="mb-6">
                   <div className="flex justify-between items-center">
                     <label
-                      className="block text-primary text-sm font-bold mb-2"
+                      className="block text-white text-sm font-bold mb-2"
                       htmlFor="password"
                     >
                       Password
