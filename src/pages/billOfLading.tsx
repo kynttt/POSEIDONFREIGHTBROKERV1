@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 // import html2canvas from 'html2canvas';
 import SignatureCanvas from "react-signature-canvas";
 import { Quote } from "../utils/types";
+import { useAuthStore } from "../state/useAuthStore";
+
 
 interface BookingData {
   notes: string;
@@ -30,7 +32,7 @@ interface BookingData {
 }
 
 const BillOfLading: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: bookingId } = useParams<{ id: string }>();
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const printRef = useRef<HTMLDivElement>(null);
   const signatureRef = useRef<SignatureCanvas>(null);
@@ -64,10 +66,10 @@ const BillOfLading: React.FC = () => {
       });
     };
 
-    if (id) {
-      fetchBooking(id);
+    if (bookingId) {
+      fetchBooking(bookingId);
     }
-  }, [id]);
+  }, [bookingId]);
 
   const handleDownload = async () => {
     const element = printRef.current;
@@ -88,35 +90,84 @@ const BillOfLading: React.FC = () => {
 
   const saveSignature = async () => {
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
-      const canvas = signatureRef.current.getCanvas();
-      const imgData = canvas.toDataURL("image/png");
-  
-      // Generate the PDF document with the signature image
-      const pdf = new jsPDF();
-      pdf.text("Bill of Lading", 10, 10);
-      pdf.addImage(imgData, "PNG", 10, 20, 190, 60);
-  
-      // Convert the PDF to a Blob
-      const pdfBlob = pdf.output("blob");
-  
-      try {
-        // Call the separate API function to upload the PDF
-        const response = await uploadPdf(pdfBlob);
-        // console.log("Response:", response); // Log the response for debugging
-  
-        if (response.status === 201) { // Check for 201 status code if that is what your backend returns for success
-          setIsSignatureSaved(true);
-          localStorage.setItem('isSignatureSaved', 'true');
-          alert("Document saved successfully!");
-        } else {
-          alert("Failed to save document. Status code: " + response.status);
+        const canvas = signatureRef.current.getCanvas();
+        const imgData = canvas.toDataURL("image/png");
+
+        // Create a PDF and add the image to it
+        const pdf = new jsPDF();
+        pdf.text("Bill of Lading", 10, 10);
+        pdf.addImage(imgData, "PNG", 10, 20, 190, 60);
+
+        // Generate the PDF as a Blob
+        const pdfBlob = pdf.output("blob");
+
+        // Log details about the Blob
+        console.log("PDF Blob type:", pdfBlob.type);
+        console.log("PDF Blob size (bytes):", pdfBlob.size);
+
+        // You can also check the content type of the Blob (it should be 'application/pdf')
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            console.log("Blob content (first few bytes):", new Uint8Array(reader.result).slice(0, 10));
+        };
+        reader.readAsArrayBuffer(pdfBlob);
+
+        const { userId } = useAuthStore.getState();
+
+        if (!userId) {
+            alert("User ID is not available. Please log in again.");
+            return;
         }
-      } catch (error) {
-        console.error("Error caught in saveSignature:", error); // Log the error for debugging
-        alert("An error occurred while saving the document.");
-      }
+
+        if (!bookingId) {
+            alert("Booking ID is not available. Please select a booking.");
+            return;
+        }
+
+        try {
+            const response = await uploadPdf(pdfBlob, userId, bookingId);
+            console.log('Upload response:', response); // Log the full response
+
+            if (response.status === 201) {
+                setIsSignatureSaved(true);
+                localStorage.setItem('isSignatureSaved', 'true');
+                alert("Document saved successfully!");
+            } else {
+                alert(`Failed to save document. Status code: ${response.status}`);
+            }
+        } catch (error) {
+            // Log the error details
+            console.error("Error caught in saveSignature:", error);
+
+            // Provide detailed user feedback
+            let errorMessage = "An error occurred while saving the document.";
+            if (error.response) {
+                // The request was made, and the server responded with a status code
+                // that falls out of the range of 2xx
+                errorMessage += ` Status code: ${error.response.status}.`;
+                if (error.response.data) {
+                    errorMessage += ` ${error.response.data.message || 'Details not available.'}`;
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                errorMessage += " No response received from the server.";
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                errorMessage += ` Error message: ${error.message}`;
+            }
+
+            alert(errorMessage);
+        }
     }
-  };
+};
+
+
+  
+  
+  
+
+
+  
 
   const clearSignature = () => {
     if (signatureRef.current) {

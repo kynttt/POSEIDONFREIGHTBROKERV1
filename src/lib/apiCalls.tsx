@@ -386,21 +386,51 @@ export const fetchBookingById = async (id: string) => {
   }
 };
 
-export const uploadPdf = async (pdfBlob: Blob) => {
+// Create Bill Of Lading Entry
+// Example implementation of uploadPdf function
+export const uploadPdf = async (pdfBlob: Blob, userId: string, bookingId: string) => {
   try {
     const formData = new FormData();
-    formData.append("pdfDocument", pdfBlob, "document-with-signature.pdf");
+    formData.append('pdf', pdfBlob);
+    formData.append('userId', userId);
+    formData.append('bookingId', bookingId);
 
-    const response = await axiosInstance.post(`/billOfLading`, formData, {
+    const response = await axiosInstance.post('/billOfLading/', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
 
-    return response; // Ensure the response object is returned correctly
+    return response; // Ensure this is returned
   } catch (error) {
-    console.error("Error saving document:", error);
-    throw error; // Ensure errors are thrown for the catch block in saveSignature to handle
+    console.error('Upload PDF error:', error);
+    throw error;
+  }
+};
+
+
+// Fetch Bill of Lading by Booking ID
+export const fetchBillOfLadingByBookingId = async (bookingId: string) => {
+  try {
+    const response = await axiosInstance.get(`/billOfLading/by-booking/${bookingId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Bill of Lading by booking ID:", error);
+    throw error; // Ensure the error is thrown to be handled by the caller
+  }
+};
+
+
+
+
+// Fetch Bill Of Lading Entries by User ID
+export const fetchBillOfLadingsByUserId = async (userId: string) => {
+  try {
+    const response = await axiosInstance.get(`/billOfLading/${userId}`);
+    return response.data; // Return the data directly
+  } catch (error) {
+    console.error("Error fetching Bill of Lading documents:", error);
+    throw error; // Ensure errors are thrown for the caller to handle
   }
 };
 
@@ -452,3 +482,5 @@ export const getPricePerMile = async ({
 
   return response.data as GetPriceMileResponse;
 };
+
+
