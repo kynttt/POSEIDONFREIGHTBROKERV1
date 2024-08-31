@@ -11,7 +11,7 @@ import {
 import { MapComponent } from "../../components/googleMap/MapComponent";
 import { calculateRoute } from "../../components/googleMap/utils";
 // import { useAuth } from '../../hooks/useAuth';
-import Button from "../../components/Button";
+// import Button from "../../components/Button";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -49,6 +49,7 @@ const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
 
 export default function DistanceCalculatorPage() {
+  const [showCalendar, setShowCalendar] = useState(true);
   const { role } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
   const location = useLocation();
@@ -390,6 +391,7 @@ export default function DistanceCalculatorPage() {
     pricingCalculateHandler();
     setShowThirdModal(false);
     setShowPrice(true);
+    setShowCalendar(true);
   };
 
   const handleQuoteButtonClick = async () => {
@@ -429,7 +431,7 @@ export default function DistanceCalculatorPage() {
   return (
     <div className="flex h-full flex-1">
       {/* <SideBar isAuthenticated={isAuthenticated} /> */}
-      <div className="flex-1 bg-white min-h-screen overflow-y-auto">
+      <div className="flex-1 bg-light-grey min-h-screen overflow-y-auto">
         <div className="relative">
           <div className="mt-4  lg:col-span-3">
             <MapComponent
@@ -444,7 +446,7 @@ export default function DistanceCalculatorPage() {
 
         {/* Calendar and Dialog */}
         <div className=" flex justify-center w-full absolute  bottom-0 left-0 right-0 lg:mx-auto py-8   px-4  rounded-lg ">
-          <div className="lg:ml-80 gap-8 md:flex justify-center w-full">
+          <div className="lg:ml-80 gap-8 md:flex justify-center w-full ">
             {/* <div className="mb-8 md:mb-0">
               <h3 className="text-lg font-medium text-secondary mb-2">
                 <FontAwesomeIcon
@@ -455,35 +457,42 @@ export default function DistanceCalculatorPage() {
               </h3>
               
             </div> */}
-            <Calendar
-              id="calendar"
-              value={dataState?.pickupDate}
-              onChange={(date) => {
-                // setPickupDate(date);
-                updateState({
-                  ...dataState!,
-                  pickupDate: date,
-                });
+            {showCalendar && (
+              <Calendar
+                id="calendar"
+                value={dataState?.pickupDate}
+                onChange={(date) => {
+                  // setPickupDate(date);
+                  updateState({
+                    ...dataState!,
+                    pickupDate: date,
+                  });
 
-                setShowFirstModal(true); // Show the first modal when a date is picked
-              }}
-              className="border border-secondary rounded"
-            />
+                  setShowFirstModal(true); // Show the first modal when a date is picked
+                  setShowCalendar(false);
+                }}
+                className="border border-secondary rounded transition-transform duration-700 transform scale-75 hover:scale-100 focus-within:scale-100"
+              />
+            )}
 
             {warnings?.pickupDate && (
               <p className="text-red-500 text-sm">{warnings.pickupDate}</p>
             )}
 
             {showFirstModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
-                <div className="mx-2 bg-white rounded-lg lg:p-10 p-6 w-full max-w-2xl shadow-lg relative ">
+              <div className="fixed bottom-0 flex items-center justify-center w-full  z-50 ">
+                <div className="bg-white rounded-lg lg:p-10 md:mb-36 p-6 w-full max-w-2xl shadow-lg relative ">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
-                    onClick={() => setShowFirstModal(false)}
+                    onClick={() => {
+                      setShowFirstModal(false);
+                      setShowCalendar(true);
+                    }}
                     aria-label="Close"
                   >
                     <FontAwesomeIcon icon={faTimes} />
                   </button>
+
                   <div>
                     <h1 className="text-primary text-xl">Book Your Shipment</h1>
                     <p className="text-gray-500 font-normal mb-8">
@@ -654,7 +663,7 @@ export default function DistanceCalculatorPage() {
 
                     <div className="flex justify-end">
                       <button
-                        className={` py-3 px-2  rounded text-white 
+                        className={` py-3 px-2  rounded text-white w-full mt-2
     ${
       !dataState?.origin ||
       !dataState?.destination ||
@@ -671,7 +680,7 @@ export default function DistanceCalculatorPage() {
                           !dataState?.trailerSize
                         }
                       >
-                        Next . . .
+                        Next
                       </button>
                     </div>
                   </div>
@@ -680,11 +689,14 @@ export default function DistanceCalculatorPage() {
             )}
 
             {showSecondModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
-                <div className="bg-white rounded-lg lg:p-10 p-6 w-full max-w-2xl shadow-lg relative">
+              <div className="fixed bottom-0 flex items-center justify-center w-full z-50">
+                <div className="bg-white rounded-lg lg:p-10 md:mb-36 p-6 w-full max-w-2xl shadow-lg relative">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
-                    onClick={() => setShowSecondModal(false)}
+                    onClick={() => {
+                      setShowSecondModal(false);
+                      setShowCalendar(true);
+                    }}
                     aria-label="Close"
                   >
                     <FontAwesomeIcon icon={faTimes} />
@@ -814,7 +826,7 @@ export default function DistanceCalculatorPage() {
 
                   <div className="flex justify-end">
                     <button
-                      className={`mt-4 py-3 px-4 rounded text-white 
+                      className={`mt-6 py-3 px-4 rounded text-white w-full 
     ${
       !dataState?.commodity ||
       !dataState?.maxWeight ||
@@ -839,11 +851,13 @@ export default function DistanceCalculatorPage() {
             )}
 
             {showThirdModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-50 backdrop-blur-sm z-50">
-                <div className="bg-white rounded-lg shadow-lg lg:p-10 p-6 w-full max-w-2xl relative">
+              <div className="fixed bottom-0 flex items-center justify-center w-full z-50">
+                <div className="bg-white rounded-lg shadow-lg lg:p-10 md:mb-36 p-6 w-full max-w-2xl relative">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
-                    onClick={() => setShowThirdModal(false)}
+                    onClick={() => {setShowThirdModal(false);
+                      setShowCalendar(true);
+                    }}
                     aria-label="Close"
                   >
                     <FontAwesomeIcon icon={faTimes} />
@@ -909,7 +923,7 @@ export default function DistanceCalculatorPage() {
 
                   <div className="flex justify-end">
                     <button
-                      className={`mt-4 py-3 px-4 rounded text-white 
+                      className={`mt-4 py-3 px-4 rounded text-white w-full
     ${
       !dataState?.companyName
         ? "bg-gray-400 cursor-not-allowed"
@@ -929,91 +943,91 @@ export default function DistanceCalculatorPage() {
                 </div>
               </div>
             )}
-
-            <div className="border border-secondary p-4 md:p-8 bg-white h-auto w-full md:w-1/2 lg:w-1/4 rounded-lg shadow-xl md:mt-0 xs:mt-4">
-              {showPrice ? (
-                <div>
-                  <h1 className="text-primary text-lg md:text-xl">
-                    Your Quote is Ready!
-                  </h1>
-                  <p className="text-gray-500 text-sm md:text-base font-normal mb-4 md:mb-8">
-                    Your price has been calculated. You can now review your
-                    details and proceed to payment.
-                  </p>
-                </div>
-              ) : (
-                <div>
-                  <h1 className="text-primary text-lg md:text-xl">
-                    Complete Your Details
-                  </h1>
-                  <p className="text-gray-500 text-sm md:text-base font-normal mb-4 md:mb-8">
-                    Please fill out all required information so we can calculate
-                    the distance and price for your shipment.
-                  </p>
-                </div>
-              )}
-              <div className="flex flex-col items-start mb-4 lg:mb-0">
-                <div className="text-primary text-xl md:text-2xl font-medium pt-4 rounded-lg">
-                  <FontAwesomeIcon
-                    icon={faMapLocationDot}
-                    className="text-gray-400 w-4 md:w-6"
-                  />{" "}
-                  Distance
-                </div>
-                {showPrice && (
-                  <div
-                    className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
-                    style={{ height: "60px" }}
-                  >
-                    {/* {distance ? distance : <span>&nbsp;</span>} */}
-                    {dataState?.distance || <span>&nbsp;</span>}
+            {showCalendar && (
+              <div className="border border-secondary p-4 md:p-8 bg-white h-auto w-full md:w-1/2 lg:w-1/4 rounded-lg shadow-xl md:mt-0 xs:mt-4 transition-transform duration-700 transform scale-75 hover:scale-100 focus-within:scale-100 flex flex-col justify-between">
+                {showPrice ? (
+                  <div>
+                    <h1 className="text-primary text-lg md:text-xl">
+                      Your Quote is Ready!
+                    </h1>
+                    <p className="text-gray-500 text-sm md:text-base font-normal mb-4 md:mb-8">
+                      Your price has been calculated. You can now review your
+                      details and proceed to payment.
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <h1 className="text-primary text-lg md:text-xl">
+                      Complete Your Details
+                    </h1>
+                    <p className="text-gray-500 text-sm md:text-base font-normal mb-4 md:mb-8">
+                      Please fill out all required information so we can
+                      calculate the distance and price for your shipment.
+                    </p>
                   </div>
                 )}
-              </div>
-              <div className="flex flex-col items-start">
-                <div className="text-primary text-xl md:text-2xl font-medium pt-4 rounded-lg">
-                  <FontAwesomeIcon
-                    icon={faMoneyBillWave}
-                    className="text-gray-400 w-4 md:w-6"
-                  />{" "}
-                  Price
-                </div>
-                {mutation.isPending && (
-                  <div className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg">
-                    Calculating price...
+                <div className="flex flex-col items-start mb-4 lg:mb-0">
+                  <div className="text-primary text-xl md:text-2xl font-medium pt-4 rounded-lg">
+                    <FontAwesomeIcon
+                      icon={faMapLocationDot}
+                      className="text-gray-400 w-4 md:w-6"
+                    />{" "}
+                    Distance
                   </div>
-                )}
-                {showPrice && (
-                  <div
-                    className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
-                    style={{ height: "60px" }}
-                  >
-                    {/* {price !== null ? (
+                  {showPrice && (
+                    <div
+                      className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
+                      style={{ height: "60px" }}
+                    >
+                      {/* {distance ? distance : <span>&nbsp;</span>} */}
+                      {dataState?.distance || <span>&nbsp;</span>}
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col items-start">
+                  <div className="text-primary text-xl md:text-2xl font-medium pt-4 rounded-lg">
+                    <FontAwesomeIcon
+                      icon={faMoneyBillWave}
+                      className="text-gray-400 w-4 md:w-6"
+                    />{" "}
+                    Price
+                  </div>
+                  {mutation.isPending && (
+                    <div className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg">
+                      Calculating price...
+                    </div>
+                  )}
+                  {showPrice && (
+                    <div
+                      className="text-secondary text-2xl md:text-4xl font-medium text-gray-500 p-2 md:p-4 rounded-lg"
+                      style={{ height: "60px" }}
+                    >
+                      {/* {price !== null ? (
                       `$ ${price.toFixed(2)}`
                     ) : (
                       <span>&nbsp;</span>
                     )} */}
 
-                    {dataState?.price !== null ? (
-                      `$ ${(dataState?.price || 0.0).toFixed(2)}`
-                    ) : (
-                      <span>&nbsp;</span>
-                    )}
-                  </div>
-                )}
+                      {dataState?.price !== null ? (
+                        `$ ${(dataState?.price || 0.0).toFixed(2)}`
+                      ) : (
+                        <span>&nbsp;</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <button
+  className={`py-5 px-2 rounded-lg w-full mt-auto text-white font-medium transition-colors duration-300 ${
+    showPrice ? "bg-[#252F70] hover:bg-secondary hover:text-white" : "bg-gray-400 cursor-not-allowed"
+  }`}
+  onClick={handleQuoteButtonClick}
+  disabled={!showPrice}
+>
+  GET THIS QUOTE
+</button>
+
               </div>
-              {showPrice && (
-                <Button
-                  label="GET THIS QUOTE"
-                  size="large"
-                  bgColor="#7783D2"
-                  hoverBgColor="white"
-                  onClick={handleQuoteButtonClick}
-                  className="extra-class-for-medium-button mt-4 md:mt-8"
-                  type="button"
-                />
-              )}
-            </div>
+            )}
           </div>
         </div>
       </div>
