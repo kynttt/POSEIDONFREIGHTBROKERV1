@@ -130,3 +130,17 @@ export interface GetPriceMileData {
 export interface GetPriceMileResponse {
   pricePerMile: number;
 }
+
+interface IMetadata {
+  key: string;
+  value: string | number | boolean;
+}
+export interface NotificationSchema extends Schema {
+  title: string;
+  type?: "booking" | "quote" | "invoice" | "payment"; // Optional due to lack of `required: true`
+  message: string;
+  metadata?: IMetadata[]; // Metadata array is optional
+  user?: string | User;
+  isRead: boolean;
+  isDeleted: boolean;
+}

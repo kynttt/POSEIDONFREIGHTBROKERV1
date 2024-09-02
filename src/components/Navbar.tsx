@@ -4,7 +4,6 @@ import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../state/useAuthStore";
 
-import NotificationModal from "./NotificationModal";
 import { useMutation } from "@tanstack/react-query";
 import { logoutUser } from "../lib/apiCalls";
 import { LogoutResponse } from "../utils/types";
@@ -14,7 +13,6 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { logoutUpdate, isAuthenticated, role } = useAuthStore();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const mutation = useMutation<LogoutResponse, Error, undefined>({
     mutationFn: logoutUser,
@@ -54,9 +52,6 @@ const Navbar: React.FC = () => {
       navigate(path);
     }
     setIsOpen(false); // Close the menu on navigation
-  };
-  const handleNotificationClick = () => {
-    setIsModalOpen(true);
   };
 
   return (
@@ -168,12 +163,7 @@ const Navbar: React.FC = () => {
                 >
                   Trucks
                 </button>
-                <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
-                  onClick={handleNotificationClick}
-                >
-                  Notifications
-                </button>
+
                 <button
                   className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/a/profile")}
@@ -189,12 +179,7 @@ const Navbar: React.FC = () => {
                 >
                   Dashboard
                 </button>
-                <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
-                  onClick={handleNotificationClick}
-                >
-                  Notification
-                </button>
+
                 <button
                   className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/user-payables")}
@@ -316,12 +301,7 @@ const Navbar: React.FC = () => {
                   >
                     Trucks
                   </button>
-                  <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
-                    onClick={handleNotificationClick}
-                  >
-                    Notifications
-                  </button>
+
                   <button
                     className="block text-white hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/profile")}
@@ -337,12 +317,7 @@ const Navbar: React.FC = () => {
                   >
                     Dashboard
                   </button>
-                  <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
-                    onClick={handleNotificationClick}
-                  >
-                    Notifications
-                  </button>
+
                   <button
                     className="block text-white hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/user-payables")}
@@ -397,10 +372,6 @@ const Navbar: React.FC = () => {
           </Transition>
         </div>
       </nav>
-      <NotificationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </>
   );
 };

@@ -1,70 +1,56 @@
-import React from "react";
-import notifications from "./notifications.json"; // Adjust the path as necessary
+import { useQuery } from "@tanstack/react-query";
+import { listNotifications } from "../lib/apiCalls";
+import { Loader, ScrollArea, Stack } from "@mantine/core";
+import { format, formatDistanceToNow } from "date-fns";
 
-interface NotificationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+export default function NotificationModal() {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: listNotifications,
+    refetchOnWindowFocus: true,
+  });
 
-const NotificationModal: React.FC<NotificationModalProps> = ({
-  isOpen,
-  onClose,
-}) => {
-  if (!isOpen) return null;
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <Loader size="sm" />;
+  }
+  const formatNotificationDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+
+    if (diffInHours < 24) {
+      return formatDistanceToNow(date, { addSuffix: true });
+    } else {
+      return format(date, "PPP"); // Formats the date as "Sep 2, 2024"
+    }
+  };
 
   return (
-    <div
-      className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center md:justify-end md:items-start md:p-8"
-      style={{ zIndex: 1000 }} // Set a high z-index value
-    >
-      <div className="bg-white rounded-lg w-full md:w-1/3 lg:w-1/4 p-8 mt-4 md:mt-0 md:mr-4">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl text-secondary font-normal">Notifications</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-600 hover:text-gray-900"
-          >
-            &times;
-          </button>
-        </div>
-        <div className="space-y-4">
-          {notifications.map((notification) => (
+    <>
+      <ScrollArea.Autosize mah={300} maw={500}>
+        <Stack>
+          {[...(data || [])].map((notification) => (
             <div
-              key={notification.id}
-              className="flex items-center justify-between bg-gray-100 rounded-lg p-2 h-20 shadow"
+              key={notification._id}
+              className="p-2   hover:bg-gray-100 rounded-md transition-colors duration-200"
             >
-              <div className="flex items-center">
-                <div className="bg-primary text-white rounded-full p-2">
-                  <svg
-                    className="w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 6.293a1 1 0 010 1.414L8.414 16l-4.707-4.707a1 1 0 011.414-1.414L8 13.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-lg font-medium text-primary">
-                    {notification.title}
-                  </h3>
-                  <p className="text-secondary font-light">
-                    {notification.message}
-                  </p>
-                </div>
+              <div className="text-sm font-medium text-gray-900">
+                {notification.title}
               </div>
-              <span className="text-gray-600 text-sm font-light">
-                {notification.time}
-              </span>
+              <div className="text-xs text-gray-700 ">
+                {notification.message}
+              </div>{" "}
+              <div className="text-xs text-gray-500 mt-1">
+                {formatNotificationDate(notification.createdAt as string)}
+              </div>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
+        </Stack>
+      </ScrollArea.Autosize>
+    </>
   );
-};
-
-export default NotificationModal;
+}

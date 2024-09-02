@@ -8,6 +8,7 @@ import {
   Invoice,
   LoginResponse,
   LogoutResponse,
+  NotificationSchema,
   PaymentIntentParams,
   Quote,
   RegisterFormData,
@@ -451,4 +452,9 @@ export const getPricePerMile = async ({
   );
 
   return response.data as GetPriceMileResponse;
+};
+
+export const listNotifications = async () => {
+  const response = await axiosInstance.get(`/notifications`);
+  return response.data as NotificationSchema[];
 };
