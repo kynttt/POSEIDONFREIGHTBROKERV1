@@ -52,14 +52,9 @@ const ShipmentDetails: React.FC = () => {
           if (responseData.pdfDocument && responseData.pdfDocument.data) {
             const pdfBuffer = responseData.pdfDocument.data;
             const binaryData = new Uint8Array(pdfBuffer);
-            // console.log("First few bytes of binary data:", binaryData.slice(0, 10));
-  
             const blob = new Blob([binaryData], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
-            // console.log("Blob URL created:", url);
             setBlobUrl(url);
-  
-            setLoading(false);
           } else {
             throw new Error("PDF data not found in the response");
           }
@@ -68,6 +63,7 @@ const ShipmentDetails: React.FC = () => {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -79,10 +75,15 @@ const ShipmentDetails: React.FC = () => {
         URL.revokeObjectURL(blobUrl);
       }
     };
-  }, [id, blobUrl]);
+  }, [id]);
   
   
   
+  const handleViewBillOfLading = () => {
+    if (blobUrl) {
+      window.open(blobUrl, "_blank");
+    }
+  };
   
   
   
@@ -384,34 +385,31 @@ const ShipmentDetails: React.FC = () => {
             <div className="bg-white  p-6 rounded-lg my-6 shadow-lg md:px-12 md:py-10">
               <h2 className="text-xl mb-2 text-secondary">Documents <p className="text-base text-gray-500 font-normal">Access and Review Shipment Documents</p></h2>
               <div className="flex flex-col sm:flex-row mb-4  py-4">
-                <div
-                  onClick={handleBillOfLadingClick}
-                  className="w-full sm:w-1/2 mb-4 sm:mb-0"
-                >
-                  {blobUrl ? (
-  <a href={blobUrl} target="_blank" rel="noopener noreferrer">
-    <button className="block text-primary text-sm font-bold p-2 rounded-md bg-primary text-white cursor-pointer">
-      <FontAwesomeIcon icon={faFile} className="mr-2" />
-      View Bill of Lading (BOL)
-    </button>
-  </a>
+              <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+          {blobUrl ? (
+            <button
+              onClick={handleViewBillOfLading}
+              className="block text-primary text-sm font-bold p-2 rounded-md bg-primary text-white cursor-pointer"
+            >
+              <FontAwesomeIcon icon={faFile} className="mr-2" />
+              View Bill of Lading (BOL)
+            </button>
+          ) : (
+            <button
+              onClick={handleBillOfLadingClick}
+              className={`block text-primary text-sm font-bold p-2 rounded-md ${
+                booking.status === "Pending"
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-secondary text-white cursor-pointer"
+              }`}
+              disabled={booking.status === "Pending"}
+            >
+              <FontAwesomeIcon icon={faFile} className="mr-2" />
+              Generate Bill of Lading (BOL)
+            </button>
+          )}
+        </div>
 
-) : (
-  <button
-    onClick={handleBillOfLadingClick}
-    className={`block text-primary text-sm font-bold p-2 rounded-md ${
-      booking.status === "Pending"
-        ? "bg-gray-400 text-white cursor-not-allowed"
-        : "bg-secondary text-white cursor-pointer"
-    }`}
-    disabled={booking.status === "Pending"}
-  >
-    <FontAwesomeIcon icon={faFile} className="mr-2"/>Generate Bill of Lading (BOL)
-  </button>
-)}
-
-                  {/* <p className='text-gray-500 text-base font-medium'>{booking.bol || 'N/A'}</p> */}
-                </div>
               </div>
             </div>
           </div>

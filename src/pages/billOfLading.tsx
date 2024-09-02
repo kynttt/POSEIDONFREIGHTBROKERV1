@@ -10,6 +10,7 @@ import { Quote } from "../utils/types";
 import { useAuthStore } from "../state/useAuthStore";
 
 
+
 interface BookingData {
   notes: string;
   origin: string;
@@ -74,99 +75,118 @@ const BillOfLading: React.FC = () => {
   const handleDownload = async () => {
     const element = printRef.current;
     if (!element) return;
-
+  
+    // Capture the content of the document
     const canvas = await html2canvas(element, { scale: 2 });
     const data = canvas.toDataURL("image/png");
-
+  
+    // Create the PDF with document content
     const pdf = new jsPDF({
       orientation: "portrait",
       unit: "in",
       format: [8.5, 11],
     });
-
+  
     pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
+  
+    // Add signature if available
+    if (signatureRef.current && !signatureRef.current.isEmpty()) {
+      const signatureCanvas = signatureRef.current.getCanvas();
+      const signatureData = signatureCanvas.toDataURL("image/png");
+      pdf.addPage(); // Add a new page for the signature
+      pdf.addImage(signatureData, "PNG", 10, 20, 190, 60); // Adjust position and size
+    }
+  
+    // Save the PDF locally (optional) or upload it
     pdf.save("Bill_of_Lading.pdf");
   };
+  
 
   const saveSignature = async () => {
-    if (signatureRef.current && !signatureRef.current.isEmpty()) {
-        const canvas = signatureRef.current.getCanvas();
-        const imgData = canvas.toDataURL("image/png");
-
-        // Create a PDF and add the image to it
-        const pdf = new jsPDF();
-        pdf.text("Bill of Lading", 10, 10);
-        pdf.addImage(imgData, "PNG", 10, 20, 190, 60);
-
-        // Generate the PDF as a Blob
-        const pdfBlob = pdf.output("blob");
-
-        // Log details about the Blob
-        console.log("PDF Blob type:", pdfBlob.type);
-        console.log("PDF Blob size (bytes):", pdfBlob.size);
-
-        // You can also check the content type of the Blob (it should be 'application/pdf')
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            console.log("Blob content (first few bytes):", new Uint8Array(reader.result).slice(0, 10));
-        };
-        reader.readAsArrayBuffer(pdfBlob);
-
-        const { userId } = useAuthStore.getState();
-
-        if (!userId) {
-            alert("User ID is not available. Please log in again.");
-            return;
-        }
-
-        if (!bookingId) {
-            alert("Booking ID is not available. Please select a booking.");
-            return;
-        }
-
-        try {
-            const response = await uploadPdf(pdfBlob, userId, bookingId);
-            console.log('Upload response:', response); // Log the full response
-
-            if (response.status === 201) {
-                setIsSignatureSaved(true);
-                localStorage.setItem('isSignatureSaved', 'true');
-                alert("Document saved successfully!");
-            } else {
-                alert(`Failed to save document. Status code: ${response.status}`);
-            }
-        } catch (error) {
-            // Log the error details
-            console.error("Error caught in saveSignature:", error);
-
-            // Provide detailed user feedback
-            let errorMessage = "An error occurred while saving the document.";
-            if (error.response) {
-                // The request was made, and the server responded with a status code
-                // that falls out of the range of 2xx
-                errorMessage += ` Status code: ${error.response.status}.`;
-                if (error.response.data) {
-                    errorMessage += ` ${error.response.data.message || 'Details not available.'}`;
-                }
-            } else if (error.request) {
-                // The request was made but no response was received
-                errorMessage += " No response received from the server.";
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                errorMessage += ` Error message: ${error.message}`;
-            }
-
-            alert(errorMessage);
-        }
+    if (!printRef.current) {
+      alert("No document content to save.");
+      return;
     }
-};
-
-
   
+    if (signatureRef.current && signatureRef.current.isEmpty()) {
+      alert("Please add a signature before saving.");
+      return;
+    }
   
+    try {
+      // Capture the document content
+      const canvas = await html2canvas(printRef.current, { scale: 2 });
+      const data = canvas.toDataURL("image/png");
   
+      // Create the PDF with the document content
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: [8.5, 11],
+      });
+  
+      pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
+  
+      // Add the signature if available
+      if (signatureRef.current && !signatureRef.current.isEmpty()) {
+        const signatureCanvas = signatureRef.current.getCanvas();
+        const signatureData = signatureCanvas.toDataURL("image/png");
+  
+        // Add a new page for the signature if necessary
+        pdf.addPage();
+        pdf.addImage(signatureData, "PNG", 10, 20, 190, 60); // Adjust position and size as needed
+      }
+  
+      // Generate the PDF as a Blob
+      const pdfBlob = pdf.output("blob");
 
-
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result instanceof ArrayBuffer) {
+          console.log("Blob content (first few bytes):", new Uint8Array(reader.result).slice(0, 10));
+        } else {
+          console.error("Failed to read blob content. Result is not an ArrayBuffer.");
+        }
+      };
+      reader.readAsArrayBuffer(pdfBlob);
+  
+      const { userId } = useAuthStore.getState();
+      if (!userId) {
+        alert("User ID is not available. Please log in again.");
+        return;
+      }
+  
+      if (!bookingId) {
+        alert("Booking ID is not available. Please select a booking.");
+        return;
+      }
+  
+      // Upload the PDF
+      const response = await uploadPdf(pdfBlob, userId, bookingId);
+      console.log('Upload response:', response);
+  
+      if (response.status === 201) {
+        setIsSignatureSaved(true);
+        localStorage.setItem('isSignatureSaved', 'true');
+        alert("Document saved successfully!");
+      } else {
+        alert(`Failed to save document. Status code: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error caught in saveSignature:", error);
+  
+      let errorMessage = "An error occurred while saving the document.";
+      if (error instanceof Error) {
+        // Handle known Error objects
+        errorMessage += ` Error message: ${error.message}`;
+      } else {
+        // Handle unknown errors
+        errorMessage += " An unknown error occurred.";
+      }
+  
+      alert(errorMessage);
+    }
+  };
   
 
   const clearSignature = () => {
