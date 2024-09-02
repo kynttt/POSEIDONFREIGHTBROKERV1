@@ -7,6 +7,9 @@ import { useParams } from "react-router-dom";
 // import html2canvas from 'html2canvas';
 import SignatureCanvas from "react-signature-canvas";
 import { Quote } from "../utils/types";
+import { useAuthStore } from "../state/useAuthStore";
+
+
 
 interface BookingData {
   notes: string;
@@ -30,7 +33,7 @@ interface BookingData {
 }
 
 const BillOfLading: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: bookingId } = useParams<{ id: string }>();
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const printRef = useRef<HTMLDivElement>(null);
   const signatureRef = useRef<SignatureCanvas>(null);
@@ -64,59 +67,127 @@ const BillOfLading: React.FC = () => {
       });
     };
 
-    if (id) {
-      fetchBooking(id);
+    if (bookingId) {
+      fetchBooking(bookingId);
     }
-  }, [id]);
+  }, [bookingId]);
 
   const handleDownload = async () => {
     const element = printRef.current;
     if (!element) return;
-
+  
+    // Capture the content of the document
     const canvas = await html2canvas(element, { scale: 2 });
     const data = canvas.toDataURL("image/png");
-
+  
+    // Create the PDF with document content
     const pdf = new jsPDF({
       orientation: "portrait",
       unit: "in",
       format: [8.5, 11],
     });
-
+  
     pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
+  
+    // Add signature if available
+    if (signatureRef.current && !signatureRef.current.isEmpty()) {
+      const signatureCanvas = signatureRef.current.getCanvas();
+      const signatureData = signatureCanvas.toDataURL("image/png");
+      pdf.addPage(); // Add a new page for the signature
+      pdf.addImage(signatureData, "PNG", 10, 20, 190, 60); // Adjust position and size
+    }
+  
+    // Save the PDF locally (optional) or upload it
     pdf.save("Bill_of_Lading.pdf");
   };
+  
 
   const saveSignature = async () => {
-    if (signatureRef.current && !signatureRef.current.isEmpty()) {
-      const canvas = signatureRef.current.getCanvas();
-      const imgData = canvas.toDataURL("image/png");
+    if (!printRef.current) {
+      alert("No document content to save.");
+      return;
+    }
   
-      // Generate the PDF document with the signature image
-      const pdf = new jsPDF();
-      pdf.text("Bill of Lading", 10, 10);
-      pdf.addImage(imgData, "PNG", 10, 20, 190, 60);
+    if (signatureRef.current && signatureRef.current.isEmpty()) {
+      alert("Please add a signature before saving.");
+      return;
+    }
   
-      // Convert the PDF to a Blob
-      const pdfBlob = pdf.output("blob");
+    try {
+      // Capture the document content
+      const canvas = await html2canvas(printRef.current, { scale: 2 });
+      const data = canvas.toDataURL("image/png");
   
-      try {
-        // Call the separate API function to upload the PDF
-        const response = await uploadPdf(pdfBlob);
-        // console.log("Response:", response); // Log the response for debugging
+      // Create the PDF with the document content
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: [8.5, 11],
+      });
   
-        if (response.status === 201) { // Check for 201 status code if that is what your backend returns for success
-          setIsSignatureSaved(true);
-          localStorage.setItem('isSignatureSaved', 'true');
-          alert("Document saved successfully!");
-        } else {
-          alert("Failed to save document. Status code: " + response.status);
-        }
-      } catch (error) {
-        console.error("Error caught in saveSignature:", error); // Log the error for debugging
-        alert("An error occurred while saving the document.");
+      pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
+  
+      // Add the signature if available
+      if (signatureRef.current && !signatureRef.current.isEmpty()) {
+        const signatureCanvas = signatureRef.current.getCanvas();
+        const signatureData = signatureCanvas.toDataURL("image/png");
+  
+        // Add a new page for the signature if necessary
+        pdf.addPage();
+        pdf.addImage(signatureData, "PNG", 10, 20, 190, 60); // Adjust position and size as needed
       }
+  
+      // Generate the PDF as a Blob
+      const pdfBlob = pdf.output("blob");
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result instanceof ArrayBuffer) {
+          console.log("Blob content (first few bytes):", new Uint8Array(reader.result).slice(0, 10));
+        } else {
+          console.error("Failed to read blob content. Result is not an ArrayBuffer.");
+        }
+      };
+      reader.readAsArrayBuffer(pdfBlob);
+  
+      const { userId } = useAuthStore.getState();
+      if (!userId) {
+        alert("User ID is not available. Please log in again.");
+        return;
+      }
+  
+      if (!bookingId) {
+        alert("Booking ID is not available. Please select a booking.");
+        return;
+      }
+  
+      // Upload the PDF
+      const response = await uploadPdf(pdfBlob, userId, bookingId);
+      console.log('Upload response:', response);
+  
+      if (response.status === 201) {
+        setIsSignatureSaved(true);
+        localStorage.setItem('isSignatureSaved', 'true');
+        alert("Document saved successfully!");
+      } else {
+        alert(`Failed to save document. Status code: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error caught in saveSignature:", error);
+  
+      let errorMessage = "An error occurred while saving the document.";
+      if (error instanceof Error) {
+        // Handle known Error objects
+        errorMessage += ` Error message: ${error.message}`;
+      } else {
+        // Handle unknown errors
+        errorMessage += " An unknown error occurred.";
+      }
+  
+      alert(errorMessage);
     }
   };
+  
 
   const clearSignature = () => {
     if (signatureRef.current) {

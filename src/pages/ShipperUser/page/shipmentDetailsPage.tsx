@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchBookingById } from "../../../lib/apiCalls";
+import { fetchBillOfLadingByBookingId, fetchBookingById } from "../../../lib/apiCalls";
 import { Booking, Quote } from "../../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBox, faBoxOpen, faBuilding, faCalendarCheck, faDollarSign, faFile, faHashtag, faLocationDot, faMapLocationDot, faNoteSticky, faTruckFront, faTruckMoving, faUser, faWeightScale } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +11,7 @@ const ShipmentDetails: React.FC = () => {
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
   // const truncateText = (text: string, maxLength: number): string => {
   //     if (text.length <= maxLength) {
@@ -40,18 +41,54 @@ const ShipmentDetails: React.FC = () => {
           console.error("No ID provided");
           return;
         }
-
+  
         const bookingData = await fetchBookingById(id);
         setBooking(bookingData);
-        setLoading(false);
+  
+        const response = await fetchBillOfLadingByBookingId(id);
+  
+        if (Array.isArray(response) && response.length > 0) {
+          const responseData = response[0];
+          if (responseData.pdfDocument && responseData.pdfDocument.data) {
+            const pdfBuffer = responseData.pdfDocument.data;
+            const binaryData = new Uint8Array(pdfBuffer);
+            const blob = new Blob([binaryData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            setBlobUrl(url);
+          } else {
+            throw new Error("PDF data not found in the response");
+          }
+        } else {
+          throw new Error("Unexpected response format");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
         setLoading(false);
       }
     };
-
+  
     fetchBookingDetail();
+  
+    return () => {
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+      }
+    };
   }, [id]);
+  
+  
+  
+  const handleViewBillOfLading = () => {
+    if (blobUrl) {
+      window.open(blobUrl, "_blank");
+    }
+  };
+  
+  
+  
+  
+  
 
   // const handleConfirmBooking = () => {
   //     navigate('/booking-successful');
@@ -348,22 +385,31 @@ const ShipmentDetails: React.FC = () => {
             <div className="bg-white  p-6 rounded-lg my-6 shadow-lg md:px-12 md:py-10">
               <h2 className="text-xl mb-2 text-secondary">Documents <p className="text-base text-gray-500 font-normal">Access and Review Shipment Documents</p></h2>
               <div className="flex flex-col sm:flex-row mb-4  py-4">
-                <div
-                  onClick={handleBillOfLadingClick}
-                  className="w-full sm:w-1/2 mb-4 sm:mb-0"
-                >
-                  <button
-                    className={`block text-primary text-sm font-bold p-2 rounded-md ${
-                      booking.status === "Pending"
-                        ? "bg-gray-400 text-white cursor-not-allowed"
-                        : "bg-secondary text-white cursor-pointer"
-                    }`}
-                    disabled={booking.status === "Pending"}
-                  >
-                    <FontAwesomeIcon icon={faFile} className="mr-2"/>Bill of Lading (BOL)
-                  </button>
-                  {/* <p className='text-gray-500 text-base font-medium'>{booking.bol || 'N/A'}</p> */}
-                </div>
+              <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+          {blobUrl ? (
+            <button
+              onClick={handleViewBillOfLading}
+              className="block text-primary text-sm font-bold p-2 rounded-md bg-primary text-white cursor-pointer"
+            >
+              <FontAwesomeIcon icon={faFile} className="mr-2" />
+              View Bill of Lading (BOL)
+            </button>
+          ) : (
+            <button
+              onClick={handleBillOfLadingClick}
+              className={`block text-primary text-sm font-bold p-2 rounded-md ${
+                booking.status === "Pending"
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-secondary text-white cursor-pointer"
+              }`}
+              disabled={booking.status === "Pending"}
+            >
+              <FontAwesomeIcon icon={faFile} className="mr-2" />
+              Generate Bill of Lading (BOL)
+            </button>
+          )}
+        </div>
+
               </div>
             </div>
           </div>
