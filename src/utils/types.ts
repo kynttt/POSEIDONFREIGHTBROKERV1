@@ -87,6 +87,7 @@ export interface StripeClientSecret {
 }
 
 export interface Booking extends Schema {
+  billOfLading: any;
   quote: string | Quote;
   status: BookingStatus;
   carrier?: string | null;
