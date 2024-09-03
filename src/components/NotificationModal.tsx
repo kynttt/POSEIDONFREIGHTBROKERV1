@@ -1,8 +1,10 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { listNotifications, updateNotificationStatus } from "../lib/apiCalls";
+import {  listNotifications, updateNotificationStatus } from "../lib/apiCalls";
 import { Loader, ScrollArea, Stack } from "@mantine/core";
 import { format, formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../src/state/useAuthStore"; // Adjust the import path
+import { NotificationSchema } from "../utils/types";
 
 interface Notification {
   _id: string;
@@ -15,13 +17,20 @@ interface Notification {
 
 export default function NotificationModal() {
   const navigate = useNavigate();
+  const { userId, isAuthenticated } = useAuthStore((state) => ({
+    userId: state.userId,
+    isAuthenticated: state.isAuthenticated,
+  }));
+
+  if (!isAuthenticated || !userId) {
+    return <div>Please log in to view notifications</div>;
+  }
 
   // Fetch notifications
   const { data, isLoading, isError, error } = useQuery<Notification[]>({
-    queryKey: ["notifications"],
+    queryKey: ["notifications", userId],
     queryFn: async () => {
-      const notifications = await listNotifications();
-      // Transform data if necessary
+      const notifications = await listNotifications(userId);
       return notifications.map((notification: any) => ({
         _id: notification._id ?? '',
         title: notification.title,
@@ -84,20 +93,32 @@ export default function NotificationModal() {
     return message;
   };
 
-  const handleNotificationClick = async (notification: Notification) => {
+  const handleNotificationClick = async (notification: NotificationSchema) => {
     if (!notification.isRead) {
-      await mutation.mutateAsync(notification._id);
+      if (notification._id) {
+        await mutation.mutateAsync(notification._id);
+      }
     }
-
-    if (notification.metadata && notification.metadata.length > 0) {
+  
+    if (notification.bookingId) {
+      console.log('Navigating directly to booking ID:', notification.bookingId);
+      navigate(`/s/shipmentDetails/${notification.bookingId}`);
+    } else if (notification.metadata && notification.metadata.length > 0) {
       const bookingIdMetadata = notification.metadata.find(
         (item) => item.key === 'reference'
       );
+  
       if (bookingIdMetadata) {
+        console.log('Navigating to booking ID from metadata:', bookingIdMetadata.value);
         navigate(`/s/shipmentDetails/${bookingIdMetadata.value}`);
+      } else {
+        console.error('Booking ID metadata not found');
       }
+    } else {
+      console.error('No booking ID or relevant metadata found');
     }
   };
+
 
   return (
     <>
@@ -107,18 +128,18 @@ export default function NotificationModal() {
           {sortedNotifications.map((notification) => (
             <div
               key={notification._id}
-              className={`py-2 px-12   hover:bg-gray-900 rounded-md transition-colors duration-200 cursor-pointer border shadow-lg ${
-                !notification.isRead ? "bg-violet-200 " : ""
+              className={`py-2 px-12 hover:bg-gray-500 hover:text-white rounded-md transition-colors duration-200 cursor-pointer border shadow-lg ${
+                !notification.isRead ? "bg-violet-200 text-black" : "text-gray-700"
               }`}
               onClick={() => handleNotificationClick(notification)}
             >
-              <div className="text-sm font-medium text-gray-700">
+              <div className="text-sm font-medium">
                 {notification.title}
               </div>
-              <div className="text-xs font-normal text-gray-500">
+              <div className="text-xs font-normal">
                 {formatNotificationMessage(notification)}
               </div>
-              <div className="text-xs text-gray-600 mt-1">
+              <div className="text-xs mt-1">
                 {formatNotificationDate(notification.createdAt)}
               </div>
             </div>

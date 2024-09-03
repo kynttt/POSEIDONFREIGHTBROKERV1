@@ -87,14 +87,9 @@ export interface StripeClientSecret {
 }
 
 export interface Booking extends Schema {
-<<<<<<< HEAD
 
   billOfLading: unknown;
   quote: string | Quote;
-=======
-  billOfLading: unknown;
-  quote: Quote;
->>>>>>> 1634d5c9618388a1f698d25447e9e3a36d2d4702
   status: BookingStatus;
   carrier?: string | null;
   driver?: string | null;
@@ -143,12 +138,15 @@ interface IMetadata {
   value: string | number | boolean;
 }
 export interface NotificationSchema extends Schema {
-  booking: any;
+  bookingId?: string;
   title: string;
-  type?: "booking" | "quote" | "invoice" | "payment"; // Optional due to lack of `required: true`
+  type?: "booking" | "quote" | "invoice" | "payment";
   message: string;
-  metadata?: IMetadata[]; // Metadata array is optional
+  metadata?: IMetadata[];
   user?: string | User;
   isRead: boolean;
-  isDeleted: boolean;
+  isDeleted?: boolean; // Make this optional if not always present
 }
+
+
+
