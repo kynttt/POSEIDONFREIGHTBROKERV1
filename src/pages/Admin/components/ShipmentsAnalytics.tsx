@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { fetchBookings } from "../../../lib/apiCalls"; // Function to fetch bookings data
 import dayjs from "dayjs"; // For date manipulation
+import { Booking } from "../../../utils/types";
 
 interface ShipmentData {
   date: string;
@@ -31,7 +32,7 @@ const ShipmentsBarChart: React.FC = () => {
         // Aggregate the bookings by date
         const bookingsByDate: { [key: string]: number } = {};
 
-        bookings.forEach((booking: any) => {
+        bookings.forEach((booking: Booking) => {
           const date = dayjs(booking.createdAt).format("YYYY-MM-DD"); // Format date as YYYY-MM-DD
           if (bookingsByDate[date]) {
             bookingsByDate[date]++;
