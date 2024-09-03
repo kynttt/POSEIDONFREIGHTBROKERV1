@@ -5,6 +5,7 @@ import {
   Popover,
   rem,
   useMatches,
+  Indicator, // Import Indicator component from Mantine
 } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar/SideBar";
@@ -13,10 +14,33 @@ import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
 import HelpIcon from "../../../assets/help";
 import NotificationModal from "../../../components/NotificationModal";
+import { useState, useEffect } from "react"; // Import useState and useEffect for state management and side effects
+import { listNotifications } from "../../../lib/apiCalls"; // Ensure this path is correct
+
 export default function ShipperShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
-
   const pinned = useHeadroom({ fixedAt: 120 });
+
+  // State to track if there are new notifications
+  const [hasNewNotification, setHasNewNotification] = useState(false);
+
+  // Check for new notifications immediately on component mount
+  useEffect(() => {
+    const checkForNotifications = async () => {
+      try {
+        const notifications = await listNotifications();
+        // Determine if there are any unread notifications
+        const unreadNotificationsExist = notifications.some(
+          (notification: any) => !notification.isRead
+        );
+        setHasNewNotification(unreadNotificationsExist);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    checkForNotifications();
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
     <section>
@@ -32,9 +56,14 @@ export default function ShipperShellPage() {
         }}
       >
         <AppShell.Header>
-          <ShellHeader opened={opened} open={open} close={close} />
+          <ShellHeader
+            opened={opened}
+            open={open}
+            close={close}
+            hasNewNotification={hasNewNotification}
+            setHasNewNotification={setHasNewNotification}
+          />
         </AppShell.Header>
-        )
         <AppShell.Navbar>
           <Sidebar close={close} closeVisible />
         </AppShell.Navbar>
@@ -50,35 +79,54 @@ function ShellHeader({
   opened,
   open,
   close,
+  hasNewNotification,
+  setHasNewNotification,
 }: {
   opened?: boolean;
   open?: () => void;
   close?: () => void;
+  hasNewNotification: boolean;
+  setHasNewNotification: (value: boolean) => void;
 }) {
   const visible = useMatches({
     xs: false,
     lg: true,
   });
+
+  // Handler to clear the notification state when the bell icon is clicked
+  const handleNotificationClick = () => {
+    setHasNewNotification(false); // Set to false to hide the red dot
+  };
+
   return (
     <Flex justify="flex-end" p={"lg"} gap={"md"}>
-      {" "}
-      <ActionIcon variant="subtle" aria-label="Settings" size="sm">
-        <HelpIcon />
-      </ActionIcon>
       <Popover position="bottom-start">
         <Popover.Target>
-          <ActionIcon variant="subtle" aria-label="Settings" size="md">
-            <FontAwesomeIcon icon={faBell} />
-          </ActionIcon>
+          <Indicator
+            size={10}
+            color="red"
+            offset={5}
+            position="top-end"
+            disabled={!hasNewNotification}
+          >
+            <ActionIcon
+              variant="subtle"
+              aria-label="Notifications"
+              size="md"
+              onClick={handleNotificationClick} // Attach click handler
+            >
+              <FontAwesomeIcon icon={faBell} />
+            </ActionIcon>
+          </Indicator>
         </Popover.Target>
-        <Popover.Dropdown >
+        <Popover.Dropdown>
           <NotificationModal />
         </Popover.Dropdown>
-      </Popover>{" "}
+      </Popover>
       {!visible && (
         <ActionIcon
           variant="subtle"
-          aria-label="Settings"
+          aria-label="Menu"
           size="md"
           onClick={() => {
             opened ? close!() : open!();
@@ -87,6 +135,9 @@ function ShellHeader({
           <FontAwesomeIcon icon={faBars} />
         </ActionIcon>
       )}
+      <ActionIcon variant="subtle" aria-label="Settings" size="sm">
+        <HelpIcon />
+      </ActionIcon>
     </Flex>
   );
 }
