@@ -8,6 +8,7 @@ import {
   Invoice,
   LoginResponse,
   LogoutResponse,
+  NotificationSchema,
   PaymentIntentParams,
   Quote,
   RegisterFormData,
@@ -483,4 +484,22 @@ export const getPricePerMile = async ({
   );
 
   return response.data as GetPriceMileResponse;
+};
+
+export const listNotifications = async (userId: string) => {
+  const response = await axiosInstance.get(`/notifications`, {
+    params: { userId } // Pass userId as a query parameter
+  });
+  return response.data as NotificationSchema[];
+};
+
+export const updateNotificationStatus = async (id: string, isRead: boolean) => {
+  try {
+    const response = await axiosInstance.patch(`/notifications/${id}`, { isRead });
+    return response.data;
+  } catch (error) {
+    // Handle error (log it, rethrow it, etc.)
+    console.error('Error updating notification status:', error);
+    throw error;
+  }
 };

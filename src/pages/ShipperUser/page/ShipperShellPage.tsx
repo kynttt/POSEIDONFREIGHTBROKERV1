@@ -5,18 +5,50 @@ import {
   Popover,
   rem,
   useMatches,
+  Indicator, // Import Indicator component from Mantine
 } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
-import notifications from "../../../components/notifications.json";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
 import HelpIcon from "../../../assets/help";
+import NotificationModal from "../../../components/NotificationModal";
+import { useState, useEffect } from "react"; // Import useState and useEffect for state management and side effects
+import { listNotifications } from "../../../lib/apiCalls"; // Ensure this path is correct
+import { useAuthStore } from "../../../state/useAuthStore";
+
 export default function ShipperShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
-
   const pinned = useHeadroom({ fixedAt: 120 });
+
+  // State to track if there are new notifications
+  const [hasNewNotification, setHasNewNotification] = useState(false);
+
+  const { userId, isAuthenticated } = useAuthStore((state) => ({
+    userId: state.userId,
+    isAuthenticated: state.isAuthenticated,
+  }));
+
+  // Check for new notifications immediately on component mount
+  useEffect(() => {
+    if (isAuthenticated && userId) {
+      const checkForNotifications = async () => {
+        try {
+          const notifications = await listNotifications(userId); // Pass userId here
+          // Determine if there are any unread notifications
+          const unreadNotificationsExist = notifications.some(
+            (notification) => !notification.isRead
+          );
+          setHasNewNotification(unreadNotificationsExist);
+        } catch (error) {
+          console.error("Error fetching notifications:", error);
+        }
+      };
+
+      checkForNotifications();
+    }
+  }, [isAuthenticated, userId]);
 
   return (
     <section>
@@ -32,9 +64,14 @@ export default function ShipperShellPage() {
         }}
       >
         <AppShell.Header>
-          <ShellHeader opened={opened} open={open} close={close} />
+          <ShellHeader
+            opened={opened}
+            open={open}
+            close={close}
+            hasNewNotification={hasNewNotification}
+            setHasNewNotification={setHasNewNotification}
+          />
         </AppShell.Header>
-        )
         <AppShell.Navbar>
           <Sidebar close={close} closeVisible />
         </AppShell.Navbar>
@@ -50,67 +87,54 @@ function ShellHeader({
   opened,
   open,
   close,
+  hasNewNotification,
+  setHasNewNotification,
 }: {
   opened?: boolean;
   open?: () => void;
   close?: () => void;
+  hasNewNotification: boolean;
+  setHasNewNotification: (value: boolean) => void;
 }) {
   const visible = useMatches({
     xs: false,
     lg: true,
   });
+
+  // Handler to clear the notification state when the bell icon is clicked
+  const handleNotificationClick = () => {
+    setHasNewNotification(false); // Set to false to hide the red dot
+  };
+
   return (
     <Flex justify="flex-end" p={"lg"} gap={"md"}>
-      {" "}
-      <ActionIcon variant="subtle" aria-label="Settings" size="sm">
-        <HelpIcon />
-      </ActionIcon>
       <Popover position="bottom-start">
         <Popover.Target>
-          <ActionIcon variant="subtle" aria-label="Settings" size="md">
-            <FontAwesomeIcon icon={faBell} />
-          </ActionIcon>
+          <Indicator
+            size={10}
+            color="red"
+            offset={5}
+            position="top-end"
+            disabled={!hasNewNotification}
+          >
+            <ActionIcon
+              variant="subtle"
+              aria-label="Notifications"
+              size="md"
+              onClick={handleNotificationClick} // Attach click handler
+            >
+              <FontAwesomeIcon icon={faBell} />
+            </ActionIcon>
+          </Indicator>
         </Popover.Target>
         <Popover.Dropdown>
-          {notifications.map((notification) => (
-            <div
-              key={notification.id}
-              className="flex items-center justify-between  p-2 h-20 "
-            >
-              <div className="flex items-center">
-                <div className="bg-primary text-white rounded-full p-2">
-                  <svg
-                    className="w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 6.293a1 1 0 010 1.414L8.414 16l-4.707-4.707a1 1 0 011.414-1.414L8 13.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-lg font-medium text-primary">
-                    {notification.title}
-                  </h3>
-                  <p className="text-secondary font-light">
-                    {notification.message}
-                  </p>
-                </div>
-              </div>
-              <span className="text-gray-600 text-sm font-light">
-                {notification.time}
-              </span>
-            </div>
-          ))}
+          <NotificationModal />
         </Popover.Dropdown>
-      </Popover>{" "}
+      </Popover>
       {!visible && (
         <ActionIcon
           variant="subtle"
-          aria-label="Settings"
+          aria-label="Menu"
           size="md"
           onClick={() => {
             opened ? close!() : open!();
@@ -119,6 +143,9 @@ function ShellHeader({
           <FontAwesomeIcon icon={faBars} />
         </ActionIcon>
       )}
+      <ActionIcon variant="subtle" aria-label="Settings" size="sm">
+        <HelpIcon />
+      </ActionIcon>
     </Flex>
   );
 }
