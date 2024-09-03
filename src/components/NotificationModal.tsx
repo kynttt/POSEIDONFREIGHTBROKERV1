@@ -101,24 +101,24 @@ export default function NotificationModal() {
 
   return (
     <>
-      <ScrollArea.Autosize mah={300} maw={500}>
+      <ScrollArea.Autosize mah={900} maw={700}>
         <Stack>
           {sortedNotifications.length === 0 && <div>No notifications available</div>}
           {sortedNotifications.map((notification) => (
             <div
               key={notification._id}
-              className={`py-2 px-12 bg-gray-400  hover:bg-gray-900 rounded-md transition-colors duration-200 cursor-pointer ${
-                !notification.isRead ? "bg-secondary" : ""
+              className={`py-2 px-12   hover:bg-gray-900 rounded-md transition-colors duration-200 cursor-pointer border shadow-lg ${
+                !notification.isRead ? "bg-violet-200 " : ""
               }`}
               onClick={() => handleNotificationClick(notification)}
             >
-              <div className="text-sm font-medium text-white">
+              <div className="text-sm font-medium text-gray-700">
                 {notification.title}
               </div>
-              <div className="text-xs font-normal text-white">
+              <div className="text-xs font-normal text-gray-500">
                 {formatNotificationMessage(notification)}
               </div>
-              <div className="text-xs text-white mt-1">
+              <div className="text-xs text-gray-600 mt-1">
                 {formatNotificationDate(notification.createdAt)}
               </div>
             </div>
