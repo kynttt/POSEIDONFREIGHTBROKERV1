@@ -87,6 +87,7 @@ export interface StripeClientSecret {
 }
 
 export interface Booking extends Schema {
+
   billOfLading: unknown;
   quote: Quote;
   status: BookingStatus;
@@ -131,3 +132,21 @@ export interface GetPriceMileData {
 export interface GetPriceMileResponse {
   pricePerMile: number;
 }
+
+interface IMetadata {
+  key: string;
+  value: string | number | boolean;
+}
+export interface NotificationSchema extends Schema {
+  bookingId?: string;
+  title: string;
+  type?: "booking" | "quote" | "invoice" | "payment";
+  message: string;
+  metadata?: IMetadata[];
+  user?: string | User;
+  isRead: boolean;
+  isDeleted?: boolean; // Make this optional if not always present
+}
+
+
+

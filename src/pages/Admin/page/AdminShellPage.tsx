@@ -10,8 +10,8 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
-import notifications from "../../../components/notifications.json";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
+import NotificationModal from "../../../components/NotificationModal";
 export default function AdminShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
   const pinned = useHeadroom({ fixedAt: 120 });
@@ -68,39 +68,7 @@ function ShellHeader({
           </ActionIcon>
         </Popover.Target>
         <Popover.Dropdown>
-          {notifications.map((notification) => (
-            <div
-              key={notification.id}
-              className="flex items-center justify-between  p-2 h-20 "
-            >
-              <div className="flex items-center">
-                <div className="bg-primary text-white rounded-full p-2">
-                  <svg
-                    className="w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 6.293a1 1 0 010 1.414L8.414 16l-4.707-4.707a1 1 0 011.414-1.414L8 13.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-lg font-medium text-primary">
-                    {notification.title}
-                  </h3>
-                  <p className="text-secondary font-light">
-                    {notification.message}
-                  </p>
-                </div>
-              </div>
-              <span className="text-gray-600 text-sm font-light">
-                {notification.time}
-              </span>
-            </div>
-          ))}
+          <NotificationModal />
         </Popover.Dropdown>
       </Popover>{" "}
       {!visible && (
