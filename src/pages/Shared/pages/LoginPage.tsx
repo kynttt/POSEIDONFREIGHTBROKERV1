@@ -19,7 +19,7 @@ interface LoginData {
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  let location = useLocation();
+  const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const redirectTo = searchParams.get("redirectTo");
   const login = useAuthStore((state) => state.login);

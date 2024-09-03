@@ -11,7 +11,7 @@ const OTPModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  let location = useLocation();
+  const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const redirectTo = searchParams.get("redirectTo");
   const [seconds, setSeconds] = useState(15);
