@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,14 +15,17 @@ import Button from "../../components/Button";
 // import QuoteRequestModal from '../components/QuoteRequestModal';
 import { createQuote } from "../../lib/apiCalls"; // Import API calls
 import { useMutation } from "@tanstack/react-query";
-import useDistanceCalculator from "../../hooks/useDistanceCalculator";
+import useDistanceCalculator, {
+  DistanceCalculatorData,
+} from "../../hooks/useDistanceCalculator";
 import { notifications } from "@mantine/notifications";
 import { Quote } from "../../utils/types";
 
 const ShipmentDetailsConfirmation: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data } = useDistanceCalculator();
+  const { data, init } = useDistanceCalculator();
+  const [initialize, setInitialize] = React.useState(false);
   const quoteMutation = useMutation<Quote, Error, Quote>({
     mutationFn: createQuote,
     onMutate: () => {
@@ -35,6 +38,7 @@ const ShipmentDetailsConfirmation: React.FC = () => {
       });
     },
     onSuccess: (data) => {
+      sessionStorage.removeItem("savedQuote");
       notifications.show({
         title: "Quote Created",
         message:
@@ -56,6 +60,16 @@ const ShipmentDetailsConfirmation: React.FC = () => {
       });
     },
   });
+
+  useEffect(() => {
+    const savedQuote = sessionStorage.getItem("savedQuote");
+
+    if (savedQuote && !data) {
+      const quoteDetails: DistanceCalculatorData = JSON.parse(savedQuote);
+      init(quoteDetails);
+    }
+    setInitialize(true);
+  }, [init, data]);
 
   const nextHandler = () => {
     if (!data) return;
@@ -133,6 +147,8 @@ const ShipmentDetailsConfirmation: React.FC = () => {
   //   setShowModal(false);
   //   navigate('/');
   // };
+
+  if (!initialize) return null;
 
   return (
     <div className="flex h-screen w-full mx-auto">
