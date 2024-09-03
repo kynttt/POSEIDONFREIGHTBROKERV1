@@ -16,6 +16,7 @@ import HelpIcon from "../../../assets/help";
 import NotificationModal from "../../../components/NotificationModal";
 import { useState, useEffect } from "react"; // Import useState and useEffect for state management and side effects
 import { listNotifications } from "../../../lib/apiCalls"; // Ensure this path is correct
+import { useAuthStore } from "../../../state/useAuthStore";
 
 export default function ShipperShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -24,23 +25,30 @@ export default function ShipperShellPage() {
   // State to track if there are new notifications
   const [hasNewNotification, setHasNewNotification] = useState(false);
 
+  const { userId, isAuthenticated } = useAuthStore((state) => ({
+    userId: state.userId,
+    isAuthenticated: state.isAuthenticated,
+  }));
+
   // Check for new notifications immediately on component mount
   useEffect(() => {
-    const checkForNotifications = async () => {
-      try {
-        const notifications = await listNotifications();
-        // Determine if there are any unread notifications
-        const unreadNotificationsExist = notifications.some(
-          (notification: any) => !notification.isRead
-        );
-        setHasNewNotification(unreadNotificationsExist);
-      } catch (error) {
-        console.error("Error fetching notifications:", error);
-      }
-    };
+    if (isAuthenticated && userId) {
+      const checkForNotifications = async () => {
+        try {
+          const notifications = await listNotifications(userId); // Pass userId here
+          // Determine if there are any unread notifications
+          const unreadNotificationsExist = notifications.some(
+            (notification) => !notification.isRead
+          );
+          setHasNewNotification(unreadNotificationsExist);
+        } catch (error) {
+          console.error("Error fetching notifications:", error);
+        }
+      };
 
-    checkForNotifications();
-  }, []); // Empty dependency array ensures this runs only once on mount
+      checkForNotifications();
+    }
+  }, [isAuthenticated, userId]);
 
   return (
     <section>
