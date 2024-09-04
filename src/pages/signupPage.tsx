@@ -56,9 +56,12 @@ const SignupPage = () => {
       openModal();
     },
     onError: (error) => {
+      console.log(error.response);
       notifications.show({
         title: "Registration Failed",
-        message: error.message,
+        message:
+          (error.response?.data as any).msg ||
+          "An error occurred during registration.",
         color: "red",
       });
     },
