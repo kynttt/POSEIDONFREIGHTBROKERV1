@@ -39,7 +39,7 @@ const OverviewSection: React.FC = () => {
         bookings.filter((booking: Booking) => booking.status === "Delivered")
           .length;
       const revenue = bookings.reduce(
-        (acc: number, booking: any) => acc + (booking.quote?.price || 0),
+        (acc: number, booking: Booking) => acc + (booking.quote?.price || 0),
         0
       );
 

@@ -7,15 +7,6 @@ import { useAuthStore } from "../../src/state/useAuthStore"; // Adjust the impor
 import { NotificationSchema } from "../utils/types";
 import queryClient from "../lib/queryClient";
 
-interface Notification {
-  _id: string;
-  title: string;
-  message: string;
-  createdAt: string;
-  isRead: boolean;
-  metadata?: { key: string; value: string }[];
-}
-
 export default function NotificationModal() {
   const navigate = useNavigate();
   const { userId, isAuthenticated, role } = useAuthStore((state) => ({
@@ -24,24 +15,24 @@ export default function NotificationModal() {
     role: state.role, // Assuming role is stored in state
   }));
 
-  if (!isAuthenticated || !userId) {
-    return <div>Please log in to view notifications</div>;
-  }
-
   // Fetch notifications
-  const { data, isLoading, isError, error } = useQuery<Notification[]>({
+  const { data, isLoading, isError, error } = useQuery<NotificationSchema[]>({
     queryKey: ["notifications", userId],
+    enabled: !!isAuthenticated && !!userId,
     queryFn: async () => {
-      const options = { type: role === "admin" ? "admin" : "user" }; // Set type based on role
-      const notifications = await listNotifications(userId, options); // Pass both userId and options
-      return notifications.map((notification: any) => ({
-        _id: notification._id ?? "",
-        title: notification.title,
-        message: notification.message,
-        createdAt: notification.createdAt,
-        isRead: notification.isRead,
-        metadata: notification.metadata,
-      }));
+      // const options = { type: role === "admin" ? "admin" : "user" }; // Set type based on role
+      if (!userId) return [];
+      const notifications = await listNotifications(userId!); // Pass both userId and options
+      // return notifications.map((notification: any) => ({
+      //   _id: notification._id ?? "",
+      //   title: notification.title,
+      //   message: notification.message,
+      //   createdAt: notification.createdAt,
+      //   isRead: notification.isRead,
+      //   metadata: notification.metadata,
+      // }));
+
+      return notifications;
     },
     refetchOnWindowFocus: true,
   });
@@ -54,29 +45,15 @@ export default function NotificationModal() {
         queryKey: ["notifications", userId],
       });
     },
-    onError: (error: any) => {
-      // Handle error
-      console.error("Error updating notification status:", error);
-    },
   });
 
-  if (isError) {
-    return <div>{error.message}</div>;
-  }
-
-  if (isLoading) {
-    return <Loader size="sm" />;
-  }
-
-  // Sort notifications by createdAt in descending order
-  const sortedNotifications =
-   
-    data?.sort(
-      
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    
-    ) || [];
+  // * The sorted function is already handle in backend
+  // // Sort notifications by createdAt in descending order
+  // const sortedNotifications =
+  //   data?.sort(
+  //     (a, b) =>
+  //       new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
+  //   ) || [];
 
   const formatNotificationDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -90,7 +67,7 @@ export default function NotificationModal() {
     }
   };
 
-  const formatNotificationMessage = (notification: Notification) => {
+  const formatNotificationMessage = (notification: NotificationSchema) => {
     let message = notification.message;
 
     if (notification.metadata && notification.metadata.length > 0) {
@@ -141,14 +118,23 @@ export default function NotificationModal() {
     }
   };
 
+  if (!isAuthenticated || !userId) {
+    return <div>Please log in to view notifications</div>;
+  }
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <Loader size="sm" />;
+  }
+
   return (
     <>
       <ScrollArea.Autosize mah={800} maw={700}>
         <Stack>
-          {sortedNotifications.length === 0 && (
-            <div>No notifications available</div>
-          )}
-          {sortedNotifications.map((notification) => (
+          {data!.length === 0 && <div>No notifications available</div>}
+          {data!.map((notification) => (
             <div
               key={notification._id}
               className={`py-2 px-12 hover:bg-gray-500 hover:text-white rounded-md transition-colors duration-200 cursor-pointer border shadow-lg ${
@@ -163,7 +149,7 @@ export default function NotificationModal() {
                 {formatNotificationMessage(notification)}
               </div>
               <div className="text-xs mt-1">
-                {formatNotificationDate(notification.createdAt)}
+                {formatNotificationDate(notification.createdAt!)}
               </div>
             </div>
           ))}

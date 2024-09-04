@@ -60,8 +60,11 @@ const SignupPage = () => {
       notifications.show({
         title: "Registration Failed",
         message:
-          (error.response?.data as any).msg ||
-          "An error occurred during registration.",
+          (
+            error.response?.data as {
+              msg: string;
+            }
+          ).msg || "An error occurred during registration.",
         color: "red",
       });
     },
