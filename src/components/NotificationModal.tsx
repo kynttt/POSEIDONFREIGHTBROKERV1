@@ -18,9 +18,10 @@ interface Notification {
 
 export default function NotificationModal() {
   const navigate = useNavigate();
-  const { userId, isAuthenticated } = useAuthStore((state) => ({
+  const { userId, isAuthenticated, role } = useAuthStore((state) => ({
     userId: state.userId,
     isAuthenticated: state.isAuthenticated,
+    role: state.role, // Assuming role is stored in state
   }));
 
   if (!isAuthenticated || !userId) {
@@ -31,7 +32,8 @@ export default function NotificationModal() {
   const { data, isLoading, isError, error } = useQuery<Notification[]>({
     queryKey: ["notifications", userId],
     queryFn: async () => {
-      const notifications = await listNotifications(userId);
+      const options = { type: role === "admin" ? "admin" : "user" }; // Set type based on role
+      const notifications = await listNotifications(userId, options); // Pass both userId and options
       return notifications.map((notification: any) => ({
         _id: notification._id ?? "",
         title: notification.title,
@@ -68,9 +70,12 @@ export default function NotificationModal() {
 
   // Sort notifications by createdAt in descending order
   const sortedNotifications =
+   
     data?.sort(
+      
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    
     ) || [];
 
   const formatNotificationDate = (dateString: string): string => {
@@ -107,20 +112,27 @@ export default function NotificationModal() {
       }
     }
 
+    // Determine redirection based on role
+    const targetRoute =
+      role === "admin"
+        ? `/a/editBooking/${notification.bookingId}`
+        : `/s/shipmentDetails/${notification.bookingId}`;
+
     if (notification.bookingId) {
-      console.log("Navigating directly to booking ID:", notification.bookingId);
-      navigate(`/s/shipmentDetails/${notification.bookingId}`);
+      console.log(`Navigating to ${targetRoute}`);
+      navigate(targetRoute);
     } else if (notification.metadata && notification.metadata.length > 0) {
       const bookingIdMetadata = notification.metadata.find(
         (item) => item.key === "reference"
       );
 
       if (bookingIdMetadata) {
-        console.log(
-          "Navigating to booking ID from metadata:",
-          bookingIdMetadata.value
-        );
-        navigate(`/s/shipmentDetails/${bookingIdMetadata.value}`);
+        const metadataTargetRoute =
+          role === "admin"
+            ? `/a/editBooking/${bookingIdMetadata.value}`
+            : `/s/shipmentDetails/${bookingIdMetadata.value}`;
+        console.log(`Navigating to ${metadataTargetRoute}`);
+        navigate(metadataTargetRoute);
       } else {
         console.error("Booking ID metadata not found");
       }
