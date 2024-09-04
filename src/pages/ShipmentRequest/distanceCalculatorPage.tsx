@@ -50,6 +50,7 @@ const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide 
 
 export default function DistanceCalculatorPage() {
   const [showCalendar, setShowCalendar] = useState(true);
+  const { isAuthenticated } = useAuthStore();
   const { role } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
   const location = useLocation();
@@ -395,34 +396,40 @@ export default function DistanceCalculatorPage() {
   };
 
   const handleQuoteButtonClick = async () => {
-    if (mutation.isPending) return;
+    console.log(isAuthenticated);
+    if (isAuthenticated) {
+      if (mutation.isPending) return;
 
-    generateWarning();
+      generateWarning();
 
-    if (warnings) {
-      notifications.show({
-        title: "Error",
-        message: "Please fill in all required fields",
-        color: "red",
-        icon: true,
-        autoClose: 5000,
-      });
-      return;
+      if (warnings) {
+        notifications.show({
+          title: "Error",
+          message: "Please fill in all required fields",
+          color: "red",
+          icon: true,
+          autoClose: 5000,
+        });
+        return;
+      }
+
+      // try {
+      //   const data = await createQuote(quoteDetails);
+      //   navigate("/requests/confirmation?quoteId=" + data._id);
+      // } catch (error: unknown) {
+      //   if (error instanceof Error) {
+      //     console.error("Error creating quote:", error.message);
+      //   } else {
+      //     console.error("Unknown error occurred while creating quote");
+      //   }
+      // }
+
+      // quoteMutation.mutate(quoteDetails);
+      navigate("/requests/confirmation");
+    } else {
+      sessionStorage.setItem("savedQuote", JSON.stringify(dataState));
+      navigate("/login?redirectTo=/requests/confirmation");
     }
-
-    // try {
-    //   const data = await createQuote(quoteDetails);
-    //   navigate("/requests/confirmation?quoteId=" + data._id);
-    // } catch (error: unknown) {
-    //   if (error instanceof Error) {
-    //     console.error("Error creating quote:", error.message);
-    //   } else {
-    //     console.error("Unknown error occurred while creating quote");
-    //   }
-    // }
-
-    // quoteMutation.mutate(quoteDetails);
-    navigate("/requests/confirmation");
   };
 
   if (!isLoaded) {
@@ -855,7 +862,8 @@ export default function DistanceCalculatorPage() {
                 <div className="bg-white rounded-lg shadow-lg lg:p-10 md:mb-36 p-6 w-full max-w-2xl relative">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
-                    onClick={() => {setShowThirdModal(false);
+                    onClick={() => {
+                      setShowThirdModal(false);
                       setShowCalendar(true);
                     }}
                     aria-label="Close"
@@ -1017,15 +1025,16 @@ export default function DistanceCalculatorPage() {
                   )}
                 </div>
                 <button
-  className={`py-5 px-2 rounded-lg w-full mt-auto text-white font-medium transition-colors duration-300 ${
-    showPrice ? "bg-[#252F70] hover:bg-secondary hover:text-white" : "bg-gray-400 cursor-not-allowed"
-  }`}
-  onClick={handleQuoteButtonClick}
-  disabled={!showPrice}
->
-  GET THIS QUOTE
-</button>
-
+                  className={`py-5 px-2 rounded-lg w-full mt-auto text-white font-medium transition-colors duration-300 ${
+                    showPrice
+                      ? "bg-[#252F70] hover:bg-secondary hover:text-white"
+                      : "bg-gray-400 cursor-not-allowed"
+                  }`}
+                  onClick={handleQuoteButtonClick}
+                  disabled={!showPrice}
+                >
+                  GET THIS QUOTE
+                </button>
               </div>
             )}
           </div>

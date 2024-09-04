@@ -4,7 +4,7 @@ import { NeatGradient } from "@firecms/neat";
 import appleIcon from "../../../assets/img/apple.png";
 import googleIcon from "../../../assets/img/googleicon.png";
 import Button from "../../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../state/useAuthStore";
 import { loginUser } from "../../../lib/apiCalls";
 import { useMutation } from "@tanstack/react-query";
@@ -19,6 +19,9 @@ interface LoginData {
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const redirectTo = searchParams.get("redirectTo");
   const login = useAuthStore((state) => state.login);
   const [formData, setFormData] = useState({
     email: "",
@@ -55,7 +58,6 @@ const LoginPage: React.FC = () => {
       backgroundColor: "#003FFF",
       backgroundAlpha: 1,
       resolution: 1,
-
     });
 
     return gradientRef.current.destroy;
@@ -69,7 +71,12 @@ const LoginPage: React.FC = () => {
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
-    navigate("/signup");
+
+    if (redirectTo) {
+      navigate(`/signup?redirectTo=${redirectTo}`);
+    } else {
+      navigate("/signup");
+    }
   };
 
   const mutation = useMutation<LoginResponse, Error, LoginData>({
@@ -81,11 +88,18 @@ const LoginPage: React.FC = () => {
       login({
         user: data.data,
       });
-      if (data.data.role === "admin") {
-        navigate("/a");
+      let redirect: string;
+      if (redirectTo) {
+        redirect = redirectTo;
       } else {
-        navigate("/s");
+        if (data.data.role === "admin") {
+          redirect = "/a";
+        } else {
+          redirect = "/s";
+        }
       }
+
+      navigate(redirect, { replace: true });
     },
     onError: (error) => {
       if (axios.isAxiosError(error) && error.response) {
@@ -161,7 +175,6 @@ const LoginPage: React.FC = () => {
           </div> */}
 
           <div className="w-full md:w-1/2 bg-white/20 backdrop-blur-sm border border-white/20 flex flex-col justify-center p-8 rounded-lg">
-
             <div className="w-full max-w-sm mx-auto">
               <div className="flex flex-col items-center">
                 {/* <img
@@ -230,9 +243,7 @@ const LoginPage: React.FC = () => {
               </form>
               <div className="mt-6 flex items-center">
                 <div className="border-t flex-grow border-white"></div>
-                <span className="px-3 text-white font-normal">
-                  or
-                </span>
+                <span className="px-3 text-white font-normal">or</span>
                 <div className="border-t flex-grow border-white"></div>
               </div>
               <div className="mt-6 flex flex-col space-y-4">

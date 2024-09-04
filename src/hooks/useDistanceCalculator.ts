@@ -16,7 +16,7 @@ interface DistanceCalculatorWarning {
   companyName: string | null;
   packaging: string | null;
 }
-interface DistanceCalculatorData {
+export interface DistanceCalculatorData {
   origin: string | undefined;
   destination: string | undefined;
   pickupDate: string | undefined;
@@ -92,6 +92,7 @@ export default create(
         set({ data });
       },
       dispose: () => {
+        set({ data: null, warnings: null });
         localStorage.removeItem(localStorageName);
       },
       generateWarning: () => {

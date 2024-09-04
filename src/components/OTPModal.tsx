@@ -1,20 +1,27 @@
-import  { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import OTPImage from '../assets/img/OTP.png';
-import Button from './Button';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import OTPImage from "../assets/img/OTP.png";
+import Button from "./Button";
+import { useLocation, useNavigate } from "react-router-dom";
 
-
-const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const OTPModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const redirectTo = searchParams.get("redirectTo");
   const [seconds, setSeconds] = useState(15);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if (isOpen) {
       timer = setInterval(() => {
-        setSeconds(prevSeconds => (prevSeconds > 0 ? prevSeconds - 1 : 0));
+        setSeconds((prevSeconds) => (prevSeconds > 0 ? prevSeconds - 1 : 0));
       }, 1000);
     }
     return () => {
@@ -23,10 +30,13 @@ const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
     };
   }, [isOpen]);
 
-
   const handleVerifyOTP = () => {
     // Navigate to '/quote-details' when a truck button is clicked
-    navigate('/login');
+    if (redirectTo) {
+      navigate(`/login?redirectTo=${redirectTo}`);
+    } else {
+      navigate("/login");
+    }
   };
 
   if (!isOpen) return null;
@@ -41,11 +51,20 @@ const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
           &times;
         </button>
         <div className="text-center">
-          <img src={OTPImage} alt="Verification" className="mx-auto mb-4 w-32 sm:w-48" />
-          <h2 className="mb-2 text-xl font-semibold text-secondary">Enter your Verification Code</h2>
+          <img
+            src={OTPImage}
+            alt="Verification"
+            className="mx-auto mb-4 w-32 sm:w-48"
+          />
+          <h2 className="mb-2 text-xl font-semibold text-secondary">
+            Enter your Verification Code
+          </h2>
           <p className="mb-6 font-thin text-sm text-primary">
-            We will send you an <span className="font-bold">One Time Passcode</span><br />
-            via this number <span className="font-bold">09123456789</span> and email <span className="font-bold">abc123@email.com</span>
+            We will send you an{" "}
+            <span className="font-bold">One Time Passcode</span>
+            <br />
+            via this number <span className="font-bold">09123456789</span> and
+            email <span className="font-bold">abc123@email.com</span>
           </p>
           <div className="flex justify-center mb-4 space-x-2">
             <input
@@ -70,7 +89,9 @@ const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
             />
           </div>
           <div className="flex items-center justify-between mb-4 text-gray-600">
-            <button className="text-blue-600 font-thin text-sm">Resend code</button>
+            <button className="text-blue-600 font-thin text-sm">
+              Resend code
+            </button>
             <span>{seconds < 10 ? `0${seconds}` : seconds}</span>
           </div>
           <div className="flex justify-center">
@@ -80,7 +101,9 @@ const OTPModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void })
               bgColor="#252F70"
               fontStyle="thin"
               onClick={handleVerifyOTP} // Call handleVerifyOTP on button click
-              className="extra-class-for-medium-button" type={''}            />
+              className="extra-class-for-medium-button"
+              type={""}
+            />
           </div>
         </div>
       </div>

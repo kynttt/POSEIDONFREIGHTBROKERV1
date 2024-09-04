@@ -77,7 +77,7 @@ const FAQsPage: React.FC = () => {
             {/* <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
               FAQs
             </h1> */}
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white">
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white mb-8">
               Frequently Asked Questions
             </h2>
           </Stack>
