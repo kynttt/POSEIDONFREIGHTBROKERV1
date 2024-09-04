@@ -486,7 +486,7 @@ export const getPricePerMile = async ({
   return response.data as GetPriceMileResponse;
 };
 
-export const listNotifications = async (userId: string) => {
+export const listNotifications = async (userId: string, _options?: { type: string; }) => {
   const response = await axiosInstance.get(`/notifications`, {
     params: { userId } // Pass userId as a query parameter
   });

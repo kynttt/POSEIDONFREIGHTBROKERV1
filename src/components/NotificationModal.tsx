@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import {  listNotifications, updateNotificationStatus } from "../lib/apiCalls";
+import { listNotifications, updateNotificationStatus } from "../lib/apiCalls";
 import { Loader, ScrollArea, Stack } from "@mantine/core";
 import { format, formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -17,9 +17,10 @@ interface Notification {
 
 export default function NotificationModal() {
   const navigate = useNavigate();
-  const { userId, isAuthenticated } = useAuthStore((state) => ({
+  const { userId, isAuthenticated, role } = useAuthStore((state) => ({
     userId: state.userId,
     isAuthenticated: state.isAuthenticated,
+    role: state.role, // Assuming role is stored in state
   }));
 
   if (!isAuthenticated || !userId) {
@@ -30,14 +31,15 @@ export default function NotificationModal() {
   const { data, isLoading, isError, error } = useQuery<Notification[]>({
     queryKey: ["notifications", userId],
     queryFn: async () => {
-      const notifications = await listNotifications(userId);
+      const options = { type: role === "admin" ? "admin" : "user" }; // Set type based on role
+      const notifications = await listNotifications(userId, options); // Pass both userId and options
       return notifications.map((notification: any) => ({
-        _id: notification._id ?? '',
+        _id: notification._id ?? "",
         title: notification.title,
         message: notification.message,
         createdAt: notification.createdAt,
         isRead: notification.isRead,
-        metadata: notification.metadata
+        metadata: notification.metadata,
       }));
     },
     refetchOnWindowFocus: true,
@@ -51,8 +53,8 @@ export default function NotificationModal() {
     },
     onError: (error: any) => {
       // Handle error
-      console.error('Error updating notification status:', error);
-    }
+      console.error("Error updating notification status:", error);
+    },
   });
 
   if (isError) {
@@ -64,7 +66,10 @@ export default function NotificationModal() {
   }
 
   // Sort notifications by createdAt in descending order
-  const sortedNotifications = data?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || [];
+  const sortedNotifications =
+    data?.sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    ) || [];
 
   const formatNotificationDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -83,7 +88,7 @@ export default function NotificationModal() {
 
     if (notification.metadata && notification.metadata.length > 0) {
       const bookingIdMetadata = notification.metadata.find(
-        (item) => item.key === 'reference'
+        (item) => item.key === "reference"
       );
       if (bookingIdMetadata) {
         message = notification.message;
@@ -99,43 +104,54 @@ export default function NotificationModal() {
         await mutation.mutateAsync(notification._id);
       }
     }
-  
+
+    // Determine redirection based on role
+    const targetRoute =
+      role === "admin"
+        ? `/a/editBooking/${notification.bookingId}`
+        : `/s/shipmentDetails/${notification.bookingId}`;
+
     if (notification.bookingId) {
-      console.log('Navigating directly to booking ID:', notification.bookingId);
-      navigate(`/s/shipmentDetails/${notification.bookingId}`);
+      console.log(`Navigating to ${targetRoute}`);
+      navigate(targetRoute);
     } else if (notification.metadata && notification.metadata.length > 0) {
       const bookingIdMetadata = notification.metadata.find(
-        (item) => item.key === 'reference'
+        (item) => item.key === "reference"
       );
-  
+
       if (bookingIdMetadata) {
-        console.log('Navigating to booking ID from metadata:', bookingIdMetadata.value);
-        navigate(`/s/shipmentDetails/${bookingIdMetadata.value}`);
+        const metadataTargetRoute =
+          role === "admin"
+            ? `/a/editBooking/${bookingIdMetadata.value}`
+            : `/s/shipmentDetails/${bookingIdMetadata.value}`;
+        console.log(`Navigating to ${metadataTargetRoute}`);
+        navigate(metadataTargetRoute);
       } else {
-        console.error('Booking ID metadata not found');
+        console.error("Booking ID metadata not found");
       }
     } else {
-      console.error('No booking ID or relevant metadata found');
+      console.error("No booking ID or relevant metadata found");
     }
   };
-
 
   return (
     <>
       <ScrollArea.Autosize mah={900} maw={700}>
         <Stack>
-          {sortedNotifications.length === 0 && <div>No notifications available</div>}
+          {sortedNotifications.length === 0 && (
+            <div>No notifications available</div>
+          )}
           {sortedNotifications.map((notification) => (
             <div
               key={notification._id}
               className={`py-2 px-12 hover:bg-gray-500 hover:text-white rounded-md transition-colors duration-200 cursor-pointer border shadow-lg ${
-                !notification.isRead ? "bg-violet-200 text-black" : "text-gray-700"
+                !notification.isRead
+                  ? "bg-violet-200 text-black"
+                  : "text-gray-700"
               }`}
               onClick={() => handleNotificationClick(notification)}
             >
-              <div className="text-sm font-medium">
-                {notification.title}
-              </div>
+              <div className="text-sm font-medium">{notification.title}</div>
               <div className="text-xs font-normal">
                 {formatNotificationMessage(notification)}
               </div>
