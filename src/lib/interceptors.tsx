@@ -2,7 +2,7 @@ import axiosInstance from "./axiosInstance";
 
 import { modals } from "@mantine/modals";
 
-import SessionExpired from "../components/SessionExpired";
+import UnauthorizedModal from "../components/UnauthorizedModal";
 
 const setupAxiosInterceptors = () => {
   axiosInstance.interceptors.request.use((config) => {
@@ -14,11 +14,10 @@ const setupAxiosInterceptors = () => {
     (response) => response,
     (error) => {
       if (error.response && error.response.status === 401) {
-        // Handle session expiration or invalid token
         modals.open({
-          title: "Session Expired",
+          title: "Unauthorized Detected",
           withCloseButton: false,
-          children: <SessionExpired />,
+          children: <UnauthorizedModal type={error.response.data.type} />,
         });
       }
       return Promise.reject(error);
