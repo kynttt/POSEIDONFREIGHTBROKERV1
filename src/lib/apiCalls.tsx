@@ -70,7 +70,7 @@ export const registerUser = async (formData: RegisterFormData) => {
     companyName: formData.companyName,
     role: "user",
   });
-  return response.data;
+  return response.data as User;
 };
 
 // Quotes
@@ -389,40 +389,42 @@ export const fetchBookingById = async (id: string) => {
 
 // Create Bill Of Lading Entry
 // Example implementation of uploadPdf function
-export const uploadPdf = async (pdfBlob: Blob, userId: string, bookingId: string) => {
+export const uploadPdf = async (
+  pdfBlob: Blob,
+  userId: string,
+  bookingId: string
+) => {
   try {
     const formData = new FormData();
-    formData.append('pdf', pdfBlob);
-    formData.append('userId', userId);
-    formData.append('bookingId', bookingId);
+    formData.append("pdf", pdfBlob);
+    formData.append("userId", userId);
+    formData.append("bookingId", bookingId);
 
-    const response = await axiosInstance.post('/billOfLading/', formData, {
+    const response = await axiosInstance.post("/billOfLading/", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
 
     return response; // Ensure this is returned
   } catch (error) {
-    console.error('Upload PDF error:', error);
+    console.error("Upload PDF error:", error);
     throw error;
   }
 };
 
-
 // Fetch Bill of Lading by Booking ID
 export const fetchBillOfLadingByBookingId = async (bookingId: string) => {
   try {
-    const response = await axiosInstance.get(`/billOfLading/by-booking/${bookingId}`);
+    const response = await axiosInstance.get(
+      `/billOfLading/by-booking/${bookingId}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching Bill of Lading by booking ID:", error);
     throw error; // Ensure the error is thrown to be handled by the caller
   }
 };
-
-
-
 
 // Fetch Bill Of Lading Entries by User ID
 export const fetchBillOfLadingsByUserId = async (userId: string) => {

@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { AxiosError } from "axios";
 // import signupImage from "../assets/img/DeliveredPackage.gif";
 // import Button from "../components/Button";
 import googleIcon from "../assets/img/googleicon.png";
 import appleIcon from "../assets/img/apple.png";
 import OTPModal from "../components/OTPModal";
 import { registerUser } from "../lib/apiCalls";
-import { RegisterFormData } from "../utils/types";
+import { RegisterFormData, User } from "../utils/types";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { NeatGradient } from "@firecms/neat";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { notifications } from "@mantine/notifications";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -24,11 +27,15 @@ const SignupPage = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  // const [error, setError] = useState("");
+  // const [success, setSuccess] = useState(false);
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string;
   }>({});
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const redirectTo = searchParams.get("redirectTo");
   // const [phone, setPhone] = useState("");
   // const [value, setValue] = React.useState('');
 
@@ -36,6 +43,26 @@ const SignupPage = () => {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const gradientRef = useRef<NeatGradient | null>(null);
+
+  const mutation = useMutation<User, AxiosError, RegisterFormData>({
+    mutationFn: registerUser,
+    onSuccess: () => {
+      notifications.show({
+        title: "Registration Successful",
+        message: "Please check your email for verification.",
+        color: "blue",
+      });
+
+      openModal();
+    },
+    onError: (error) => {
+      notifications.show({
+        title: "Registration Failed",
+        message: error.message,
+        color: "red",
+      });
+    },
+  });
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -64,7 +91,6 @@ const SignupPage = () => {
       backgroundColor: "#003FFF",
       backgroundAlpha: 1,
       resolution: 1,
-      
     });
 
     return gradientRef.current.destroy;
@@ -82,6 +108,14 @@ const SignupPage = () => {
     // Save form data to session storage whenever it changes
     sessionStorage.setItem("signupFormData", JSON.stringify(formData));
   }, [formData]);
+
+  const onLoginHandler = () => {
+    if (redirectTo) {
+      navigate("/login?redirectTo=" + redirectTo);
+    } else {
+      navigate("/login");
+    }
+  };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -103,8 +137,8 @@ const SignupPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setSuccess(false);
+    // setError("");
+    // setSuccess(false);
 
     const errors: { [key: string]: string } = {};
     if (!formData.name) errors.name = "Name is required.";
@@ -119,23 +153,25 @@ const SignupPage = () => {
       return;
     }
 
-    try {
-      const response = await registerUser(formData);
-      if (response.token) {
-        setSuccess(true);
-        openModal();
-      }
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        if (err.response && err.response.data) {
-          setError(err.response.data.msg);
-        } else {
-          setError("An error occurred during registration.");
-        }
-      } else {
-        setError("An unexpected error occurred.");
-      }
-    }
+    // try {
+    //   const response = await registerUser(formData);
+    //   if (response.token) {
+    //     setSuccess(true);
+    //     openModal();
+    //   }
+    // } catch (err: unknown) {
+    //   if (axios.isAxiosError(err)) {
+    //     if (err.response && err.response.data) {
+    //       setError(err.response.data.msg);
+    //     } else {
+    //       setError("An error occurred during registration.");
+    //     }
+    //   } else {
+    //     setError("An unexpected error occurred.");
+    //   }
+    // }
+
+    mutation.mutate(formData);
   };
 
   return (
@@ -148,8 +184,7 @@ const SignupPage = () => {
       <div className="absolute top-0 left-0 w-full h-full bg-black/10 z-1"></div>
       <div className="container mx-auto p-4 md:p-8 z-10">
         <div className="flex flex-col md:flex-row items-center md:items-stretch justify-center w-full space-y-8 md:space-y-0 md:space-x-8">
-        <div className="w-full md:w-2/3 lg:w-5/12 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-30 p-8 px-4 lg:px-8 rounded-lg shadow-lg ">
-
+          <div className="w-full md:w-2/3 lg:w-5/12 bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-30 p-8 px-4 lg:px-8 rounded-lg shadow-lg ">
             <h2 className="text-2xl font-bold mb-6 text-white">
               Create an Account
             </h2>
@@ -331,16 +366,16 @@ const SignupPage = () => {
                 </button>
                 <OTPModal isOpen={isModalOpen} onClose={closeModal} />
               </div>
-              {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+              {/* {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
               {success && (
                 <p className="text-green-500 text-sm mt-4">
                   Registration successful! Please check your email for
                   verification.
                 </p>
-              )}
+              )} */}
               <p className="text-sm text-light-grey font-normal mt-4 text-center">
                 Already have an account?{" "}
-                <a href="/login" className="text-white">
+                <a className="text-white" onClick={onLoginHandler}>
                   Login
                 </a>
               </p>
