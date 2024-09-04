@@ -53,6 +53,7 @@ import TruckManagementPage from "./pages/Admin/page/truckManagementPage";
 import UserTransactionsList from "./pages/Admin/page/usersTransactionList";
 import SavedQuotePage from "./pages/ShipperUser/page/savedQuotePage";
 import PricingPage from "./pages/Shared/pages/PricingPage";
+import PhoneVerifyPage from "./pages/phoneVerifyPage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -88,9 +89,10 @@ const App: React.FC = () => {
           <Router>
             <Routes>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/pricing" element={<PricingPage/>} />
+              <Route path="/pricing" element={<PricingPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/verify" element={<PhoneVerifyPage />} />
               <Route
                 path="/terms-and-agreement"
                 element={<BrokerShipperAgreement />}
