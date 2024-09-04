@@ -502,8 +502,4 @@ export const updateNotificationStatus = async (id: string, isRead: boolean) => {
     console.error('Error updating notification status:', error);
     throw error;
   }
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> bd5bc75adde9caf0a871b0913c329a35d13ee55d
