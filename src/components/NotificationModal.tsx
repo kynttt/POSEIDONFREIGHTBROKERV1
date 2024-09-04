@@ -5,6 +5,7 @@ import { format, formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../src/state/useAuthStore"; // Adjust the import path
 import { NotificationSchema } from "../utils/types";
+import queryClient from "../lib/queryClient";
 
 interface Notification {
   _id: string;
@@ -47,7 +48,9 @@ export default function NotificationModal() {
   const mutation = useMutation({
     mutationFn: (id: string) => updateNotificationStatus(id, true),
     onSuccess: () => {
-      // Optionally refetch notifications or handle successful update
+      queryClient.invalidateQueries({
+        queryKey: ["notifications", userId],
+      });
     },
     onError: (error: any) => {
       // Handle error
