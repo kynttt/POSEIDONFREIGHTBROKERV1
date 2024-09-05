@@ -9,12 +9,16 @@ import {
   LoginResponse,
   LogoutResponse,
   NotificationSchema,
+  PhoneOtpRequestResponse,
   PaymentIntentParams,
   Quote,
   RegisterFormData,
   StripeClientSecret,
   TruckCatalog,
   User,
+  PhoneOtpVerifyData,
+  PhoneOtpRequestData,
+  PhoneOtpVerifyResponse,
 } from "../utils/types";
 
 //Users
@@ -70,7 +74,7 @@ export const registerUser = async (formData: RegisterFormData) => {
     companyName: formData.companyName,
     role: "user",
   });
-  return response.data as User;
+  return response.data as LoginResponse;
 };
 
 // Quotes
@@ -486,20 +490,47 @@ export const getPricePerMile = async ({
   return response.data as GetPriceMileResponse;
 };
 
-export const listNotifications = async (userId: string, _options?: { type: string; }) => {
+export const listNotifications = async (userId: string) => {
   const response = await axiosInstance.get(`/notifications`, {
-    params: { userId } // Pass userId as a query parameter
+    params: { userId },
   });
   return response.data as NotificationSchema[];
 };
 
 export const updateNotificationStatus = async (id: string, isRead: boolean) => {
   try {
-    const response = await axiosInstance.patch(`/notifications/${id}`, { isRead });
+    const response = await axiosInstance.patch(`/notifications/${id}`, {
+      isRead,
+    });
     return response.data;
   } catch (error) {
     // Handle error (log it, rethrow it, etc.)
-    console.error('Error updating notification status:', error);
+    console.error("Error updating notification status:", error);
     throw error;
   }
+};
+
+export const phoneOtpRequest = async ({
+  userId,
+  phoneNumber,
+}: PhoneOtpRequestData) => {
+  const response = await axiosInstance.post(`/account/create-phone-otp`, {
+    userId,
+    phoneNumber,
+  });
+
+  return response.data as PhoneOtpRequestResponse;
+};
+export const phoneOtpVerify = async ({
+  userId,
+  otp,
+  secret,
+}: PhoneOtpVerifyData) => {
+  const response = await axiosInstance.post(`/account/verify-phone-otp`, {
+    userId,
+    otp,
+    secret,
+  });
+
+  return response.data as PhoneOtpVerifyResponse;
 };

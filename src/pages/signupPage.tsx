@@ -6,13 +6,14 @@ import googleIcon from "../assets/img/googleicon.png";
 import appleIcon from "../assets/img/apple.png";
 import OTPModal from "../components/OTPModal";
 import { registerUser } from "../lib/apiCalls";
-import { RegisterFormData, User } from "../utils/types";
+import { LoginResponse, RegisterFormData } from "../utils/types";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { NeatGradient } from "@firecms/neat";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
+import { useAuthStore } from "../state/useAuthStore";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -27,6 +28,7 @@ const SignupPage = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const login = useAuthStore((state) => state.login);
   // const [error, setError] = useState("");
   // const [success, setSuccess] = useState(false);
   const [validationErrors, setValidationErrors] = useState<{
@@ -44,21 +46,36 @@ const SignupPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const gradientRef = useRef<NeatGradient | null>(null);
 
-  const mutation = useMutation<User, AxiosError, RegisterFormData>({
+  const mutation = useMutation<LoginResponse, AxiosError, RegisterFormData>({
     mutationFn: registerUser,
-    onSuccess: () => {
+    onSuccess: (data: LoginResponse) => {
       notifications.show({
         title: "Registration Successful",
-        message: "Please check your email for verification.",
+        message: "You will redirected to the verification page.",
         color: "blue",
       });
 
-      openModal();
+      // openModal();
+      login({
+        user: data.data,
+      });
+      // navigate("/verify");
+      if (redirectTo) {
+        navigate(`/verify?redirectTo=${redirectTo}`);
+      } else {
+        navigate("/verify");
+      }
     },
     onError: (error) => {
+      console.log(error.response);
       notifications.show({
         title: "Registration Failed",
-        message: error.message,
+        message:
+          (
+            error.response?.data as {
+              msg: string;
+            }
+          ).msg || "An error occurred during registration.",
         color: "red",
       });
     },
@@ -117,7 +134,7 @@ const SignupPage = () => {
     }
   };
 
-  const openModal = () => setIsModalOpen(true);
+  // const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

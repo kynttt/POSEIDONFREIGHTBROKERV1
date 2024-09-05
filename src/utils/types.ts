@@ -87,7 +87,6 @@ export interface StripeClientSecret {
 }
 
 export interface Booking extends Schema {
-
   billOfLading: unknown;
   quote: Quote;
   status: BookingStatus;
@@ -148,5 +147,25 @@ export interface NotificationSchema extends Schema {
   isDeleted?: boolean; // Make this optional if not always present
 }
 
+export interface PhoneOtpRequestData {
+  userId: string;
+  phoneNumber: string;
+}
 
+export interface PhoneOtpRequestResponse {
+  message: string;
+  data: {
+    _id: string;
+    secret: string;
+  };
+}
 
+export interface PhoneOtpVerifyData {
+  userId: string;
+  otp: string;
+  secret: string;
+}
+
+export interface PhoneOtpVerifyResponse {
+  message: string;
+}
