@@ -9,12 +9,16 @@ import {
   LoginResponse,
   LogoutResponse,
   NotificationSchema,
+  PhoneOtpRequestResponse,
   PaymentIntentParams,
   Quote,
   RegisterFormData,
   StripeClientSecret,
   TruckCatalog,
   User,
+  PhoneOtpVerifyData,
+  PhoneOtpRequestData,
+  PhoneOtpVerifyResponse,
 } from "../utils/types";
 
 //Users
@@ -70,7 +74,7 @@ export const registerUser = async (formData: RegisterFormData) => {
     companyName: formData.companyName,
     role: "user",
   });
-  return response.data as User;
+  return response.data as LoginResponse;
 };
 
 // Quotes
@@ -504,4 +508,29 @@ export const updateNotificationStatus = async (id: string, isRead: boolean) => {
     console.error("Error updating notification status:", error);
     throw error;
   }
+};
+
+export const phoneOtpRequest = async ({
+  userId,
+  phoneNumber,
+}: PhoneOtpRequestData) => {
+  const response = await axiosInstance.post(`/account/create-phone-otp`, {
+    userId,
+    phoneNumber,
+  });
+
+  return response.data as PhoneOtpRequestResponse;
+};
+export const phoneOtpVerify = async ({
+  userId,
+  otp,
+  secret,
+}: PhoneOtpVerifyData) => {
+  const response = await axiosInstance.post(`/account/verify-phone-otp`, {
+    userId,
+    otp,
+    secret,
+  });
+
+  return response.data as PhoneOtpVerifyResponse;
 };

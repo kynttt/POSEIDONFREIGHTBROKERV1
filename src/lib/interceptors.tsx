@@ -15,8 +15,10 @@ const setupAxiosInterceptors = () => {
     (error) => {
       if (error.response && error.response.status === 401) {
         modals.open({
+          closeOnClickOutside: false,
           title: "Unauthorized Detected",
           withCloseButton: false,
+
           children: <UnauthorizedModal type={error.response.data.type} />,
         });
       }
