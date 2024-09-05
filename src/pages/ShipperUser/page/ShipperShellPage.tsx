@@ -22,8 +22,8 @@ export default function ShipperShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
   const pinned = useHeadroom({ fixedAt: 120 });
 
-  // State to track if there are new notifications
-  const [hasNewNotification, setHasNewNotification] = useState(false);
+  // State to track unread notifications count
+  const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
 
   const { userId, isAuthenticated } = useAuthStore((state) => ({
     userId: state.userId,
@@ -36,11 +36,11 @@ export default function ShipperShellPage() {
       const checkForNotifications = async () => {
         try {
           const notifications = await listNotifications(userId); // Pass userId here
-          // Determine if there are any unread notifications
-          const unreadNotificationsExist = notifications.some(
+          // Filter unread notifications and set count
+          const unreadNotifications = notifications.filter(
             (notification) => !notification.isRead
           );
-          setHasNewNotification(unreadNotificationsExist);
+          setUnreadNotificationCount(unreadNotifications.length);
         } catch (error) {
           console.error("Error fetching notifications:", error);
         }
@@ -68,8 +68,8 @@ export default function ShipperShellPage() {
             opened={opened}
             open={open}
             close={close}
-            hasNewNotification={hasNewNotification}
-            setHasNewNotification={setHasNewNotification}
+            unreadNotificationCount={unreadNotificationCount}
+            setUnreadNotificationCount={setUnreadNotificationCount}
           />
         </AppShell.Header>
         <AppShell.Navbar>
@@ -87,14 +87,14 @@ function ShellHeader({
   opened,
   open,
   close,
-  hasNewNotification,
-  setHasNewNotification,
+  unreadNotificationCount,
+  setUnreadNotificationCount,
 }: {
   opened?: boolean;
   open?: () => void;
   close?: () => void;
-  hasNewNotification: boolean;
-  setHasNewNotification: (value: boolean) => void;
+  unreadNotificationCount: number;
+  setUnreadNotificationCount: (value: number) => void;
 }) {
   const visible = useMatches({
     xs: false,
@@ -103,7 +103,7 @@ function ShellHeader({
 
   // Handler to clear the notification state when the bell icon is clicked
   const handleNotificationClick = () => {
-    setHasNewNotification(false); // Set to false to hide the red dot
+    setUnreadNotificationCount(0); // Set to 0 to hide the red dot
   };
 
   return (
@@ -111,11 +111,12 @@ function ShellHeader({
       <Popover position="bottom-start">
         <Popover.Target>
           <Indicator
-            size={10}
+            size={15}
             color="red"
             offset={5}
             position="top-end"
-            disabled={!hasNewNotification}
+            label={unreadNotificationCount > 0 ? unreadNotificationCount : null} // Display count if greater than 0
+            disabled={unreadNotificationCount === 0} // Disable if no unread notifications
           >
             <ActionIcon
               variant="subtle"
