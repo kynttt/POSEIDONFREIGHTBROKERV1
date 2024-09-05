@@ -12,7 +12,7 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="flex h-full">
-      <div className="flex-1 pt-8 lg:px-18 bg-white pb-16 text-primary overflow-y-auto">
+      <div className="flex-1 pt-8 lg:px-18 bg-light-grey pb-16 text-primary overflow-y-auto">
         <div className=" mx-4 lg:mx-20  ">
           <h6 className="text-medium font-medium text-secondary">
             Hello Admin!

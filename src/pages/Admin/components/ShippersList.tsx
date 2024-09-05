@@ -57,7 +57,7 @@ const ShippersList: React.FC = () => {
   }
 
   return (
-    <div className="bg-light-grey p-4 rounded-lg shadow-lg h-full">
+    <div className="bg-white p-4 rounded-lg shadow-lg h-full">
       <div>
         <h3 className="text-2xl font-medium mb-4 border-b-2 border-secondary flex justify-between items-center lg:pb-2">
           Users

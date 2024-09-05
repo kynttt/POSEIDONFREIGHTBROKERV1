@@ -102,7 +102,7 @@ const RecentTransactions: React.FC = () => {
   const displayedBookings = bookings.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-light-grey p-4 rounded-lg shadow-lg">
+    <div className="bg-white p-4 rounded-lg shadow-lg">
       <h3 className="text-xl sm:text-2xl font-medium mb-2 sm:mb-0 border-b-2 border-secondary pb-2">
         Recent Transactions
       </h3>
