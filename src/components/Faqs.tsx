@@ -34,9 +34,8 @@ const FAQsPage: React.FC = () => {
 
         {/* Image Section */}
         <div
-          className={`text-center mb-8 lg:mb-0 lg:w-1/3 transition-transform duration-1000 ${
-            imageInView ? 'transform-none opacity-100' : 'transform -translate-x-20 opacity-0'
-          }`}
+          className={`text-center mb-8 lg:mb-0 lg:w-1/3 transition-transform duration-1000 ${imageInView ? 'transform-none opacity-100' : 'transform -translate-x-20 opacity-0'
+            }`}
           ref={imageRef}
         >
           <img
@@ -48,9 +47,8 @@ const FAQsPage: React.FC = () => {
 
         {/* FAQ Section */}
         <div
-          className={`lg:w-2/3 transition-transform duration-1000 ${
-            contentInView ? 'transform-none opacity-100' : 'transform translate-x-20 opacity-0'
-          }`}
+          className={`lg:w-2/3 transition-transform duration-1000 ${contentInView ? 'transform-none opacity-100' : 'transform translate-x-20 opacity-0'
+            }`}
           ref={contentRef}
         >
           {faqs.map((faq, index) => (

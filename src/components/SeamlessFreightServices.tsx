@@ -11,46 +11,46 @@ const SeamlessFreightServices: React.FC = () => {
 
   return (
     <div id="services" className="bg-white py-12">
-       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
-            <div className="text-start">
-              <h2 className="text-lg tracking-tight text-primary tracking-wider font-normal">
-                Services
-              </h2>
-              <p className="mt-4 text-3xl text-gray-600 tracking-wider text-primary">
-              Seamless Freight Services
-              </p>
-            </div>
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
+        <div className="text-start">
+          <h2 className="text-lg tracking-tight text-primary tracking-wider font-normal">
+            Services
+          </h2>
+          <p className="mt-4 text-3xl text-gray-600 tracking-wider text-primary">
+            Seamless Freight Services
+          </p>
         </div>
-    <div ref={ref} className={`flex flex-col md:flex-row justify-between items-center px-6 md:px-32 mt-10 md:mt-16 mb-16 transition-transform duration-1000 ${inView ? 'md:transform-none md:opacity-100' : 'md:transform md:translate-y-20 md:opacity-0'}`}>
-        <div className="w-full md:w-1/3 text-center mb-4 md:mb-0">
-            <img src={carriersImage} alt="Carriers" className="mx-auto mb-10" />
-            <p className="sub-head">
-                Carriers
-            </p>
-            <p className="text-lg font-light text-gray-500 mx-auto lg:w-1/2">
-                Tailored Carrier Services to Fit Your Business
-            </p>
+      </div>
+      <div ref={ref} className={`flex flex-col md:flex-row justify-between items-center px-6 md:px-32 mt-10 md:mt-16 mb-16 transition-transform duration-1000 ${inView ? 'md:transform-none md:opacity-100' : 'md:transform md:translate-y-20 md:opacity-0'}`}>
+        <div className="w-full md:w-1/3 text-center mb-4 md:mb-10">
+          <img src={carriersImage} alt="Carriers" className="mx-auto mb-10" />
+          <p className="sub-head">
+            Carriers
+          </p>
+          <p className="subhead-label">
+            Tailored Carrier Services to Fit <br/> Your Business
+          </p>
         </div>
-      <div className="w-full md:w-1/3 text-center mb-4 md:mb-0">
+        <div className="w-full md:w-1/3 text-center mb-4 md:mb-10">
           <img src={brokersImage} alt="Brokers" className="mx-auto mb-10" />
           <p className="sub-head">
-              Brokers
+            Brokers
           </p>
-          <p className="text-lg font-light text-gray-500 mx-auto lg:w-1/2">
-              Driving Your Business Forward with Expert Logistics Support
+          <p className="subhead-label">
+            Driving Your Business Forward <br/>with Expert Logistics Support
           </p>
-      </div>
-        <div className="w-full md:w-1/3 text-center mb-4 md:mb-0">
-            <img src={shippersImage} alt="Shippers" className="mx-auto mb-10" />
-            <p className="sub-head">
-                Shippers
-            </p>
-            <p className="text-lg font-light text-gray-500 mx-auto lg:w-1/2">
-                Optimizing Your Shipping Process for Maximum Efficiency
-            </p>
         </div>
-  </div>
-</div>
+        <div className="w-full md:w-1/3 text-center mb-4 md:mb-10">
+          <img src={shippersImage} alt="Shippers" className="mx-auto mb-10" />
+          <p className="sub-head">
+            Shippers
+          </p>
+          <p className="subhead-label">
+            Optimizing Your Shipping Process <br/>for Maximum Efficiency
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -42,11 +42,17 @@ h1 {
   line-height: 1.1;
 }
 
-.sub-head p{
-font-size: 1.5rem;
+p.sub-head{
+font-size: 1.2rem;
 line-height: 1.75rem;
 margin-top: 1.5rem;
-margin-bottom: 1.5rem;
+margin-bottom: 1rem;
+}
+
+p.subhead-label {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #828282;
 }
 
 
