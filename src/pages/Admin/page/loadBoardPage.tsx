@@ -159,9 +159,9 @@ const LoadBoard: React.FC = () => {
   );
 
   return (
-    <div className="flex h-full md:mt-12">
-      <div className="flex-1 bg-white min-h-screen overflow-y-auto">
-        <form onSubmit={handleSubmit} className="lg:mx-16 py-10 px-12 border rounded-lg mb-8 shadow-lg bg-light-grey">
+    <div className="flex h-full md:mt-12 ">
+      <div className="flex-1 bg-grey min-h-screen overflow-y-auto ">
+        <form onSubmit={handleSubmit} className="lg:mx-16 py-10 px-12 border rounded-lg mb-8 shadow-lg bg-white lg:mt-8">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold lg:mb-8 text-secondary">
               FIND LOADS
@@ -181,7 +181,7 @@ const LoadBoard: React.FC = () => {
                     type="text"
                     value={pickUpLocation}
                     onChange={(e) => setPickUpLocation(e.target.value)}
-                    className="w-full  border-gray-300 p-2 rounded-md bg-white font-thin text-black"
+                    className="w-full  border-gray-300 p-2 rounded-md bg-light-grey font-thin text-black"
                     placeholder="Enter Pick Up Location"
                   />
                 </div>
@@ -195,7 +195,7 @@ const LoadBoard: React.FC = () => {
                   <DatePicker
                     selected={pickUpDate}
                     onChange={(date) => setPickUpDate(date)}
-                    className="w-full  p-2 rounded-md bg-white font-thin text-black"
+                    className="w-full  p-2 rounded-md bg-light-grey font-thin text-black"
                     placeholderText="MM/DD/YYYY"
                     dateFormat="MM/dd/yyyy"
                   />
@@ -231,7 +231,7 @@ const LoadBoard: React.FC = () => {
                     type="text"
                     value={deliveryLocation}
                     onChange={(e) => setDeliveryLocation(e.target.value)}
-                    className="w-full  p-2 rounded-md bg-white font-thin text-black"
+                    className="w-full  p-2 rounded-md bg-light-grey font-thin text-black"
                     placeholder="Enter Delivery Location"
                   />
                 </div>
@@ -249,7 +249,7 @@ const LoadBoard: React.FC = () => {
                 <select
                   value={trailerType}
                   onChange={(e) => setTrailerType(e.target.value)}
-                  className="w-full  p-2 rounded-md bg-white text-black font-thin text-black"
+                  className="w-full  p-2 rounded-md bg-light-grey text-black font-thin text-black"
                 >
                   <option className="text-primary font-normal" value="">
                     Select Trailer Type
@@ -296,7 +296,7 @@ const LoadBoard: React.FC = () => {
           </div>
         </form>
 
-        <div className="lg:mx-16 py-10 px-4 lg:px-12 bg-light-grey rounded-lg">
+        <div className="lg:mx-16 py-10 px-4 lg:px-12 bg-white rounded-lg">
           <div className="tabs flex gap-2">
             
             <button
