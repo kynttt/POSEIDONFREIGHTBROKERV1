@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { updatePassword } from "../../../lib/apiCalls"; // Adjust the import path as needed
 import { useAuthStore } from "../../../state/useAuthStore"; // Adjust the import path as needed
+import { logoutUser } from "../../../lib/apiCalls"; // Adjust the import path as needed
+
 
 const ChangePasswordPage: React.FC = () => {
-  const { userId, logout } = useAuthStore((state) => ({
+  const { userId, userRole, logout } = useAuthStore((state) => ({
     userId: state.userId,
+    userRole: state.role, // Assuming you have userRole in your Zustand store
     logout: state.logoutUpdate, // Assuming you have a logout function in your Zustand store
-  })); // Get userId and logout function from Zustand store
+  })); // Get userId, userRole, and logout function from Zustand store
 
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -40,6 +43,9 @@ const ChangePasswordPage: React.FC = () => {
       return;
     }
 
+    
+    
+
     try {
       await updatePassword(userId, currentPassword, newPassword); // Call API with userId, currentPassword, and newPassword
       setSuccess("Password successfully changed.");
@@ -54,13 +60,24 @@ const ChangePasswordPage: React.FC = () => {
 
   const handleStayLoggedIn = () => {
     setShowPrompt(false); // Hide the prompt
-    navigate('/s/shipper-dashboard'); // Redirect to dashboard
+    if (userRole === 'admin') {
+      navigate('/a/admin-dashboard'); // Redirect to admin dashboard
+    } else {
+      navigate('/s/shipper-dashboard'); // Redirect to shipper dashboard
+    }
   };
 
-  const handleLogout = () => {
-    logout(); // Call logout function
-    navigate('/login'); // Redirect to login page
+  const handleLogout = async () => {
+    try {
+      await logoutUser(); // Call API to log out
+      logout(); // Clear Zustand state
+      navigate('/login'); // Redirect to login page
+    } catch (error) {
+      console.error("Logout failed:", error);
+      // Optionally handle the error here, e.g., show a notification
+    }
   };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
