@@ -93,81 +93,14 @@ function HistoryQuotes() {
 
   return (
     <>
-      <div>
-        {/* Filter Inputs */}
-        <div className="p-8 rounded-lg mb-6 bg-light-grey grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div>
-            {/* Origin Filter */}
-            <TextInput
-              label="Origin"
-              className="lg:w-full"
-              // description="Search by origin"
-              placeholder="Search origin..."
-              leftSection={<FontAwesomeIcon icon={faSearch} />}
-              rightSection={
-                <ActionIcon
-                  size="sm"
-                  variant="transparent"
-                  c="dimmed"
-                  onClick={() => setOriginQuery("")}
-                >
-                  <FontAwesomeIcon icon={faTimes} />
-                </ActionIcon>
-              }
-              value={originQuery}
-              onChange={(e) => setOriginQuery(e.currentTarget.value)}
-            />
-
-            {/* Destination Filter */}
-            <TextInput
-              label="Destination"
-              className="lg:w-full"
-              // description="Search by destination"
-              placeholder="Search destination..."
-              leftSection={<FontAwesomeIcon icon={faSearch} />}
-              rightSection={
-                <ActionIcon
-                  size="sm"
-                  variant="transparent"
-                  c="dimmed"
-                  onClick={() => setDestinationQuery("")}
-                >
-                  <FontAwesomeIcon icon={faTimes} />
-                </ActionIcon>
-              }
-              value={destinationQuery}
-              onChange={(e) => setDestinationQuery(e.currentTarget.value)}
-            />
-          </div>
-
-          {/* Date Range Filter */}
-          <Stack className="">
-            <DatePicker
-              maxDate={new Date()}
-              type="range"
-              value={createdDateRange}
-              onChange={setCreatedDateRange}
-              className=""
-            />
-            <Button
-              disabled={!createdDateRange}
-              variant="light"
-              onClick={() => {
-                setCreatedDateRange(undefined);
-              }}
-              className=" mt-4"
-            >
-              Clear
-            </Button>
-          </Stack>
-        </div>
-
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        
         {/* Card Layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-8 bg-light-grey rounded-lg">
+        <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 py-8 bg-light-grey rounded-lg lg:px-10">
           {filteredData.map((quote) => (
             <div
               key={quote._id}
-              className="border bg-white lg:mx-4 rounded-xl shadow-xl p-6 flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
+              className="border bg-white lg:mx-4 rounded-lg shadow-xl p-6 lg:px-8  flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
             >
               {/* Origin and Destination with Arrow */}
               <div className="items-center justify-between mb-8">
@@ -260,6 +193,77 @@ function HistoryQuotes() {
             </div>
           ))}
         </div>
+
+        {/* Filter Inputs */}
+        <div className="lg:px-12 col-span-1 p-8 rounded-lg  bg-light-grey h-50">
+          <div>
+            {/* Origin Filter */}
+            <TextInput
+              label="Origin" 
+              className="lg:w-full"
+              // description="Search by origin"
+              placeholder="Search origin..."
+              leftSection={<FontAwesomeIcon icon={faSearch} />}
+              rightSection={
+                <ActionIcon
+                  size="sm"
+                  variant="transparent"
+                  c="dimmed"
+                  onClick={() => setOriginQuery("")}
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </ActionIcon>
+              }
+              value={originQuery}
+              onChange={(e) => setOriginQuery(e.currentTarget.value)}
+            />
+
+            {/* Destination Filter */}
+            <TextInput
+              label="Destination"
+              className="lg:w-full"
+              // description="Search by destination"
+              placeholder="Search destination..."
+              leftSection={<FontAwesomeIcon icon={faSearch} />}
+              rightSection={
+                <ActionIcon
+                  size="sm"
+                  variant="transparent"
+                  c="dimmed"
+                  onClick={() => setDestinationQuery("")}
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </ActionIcon>
+              }
+              value={destinationQuery}
+              onChange={(e) => setDestinationQuery(e.currentTarget.value)}
+            />
+            {/* Date Range Filter */}
+          <Stack className="mt-4">
+            <DatePicker
+              maxDate={new Date()}
+              type="range"
+              value={createdDateRange}
+              onChange={setCreatedDateRange}
+              className=""
+            />
+            <Button
+              disabled={!createdDateRange}
+              variant="light"
+              onClick={() => {
+                setCreatedDateRange(undefined);
+              }}
+              className="w-1/2 mt-4"
+            >
+              Clear
+            </Button>
+          </Stack>
+          </div>
+
+          
+        </div>
+
+        
       </div>
     </>
   );
