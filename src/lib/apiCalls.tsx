@@ -118,6 +118,54 @@ export const updatePassword = async (
   }
 };
 
+// Update User Details
+export const updateUserDetails = async (
+  userId: string,
+  name: string,
+  email: string,
+  phone: string,
+  address: string,
+  postalCode: string,
+  companyName: string
+) => {
+  try {
+    const response = await axiosInstance.patch(`/account/update-details`, {
+      userId,
+      name,
+      email,
+      phone,
+      address,
+      postalCode,
+      companyName
+    });
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error("API Error:", error.response?.data || error.message);
+    } else {
+      console.error("Unexpected Error:", error);
+    }
+    throw error;
+  }
+};
+
+// Get Current User Data
+export const getCurrentUser = async () => {
+  try {
+    const response = await axiosInstance.get(`/account/`, {
+      withCredentials: true, // Include cookies in the request
+    });
+    return response.data; // Return the user data
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error("API Error:", error.response?.data || error.message);
+    } else {
+      console.error("Unexpected Error:", error);
+    }
+    throw error;
+  }
+};
+
 
 
 
