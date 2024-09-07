@@ -75,7 +75,7 @@ const UpdateUserDetailsPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="m-2 flex items-center justify-center min-h-screen bg-light-grey">
       <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Update User Details</h2>
         {error && (
@@ -101,7 +101,7 @@ const UpdateUserDetailsPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-200"
+              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-200 font-normal"
               placeholder="Enter your name"
             />
           </div>
@@ -113,7 +113,7 @@ const UpdateUserDetailsPage: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
               placeholder="Enter your email"
             />
           </div>
@@ -125,7 +125,7 @@ const UpdateUserDetailsPage: React.FC = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
               placeholder="Enter your phone number"
             />
           </div>
@@ -137,7 +137,7 @@ const UpdateUserDetailsPage: React.FC = () => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
               placeholder="Enter your address"
             />
           </div>
@@ -149,7 +149,7 @@ const UpdateUserDetailsPage: React.FC = () => {
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
               required
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
               placeholder="Enter your postal code"
             />
           </div>
@@ -160,23 +160,25 @@ const UpdateUserDetailsPage: React.FC = () => {
               type="text"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
+              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
               placeholder="Enter your company name"
             />
           </div>
+          <div className='flex gap-4'>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Update Details
           </button>
           <button
             type="button"
             onClick={handleGoBack}
-            className="w-full px-4 py-2 font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-full border-2 text-primary border-secondary px-4 py-2 font-medium  rounded-md hover:bg-secondary hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
             Go Back
           </button>
+          </div>
         </form>
       </div>
     </div>
