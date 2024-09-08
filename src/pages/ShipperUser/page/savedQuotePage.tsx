@@ -241,7 +241,7 @@ function HistoryQuotes() {
             {/* Date Range Filter */}
           <Stack className=" mt-4 w-full ">
           <h1 className="font-semibold">Pick a date</h1>
-          <div className=" bg-white p-2 rounded-md ">
+          <div className=" bg-white p-6 rounded-md ">
             
             <DatePicker
               maxDate={new Date()}
@@ -256,7 +256,7 @@ function HistoryQuotes() {
               onClick={() => {
                 setCreatedDateRange(undefined);
               }}
-              className="w-full mt-4 p-2 bg-primary rounded-md text-white cursor-pointer hover:bg-secondary "
+              className="w-full mt-4 p-2 border-2 border-primary rounded-md text-primary cursor-pointer hover:bg-secondary hover:text-white"
             >
               Clear
             </button>
