@@ -94,16 +94,15 @@ function HistoryQuotes() {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-8">
-        
         {/* Card Layout */}
-        <div className="col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-light-grey rounded-lg lg:px-10">
+        <div className="border col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-grey rounded-lg lg:px-10">
           {filteredData.map((quote) => (
             <div
               key={quote._id}
-              className="border bg-white lg:mx-4 rounded-lg shadow-xl p-6 lg:px-6  flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
+              className=" bg-white lg:mx-4 rounded-2xl shadow-xl   flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
             >
               {/* Origin and Destination with Arrow */}
-              <div className="items-center justify-between mb-8">
+              <div className="items-center justify-between  p-6">
                 <div className="flex items-center space-x-2 my-2">
                   <div className="bg-primary w-6 h-6 flex items-center justify-center rounded-full">
                     <FontAwesomeIcon
@@ -132,25 +131,25 @@ function HistoryQuotes() {
                       className="text-white w-3 h-3"
                     />
                   </div>
-                  <p className="font-semibold text-lg">
+                  <p className="font-semibold text-lg text-gray-500">
                     {quote.destination.length > 25
                       ? `${quote.destination.slice(0, 25)}...`
                       : quote.destination}
                   </p>
                 </div>
-              </div>
 
-              {/* Trailer Type and Size */}
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="bg-gray-400 w-6 h-6 flex items-center justify-center rounded-full">
-                  <FontAwesomeIcon
-                    icon={faTruck}
-                    className="text-white w-3 h-3"
-                  />
+                {/* Trailer Type and Size */}
+                <div className="flex items-center space-x-2 mb-4">
+                  <div className="bg-gray-500 w-6 h-6 flex items-center justify-center rounded-full">
+                    <FontAwesomeIcon
+                      icon={faTruck}
+                      className="text-white w-3 h-3"
+                    />
+                  </div>
+                  <p className="font-semibold text-lg text-gray-500">
+                    {quote.trailerType} ({quote.trailerSize})
+                  </p>
                 </div>
-                <p className="text-sm text-gray-700 font-medium">
-                  {quote.trailerType} ({quote.trailerSize})
-                </p>
               </div>
 
               {/* Optional Data Points */}
@@ -181,7 +180,7 @@ function HistoryQuotes() {
       */}
 
               {/* Action Buttons */}
-              <div className="mt-2 flex justify-end">
+              <div className="bg-light-grey p-6 text-center rounded-b-2xl">
                 <button
                   className="w-full bg-primary text-white rounded-md px-4 py-3 hover:bg-secondary transition-colors"
                   onClick={() => onReuseHandle(quote)}
@@ -199,7 +198,7 @@ function HistoryQuotes() {
           <div>
             {/* Origin Filter */}
             <TextInput
-              label="Origin" 
+              label="Origin"
               className="lg:w-full font-normal"
               // description="Search by origin"
               placeholder="Search origin..."
@@ -239,35 +238,29 @@ function HistoryQuotes() {
               onChange={(e) => setDestinationQuery(e.currentTarget.value)}
             />
             {/* Date Range Filter */}
-          <Stack className=" mt-4 w-full ">
-          <h1 className="font-semibold">Pick a date</h1>
-          <div className=" bg-white p-6 rounded-md ">
-            
-            <DatePicker
-              maxDate={new Date()}
-              type="range"
-              value={createdDateRange}
-              onChange={setCreatedDateRange}
-              className=" "
-            />
-            <button
-              disabled={!createdDateRange}
-              
-              onClick={() => {
-                setCreatedDateRange(undefined);
-              }}
-              className="w-full mt-4 p-2 border-2 border-primary rounded-md text-primary cursor-pointer hover:bg-secondary hover:text-white"
-            >
-              Clear
-            </button>
-            </div>
-          </Stack>
+            <Stack className=" mt-4 w-full ">
+              <h1 className="font-semibold">Pick a date</h1>
+              <div className=" bg-white p-6 rounded-md ">
+                <DatePicker
+                  maxDate={new Date()}
+                  type="range"
+                  value={createdDateRange}
+                  onChange={setCreatedDateRange}
+                  className=" "
+                />
+                <button
+                  disabled={!createdDateRange}
+                  onClick={() => {
+                    setCreatedDateRange(undefined);
+                  }}
+                  className="w-full mt-4 p-2 border-2 border-primary rounded-md text-primary cursor-pointer hover:bg-secondary hover:text-white"
+                >
+                  Clear
+                </button>
+              </div>
+            </Stack>
           </div>
-
-          
         </div>
-
-        
       </div>
     </>
   );
