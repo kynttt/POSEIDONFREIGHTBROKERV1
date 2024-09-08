@@ -52,7 +52,7 @@ export const navItems: NavItems = {
       path: "/requests",
       icon: faCalculator,
     },
-    { label: "Saved Routes", path: "/s/saved-quotes", icon: faHistory },
+    { label: "Your Routes", path: "/s/saved-quotes", icon: faHistory },
     // { label: "Notification", path: "/s/notification", icon: faBell },
   ],
 };

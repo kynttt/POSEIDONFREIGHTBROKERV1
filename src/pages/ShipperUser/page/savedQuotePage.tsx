@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Divider, Stack, TextInput } from "@mantine/core";
+import { ActionIcon, Divider, Stack, TextInput } from "@mantine/core";
 import { DatePicker, type DatesRangeValue } from "@mantine/dates";
 import { listUserQuotes } from "../../../lib/apiCalls";
 // import { DataTable } from "mantine-datatable";
@@ -93,14 +93,14 @@ function HistoryQuotes() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-8">
         
         {/* Card Layout */}
-        <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 py-8 bg-light-grey rounded-lg lg:px-10">
+        <div className="col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-light-grey rounded-lg lg:px-10">
           {filteredData.map((quote) => (
             <div
               key={quote._id}
-              className="border bg-white lg:mx-4 rounded-lg shadow-xl p-6 lg:px-8  flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
+              className="border bg-white lg:mx-4 rounded-lg shadow-xl p-6 lg:px-6  flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
             >
               {/* Origin and Destination with Arrow */}
               <div className="items-center justify-between mb-8">
@@ -195,12 +195,12 @@ function HistoryQuotes() {
         </div>
 
         {/* Filter Inputs */}
-        <div className="lg:px-12 col-span-1 p-8 rounded-lg  bg-light-grey h-50">
+        <div className="lg:px-8 col-span-1 p-4 lg:p-8 rounded-lg  bg-light-grey ">
           <div>
             {/* Origin Filter */}
             <TextInput
               label="Origin" 
-              className="lg:w-full"
+              className="lg:w-full font-normal"
               // description="Search by origin"
               placeholder="Search origin..."
               leftSection={<FontAwesomeIcon icon={faSearch} />}
@@ -221,9 +221,9 @@ function HistoryQuotes() {
             {/* Destination Filter */}
             <TextInput
               label="Destination"
-              className="lg:w-full"
+              className="lg:w-full font-normal"
               // description="Search by destination"
-              placeholder="Search destination..."
+              placeholder="Search destination"
               leftSection={<FontAwesomeIcon icon={faSearch} />}
               rightSection={
                 <ActionIcon
@@ -239,24 +239,28 @@ function HistoryQuotes() {
               onChange={(e) => setDestinationQuery(e.currentTarget.value)}
             />
             {/* Date Range Filter */}
-          <Stack className="mt-4">
+          <Stack className=" mt-4 w-full ">
+          <h1 className="font-semibold">Pick a date</h1>
+          <div className=" bg-white p-2 rounded-md ">
+            
             <DatePicker
               maxDate={new Date()}
               type="range"
               value={createdDateRange}
               onChange={setCreatedDateRange}
-              className=""
+              className=" "
             />
-            <Button
+            <button
               disabled={!createdDateRange}
-              variant="light"
+              
               onClick={() => {
                 setCreatedDateRange(undefined);
               }}
-              className="w-1/2 mt-4"
+              className="w-full mt-4 p-2 bg-primary rounded-md text-white cursor-pointer hover:bg-secondary "
             >
               Clear
-            </Button>
+            </button>
+            </div>
           </Stack>
           </div>
 
