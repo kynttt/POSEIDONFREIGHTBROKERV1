@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuthStore } from '../../../state/useAuthStore'; // Adjust the import path as needed
 import { updateUserDetails, getCurrentUser } from '../../../lib/apiCalls'; // Adjust the import path as needed
 import { useNavigate } from 'react-router-dom';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const UpdateUserDetailsPage: React.FC = () => {
@@ -77,7 +77,10 @@ const UpdateUserDetailsPage: React.FC = () => {
   return (
     <div className="m-2 flex items-center justify-center min-h-screen bg-light-grey">
       <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Update User Details</h2>
+      <h2 className="text-2xl font-semibold text-primary mb-6 flex items-center">
+  <FontAwesomeIcon icon={faUserEdit} className="mr-2 w-4 h-4 p-2 text-primary bg-grey rounded-full" />
+  Update User Details
+</h2>
         {error && (
           <div className="mb-4 p-3 text-sm text-red-500 border border-red-300 rounded-md bg-red-50 flex items-center space-x-2">
             <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
