@@ -137,9 +137,9 @@ export default function NotificationModal() {
           {data!.map((notification) => (
             <div
               key={notification._id}
-              className={`py-2 px-12 hover:bg-gray-500 hover:text-white rounded-md transition-colors duration-200 cursor-pointer border shadow-lg ${
+              className={`py-2 bg-gray-50 px-12 hover:bg-gray-400 hover:text-white rounded-md transition-colors duration-200 cursor-pointer  shadow-lg ${
                 !notification.isRead
-                  ? "bg-violet-200 text-black"
+                  ? "bg-blue-50 text-black"
                   : "text-gray-700"
               }`}
               onClick={() => handleNotificationClick(notification)}
