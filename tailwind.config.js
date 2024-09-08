@@ -27,14 +27,14 @@ module.exports = {
       },
       colors: {
         // Define custom colors if needed
-        primary: "#252F70",
-        secondary: "#7783D2",
+        primary: "#1C1C1E",
+        secondary: "#8E8E93",
         tertiary: "#bbc1e8",
         white: "#FEFEFE",
         grey: "#DCDCDC",
         "light-grey": "#eeeeee",
         green: "#54AB82",
-        price: "#30D5C8",
+        price: "#478778",
         darkBg: "#0d0e11",
         accentBg: "#11141b",
         teal: "#02FFE2",

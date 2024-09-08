@@ -77,10 +77,12 @@ const UpdateUserDetailsPage: React.FC = () => {
   return (
     <div className="m-2 flex items-center justify-center min-h-screen bg-light-grey">
       <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-primary mb-6 flex items-center">
+      <h2 className="text-2xl font-semibold text-primary mb-1 flex items-center">
   <FontAwesomeIcon icon={faUserEdit} className="mr-2 w-4 h-4 p-2 text-primary bg-grey rounded-full" />
-  Update User Details
+  Account
+  
 </h2>
+<p className='text-sm font-normal text-gray-500 mb-8'>Make changes to your account here. Click save when you're done.</p>
         {error && (
           <div className="mb-4 p-3 text-sm text-red-500 border border-red-300 rounded-md bg-red-50 flex items-center space-x-2">
             <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,7 +99,7 @@ const UpdateUserDetailsPage: React.FC = () => {
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col">
-            <label htmlFor="name" className="mb-2 text-sm font-medium text-gray-500">Name</label>
+            <label htmlFor="name" className="mb-2 text-sm font-medium text-gray-600">Name</label>
             <input
               id="name"
               type="text"
@@ -109,7 +111,7 @@ const UpdateUserDetailsPage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="email" className="mb-2 text-sm font-medium text-gray-500">Email</label>
+            <label htmlFor="email" className="mb-2 text-sm font-medium text-gray-600">Email</label>
             <input
               id="email"
               type="email"
@@ -121,7 +123,7 @@ const UpdateUserDetailsPage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="phone" className="mb-2 text-sm font-medium text-gray-500">Phone</label>
+            <label htmlFor="phone" className="mb-2 text-sm font-medium text-gray-600">Phone</label>
             <input
               id="phone"
               type="tel"
@@ -133,7 +135,7 @@ const UpdateUserDetailsPage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="address" className="mb-2 text-sm font-medium text-gray-500">Address</label>
+            <label htmlFor="address" className="mb-2 text-sm font-medium text-gray-600">Address</label>
             <input
               id="address"
               type="text"
@@ -145,7 +147,7 @@ const UpdateUserDetailsPage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="postalCode" className="mb-2 text-sm font-medium text-gray-500">Postal Code</label>
+            <label htmlFor="postalCode" className="mb-2 text-sm font-medium text-gray-600">Postal Code</label>
             <input
               id="postalCode"
               type="text"
@@ -157,7 +159,7 @@ const UpdateUserDetailsPage: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="companyName" className="mb-2 text-sm font-medium text-gray-500">Company Name (Optional)</label>
+            <label htmlFor="companyName" className="mb-2 text-sm font-medium text-gray-600">Company Name (Optional)</label>
             <input
               id="companyName"
               type="text"
@@ -172,7 +174,7 @@ const UpdateUserDetailsPage: React.FC = () => {
             type="submit"
             className="w-full px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Update Details
+            Save
           </button>
           <button
             type="button"

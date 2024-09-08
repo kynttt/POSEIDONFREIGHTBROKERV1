@@ -99,7 +99,7 @@ function HistoryQuotes() {
           {filteredData.map((quote) => (
             <div
               key={quote._id}
-              className=" bg-white lg:mx-4 rounded-2xl shadow-xl   flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
+              className=" bg-white lg:mx-4 rounded-md shadow-xl   flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
             >
               {/* Origin and Destination with Arrow */}
               <div className="items-center justify-between  p-6">
@@ -180,9 +180,9 @@ function HistoryQuotes() {
       */}
 
               {/* Action Buttons */}
-              <div className="bg-light-grey p-6 text-center rounded-b-2xl">
+              <div className="bg-light-grey p-6 text-center rounded-b-md">
                 <button
-                  className="w-full bg-primary text-white rounded-md px-4 py-3 hover:bg-secondary transition-colors"
+                  className="w-full bg-primary text-white rounded-sm px-4 py-3 hover:bg-secondary transition-colors"
                   onClick={() => onReuseHandle(quote)}
                 >
                   <FontAwesomeIcon icon={faSyncAlt} className="mr-2" />
@@ -194,7 +194,7 @@ function HistoryQuotes() {
         </div>
 
         {/* Filter Inputs */}
-        <div className="lg:px-8 col-span-1 p-4 lg:p-8 rounded-lg  bg-light-grey ">
+        <div className="lg:px-8 col-span-1 p-4 lg:p-8 rounded-lg  bg-grey ">
           <div>
             {/* Origin Filter */}
             <TextInput

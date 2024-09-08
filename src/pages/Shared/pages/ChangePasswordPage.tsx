@@ -78,10 +78,11 @@ const ChangePasswordPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-light-grey m-2">
       <div className="w-full  max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="mb-6 flex items-center text-2xl font-semibold text-start text-primary">
+        <h2 className="mb-1 flex items-center text-2xl font-semibold text-start text-primary">
           <FontAwesomeIcon icon={faLock} className="bg-grey w-4 h-4 rounded-full p-2 mr-2 text-primary" />
           Change Password
         </h2>
+        <p className="text-sm font-normal text-gray-500 mb-8">Change your password here. After saving, you can choose to stay logged in or log out.</p>
         {error && (
           <div className="mb-4 text-sm text-red-500 flex items-center">
             <FontAwesomeIcon icon={faExclamationCircle} className="mr-2" />
@@ -145,7 +146,7 @@ const ChangePasswordPage: React.FC = () => {
             type="submit"
             className="w-full border-t px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-secondary focus:outline-none focus:bg-secondary"
           >
-            Update Password
+            Save Password
           </button>
           </div>
         </form>
