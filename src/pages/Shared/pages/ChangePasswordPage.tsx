@@ -78,8 +78,8 @@ const ChangePasswordPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-light-grey m-2">
       <div className="w-full  max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="mb-6 text-2xl font-semibold text-center text-gray-700">
-          <FontAwesomeIcon icon={faLock} className="mr-2 text-gray-500" />
+        <h2 className="mb-6 flex items-center text-2xl font-semibold text-start text-primary">
+          <FontAwesomeIcon icon={faLock} className="bg-grey w-4 h-4 rounded-full p-2 mr-2 text-primary" />
           Change Password
         </h2>
         {error && (
@@ -139,13 +139,15 @@ const ChangePasswordPage: React.FC = () => {
               placeholder="Confirm new password"
             />
           </div>
+          <div className="border-t border-secondary pt-6">
 
           <button
             type="submit"
-            className="w-full px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-secondary focus:outline-none focus:bg-secondary"
+            className="w-full border-t px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-secondary focus:outline-none focus:bg-secondary"
           >
             Update Password
           </button>
+          </div>
         </form>
 
         {showPrompt && (
