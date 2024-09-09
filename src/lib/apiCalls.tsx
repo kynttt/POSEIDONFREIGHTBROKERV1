@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosProgressEvent } from "axios";
 import axiosInstance from "./axiosInstance";
 import {
   Booking,
@@ -19,6 +19,12 @@ import {
   PhoneOtpVerifyData,
   PhoneOtpRequestData,
   PhoneOtpVerifyResponse,
+  FolderSchema,
+  FileSchema,
+  CreateFolderData,
+  DeleteFileData,
+  DeleteResponse,
+  DeleteFolderData,
 } from "../utils/types";
 
 //Users
@@ -533,4 +539,73 @@ export const phoneOtpVerify = async ({
   });
 
   return response.data as PhoneOtpVerifyResponse;
+};
+
+export const getFolder = async ({
+  folderId = ".$root",
+}: {
+  folderId?: string;
+}) => {
+  const response = await axiosInstance.get(`/folders/${folderId}`);
+  return response.data.data as FolderSchema;
+};
+
+export const listFolder = async ({ parentId }: { parentId?: string }) => {
+  const path = parentId ? `/folders?parentId=${parentId}` : "/folders";
+  const response = await axiosInstance.get(`${path}`);
+
+  return response.data.data as FolderSchema[];
+};
+
+export const listFile = async ({ folderId }: { folderId: string }) => {
+  const response = await axiosInstance.get(`/folders/${folderId}/files`);
+  return response.data.data as FileSchema[];
+};
+export const uploadFile = async (
+  formData: FormData,
+  folderId: string | undefined,
+  onUploadProgress: (progressEvent: AxiosProgressEvent) => void
+) => {
+  folderId = folderId || ".$root";
+  const response = await axiosInstance.post(
+    `/folders/${folderId}/files`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      onUploadProgress,
+    }
+  );
+
+  return response.data.data as FileSchema;
+};
+
+export const deleteFile = async ({
+  fileId,
+  folderId = ".$root",
+}: DeleteFileData) => {
+  const response = await axiosInstance.delete(
+    `/folders/${folderId}/files/${fileId}`
+  );
+
+  return response.data as DeleteResponse;
+};
+
+export const deleteFolder = async ({ folderId }: DeleteFolderData) => {
+  const response = await axiosInstance.delete(`/folders/${folderId}`);
+  return response.data as DeleteResponse;
+};
+
+export const createRootFolder = async () => {
+  const response = await axiosInstance.post(`/folders?type=root`);
+  return response.data as FolderSchema;
+};
+
+export const createFolder = async (data: CreateFolderData) => {
+  const response = await axiosInstance.post(`/folders`, {
+    name: data.name,
+    parentId: data.parentId || ".$root",
+  });
+  return response.data as FolderSchema;
 };

@@ -32,7 +32,7 @@ export const navItems: NavItems = {
   admin: [
     { label: "Dashboard", path: "/a/admin-dashboard", icon: faTableColumns },
     { label: "Load Board", path: "/a/load-board", icon: faListUl },
-    { label: "Documents", path: "/a/legal-page", icon: faFolderOpen },
+    { label: "Documents", path: "/a/documents", icon: faFolderOpen },
     { label: "Transactions", path: "/a/report-details", icon: faTruckFast },
     { label: "Trucks", path: "/a/trailer-options", icon: faTruckFront },
     {
