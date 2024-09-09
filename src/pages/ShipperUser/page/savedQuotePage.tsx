@@ -110,7 +110,7 @@ function HistoryQuotes() {
                       className="text-white w-3 h-3"
                     />
                   </div>
-                  <p className="font-semibold text-lg">
+                  <p className="font-semibold text-md text-primary">
                     {quote.origin.length > 25
                       ? `${quote.origin.slice(0, 25)}...`
                       : quote.origin}
@@ -131,7 +131,7 @@ function HistoryQuotes() {
                       className="text-white w-3 h-3"
                     />
                   </div>
-                  <p className="font-semibold text-lg text-gray-500">
+                  <p className="font-semibold text-md text-gray-500">
                     {quote.destination.length > 25
                       ? `${quote.destination.slice(0, 25)}...`
                       : quote.destination}
@@ -146,7 +146,7 @@ function HistoryQuotes() {
                       className="text-white w-3 h-3"
                     />
                   </div>
-                  <p className="font-semibold text-lg text-gray-500">
+                  <p className="font-semibold text-md text-gray-500">
                     {quote.trailerType} ({quote.trailerSize})
                   </p>
                 </div>
