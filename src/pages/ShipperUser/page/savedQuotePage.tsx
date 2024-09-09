@@ -20,7 +20,7 @@ import { useDebouncedValue } from "@mantine/hooks";
 export default function SavedQuotePage() {
   return (
     <>
-      <Stack px="md" w="100%" h="80vh">
+      <Stack px="md" w="100%" min-h="100vh">
         <Stack py="md" w="100%" gap={20} h="100%">
           <h1 className="text-5xl text-primary">Saved Routes</h1>
           <Divider />
@@ -93,9 +93,9 @@ function HistoryQuotes() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-8  ">
         {/* Card Layout */}
-        <div className="border col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-grey rounded-lg lg:px-10">
+        <div className="border col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-grey rounded-lg lg:px-10 ">
           {filteredData.map((quote) => (
             <div
               key={quote._id}
