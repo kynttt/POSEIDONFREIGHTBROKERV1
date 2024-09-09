@@ -5,7 +5,7 @@ import {
   BookingData,
   GetPriceMileData,
   GetPriceMileResponse,
-  Invoice,
+ 
   LoginResponse,
   LogoutResponse,
   NotificationSchema,
@@ -251,23 +251,14 @@ export const listUserQuotes = async ({
   return response.data as Quote[];
 };
 
-// Invoice
-// Create invoice
-export const createInvoice = async (invoiceData: Invoice) => {
+
+// Fetch invoices
+export const fetchInvoices = async (userId: string) => {
   try {
-    const response = await axiosInstance.post(`/invoices/`, invoiceData, {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axiosInstance.get(`/api/invoices/${userId}`);
     return response.data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      console.error("API Error:", error.response?.data || error.message);
-    } else {
-      console.error("Unexpected Error:", error);
-    }
+  } catch (error) {
+    console.error("Error fetching invoices:", error);
     throw error;
   }
 };
@@ -608,3 +599,43 @@ export const phoneOtpVerify = async ({
 
   return response.data as PhoneOtpVerifyResponse;
 };
+
+
+
+// Invoice
+// Invoice
+// Create invoice
+export const createInvoice = async ({
+  customerId,
+  price,
+  currency,
+}: {
+  customerId: string;
+  price: number; // Price in cents
+  currency: string;
+}) => {
+  try {
+    const response = await axiosInstance.post('/invoices/create-invoice', {
+      stripeCustomerId: customerId,
+      price, // Price in cents
+      currency,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating invoice:", error);
+    throw error;
+  }
+};
+
+
+
+export const getUserInvoices = async (userId: string) => {
+  try {
+    const response = await axiosInstance.get(`/invoices/${userId}`);
+    return response;
+  } catch (error) {
+    console.error('Error fetching invoices:', error);
+    throw error;
+  }
+};
+

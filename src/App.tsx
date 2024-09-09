@@ -56,6 +56,7 @@ import PricingPage from "./pages/Shared/pages/PricingPage";
 import PhoneVerifyPage from "./pages/phoneVerifyPage";
 import ChangePasswordPage from "./pages/Shared/pages/ChangePasswordPage";
 import UpdateUserDetailsPage from "./pages/Shared/pages/UpdateUserDetailsPage";
+import InvoicesList from "./pages/ShipperUser/page/InvoicesList";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -135,6 +136,10 @@ const App: React.FC = () => {
                 <Route
                   path="trailer-options"
                   element={<TrailerOptionsPage />}
+                />
+                <Route
+                  path="invoices"
+                  element={<InvoicesList />}
                 />
 
                 <Route path="payment-option" element={<PaymentOptionPage />} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuthStore } from '../../../state/useAuthStore'; // Adjust the import path as needed
 import { updateUserDetails, getCurrentUser } from '../../../lib/apiCalls'; // Adjust the import path as needed
 import { useNavigate } from 'react-router-dom';
-import { faCheckCircle, faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const UpdateUserDetailsPage: React.FC = () => {
@@ -75,14 +75,9 @@ const UpdateUserDetailsPage: React.FC = () => {
   };
 
   return (
-    <div className="m-2 flex items-center justify-center min-h-screen bg-light-grey">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-primary mb-1 flex items-center">
-  <FontAwesomeIcon icon={faUserEdit} className="mr-2 w-4 h-4 p-2 text-primary bg-grey rounded-full" />
-  Account
-  
-</h2>
-<p className='text-sm font-normal text-gray-500 mb-8'>Make changes to your account here. Click save when you're done.</p>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Update User Details</h2>
         {error && (
           <div className="mb-4 p-3 text-sm text-red-500 border border-red-300 rounded-md bg-red-50 flex items-center space-x-2">
             <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,91 +94,89 @@ const UpdateUserDetailsPage: React.FC = () => {
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col">
-            <label htmlFor="name" className="mb-2 text-sm font-medium text-gray-600">Name</label>
+            <label htmlFor="name" className="mb-2 text-sm font-medium text-gray-500">Name</label>
             <input
               id="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-200 font-normal"
+              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-200"
               placeholder="Enter your name"
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="email" className="mb-2 text-sm font-medium text-gray-600">Email</label>
+            <label htmlFor="email" className="mb-2 text-sm font-medium text-gray-500">Email</label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
+              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
               placeholder="Enter your email"
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="phone" className="mb-2 text-sm font-medium text-gray-600">Phone</label>
+            <label htmlFor="phone" className="mb-2 text-sm font-medium text-gray-500">Phone</label>
             <input
               id="phone"
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
+              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
               placeholder="Enter your phone number"
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="address" className="mb-2 text-sm font-medium text-gray-600">Address</label>
+            <label htmlFor="address" className="mb-2 text-sm font-medium text-gray-500">Address</label>
             <input
               id="address"
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
-              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
+              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
               placeholder="Enter your address"
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="postalCode" className="mb-2 text-sm font-medium text-gray-600">Postal Code</label>
+            <label htmlFor="postalCode" className="mb-2 text-sm font-medium text-gray-500">Postal Code</label>
             <input
               id="postalCode"
               type="text"
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
               required
-              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
+              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
               placeholder="Enter your postal code"
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="companyName" className="mb-2 text-sm font-medium text-gray-600">Company Name (Optional)</label>
+            <label htmlFor="companyName" className="mb-2 text-sm font-medium text-gray-500">Company Name (Optional)</label>
             <input
               id="companyName"
               type="text"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
+              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
               placeholder="Enter your company name"
             />
           </div>
-          <div className='flex gap-4'>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Save
+            Update Details
           </button>
           <button
             type="button"
             onClick={handleGoBack}
-            className="w-full border-2 text-primary border-secondary px-4 py-2 font-medium  rounded-md hover:bg-secondary hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-full px-4 py-2 font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
             Go Back
           </button>
-          </div>
         </form>
       </div>
     </div>
