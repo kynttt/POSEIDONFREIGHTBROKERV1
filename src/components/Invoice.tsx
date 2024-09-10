@@ -100,12 +100,12 @@ const Invoice: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-between mb-4">
+        {/* <div className="flex justify-between mb-4">
           <div className="border-t border-gray-500 pt-4">
             <p>Customer Name & Signature</p>
           </div>
-        </div>
-        <div className="flex justify-end">
+        </div> */}
+        {/* <div className="flex justify-end">
           <Button
             label="Make Payment"
             size="small"
@@ -113,7 +113,7 @@ const Invoice: React.FC = () => {
             hoverBgColor="white"
             onClick={openModal} type={''}          
           />
-        </div>
+        </div> */}
       </div>
       {isModalOpen && <QuoteRequestModal isOpen={isModalOpen} />}
     </div>

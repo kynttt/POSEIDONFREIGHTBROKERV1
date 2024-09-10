@@ -253,24 +253,24 @@ export const listUserQuotes = async ({
 
 // Invoice
 // Create invoice
-export const createInvoice = async (invoiceData: Invoice) => {
-  try {
-    const response = await axiosInstance.post(`/invoices/`, invoiceData, {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      console.error("API Error:", error.response?.data || error.message);
-    } else {
-      console.error("Unexpected Error:", error);
-    }
-    throw error;
-  }
-};
+// export const createInvoice = async (invoiceData: Invoice) => {
+//   try {
+//     const response = await axiosInstance.post(`/invoices/`, invoiceData, {
+//       headers: {
+//         // Authorization: `Bearer ${token}`,
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     return response.data;
+//   } catch (error: unknown) {
+//     if (axios.isAxiosError(error)) {
+//       console.error("API Error:", error.response?.data || error.message);
+//     } else {
+//       console.error("Unexpected Error:", error);
+//     }
+//     throw error;
+//   }
+// };
 
 // Fetch User Invoices
 export const fetchUserInvoices = async (userId: string) => {
@@ -607,4 +607,27 @@ export const phoneOtpVerify = async ({
   });
 
   return response.data as PhoneOtpVerifyResponse;
+};
+
+export interface CreateInvoiceData {
+  invoiceNumber: string;
+  dateIssued: string;  // ISO format date
+  dueDate: string;     // ISO format date
+  amountDue: number;   // Amount in cents (e.g., 5000 for $50.00)
+  status?: 'Unpaid' | 'Paid' | 'Overdue';
+  booking: string;     // Booking ID
+  createdBy: string;   // User ID
+}
+
+export const createInvoice = async (invoiceData: CreateInvoiceData) => {
+  try {
+    const response = await axiosInstance.post('/invoices/create', {
+      invoiceData,
+    });
+    return response.data;  // Return response data if needed
+  } catch (error) {
+    // Handle error accordingly
+    console.error("Error creating invoice:", error);
+    throw error;
+  }
 };

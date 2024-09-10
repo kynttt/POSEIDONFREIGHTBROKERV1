@@ -2,15 +2,14 @@ import {
   useStripe,
   useElements,
   PaymentElement,
-  // AddressElement,
   PaymentRequestButtonElement,
   LinkAuthenticationElement,
 } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createBookQuote } from "../../lib/apiCalls";
+import { createBookQuote, createInvoice } from "../../lib/apiCalls";
 import { PaymentRequest } from "@stripe/stripe-js";
-import { Booking, BookingData, Quote } from "../../utils/types";
+import { BookingData, Quote } from "../../utils/types";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 
@@ -25,19 +24,36 @@ const CheckoutForm = ({
     companyName,
     commodity,
   },
+  userId,
 }: {
   quote: Quote;
+  userId: string; // User ID should be passed as a prop
 }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
-    null
-  );
-  const mutation = useMutation<Booking, Error, BookingData>({
-    mutationFn: createBookQuote,
-    onSuccess: async () => {
+  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(null);
+  const navigate = useNavigate();
+
+  const bookingMutation = useMutation({
+    mutationFn: async (bookingData: BookingData) => {
+      const booking = await createBookQuote(bookingData);
+
+      const invoiceData = {
+        invoiceNumber: `INV-${Date.now()}`,
+        dateIssued: new Date().toISOString(),
+        dueDate: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString(), // 30 days due
+        amountDue: Math.round(bookingData.price),
+        status: 'Unpaid',
+        bookingId: booking._id,
+        createdBy: userId, // Use the actual user ID
+      };
+
+      const invoice = await createInvoice(invoiceData);
+      return { booking, invoice };
+    },
+    onSuccess: async ({  }) => {
       notifications.show({
-        title: "Booking successful",
+        title: "Booking and Invoice created successfully",
         message: "Payment will be processed.",
         color: "green",
       });
@@ -51,6 +67,7 @@ const CheckoutForm = ({
           return_url: returnUrl,
         },
       });
+
       if (result.error) {
         notifications.show({
           title: "Payment Failed",
@@ -60,25 +77,6 @@ const CheckoutForm = ({
       } else {
         navigate("/booking-successful");
       }
-      // if (!bookingSuccessful) {
-      //   // If booking failed, exit early and do not proceed to payment
-      //   console.error("Booking failed, payment will not be processed.");
-      //   return;
-      // }
-      // const returnUrl = `${window.location.origin}/booking-successful`;
-      // const result = await stripe.confirmPayment({
-      //   elements,
-      //   confirmParams: {
-      //     return_url: returnUrl,
-      //   },
-      // });
-      // if (result.error) {
-      //   console.error("Payment error:", result.error.message);
-      //   setLoading(false);
-      // } else {
-      //   setLoading(false);
-      //   navigate("/booking-successful"); // Navigate to the success page after payment
-      // }
     },
     onError: (error) => {
       notifications.show({
@@ -88,8 +86,6 @@ const CheckoutForm = ({
       });
     },
   });
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const initializePaymentRequest = async () => {
@@ -126,7 +122,7 @@ const CheckoutForm = ({
   ) => {
     event.preventDefault();
 
-    if (!stripe || !elements || mutation.isPending) return;
+    if (!stripe || !elements || bookingMutation.isPending) return;
 
     const bookingData: BookingData = {
       quote: _id!,
@@ -135,14 +131,12 @@ const CheckoutForm = ({
       pickupDate:
         typeof pickupDate === "string" ? pickupDate : pickupDate.toISOString(),
       trailerType,
-      // trailerSize, ! This field is not include in Booking Schema
       companyName,
       commodity,
-
       price,
     };
 
-    mutation.mutate(bookingData);
+    bookingMutation.mutate(bookingData);
   };
 
   return (
@@ -153,18 +147,15 @@ const CheckoutForm = ({
       <h3 className="text-xl mb-4">Payment Details</h3>
       <LinkAuthenticationElement />
       <PaymentElement />
-      {/* <AddressElement options={{ mode: "billing" }} /> */}
-
       {paymentRequest && (
         <PaymentRequestButtonElement options={{ paymentRequest }} />
       )}
-
       <button
         type="submit"
-        disabled={!stripe || !elements || mutation.isPending}
+        disabled={!stripe || !elements || bookingMutation.isPending}
         className="mt-4 py-4 px-16 bg-primary text-white rounded"
       >
-        {mutation.isPending ? "Processing..." : "Confirm Payment"}
+        {bookingMutation.isPending ? "Processing..." : "Confirm Payment"}
       </button>
     </form>
   );
