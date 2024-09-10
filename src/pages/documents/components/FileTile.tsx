@@ -58,7 +58,7 @@ export default function FileTile({
   const handleFileClick = async () => {
     window.open(
       `http://localhost:5000/api/folders/${file.folder}/files/${file._id}/view`,
-      "_blank"
+      `${file.name}`
     );
     // open(); // Open the modal
     // setError(null); // Reset error
