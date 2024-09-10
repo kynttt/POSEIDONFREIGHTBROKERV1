@@ -83,6 +83,14 @@ export default function FileTile({
     mutation.mutate({ fileId: file._id!, folderId: file.folder });
   };
 
+  // Utility function to truncate the file name
+  const truncateString = (str: string, num: number) => {
+    if (str.length <= num) {
+      return str;
+    }
+    return str.slice(0, num) + "...";
+  };
+
   return (
     <>
       <div
@@ -109,9 +117,7 @@ export default function FileTile({
         <div className="mr-4">
           <FontAwesomeIcon icon={faFile} className="text-blue-500 text-1xl" />
         </div>
-        <div className="flex-1">
-          <div className="font-semibold text-gray-800 text-md">{file.name}</div>
-        </div>
+        <div className="flex-1">{truncateString(file.name, 20)}</div>
       </div>
 
       {/* Modal for file preview */}

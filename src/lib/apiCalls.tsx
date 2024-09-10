@@ -111,7 +111,7 @@ export const updatePassword = async (
   try {
     const response = await axiosInstance.patch(`/account/update-password`, {
       userId,
-      currentPassword,  // Ensure this is included if your API requires it
+      currentPassword, // Ensure this is included if your API requires it
       newPassword,
     });
     return response.data;
@@ -143,7 +143,7 @@ export const updateUserDetails = async (
       phone,
       address,
       postalCode,
-      companyName
+      companyName,
     });
     return response.data;
   } catch (error: unknown) {
@@ -172,9 +172,6 @@ export const getCurrentUser = async () => {
     throw error;
   }
 };
-
-
-
 
 export const fetchQuotes = async () => {
   const response = await axiosInstance.get(`/quotes/`, {
