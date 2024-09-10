@@ -66,6 +66,7 @@ export interface Quote extends Schema {
   distance: string;
   price: number;
   notes?: string | null;
+  
 }
 
 export interface Invoice extends Schema {

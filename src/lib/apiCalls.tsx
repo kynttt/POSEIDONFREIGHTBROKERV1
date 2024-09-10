@@ -5,7 +5,6 @@ import {
   BookingData,
   GetPriceMileData,
   GetPriceMileResponse,
-  Invoice,
   LoginResponse,
   LogoutResponse,
   NotificationSchema,
@@ -252,25 +251,25 @@ export const listUserQuotes = async ({
 };
 
 // Invoice
-// Create invoice
-export const createInvoice = async (invoiceData: Invoice) => {
-  try {
-    const response = await axiosInstance.post(`/invoices/`, invoiceData, {
-      headers: {
-        // Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      console.error("API Error:", error.response?.data || error.message);
-    } else {
-      console.error("Unexpected Error:", error);
-    }
-    throw error;
-  }
-};
+// // Create invoice
+// export const createInvoice = async (invoiceData: Invoice) => {
+//   try {
+//     const response = await axiosInstance.post(`/invoices/`, invoiceData, {
+//       headers: {
+//         // Authorization: `Bearer ${token}`,
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     return response.data;
+//   } catch (error: unknown) {
+//     if (axios.isAxiosError(error)) {
+//       console.error("API Error:", error.response?.data || error.message);
+//     } else {
+//       console.error("Unexpected Error:", error);
+//     }
+//     throw error;
+//   }
+// };
 
 // Fetch User Invoices
 export const fetchUserInvoices = async (userId: string) => {
@@ -607,4 +606,40 @@ export const phoneOtpVerify = async ({
   });
 
   return response.data as PhoneOtpVerifyResponse;
+};
+
+
+
+// Define the type for the invoice payload
+export const createInvoice = async ({
+  bookingId,
+  user,
+  quote,
+}: {
+  bookingId: string;
+  user: {
+    name: string;
+    address: string;
+    phone: string;
+    postal: string;
+    email: string;
+  };
+  quote: Quote;
+}) => {
+  try {
+    const response = await axiosInstance.post('/invoices', {
+      bookingId,
+      user: {
+        name: user.name,
+        address: user.address,
+        phone: user.phone,
+        postal: user.postal,
+        email: user.email,
+      },
+      quote,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to create invoice');
+  }
 };
