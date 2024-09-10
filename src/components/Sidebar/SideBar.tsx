@@ -23,14 +23,13 @@ import profilePic from "../../assets/img/profilepic.jpg";
 import "driver.js/dist/driver.css";
 
 export default function Sidebar({
-  closeVisible = false,
   close,
 }: {
   closeVisible?: boolean;
   close?: () => void;
 }) {
   const navigate = useNavigate();
-  const { isAuthenticated, role,  name } = useAuthStore();
+  const { isAuthenticated, role, name } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
 
   const handleNavigation = useCallback(
@@ -51,10 +50,10 @@ export default function Sidebar({
   useEffect(() => {
     if (isAuthenticated && role === "user" && !isTourStarted) {
       const hasTourBeenShown = localStorage.getItem("tourShown");
-  
+
       if (!hasTourBeenShown) {
         setIsTourStarted(true);
-  
+
         const driverObj = driver({
           showProgress: true,
           steps: [
@@ -62,7 +61,8 @@ export default function Sidebar({
               element: "#request-quote-tab",
               popover: {
                 title: "Request a Quote",
-                description: "Click here to request a new quote for your shipping needs.",
+                description:
+                  "Click here to request a new quote for your shipping needs.",
                 side: "right",
                 align: "start",
               },
@@ -71,7 +71,8 @@ export default function Sidebar({
               element: "#dashboard-tab",
               popover: {
                 title: "Dashboard",
-                description: "Navigate to your dashboard to view your activities.",
+                description:
+                  "Navigate to your dashboard to view your activities.",
                 side: "right",
                 align: "start",
               },
@@ -98,7 +99,8 @@ export default function Sidebar({
               element: "#routes-tab",
               popover: {
                 title: "Your Routes",
-                description: "View and reuse your previous routes as templates for new shipments.",
+                description:
+                  "View and reuse your previous routes as templates for new shipments.",
                 side: "right",
                 align: "start",
               },
@@ -106,7 +108,7 @@ export default function Sidebar({
             // Add more steps if needed
           ],
         });
-  
+
         // Start the tour
         driverObj.drive();
         // Set flag in local storage after tour is started (if there's no callback for tour completion)
@@ -125,22 +127,23 @@ export default function Sidebar({
         <Stack gap={"md"}>
           <Flex justify={"space-between"}>
             <a href="/">
-              <h2 className="text-2xl text-secondary">Freight Broker</h2>
+              <h2 className="text-2xl text-secondary ">Freight Broker</h2>
             </a>
-            {closeVisible && (
+            <div className=" md:hidden xs:inline-flex">
               <ActionIcon
                 variant="subtle"
                 aria-label="Close Sidebar"
                 size="md"
                 color="gray"
                 onClick={close}
+                className="hidden"
               >
                 <FontAwesomeIcon icon={faClose} />
               </ActionIcon>
-            )}
+            </div>
           </Flex>
 
-          <div className="relative">
+          {/* <div className="relative">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
                 className="w-5 h-5 text-gray-400"
@@ -162,7 +165,7 @@ export default function Sidebar({
               className="w-full py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"
               placeholder="Search"
             />
-          </div>
+          </div> */}
         </Stack>
 
         <Stack mt={"sm"}>
@@ -243,14 +246,13 @@ function ProfileItem({
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-      <div className="flex items-center py-2 px-4 mx-1 mt-5 shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer">
-
-        <img
+        <div className="flex items-center py-2 px-4 mx-1 mt-5 shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer">
+          <img
             className="object-cover mx-2 rounded-full h-9 w-9"
             src={profilePic} // Use the imported image
             alt="avatar"
           />
-           <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
+          <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
             {name || "John Doe"} {/* Display the user's name */}
           </span>
         </div>

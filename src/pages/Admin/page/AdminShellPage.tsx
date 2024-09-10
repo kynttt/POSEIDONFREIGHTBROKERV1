@@ -72,7 +72,7 @@ export default function AdminShellPage() {
           />
         </AppShell.Header>
         <AppShell.Navbar>
-          <Sidebar close={close} closeVisible />
+          <Sidebar close={close} />
         </AppShell.Navbar>
         <AppShell.Main pt={`calc(${rem(50)} + var(--mantine-spacing-md))`}>
           <Outlet />
