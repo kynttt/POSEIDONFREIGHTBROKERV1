@@ -453,7 +453,7 @@ export default function DistanceCalculatorPage() {
 
         {/* Calendar and Dialog */}
         <div className=" flex justify-center w-full absolute  bottom-0 left-0 right-0 lg:mx-auto py-8   px-4  rounded-lg ">
-          <div className="lg:ml-80 gap-8 md:flex justify-center w-full ">
+          <div className="lg:ml-80  gap-8 md:flex justify-center w-full ">
             {/* <div className="mb-8 md:mb-0">
               <h3 className="text-lg font-medium text-secondary mb-2">
                 <FontAwesomeIcon
@@ -488,7 +488,7 @@ export default function DistanceCalculatorPage() {
 
             {showFirstModal && (
               <div className="fixed bottom-0 flex items-center justify-center w-full  z-50 ">
-                <div className="bg-white rounded-lg lg:p-10 md:mb-36 p-6 w-full max-w-2xl shadow-lg relative ">
+                <div className="bg-white rounded-lg lg:p-10 md:mb-36 p-6 w-full max-w-xl shadow-lg relative ">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => {
@@ -513,7 +513,7 @@ export default function DistanceCalculatorPage() {
                       zIndex={1000}
                       overlayProps={{ radius: "sm", blur: 2 }}
                     />
-                    <div className="md:flex gap-4">
+                    <div className=" gap-4">
                       <div className="mb-8 md:mb-0 w-full">
                         <h3 className="text-md font-normal text-secondary mb-2">
                           <FontAwesomeIcon
@@ -565,11 +565,11 @@ export default function DistanceCalculatorPage() {
                             />
                             Trailer Type <span className="text-red-500">*</span>
                           </h3>
-                          <div className="flex justify-between gap-2">
+                          <div className="flex flex-wrap justify-between gap-5">
                             {[...(listTrucksData || [])].map((type) => (
                               <button
                                 key={type._id}
-                                className={` py-2 border border-2 border-grey  rounded-lg w-full md:w-full  text-black font-normal ${
+                                className={` py-2 border border-2 border-grey  rounded-lg w-[47%] md:w-[47%]  text-black font-normal ${
                                   dataState?.trailerType === type
                                     ? "bg-secondary text-white" // Highlight selected button
                                     : ""
@@ -668,7 +668,7 @@ export default function DistanceCalculatorPage() {
                       </div>
                     </div>
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-center">
                       <button
                         className={` py-3 px-2  rounded text-white w-full mt-2
     ${
@@ -697,7 +697,7 @@ export default function DistanceCalculatorPage() {
 
             {showSecondModal && (
               <div className="fixed bottom-0 flex items-center justify-center w-full z-50">
-                <div className="bg-white rounded-lg lg:p-10 md:mb-36 p-6 w-full max-w-2xl shadow-lg relative">
+                <div className="bg-white rounded-lg lg:p-10 md:mb-36 p-6 w-full max-w-xl shadow-lg relative">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => {
@@ -859,7 +859,7 @@ export default function DistanceCalculatorPage() {
 
             {showThirdModal && (
               <div className="fixed bottom-0 flex items-center justify-center w-full z-50">
-                <div className="bg-white rounded-lg shadow-lg lg:p-10 md:mb-36 p-6 w-full max-w-2xl relative">
+                <div className="bg-white rounded-lg shadow-lg lg:p-10 md:mb-36 p-6 w-full max-w-xl relative">
                   <button
                     className="absolute top-3 right-4 text-gray-500 hover:text-gray-700"
                     onClick={() => {
