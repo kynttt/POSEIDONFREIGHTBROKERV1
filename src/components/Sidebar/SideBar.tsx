@@ -21,6 +21,8 @@ import { driver } from "driver.js";
 import "driver.js/dist/driver.css"; // Import the driver.js CSS
 import profilePic from "../../assets/img/profilepic.jpg";
 import "driver.js/dist/driver.css";
+import { useSidebarStore } from "../../hooks/useSidebarStore";
+import { motion } from "framer-motion";
 
 export default function Sidebar({
   close,
@@ -31,6 +33,9 @@ export default function Sidebar({
   const navigate = useNavigate();
   const { isAuthenticated, role, name } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
+  const { enable, isExtend, setIsExtend, setEnable } = useSidebarStore();
+
+  const isMobile = useMatches({ xs: true, md: false });
 
   const handleNavigation = useCallback(
     (path: string) => {
@@ -46,6 +51,10 @@ export default function Sidebar({
     }
     return role === "admin" ? navItems.admin : navItems.user;
   };
+
+  useEffect(() => {
+    setEnable(!isMobile);
+  }, [setEnable, isMobile]);
 
   useEffect(() => {
     if (isAuthenticated && role === "user" && !isTourStarted) {
@@ -117,17 +126,51 @@ export default function Sidebar({
       }
     }
   }, [isTourStarted, role, isAuthenticated]);
-
+  const getTabId = (label: string) => {
+    switch (label) {
+      case "Request Quote":
+        return "request-quote-tab";
+      case "Dashboard":
+        return "dashboard-tab";
+      case "Payables":
+        return "payables-tab";
+      case "Trucks":
+        return "trucks-tab";
+      case "Your Routes":
+        return "routes-tab";
+      default:
+        return undefined;
+    }
+  };
   return (
     <Stack
+      onMouseEnter={() => {
+        setIsExtend(true);
+      }}
+      onMouseLeave={() => setIsExtend(false)}
       justify="space-between"
       className="h-screen px-4 py-8 bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700 w-full"
     >
-      <Stack>
+      <Stack className="w-full ">
         <Stack gap={"md"}>
-          <Flex justify={"space-between"}>
+          <Flex justify={isExtend ? "space-between" : "center"}>
             <a href="/">
-              <h2 className="text-2xl text-secondary ">Freight Broker</h2>
+              <h2 className="text-2xl text-secondary">
+                {/* Show 'F' when not expanded, otherwise show 'Freight Broker' */}
+                {isExtend ? (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    Freight Broker
+                  </motion.span>
+                ) : (
+                  <span className="inline-flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full p-5">
+                    F
+                  </span>
+                )}
+              </h2>
             </a>
             <div className=" md:hidden xs:inline-flex">
               <ActionIcon
@@ -142,50 +185,41 @@ export default function Sidebar({
               </ActionIcon>
             </div>
           </Flex>
-
-          {/* <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg
-                className="w-5 h-5 text-gray-400"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></path>
-              </svg>
-            </span>
-
-            <input
-              type="text"
-              className="w-full py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"
-              placeholder="Search"
-            />
-          </div> */}
         </Stack>
 
-        <Stack mt={"sm"}>
-          <nav>
+        <Stack mt={"sm"} className="w-full">
+          <nav className="w-full">
             {getNavItems().map((item) => (
               <div
                 key={item.label}
-                id={
-                  item.label === "Request Quote"
-                    ? "request-quote-tab"
-                    : item.label === "Dashboard"
-                    ? "dashboard-tab"
-                    : item.label === "Payables"
-                    ? "payables-tab"
-                    : item.label === "Trucks"
-                    ? "trucks-tab"
-                    : item.label === "Your Routes"
-                    ? "routes-tab"
-                    : undefined
-                }
+                id={getTabId(item.label)}
+                className="cursor-pointer flex items-center rounded-md text-gray-500 hover:bg-gray-100 transition duration-300 px-4 py-4 "
+                onClick={() => handleNavigation(item.path)}
+              >
+                <FontAwesomeIcon icon={item.icon} />
+                {enable ? (
+                  <motion.span
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{
+                      opacity: isExtend ? 1 : 0,
+                      x: isExtend ? 0 : -20,
+                    }}
+                    transition={{ duration: 0.08 }}
+                    className={`ml-6 font-medium ${
+                      isExtend ? "block" : "hidden"
+                    }`}
+                  >
+                    {item.label}
+                  </motion.span>
+                ) : (
+                  <span className="ml-6">{item.label}</span> // Always show if `enable` is false
+                )}
+              </div>
+            ))}
+            {/* {getNavItems().map((item) => (
+              <div
+                key={item.label}
+                id={getTabId(item.label)}
                 className="w-full cursor-pointer flex items-center px-4 py-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
                 onClick={() => handleNavigation(item.path)}
               >
@@ -194,7 +228,7 @@ export default function Sidebar({
                   {item.label}
                 </span>
               </div>
-            ))}
+            ))} */}
           </nav>
         </Stack>
       </Stack>
@@ -206,12 +240,14 @@ export default function Sidebar({
 
 function ProfileItem({
   handleNavigation,
-  name, // Accept userName as a prop
+  name,
 }: {
   handleNavigation: (path: string) => void;
-  name: string | null; // Ensure userName is passed as a prop
+  name: string | null;
 }) {
   const { logoutUpdate, role } = useAuthStore();
+  const { enable, isExtend } = useSidebarStore();
+
   const mutation = useMutation<LogoutResponse, Error, undefined>({
     mutationFn: logoutUser,
     onSuccess: () => {
@@ -246,15 +282,34 @@ function ProfileItem({
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-        <div className="flex items-center py-2 px-4 mx-1 mt-5 shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer">
+        <div className="flex items-center py-2 px-2  shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer w-full">
           <img
-            className="object-cover mx-2 rounded-full h-9 w-9"
-            src={profilePic} // Use the imported image
+            className={`object-cover rounded-full ${
+              isExtend ? "w-10 h-10" : "w-8 h-8"
+            }`}
+            src={profilePic}
             alt="avatar"
           />
-          <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
-            {name || "John Doe"} {/* Display the user's name */}
-          </span>
+
+          {enable ? (
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              animate={{
+                opacity: isExtend ? 1 : 0,
+                x: isExtend ? 0 : -20,
+              }}
+              transition={{ duration: 0.3 }}
+              className={`mx-2 font-medium text-gray-800 dark:text-gray-200 ${
+                isExtend ? "block" : "hidden"
+              }`}
+            >
+              {name || "John Doe"}
+            </motion.span>
+          ) : (
+            <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
+              {name || "John Doe"}
+            </span>
+          )}
         </div>
       </Menu.Target>
 

@@ -16,10 +16,12 @@ import NotificationModal from "../../../components/NotificationModal";
 import { useState, useEffect } from "react"; // Import useState and useEffect for state management and side effects
 import { listNotifications } from "../../../lib/apiCalls"; // Ensure this path is correct
 import { useAuthStore } from "../../../state/useAuthStore";
+import { useSidebarStore } from "../../../hooks/useSidebarStore";
 
 export default function AdminShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
   const pinned = useHeadroom({ fixedAt: 120 });
+  const isExtend = useSidebarStore((state) => state.isExtend); // Get isExtend from store
 
   // State to track if there are new notifications
   const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
@@ -56,7 +58,7 @@ export default function AdminShellPage() {
         header={{ height: 60, collapsed: !pinned, offset: false }}
         navbar={{
           width: {
-            base: 250,
+            base: isExtend ? 250 : 80,
           },
           breakpoint: "sm",
           collapsed: { mobile: !opened },
