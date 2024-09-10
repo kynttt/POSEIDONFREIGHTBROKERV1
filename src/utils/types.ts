@@ -174,24 +174,27 @@ interface IAccessControl {
   role: "viewer" | "editor";
 }
 
-export interface FolderSchema extends Schema {
+export interface FileHandlerSchema extends Schema {
   name: string;
-  parent: string | null;
   createdBy: string | User;
   metadata: Map<string, unknown>;
   accessControl: IAccessControl[];
+}
+export interface FolderSchema extends FileHandlerSchema {
+  parent: string | null;
   files?: string[];
+  type: "folder";
 }
 
-export interface FileSchema extends Schema {
-  name: string;
+export interface FileSchema extends FileHandlerSchema {
   folder: string;
-  createdBy: string | User;
-  metadata: Map<string, unknown>;
   size: number;
   mimeType: string;
-  accessControl: IAccessControl[];
+  type: "file";
 }
+
+export type SearchFileFolderResponse = FolderSchema | FileSchema;
+
 export interface DeleteResponse {
   message: string;
 }

@@ -1,56 +1,22 @@
 // LegalPage.tsx
-import { useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faPlus,
-  faFolder,
-  faFile,
-  faFileAlt,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 
-import {
-  Button,
-  Center,
-  Dialog,
-  Flex,
-  Loader,
-  Menu,
-  Modal,
-  Progress,
-  rem,
-  Stack,
-  TextInput,
-  Title,
-  Text,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Button, Center, Flex, Loader, Stack, Title } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useAuthStore } from "../../../state/useAuthStore";
+import { useAuthStore } from "../../state/useAuthStore";
 import {
-  createFolder,
   createRootFolder,
-  deleteFile,
-  deleteFolder,
   getFolder,
   listFile,
   listFolder,
-  uploadFile,
-} from "../../../lib/apiCalls";
-import {
-  CreateFolderData,
-  DeleteFileData,
-  DeleteFolderData,
-  DeleteResponse,
-  FileSchema,
-  FolderSchema,
-} from "../../../utils/types";
+} from "../../lib/apiCalls";
+import { FileSchema, FolderSchema } from "../../utils/types";
 import { AxiosError } from "axios";
 import { notifications } from "@mantine/notifications";
-import queryClient from "../../../lib/queryClient";
-import { useNavigate, useParams } from "react-router-dom";
-import { useContextMenu } from "mantine-contextmenu";
+import queryClient from "../../lib/queryClient";
+import FolderTile from "./components/FolderTile";
+import FileTile from "./components/FileTile";
+import { useParams } from "react-router-dom";
 
 export default function DocumentsPage() {
   const { folderId } = useParams<{ folderId: string }>();
@@ -88,7 +54,7 @@ export default function DocumentsPage() {
   //   });
   // }, [folderId, userId]);
   return (
-    <div className="h-[92.8vh] w-full p-3">
+    <div className="h-full w-full">
       {isLoading ? (
         <Center h="100%">
           <Loader />
@@ -145,29 +111,9 @@ function NoRootFolder() {
 function Response({ folderId }: { folderId: string }) {
   return (
     <Stack w="100%">
-      <Header />
       <Folders />
       <Files folderId={folderId} />
     </Stack>
-  );
-}
-
-function Header() {
-  return (
-    <Flex w="100%" justify={"space-between"}>
-      <Flex w={"60%"} gap={30} align={"center"}>
-        <Title order={3}>Documents</Title>
-        <TextInput
-          variant="filled"
-          leftSection={<FontAwesomeIcon icon={faSearch} />}
-          placeholder="Search File"
-          w={"50%"}
-          size="md"
-        />
-      </Flex>
-
-      <CreateButton />
-    </Flex>
   );
 }
 
@@ -222,140 +168,17 @@ function Files({ folderId }: { folderId: string }) {
   );
 }
 
-function FileTile({ file }: { file: FileSchema }) {
-  // const [opened, { open, close }] = useDisclosure(false);
-  // const [fileData, setFileData] = useState<string | null>(null); // For storing the file content or preview
-  // const [error, setError] = useState<string | null>(null); // Error handling
-  const { showContextMenu } = useContextMenu();
-  const mutation = useMutation<
-    DeleteResponse,
-    AxiosError<{ message: string }>,
-    DeleteFileData
-  >({
-    mutationFn: deleteFile,
-    onError: (error: AxiosError<{ message: string }>) => {
-      notifications.show({
-        title: "File Deletion Failed",
-        message: error.response?.data.message,
-        color: "red",
-      });
-    },
-    onMutate: async () => {
-      notifications.show({
-        title: "Deleting File",
-        message: `Deleting ${file.name}...`,
-        color: "blue",
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["files"],
-      });
-      notifications.show({
-        title: "File Deleted",
-        message: "File deleted successfully",
-        color: "green",
-      });
-    },
-  });
-  const handleFileClick = async () => {
-    window.open(
-      `http://localhost:5000/api/folders/${file.folder}/files/${file._id}/view`,
-      "_blank"
-    );
-    // open(); // Open the modal
-    // setError(null); // Reset error
-    // try {
-    //   const response = await axiosInstance.get(
-    //     `http://localhost:5000/api/folders/${file.folder}/files/${file._id}/view`,
-    //     {
-    //       responseType: "blob", // Fetch as blob for file handling
-    //     }
-    //   );
-
-    //   // Create a URL for the file blob
-    //   const fileURL = URL.createObjectURL(response.data);
-    //   setFileData(fileURL); // Set the file data URL
-    // } catch (error) {
-    //   console.error("Error fetching file:", error);
-    //   setError("Failed to load file."); // Set an error message
-    // }
-  };
-
-  const onDeleteFileHandler = () => {
-    mutation.mutate({ fileId: file._id!, folderId: file.folder });
-  };
-
-  return (
-    <>
-      <div
-        onContextMenu={showContextMenu((close) => {
-          return (
-            <Stack w={200}>
-              <Button
-                color="red"
-                variant="subtle"
-                leftSection={<FontAwesomeIcon icon={faTrash} />}
-                onClick={() => {
-                  onDeleteFileHandler();
-                  close();
-                }}
-              >
-                Delete
-              </Button>
-            </Stack>
-          );
-        })}
-        className="bg-white shadow-md rounded-lg p-3 flex items-center hover:bg-gray-100 transition duration-300 ease-in-out cursor-pointer"
-        onClick={handleFileClick} // Trigger modal on click
-      >
-        <div className="mr-4">
-          <FontAwesomeIcon icon={faFile} className="text-blue-500 text-1xl" />
-        </div>
-        <div className="flex-1">
-          <div className="font-semibold text-gray-800 text-md">{file.name}</div>
-        </div>
-      </div>
-
-      {/* Modal for file preview */}
-      {/* <Modal
-        opened={opened}
-        onClose={close}
-        title={file.name}
-        radius={0}
-        className="bg-red-500"
-        overlayProps={{
-          backgroundOpacity: 0.55,
-          blur: 3,
-        }}
-        fullScreen
-      >
-        {error ? (
-          <Text color="red">{error}</Text>
-        ) : fileData ? (
-          <DocViewer
-            pluginRenderers={[PDFRenderer, PNGRenderer, ...DocViewerRenderers]}
-            documents={[{ uri: fileData }]}
-          />
-        ) : (
-          <Text>Loading file...</Text>
-        )}
-      </Modal> */}
-    </>
-  );
-}
-
 function Folders() {
   const { folderId } = useParams<{ folderId: string }>();
-  // const userId = useAuthStore((state) => state.userId);
+  const userId = useAuthStore((state) => state.userId);
   const { data, isLoading, error } = useQuery<
     FolderSchema[],
     AxiosError,
     FolderSchema[],
     (string | null)[]
   >({
-    // queryKey: ["folders", folderId || ".$root", userId],
-    queryKey: ["folders"],
+    queryKey: ["folders", folderId || ".$root", userId],
+    // queryKey: ["folders"],
     queryFn: () => listFolder({ parentId: folderId }),
     retry: 1,
   });
@@ -391,288 +214,13 @@ function Folders() {
       <Title order={6}>Folders</Title>
       <Flex w="100%" gap={8} wrap="wrap">
         {data!.map((folder) => (
-          <FolderTile key={folder._id} folder={folder} />
+          <FolderTile key={folder._id} folder={folder} folderId={folderId} />
         ))}
       </Flex>
     </Stack>
   );
 }
 
-function FolderTile({ folder }: { folder: FolderSchema }) {
-  const navigate = useNavigate();
-  const onClick = () => {
-    navigate(`/a/documents/folder/${folder._id}`);
-  };
-
-  const { showContextMenu } = useContextMenu();
-  const mutation = useMutation<
-    DeleteResponse,
-    AxiosError<{ message: string }>,
-    DeleteFolderData
-  >({
-    mutationFn: deleteFolder,
-    onError: (error: AxiosError<{ message: string }>) => {
-      notifications.show({
-        title: "Folder Deletion Failed",
-        message: error.response?.data.message,
-        color: "red",
-      });
-    },
-    onMutate: async () => {
-      notifications.show({
-        title: "Deleting folder",
-        message: `Deleting ${folder.name}...`,
-        color: "blue",
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["folders"],
-      });
-      notifications.show({
-        title: "Folder Deleted",
-        message: "Folder deleted successfully",
-        color: "green",
-      });
-    },
-  });
-  const onDeleteFolderHandler = () => {
-    mutation.mutate({ folderId: folder._id! });
-  };
-
-  return (
-    <div
-      className="bg-white shadow-md rounded-lg p-3 flex items-center hover:bg-gray-100 transition duration-300 ease-in-out cursor-pointer"
-      onClick={onClick}
-      onContextMenu={showContextMenu((close) => {
-        return (
-          <Stack w={200}>
-            <Button
-              color="red"
-              variant="subtle"
-              leftSection={<FontAwesomeIcon icon={faTrash} />}
-              onClick={() => {
-                onDeleteFolderHandler();
-                close();
-              }}
-            >
-              Delete
-            </Button>
-          </Stack>
-        );
-      })}
-    >
-      <div className="mr-4">
-        <FontAwesomeIcon icon={faFolder} className="text-yellow-500 text-1xl" />
-      </div>
-      <div className="flex-1">
-        <div className="font-semibold text-gray-800  text-md">
-          {folder.name}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CreateButton() {
-  const [createFolderOpened, { open: folderOpen, close: folderClose }] =
-    useDisclosure(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { folderId } = useParams<{ folderId: string }>();
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-
-  const [dialogOpened, { open: dialogOpen, close: dialogClose }] =
-    useDisclosure(false);
-
-  const handleFileUploadClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click(); // Trigger file input click
-    }
-  };
-
-  const fileMutation = useMutation<FileSchema, AxiosError, FormData>({
-    mutationFn: (formData: FormData) =>
-      uploadFile(formData, folderId, (progressEvent) => {
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / (progressEvent.total ?? 0)
-        );
-        setUploadProgress(percentCompleted); // Update the progress state
-      }),
-    onSuccess: () => {
-      notifications.show({
-        title: "Success",
-        message: "File uploaded successfully",
-        color: "green",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["files"],
-      });
-      // dialogClose(); // Close dialog on success
-    },
-    onError: (err) => {
-      notifications.show({
-        title: "Error",
-        message: (
-          err.response?.data as {
-            message: string;
-          }
-        ).message,
-        color: "red",
-      });
-      dialogClose(); // Close dialog on error
-    },
-  });
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Get the first selected file
-    if (file) {
-      setSelectedFile(file);
-
-      // Create FormData and append the file
-      const formData = new FormData();
-      formData.append("file", file);
-
-      // Reset progress and open dialog
-      setUploadProgress(0);
-      dialogOpen(); // Open the dialog when uploading starts
-
-      // Trigger the mutation
-      fileMutation.mutate(formData);
-    }
-  };
-  return (
-    <>
-      <Modal
-        opened={createFolderOpened}
-        onClose={folderClose}
-        title="New Folder"
-        centered
-      >
-        <CreateFolderModal close={folderClose} />
-      </Modal>
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        onChange={handleFileChange}
-        style={{ display: "none" }}
-      />
-      <Menu>
-        <Menu.Target>
-          <Button
-            leftSection={
-              <FontAwesomeIcon
-                icon={faPlus}
-                style={{ width: rem(14), height: rem(14) }}
-              />
-            }
-            variant="light"
-            size="md"
-          >
-            Create
-          </Button>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Item
-            leftSection={
-              <FontAwesomeIcon
-                icon={faFolder}
-                style={{ width: rem(14), height: rem(14) }}
-              />
-            }
-            onClick={folderOpen}
-          >
-            Create Folder
-          </Menu.Item>
-          <Menu.Item
-            leftSection={
-              <FontAwesomeIcon
-                icon={faFile}
-                style={{ width: rem(14), height: rem(14) }}
-              />
-            }
-            onClick={handleFileUploadClick}
-          >
-            Upload File
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
-
-      {/* Dialog for showing upload progress */}
-      <Dialog
-        opened={dialogOpened}
-        withCloseButton
-        onClose={dialogClose}
-        size="lg"
-        radius="md"
-      >
-        <Stack gap={2}>
-          <Flex align="center" mb="md" gap={5}>
-            {/* Show file icon */}
-            <FontAwesomeIcon
-              icon={faFileAlt}
-              className="text-blue-500 text-3xl"
-            />
-            {/* Show file name */}
-            <Text className="text-blue-500 text-3xl">{selectedFile?.name}</Text>
-          </Flex>
-          <Progress value={uploadProgress} size="md" />
-        </Stack>
-      </Dialog>
-    </>
-  );
-}
-
-function CreateFolderModal({ close }: { close: () => void }) {
-  const { folderId } = useParams<{ folderId: string }>();
-  const [folderName, setFolderName] = useState<string | undefined>(undefined);
-  const mutation = useMutation<
-    FolderSchema,
-    AxiosError<{ message: string }>,
-    CreateFolderData
-  >({
-    mutationFn: createFolder,
-    onSuccess: () => {
-      notifications.show({
-        title: "Folder Created",
-        message: "Folder created successfully",
-        color: "green",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["folders"],
-        // queryKey: ["folders", folderId || ".$root", userId],
-      });
-      close();
-    },
-    onError: (error: AxiosError<{ message: string }>) => {
-      notifications.show({
-        title: "Folder Creation Failed",
-        message: error.response?.data.message,
-        color: "red",
-      });
-    },
-  });
-
-  const onCreateHandler = () => {
-    mutation.mutate({ name: folderName, parentId: folderId });
-  };
-  return (
-    <Stack>
-      <TextInput
-        placeholder="Folder Name (Optional)"
-        onChange={(event) => setFolderName(event.currentTarget.value)}
-      />
-      <Button
-        variant="light"
-        onClick={onCreateHandler}
-        loading={mutation.isPending}
-      >
-        Create
-      </Button>
-    </Stack>
-  );
-}
 // export default function DocumentsPage() {
 //   const [isListView, setIsListView] = useState(true); // State to track view mode
 //   const [showActionsIndex, setShowActionsIndex] = useState<number | null>(null); // State to track which ellipsis was clicked

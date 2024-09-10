@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import LandingPage from "./pages/Shared/pages/landingPage";
 import SignUpPage from "./pages/signupPage";
 import LoginPage from "./pages/Shared/pages/LoginPage";
@@ -46,7 +51,7 @@ import ShipperDashboardPage from "./pages/ShipperUser/page/ShipperDashboardPage"
 import ShipperUserPayablesPage from "./pages/ShipperUser/page/ShipperUserPayablesPage";
 import ShipperProfilePage from "./pages/ShipperUser/page/ShipperProfilePage";
 import AdminShellPage from "./pages/Admin/page/AdminShellPage";
-import DocumentsPage from "./pages/Admin/page/documentsPage";
+import DocumentsPage from "./pages/documents/documentsPage";
 import BillOfLading from "./pages/billOfLading";
 import BrokerShipperAgreement from "./pages/Shared/pages/BrokerShipperAgreement";
 
@@ -58,6 +63,8 @@ import UserTransactionsList from "./pages/Admin/page/usersTransactionList";
 import SavedQuotePage from "./pages/ShipperUser/page/savedQuotePage";
 import PricingPage from "./pages/Shared/pages/PricingPage";
 import PhoneVerifyPage from "./pages/phoneVerifyPage";
+import DocumentShellPage from "./pages/documents/documentShellPage";
+import DocumentsSearchPage from "./pages/documents/documentsSearchPage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -203,7 +210,14 @@ const App: React.FC = () => {
 
                   <Route path="admin-dashboard" element={<AdminDashboard />} />
                   {/* Documents Page */}
-                  <Route path="documents" element={<DocumentsPage />}>
+                  <Route path="documents" element={<DocumentShellPage />}>
+                    <Route index element={<Navigate to="home" />} />
+                    <Route index path="home" element={<DocumentsPage />} />
+                    <Route
+                      index
+                      path="search"
+                      element={<DocumentsSearchPage />}
+                    />
                     <Route
                       path="folder/:folderId"
                       element={<DocumentsPage />}

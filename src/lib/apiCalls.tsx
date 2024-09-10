@@ -25,6 +25,7 @@ import {
   DeleteFileData,
   DeleteResponse,
   DeleteFolderData,
+  SearchFileFolderResponse,
 } from "../utils/types";
 
 //Users
@@ -608,4 +609,9 @@ export const createFolder = async (data: CreateFolderData) => {
     parentId: data.parentId || ".$root",
   });
   return response.data as FolderSchema;
+};
+
+export const searchFileFolder = async (q: string) => {
+  const response = await axiosInstance.get(`/folders/search?q=${q}`);
+  return response.data.data as SearchFileFolderResponse[];
 };
