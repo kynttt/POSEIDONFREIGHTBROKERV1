@@ -38,7 +38,7 @@ const SeamlessFreightServices: React.FC = () => {
         w="100%"
         direction={{ xs: "column", lg: "row" }}
         justify={"center"}
-        gap={30}
+        gap={130}
       >
         {bannerData.map((banner, index) => (
           <Banner
@@ -89,7 +89,7 @@ function Banner({
     >
       <Stack
         align="center"
-        w="100%"
+        w="120%"
         gap={20}
         className="hover transition-shadow duration-300 w-full"
       >
@@ -98,7 +98,7 @@ function Banner({
           <Image
             src={imgSrc}
             alt={title}
-            w="100%"
+            w="120%"
             fit="cover"
             className="group-hover:opacity-100 transition-opacity duration-300 rounded-lg" // Rounded image
           />

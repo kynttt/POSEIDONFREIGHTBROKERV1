@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       <nav
-        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-8"
+        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-6"
         style={{
           background: "#fefefe",
         }}
@@ -68,7 +68,7 @@ const Navbar: React.FC = () => {
             <img
               src={logo}
               alt="Company Logo"
-              className="h-10 mr-8" // Adjust height and margin as necessary
+              className="h-10 mr-4" // Adjust height and margin as necessary
             />
             <button
             className="text-rblue text-2xl lg:text-3xl font-medium hover:text-secondary"
@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
           {/* Hamburger menu for small screens */}
           <div className="lg:hidden">
             <button
-              className="text-white focus:outline-none focus:text-white bg-[#252F70] rounded p-2"
+              className="text-rblue focus:outline-none focus:text-rblue bg-[#252F70] rounded p-2"
               onClick={() => setIsOpen(!isOpen)}
             >
               <svg
@@ -140,7 +140,7 @@ const Navbar: React.FC = () => {
                   Contacts
                 </button>
                 {/* <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("#careers")}
                 >
                   Careers
@@ -161,20 +161,20 @@ const Navbar: React.FC = () => {
                   Loadboard
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/a/admin-dashboard")}
                 >
                   Dashboard
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/a/trailer-options")}
                 >
                   Trucks
                 </button>
 
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/a/profile")}
                 >
                   Profile
@@ -183,32 +183,32 @@ const Navbar: React.FC = () => {
             ) : (
               <>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/shipper-dashboard")}
                 >
                   Dashboard
                 </button>
 
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/user-payables")}
                 >
                   Accounts Payable
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/trailer-options")}
                 >
                   Trucks
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/requests")}
                 >
                   Request A Quote
                 </button>
                 <button
-                  className="text-white no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/profile")}
                 >
                   Profile
@@ -249,37 +249,37 @@ const Navbar: React.FC = () => {
               {!isAuthenticated ? (
                 <>
                   <button
-                    className="block text-white hover:text-[#003C9D] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#003C9D] text-center transition duration-300"
                     onClick={() => handleNavigation("/")}
                   >
                     Home
                   </button>
                   <button
-                    className="block text-white hover:text-[#003C9D] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#003C9D] text-center transition duration-300"
                     onClick={() => handleNavigation("#about")}
                   >
                     About
                   </button>
                   <button
-                    className="block text-white hover:text-[#003C9D] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#003C9D] text-center transition duration-300"
                     onClick={() => handleNavigation("#services")}
                   >
                     Services
                   </button>
                   <button
-                    className="block text-white hover:text-[#003C9D] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#003C9D] text-center transition duration-300"
                     onClick={() => handleNavigation("#contacts")}
                   >
                     Contacts
                   </button>
                   <button
-                    className="block text-white hover:text-[#003C9D] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#003C9D] text-center transition duration-300"
                     onClick={() => handleNavigation("#careers")}
                   >
                     Careers
                   </button>
                   <button
-                    className="block text-white hover:text-[#003C9D] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#003C9D] text-center transition duration-300"
                     onClick={() => handleNavigation("/signup")}
                   >
                     Create Account
@@ -288,26 +288,26 @@ const Navbar: React.FC = () => {
               ) : role === "admin" ? (
                 <>
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/a/load-board")}
                   >
                     Loadboard
                   </button>
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/a/admin-dashboard")}
                   >
                     Dashboard
                   </button>
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/a/trailer-options")}
                   >
                     Trucks
                   </button>
 
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/profile")}
                   >
                     Profile
@@ -316,32 +316,32 @@ const Navbar: React.FC = () => {
               ) : (
                 <>
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/shipper-dashboard")}
                   >
                     Dashboard
                   </button>
 
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/user-payables")}
                   >
                     Accounts Payable
                   </button>
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/trailer-options")}
                   >
                     Trucks
                   </button>
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/requests")}
                   >
                     Request A Quote
                   </button>
                   <button
-                    className="block text-white hover:text-[#252F70] text-center transition duration-300"
+                    className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/profile")}
                   >
                     Profile

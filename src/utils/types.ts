@@ -169,3 +169,44 @@ export interface PhoneOtpVerifyData {
 export interface PhoneOtpVerifyResponse {
   message: string;
 }
+interface IAccessControl {
+  user: string | User;
+  role: "viewer" | "editor";
+}
+
+export interface FileHandlerSchema extends Schema {
+  name: string;
+  createdBy: string | User;
+  metadata: Map<string, unknown>;
+  accessControl: IAccessControl[];
+}
+export interface FolderSchema extends FileHandlerSchema {
+  parent: string | null;
+  files?: string[];
+  type: "folder";
+}
+
+export interface FileSchema extends FileHandlerSchema {
+  folder: string;
+  size: number;
+  mimeType: string;
+  type: "file";
+}
+
+export type SearchFileFolderResponse = FolderSchema | FileSchema;
+
+export interface DeleteResponse {
+  message: string;
+}
+export interface CreateFolderData {
+  name?: string;
+  parentId?: string;
+}
+
+export interface DeleteFileData {
+  fileId: string;
+  folderId?: string;
+}
+export interface DeleteFolderData {
+  folderId: string;
+}
