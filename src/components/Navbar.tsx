@@ -8,13 +8,14 @@ import { useMutation } from "@tanstack/react-query";
 import { logoutUser } from "../lib/apiCalls";
 import { LogoutResponse } from "../utils/types";
 import { notifications } from "@mantine/notifications";
+import { AxiosError } from "axios";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { logoutUpdate, isAuthenticated, role } = useAuthStore();
 
-  const mutation = useMutation<LogoutResponse, Error, undefined>({
+  const mutation = useMutation<LogoutResponse, AxiosError, undefined>({
     mutationFn: logoutUser,
     onSuccess: () => {
       notifications.show({
@@ -32,11 +33,24 @@ const Navbar: React.FC = () => {
       });
     },
     onError: (error) => {
-      notifications.show({
-        title: "Logout failed",
-        message: error.message,
-        color: "red",
-      });
+      if (error.response!.status === 400) {
+        notifications.show({
+          title: "Logout successful",
+          message: "You have been logged out",
+          color: "green",
+        });
+        logoutUpdate();
+      } else {
+        notifications.show({
+          title: "Logout failed",
+          message: (
+            error.response!.data as {
+              message: string;
+            }
+          ).message,
+          color: "red",
+        });
+      }
     },
   });
 
