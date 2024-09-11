@@ -48,7 +48,7 @@ const AboutUs: React.FC = () => {
         animate={textControls}
         className="absolute left-0 lg:w-1/2 bg-rblue p-6 md:p-16 text-white rounded-r-3xl z-30 md:mt-40 top-72"
       >
-        <Stack gap={"1rem"}>
+        <Stack gap={"1rem"} className="px-16">
           <h1 className="text-lg xs:text-xl md:text-2xl font-semibold text-center">
             Transport and Logistics
           </h1>
@@ -78,10 +78,10 @@ const AboutUs: React.FC = () => {
           />
           {/* Text on Image */}
           <Box className="absolute top-40 left-0 w-full h-full object-cover rounded-lg flex flex-col justify-center items-end text-white p-4 xs:p-8">
-          <h1 className="text-2xl xs:text-xl md:text-2xl font-bold mb-2 text-end text-nblue">
+          <h1 className="text-2xl xs:text-xl md:text-2xl font-bold mb-2 text-end text-nblue md:mr-16">
             About Us
           </h1>
-          <h2 className="text-3xl xs:text-5xl md:text-9xl font-extrabold text-white text-end">
+          <h2 className="text-3xl xs:text-5xl md:text-8xl font-extrabold text-white text-end md:mr-16">
             POSEIDON
           </h2>
 </Box>

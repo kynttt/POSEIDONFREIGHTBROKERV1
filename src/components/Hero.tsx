@@ -11,6 +11,12 @@ const HeroBanner: React.FC = () => {
     className="absolute inset-0 bg-cover bg-center"
     style={{ backgroundImage: `url(${heroTruck})` }}
   />
+  <div
+    className="absolute inset-0 bg-black"
+    style={{
+      opacity: 0.2, // Adjust the opacity value as needed
+    }}
+  />
 
   {/* Heading Section */}
   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 text-center z-30">
