@@ -33,7 +33,7 @@ export default function Sidebar({
   const navigate = useNavigate();
   const { isAuthenticated, role, name } = useAuthStore();
   const [isTourStarted, setIsTourStarted] = useState(false);
-  const { enable, isExtend, setIsExtend, setEnable } = useSidebarStore();
+  const { isExtend, setIsExtend, setEnable } = useSidebarStore();
 
   const isMobile = useMatches({ xs: true, md: false });
 
@@ -161,12 +161,12 @@ export default function Sidebar({
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.9 }}
                   >
                     Freight Broker
                   </motion.span>
                 ) : (
-                  <span className="inline-flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full p-5">
+                  <span className="inline-flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full p-4">
                     F
                   </span>
                 )}
@@ -191,30 +191,32 @@ export default function Sidebar({
           <nav className="w-full">
             {getNavItems().map((item) => (
               <div
-                key={item.label}
-                id={getTabId(item.label)}
-                className="cursor-pointer flex items-center rounded-md text-gray-500 hover:bg-gray-100 transition duration-300 px-4 py-4 "
-                onClick={() => handleNavigation(item.path)}
+              key={item.label}
+              id={getTabId(item.label)}
+              className="cursor-pointer flex-column  items-center  rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition duration-300 px-4 py-4 relative"
+              onClick={() => handleNavigation(item.path)}
+            >
+              <FontAwesomeIcon icon={item.icon} />
+              <motion.span
+                initial={{ opacity: 0, x: -20 }}
+                animate={{
+                  opacity: isExtend ? 1 : 0,
+                  x: isExtend ? 0 : -20,
+                }}
+                transition={{ duration: 0.3, delay: isExtend ? 0.2 : 0 }}
+                className={`ml-6 text-center font-medium absolute left-8`}
+                style={{
+                  height: "100%",                   // Maintain consistent height
+                  visibility: isExtend ? "visible" : "hidden",  // Use visibility instead of display
+                  width: isExtend ? "auto" : "0",  // Control width visibility
+                  overflow: "hidden",              // Hide overflow
+                  opacity: isExtend ? 1 : 0,      // Smooth opacity transition
+                  transition: "width 0.3s ease, opacity 0.3s ease", // Animate width and opacity changes
+                }}
               >
-                <FontAwesomeIcon icon={item.icon} />
-                {enable ? (
-                  <motion.span
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{
-                      opacity: isExtend ? 1 : 0,
-                      x: isExtend ? 0 : -20,
-                    }}
-                    transition={{ duration: 0.08 }}
-                    className={`ml-6 font-medium ${
-                      isExtend ? "block" : "hidden"
-                    }`}
-                  >
-                    {item.label}
-                  </motion.span>
-                ) : (
-                  <span className="ml-6">{item.label}</span> // Always show if `enable` is false
-                )}
-              </div>
+                {item.label}
+              </motion.span>
+            </div>
             ))}
             {/* {getNavItems().map((item) => (
               <div
@@ -282,10 +284,10 @@ function ProfileItem({
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-        <div className="flex items-center py-2 px-2  shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer w-full">
+        <div className=" flex  items-center py-2  shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer w-full">
           <img
             className={`object-cover rounded-full ${
-              isExtend ? "w-10 h-10" : "w-8 h-8"
+              isExtend ? "w-10 h-10" : "w-10 h-10"
             }`}
             src={profilePic}
             alt="avatar"
@@ -298,7 +300,7 @@ function ProfileItem({
                 opacity: isExtend ? 1 : 0,
                 x: isExtend ? 0 : -20,
               }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, delay: isExtend ? 0.2 : 0 }}
               className={`mx-2 font-medium text-gray-800 dark:text-gray-200 ${
                 isExtend ? "block" : "hidden"
               }`}
@@ -306,7 +308,7 @@ function ProfileItem({
               {name || "John Doe"}
             </motion.span>
           ) : (
-            <span className="mx-2 font-medium text-gray-800 dark:text-gray-200">
+            <span className="mx-2 font-medium hover:text-gray-700 dark:text-gray-700">
               {name || "John Doe"}
             </span>
           )}
