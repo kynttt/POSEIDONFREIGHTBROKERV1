@@ -32,7 +32,7 @@ export const navItems: NavItems = {
   admin: [
     { label: "Dashboard", path: "/a/admin-dashboard", icon: faTableColumns },
     { label: "Load Board", path: "/a/load-board", icon: faListUl },
-    { label: "Documents", path: "/a/legal-page", icon: faFolderOpen },
+    { label: "Documents", path: "/a/documents", icon: faFolderOpen },
     { label: "Transactions", path: "/a/report-details", icon: faTruckFast },
     { label: "Trucks", path: "/a/trailer-options", icon: faTruckFront },
     {
@@ -52,7 +52,7 @@ export const navItems: NavItems = {
       path: "/requests",
       icon: faCalculator,
     },
-    { label: "Saved Quotes", path: "/s/saved-quotes", icon: faHistory },
+    { label: "Your Routes", path: "/s/saved-quotes", icon: faHistory },
     // { label: "Notification", path: "/s/notification", icon: faBell },
   ],
 };

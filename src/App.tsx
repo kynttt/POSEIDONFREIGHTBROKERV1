@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import LandingPage from "./pages/Shared/pages/landingPage";
 import SignUpPage from "./pages/signupPage";
 import LoginPage from "./pages/Shared/pages/LoginPage";
@@ -25,12 +30,16 @@ import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
 import { Notifications } from "@mantine/notifications";
 
 import "@mantine/core/styles.css";
+import "@mantine/core/styles.layer.css";
 import "mantine-datatable/styles.layer.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/dates/styles.css";
+import "mantine-contextmenu/styles.layer.css";
+import "./layout.css";
 
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
+import { ContextMenuProvider } from "mantine-contextmenu";
 import Stripe from "./components/stripe/Stripe";
 import BillOfLadingPage from "./pages/Admin/page/billOfLadingPage";
 import EditLoad from "./pages/Admin/page/editLoadPage";
@@ -42,7 +51,7 @@ import ShipperDashboardPage from "./pages/ShipperUser/page/ShipperDashboardPage"
 import ShipperUserPayablesPage from "./pages/ShipperUser/page/ShipperUserPayablesPage";
 import ShipperProfilePage from "./pages/ShipperUser/page/ShipperProfilePage";
 import AdminShellPage from "./pages/Admin/page/AdminShellPage";
-import LegalPage from "./pages/Admin/page/LegalPage";
+import DocumentsPage from "./pages/documents/documentsPage";
 import BillOfLading from "./pages/billOfLading";
 import BrokerShipperAgreement from "./pages/Shared/pages/BrokerShipperAgreement";
 
@@ -54,6 +63,10 @@ import UserTransactionsList from "./pages/Admin/page/usersTransactionList";
 import SavedQuotePage from "./pages/ShipperUser/page/savedQuotePage";
 import PricingPage from "./pages/Shared/pages/PricingPage";
 import PhoneVerifyPage from "./pages/phoneVerifyPage";
+import DocumentShellPage from "./pages/documents/documentShellPage";
+import DocumentsSearchPage from "./pages/documents/documentsSearchPage";
+import ChangePasswordPage from "./pages/Shared/pages/ChangePasswordPage";
+import UpdateUserDetailsPage from "./pages/Shared/pages/UpdateUserDetailsPage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -85,154 +98,176 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
         <Notifications position="top-right" />
-        <ModalsProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-              <Route path="/login" element={<LoginPage />} />
+        <ContextMenuProvider>
+          <ModalsProvider>
+            <Router>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/change-password" element={<ChangePasswordPage />} />
+              <Route path="/edit-profile" element={<UpdateUserDetailsPage />} />
               <Route path="/verify" element={<PhoneVerifyPage />} />
-              <Route
-                path="/terms-and-agreement"
-                element={<BrokerShipperAgreement />}
-              />
-              {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
-              {/* Shipper User Routes */}
-              <Route
-                path="/s"
-                element={
-                  <PrivateRoute
-                    element={<ShipperShellPage />}
-                    roles={["user"]}
-                  />
-                }
-              >
-                <Route index element={<ShipperDashboardPage />} />
                 <Route
-                  path="shipper-dashboard"
-                  element={<ShipperDashboardPage />}
+                  path="/terms-and-agreement"
+                  element={<BrokerShipperAgreement />}
                 />
+                {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
+                {/* Shipper User Routes */}
                 <Route
-                  path="user-payables"
-                  element={<ShipperUserPayablesPage />}
-                />
-                <Route path="saved-quotes" element={<SavedQuotePage />} />
-                <Route
-                  path="performance-grade"
-                  element={<PerformanceOverview />}
-                />
-                <Route
-                  path="shipmentDetails/:id"
-                  element={<ShipmentDetails />}
-                />
-
-                <Route path="profile" element={<ShipperProfilePage />} />
-                <Route
-                  path="trailer-options"
-                  element={<TrailerOptionsPage />}
-                />
-
-                <Route path="payment-option" element={<PaymentOptionPage />} />
-              </Route>
-
-              {/* ==== END Shipper User Route=== */}
-              <Route
-                path="/bill-of-lading/:id"
-                element={<PrivateRoute element={<BillOfLading />} />}
-              />
-              <Route
-                path="/nonbusiness"
-                element={<PrivateRoute element={<NonBusinessPage />} />}
-              />
-              <Route
-                path="/booking-successful"
-                element={<PrivateRoute element={<BookingConfirmation />} />}
-              />
-              {/* <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} /> */}
-
-              <Route
-                path="/invoice"
-                element={<PrivateRoute element={<Invoice />} />}
-              />
-
-              <Route path="/requests" element={<ShipmentRequestShellPage />}>
-                <Route index element={<DistanceCalculatorPage />} />
-                <Route
-                  path="confirmation"
+                  path="/s"
                   element={
                     <PrivateRoute
-                      element={<ShipmentDetailsConfirmation />}
+                      element={<ShipperShellPage />}
                       roles={["user"]}
                     />
                   }
+                >
+                  <Route index element={<ShipperDashboardPage />} />
+                  <Route
+                    path="shipper-dashboard"
+                    element={<ShipperDashboardPage />}
+                  />
+                  <Route
+                    path="user-payables"
+                    element={<ShipperUserPayablesPage />}
+                  />
+                  <Route path="saved-quotes" element={<SavedQuotePage />} />
+                  <Route
+                    path="performance-grade"
+                    element={<PerformanceOverview />}
+                  />
+                  <Route
+                    path="shipmentDetails/:id"
+                    element={<ShipmentDetails />}
+                  />
+
+                  <Route path="profile" element={<ShipperProfilePage />} />
+                  <Route
+                    path="trailer-options"
+                    element={<TrailerOptionsPage />}
+                  />
+
+                  <Route
+                    path="payment-option"
+                    element={<PaymentOptionPage />}
+                  />
+                </Route>
+
+                {/* ==== END Shipper User Route=== */}
+                <Route
+                  path="/bill-of-lading/:id"
+                  element={<PrivateRoute element={<BillOfLading />} />}
                 />
                 <Route
-                  path="payment"
-                  element={
-                    <PrivateRoute element={<Stripe />} roles={["user"]} />
-                  }
+                  path="/nonbusiness"
+                  element={<PrivateRoute element={<NonBusinessPage />} />}
                 />
-              </Route>
+                <Route
+                  path="/booking-successful"
+                  element={<PrivateRoute element={<BookingConfirmation />} />}
+                />
+                {/* <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} /> */}
 
-              {/* TODO the Profile page will now be under with ShipperProfilePage and AdminProfilePage but it still returning Profile Card */}
-              {/* <Route
+                <Route
+                  path="/invoice"
+                  element={<PrivateRoute element={<Invoice />} />}
+                />
+
+                <Route path="/requests" element={<ShipmentRequestShellPage />}>
+                  <Route index element={<DistanceCalculatorPage />} />
+                  <Route
+                    path="confirmation"
+                    element={
+                      <PrivateRoute
+                        element={<ShipmentDetailsConfirmation />}
+                        roles={["user"]}
+                      />
+                    }
+                  />
+                  <Route
+                    path="payment"
+                    element={
+                      <PrivateRoute element={<Stripe />} roles={["user"]} />
+                    }
+                  />
+                </Route>
+
+                {/* TODO the Profile page will now be under with ShipperProfilePage and AdminProfilePage but it still returning Profile Card */}
+                {/* <Route
             path="/profile"
             element={<PrivateRoute element={<ProfileCard />} />}
           /> */}
 
-              {/* !Admin */}
-              <Route
-                path="/a"
-                element={
-                  <PrivateRoute
-                    element={<AdminShellPage />}
-                    roles={["admin"]}
-                  />
-                }
-              >
-                <Route index element={<AdminDashboard />} />
-
-                <Route path="admin-dashboard" element={<AdminDashboard />} />
-                <Route path="legal-page" element={<LegalPage />} />
-                <Route path="profile" element={<ShipperProfilePage />} />
+                {/* !Admin */}
                 <Route
-                  path="user-transaction/:id"
-                  element={<PrivateRoute element={<UserTransactionsList />} />}
-                />
+                  path="/a"
+                  element={
+                    <PrivateRoute
+                      element={<AdminShellPage />}
+                      roles={["admin"]}
+                    />
+                  }
+                >
+                  <Route index element={<AdminDashboard />} />
 
-                <Route
-                  path="trailer-options"
-                  element={<TrailerOptionsPage />}
-                />
-                <Route path="management" element={<ManagementShellPage />}>
-                  <Route index element={<TruckManagementPage />} />
+                  <Route path="admin-dashboard" element={<AdminDashboard />} />
+                  {/* Documents Page */}
+                  <Route path="documents" element={<DocumentShellPage />}>
+                    <Route index element={<Navigate to="home" />} />
+                    <Route index path="home" element={<DocumentsPage />} />
+                    <Route
+                      index
+                      path="search"
+                      element={<DocumentsSearchPage />}
+                    />
+                    <Route
+                      path="folder/:folderId"
+                      element={<DocumentsPage />}
+                    />
+                  </Route>
+                  <Route path="profile" element={<ShipperProfilePage />} />
                   <Route
-                    path="truck-catalog"
-                    element={<TruckManagementPage />}
+                    path="user-transaction/:id"
+                    element={
+                      <PrivateRoute element={<UserTransactionsList />} />
+                    }
+                  />
+
+                  <Route
+                    path="trailer-options"
+                    element={<TrailerOptionsPage />}
+                  />
+                  <Route path="management" element={<ManagementShellPage />}>
+                    <Route index element={<TruckManagementPage />} />
+                    <Route
+                      path="truck-catalog"
+                      element={<TruckManagementPage />}
+                    />
+                  </Route>
+                  <Route path="bill-lading" element={<BillOfLadingPage />} />
+                  <Route
+                    path="accounting-payment"
+                    element={<AccountingPayment />}
+                  />
+                  <Route path="editBooking/:id" element={<EditLoad />} />
+                  <Route path="load-board" element={<LoadBoard />} />
+                  <Route path="report-details" element={<ReportDetails />} />
+                  <Route
+                    path="accounting-report"
+                    element={<AccountingReports />}
                   />
                 </Route>
-                <Route path="bill-lading" element={<BillOfLadingPage />} />
-                <Route
-                  path="accounting-payment"
-                  element={<AccountingPayment />}
-                />
-                <Route path="editBooking/:id" element={<EditLoad />} />
-                <Route path="load-board" element={<LoadBoard />} />
-                <Route path="report-details" element={<ReportDetails />} />
-                <Route
-                  path="accounting-report"
-                  element={<AccountingReports />}
-                />
-              </Route>
-              {/* ==END ADMIN=== */}
+                {/* ==END ADMIN=== */}
 
-              <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Router>
-        </ModalsProvider>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
+          </ModalsProvider>
+        </ContextMenuProvider>
       </MantineProvider>
     </QueryClientProvider>
   );

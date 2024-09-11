@@ -20,6 +20,7 @@ import { notifications } from "@mantine/notifications";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css"; // Import the driver.js CSS
 import profilePic from "../../assets/img/profilepic.jpg";
+import "driver.js/dist/driver.css";
 
 export default function Sidebar({
   closeVisible = false,
@@ -89,6 +90,15 @@ export default function Sidebar({
               popover: {
                 title: "Trucks",
                 description: "View details of trucks in the fleet.",
+                side: "right",
+                align: "start",
+              },
+            },
+            {
+              element: "#routes-tab",
+              popover: {
+                title: "Your Routes",
+                description: "View and reuse your previous routes as templates for new shipments.",
                 side: "right",
                 align: "start",
               },
@@ -169,6 +179,8 @@ export default function Sidebar({
                     ? "payables-tab"
                     : item.label === "Trucks"
                     ? "trucks-tab"
+                    : item.label === "Your Routes"
+                    ? "routes-tab"
                     : undefined
                 }
                 className="w-full cursor-pointer flex items-center px-4 py-4 text-gray-500 rounded-md dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-[#252F70] dark:hover:text-[#252F70] transition duration-300"
