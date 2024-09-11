@@ -25,7 +25,7 @@ const ContactForm: React.FC = () => {
   return (
     <Flex
     id="contacts"
-      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem] w-full bg-accentBg"
+      className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem] w-full bg-white"
       direction={{ base: "column", lg: "row" }}
       align={"center"}
       gap={"4rem"}
@@ -45,10 +45,10 @@ const ContactForm: React.FC = () => {
           }}
         >
           <Stack className="text-left" gap={0.5} w={"100%"}>
-            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
-              CONTACT US
+            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-rblue">
+              Contact Us
             </h1>
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white lg:mb-6">
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-rblue lg:mb-6">
               Drop us a line
             </h2>
           </Stack>
@@ -73,7 +73,7 @@ const ContactForm: React.FC = () => {
               autosize
               minRows={10}
             />
-            <Button size="lg" >Submit</Button>
+            <button className="text-white flex justify-center rounded items-center h-full hover:border-2 px-12 py-3 hover:border-rblue hover:bg-white bg-rblue hover:text-rblue">Submit</button>
           </Stack>
         </Stack>
       </motion.div>
@@ -83,7 +83,7 @@ const ContactForm: React.FC = () => {
         animate={mapControls}
         className="xs:w-full lg:w-1/2  xs:h-[300px] lg:h-full"
       >
-        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white lg:mb-8">
+        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-rblue lg:mb-8">
               Our Location
             </h2>
         <iframe

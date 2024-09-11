@@ -1,15 +1,21 @@
 // import React from 'react';
+// import logo from "../assets/img/logo.png";
 
 const Footer = () => {
   // Get current year
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-darkBg text-gray-300 xs:px-[2rem] md:px-[8rem] lg:px-[12rem]">
-      <div className="py-6  flex lg:justify-between border-b-2 border-white pt-10 xs:flex-col lg:flex-row ">
+    <footer className="bg-white text-gray-300 xs:px-[2rem] md:px-[8rem] lg:px-[12rem]">
+      <div className="py-6  flex lg:justify-between border-b-2 border-rblue pt-10 xs:flex-col lg:flex-row ">
         {/* Left Side (Freight Brokerage) */}
+        {/* <img
+              src={logo}
+              alt="Company Logo"
+              className="h-10 mr-4" // Adjust height and margin as necessary
+            /> */}
         <div className="w-full md:w-auto  md:mb-0  lg:mt-10">
-          <h2 className="text-3xl md:text-5xl text-white font-bold md:mb-5">
+          <h2 className="text-3xl md:text-5xl text-rblue font-bold md:mb-5">
             Poseidon Freight
           </h2>
         </div>
@@ -24,7 +30,7 @@ const Footer = () => {
       </div>
 
       {/* Footer Bottom */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center lg:mr-20 text-white font-normal">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center lg:mr-20 text-rblue font-normal">
         <p>
           Copyright &copy; {currentYear} Freight Brokerage - All Rights
           Reserved.
@@ -73,7 +79,7 @@ const QuickLinks: React.FC = () => {
 };
 const ConnectWithUs: React.FC = () => {
   return (
-    <div className="w-full md:w-auto mb-4 md:mb-0 text-primary font-light">
+    <div className="w-full md:w-auto mb-4 md:mb-0 text-rblue font-light">
       <TitleWrapper>Connect with Us</TitleWrapper>
       <OptionWrapper>
         <p>Freight Brokerage</p>
@@ -94,7 +100,7 @@ interface OptionWrapperProps {
 }
 const TitleWrapper: React.FC<TitleWrapperProps> = ({ children }) => {
   return (
-    <div className="font-bold mb-2 xs:text-lg md:text-3xl lg:text-lg text-teal">
+    <div className="font-bold mb-2 xs:text-lg md:text-3xl lg:text-lg text-rblue">
       {children}
     </div>
   );
@@ -102,7 +108,7 @@ const TitleWrapper: React.FC<TitleWrapperProps> = ({ children }) => {
 
 const OptionWrapper = ({ children }: OptionWrapperProps) => {
   return (
-    <div className="list-none text-white font-light xs:text-md md:text-2xl lg:text-base">
+    <div className="list-none text-rblue font-light xs:text-md md:text-2xl lg:text-base">
       {children}
     </div>
   );
