@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
-import { Flex, Stack, Textarea, TextInput, Button } from "@mantine/core";
+import { Flex, Stack, Textarea, TextInput} from "@mantine/core";
 
 const ContactForm: React.FC = () => {
   const { ref: formRef, inView: formInView } = useInView({ threshold: 0.5 });

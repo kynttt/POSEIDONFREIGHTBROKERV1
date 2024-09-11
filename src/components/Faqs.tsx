@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
 import FaqsImage from "../assets/img/faqs.png";
 import SearchIcon from "../assets/img/search.png";
-import { Accordion, Flex, Image, Stack } from "@mantine/core";
+import { Accordion, Image} from "@mantine/core";
 
 const FAQsPage: React.FC = () => {
   const { ref: imageRef, inView: imageInView } = useInView({ threshold: 0.5 });
