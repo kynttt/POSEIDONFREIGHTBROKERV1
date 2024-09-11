@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { AnimationControls, motion, useAnimation } from "framer-motion";
-import freightImage from "../assets/img/freight.png";
+import freightImage1 from "../assets/img/Carousel1.png"; // Replace with your actual image path
+import freightImage2 from "../assets/img/Carousel2.png";
+import freightImage3 from "../assets/img/Carousel3.png";
+import bgImage from '../assets/img/bg-features.png';
 import { Flex, Image, Stack } from "@mantine/core";
 
 const FeaturesSection: React.FC = () => {
@@ -42,8 +45,13 @@ const FeaturesSection: React.FC = () => {
   return (
     <Stack
       id="services"
-      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] md:py-40 py-6 bg-accentBg"
+      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] md:py-40 py-6 bg-white"
       justify="center"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
     >
       <Flex
         direction={{
@@ -63,18 +71,31 @@ const FeaturesSection: React.FC = () => {
         >
           <Stack w={"100%"} gap={"3rem"}>
             <Stack className="text-left" gap={0.5} w={"100%"}>
-              <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
-                FEATURES
+              <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-rblue">
+                Features
               </h1>
-              <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white">
-                How it works
+              <h2 className="xs:text-3xl md:text-6xl lg:text-8xl font-black text-rblue">
+                HOW IT WORKS
               </h2>
             </Stack>
-            <Image src={freightImage} alt="Freight" />
+            <Image src={freightImage1} alt="Freight" />
+          </Stack>
+        </motion.div>
+        <motion.div
+          ref={imageRef}
+          initial={{ opacity: 0, x: -20 }}
+          animate={imageControls}
+          className="lg:w-1/2 w-full"
+        >
+          <Stack w={"100%"} h={"100%"} gap={"3rem"}>
+            <Image src={freightImage2} alt="Freight" />
           </Stack>
         </motion.div>
 
         <Stack justify="center" align="center" gap={"5rem"}>
+        <Stack gap={"3rem"}>
+            <Image src={freightImage3} alt="Freight" />
+          </Stack>
           <Flex
             justify={"center"}
             align={{
@@ -136,10 +157,10 @@ function FeatureCard({
       ref={customRef}
       initial={initial}
       animate={animate}
-      className="lg:w-1/3 w-full "
+      className="lg:w-3/4 w-full bg-rblue rounded-xl p-10"
     >
       <Stack w={"100%"}>
-        <h3 className="xs:text-xl md:text-4xl lg:text-xl font-bold text-primary text-teal">
+        <h3 className="xs:text-xl md:text-4xl lg:text-xl font-bold text-primary text-white">
           {title}
         </h3>
         <p className="md:text-3xl lg:text-base text-white  font-normal py-2 text-center text-justify">

@@ -23,11 +23,12 @@ const FreightQuote: React.FC = () => {
   }, [controls, inView]);
 
   return (
-    <motion.section
+    <div>
+      <motion.section
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
-      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] bg-freightquote-bg md:py-8"
+      className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem] bg-rblue md:py-8"
     >
       <Flex
         direction={{
@@ -46,16 +47,17 @@ const FreightQuote: React.FC = () => {
           }}
           justify="center"
         >
-          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-white">
-            GET A
+          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-semibold text-white">
+            Get a
           </h2>
-          <h2 className="xs:text-xl md:text-5xl lg:text-3xl  font-black text-white">
+          <h2 className="xs:text-xl md:text-5xl lg:text-5xl  font-black text-white">
             FREIGHT QUOTE
           </h2>
         </Stack>
         <CalculatorComponent />
       </Flex>
     </motion.section>
+    </div>
   );
 };
 
@@ -104,21 +106,22 @@ function CalculatorComponent() {
   };
 
   return (
-    <motion.div
+    <motion.section
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="xs:w-full lg:w-70%"
+      className="xs:w-full lg:w-70% bg-rblue"
+      // className="xs:px-[2rem] md:px-[8rem]  lg:px-[12rem]  md:py-8"
     >
       <Stack
         justify="center"
         w="100%"
-        className="bg-white shadow-2xl rounded-lg"
+        className="bg-sblue rounded-xl shadow-xl"
         gap={50}
         px="md"
         py="xl"
       >
-        <h3 className="text-center xs:text-xl md:text-4xl  font-black text-primary">
+        <h3 className="text-center xs:text-xl md:text-4xl font-semibold text-rblue">
           Cost Calculator
         </h3>
         <Flex
@@ -214,7 +217,7 @@ function CalculatorComponent() {
           </div>
         </Modal>
       )}
-    </motion.div>
+    </motion.section>
   );
 }
 

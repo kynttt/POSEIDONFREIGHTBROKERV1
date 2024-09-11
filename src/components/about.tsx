@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
-import AboutImage from "../assets/img/aboutus.png";
-import { Flex, Image, Stack } from "@mantine/core";
+import AboutImage from "../assets/img/about-img.jpg";
+import AskIcon from "../assets/img/ask.png";
+import { Flex, Stack, Box, Text } from "@mantine/core";
 
 const AboutUs: React.FC = () => {
   const { ref: imageRef, inView: imageInView } = useInView({ threshold: 0.5 });
@@ -25,71 +26,67 @@ const AboutUs: React.FC = () => {
 
   return (
     <Flex
-    id="about"
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-14 md:py-20 bg-accentBg"
+      id="about"
+      className="relative bg-white flex justify-end"
       direction={{
         base: "column",
         lg: "row",
       }}
-      gap={{
-        base: "3rem",
-        lg: "5rem",
-      }}
       align={"center"}
+      gap={"5rem"}
     >
+      {/* Blue Box with Description */}
+      <img
+            src={AskIcon}
+            alt="Questionmark-blue"
+            className="shadow-lg h-auto object-cover rounded-3xl absolute -top-10 z-30"
+  style={{ left: '29%' }}
+          />
       <motion.div
         ref={textRef}
         initial={{ opacity: 0, x: -20 }}
         animate={textControls}
-        className="w-full lg:w-1/3"
+        className="absolute left-0 lg:w-1/2 bg-rblue p-6 md:p-16 text-white rounded-r-3xl z-30 md:mt-40 top-72"
       >
-        <Stack
-        
-          w={{
-            base: "100%",
-          }}
-          gap={"2rem"}
-        >
-          <Stack
-            gap={0.5}
-            w={{
-              base: "100%",
-              lg: "50%",
-            }}
-          >
-            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
-              ABOUT US
-            </h1>
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-teal">
-              Transport and Logistics
-            </h2>
-          </Stack>
-          <p className="md:text-3xl lg:text-base text-white font-normal leading-relaxed text-justify">
+        <Stack gap={"1rem"}>
+          <h1 className="text-lg xs:text-xl md:text-2xl font-semibold text-center">
+            Transport and Logistics
+          </h1>
+          <Text className="text-sm xs:text-base md:text-lg leading-relaxed text-justify px-4 xs:px-8 md:pl-40 md:pr-10">
             Welcome to Poseidon Distribution Inc. (PDI)! Based in Auburn, WA
             since 2017, PDI is a family-owned transportation company that merges
             the capabilities of a large business with the warmth of a
             family-oriented work culture. Our skilled team provides Full
             Truckload (FTL) services, including dry van, temperature-controlled
             reefer, and Flatbed Conestoga freights.
-          </p>
+          </Text>
         </Stack>
       </motion.div>
 
+      {/* Image Overlay with Title */}
       <motion.div
         ref={imageRef}
         initial={{ opacity: 0, x: 20 }}
         animate={imageControls}
-        className="w-full lg:w-2/3"
+        className="w-full xl:w-2/3 absolute -top-20 relative"
       >
-        <Flex
-          align={"center"}
-          justify={"center"}
-          w={{
-            base: "100%",
-          }}
-        >
-          <Image src={AboutImage} alt="About Us" />
-        </Flex>
+        <Box className="relative overflow-visible">
+          <img
+            src={AboutImage}
+            alt="About Us"
+            className="w-[120%] h-auto object-cover rounded-l-3xl"
+          />
+          {/* Text on Image */}
+          <Box className="absolute top-40 left-0 w-full h-full object-cover rounded-lg flex flex-col justify-center items-end text-white p-4 xs:p-8">
+          <h1 className="text-2xl xs:text-xl md:text-2xl font-bold mb-2 text-end text-nblue">
+            About Us
+          </h1>
+          <h2 className="text-3xl xs:text-5xl md:text-9xl font-extrabold text-white text-end">
+            POSEIDON
+          </h2>
+</Box>
+
+        </Box>
       </motion.div>
     </Flex>
   );
