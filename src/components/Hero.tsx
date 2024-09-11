@@ -1,5 +1,4 @@
 import React from "react";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import heroTruck from "../assets/img/hero-truck.png";
 import FreightQuote2 from "./FreightQuote2";
