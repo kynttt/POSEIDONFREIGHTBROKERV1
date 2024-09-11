@@ -76,6 +76,7 @@ export default function AdminShellPage() {
         </AppShell.Navbar>
         <AppShell.Main pt={`calc(${rem(50)} + var(--mantine-spacing-md))`}>
           <Outlet />
+          {/* <div className="h-full w-full bg-red-500">daw</div> */}
         </AppShell.Main>
       </AppShell>
     </section>
