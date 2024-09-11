@@ -111,7 +111,7 @@ export default function FileTile({
             </Stack>
           );
         })}
-        className="bg-white shadow-md rounded-lg p-3 flex items-center hover:bg-gray-100 transition duration-300 ease-in-out cursor-pointer"
+        className="bg-white shadow-sm rounded-lg p-3 flex items-center hover:bg-gray-100 transition duration-300 ease-in-out cursor-pointer border"
         onClick={handleFileClick} // Trigger modal on click
       >
         <div className="mr-4">

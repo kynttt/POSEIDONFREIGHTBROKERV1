@@ -54,7 +54,7 @@ export default function DocumentsPage() {
   //   });
   // }, [folderId, userId]);
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full px-20 bg-light-grey py-10 rounded-lg">
       {isLoading ? (
         <Center h="100%">
           <Loader />
@@ -212,7 +212,7 @@ function Folders() {
   return (
     <Stack>
       <Title order={6}>Folders</Title>
-      <Flex w="100%" gap={8} wrap="wrap">
+      <Flex w="100%" gap={8} wrap="wrap" className="mb-12">
         {data!.map((folder) => (
           <FolderTile key={folder._id} folder={folder} folderId={folderId} />
         ))}

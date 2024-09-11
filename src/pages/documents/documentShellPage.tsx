@@ -61,11 +61,11 @@ function Header() {
   };
 
   return (
-    <Flex w="100%" justify={"space-between"}>
+    <Flex w="100%" justify={"space-between"} className="px-20 py-10 bg-light-grey rounded-lg">
       <Flex w={"60%"} gap={30} align={"center"}>
         <Title order={3}>Documents</Title>
         <TextInput
-          variant="filled"
+          // variant="filled"
           value={searchQuery}
           leftSection={<FontAwesomeIcon icon={faSearch} />}
           placeholder="Search File or Folder"
@@ -73,6 +73,7 @@ function Header() {
           onChange={(event) => setSearchQuery(event.currentTarget.value)}
           onKeyDown={handleKeyDown}
           size="md"
+          className="bg-white placeholder-text-thin"
         />
       </Flex>
 
