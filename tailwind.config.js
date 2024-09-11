@@ -39,7 +39,7 @@ module.exports = {
         accentBg: "#11141b",
         teal: "#02FFE2",
         "freightquote-bg": "#6084F0",
-        rblue: "#0062FF",
+        rblue: "#001C7C",
         lblue: "#A3C6FF",
         sblue: "#CBDFFF",
         nblue: "#003C9D"
