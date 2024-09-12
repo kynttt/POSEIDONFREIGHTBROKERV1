@@ -1,6 +1,6 @@
 import {
   faTableColumns,
-  faMoneyCheckDollar,
+  // faMoneyCheckDollar,
   faCalculator,
   faUser,
   faTruckFront,
@@ -44,7 +44,7 @@ export const navItems: NavItems = {
   ],
   user: [
     { label: "Dashboard", path: "/s/shipper-dashboard", icon: faTableColumns },
-    { label: "Payables", path: "/s/user-payables", icon: faMoneyCheckDollar },
+    // { label: "Payables", path: "/s/user-payables", icon: faMoneyCheckDollar },
     { label: "Trucks", path: "/s/trailer-options", icon: faTruckFront },
 
     {

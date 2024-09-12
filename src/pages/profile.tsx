@@ -114,8 +114,8 @@ const ProfileCard: React.FC = () => {
                   onClick={handleSettings}
                   className="flex items-center px-4 py-2 font-medium bg-grey text-gray-500 rounded shadow-lg hover:bg-secondary hover:text-white"
                 >
-                  <FontAwesomeIcon icon={faCog} className="mr-2 text-gray-500 hover:text-white" />
-                  Settings
+                  <FontAwesomeIcon icon={faCog} className=" text-gray-500 hover:text-white" />
+                  
                 </button>
               </div>
             </div>
