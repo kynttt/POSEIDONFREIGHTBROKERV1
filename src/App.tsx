@@ -67,6 +67,8 @@ import DocumentShellPage from "./pages/documents/documentShellPage";
 import DocumentsSearchPage from "./pages/documents/documentsSearchPage";
 import ChangePasswordPage from "./pages/Shared/pages/ChangePasswordPage";
 import UpdateUserDetailsPage from "./pages/Shared/pages/UpdateUserDetailsPage";
+import ResetPassword from "./pages/Shared/pages/resetPassword";
+import ForgotPasswordPage from "./pages/Shared/pages/forgotPassword";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -106,9 +108,20 @@ const App: React.FC = () => {
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/change-password" element={<ChangePasswordPage />} />
-              <Route path="/edit-profile" element={<UpdateUserDetailsPage />} />
-              <Route path="/verify" element={<PhoneVerifyPage />} />
+                <Route
+                  path="/forgot-password"
+                  element={<ForgotPasswordPage />}
+                />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route
+                  path="/change-password"
+                  element={<ChangePasswordPage />}
+                />
+                <Route
+                  path="/edit-profile"
+                  element={<UpdateUserDetailsPage />}
+                />
+                <Route path="/verify" element={<PhoneVerifyPage />} />
                 <Route
                   path="/terms-and-agreement"
                   element={<BrokerShipperAgreement />}

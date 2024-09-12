@@ -67,6 +67,10 @@ const LoginPage: React.FC = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const onForgotPasswordHandler = () => {
+    navigate("/forgot-password");
+  };
+
   const handleSignUpClick = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
@@ -214,7 +218,7 @@ const LoginPage: React.FC = () => {
                       Password
                     </label>
                     <a
-                      href="#"
+                      onClick={onForgotPasswordHandler}
                       className="inline-block align-baseline font-normal text-sm text-white hover:text-blue-800 md:pl-10"
                     >
                       Forgot Password?
