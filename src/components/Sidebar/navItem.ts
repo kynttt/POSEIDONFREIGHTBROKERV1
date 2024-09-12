@@ -5,7 +5,7 @@ import {
   faUser,
   faTruckFront,
   faListUl,
-  faTruckFast,
+  // faTruckFast,
   faFolderOpen,
   faCog,
   faHistory,
@@ -33,7 +33,7 @@ export const navItems: NavItems = {
     { label: "Dashboard", path: "/a/admin-dashboard", icon: faTableColumns },
     { label: "Load Board", path: "/a/load-board", icon: faListUl },
     { label: "Documents", path: "/a/documents", icon: faFolderOpen },
-    { label: "Transactions", path: "/a/report-details", icon: faTruckFast },
+    // { label: "Transactions", path: "/a/report-details", icon: faTruckFast },
     { label: "Trucks", path: "/a/trailer-options", icon: faTruckFront },
     {
       label: "Management",
