@@ -32,6 +32,8 @@ export interface User extends Schema {
   companyName: string;
   role: "admin" | "user";
   password?: string;
+  profilePicUrl?: string;
+  profilePicVersion?: number;
 }
 
 export interface RegisterFormData extends User {

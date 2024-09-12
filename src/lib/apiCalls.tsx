@@ -36,9 +36,7 @@ export const getUser = async () => {
   const data = response.data;
   const user = data.data as User;
 
-  return {
-    ...user,
-  };
+  return user;
 };
 
 // Get All Users
@@ -685,4 +683,49 @@ export const createFolder = async (data: CreateFolderData) => {
 export const searchFileFolder = async (q: string) => {
   const response = await axiosInstance.get(`/folders/search?q=${q}`);
   return response.data.data as SearchFileFolderResponse[];
+};
+
+// Fetch profile picture from the server with cache-busting using the original URL
+export const fetchProfilePicture = async (
+  userId: string,
+  profilePicVersion: number
+) => {
+  try {
+    const response = await axiosInstance.get(
+      `/account/${userId}/profile-picture/${profilePicVersion}`, // Append cache-busting version
+      {
+        responseType: "blob", // Ensure you get the image as binary data
+      }
+    );
+
+    // Convert the response to an object URL that can be used in an img src
+    const imageUrl = URL.createObjectURL(response.data);
+
+    return imageUrl;
+  } catch (error) {
+    console.error("Error fetching profile picture:", error);
+    return null; // Return null or handle the error as needed
+  }
+};
+
+// Function to upload a profile picture
+export const uploadProfilePicture = async (file: File) => {
+  const formData = new FormData();
+  formData.append("profilePic", file); // Append the file to FormData
+
+  try {
+    const response = await axiosInstance.post(
+      "/account/profile-picture",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure it's sending a file
+        },
+      }
+    );
+
+    return response.data.data as User; // Return the response data, which may contain the updated profile picture URL
+  } catch (error) {
+    throw new Error("Failed to upload profile picture");
+  }
 };
