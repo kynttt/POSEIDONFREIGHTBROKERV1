@@ -212,14 +212,14 @@ const LoginPage: React.FC = () => {
                 <div className="mb-6">
                   <div className="flex justify-between items-center">
                     <label
-                      className="block text-white text-sm font-bold mb-2"
+                      className="block text-white text-sm font-bold mb-2 "
                       htmlFor="password"
                     >
                       Password
                     </label>
                     <a
                       onClick={onForgotPasswordHandler}
-                      className="inline-block align-baseline font-normal text-sm text-white hover:text-blue-800 md:pl-10"
+                      className="inline-block underline align-baseline font-normal text-xs text-white hover:text-blue-800 md:pl-10 cursor-pointer"
                     >
                       Forgot Password?
                     </a>
@@ -272,7 +272,7 @@ const LoginPage: React.FC = () => {
                   <a
                     href="#"
                     onClick={handleSignUpClick}
-                    className="text-white hover:text-blue-800"
+                    className="text-white hover:text-blue-800 underline"
                   >
                     Sign Up
                   </a>
