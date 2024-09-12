@@ -230,14 +230,10 @@ const Navbar: React.FC = () => {
               </>
             )}
             {isAuthenticated && (
-              <Button
-                label="LOGOUT"
-                size="medium"
-                bgColor="#7783D2"
-                hoverBgColor="white"
-                onClick={() => mutation.mutate(undefined)}
-                type=""
-              />
+              <button
+              className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
+               onClick={() => mutation.mutate(undefined)}
+             >Logout</button>
             )}
             {!isAuthenticated && (
               <div>
@@ -259,7 +255,7 @@ const Navbar: React.FC = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="lg:hidden absolute top-16 right-0 left-0 bg-[#7783D2] z-20 py-4 px-2 space-y-4 shadow-md mt-4 pl-4">
+            <div className="lg:hidden absolute top-16 right-0 left-0 bg-[#7783D2] z-50 py-4 px-2 space-y-4 shadow-md mt-4 pl-4">
               {!isAuthenticated ? (
                 <>
                   <button

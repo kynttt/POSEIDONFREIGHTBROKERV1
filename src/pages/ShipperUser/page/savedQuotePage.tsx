@@ -22,7 +22,7 @@ export default function SavedQuotePage() {
     <>
       <Stack px="md" w="100%" min-h="100vh">
         <Stack py="md" w="100%" gap={20} h="100%">
-          <h1 className="text-5xl text-primary">Saved Routes</h1>
+          <h1 className="px-20 text-2xl text-primary">Saved Routes</h1>
           <Divider />
           <HistoryQuotes />
         </Stack>
