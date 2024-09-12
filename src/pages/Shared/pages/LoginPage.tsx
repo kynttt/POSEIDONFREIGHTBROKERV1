@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NeatGradient } from "@firecms/neat";
 // import signupImage from "../../../assets/img/DeliveredPackage.gif";
-import appleIcon from "../../../assets/img/apple.png";
+// import appleIcon from "../../../assets/img/apple.png";
 import googleIcon from "../../../assets/img/googleicon.png";
 import Button from "../../../components/Button";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ import { useMutation } from "@tanstack/react-query";
 import { LoginResponse } from "../../../utils/types";
 import axios from "axios";
 import { notifications } from "@mantine/notifications";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 interface LoginData {
   email: string;
@@ -30,6 +32,11 @@ const LoginPage: React.FC = () => {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const gradientRef = useRef<NeatGradient | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -212,7 +219,7 @@ const LoginPage: React.FC = () => {
                 <div className="mb-6">
                   <div className="flex justify-between items-center">
                     <label
-                      className="block text-white text-sm font-bold mb-2 "
+                      className="block text-white text-sm font-bold mb-2"
                       htmlFor="password"
                     >
                       Password
@@ -224,15 +231,24 @@ const LoginPage: React.FC = () => {
                       Forgot Password?
                     </a>
                   </div>
-                  <input
-                    type="password"
-                    id="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="appearance-none border border-white rounded w-full py-2 px-3 text-white mb-3 leading-tight focus:outline-none focus:shadow-outline bg-transparent h-10  placeholder-white placeholder-opacity-60 font-light"
-                    placeholder="Enter your password"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="appearance-none border border-white rounded w-full py-2 px-3 text-white mb-3 leading-tight focus:outline-none focus:shadow-outline bg-transparent h-10  placeholder-white placeholder-opacity-60 font-light"
+                      placeholder="Enter your password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-[20px] transform -translate-y-1/2 text-white"
+                      onClick={togglePasswordVisibility}
+                    >
+                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </button>
+                  </div>
                 </div>
                 <div className="flex items-center justify-center">
                   <Button
@@ -258,13 +274,13 @@ const LoginPage: React.FC = () => {
                   <img src={googleIcon} alt="Google" className="w-6 h-6 mr-2" />
                   Login with Google
                 </button>
-                <button
+                {/* <button
                   className="bg-white border border-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center"
                   type="button"
                 >
                   <img src={appleIcon} alt="Apple" className="w-6 h-6 mr-2" />
                   Login with Apple
-                </button>
+                </button> */}
               </div>
               <div className="mt-6 text-center">
                 <p className="text-white font-normal">
