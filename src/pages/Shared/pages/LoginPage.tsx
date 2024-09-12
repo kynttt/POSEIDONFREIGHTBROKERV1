@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NeatGradient } from "@firecms/neat";
 // import signupImage from "../../../assets/img/DeliveredPackage.gif";
-import appleIcon from "../../../assets/img/apple.png";
+// import appleIcon from "../../../assets/img/apple.png";
 import googleIcon from "../../../assets/img/googleicon.png";
 import Button from "../../../components/Button";
 import { useLocation, useNavigate } from "react-router-dom";
