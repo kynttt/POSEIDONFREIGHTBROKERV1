@@ -23,7 +23,7 @@ const SeamlessFreightServices: React.FC = () => {
   return (
     <Stack
       w={"100%"}
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-32"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-24"
       justify="center"
     >
       <Stack className="text-center" gap={0.5}>
@@ -38,7 +38,7 @@ const SeamlessFreightServices: React.FC = () => {
         w="100%"
         direction={{ xs: "column", lg: "row" }}
         justify={"center"}
-        gap={130}
+        gap={120}
       >
         {bannerData.map((banner, index) => (
           <Banner
@@ -89,8 +89,8 @@ function Banner({
     >
       <Stack
         align="center"
-        w="120%"
-        gap={20}
+        w="100%"
+        gap={10}
         className="hover transition-shadow duration-300 w-full"
       >
         <div className="relative w-full overflow-hidden group max-w-lg"> {/* Added max-w-sm to match image size */}
