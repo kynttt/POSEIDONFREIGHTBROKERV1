@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
 import carriersImage from "../assets/img/carriers.png";
-import brokersImage from "../assets/img/brokers.png";
 import shippersImage from "../assets/img/shippers.png";
 import { Flex, Stack, Image } from "@mantine/core";
 
@@ -11,17 +10,12 @@ const bannerData = [
   {
     imgSrc: carriersImage,
     title: "Carriers",
-    description: "Tailored Carrier Services to Fit Your Business",
-  },
-  {
-    imgSrc: brokersImage,
-    title: "Brokers",
-    description: "Driving Your Business Forward with Expert Logistics Support",
+    description: "Reliable carriers for all your freight needs.",
   },
   {
     imgSrc: shippersImage,
     title: "Shippers",
-    description: "Optimizing Your Shipping Process for Maximum Efficiency",
+    description: "Connecting shippers with trusted partners.",
   },
 ];
 
@@ -29,15 +23,14 @@ const SeamlessFreightServices: React.FC = () => {
   return (
     <Stack
       w={"100%"}
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-32 bg-accentBg"
+      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-32"
       justify="center"
-      
     >
-      <Stack className="text-left" gap={0.5}>
-        <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
-          SERVICES
+      <Stack className="text-center" gap={0.5}>
+        <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-rblue">
+          Services
         </h1>
-        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white mb-8">
+        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-rblue mb-8">
           Seamless Freight Services
         </h2>
       </Stack>
@@ -45,7 +38,7 @@ const SeamlessFreightServices: React.FC = () => {
         w="100%"
         direction={{ xs: "column", lg: "row" }}
         justify={"center"}
-        gap={100}
+        gap={130}
       >
         {bannerData.map((banner, index) => (
           <Banner
@@ -93,18 +86,34 @@ function Banner({
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
-      className="w-full"
     >
-      <Stack align="center" w="100%" gap={50}>
-        <Image src={imgSrc} alt={title} w="auto" fit="contain" />
-        <Stack w="100%" align="center" className="text-center">
-          <p className="xs:text-xl md:text-4xl lg:text-2xl  text-teal ">
+      <Stack
+        align="center"
+        w="120%"
+        gap={20}
+        className="hover transition-shadow duration-300 w-full"
+      >
+        <div className="relative w-full overflow-hidden group max-w-lg"> {/* Added max-w-sm to match image size */}
+          {/* Image with light opacity */}
+          <Image
+            src={imgSrc}
+            alt={title}
+            w="120%"
+            fit="cover"
+            className="group-hover:opacity-100 transition-opacity duration-300 rounded-lg" // Rounded image
+          />
+          {/* Blue overlay that fades out on hover */}
+          <div className="absolute inset-0 bg-[#A3C6FF] opacity-80 group-hover:opacity-0 transition-opacity duration-300 rounded-3xl"></div> {/* Rounded overlay */}
+          {/* Title */}
+          <h3 className="absolute inset-0 flex justify-center items-center text-3xl font-semibold text-rblue group-hover:opacity-0 transition-opacity duration-300">
             {title}
-          </p>
-          <p className="md:text-3xl lg:text-base text-white  font-normal mx-auto">
+          </h3>
+
+          {/* Description appears on hover */}
+          <p className="absolute bottom-0 w-full flex rounded-b-3xl p-10 justify-center items-center bg-rblue  py-4 text-center text-xl font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             {description}
           </p>
-        </Stack>
+        </div>
       </Stack>
     </motion.div>
   );

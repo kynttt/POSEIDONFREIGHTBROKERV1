@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
 import FaqsImage from "../assets/img/faqs.png";
-import { Accordion, Flex, Image, Stack } from "@mantine/core";
+import SearchIcon from "../assets/img/search.png";
+import { Accordion, Image} from "@mantine/core";
 
 const FAQsPage: React.FC = () => {
   const { ref: imageRef, inView: imageInView } = useInView({ threshold: 0.5 });
@@ -51,67 +52,70 @@ const FAQsPage: React.FC = () => {
 
   const items = faqs.map((item) => (
     <Accordion.Item key={item.question} value={item.question}>
-      <Accordion.Control className="font-medium text-primary mb-2">
+      <Accordion.Control className="font-medium text-primary mb-2  border-b border-rblue">
         <QuestionComponent question={item.question} />
       </Accordion.Control>
-      <Accordion.Panel className="text-white xs:text-xl md:text-3xl lg:text-xl font-thin mb-2 text-justify">
+      <Accordion.Panel className="text-nblue xs:text-xs md:text-md lg:text-base font-normal mb-2 text-justify border-b border-rblue">
         {item.answer}
       </Accordion.Panel>
     </Accordion.Item>
   ));
 
   return (
-    <Flex
-      className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-6 md:py-40 bg-accentBg"
-      direction={{ xs: "column", lg: "row" }}
-      gap={"4rem"}
-    >
+    <div className="relative w-full h-auto">
+    {/* Background color half-covering the container */}
+    <div className="absolute inset-0 w-full h-full">
+      <div className="h-2/3 w-full bg-sblue"></div>
+    </div>
+    <img
+            src={SearchIcon}
+            alt="Questionmark-blue"
+            className="shadow-lg h-auto object-cover rounded-l-3xl absolute -top-10 z-30"
+  style={{ right: '0' }}
+          />
+    <div className="relative flex flex-col lg:flex-row px-8 lg:px-24 py-12 lg:py-32 gap-8 justify-center">
+      {/* Image section */}
       <motion.div
         ref={imageRef}
         initial={{ opacity: 0, x: -20 }}
         animate={imageControls}
-        className="w-full lg:w-1/3"
+        className="w-full lg:w-1/4"
       >
-        <Stack>
-          <Stack className="text-left" gap={0.5}>
-            {/* <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-white">
-              FAQs
-            </h1> */}
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-white mb-8">
-              Frequently Asked Questions
-            </h2>
-          </Stack>
-          <Image src={FaqsImage} alt="FAQs" />
-        </Stack>
+        <div className="flex flex-col items-start">
+          <h2 className="text-3xl md:text-6xl font-black text-rblue mb-8">
+            FAQs
+          </h2>
+          <Image src={FaqsImage} alt="FAQs" className="rounded-lg" />
+        </div>
       </motion.div>
-
+  
+      {/* Content/Accordion section */}
       <motion.div
         ref={contentRef}
         initial={{ opacity: 0, x: 20 }}
         animate={contentControls}
-        className="w-full lg:w-2/3"
+        className="w-full lg:w-1/2 p-10"
       >
-        <Flex
-          w={{
-            base: "100%",
-          }}
-          justify={"center"}
-        >
+        <div className="flex justify-center">
           <Accordion
             radius="xs"
             defaultValue="How are shipment quotes generated?"
             w={"100%"}
+            className="text-rblue"
           >
             {items}
           </Accordion>
-        </Flex>
+        </div>
       </motion.div>
-    </Flex>
+    </div>
+  </div>
+  
+
   );
 };
 
 function QuestionComponent({ question }: { question: string }) {
-  return <p className="xs:text-xl md:text-3xl lg:text-base text-teal">{question}</p>;
+  return <p className="xs:text-xl md:text-3xl lg:text-base text-rblue">{question}</p>;
 }
 
 export default FAQsPage;
