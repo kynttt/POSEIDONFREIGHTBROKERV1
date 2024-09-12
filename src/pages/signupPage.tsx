@@ -215,7 +215,7 @@ const SignupPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border  rounded-md border-white bg-transparent text-black placeholder-white font-thin h-10 p-4 ${
+                  className={`mt-1 block w-full border  rounded-md border-white bg-transparent text-white placeholder-white font-light placeholder-opacity-60  h-10 p-4 ${
                     validationErrors.name ? "border-red-500" : ""
                   }`}
                   placeholder="Enter your First Name and Last Name"
@@ -237,7 +237,7 @@ const SignupPage = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-3/5 border border-white  rounded-md bg-transparent placeholder-white text-gray-700 font-thin h-10 p-4 ${
+                    className={`mt-1  block w-full md:w-3/5 border border-white  rounded-md bg-transparent placeholder-white text-white placeholder-opacity-60 font-light h-10 p-4 ${
                       validationErrors.address ? "border-red-500" : ""
                     }`}
                     placeholder="City, State, Country"
@@ -248,7 +248,7 @@ const SignupPage = () => {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-2/5 border border-white bg-transparent text-black placeholder-white rounded-md  font-thin h-10 p-4 ${
+                    className={`mt-1  block w-full md:w-2/5 border border-white bg-transparent placeholder-white text-white placeholder-opacity-60 font-light rounded-md   h-10 p-4 ${
                       validationErrors.postalCode ? "border-red-500" : ""
                     }`}
                     placeholder="Postal Code"
@@ -275,7 +275,7 @@ const SignupPage = () => {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md  font-thin h-10 p-4"
+                  className="mt-1 block w-full border border-white bg-transparent placeholder-white text-white placeholder-opacity-60 font-light rounded-md  h-10 p-4"
                   placeholder="Company name"
                 />
               </div>
@@ -310,7 +310,7 @@ const SignupPage = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md font-thin h-10 p-4 ${
+                  className={`mt-1 block w-full border border-white bg-transparent placeholder-white text-white placeholder-opacity-60 font-light rounded-md h-10 p-4 ${
                     validationErrors.password ? "border-red-500" : ""
                   }`}
                   placeholder="Enter your password"
@@ -331,7 +331,7 @@ const SignupPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md font-thin h-10 p-4 ${
+                  className={`mt-1 block w-full border border-white bg-transparent placeholder-white text-white placeholder-opacity-60 font-light rounded-md  h-10 p-4 ${
                     validationErrors.email ? "border-red-500" : ""
                   }`}
                   placeholder="Enter your email"
