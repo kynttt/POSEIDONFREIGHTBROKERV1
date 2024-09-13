@@ -66,6 +66,10 @@ export interface Quote extends Schema {
   distance: string;
   price: number;
   notes?: string | null;
+  routeCoordinates: {
+    type: "LineString";
+    coordinates: [number, number][];
+  };
 }
 
 export interface Invoice extends Schema {

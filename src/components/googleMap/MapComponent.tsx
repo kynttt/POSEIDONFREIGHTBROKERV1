@@ -1,11 +1,11 @@
-import React from 'react';
-import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
+import React from "react";
+import { GoogleMap, DirectionsRenderer, Marker } from "@react-google-maps/api";
 
 const containerStyle = {
-  width: '100%',
-  height: '50vh', // Adjusted for responsive height
-  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.3)', // Adding box shadow
-  borderRadius: '8px', // Adding border radius
+  width: "100%",
+  height: "50vh", // Adjusted for responsive height
+  boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.3)", // Adding box shadow
+  borderRadius: "8px", // Adding border radius
 };
 
 const defaultCenter = {
@@ -16,31 +16,31 @@ const defaultCenter = {
 // Custom styles for the map
 const mapStyles = [
   {
-    "featureType": "landscape",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: "landscape",
+    elementType: "geometry",
+    stylers: [
       {
-        "color": "#e4e4e4"
-      }
-    ]
+        color: "#e4e4e4",
+      },
+    ],
   },
   {
-    "featureType": "water",
-    "elementType": "geometry.fill",
-    "stylers": [
+    featureType: "water",
+    elementType: "geometry.fill",
+    stylers: [
       {
-        "color": "#a8caea" 
-      }
-    ]
-  }
+        color: "#a8caea",
+      },
+    ],
+  },
 ];
 
 interface MapComponentProps {
   map: google.maps.Map | null;
   setMap: (map: google.maps.Map | null) => void;
   directions: google.maps.DirectionsResult | null;
-  originLocation: google.maps.LatLng | null;
-  destinationLocation: google.maps.LatLng | null;
+  originLocation: google.maps.LatLngLiteral | null;
+  destinationLocation: google.maps.LatLngLiteral | null;
 }
 
 export const MapComponent: React.FC<MapComponentProps> = ({
@@ -58,16 +58,18 @@ export const MapComponent: React.FC<MapComponentProps> = ({
       options={{ styles: mapStyles }} // Applying custom styles
     >
       {originLocation && <Marker position={originLocation} label="A" />}
-      {destinationLocation && <Marker position={destinationLocation} label="B" />}
+      {destinationLocation && (
+        <Marker position={destinationLocation} label="B" />
+      )}
       {directions && (
         <DirectionsRenderer
           directions={directions}
           options={{
             polylineOptions: {
-              strokeColor: '#7783D2', // Gray color for the route
+              strokeColor: "#7783D2", // Gray color for the route
               strokeOpacity: 0.8,
               strokeWeight: 5,
-            }
+            },
           }}
         />
       )}
