@@ -504,7 +504,4 @@ const BillOfLading: React.FC = () => {
 };
 
 export default BillOfLading;
-function fetchUserById(createdBy: string | import("../utils/types").User) {
-  throw new Error("Function not implemented.");
-}
 
