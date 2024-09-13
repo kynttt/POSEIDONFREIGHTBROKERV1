@@ -14,7 +14,7 @@ import { useAuthStore } from "../state/useAuthStore";
 interface BookingData {
   notes: string;
   origin: string;
-  billOfLadingNumber: string;
+  bolNumber: string;
   carrier: string;
   pickupDate: string;
   departureDate: string;
@@ -48,7 +48,7 @@ const BillOfLading: React.FC = () => {
       setBookingData({
         notes: quote.notes || "",
         origin: quote.origin,
-        billOfLadingNumber: "123456",
+        bolNumber: "123456",
         carrier: data.carrier ?? "No Assigned Carrier",
         pickupDate: quote.pickupDate.toLocaleString(),
         departureDate: quote.pickupDate.toLocaleString(),
@@ -237,7 +237,7 @@ const BillOfLading: React.FC = () => {
             <label className="block font-bold py-2 px-4">
               Bill of Lading #
             </label>
-            <p className="font-normal">{bookingData.billOfLadingNumber}</p>
+            <p className="font-normal">{bookingData.bolNumber}</p>
           </div>
           <div className="grid grid-cols-4 gap-4 p-4 border-b border-black ">
             <div className="col-span-1 ">

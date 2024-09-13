@@ -400,7 +400,7 @@ const ShipmentDetails: React.FC = () => {
               className={`block text-primary text-sm font-bold p-2 rounded-md ${
                 booking.status === "Pending"
                   ? "bg-gray-400 text-white cursor-not-allowed"
-                  : "bg-secondary text-white cursor-pointer"
+                  : "bg-primary text-white cursor-pointer"
               }`}
               disabled={booking.status === "Pending"}
             >
