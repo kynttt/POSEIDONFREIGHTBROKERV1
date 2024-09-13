@@ -87,15 +87,15 @@ export default function Sidebar({
                 align: "start",
               },
             },
-            {
-              element: "#payables-tab",
-              popover: {
-                title: "Payables",
-                description: "Check your payables and payment status here.",
-                side: "right",
-                align: "start",
-              },
-            },
+            // {
+            //   element: "#payables-tab",
+            //   popover: {
+            //     title: "Payables",
+            //     description: "Check your payables and payment status here.",
+            //     side: "right",
+            //     align: "start",
+            //   },
+            // },
             {
               element: "#trucks-tab",
               popover: {
@@ -133,8 +133,8 @@ export default function Sidebar({
         return "request-quote-tab";
       case "Dashboard":
         return "dashboard-tab";
-      case "Payables":
-        return "payables-tab";
+      // case "Payables":
+      //   return "payables-tab";
       case "Trucks":
         return "trucks-tab";
       case "Your Routes":

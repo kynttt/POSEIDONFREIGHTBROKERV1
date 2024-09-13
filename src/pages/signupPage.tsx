@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 // import signupImage from "../assets/img/DeliveredPackage.gif";
 // import Button from "../components/Button";
 import googleIcon from "../assets/img/googleicon.png";
-import appleIcon from "../assets/img/apple.png";
+// import appleIcon from "../assets/img/apple.png";
 import OTPModal from "../components/OTPModal";
 import { registerUser } from "../lib/apiCalls";
 import { LoginResponse, RegisterFormData } from "../utils/types";
@@ -14,6 +14,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { useAuthStore } from "../state/useAuthStore";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignupPage = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -40,11 +42,17 @@ const SignupPage = () => {
   const redirectTo = searchParams.get("redirectTo");
   // const [phone, setPhone] = useState("");
   // const [value, setValue] = React.useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(prevState => !prevState);
+  };
 
   const [isTermsChecked, setIsTermsChecked] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const gradientRef = useRef<NeatGradient | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const mutation = useMutation<LoginResponse, AxiosError, RegisterFormData>({
     mutationFn: registerUser,
@@ -154,8 +162,8 @@ const SignupPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // setError("");
-    // setSuccess(false);
+
+    setIsSubmitting(true); // Start loading state
 
     const errors: { [key: string]: string } = {};
     if (!formData.name) errors.name = "Name is required.";
@@ -167,29 +175,20 @@ const SignupPage = () => {
 
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
+      setIsSubmitting(false); // Stop loading state
       return;
     }
 
-    // try {
-    //   const response = await registerUser(formData);
-    //   if (response.token) {
-    //     setSuccess(true);
-    //     openModal();
-    //   }
-    // } catch (err: unknown) {
-    //   if (axios.isAxiosError(err)) {
-    //     if (err.response && err.response.data) {
-    //       setError(err.response.data.msg);
-    //     } else {
-    //       setError("An error occurred during registration.");
-    //     }
-    //   } else {
-    //     setError("An unexpected error occurred.");
-    //   }
-    // }
-
-    mutation.mutate(formData);
+    mutation.mutate(formData, {
+      onSuccess: () => {
+        setIsSubmitting(false); // Stop loading state
+      },
+      onError: () => {
+        setIsSubmitting(false); // Stop loading state
+      },
+    });
   };
+
 
   return (
     <div className="bg-white h-screen flex items-center justify-center">
@@ -215,9 +214,8 @@ const SignupPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border  rounded-md border-white bg-transparent text-black placeholder-white font-thin h-10 p-4 ${
-                    validationErrors.name ? "border-red-500" : ""
-                  }`}
+                  className={`mt-1 block w-full border  rounded-md border-white bg-transparent text-white placeholder-white font-light placeholder-opacity-60  h-10 p-4 ${validationErrors.name ? "border-red-500" : ""
+                    }`}
                   placeholder="Enter your First Name and Last Name"
                   required
                 />
@@ -237,9 +235,8 @@ const SignupPage = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-3/5 border border-white  rounded-md bg-transparent placeholder-white text-gray-700 font-thin h-10 p-4 ${
-                      validationErrors.address ? "border-red-500" : ""
-                    }`}
+                    className={`mt-1  block w-full md:w-3/5 border border-white  rounded-md bg-transparent placeholder-white text-white placeholder-opacity-60 font-light h-10 p-4 ${validationErrors.address ? "border-red-500" : ""
+                      }`}
                     placeholder="City, State, Country"
                     required
                   />
@@ -248,9 +245,8 @@ const SignupPage = () => {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-2/5 border border-white bg-transparent text-black placeholder-white rounded-md  font-thin h-10 p-4 ${
-                      validationErrors.postalCode ? "border-red-500" : ""
-                    }`}
+                    className={`mt-1  block w-full md:w-2/5 border border-white bg-transparent placeholder-white text-white placeholder-opacity-60 font-light rounded-md   h-10 p-4 ${validationErrors.postalCode ? "border-red-500" : ""
+                      }`}
                     placeholder="Postal Code"
                     required
                   />
@@ -275,7 +271,7 @@ const SignupPage = () => {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  className="mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md  font-thin h-10 p-4"
+                  className="mt-1 block w-full border border-white bg-transparent placeholder-white text-white placeholder-opacity-60 font-light rounded-md  h-10 p-4"
                   placeholder="Company name"
                 />
               </div>
@@ -305,17 +301,28 @@ const SignupPage = () => {
                 <label className="block text-sm font-medium text-white">
                   Password *
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={`mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md font-thin h-10 p-4 ${
-                    validationErrors.password ? "border-red-500" : ""
-                  }`}
-                  placeholder="Enter your password"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={isPasswordVisible ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={`mt-1 block w-full border border-white bg-transparent placeholder-white text-white placeholder-opacity-60 font-light rounded-md h-10 p-4 ${validationErrors.password ? "border-red-500" : ""
+                      }`}
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute inset-y-0 right-0 flex items-center px-2"
+                  >
+                    <FontAwesomeIcon
+                      icon={isPasswordVisible ? faEyeSlash : faEye}
+                      className="text-white"
+                    />
+                  </button>
+                </div>
                 {validationErrors.password && (
                   <p className="text-red-500 text-sm mt-1">
                     {validationErrors.password}
@@ -331,9 +338,8 @@ const SignupPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-white bg-transparent text-black placeholder-white rounded-md font-thin h-10 p-4 ${
-                    validationErrors.email ? "border-red-500" : ""
-                  }`}
+                  className={`mt-1 block w-full border border-white bg-transparent placeholder-white text-white placeholder-opacity-60 font-light rounded-md  h-10 p-4 ${validationErrors.email ? "border-red-500" : ""
+                    }`}
                   placeholder="Enter your email"
                   required
                 />
@@ -371,16 +377,42 @@ const SignupPage = () => {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className={` text-white w-full py-3 rounded-md btn medium extra-class-for-medium-button ${
-                    !isTermsChecked
-                      ? "text-white w-full py-3 rounded-md opacity-20 cursor-not-allowed"
-                      : ""
-                  }`}
+                  className={`text-white w-full py-3 rounded-md btn medium extra-class-for-medium-button ${!isTermsChecked
+                    ? "text-white w-full py-3 rounded-md opacity-20 cursor-not-allowed"
+                    : ""
+                    }`}
                   style={{ backgroundColor: "#252F70" }}
-                  disabled={!isTermsChecked}
+                  disabled={!isTermsChecked || isSubmitting}
                 >
-                  Sign Up
+                  {isSubmitting ? (
+                    <div className="flex items-center justify-center">
+                      <svg
+                        className="w-5 h-5 animate-spin text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 1116 0 8 8 0 01-16 0z"
+                        ></path>
+                      </svg>
+                      <span className="ml-2">Processing...</span>
+                    </div>
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
+
                 <OTPModal isOpen={isModalOpen} onClose={closeModal} />
               </div>
               {/* {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
@@ -405,13 +437,13 @@ const SignupPage = () => {
                 <img src={googleIcon} alt="Google" className="w-6 h-6 mr-2" />
                 Login with Google
               </button>
-              <button
+              {/* <button
                 className="bg-white border border-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center"
                 type="button"
               >
                 <img src={appleIcon} alt="Apple" className="w-6 h-6 mr-2" />
                 Login with Apple
-              </button>
+              </button> */}
             </div>
           </div>
           {/* <div className="w-full md:w-2/3 lg:w-1/3 bg-secondary flex items-center justify-center lg:p-8 p-4 md:p-16 rounded-lg shadow-md h-100">

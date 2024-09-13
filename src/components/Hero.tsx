@@ -8,15 +8,17 @@ const HeroBanner: React.FC = () => {
   return (
 <div className="relative w-full overflow-hidden h-[90vh]">
   <div
-    className="absolute inset-0 bg-cover bg-center"
+    className="absolute inset-0 bg-cover bg-center rounded-b-[60px] bg-white"
     style={{ backgroundImage: `url(${heroTruck})` }}
   />
   <div
-    className="absolute inset-0 bg-black"
-    style={{
-      opacity: 0.2, // Adjust the opacity value as needed
-    }}
-  />
+  className="absolute inset-0 rounded-b-[60px]"
+  style={{
+    background: "linear-gradient(to top, rgba(0, 28, 124, 0.7) 0%, rgba(0, 28, 124, 0) 60%)",
+  }}
+/>
+
+
 
   {/* Heading Section */}
   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 text-center z-30">

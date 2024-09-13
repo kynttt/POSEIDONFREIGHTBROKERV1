@@ -14,6 +14,7 @@ import SeamlessFreightServices from "../../../components/SeamlessFreightServices
 import ContactForm from "../../../components/ContactUs";
 import TrustedAmazon from "../../../components/TrustedAmazon";
 import { Stack } from "@mantine/core";
+import CarouselComponent from "../../../components/CarouselComponent";
 
 const LandingPage: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const LandingPage: React.FC = () => {
         {/* <ServicesCardList /> */}
         {/* <Carousel /> */}
         <FreightQuote />
+        <CarouselComponent/>
         <FeaturesSection />
         <AboutUs />
         <FAQsPage />

@@ -1,11 +1,11 @@
 import {
   faTableColumns,
-  faMoneyCheckDollar,
+  // faMoneyCheckDollar,
   faCalculator,
   faUser,
   faTruckFront,
   faListUl,
-  faTruckFast,
+  // faTruckFast,
   faFolderOpen,
   faCog,
   faHistory,
@@ -33,7 +33,7 @@ export const navItems: NavItems = {
     { label: "Dashboard", path: "/a/admin-dashboard", icon: faTableColumns },
     { label: "Load Board", path: "/a/load-board", icon: faListUl },
     { label: "Documents", path: "/a/documents", icon: faFolderOpen },
-    { label: "Transactions", path: "/a/report-details", icon: faTruckFast },
+    // { label: "Transactions", path: "/a/report-details", icon: faTruckFast },
     { label: "Trucks", path: "/a/trailer-options", icon: faTruckFront },
     {
       label: "Management",
@@ -44,7 +44,7 @@ export const navItems: NavItems = {
   ],
   user: [
     { label: "Dashboard", path: "/s/shipper-dashboard", icon: faTableColumns },
-    { label: "Payables", path: "/s/user-payables", icon: faMoneyCheckDollar },
+    // { label: "Payables", path: "/s/user-payables", icon: faMoneyCheckDollar },
     { label: "Trucks", path: "/s/trailer-options", icon: faTruckFront },
 
     {
