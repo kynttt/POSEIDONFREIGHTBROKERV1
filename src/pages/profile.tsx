@@ -11,7 +11,8 @@ import {
   faMobileScreenButton,
   faCog,
   faUserEdit,
-  faCamera, // Icon for Edit Profile
+  
+  faCameraRetro, // Icon for Edit Profile
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -28,7 +29,7 @@ import queryClient from "../lib/queryClient";
 const ProfileCard: React.FC = () => {
   const { isAuthenticated, userId } = useAuthStore();
   const fileInputRef = useRef<HTMLInputElement | null>(null); // Ref for the file input
-  const [isHovering, setIsHovering] = useState(false); // State to manage hover effect
+  const [, setIsHovering] = useState(false); // State to manage hover effect
   const navigate = useNavigate(); // Initialize useNavigate
   // const [userData, setUserData] = useState<User | null>(null);
 
@@ -161,53 +162,56 @@ const ProfileCard: React.FC = () => {
       ></div>
 
       {/* Profile Picture */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-1/3">
-        <div
-          className="relative w-32 h-32 md:w-40 md:h-40"
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-        >
-          {/* Profile Image with hover effect */}
-          <img
-            className={`w-full h-full object-cover rounded-full border-4 border-white shadow-2xl ${
-              isUploading || profilePictureLoading ? "opacity-50" : ""
-            }`} // Reduce opacity during upload
-            src={
-              profilePicture && !profilePictureLoading && !profilePictureError
-                ? profilePicture
-                : profileImage
-            }
-            alt="Profile"
-          />
-          {/* Show edit icon on hover */}
-          {isHovering && !isUploading && !profilePictureLoading && (
-            <div
-              className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer"
-              onClick={handleEditClick}
-            >
-              <FontAwesomeIcon icon={faCamera} className="text-white text-xl" />
-            </div>
-          )}
-          {/* Show loading spinner during upload */}
-          {isUploading ||
-            (profilePictureLoading && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500 border-t-transparent"></div>
-              </div>
-            ))}
-          {/* File input (hidden) */}
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept="image/*"
-            className="hidden"
-          />
+      {/* Profile Picture */}
+<div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-1/3">
+  <div
+    className="relative w-32 h-32 md:w-40 md:h-40"
+    onMouseEnter={() => setIsHovering(true)}
+    onMouseLeave={() => setIsHovering(false)}
+  >
+    {/* Profile Image */}
+    <img
+      className={`w-full h-full object-cover rounded-full border-4 border-white shadow-2xl ${
+        isUploading || profilePictureLoading ? "opacity-50" : ""
+      }`} // Reduce opacity during upload
+      src={
+        profilePicture && !profilePictureLoading && !profilePictureError
+          ? profilePicture
+          : profileImage
+      }
+      alt="Profile"
+    />
+
+    {/* Camera Icon - Lower Right */}
+    <div
+  className="absolute bottom-2 right-2 bg-gray-400 rounded-full p-2 cursor-pointer flex items-center justify-center w-8 h-8"
+  onClick={handleEditClick}
+>
+  <FontAwesomeIcon icon={faCameraRetro} className="text-white text-md" />
+</div>
+
+
+    {/* Show loading spinner during upload */}
+    {isUploading ||
+      (profilePictureLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500 border-t-transparent"></div>
         </div>
-      </div>
+      ))}
+    {/* File input (hidden) */}
+    <input
+      type="file"
+      ref={fileInputRef}
+      onChange={handleFileChange}
+      accept="image/*"
+      className="hidden"
+    />
+  </div>
+</div>
+
 
       {/* User Details */}
-      <div className="flex-1  p-4 md:p-8 mt-12">
+      <div className="flex-1  p-4 md:p-8 mt-16">
         <div className="text-center mb-4">
           <p className="md:text-5xl font-medium text-primary">
             {data?.name || "John Doe"}
@@ -267,9 +271,9 @@ const ProfileCard: React.FC = () => {
               >
                 <FontAwesomeIcon
                   icon={faCog}
-                  className="mr-2 text-gray-500 hover:text-white"
+                  className=" text-gray-500 hover:text-white"
                 />
-                Settings
+                
               </button>
             </div>
           </div>

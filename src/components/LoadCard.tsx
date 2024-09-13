@@ -48,11 +48,11 @@ const LoadCard: React.FC<CardProps> = ({
 
   return (
     <div className="">
-      <div className="bg-light-grey text-primary shadow-xl rounded-lg py-4 mb-4 text-xs my-8">
+      <div className="bg-light-grey text-primary shadow-xl rounded-lg py-4 mb-4 text-sm my-8">
         <div className="grid grid-cols-7 gap-4">
           <div className="flex items-center flex-col col-span-2 md:col-span-1">
             <div className="flex items-center">
-              <p className="font-bold">Load Price</p>
+              <p className=" font-bold">Load Price</p>
             </div>
             <div>
               <p className="font-normal text-2xl text-price">
