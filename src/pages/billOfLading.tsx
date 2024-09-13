@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 // import axios from 'axios';
-import { fetchBookingById, uploadPdf } from "../lib/apiCalls";
+import { fetchBookingById, getUser, uploadPdf } from "../lib/apiCalls";
 import { useParams } from "react-router-dom";
 // import html2canvas from 'html2canvas';
 import SignatureCanvas from "react-signature-canvas";
@@ -14,7 +14,7 @@ import { useAuthStore } from "../state/useAuthStore";
 interface BookingData {
   notes: string;
   origin: string;
-  billOfLadingNumber: string;
+  bolNumber: string;
   carrier: string;
   pickupDate: string;
   departureDate: string;
@@ -30,6 +30,7 @@ interface BookingData {
   emergencyPhoneNumber: string;
   id: string;
   loadNumber: string;
+  postId: string;
 }
 
 const BillOfLading: React.FC = () => {
@@ -45,25 +46,32 @@ const BillOfLading: React.FC = () => {
     const fetchBooking = async (id: string) => {
       const data = await fetchBookingById(id);
       const quote = data.quote as Quote;
+      // Fetch user data if createdBy exists
+      let userPhone = "123-456-7891"; // Default phone number
+      if (data.createdBy) {
+        const userData = await getUser();
+        userPhone = userData.phone || "123-456-7890";
+      }
       setBookingData({
         notes: quote.notes || "",
         origin: quote.origin,
-        billOfLadingNumber: "123456",
+        bolNumber: data.bolNumber,
         carrier: data.carrier ?? "No Assigned Carrier",
         pickupDate: quote.pickupDate.toLocaleString(),
         departureDate: quote.pickupDate.toLocaleString(),
-        trailerNumber: "123",
+        trailerNumber: data.trailerNumber ?? null,
         consignee: quote.destination,
         companyName: quote.companyName,
         shipper: quote.companyName,
         destination: quote.destination,
-        phone: "123-456-7890",
+        phone: userPhone,
         packaging: `${quote.packaging}`,
         maxWeight: quote.maxWeight,
         price: quote.price,
         emergencyPhoneNumber: "123-456-7890",
         id: data._id!,
-        loadNumber: "12313213213",
+        loadNumber: data.loadNumber ?? null,
+        postId: data.loadNumber ?? null,
       });
     };
 
@@ -233,11 +241,11 @@ const BillOfLading: React.FC = () => {
 
         {/* Bill of Lading Information */}
         <div className="border border-black">
-          <div className="col-span-1">
+          <div className="flex items-center col-span-1">
             <label className="block font-bold py-2 px-4">
               Bill of Lading #
             </label>
-            <p className="font-normal">{bookingData.billOfLadingNumber}</p>
+            <p className="font-normal">{bookingData.bolNumber}</p>
           </div>
           <div className="grid grid-cols-4 gap-4 p-4 border-b border-black ">
             <div className="col-span-1 ">
@@ -258,7 +266,7 @@ const BillOfLading: React.FC = () => {
             </div>
             <div className="col-span-1">
               <label className="block font-bold">Trailer #:</label>
-              <p className="font-normal">{bookingData.carrier}</p>
+              <p className="font-normal">{bookingData.trailerNumber}</p>
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4 p-4 border-b border-black pb-6">
@@ -287,11 +295,11 @@ const BillOfLading: React.FC = () => {
           <div className="grid grid-cols-4 gap-4 p-4">
             <div className="col-span-1">
               <label className="block font-bold">Post ID:</label>
-              <p className="font-normal">{bookingData.id}</p>
+              <p className="font-normal">{bookingData.postId}</p>
             </div>
             <div className="col-span-3">
               <label className="block font-bold">Load #:</label>
-              <p className="font-normal">{bookingData.id}</p>
+              <p className="font-normal">{bookingData.loadNumber}</p>
             </div>
           </div>
         </div>
@@ -408,7 +416,7 @@ const BillOfLading: React.FC = () => {
                 )}
               </div>
             </div>
-            <p className="font-thin text-xs text-justify p-2">
+            <p className="text-gray-500 font-normal text-xs text-justify p-2">
               This is to certify that the above named materials are properly
               classified, packaged, marked, and labeled, and are in proper
               condition for transportation according to the applicable
@@ -447,7 +455,7 @@ const BillOfLading: React.FC = () => {
               Carrier Signature/Pickup Date
             </label>
             <hr className="mt-4 mx-2 border-b border-black"></hr>
-            <p className="font-thin text-xs text-justify p-2">
+            <p className="text-gray-500 font-normal text-xs text-justify p-2">
               Carrier acknowledges receipt of packages and required placards.
               Carrier certifies emergency response information was made
               available and/ or carrier has the DOT emergency response guidebook
@@ -496,3 +504,7 @@ const BillOfLading: React.FC = () => {
 };
 
 export default BillOfLading;
+function fetchUserById(createdBy: string | import("../utils/types").User) {
+  throw new Error("Function not implemented.");
+}
+
