@@ -15,6 +15,7 @@ import ContactForm from "../../../components/ContactUs";
 import TrustedAmazon from "../../../components/TrustedAmazon";
 import { Stack } from "@mantine/core";
 import CarouselComponent from "../../../components/CarouselComponent";
+import PricingPage from "./PricingPage";
 
 const LandingPage: React.FC = () => {
   return (
@@ -33,6 +34,7 @@ const LandingPage: React.FC = () => {
         <AboutUs />
         <FAQsPage />
         <TrustedAmazon />
+        <PricingPage/>
         <ContactForm />
         {/* <SuccessPage /> */}
       </Stack>
