@@ -83,20 +83,20 @@ const BillOfLading: React.FC = () => {
   const handleDownload = async () => {
     const element = printRef.current;
     if (!element) return;
-  
+
     // Capture the content of the document
     const canvas = await html2canvas(element, { scale: 2 });
     const data = canvas.toDataURL("image/png");
-  
+
     // Create the PDF with document content
     const pdf = new jsPDF({
       orientation: "portrait",
       unit: "in",
       format: [8.5, 11],
     });
-  
+
     pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
-  
+
     // Add signature if available
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       const signatureCanvas = signatureRef.current.getCanvas();
@@ -104,47 +104,49 @@ const BillOfLading: React.FC = () => {
       pdf.addPage(); // Add a new page for the signature
       pdf.addImage(signatureData, "PNG", 10, 20, 190, 60); // Adjust position and size
     }
-  
+
     // Save the PDF locally (optional) or upload it
     pdf.save("Bill_of_Lading.pdf");
   };
-  
 
+  const [loading, setLoading] = useState(false); // Track loading state
   const saveSignature = async () => {
+
     if (!printRef.current) {
       alert("No document content to save.");
       return;
     }
-  
+
     if (signatureRef.current && signatureRef.current.isEmpty()) {
       alert("Please add a signature before saving.");
       return;
     }
-  
+
     try {
+      setLoading(true); // Start loading state when processing begins
       // Capture the document content
       const canvas = await html2canvas(printRef.current, { scale: 2 });
       const data = canvas.toDataURL("image/png");
-  
+
       // Create the PDF with the document content
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "in",
         format: [8.5, 11],
       });
-  
+
       pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
-  
+
       // Add the signature if available
       if (signatureRef.current && !signatureRef.current.isEmpty()) {
         const signatureCanvas = signatureRef.current.getCanvas();
         const signatureData = signatureCanvas.toDataURL("image/png");
-  
+
         // Add a new page for the signature if necessary
         pdf.addPage();
         pdf.addImage(signatureData, "PNG", 10, 20, 190, 60); // Adjust position and size as needed
       }
-  
+
       // Generate the PDF as a Blob
       const pdfBlob = pdf.output("blob");
 
@@ -157,22 +159,24 @@ const BillOfLading: React.FC = () => {
         }
       };
       reader.readAsArrayBuffer(pdfBlob);
-  
+
       const { userId } = useAuthStore.getState();
       if (!userId) {
         alert("User ID is not available. Please log in again.");
+        setLoading(false);
         return;
       }
-  
+
       if (!bookingId) {
         alert("Booking ID is not available. Please select a booking.");
+        setLoading(false); // Reset loading state on error
         return;
       }
-  
+
       // Upload the PDF
       const response = await uploadPdf(pdfBlob, userId, bookingId);
       console.log('Upload response:', response);
-  
+
       if (response.status === 201) {
         setIsSignatureSaved(true);
         localStorage.setItem('isSignatureSaved', 'true');
@@ -182,7 +186,7 @@ const BillOfLading: React.FC = () => {
       }
     } catch (error) {
       console.error("Error caught in saveSignature:", error);
-  
+
       let errorMessage = "An error occurred while saving the document.";
       if (error instanceof Error) {
         // Handle known Error objects
@@ -191,11 +195,14 @@ const BillOfLading: React.FC = () => {
         // Handle unknown errors
         errorMessage += " An unknown error occurred.";
       }
-  
+
       alert(errorMessage);
     }
+    finally {
+      setLoading(false); // Reset loading state after process finishes
+    }
   };
-  
+
 
   const clearSignature = () => {
     if (signatureRef.current) {
@@ -470,26 +477,26 @@ const BillOfLading: React.FC = () => {
         {/* Download Button */}
         <button
           onClick={handleDownload}
-          className={`mt-4 p-2 text-white rounded ${
-            isSignatureSaved ? "bg-gray-500" : "bg-gray-300 cursor-not-allowed"
-          }`}
+          className={`mt-4 p-2 text-white rounded ${isSignatureSaved ? "bg-gray-500" : "bg-gray-300 cursor-not-allowed"
+            }`}
           disabled={!isSignatureSaved}
         >
           Download PDF
         </button>
         {!isSignatureSaved && (
           <>
+
             <button
               onClick={saveSignature}
-              className={`mt-4 p-2 text-white rounded ${
-                isSignaturePresent
+              className={`mt-4 p-2 text-white rounded ${isSignaturePresent && !loading
                   ? "bg-blue-500"
                   : "bg-blue-300 cursor-not-allowed"
-              }`}
-              disabled={!isSignaturePresent}
+                }`}
+              disabled={!isSignaturePresent || loading} // Disable when signature is missing or loading
             >
-              Save Signature
+              {loading ? "Saving..." : "Save Signature"}
             </button>
+            {loading && <div className="spinner">Saving, please wait...</div>}
             <button
               onClick={clearSignature}
               className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold  p-2 rounded"
