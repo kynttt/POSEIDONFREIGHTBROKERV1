@@ -355,6 +355,7 @@ export const fetchUserBookingById = async (id: string) => {
           deliveryTime: booking.deliveryTime,
           carrier: booking.carrier,
           status: booking.status,
+          bolNumber: booking.bolNumber,
         };
       });
     } else {

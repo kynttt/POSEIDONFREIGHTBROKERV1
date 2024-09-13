@@ -54,6 +54,7 @@ export interface BookingData {
   price: number;
 }
 export interface Quote extends Schema {
+  // bolNumber: string;
   unit: string;
   origin: string;
   destination: string;
@@ -89,6 +90,9 @@ export interface StripeClientSecret {
 }
 
 export interface Booking extends Schema {
+  loadNumber: string;
+  trailerNumber: string;
+  bolNumber: string;
   billOfLading: unknown;
   quote: Quote;
   status: BookingStatus;
