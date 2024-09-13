@@ -95,7 +95,7 @@ function HistoryQuotes() {
     <>
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-8  ">
         {/* Card Layout */}
-        <div className="border col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-grey rounded-lg lg:px-10 ">
+        <div className="border col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-[#FAF6FE] rounded-lg lg:px-10 ">
           {filteredData.map((quote) => (
             <div
               key={quote._id}
@@ -194,7 +194,7 @@ function HistoryQuotes() {
         </div>
 
         {/* Filter Inputs */}
-        <div className="lg:px-8 col-span-1 p-4 lg:p-8 rounded-lg  bg-grey ">
+        <div className="lg:px-8 col-span-1 p-4 lg:p-8 rounded-lg  bg-[#FAF6FE] border">
           <div>
             {/* Origin Filter */}
             <TextInput
@@ -240,7 +240,7 @@ function HistoryQuotes() {
             {/* Date Range Filter */}
             <Stack className=" mt-4 w-full ">
               <h1 className="font-semibold">Pick a date</h1>
-              <div className=" bg-white p-6 rounded-md ">
+              <div className=" bg-white p-6 rounded-md border">
                 <DatePicker
                   maxDate={new Date()}
                   type="range"

@@ -496,7 +496,7 @@ const BillOfLading: React.FC = () => {
             >
               {loading ? "Saving..." : "Save Signature"}
             </button>
-            {loading && <div className="spinner">Saving, please wait...</div>}
+            {loading && <div className="spinner text-primary font-normal">Saving, please wait...</div>}
             <button
               onClick={clearSignature}
               className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold  p-2 rounded"
