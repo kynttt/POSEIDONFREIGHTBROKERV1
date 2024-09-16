@@ -13,9 +13,9 @@ import {
 } from "@mantine/core";
 import { navItems } from "./navItem";
 import { faClose, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
-import { useMutation } from "@tanstack/react-query";
-import { LogoutResponse } from "../../utils/types";
-import { logoutUser } from "../../lib/apiCalls";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { LogoutResponse, User } from "../../utils/types";
+import { fetchProfilePicture, getUser, logoutUser } from "../../lib/apiCalls";
 import { notifications } from "@mantine/notifications";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css"; // Import the driver.js CSS
@@ -23,6 +23,7 @@ import profilePic from "../../assets/img/profilepic.jpg";
 import "driver.js/dist/driver.css";
 import { useSidebarStore } from "../../hooks/useSidebarStore";
 import { motion } from "framer-motion";
+import { AxiosError } from "axios";
 
 export default function Sidebar({
   close,
@@ -191,32 +192,32 @@ export default function Sidebar({
           <nav className="w-full">
             {getNavItems().map((item) => (
               <div
-              key={item.label}
-              id={getTabId(item.label)}
-              className="cursor-pointer flex-column  items-center  rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition duration-300 px-4 py-4 relative"
-              onClick={() => handleNavigation(item.path)}
-            >
-              <FontAwesomeIcon icon={item.icon} />
-              <motion.span
-                initial={{ opacity: 0, x: -20 }}
-                animate={{
-                  opacity: isExtend ? 1 : 0,
-                  x: isExtend ? 0 : -20,
-                }}
-                transition={{ duration: 0.3, delay: isExtend ? 0.2 : 0 }}
-                className={`ml-6 text-center font-medium absolute left-8`}
-                style={{
-                  height: "100%",                   // Maintain consistent height
-                  visibility: isExtend ? "visible" : "hidden",  // Use visibility instead of display
-                  width: isExtend ? "auto" : "0",  // Control width visibility
-                  overflow: "hidden",              // Hide overflow
-                  opacity: isExtend ? 1 : 0,      // Smooth opacity transition
-                  transition: "width 0.3s ease, opacity 0.3s ease", // Animate width and opacity changes
-                }}
+                key={item.label}
+                id={getTabId(item.label)}
+                className="cursor-pointer flex-column  items-center  rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition duration-300 px-4 py-4 relative"
+                onClick={() => handleNavigation(item.path)}
               >
-                {item.label}
-              </motion.span>
-            </div>
+                <FontAwesomeIcon icon={item.icon} />
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{
+                    opacity: isExtend ? 1 : 0,
+                    x: isExtend ? 0 : -20,
+                  }}
+                  transition={{ duration: 0.3, delay: isExtend ? 0.2 : 0 }}
+                  className={`ml-6 text-center font-medium absolute left-8`}
+                  style={{
+                    height: "100%", // Maintain consistent height
+                    visibility: isExtend ? "visible" : "hidden", // Use visibility instead of display
+                    width: isExtend ? "auto" : "0", // Control width visibility
+                    overflow: "hidden", // Hide overflow
+                    opacity: isExtend ? 1 : 0, // Smooth opacity transition
+                    transition: "width 0.3s ease, opacity 0.3s ease", // Animate width and opacity changes
+                  }}
+                >
+                  {item.label}
+                </motion.span>
+              </div>
             ))}
             {/* {getNavItems().map((item) => (
               <div
@@ -247,7 +248,7 @@ function ProfileItem({
   handleNavigation: (path: string) => void;
   name: string | null;
 }) {
-  const { logoutUpdate, role } = useAuthStore();
+  const { logoutUpdate, role, userId, isAuthenticated } = useAuthStore();
   const { enable, isExtend } = useSidebarStore();
 
   const mutation = useMutation<LogoutResponse, Error, undefined>({
@@ -276,23 +277,49 @@ function ProfileItem({
     },
   });
 
+  const { data } = useQuery<User, AxiosError>({
+    queryKey: ["authUser", userId],
+    queryFn: getUser,
+    enabled: isAuthenticated ?? false,
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+  });
+
+  const { data: profilePicture, isLoading: profilePictureLoading } = useQuery<
+    string | null,
+    AxiosError
+  >({
+    queryKey: ["profilePicture", userId],
+    queryFn: () => fetchProfilePicture(userId!, data?.profilePicVersion ?? 0),
+    enabled: !!data?._id,
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+  });
+
   const position: FloatingPosition = useMatches({
     xs: "top",
     lg: "right",
   }) as FloatingPosition;
-
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-        <div className=" flex  items-center py-2  shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer w-full">
-          <img
-            className={`object-cover rounded-full ${
-              isExtend ? "w-10 h-10" : "w-10 h-10"
-            }`}
-            src={profilePic}
-            alt="avatar"
-          />
+        <div className="flex items-center py-2 shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer w-full">
+          {/* Profile Image with Loading Spinner and Dimmed Effect */}
+          <div className="relative">
+            <img
+              className={`object-cover rounded-full transition-all ${
+                profilePictureLoading ? "opacity-50" : ""
+              } ${isExtend ? "w-10 h-10" : "w-10 h-10"}`}
+              src={profilePicture ? profilePicture : profilePic}
+              alt="avatar"
+            />
+            {/* Spinner Overlay during loading */}
+            {profilePictureLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="spinner-border animate-spin inline-block w-5 h-5 border-4 rounded-full text-blue-500 border-t-transparent"></div>
+              </div>
+            )}
+          </div>
 
+          {/* Name based on Sidebar state */}
           {enable ? (
             <motion.span
               initial={{ opacity: 0, x: -20 }}
@@ -335,9 +362,7 @@ function ProfileItem({
           leftSection={
             <FontAwesomeIcon icon={faSignOut} className="text-red-500" />
           }
-          onClick={() => {
-            mutation.mutate(undefined);
-          }}
+          onClick={() => mutation.mutate(undefined)}
         >
           Logout
         </Menu.Item>

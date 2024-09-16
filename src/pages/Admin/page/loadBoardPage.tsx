@@ -160,7 +160,7 @@ const LoadBoard: React.FC = () => {
 
   return (
     <div className="flex h-full md:mt-12 ">
-      <div className="flex-1 bg-grey min-h-screen overflow-y-auto ">
+      <div className="flex-1 bg-[#FAF6FE] min-h-screen overflow-y-auto ">
         <form onSubmit={handleSubmit} className="lg:mx-16 py-10 px-12 border rounded-lg mb-8 shadow-lg bg-white lg:mt-8">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold lg:mb-8 text-secondary">
@@ -296,7 +296,7 @@ const LoadBoard: React.FC = () => {
           </div>
         </form>
 
-        <div className="lg:mx-16 py-10 px-4 lg:px-12 bg-white rounded-lg">
+        <div className="lg:mx-16 py-10 px-4 lg:px-12 bg-white rounded-lg border">
           <div className="tabs flex gap-2">
             
             <button

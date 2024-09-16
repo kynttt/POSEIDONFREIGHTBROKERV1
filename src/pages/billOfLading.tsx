@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 // import axios from 'axios';
-import { fetchBookingById, uploadPdf } from "../lib/apiCalls";
+import { fetchBookingById, getUser, uploadPdf } from "../lib/apiCalls";
 import { useParams } from "react-router-dom";
 // import html2canvas from 'html2canvas';
 import SignatureCanvas from "react-signature-canvas";
@@ -14,7 +14,7 @@ import { useAuthStore } from "../state/useAuthStore";
 interface BookingData {
   notes: string;
   origin: string;
-  billOfLadingNumber: string;
+  bolNumber: string;
   carrier: string;
   pickupDate: string;
   departureDate: string;
@@ -30,6 +30,7 @@ interface BookingData {
   emergencyPhoneNumber: string;
   id: string;
   loadNumber: string;
+  postId: string;
 }
 
 const BillOfLading: React.FC = () => {
@@ -45,25 +46,32 @@ const BillOfLading: React.FC = () => {
     const fetchBooking = async (id: string) => {
       const data = await fetchBookingById(id);
       const quote = data.quote as Quote;
+      // Fetch user data if createdBy exists
+      let userPhone = "123-456-7891"; // Default phone number
+      if (data.createdBy) {
+        const userData = await getUser();
+        userPhone = userData.phone || "123-456-7890";
+      }
       setBookingData({
         notes: quote.notes || "",
         origin: quote.origin,
-        billOfLadingNumber: "123456",
+        bolNumber: data.bolNumber,
         carrier: data.carrier ?? "No Assigned Carrier",
         pickupDate: quote.pickupDate.toLocaleString(),
         departureDate: quote.pickupDate.toLocaleString(),
-        trailerNumber: "123",
+        trailerNumber: data.trailerNumber ?? null,
         consignee: quote.destination,
         companyName: quote.companyName,
         shipper: quote.companyName,
         destination: quote.destination,
-        phone: "123-456-7890",
+        phone: userPhone,
         packaging: `${quote.packaging}`,
         maxWeight: quote.maxWeight,
         price: quote.price,
         emergencyPhoneNumber: "123-456-7890",
         id: data._id!,
-        loadNumber: "12313213213",
+        loadNumber: data.loadNumber ?? null,
+        postId: data.loadNumber ?? null,
       });
     };
 
@@ -75,20 +83,20 @@ const BillOfLading: React.FC = () => {
   const handleDownload = async () => {
     const element = printRef.current;
     if (!element) return;
-  
+
     // Capture the content of the document
     const canvas = await html2canvas(element, { scale: 2 });
     const data = canvas.toDataURL("image/png");
-  
+
     // Create the PDF with document content
     const pdf = new jsPDF({
       orientation: "portrait",
       unit: "in",
       format: [8.5, 11],
     });
-  
+
     pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
-  
+
     // Add signature if available
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       const signatureCanvas = signatureRef.current.getCanvas();
@@ -96,47 +104,49 @@ const BillOfLading: React.FC = () => {
       pdf.addPage(); // Add a new page for the signature
       pdf.addImage(signatureData, "PNG", 10, 20, 190, 60); // Adjust position and size
     }
-  
+
     // Save the PDF locally (optional) or upload it
     pdf.save("Bill_of_Lading.pdf");
   };
-  
 
+  const [loading, setLoading] = useState(false); // Track loading state
   const saveSignature = async () => {
+
     if (!printRef.current) {
       alert("No document content to save.");
       return;
     }
-  
+
     if (signatureRef.current && signatureRef.current.isEmpty()) {
       alert("Please add a signature before saving.");
       return;
     }
-  
+
     try {
+      setLoading(true); // Start loading state when processing begins
       // Capture the document content
       const canvas = await html2canvas(printRef.current, { scale: 2 });
       const data = canvas.toDataURL("image/png");
-  
+
       // Create the PDF with the document content
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "in",
         format: [8.5, 11],
       });
-  
+
       pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
-  
+
       // Add the signature if available
       if (signatureRef.current && !signatureRef.current.isEmpty()) {
         const signatureCanvas = signatureRef.current.getCanvas();
         const signatureData = signatureCanvas.toDataURL("image/png");
-  
+
         // Add a new page for the signature if necessary
         pdf.addPage();
         pdf.addImage(signatureData, "PNG", 10, 20, 190, 60); // Adjust position and size as needed
       }
-  
+
       // Generate the PDF as a Blob
       const pdfBlob = pdf.output("blob");
 
@@ -149,22 +159,24 @@ const BillOfLading: React.FC = () => {
         }
       };
       reader.readAsArrayBuffer(pdfBlob);
-  
+
       const { userId } = useAuthStore.getState();
       if (!userId) {
         alert("User ID is not available. Please log in again.");
+        setLoading(false);
         return;
       }
-  
+
       if (!bookingId) {
         alert("Booking ID is not available. Please select a booking.");
+        setLoading(false); // Reset loading state on error
         return;
       }
-  
+
       // Upload the PDF
       const response = await uploadPdf(pdfBlob, userId, bookingId);
       console.log('Upload response:', response);
-  
+
       if (response.status === 201) {
         setIsSignatureSaved(true);
         localStorage.setItem('isSignatureSaved', 'true');
@@ -174,7 +186,7 @@ const BillOfLading: React.FC = () => {
       }
     } catch (error) {
       console.error("Error caught in saveSignature:", error);
-  
+
       let errorMessage = "An error occurred while saving the document.";
       if (error instanceof Error) {
         // Handle known Error objects
@@ -183,11 +195,14 @@ const BillOfLading: React.FC = () => {
         // Handle unknown errors
         errorMessage += " An unknown error occurred.";
       }
-  
+
       alert(errorMessage);
     }
+    finally {
+      setLoading(false); // Reset loading state after process finishes
+    }
   };
-  
+
 
   const clearSignature = () => {
     if (signatureRef.current) {
@@ -233,11 +248,11 @@ const BillOfLading: React.FC = () => {
 
         {/* Bill of Lading Information */}
         <div className="border border-black">
-          <div className="col-span-1">
+          <div className="flex items-center col-span-1">
             <label className="block font-bold py-2 px-4">
               Bill of Lading #
             </label>
-            <p className="font-normal">{bookingData.billOfLadingNumber}</p>
+            <p className="font-normal">{bookingData.bolNumber}</p>
           </div>
           <div className="grid grid-cols-4 gap-4 p-4 border-b border-black ">
             <div className="col-span-1 ">
@@ -258,7 +273,7 @@ const BillOfLading: React.FC = () => {
             </div>
             <div className="col-span-1">
               <label className="block font-bold">Trailer #:</label>
-              <p className="font-normal">{bookingData.carrier}</p>
+              <p className="font-normal">{bookingData.trailerNumber}</p>
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4 p-4 border-b border-black pb-6">
@@ -287,11 +302,11 @@ const BillOfLading: React.FC = () => {
           <div className="grid grid-cols-4 gap-4 p-4">
             <div className="col-span-1">
               <label className="block font-bold">Post ID:</label>
-              <p className="font-normal">{bookingData.id}</p>
+              <p className="font-normal">{bookingData.postId}</p>
             </div>
             <div className="col-span-3">
               <label className="block font-bold">Load #:</label>
-              <p className="font-normal">{bookingData.id}</p>
+              <p className="font-normal">{bookingData.loadNumber}</p>
             </div>
           </div>
         </div>
@@ -408,7 +423,7 @@ const BillOfLading: React.FC = () => {
                 )}
               </div>
             </div>
-            <p className="font-thin text-xs text-justify p-2">
+            <p className="text-gray-500 font-normal text-xs text-justify p-2">
               This is to certify that the above named materials are properly
               classified, packaged, marked, and labeled, and are in proper
               condition for transportation according to the applicable
@@ -447,7 +462,7 @@ const BillOfLading: React.FC = () => {
               Carrier Signature/Pickup Date
             </label>
             <hr className="mt-4 mx-2 border-b border-black"></hr>
-            <p className="font-thin text-xs text-justify p-2">
+            <p className="text-gray-500 font-normal text-xs text-justify p-2">
               Carrier acknowledges receipt of packages and required placards.
               Carrier certifies emergency response information was made
               available and/ or carrier has the DOT emergency response guidebook
@@ -462,26 +477,26 @@ const BillOfLading: React.FC = () => {
         {/* Download Button */}
         <button
           onClick={handleDownload}
-          className={`mt-4 p-2 text-white rounded ${
-            isSignatureSaved ? "bg-gray-500" : "bg-gray-300 cursor-not-allowed"
-          }`}
+          className={`mt-4 p-2 text-white rounded ${isSignatureSaved ? "bg-gray-500" : "bg-gray-300 cursor-not-allowed"
+            }`}
           disabled={!isSignatureSaved}
         >
           Download PDF
         </button>
         {!isSignatureSaved && (
           <>
+
             <button
               onClick={saveSignature}
-              className={`mt-4 p-2 text-white rounded ${
-                isSignaturePresent
+              className={`mt-4 p-2 text-white rounded ${isSignaturePresent && !loading
                   ? "bg-blue-500"
                   : "bg-blue-300 cursor-not-allowed"
-              }`}
-              disabled={!isSignaturePresent}
+                }`}
+              disabled={!isSignaturePresent || loading} // Disable when signature is missing or loading
             >
-              Save Signature
+              {loading ? "Saving..." : "Save Signature"}
             </button>
+            {loading && <div className="spinner text-primary font-normal">Saving, please wait...</div>}
             <button
               onClick={clearSignature}
               className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold  p-2 rounded"
@@ -496,3 +511,4 @@ const BillOfLading: React.FC = () => {
 };
 
 export default BillOfLading;
+
