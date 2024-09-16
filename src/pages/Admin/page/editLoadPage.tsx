@@ -252,10 +252,10 @@ const EditLoad: React.FC = () => {
 
   return (
     <div className="flex min-h-screen md:mt-12 ">
-      <nav className="flex-1 bg-light-grey overflow-y-auto lg:px-20">
+      <nav className="flex-1 bg-[#FAF6FE] overflow-y-auto lg:px-20">
         <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
           <div className="w-full lg:w-2/3">
-            <div className="bg-light-grey p-6 w-full max-w-screen-2xl mx-auto">
+            <div className="bg-[#FAF6FE] p-6 w-full max-w-screen-2xl mx-auto">
               <div className="md:flex items-center">
                 <h1 className="text-2xl font-medium  text-secondary mr-auto my-2">
                   Shipment Summary
