@@ -568,11 +568,19 @@ export const getPricePerMile = async ({
 };
 
 export const listNotifications = async (userId: string) => {
-  const response = await axiosInstance.get(`/notifications`, {
-    params: { userId },
-  });
-  return response.data as NotificationSchema[];
+  try {
+    const response = await axiosInstance.get(`/notifications`, {
+      params: { userId },
+    });
+
+    // Assuming NotificationSchema now includes user with profilePicUrl and name
+    return response.data as NotificationSchema[]; 
+  } catch (error) {
+    console.error("Error fetching notifications", error);
+    throw error;
+  }
 };
+
 
 export const updateNotificationStatus = async (id: string, isRead: boolean) => {
   try {

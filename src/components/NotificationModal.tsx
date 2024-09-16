@@ -1,43 +1,35 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { listNotifications, updateNotificationStatus } from "../lib/apiCalls";
-import { Loader, ScrollArea, Stack } from "@mantine/core";
+import { Loader, ScrollArea, Stack, Image } from "@mantine/core";
 import { format, formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../src/state/useAuthStore"; // Adjust the import path
-import { NotificationSchema } from "../utils/types";
+import { useAuthStore } from "../../src/state/useAuthStore";
+import { NotificationSchema, User } from "../utils/types";
 import queryClient from "../lib/queryClient";
+
+function isUser(user: string | User): user is User {
+  return (user as User).profilePicUrl !== undefined;
+}
 
 export default function NotificationModal() {
   const navigate = useNavigate();
   const { userId, isAuthenticated, role } = useAuthStore((state) => ({
     userId: state.userId,
     isAuthenticated: state.isAuthenticated,
-    role: state.role, // Assuming role is stored in state
+    role: state.role,
   }));
 
-  // Fetch notifications
   const { data, isLoading, isError, error } = useQuery<NotificationSchema[]>({
     queryKey: ["notifications", userId],
     enabled: !!isAuthenticated && !!userId,
     queryFn: async () => {
-      // const options = { type: role === "admin" ? "admin" : "user" }; // Set type based on role
       if (!userId) return [];
-      const notifications = await listNotifications(userId!); // Pass both userId and options
-      // return notifications.map((notification: any) => ({
-      //   _id: notification._id ?? "",
-      //   title: notification.title,
-      //   message: notification.message,
-      //   createdAt: notification.createdAt,
-      //   isRead: notification.isRead,
-      //   metadata: notification.metadata,
-      // }));
-
+      const notifications = await listNotifications(userId);
       return notifications;
     },
     refetchOnWindowFocus: true,
   });
 
-  // Define mutation for updating notification status
   const mutation = useMutation({
     mutationFn: (id: string) => updateNotificationStatus(id, true),
     onSuccess: () => {
@@ -46,14 +38,6 @@ export default function NotificationModal() {
       });
     },
   });
-
-  // * The sorted function is already handle in backend
-  // // Sort notifications by createdAt in descending order
-  // const sortedNotifications =
-  //   data?.sort(
-  //     (a, b) =>
-  //       new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
-  //   ) || [];
 
   const formatNotificationDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -89,14 +73,12 @@ export default function NotificationModal() {
       }
     }
 
-    // Determine redirection based on role
     const targetRoute =
       role === "admin"
         ? `/a/editBooking/${notification.bookingId}`
         : `/s/shipmentDetails/${notification.bookingId}`;
 
     if (notification.bookingId) {
-      console.log(`Navigating to ${targetRoute}`);
       navigate(targetRoute);
     } else if (notification.metadata && notification.metadata.length > 0) {
       const bookingIdMetadata = notification.metadata.find(
@@ -108,7 +90,6 @@ export default function NotificationModal() {
           role === "admin"
             ? `/a/editBooking/${bookingIdMetadata.value}`
             : `/s/shipmentDetails/${bookingIdMetadata.value}`;
-        console.log(`Navigating to ${metadataTargetRoute}`);
         navigate(metadataTargetRoute);
       } else {
         console.error("Booking ID metadata not found");
@@ -137,14 +118,26 @@ export default function NotificationModal() {
           {data!.map((notification) => (
             <div
               key={notification._id}
-              className={`py-2  px-12 hover:bg-gray-400 hover:text-white rounded-md transition-colors duration-200 cursor-pointer  shadow-lg ${
+              className={`py-2 px-12 hover:bg-gray-400 hover:text-white rounded-md transition-colors duration-200 cursor-pointer shadow-lg ${
                 !notification.isRead
                   ? "bg-blue-50 text-black"
                   : "text-gray-700"
               }`}
               onClick={() => handleNotificationClick(notification)}
             >
-              <div className="text-sm font-medium">{notification.title}</div>
+              <div className="flex items-center">
+                {isUser(notification.user) && notification.user.profilePicUrl && (
+                  <Image
+                    src={notification.user.profilePicUrl}
+                    alt="Profile Picture"
+                    radius="xl"
+                    width={40}
+                    height={40}
+                    className="mr-3"
+                  />
+                )}
+                <div className="text-sm font-medium">{notification.title}</div>
+              </div>
               <div className="text-xs font-normal">
                 {formatNotificationMessage(notification)}
               </div>
