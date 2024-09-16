@@ -1,12 +1,10 @@
 import { Libraries } from "@react-google-maps/api";
 import { useAuthStore } from "../../state/useAuthStore";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useJsApiLoader } from "@react-google-maps/api";
 
-import { MapComponent } from "../../components/googleMap/MapComponent";
-import { calculateRoute } from "../../components/googleMap/utils";
 // import { useAuth } from '../../hooks/useAuth';
 // import Button from "../../components/Button";
 
@@ -41,10 +39,12 @@ import { LoadingOverlay } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
 import useDistanceCalculator from "../../hooks/useDistanceCalculator";
-import { useDisclosure } from "@mantine/hooks";
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import MapMarkerDialog from "../../components/googleMap/MapMarkerDialog";
 import { getAddressFromLatLng } from "../../utils/helpers";
-import { APIProvider } from "@vis.gl/react-google-maps";
+import { APIProvider, useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
+import MapComponent from "../../components/googleMap/MapComponent";
+import { useDirectionsStore } from "../../components/googleMap/useDirectionStore";
 
 const libraries: Libraries = ["places"];
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || ""; // Provide an empty string as a fallback
@@ -74,19 +74,37 @@ export default function DistanceCalculatorPage() {
   } = useDistanceCalculator();
 
   /// <<<--- MAP RELATED STATES --->>>
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
-  const [originLocation, setOriginLocation] =
-    useState<google.maps.LatLngLiteral | null>(null);
-  const [destinationLocation, setDestinationLocation] =
-    useState<google.maps.LatLngLiteral | null>(null);
+  // const [map, setMap] = useState<google.maps.Map | null>(null);
+  // const [origin, setOrigin] = useState("");
+  // const [destination, setDestination] = useState("");
+  // const [originLocation, setOriginLocation] =
+  //   useState<google.maps.LatLngLiteral | null>(null);
+  // const [destinationLocation, setDestinationLocation] =
+  //   useState<google.maps.LatLngLiteral | null>(null);
   // const [autocompleteA, setAutocompleteA] =
   //   useState<google.maps.places.Autocomplete | null>(null);
   // const [autocompleteB, setAutocompleteB] =
-  useState<google.maps.LatLng | null>(null);
-  const [directions, setDirections] =
-    useState<google.maps.DirectionsResult | null>(null);
+  // useState<google.maps.LatLng | null>(null);
+  const map = useMap("map-background");
+  const routesLibrary = useMapsLibrary("routes");
+  const initializeDirections = useDirectionsStore(
+    (state) => state.initializeDirections
+  );
+  const calculateRoutes = useDirectionsStore((state) => state.calculateRoutes);
+  const selectedRoutes = useDirectionsStore((state) => state.selectedRoute);
+  const leg = selectedRoutes?.legs[0];
+
+  // ! important
+  // const [directions, setDirections] =
+  //   useState<google.maps.DirectionsResult | null>(null);
+  const [debouncedOriginLocation] = useDebouncedValue(
+    dataState?.originLocation,
+    500
+  );
+  const [debouncedDestinationLocation] = useDebouncedValue(
+    dataState?.destinationLocation,
+    500
+  );
   /// <<<--- MAP RELATED STATES END --->>>
 
   const [showPrice, setShowPrice] = useState(false);
@@ -144,11 +162,11 @@ export default function DistanceCalculatorPage() {
         return;
       }
 
-      if (!dataState.distance && !dataState.maxWeight) {
+      if (!leg?.distance && !dataState.maxWeight) {
         return;
       }
       const calculatedPrice = calculatePrice(
-        dataState.distance!,
+        leg!.distance!.text,
         data.pricePerMile,
         dataState.maxWeight!
       );
@@ -174,6 +192,13 @@ export default function DistanceCalculatorPage() {
     },
   });
 
+  // Initialize directions service and renderer
+  useEffect(() => {
+    if (routesLibrary && map) {
+      initializeDirections(routesLibrary, map);
+    }
+  }, [routesLibrary, map, initializeDirections]);
+
   useEffect(() => {
     if (data && listTrucksData && listTrucksData.length > 0) {
       const {
@@ -187,8 +212,9 @@ export default function DistanceCalculatorPage() {
         companyName,
         packaging,
         notes,
-        distance,
+
         price,
+        routeCoordinates,
       } = data;
 
       const packagingSplit = packaging.split(" ");
@@ -196,12 +222,22 @@ export default function DistanceCalculatorPage() {
       const trailerTypeFound = listTrucksData!.find(
         (type) => type.truckType === trailerType
       );
+      const originLocation: google.maps.LatLngLiteral = {
+        lat: routeCoordinates.coordinates[0][1],
+        lng: routeCoordinates.coordinates[0][0],
+      };
 
+      const destinationLocation: google.maps.LatLngLiteral = {
+        lat: routeCoordinates.coordinates[1][1],
+        lng: routeCoordinates.coordinates[1][0],
+      };
       initDistanceCalculator({
         packagingNumber: parseInt(packagingSplit[0], 10),
         packagingType: packagingSplit[1],
         origin,
+        originLocation,
         destination,
+        destinationLocation,
         pickupDate: new Date(pickupDate).toLocaleDateString(),
         trailerType: trailerTypeFound,
         trailerSize,
@@ -209,11 +245,11 @@ export default function DistanceCalculatorPage() {
         maxWeight: maxWeight.toString(),
         companyName,
         notes: notes || undefined,
-        distance,
+
         price,
       });
     }
-  }, [data, isQueryLoading]);
+  }, [data, isQueryLoading, initDistanceCalculator, listTrucksData]);
 
   useEffect(() => {
     if (!isTourStarted && role === "user") {
@@ -275,48 +311,46 @@ export default function DistanceCalculatorPage() {
     }
   }, [isError, error, savedQuoteError]);
 
-  useEffect(() => {
-    if (originLocation && destinationLocation) {
-      const origin = dataState?.origin || "";
-      const destination = dataState?.destination || "";
+  //! KInanglan ni pero e revised
+  // useEffect(() => {
+  //   if (dataState?.originLocation && dataState?.destinationLocation) {
+  //     const origin = dataState?.origin || "";
+  //     const destination = dataState?.destination || "";
 
-      calculateRoute({
-        origin,
-        destination,
-        onDirections: setDirections,
-        onDistance: (value) => {
-          updateState({
-            ...dataState!,
-            distance: value,
-          });
-        },
-        map,
-        originLocation,
-        destinationLocation,
-      });
-    }
-  }, [
-    originLocation,
-    destinationLocation,
-    origin,
-    dataState?.origin,
-    dataState?.destination,
-  ]);
+  //     calculateRoute({
+  //       origin,
+  //       destination,
+  //       onDirections: setDirections,
+  //       onDistance: (value) => {
+  //         updateState({
+  //           ...dataState!,
+  //           distance: value,
+  //         });
+  //       },
+  //       map,
+  //       originLocation: dataState.originLocation,
+  //       destinationLocation: dataState.destinationLocation,
+  //     });
+  //   }
+  // }, [map, updateState, dataState]);
 
   useEffect(() => {
     if (!dataState) {
       initDistanceCalculator(null);
     }
-  }, []);
+  }, [dataState, initDistanceCalculator]);
 
+  // ! important
   useEffect(() => {
-    if (map && originLocation && destinationLocation) {
-      const bounds = new google.maps.LatLngBounds();
-      bounds.extend(originLocation);
-      bounds.extend(destinationLocation);
-      map.fitBounds(bounds);
+    if (debouncedOriginLocation && debouncedDestinationLocation && map) {
+      calculateRoutes(debouncedOriginLocation, debouncedDestinationLocation);
     }
-  }, [map, originLocation, destinationLocation]);
+  }, [
+    debouncedOriginLocation,
+    debouncedDestinationLocation,
+    map,
+    calculateRoutes,
+  ]);
 
   // const onLoadA = useCallback(
   //   (autocomplete: google.maps.places.Autocomplete) => {
@@ -333,11 +367,11 @@ export default function DistanceCalculatorPage() {
   // );
   const pricingCalculateHandler = () => {
     if (dataState) {
-      const { distance, maxWeight, trailerType, trailerSize } = dataState;
-      if (distance && maxWeight && trailerType && trailerSize) {
-        console.log(distance, maxWeight, trailerType, trailerSize);
+      const { maxWeight, trailerType, trailerSize } = dataState;
+      if (leg?.distance && maxWeight && trailerType && trailerSize) {
+        // console.log(distance, maxWeight, trailerType, trailerSize);
         mutation.mutate({
-          distance: parseFloat(distance.replace(/[^\d.]/g, "")),
+          distance: leg.distance.value,
           truckId: trailerType._id!,
           trailerSize: trailerSize,
         });
@@ -346,36 +380,51 @@ export default function DistanceCalculatorPage() {
   };
 
   // Reverse Geocoding to get address from coordinates
-  const updateOriginAddress = async (location: google.maps.LatLngLiteral) => {
-    const address = await getAddressFromLatLng(location);
-    setOrigin(address);
-    setOriginLocation(location);
-    updateState({
-      ...dataState!,
-      origin: address,
-    });
-  };
-  const updateDestinationAddress = async (
-    location: google.maps.LatLngLiteral
-  ) => {
-    const address = await getAddressFromLatLng(location);
-    setDestination(address);
-    setDestinationLocation(location);
-    updateState({
-      ...dataState!,
-      origin: address,
-    });
-  };
+  const updateOriginAddress = useCallback(
+    async (location: google.maps.LatLngLiteral) => {
+      const address = await getAddressFromLatLng(location);
+      // setOrigin(address);
+      // setOriginLocation(location);
 
-  const handleOriginApply = (position: google.maps.LatLngLiteral) => {
-    updateOriginAddress(position);
-    closeOriginDialog();
-  };
+      updateState({
+        ...dataState!,
+        origin: address,
+        originLocation: location,
+      });
+    },
+    [dataState, updateState]
+  );
 
-  const handleDestinationApply = (position: google.maps.LatLngLiteral) => {
-    updateDestinationAddress(position);
-    closeDestinationDialog();
-  };
+  const updateDestinationAddress = useCallback(
+    async (location: google.maps.LatLngLiteral) => {
+      const address = await getAddressFromLatLng(location);
+      // setDestination(address);
+      // setDestinationLocation(location);
+      updateState({
+        ...dataState!,
+        destination: address,
+        destinationLocation: location,
+      });
+    },
+    [dataState, updateState]
+  );
+
+  const handleOriginApply = useCallback(
+    (position: google.maps.LatLngLiteral) => {
+      updateOriginAddress(position);
+      closeOriginDialog();
+    },
+    [updateOriginAddress, closeOriginDialog]
+  );
+
+  const handleDestinationApply = useCallback(
+    (position: google.maps.LatLngLiteral) => {
+      updateDestinationAddress(position);
+      closeDestinationDialog();
+    },
+    [updateDestinationAddress, closeDestinationDialog]
+  );
+
   // const onPlaceChangedA = () => {
   //   if (autocompleteA) {
   //     const place = autocompleteA.getPlace();
@@ -477,6 +526,7 @@ export default function DistanceCalculatorPage() {
     }
   };
 
+  console.log(dataState);
   if (!isLoaded) {
     return <div>Loading...</div>; // Show a loading message until the script is loaded
   }
@@ -488,13 +538,7 @@ export default function DistanceCalculatorPage() {
           <div className="flex-1 bg-light-grey min-h-screen overflow-y-auto">
             <div className="relative">
               <div className="mt-4  lg:col-span-3">
-                <MapComponent
-                  map={map}
-                  setMap={setMap}
-                  directions={directions}
-                  originLocation={originLocation}
-                  destinationLocation={destinationLocation}
-                />
+                <MapComponent />
               </div>
             </div>
 
@@ -595,7 +639,7 @@ export default function DistanceCalculatorPage() {
                             <input
                               type="text"
                               readOnly
-                              value={origin}
+                              value={dataState?.origin || ""}
                               placeholder="Pickup Location"
                               className="border rounded-lg px-4 py-2 w-full cursor-pointer hover:bg-gray-100"
                               onClick={openOriginDialog}
@@ -620,7 +664,7 @@ export default function DistanceCalculatorPage() {
                             <input
                               type="text"
                               readOnly
-                              value={destination}
+                              value={dataState?.destination || ""}
                               placeholder="Drop-off Location"
                               className="border rounded-lg px-4 py-2 w-full cursor-pointer hover:bg-gray-100"
                               onClick={openDestinationDialog}
@@ -828,7 +872,7 @@ export default function DistanceCalculatorPage() {
                           type="text"
                           className="p-2 px-6 border rounded w-full bg-light-grey text-primary font-normal"
                           placeholder="e.g. Electronics"
-                          value={dataState?.commodity}
+                          value={dataState?.commodity || ""}
                           onChange={(e) => {
                             // setCommodity(e.target.value);
                             updateState({
@@ -857,7 +901,7 @@ export default function DistanceCalculatorPage() {
                           type="number"
                           className="p-2 px-6  rounded w-full bg-light-grey text-primary font-normal"
                           placeholder="e.g. 1000lbs"
-                          value={dataState?.maxWeight}
+                          value={dataState?.maxWeight || ""}
                           onChange={(e) => {
                             // setMaxWeight(e.target.value);
                             updateState({
@@ -886,7 +930,7 @@ export default function DistanceCalculatorPage() {
                           <input
                             type="number"
                             className="p-2 rounded w-full bg-light-grey text-primary font-normal"
-                            value={dataState?.packagingNumber}
+                            value={dataState?.packagingNumber || ""}
                             onChange={handlePackagingNumberChange}
                             placeholder="Enter no. of packages"
                             min="0" // This ensures only non-negative values are allowed
@@ -994,7 +1038,7 @@ export default function DistanceCalculatorPage() {
                           type="text"
                           className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
                           placeholder="Enter your company name"
-                          value={dataState?.companyName}
+                          value={dataState?.companyName || ""}
                           onChange={(e) => {
                             // setCompanyName(e.target.value)
                             updateState({
@@ -1021,7 +1065,7 @@ export default function DistanceCalculatorPage() {
                         <textarea
                           className="p-2 px-6 border border-secondary rounded w-full bg-white text-primary font-normal"
                           placeholder="Enter your additional notes"
-                          value={dataState?.notes}
+                          value={dataState?.notes || ""}
                           onChange={(e) => {
                             // setNotes(e.target.value)
                             updateState({
@@ -1094,7 +1138,7 @@ export default function DistanceCalculatorPage() {
                           style={{ height: "60px" }}
                         >
                           {/* {distance ? distance : <span>&nbsp;</span>} */}
-                          {dataState?.distance || <span>&nbsp;</span>}
+                          {leg?.distance?.text || <span>&nbsp;</span>}
                         </div>
                       )}
                     </div>
@@ -1155,7 +1199,7 @@ export default function DistanceCalculatorPage() {
           opened={originDialogOpened}
           onClose={closeOriginDialog}
           onApply={handleOriginApply}
-          initialPosition={originLocation}
+          initialPosition={dataState?.originLocation}
         />
 
         {/* MapMarkerDialog for Destination */}
@@ -1165,7 +1209,7 @@ export default function DistanceCalculatorPage() {
           opened={destinationDialogOpened}
           onClose={closeDestinationDialog}
           onApply={handleDestinationApply}
-          initialPosition={destinationLocation}
+          initialPosition={dataState?.destinationLocation}
         />
       </APIProvider>
     </>
