@@ -1,12 +1,12 @@
-import { useState, useCallback, useEffect } from "react";
-import { Autocomplete } from "@react-google-maps/api";
-import { Marker, Map, MapMouseEvent, useMap } from "@vis.gl/react-google-maps";
+import { useState, useCallback, useEffect, useRef } from "react";
+import {
+  Map,
+  MapMouseEvent,
+  Marker,
+  useMap,
+  useMapsLibrary,
+} from "@vis.gl/react-google-maps";
 import { Modal, Button } from "@mantine/core";
-
-// const containerStyle = {
-//   width: "100%",
-//   height: "400px",
-// };
 
 const defaultCenter: google.maps.LatLngLiteral = {
   lat: 38.84,
@@ -14,7 +14,6 @@ const defaultCenter: google.maps.LatLngLiteral = {
 };
 
 interface IMarkerDialogProps {
-  isLoaded: boolean;
   isDialogOpened: boolean;
   opened: boolean;
   onClose: () => void;
@@ -22,8 +21,50 @@ interface IMarkerDialogProps {
   initialPosition?: google.maps.LatLngLiteral | null; // Optional initial position
 }
 
+// The PlaceAutocompleteClassic component as provided
+interface PlaceAutocompleteClassicProps {
+  onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
+}
+
+const PlaceAutocompleteClassic = ({
+  onPlaceSelect,
+}: PlaceAutocompleteClassicProps) => {
+  const [placeAutocomplete, setPlaceAutocomplete] =
+    useState<google.maps.places.Autocomplete | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const places = useMapsLibrary("places");
+
+  useEffect(() => {
+    if (!places || !inputRef.current) return;
+
+    const options = {
+      fields: ["geometry", "name", "formatted_address"],
+    };
+
+    setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
+  }, [places]);
+
+  useEffect(() => {
+    if (!placeAutocomplete) return;
+
+    placeAutocomplete.addListener("place_changed", () => {
+      onPlaceSelect(placeAutocomplete.getPlace());
+    });
+  }, [onPlaceSelect, placeAutocomplete]);
+
+  return (
+    <div className="autocomplete-container">
+      <input
+        ref={inputRef}
+        className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mt-5"
+        placeholder="Search for a place"
+      />
+    </div>
+  );
+};
+
+// The main MapMarkerDialog component
 export default function MapMarkerDialog({
-  isLoaded,
   opened,
   onClose,
   onApply,
@@ -34,74 +75,43 @@ export default function MapMarkerDialog({
     useState<google.maps.LatLngLiteral | null>(
       initialPosition || defaultCenter
     );
-  const [autocomplete, setAutocomplete] =
-    useState<google.maps.places.Autocomplete | null>(null);
 
   // Update marker position when initialPosition changes
   useEffect(() => {
     if (initialPosition) {
-      setMarkerPosition(initialPosition);
+      setMarkerPosition(initialPosition || defaultCenter);
       map?.panTo(initialPosition);
     }
   }, [initialPosition, map]);
 
+  // Handle map click event
   const onMapClick = useCallback(
     (event: MapMouseEvent) => {
       if (event.detail.latLng) {
-        // const position = {
-        //   lat: event.latLng.lat(),
-        //   lng: event.latLng.lng(),
-        // };
-
-        const position = event.detail.latLng;
+        const position = {
+          lat: event.detail.latLng.lat,
+          lng: event.detail.latLng.lng,
+        };
         setMarkerPosition(position);
         map?.panTo(position);
-        //   if (mapInstance) {
-        //     mapInstance.panTo(position);
-        //   }
       }
     },
     [map]
   );
 
-  const onPlaceChanged = () => {
-    if (autocomplete !== null) {
-      const place = autocomplete.getPlace();
-      //   if (place.geometry && place.geometry.location) {
-      //     const location = place.geometry.location;
-      //     const position = {
-      //       lat: location.lat(),
-      //       lng: location.lng(),
-      //     };
-      //     setMarkerPosition(position);
-      //     map?.panTo(position);
-      //     // if (mapInstance) {
-      //     //   mapInstance.panTo(position);
-      //     // }
-      //   }
-      if (place.geometry) {
-        const location = place.geometry.location;
-        if (location) {
-          console.log(location);
-          // const location = place.geometry.location;
-          // const position = location.toJSON();
-          setMarkerPosition({
-            lat: location.lat(),
-            lng: location.lng(),
-          });
-          map?.setZoom(12);
-          map?.panTo(location);
-        }
-      }
+  // Handle place selection from Autocomplete
+  const handlePlaceSelect = (place: google.maps.places.PlaceResult | null) => {
+    if (place?.geometry?.location) {
+      const position = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      };
+      setMarkerPosition(position);
+      map?.panTo(position);
     }
   };
 
-  const onLoadAutocomplete = (
-    autocompleteInstance: google.maps.places.Autocomplete
-  ) => {
-    setAutocomplete(autocompleteInstance);
-  };
-
+  // Apply the selected location
   const handleApply = () => {
     if (markerPosition) {
       onApply(markerPosition); // Pass selected location back to the parent
@@ -112,30 +122,18 @@ export default function MapMarkerDialog({
   return (
     <Modal opened={opened} onClose={onClose} title="Select Location" centered>
       <div className="flex flex-col space-y-4">
-        {/* Search bar */}
-        {isLoaded && (
-          <Autocomplete
-            onLoad={onLoadAutocomplete}
-            onPlaceChanged={onPlaceChanged}
-          >
-            <input
-              type="text"
-              placeholder="Search for a place"
-              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mt-5"
-            />
-          </Autocomplete>
-        )}
+        {/* Autocomplete Search bar */}
+        <PlaceAutocompleteClassic onPlaceSelect={handlePlaceSelect} />
 
         {/* Map */}
-        {isLoaded && opened ? (
+        {opened ? (
           <Map
             id="map-marker"
-            defaultZoom={markerPosition ? 8 : 4}
             className="h-[400px] w-full"
             defaultCenter={markerPosition || defaultCenter}
             onClick={onMapClick}
+            defaultZoom={4}
           >
-            {/* <AdvancedMarker position={markerPosition || defaultCenter} /> */}
             <Marker position={markerPosition || defaultCenter} />
           </Map>
         ) : (

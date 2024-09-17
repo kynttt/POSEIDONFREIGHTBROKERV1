@@ -19,7 +19,7 @@ export function Directions() {
     setRouteIndex,
   } = useDirectionsStore();
 
-  const { data: distanceData } = useDistanceCalculator();
+  const { data: distanceData, update } = useDistanceCalculator();
 
   // Initialize directions service and renderer
   useEffect(() => {
@@ -34,10 +34,16 @@ export function Directions() {
       distanceData?.origin &&
       distanceData?.destination
     ) {
-      calculateRoutes(
-        distanceData.originLocation!,
-        distanceData.destinationLocation!
-      );
+      calculateRoutes({
+        origin: distanceData.originLocation!,
+        destination: distanceData.destinationLocation!,
+        onResponse: (response) => {
+          update({
+            ...distanceData,
+            distance: response.routes[0].legs[0].distance?.text,
+          });
+        },
+      });
     }
   }, [
     directionsService,
@@ -47,6 +53,8 @@ export function Directions() {
     distanceData?.originLocation,
     distanceData?.destinationLocation,
     calculateRoutes,
+    update,
+    distanceData,
   ]);
 
   // Update route index in renderer

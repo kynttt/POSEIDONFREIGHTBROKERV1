@@ -69,6 +69,7 @@ import ChangePasswordPage from "./pages/Shared/pages/ChangePasswordPage";
 import UpdateUserDetailsPage from "./pages/Shared/pages/UpdateUserDetailsPage";
 import ResetPassword from "./pages/Shared/pages/resetPassword";
 import ForgotPasswordPage from "./pages/Shared/pages/forgotPassword";
+import { APIProvider } from "@vis.gl/react-google-maps";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -94,7 +95,7 @@ const theme = createTheme({
     ],
   },
 });
-
+const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || "";
 const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -189,7 +190,14 @@ const App: React.FC = () => {
                 />
 
                 <Route path="/requests" element={<ShipmentRequestShellPage />}>
-                  <Route index element={<DistanceCalculatorPage />} />
+                  <Route
+                    index
+                    element={
+                      <APIProvider apiKey={googleMapsApiKey}>
+                        <DistanceCalculatorPage />
+                      </APIProvider>
+                    }
+                  />
                   <Route
                     path="confirmation"
                     element={

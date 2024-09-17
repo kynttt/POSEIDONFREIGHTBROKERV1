@@ -11,10 +11,15 @@ interface DirectionsState {
     routesLibrary: google.maps.RoutesLibrary | null,
     map: google.maps.Map | null
   ) => void;
-  calculateRoutes: (
-    origin: google.maps.LatLngLiteral,
-    destination: google.maps.LatLngLiteral
-  ) => void; // Accept parameters
+  calculateRoutes: ({
+    origin,
+    destination,
+    onResponse,
+  }: {
+    origin: google.maps.LatLngLiteral;
+    destination: google.maps.LatLngLiteral;
+    onResponse: (response: google.maps.DirectionsResult) => void;
+  }) => void; // Accept parameters
   setRouteIndex: (index: number) => void;
 }
 
@@ -34,7 +39,7 @@ export const useDirectionsStore = create<DirectionsState>((set, get) => ({
     set({ directionsService, directionsRenderer });
   },
 
-  calculateRoutes: (origin, destination) => {
+  calculateRoutes: ({ origin, destination, onResponse }) => {
     const { directionsService, directionsRenderer } = get();
 
     if (!directionsService || !directionsRenderer || !origin || !destination)
@@ -49,6 +54,7 @@ export const useDirectionsStore = create<DirectionsState>((set, get) => ({
       })
       .then((response) => {
         directionsRenderer.setDirections(response);
+        onResponse(response);
         set({
           routes: response.routes,
           selectedRoute: response.routes[0],

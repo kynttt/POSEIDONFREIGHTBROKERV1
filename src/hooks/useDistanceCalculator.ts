@@ -20,6 +20,11 @@ export interface DistanceCalculatorData {
   originLocation: google.maps.LatLngLiteral | undefined;
   destination: string | undefined;
   destinationLocation: google.maps.LatLngLiteral | undefined;
+  routeCoordinates: {
+    type: "LineString";
+    coordinates: [number, number][];
+  };
+  distance: string | undefined;
   pickupDate: string | undefined;
   trailerType: TruckCatalog | undefined;
   trailerSize: number | undefined;

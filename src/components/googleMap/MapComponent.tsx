@@ -1,5 +1,5 @@
 import { Map } from "@vis.gl/react-google-maps";
-import { Directions } from "./Directions";
+import { memo } from "react";
 
 // const containerStyle = {
 //   width: "100%",
@@ -43,7 +43,7 @@ const mapStyles = [
 //   destinationLocation: google.maps.LatLngLiteral | null;
 // }
 
-export default function MapComponent() {
+export function MapComponent() {
   console.log("MapComponent rendered");
   return (
     <>
@@ -58,7 +58,6 @@ export default function MapComponent() {
 
         styles={mapStyles}
       >
-        <Directions />
         {/* {originLocation && <Marker position={originLocation} label="A" />}
 {destinationLocation && (
   <Marker position={destinationLocation} label="B" />
@@ -105,3 +104,5 @@ export default function MapComponent() {
   </GoogleMap> */
   }
 }
+
+export default memo(MapComponent);
