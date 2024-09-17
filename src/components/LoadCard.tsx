@@ -49,8 +49,8 @@ const LoadCard: React.FC<CardProps> = ({
   return (
     <div className="">
       <div className="bg-light-grey text-primary shadow-xl rounded-lg py-4 mb-4 text-sm my-8">
-        <div className="grid grid-cols-7 gap-4">
-          <div className="flex items-center flex-col col-span-2 md:col-span-1">
+        <div className="grid grid-cols-6 gap-4 px-14">
+          <div className="flex items-left flex-col col-span-2 md:col-span-1">
             <div className="flex items-center">
               <p className=" font-bold">Load Price</p>
             </div>
@@ -60,12 +60,28 @@ const LoadCard: React.FC<CardProps> = ({
               </p>
             </div>
           </div>
-          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+          {/* <div className="flex items-left flex-col col-span-2 md:col-span-1">
             <div className="flex items-center">
               <p className="font-bold">Post ID:</p>
             </div>
             <div>
               <p className="font-normal">{id}</p>
+            </div>
+          </div> */}
+          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+            <div className="flex items-center">
+              <p className="font-bold">Status</p>
+            </div>
+            <div>
+              <p className="font-normal">{status}</p>
+            </div>
+          </div>
+          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+            <div className="flex items-center">
+              <p className="font-bold">Pickup Date</p>
+            </div>
+            <div>
+              <p className="font-normal">{formattedPickupDate}</p>
             </div>
           </div>
           <div className="flex items-left flex-col col-span-2 md:col-span-1">
@@ -84,23 +100,9 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-normal">{truncatedDrop}</p>
             </div>
           </div>
-          <div className="flex items-left flex-col col-span-2 md:col-span-1">
-            <div className="flex items-center">
-              <p className="font-bold">Pickup Date</p>
-            </div>
-            <div>
-              <p className="font-normal">{formattedPickupDate}</p>
-            </div>
-          </div>
-          <div className="flex items-left flex-col col-span-2 md:col-span-1">
-            <div className="flex items-center">
-              <p className="font-bold">Status</p>
-            </div>
-            <div>
-              <p className="font-normal">{status}</p>
-            </div>
-          </div>
-          <div className="flex items-center justify-center col-span-2 md:col-span-1">
+          
+          
+          <div className="flex items-center justify-end col-span-2 md:col-span-1">
             <Button
               label="Check Load"
               size="medium"

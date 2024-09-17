@@ -8,6 +8,7 @@ import LoadCard from "../../../components/LoadCard";
 import { fetchBookings } from "../../../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
 import { Quote } from "../../../utils/types";
+import { faSpinner, faCircleCheck, faTruck, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 
 type CardProps = {
   pickupDate: Date;
@@ -61,7 +62,7 @@ const LoadBoard: React.FC = () => {
           : true) &&
         (queryPickUpDate
           ? new Date(load.pickupDate).toDateString() ===
-            new Date(queryPickUpDate).toDateString()
+          new Date(queryPickUpDate).toDateString()
           : true) &&
         (queryTrailerType ? load.trailerType === queryTrailerType : true) &&
         (queryRadius ? load.distance <= parseInt(queryRadius) : true)
@@ -94,7 +95,7 @@ const LoadBoard: React.FC = () => {
             commodity: quote.commodity,
             price: quote.price,
             pickupDate: new Date(quote.pickupDate),
-            onBookLoadClick: () => {},
+            onBookLoadClick: () => { },
           })
         );
         setLoadCards(cards);
@@ -297,59 +298,63 @@ const LoadBoard: React.FC = () => {
         </form>
 
         <div className="lg:mx-16 py-10 px-4 lg:px-12 bg-white rounded-lg border">
-          <div className="tabs flex gap-2">
-            
-            <button
-              className={`tab ${
-                activeTab === "Pending"
-                  ? "active bg-primary"
-                  : "bg-secondary hover:bg-primary"
-              } py-2 px-4 rounded text-white transition-all duration-300`}
-              onClick={() => setActiveTab("Pending")}
-            >
-              Pending
-            </button>
-            <button
-              className={`tab ${
-                activeTab === "Confirmed"
-                  ? "active bg-primary"
-                  : "bg-secondary hover:bg-primary"
-              } py-2 px-4 rounded text-white transition-all duration-300`}
-              onClick={() => setActiveTab("Confirmed")}
-            >
-              Confirmed
-            </button>
-            <button
-              className={`tab ${
-                activeTab === "In Transit"
-                  ? "active bg-primary"
-                  : "bg-secondary hover:bg-primary"
-              } py-2 px-4 rounded text-white transition-all duration-300`}
-              onClick={() => setActiveTab("In Transit")}
-            >
-              In Transit
-            </button>
-            <button
-              className={`tab ${
-                activeTab === "Delivered"
-                  ? "active bg-primary"
-                  : "bg-secondary hover:bg-primary"
-              } py-2 px-4 rounded text-white transition-all duration-300`}
-              onClick={() => setActiveTab("Delivered")}
-            >
-              Delivered
-            </button>
-          </div>
+
+<div className="tabs flex flex-wrap gap-4">
+  <button
+    className={`tab ${activeTab === "Pending"
+        ? "active bg-blue-500"
+        : "bg-gray-400 hover:bg-blue-500"
+      } py-2 px-4 rounded text-white transition-all duration-300 flex items-center text-sm md:text-base`}
+    onClick={() => setActiveTab("Pending")}
+  >
+    <FontAwesomeIcon icon={faSpinner} className="mr-2" />
+    Pending
+  </button>
+
+  <button
+    className={`tab ${activeTab === "Confirmed"
+        ? "active bg-blue-500"
+        : "bg-gray-400 hover:bg-blue-500"
+      } py-2 px-4 rounded text-white transition-all duration-300 flex items-center text-sm md:text-base`}
+    onClick={() => setActiveTab("Confirmed")}
+  >
+    <FontAwesomeIcon icon={faCircleCheck} className="mr-2" />
+    Confirmed
+  </button>
+
+  <button
+    className={`tab ${activeTab === "In Transit"
+        ? "active bg-blue-500"
+        : "bg-gray-400 hover:bg-blue-500"
+      } py-2 px-4 rounded text-white transition-all duration-300 flex items-center text-sm md:text-base`}
+    onClick={() => setActiveTab("In Transit")}
+  >
+    <FontAwesomeIcon icon={faTruck} className="mr-2" />
+    In Transit
+  </button>
+
+  <button
+    className={`tab ${activeTab === "Delivered"
+        ? "active bg-blue-500"
+        : "bg-gray-400 hover:bg-blue-500"
+      } py-2 px-4 rounded text-white transition-all duration-300 flex items-center text-sm md:text-base`}
+    onClick={() => setActiveTab("Delivered")}
+  >
+    <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />
+    Delivered
+  </button>
+</div>
+
 
           {/* Show count of searched load cards */}
           <div className="text-center font-semibold text-lg text-primary mb-4">
             {activeTab === "Confirmed"
               ? `${confirmedLoadCards.length} Confirmed Load(s) Found`
               : activeTab === "Pending"
-              ? `${pendingLoadCards.length} Pending Load(s) Found`
-              : activeTab === "In Transit"
-              ? `${inTransitLoadCards.length} In Transit Load(s) Found`
-              : `${deliveredLoadCards.length} Delivered Load(s) Found`}
+                ? `${pendingLoadCards.length} Pending Load(s) Found`
+                : activeTab === "In Transit"
+                  ? `${inTransitLoadCards.length} In Transit Load(s) Found`
+                  : `${deliveredLoadCards.length} Delivered Load(s) Found`}
           </div>
 
           <div className="load-cards mt-8">

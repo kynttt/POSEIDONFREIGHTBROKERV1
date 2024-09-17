@@ -126,7 +126,7 @@ function ShellHeader({
               size="md"
               onClick={handleNotificationClick} // Attach click handler
             >
-              <FontAwesomeIcon icon={faBell} />
+              <FontAwesomeIcon icon={faBell} className="bg-gray-300 rounded-full p-1 w-4 h-4" />
             </ActionIcon>
           </Indicator>
         </Popover.Target>

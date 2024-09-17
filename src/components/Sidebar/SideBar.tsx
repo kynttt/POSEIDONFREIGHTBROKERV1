@@ -150,7 +150,7 @@ export default function Sidebar({
       }}
       onMouseLeave={() => setIsExtend(false)}
       justify="space-between"
-      className="h-screen px-4 py-8 bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700 w-full"
+      className="h-screen px-4 py-8 border-r bg-gray-900  w-full"
     >
       <Stack className="w-full ">
         <Stack gap={"md"}>
@@ -301,7 +301,7 @@ function ProfileItem({
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-        <div className="flex items-center py-2 shadow rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer w-full">
+        <div className="flex justify-center items-center py-2 shadow rounded-lg hover:bg-gray-800 cursor-pointer w-full">
           {/* Profile Image with Loading Spinner and Dimmed Effect */}
           <div className="relative">
             <img
