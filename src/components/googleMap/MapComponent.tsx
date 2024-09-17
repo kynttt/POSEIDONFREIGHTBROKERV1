@@ -50,7 +50,7 @@ export function MapComponent() {
       <Map
         id={"map-background"}
         // mapContainerStyle={containerStyle}
-        className="w-full h-[50vh] shadow-lg rounded-lg"
+        className="w-full h-full"
         defaultCenter={defaultCenter}
         defaultZoom={4}
         // onLoad={(map) => setMap(map)}
