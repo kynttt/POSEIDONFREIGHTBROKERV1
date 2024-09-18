@@ -1,8 +1,16 @@
 import { notifications } from "@mantine/notifications";
 import { create } from "zustand";
 
+interface CalculateRoutesParams {
+  origin: google.maps.LatLngLiteral;
+  destination: google.maps.LatLngLiteral;
+  onResponse: (response: google.maps.DirectionsResult) => void;
+  onError?: (error: { message: string }) => void;
+}
 interface DirectionsState {
   isLoading: boolean;
+  prevOrigin?: google.maps.LatLngLiteral;
+  prevDestination?: google.maps.LatLngLiteral;
   directionsService?: google.maps.DirectionsService;
   directionsRenderer?: google.maps.DirectionsRenderer;
   routes: google.maps.DirectionsRoute[];
@@ -17,39 +25,46 @@ interface DirectionsState {
     destination,
     onResponse,
     onError,
-  }: {
-    origin: google.maps.LatLngLiteral;
-    destination: google.maps.LatLngLiteral;
-    onResponse: (response: google.maps.DirectionsResult) => void;
-    onError?: (error: { message: string }) => void;
-  }) => void; // Accept parameters
+  }: CalculateRoutesParams) => void; // Accept parameters
   setRouteIndex: (index: number) => void;
 }
 
-export const useDirectionsStore = create<DirectionsState>((set, get) => ({
-  isLoading: false,
-  directionsService: undefined,
-  directionsRenderer: undefined,
-  routes: [],
-  routeIndex: 0,
-  selectedRoute: undefined,
-
-  initializeDirections: (routesLibrary, map) => {
-    if (!routesLibrary || !map) return;
-
-    const directionsService = new routesLibrary.DirectionsService();
-    const directionsRenderer = new routesLibrary.DirectionsRenderer({ map });
-
-    set({ directionsService, directionsRenderer });
-  },
-
-  calculateRoutes: ({ origin, destination, onResponse, onError }) => {
-    if (get().isLoading) return;
-    set({ isLoading: true });
-    const { directionsService, directionsRenderer } = get();
-
-    if (!directionsService || !directionsRenderer || !origin || !destination)
+export const useDirectionsStore = create<DirectionsState>((set, get) => {
+  // Define calculateRoutes outside the return object
+  const calculateRoutes = ({
+    origin,
+    destination,
+    onResponse,
+    onError,
+  }: CalculateRoutesParams) => {
+    const {
+      directionsService,
+      directionsRenderer,
+      isLoading,
+      prevOrigin,
+      prevDestination,
+    } = get();
+    if (!directionsService || !directionsRenderer || !origin || !destination) {
       return;
+    }
+
+    console.log("Prev Origin:", prevOrigin);
+    console.log("Prev Destination:", prevDestination);
+
+    console.log("Origin:", origin);
+    console.log("Destination:", destination);
+    console.log(prevOrigin === origin && prevDestination === destination);
+
+    const isSameOrigin =
+      prevOrigin?.lat === origin.lat && prevOrigin?.lng === origin.lng;
+    const isSameDestination =
+      prevDestination?.lat === destination.lat &&
+      prevDestination?.lng === destination.lng;
+    if (isSameOrigin && isSameDestination) {
+      return;
+    }
+    if (isLoading) return;
+    set({ isLoading: true });
 
     directionsService
       .route({
@@ -63,6 +78,8 @@ export const useDirectionsStore = create<DirectionsState>((set, get) => ({
         directionsRenderer.setDirections(response);
         onResponse(response);
         set({
+          prevOrigin: origin,
+          prevDestination: destination,
           routes: response.routes,
           selectedRoute: response.routes[0],
           routeIndex: 0,
@@ -90,14 +107,32 @@ export const useDirectionsStore = create<DirectionsState>((set, get) => ({
 
         console.error("Error fetching directions", error);
       });
-  },
+  };
+  return {
+    isLoading: false,
+    directionsService: undefined,
+    directionsRenderer: undefined,
+    routes: [],
+    routeIndex: 0,
+    selectedRoute: undefined,
 
-  setRouteIndex: (index) => {
-    const { directionsRenderer } = get();
-    directionsRenderer?.setRouteIndex(index);
-    set((state) => ({
-      routeIndex: index,
-      selectedRoute: state.routes[index],
-    }));
-  },
-}));
+    initializeDirections: (routesLibrary, map) => {
+      if (!routesLibrary || !map) return;
+
+      const directionsService = new routesLibrary.DirectionsService();
+      const directionsRenderer = new routesLibrary.DirectionsRenderer({ map });
+
+      set({ directionsService, directionsRenderer });
+    },
+
+    calculateRoutes,
+    setRouteIndex: (index) => {
+      const { directionsRenderer } = get();
+      directionsRenderer?.setRouteIndex(index);
+      set((state) => ({
+        routeIndex: index,
+        selectedRoute: state.routes[index],
+      }));
+    },
+  };
+});

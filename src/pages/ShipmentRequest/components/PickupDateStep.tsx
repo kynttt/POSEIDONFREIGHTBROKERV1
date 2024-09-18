@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Calendar, DayProps } from "@mantine/dates";
 import dayjs from "dayjs"; // Make sure dayjs is installed
 import ShipmentRequestHeader from "./ShipmentRequestHeader"; // Adjust the import path
@@ -9,9 +9,17 @@ import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
 export default function PickupDateStep() {
   const { nextStep } = useStepContext();
   const { data, update } = useDistanceCalculator();
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     data?.pickupDate ? new Date(data.pickupDate) : null
   );
+
+  useEffect(() => {
+    if (data?.pickupDate) {
+      setSelectedDate(new Date(data.pickupDate));
+    }
+  }, [data]);
+
   const handleSelect = (date: Date) => {
     // If the same date is clicked again, deselect it
     if (selectedDate && dayjs(date).isSame(selectedDate, "date")) {
