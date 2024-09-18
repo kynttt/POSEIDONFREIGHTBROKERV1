@@ -368,22 +368,79 @@ export const fetchUserBookingById = async (id: string) => {
   }
 };
 
-export const createPaymentIntent = async ({
-  amount,
-  currency,
-}: PaymentIntentParams) => {
-  try {
-    const response = await axiosInstance.post(
-      `/payments/create-payment-intent`,
+// export const createPaymentIntent = async ({
+//   amount,
+//   currency,
+// }: PaymentIntentParams) => {
+//   try {
+//     const response = await axiosInstance.post(
+//       `/payments/create-payment-intent`,
 
-      {
-        amount,
-        currency,
-      }
-    );
-    return response.data as StripeClientSecret;
-  } catch (error) {
-    console.error("Error creating payment intent:", error);
+//       {
+//         amount,
+//         currency,
+//       }
+//     );
+//     return response.data as StripeClientSecret;
+//   } catch (error) {
+//     console.error("Error creating payment intent:", error);
+//     throw error;
+//   }
+// };
+
+
+export const savePaymentMethod = async (paymentMethodId: string, userId: string) => {
+  try {
+    const response = await axiosInstance.post(`/payments/save-payment-method`, {
+      paymentMethodId,
+      userId,
+    });
+    console.log('Payment Method Saved:', response.data);
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Error Saving Payment Method: ${error.message}`);
+    } else {
+      console.error('Unknown error occurred while saving payment method.');
+    }
+    throw error;
+  }
+};
+
+
+export const fetchSavedPaymentMethods = async (userId: string) => {
+  try {
+    const response = await axiosInstance.get(`/payments/saved-payment-methods?userId=${userId}`);
+    console.log('Fetch Saved Payment Methods Response:', response.data);
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Error Fetching Saved Payment Methods: ${error.message}`);
+    } else {
+      console.error('Unknown error occurred while fetching saved payment methods.');
+    }
+    throw error;
+  }
+};
+
+
+export const createPaymentIntent = async (amount: number, currency: string, paymentMethodId?: string, userId?: string) => {
+  try {
+    console.log('Creating Payment Intent with data:', { amount, currency, paymentMethodId, userId });
+    const response = await axiosInstance.post(`/payments/create-payment-intent`, {
+      amount,
+      currency,
+      paymentMethodId,
+      userId,
+    });
+    console.log('Payment Intent Created:', response.data);
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Error Creating Payment Intent: ${error.message}`);
+    } else {
+      console.error('Unknown error occurred while creating payment intent.');
+    }
     throw error;
   }
 };
