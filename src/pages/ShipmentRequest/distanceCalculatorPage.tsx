@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { MapComponent } from "../../components/googleMap/MapComponent";
-import { Accordion } from "@mantine/core";
+import { Accordion, ActionIcon } from "@mantine/core";
 import InformationQuotation from "./components/InformationQuotation";
 import { StepProvider } from "./components/ShipmenStepperProvider";
 import useDistanceCalculator from "../../hooks/useDistanceCalculator";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchQuoteDetails, listTrucks } from "../../lib/apiCalls";
 import { useDirectionsStore } from "../../hooks/useDirectionStore";
 import { notifications } from "@mantine/notifications";
@@ -16,6 +16,8 @@ import {
   useShipmentAccordion,
 } from "./components/ShipmentAccordionProvider";
 import CompleteTheRequirements from "./components/CompleteTheRequirements";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function DistanceCalculatorPage() {
   return (
@@ -39,6 +41,7 @@ function FieldSection() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const quoteId = searchParams.get("quoteId");
+  const navigate = useNavigate();
 
   const selectedRoutes = useDirectionsStore((state) => state.selectedRoute);
   const leg = selectedRoutes?.legs[0];
@@ -167,7 +170,12 @@ function FieldSection() {
 
   return (
     <div className="w-full h-full overflow-auto  ">
-      <div className="w-full flex justify-center items-center h-[10%] text-primary text-lg font-bold">
+      <div className="w-full flex items-center justify-center h-[10%] text-primary text-lg font-bold relative">
+        <div className="absolute left-6 text-primary">
+          <ActionIcon variant="subtle" onClick={() => navigate(-1)}>
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </ActionIcon>
+        </div>
         QUOTATION
       </div>
       <div className="h-[90%] p-5">
