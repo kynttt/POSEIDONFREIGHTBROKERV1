@@ -43,8 +43,6 @@ function FieldSection() {
   const quoteId = searchParams.get("quoteId");
   const navigate = useNavigate();
 
-  const selectedRoutes = useDirectionsStore((state) => state.selectedRoute);
-  const leg = selectedRoutes?.legs[0];
   const map = useMap("map-background");
   const routesLibrary = useMapsLibrary("routes");
   const initializeDirections = useDirectionsStore(
@@ -139,7 +137,7 @@ function FieldSection() {
         price,
       });
     }
-  }, [data, isQueryLoading, initDistanceCalculator, listTrucksData, leg]);
+  }, [data, isQueryLoading, initDistanceCalculator, listTrucksData]);
 
   useEffect(() => {
     if (error) {
