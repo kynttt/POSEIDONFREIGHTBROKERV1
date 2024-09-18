@@ -40,23 +40,26 @@ const ShipperDashboardPage = () => {
       const FEET_TO_MILES_CONVERSION = 5280;
 
       // Object to store date-wise counts and total miles
-      const dateCounts: { [date: string]: { count: number; totalMiles: number } } = {};
+      const dateCounts: {
+        [date: string]: { count: number; totalMiles: number };
+      } = {};
 
       bookingsData.forEach((booking: Booking) => {
         if (isQuote(booking.quote)) {
           const quote = booking.quote as Quote;
           const date = new Date(quote.pickupDate).toLocaleDateString(); // Extract date
-          let distanceStr = quote.distance || "0"; // Default to '0' if undefined
+          // let distanceStr = quote.distance || "0"; // Default to '0' if undefined
           const unit = quote.unit || "miles"; // Default to 'miles' if undefined
 
           // Sanitize distanceStr: Remove commas and any other non-numeric characters except the decimal point
-          distanceStr = distanceStr.replace(/[^0-9.]/g, "");
+          // distanceStr = distanceStr.replace(/[^0-9.]/g, "");
 
           // Convert distance to a number
-          const distance = parseFloat(distanceStr);
+          const distance = quote.distance || 0;
 
           // Convert to miles if the unit is feet
-          const miles = unit === "feet" ? distance / FEET_TO_MILES_CONVERSION : distance;
+          const miles =
+            unit === "feet" ? distance / FEET_TO_MILES_CONVERSION : distance;
 
           // If this date isn't in the object yet, initialize it
           if (!dateCounts[date]) {
@@ -198,21 +201,23 @@ const ShipperDashboardPage = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-              {["Pending", "Confirmed", "In Transit", "Delivered"].map((status) => (
-                <div
-                  key={status}
-                  className="bg-light-grey p-4 rounded-lg shadow text-center border border-gray-200"
-                >
-                  <p className="text-gray-600 text-left font-medium text-primary text-base sm:text-lg md:text-xl">
-                    {status}
-                  </p>
-                  <h3 className="text-2xl text-left sm:text-3xl md:text-2xl font-bold text-secondary">
-                    {statusCounts[status] || 0} {/* Display the count or 0 if no data */}
-                  </h3>
-                </div>
-              ))}
+              {["Pending", "Confirmed", "In Transit", "Delivered"].map(
+                (status) => (
+                  <div
+                    key={status}
+                    className="bg-light-grey p-4 rounded-lg shadow text-center border border-gray-200"
+                  >
+                    <p className="text-gray-600 text-left font-medium text-primary text-base sm:text-lg md:text-xl">
+                      {status}
+                    </p>
+                    <h3 className="text-2xl text-left sm:text-3xl md:text-2xl font-bold text-secondary">
+                      {statusCounts[status] || 0}{" "}
+                      {/* Display the count or 0 if no data */}
+                    </h3>
+                  </div>
+                )
+              )}
             </div>
-
 
             {/* Daily Booking Analytics */}
             <div className="bg-light-grey rounded-lg shadow p-4 md:p-6 flex-1">
