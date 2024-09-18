@@ -10,7 +10,7 @@ import {
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faBell, faQuestion } from "@fortawesome/free-solid-svg-icons";
+
 import { faBars, faBell, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
 import NotificationModal from "../../../components/NotificationModal";
