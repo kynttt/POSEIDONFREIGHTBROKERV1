@@ -82,7 +82,7 @@ export default function PackageDetailsStep() {
             </h3>
             <select
               className="w-full bg-blue-100 text-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-              value={dataState?.packagingType}
+              value={dataState?.packagingType || ""}
               onChange={(e) =>
                 // setSelectedPackagingType(e.target.value)
                 updateState({
@@ -91,7 +91,7 @@ export default function PackageDetailsStep() {
                 })
               }
             >
-              <option disabled selected>
+              <option disabled value={""}>
                 Select packaging type
               </option>
               <option className="text-primary" value="Carton">

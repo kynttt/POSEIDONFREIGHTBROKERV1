@@ -3,21 +3,25 @@ import ShipmentRequestHeader from "./ShipmentRequestHeader";
 import { faMapMarkerAlt, faTruck } from "@fortawesome/free-solid-svg-icons";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
 import MapMarkerDialog from "../../../components/googleMap/MapMarkerDialog";
-import { useDisclosure } from "@mantine/hooks";
-import { useCallback } from "react";
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
+import { useCallback, useEffect } from "react";
 import { getAddressFromLatLng } from "../../../utils/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { listTrucks } from "../../../lib/apiCalls";
 import { Button, Space } from "@mantine/core";
 import { useStepContext } from "./ShipmenStepperProvider";
+import { useDirectionsStore } from "../../../components/googleMap/useDirectionStore";
 
 export default function ShipmentTransportationStep() {
   const { data: dataState, update: updateState } = useDistanceCalculator();
   const { nextStep, prevStep } = useStepContext();
+  const calculateRoutes = useDirectionsStore((state) => state.calculateRoutes);
   const { data: listTrucksData } = useQuery({
     queryKey: ["truck-catalogs", "distance-calculator"],
     queryFn: listTrucks,
   });
+  const selectedRoutes = useDirectionsStore((state) => state.selectedRoute);
+  const leg = selectedRoutes?.legs[0];
   const [
     originDialogOpened,
     { open: openOriginDialog, close: closeOriginDialog },
@@ -27,6 +31,15 @@ export default function ShipmentTransportationStep() {
     destinationDialogOpened,
     { open: openDestinationDialog, close: closeDestinationDialog },
   ] = useDisclosure(false);
+
+  const [debouncedOriginLocation] = useDebouncedValue(
+    dataState?.originLocation,
+    500
+  );
+  const [debouncedDestinationLocation] = useDebouncedValue(
+    dataState?.destinationLocation,
+    500
+  );
 
   const updateOriginAddress = useCallback(
     async (location: google.maps.LatLngLiteral) => {
@@ -72,6 +85,56 @@ export default function ShipmentTransportationStep() {
     },
     [updateDestinationAddress, closeDestinationDialog]
   );
+
+  useEffect(() => {
+    if (debouncedOriginLocation && debouncedDestinationLocation) {
+      console.log("calculateRoutes");
+      // updateState({
+      //   ...dataState!,
+
+      //   routeCoordinates: {
+      //     type: "LineString",
+      //     coordinates: [
+      //       [debouncedOriginLocation.lng, debouncedOriginLocation.lat] as [
+      //         number,
+      //         number
+      //       ],
+      //       [
+      //         debouncedDestinationLocation.lng,
+      //         debouncedDestinationLocation.lat,
+      //       ] as [number, number],
+      //     ],
+      //   },
+      // });
+      calculateRoutes({
+        origin: debouncedOriginLocation,
+        destination: debouncedDestinationLocation,
+        onResponse: () => {},
+      });
+    }
+  }, [debouncedOriginLocation, debouncedDestinationLocation, calculateRoutes]);
+
+  const onNext = () => {
+    if (!debouncedOriginLocation || !debouncedDestinationLocation) return;
+    nextStep();
+    updateState({
+      ...dataState!,
+      distance: leg?.distance?.text,
+      routeCoordinates: {
+        type: "LineString",
+        coordinates: [
+          [debouncedOriginLocation.lng, debouncedOriginLocation.lat] as [
+            number,
+            number
+          ],
+          [
+            debouncedDestinationLocation.lng,
+            debouncedDestinationLocation.lat,
+          ] as [number, number],
+        ],
+      },
+    });
+  };
 
   return (
     <>
@@ -200,7 +263,7 @@ export default function ShipmentTransportationStep() {
               !dataState?.trailerType ||
               !dataState?.trailerSize
             }
-            onClick={nextStep}
+            onClick={onNext}
             fullWidth
           >
             Next

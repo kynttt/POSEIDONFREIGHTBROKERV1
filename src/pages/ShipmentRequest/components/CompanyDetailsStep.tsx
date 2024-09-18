@@ -2,14 +2,80 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ShipmentRequestHeader from "./ShipmentRequestHeader";
 import { faBuilding, faNoteSticky } from "@fortawesome/free-solid-svg-icons";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
+
 import { Button, Space } from "@mantine/core";
 import { useShipmentAccordion } from "./ShipmentAccordionProvider";
 import { useStepContext } from "./ShipmenStepperProvider";
+import { useMutation } from "@tanstack/react-query";
+import { GetPriceMileData, GetPriceMileResponse } from "../../../utils/types";
+import { AxiosError } from "axios";
+import { notifications } from "@mantine/notifications";
+import { getPricePerMile } from "../../../lib/apiCalls";
+import { useDirectionsStore } from "../../../components/googleMap/useDirectionStore";
+import { calculatePrice } from "../../../components/googleMap/priceCalculator";
 
 export default function CompanyDetailStep() {
   const { prevStep } = useStepContext();
   const { setValue } = useShipmentAccordion();
+
+  const selectedRoutes = useDirectionsStore((state) => state.selectedRoute);
+  const leg = selectedRoutes?.legs[0];
+
   const { data: dataState, update: updateState } = useDistanceCalculator();
+
+  const mutation = useMutation<
+    GetPriceMileResponse,
+    AxiosError,
+    GetPriceMileData
+  >({
+    mutationFn: getPricePerMile,
+    onSuccess: (data) => {
+      if (!dataState) {
+        return;
+      }
+      if (!leg?.distance && !dataState.maxWeight) {
+        return;
+      }
+      const calculatedPriceResponse = calculatePrice(
+        leg!.distance!.text,
+        data.pricePerMile,
+        dataState.maxWeight!
+      );
+      if (!calculatePrice) {
+        return;
+      }
+
+      console.log("Calculated price:", calculatedPriceResponse);
+      // setPrice(calculatedPrice);
+      updateState({
+        ...dataState!,
+        price: calculatedPriceResponse!,
+      });
+    },
+    onError: (error) => {
+      console.error("Error fetching price data:", error.message);
+      notifications.show({
+        title: "Error",
+        message: "An error occurred while calculating the price",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+    },
+  });
+
+  const onNextHandler = () => {
+    if (!leg?.distance || !dataState?.trailerType || !dataState.trailerSize) {
+      return;
+    }
+    mutation.mutate({
+      distance: leg!.distance!.value!,
+      truckId: dataState.trailerType!._id!,
+      trailerSize: dataState.trailerSize!,
+    });
+    setValue("calculation");
+  };
+
   return (
     <>
       <div className="flex flex-col my-5">
@@ -79,7 +145,7 @@ export default function CompanyDetailStep() {
                 !dataState?.trailerType ||
                 !dataState?.trailerSize
               }
-              onClick={() => setValue("calculation")}
+              onClick={onNextHandler}
               fullWidth
             >
               Next

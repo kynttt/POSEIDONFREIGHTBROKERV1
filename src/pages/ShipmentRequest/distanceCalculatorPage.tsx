@@ -9,13 +9,14 @@ import { useLocation } from "react-router-dom";
 import { fetchQuoteDetails, listTrucks } from "../../lib/apiCalls";
 import { useDirectionsStore } from "../../components/googleMap/useDirectionStore";
 import { notifications } from "@mantine/notifications";
-import { useDebouncedValue } from "@mantine/hooks";
+
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import {
   ShipmentAccordionProvider,
   ShipmentAccordionValueType,
   useShipmentAccordion,
 } from "./components/ShipmentAccordionProvider";
+import CompleteTheRequirements from "./components/CompleteTheRequirements";
 
 export default function DistanceCalculatorPage() {
   return (
@@ -39,7 +40,7 @@ function FieldSection() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const quoteId = searchParams.get("quoteId");
-  const calculateRoutes = useDirectionsStore((state) => state.calculateRoutes);
+
   const selectedRoutes = useDirectionsStore((state) => state.selectedRoute);
   const leg = selectedRoutes?.legs[0];
   const map = useMap("map-background");
@@ -72,15 +73,6 @@ function FieldSection() {
     staleTime: 600000, // 10 minutes
     gcTime: 1800000, // 30 minutes
   });
-
-  const [debouncedOriginLocation] = useDebouncedValue(
-    dataState?.originLocation,
-    500
-  );
-  const [debouncedDestinationLocation] = useDebouncedValue(
-    dataState?.destinationLocation,
-    500
-  );
 
   useEffect(() => {
     if (routesLibrary && map) {
@@ -174,34 +166,6 @@ function FieldSection() {
     }
   }, [dataState, initDistanceCalculator]);
 
-  useEffect(() => {
-    if (debouncedOriginLocation && debouncedDestinationLocation) {
-      console.log("calculateRoutes");
-      // updateState({
-      //   ...dataState!,
-
-      //   routeCoordinates: {
-      //     type: "LineString",
-      //     coordinates: [
-      //       [debouncedOriginLocation.lng, debouncedOriginLocation.lat] as [
-      //         number,
-      //         number
-      //       ],
-      //       [
-      //         debouncedDestinationLocation.lng,
-      //         debouncedDestinationLocation.lat,
-      //       ] as [number, number],
-      //     ],
-      //   },
-      // });
-      calculateRoutes({
-        origin: debouncedOriginLocation,
-        destination: debouncedDestinationLocation,
-        onResponse: () => {},
-      });
-    }
-  }, [debouncedOriginLocation, debouncedDestinationLocation, calculateRoutes]);
-
   return (
     <div className="w-full h-full overflow-auto  ">
       <div className="w-full flex justify-center items-center h-[10%] text-primary text-lg font-bold">
@@ -237,7 +201,9 @@ function FieldSection() {
                 Complete the Requirements
               </div>
             </Accordion.Control>
-            <Accordion.Panel>panel-2</Accordion.Panel>
+            <Accordion.Panel>
+              <CompleteTheRequirements />
+            </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
       </div>
