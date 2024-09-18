@@ -1,5 +1,7 @@
 import { Map } from "@vis.gl/react-google-maps";
 import { memo } from "react";
+import { Box, LoadingOverlay } from "@mantine/core";
+import { useDirectionsStore } from "../../hooks/useDirectionStore";
 
 // const containerStyle = {
 //   width: "100%",
@@ -44,21 +46,29 @@ const mapStyles = [
 // }
 
 export function MapComponent() {
-  console.log("MapComponent rendered");
+  const isLoading = useDirectionsStore((state) => state.isLoading);
   return (
     <>
-      <Map
-        id={"map-background"}
-        // mapContainerStyle={containerStyle}
-        className="w-full h-full"
-        defaultCenter={defaultCenter}
-        defaultZoom={4}
-        // onLoad={(map) => setMap(map)}
-        // options={{ styles: mapStyles }} // Applying custom styles
+      <Box pos="relative" className="w-full h-full">
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
+        <Map
+          id={"map-background"}
+          // mapContainerStyle={containerStyle}
+          className="w-full h-full"
+          defaultCenter={defaultCenter}
+          defaultZoom={4}
+          // onLoad={(map) => setMap(map)}
+          // options={{ styles: mapStyles }} // Applying custom styles
 
-        styles={mapStyles}
-      >
-        {/* {originLocation && <Marker position={originLocation} label="A" />}
+          styles={mapStyles}
+        ></Map>
+      </Box>
+
+      {/* {originLocation && <Marker position={originLocation} label="A" />}
 {destinationLocation && (
   <Marker position={destinationLocation} label="B" />
 )}
@@ -74,7 +84,6 @@ export function MapComponent() {
     }}
   />
 )} */}
-      </Map>
     </>
   );
   {

@@ -43,7 +43,7 @@ export default function CompleteTheRequirements() {
           {dataState?.distance && (
             <div className="text-primary text-2xl font-bold text-gray-500 p-2 md:p-4 rounded-lg">
               {/* {distance ? distance : <span>&nbsp;</span>} */}
-              {dataState?.distance || <span>&nbsp;</span>}
+              {`${dataState?.distance.toFixed(2)} miles` || <span>&nbsp;</span>}
             </div>
           )}
         </div>

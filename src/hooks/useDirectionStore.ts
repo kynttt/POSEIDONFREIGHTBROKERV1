@@ -1,7 +1,8 @@
-// useDirectionsStore.ts
-import create from "zustand";
+import { notifications } from "@mantine/notifications";
+import { create } from "zustand";
 
 interface DirectionsState {
+  isLoading: boolean;
   directionsService?: google.maps.DirectionsService;
   directionsRenderer?: google.maps.DirectionsRenderer;
   routes: google.maps.DirectionsRoute[];
@@ -15,15 +16,18 @@ interface DirectionsState {
     origin,
     destination,
     onResponse,
+    onError,
   }: {
     origin: google.maps.LatLngLiteral;
     destination: google.maps.LatLngLiteral;
     onResponse: (response: google.maps.DirectionsResult) => void;
+    onError?: (error: { message: string }) => void;
   }) => void; // Accept parameters
   setRouteIndex: (index: number) => void;
 }
 
 export const useDirectionsStore = create<DirectionsState>((set, get) => ({
+  isLoading: false,
   directionsService: undefined,
   directionsRenderer: undefined,
   routes: [],
@@ -39,7 +43,9 @@ export const useDirectionsStore = create<DirectionsState>((set, get) => ({
     set({ directionsService, directionsRenderer });
   },
 
-  calculateRoutes: ({ origin, destination, onResponse }) => {
+  calculateRoutes: ({ origin, destination, onResponse, onError }) => {
+    if (get().isLoading) return;
+    set({ isLoading: true });
     const { directionsService, directionsRenderer } = get();
 
     if (!directionsService || !directionsRenderer || !origin || !destination)
@@ -53,6 +59,7 @@ export const useDirectionsStore = create<DirectionsState>((set, get) => ({
         provideRouteAlternatives: true,
       })
       .then((response) => {
+        set({ isLoading: false });
         directionsRenderer.setDirections(response);
         onResponse(response);
         set({
@@ -62,6 +69,25 @@ export const useDirectionsStore = create<DirectionsState>((set, get) => ({
         });
       })
       .catch((error) => {
+        set({ isLoading: false });
+        if (error instanceof google.maps.MapsRequestError) {
+          notifications.show({
+            title: "Map Direction Route",
+            message: error.message,
+            color: "red",
+            autoClose: 5000,
+          });
+        } else {
+          notifications.show({
+            title: "Map Direction Route",
+            message:
+              error.message || "An error occurred while fetching directions",
+            color: "red",
+            autoClose: 5000,
+          });
+        }
+        onError && onError({ message: error.message });
+
         console.error("Error fetching directions", error);
       });
   },

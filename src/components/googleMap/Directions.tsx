@@ -1,7 +1,7 @@
 // Directions.tsx
 import { useEffect } from "react";
 import { useMapsLibrary, useMap } from "@vis.gl/react-google-maps";
-import { useDirectionsStore } from "./useDirectionStore";
+import { useDirectionsStore } from "../../hooks/useDirectionStore";
 import useDistanceCalculator from "../../hooks/useDistanceCalculator";
 
 export function Directions() {

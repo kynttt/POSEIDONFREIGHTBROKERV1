@@ -24,7 +24,7 @@ export interface DistanceCalculatorData {
     type: "LineString";
     coordinates: [number, number][];
   };
-  distance: string | undefined;
+  distance: number | undefined;
   pickupDate: string | undefined;
   trailerType: TruckCatalog | undefined;
   trailerSize: number | undefined;

@@ -4,16 +4,18 @@
 
 export const trailerTypes = ["Dry Van", "Refrigerated", "Flatbed", "Stepdeck"];
 export const calculatePrice = (
-  distance: string,
+  distance: number,
   pricePerMile: number,
   maxWeight: string
 ): number | null => {
   if (distance && maxWeight) {
-    const distanceNum = parseFloat(distance.replace(/[^\d.]/g, ""));
+    // const distanceNum = parseFloat(distance.replace(/[^\d.]/g, ""));
 
     const maxWeightNum = parseFloat(maxWeight);
-
-    const calculatedPrice = pricePerMile * distanceNum + maxWeightNum * 0.1;
+    console.log("Distance:", distance);
+    console.log("Max weight:", maxWeightNum);
+    console.log("Price per mile:", pricePerMile);
+    const calculatedPrice = pricePerMile * distance + maxWeightNum * 0.1;
 
     return calculatedPrice;
   }

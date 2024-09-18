@@ -11,7 +11,7 @@ import { GetPriceMileData, GetPriceMileResponse } from "../../../utils/types";
 import { AxiosError } from "axios";
 import { notifications } from "@mantine/notifications";
 import { getPricePerMile } from "../../../lib/apiCalls";
-import { useDirectionsStore } from "../../../components/googleMap/useDirectionStore";
+import { useDirectionsStore } from "../../../hooks/useDirectionStore";
 import { calculatePrice } from "../../../components/googleMap/priceCalculator";
 
 export default function CompanyDetailStep() {
@@ -37,7 +37,7 @@ export default function CompanyDetailStep() {
         return;
       }
       const calculatedPriceResponse = calculatePrice(
-        leg!.distance!.text,
+        dataState.distance!,
         data.pricePerMile,
         dataState.maxWeight!
       );
@@ -51,6 +51,8 @@ export default function CompanyDetailStep() {
         ...dataState!,
         price: calculatedPriceResponse!,
       });
+
+      setValue("calculation");
     },
     onError: (error) => {
       console.error("Error fetching price data:", error.message);
@@ -68,12 +70,12 @@ export default function CompanyDetailStep() {
     if (!leg?.distance || !dataState?.trailerType || !dataState.trailerSize) {
       return;
     }
+
     mutation.mutate({
-      distance: leg!.distance!.value!,
+      distance: dataState.distance!,
       truckId: dataState.trailerType!._id!,
       trailerSize: dataState.trailerSize!,
     });
-    setValue("calculation");
   };
 
   return (
@@ -112,7 +114,7 @@ export default function CompanyDetailStep() {
             />
           </div>
           <div className="mb-8 md:mb-0 w-full">
-            <h3 className="text-md font-medium text-secondary my-2">
+            <h3 className="text-md font-medium text-primary my-2">
               <FontAwesomeIcon
                 icon={faNoteSticky}
                 className="mr-2 text-gray-400"
@@ -139,13 +141,9 @@ export default function CompanyDetailStep() {
             </Button>
             <Space w="md" />
             <Button
-              disabled={
-                !dataState?.origin ||
-                !dataState?.destination ||
-                !dataState?.trailerType ||
-                !dataState?.trailerSize
-              }
+              disabled={!dataState?.companyName}
               onClick={onNextHandler}
+              loading={mutation.isPending}
               fullWidth
             >
               Next

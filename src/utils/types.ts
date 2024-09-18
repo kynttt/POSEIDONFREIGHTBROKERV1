@@ -66,7 +66,7 @@ export interface Quote extends Schema {
   maxWeight: number;
   packaging: string;
   companyName: string;
-  distance: string;
+  distance: number;
   price: number;
   notes?: string | null;
   routeCoordinates: {

@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { listTrucks } from "../../../lib/apiCalls";
 import { Button, Space } from "@mantine/core";
 import { useStepContext } from "./ShipmenStepperProvider";
-import { useDirectionsStore } from "../../../components/googleMap/useDirectionStore";
+import { useDirectionsStore } from "../../../hooks/useDirectionStore";
 
 export default function ShipmentTransportationStep() {
   const { data: dataState, update: updateState } = useDistanceCalculator();
@@ -117,9 +117,16 @@ export default function ShipmentTransportationStep() {
   const onNext = () => {
     if (!debouncedOriginLocation || !debouncedDestinationLocation) return;
     nextStep();
+    let distance = 0;
+
+    if (leg?.distance?.value) {
+      const distanceInKm = leg.distance.value / 1000;
+      const distanceInMiles = distanceInKm * 0.62137119;
+      distance = distanceInMiles;
+    }
     updateState({
       ...dataState!,
-      distance: leg?.distance?.text,
+      distance: distance,
       routeCoordinates: {
         type: "LineString",
         coordinates: [

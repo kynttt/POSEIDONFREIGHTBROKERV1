@@ -7,13 +7,12 @@ import useDistanceCalculator from "../../hooks/useDistanceCalculator";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
 import { fetchQuoteDetails, listTrucks } from "../../lib/apiCalls";
-import { useDirectionsStore } from "../../components/googleMap/useDirectionStore";
+import { useDirectionsStore } from "../../hooks/useDirectionStore";
 import { notifications } from "@mantine/notifications";
 
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import {
   ShipmentAccordionProvider,
-  ShipmentAccordionValueType,
   useShipmentAccordion,
 } from "./components/ShipmentAccordionProvider";
 import CompleteTheRequirements from "./components/CompleteTheRequirements";
@@ -36,7 +35,7 @@ export default function DistanceCalculatorPage() {
 }
 
 function FieldSection() {
-  const { value, setValue } = useShipmentAccordion();
+  const { value } = useShipmentAccordion();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const quoteId = searchParams.get("quoteId");
@@ -93,7 +92,7 @@ function FieldSection() {
         companyName,
         packaging,
         notes,
-
+        distance,
         price,
         routeCoordinates,
       } = data;
@@ -125,7 +124,7 @@ function FieldSection() {
         originLocation,
         destination,
         destinationLocation,
-        distance: leg?.distance?.text,
+        distance: distance,
         routeCoordinates,
         pickupDate: new Date(pickupDate).toLocaleDateString(),
         trailerType: trailerTypeFound,
@@ -174,7 +173,6 @@ function FieldSection() {
       <div className="h-[90%] p-5">
         <Accordion
           value={value}
-          onChange={(value) => setValue(value as ShipmentAccordionValueType)}
           classNames={{
             chevron: "text-primary",
             control: "text-primary",
