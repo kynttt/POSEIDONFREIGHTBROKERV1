@@ -10,9 +10,8 @@ import {
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faBell, faCircleQuestion, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBell, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
-import HelpIcon from "../../../assets/help";
 import NotificationModal from "../../../components/NotificationModal";
 import { useState, useEffect } from "react"; // Import useState and useEffect for state management and side effects
 import { listNotifications } from "../../../lib/apiCalls"; // Ensure this path is correct
@@ -108,7 +107,7 @@ function ShellHeader({
   };
 
   return (
-    <Flex justify="flex-end" p={"lg"} gap={"md"} >
+    <Flex justify="flex-end" p={"lg"} gap={"md"}>
       <Popover position="bottom-start">
         <Popover.Target>
           <Indicator
@@ -126,7 +125,10 @@ function ShellHeader({
               size="md"
               onClick={handleNotificationClick} // Attach click handler
             >
-              <FontAwesomeIcon icon={faBell} className="bg-gray-200 rounded-full p-1 w-4 h-4" />
+              <FontAwesomeIcon
+                icon={faBell}
+                className="bg-gray-200 rounded-full p-1 w-4 h-4"
+              />
             </ActionIcon>
           </Indicator>
         </Popover.Target>
@@ -147,8 +149,10 @@ function ShellHeader({
         </ActionIcon>
       )}
       <ActionIcon variant="subtle" aria-label="Settings" size="md">
-      
-      <FontAwesomeIcon icon={faQuestion} className="bg-gray-200 rounded-full p-1 w-4 h-4"/>
+        <FontAwesomeIcon
+          icon={faQuestion}
+          className="bg-gray-200 rounded-full p-1 w-4 h-4"
+        />
       </ActionIcon>
     </Flex>
   );
