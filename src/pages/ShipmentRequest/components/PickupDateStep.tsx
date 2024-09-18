@@ -28,6 +28,10 @@ export default function PickupDateStep() {
     });
     nextStep();
   };
+
+  // Set minimum date to today (or tomorrow if you don't want to allow selecting today)
+  const today = dayjs().startOf("day").toDate();
+
   return (
     <div className="flex flex-col my-5">
       <ShipmentRequestHeader
@@ -50,6 +54,8 @@ export default function PickupDateStep() {
               : false,
             onClick: () => handleSelect(date),
           })}
+          // Disable past dates
+          minDate={today}
         />
       </div>
       <Button disabled={!selectedDate} onClick={onNextHandler}>
