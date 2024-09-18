@@ -40,7 +40,7 @@ export function Directions() {
         onResponse: (response) => {
           update({
             ...distanceData,
-            distance: response.routes[0].legs[0].distance?.text,
+            distance: response.routes[0].legs[0].distance?.value,
           });
         },
       });
