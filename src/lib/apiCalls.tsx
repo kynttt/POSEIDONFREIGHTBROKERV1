@@ -318,6 +318,65 @@ export const createBookQuote = async (bookingData: BookingData) => {
   }
 };
 
+// Save payment method API call
+export const savePaymentMethod = async (paymentMethodId: string, userId: string) => {
+  try {
+    if (!paymentMethodId || !userId) {
+      throw new Error("Payment Method ID and User ID are required");
+    }
+
+    const response = await axiosInstance.post(`/payments/save-payment-method`, {
+      paymentMethodId,
+      userId,
+    });
+
+    console.log('Save Payment Method Response:', response.data); // Log the response
+
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Error Saving Payment Method: ${error.message}`);
+    } else {
+      console.error('Unknown error occurred while saving payment method.');
+    }
+    throw error;
+  }
+};
+
+
+export const fetchSavedPaymentMethods = async (userId: string) => {
+  try {
+    const response = await axiosInstance.get(`/payments/saved-payment-methods?userId=${userId}`);
+    console.log('Fetch Saved Payment Methods Response:', response.data); // Log the response
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Error Fetching Saved Payment Methods: ${error.message}`);
+    } else {
+      console.error('Unknown error occurred while fetching saved payment methods.');
+    }
+    throw error;
+  }
+};
+
+export const updateUserDefaultPaymentMethod = async (userId: string, defaultPaymentMethodId: string) => {
+  try {
+    const response = await axiosInstance.patch(`/users/${userId}`, {
+      defaultPaymentMethodId,
+    });
+    console.log('Update User Response:', response.data); // Log the response
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Error Updating User: ${error.message}`);
+    } else {
+      console.error('Unknown error occurred while updating user.');
+    }
+    throw error;
+  }
+};
+
+
 // Fetch User's Booking
 export const fetchUserBookings = async () => {
   const response = await axiosInstance.get(
