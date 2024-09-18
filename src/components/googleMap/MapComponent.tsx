@@ -1,76 +1,117 @@
-import React from 'react';
-import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
+import { Map } from "@vis.gl/react-google-maps";
+import { memo } from "react";
+import { Box, LoadingOverlay } from "@mantine/core";
+import { useDirectionsStore } from "../../hooks/useDirectionStore";
 
-const containerStyle = {
-  width: '100%',
-  height: '50vh', // Adjusted for responsive height
-  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.3)', // Adding box shadow
-  borderRadius: '8px', // Adding border radius
-};
+// const containerStyle = {
+//   width: "100%",
+//   height: "50vh", // Adjusted for responsive height
+//   boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.3)", // Adding box shadow
+//   borderRadius: "8px", // Adding border radius
+// };
 
-const defaultCenter = {
-  lat: -3.745,
-  lng: -38.523,
+const defaultCenter: google.maps.LatLngLiteral = {
+  lat: 38.84,
+  lng: -104.56,
 };
 
 // Custom styles for the map
 const mapStyles = [
   {
-    "featureType": "landscape",
-    "elementType": "geometry",
-    "stylers": [
+    featureType: "landscape",
+    elementType: "geometry",
+    stylers: [
       {
-        "color": "#e4e4e4"
-      }
-    ]
+        color: "#e4e4e4",
+      },
+    ],
   },
   {
-    "featureType": "water",
-    "elementType": "geometry.fill",
-    "stylers": [
+    featureType: "water",
+    elementType: "geometry.fill",
+    stylers: [
       {
-        "color": "#a8caea" 
-      }
-    ]
-  }
+        color: "#a8caea",
+      },
+    ],
+  },
 ];
 
-interface MapComponentProps {
-  map: google.maps.Map | null;
-  setMap: (map: google.maps.Map | null) => void;
-  directions: google.maps.DirectionsResult | null;
-  originLocation: google.maps.LatLng | null;
-  destinationLocation: google.maps.LatLng | null;
+// interface MapComponentProps {
+//   map: google.maps.Map | null;
+//   setMap: (map: google.maps.Map | null) => void;
+//   directions: google.maps.DirectionsResult | null;
+//   originLocation: google.maps.LatLngLiteral | null;
+//   destinationLocation: google.maps.LatLngLiteral | null;
+// }
+
+export function MapComponent() {
+  const isLoading = useDirectionsStore((state) => state.isLoading);
+  return (
+    <>
+      <Box pos="relative" className="w-full h-full">
+        <LoadingOverlay
+          visible={isLoading}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
+        <Map
+          id={"map-background"}
+          // mapContainerStyle={containerStyle}
+          className="w-full h-full"
+          defaultCenter={defaultCenter}
+          defaultZoom={4}
+          // onLoad={(map) => setMap(map)}
+          // options={{ styles: mapStyles }} // Applying custom styles
+
+          styles={mapStyles}
+        ></Map>
+      </Box>
+
+      {/* {originLocation && <Marker position={originLocation} label="A" />}
+{destinationLocation && (
+  <Marker position={destinationLocation} label="B" />
+)}
+{directions && (
+  <DirectionsRenderer
+    directions={directions}
+    options={{
+      polylineOptions: {
+        strokeColor: "#7783D2", // Gray color for the route
+        strokeOpacity: 0.8,
+        strokeWeight: 5,
+      },
+    }}
+  />
+)} */}
+    </>
+  );
+  {
+    /* <GoogleMap
+    mapContainerStyle={containerStyle}
+    center={defaultCenter}
+    zoom={10}
+    onLoad={(map) => setMap(map)}
+    options={{ styles: mapStyles }} // Applying custom styles
+  >
+    {originLocation && <Marker position={originLocation} label="A" />}
+    {destinationLocation && (
+      <Marker position={destinationLocation} label="B" />
+    )}
+    {directions && (
+      <DirectionsRenderer
+        directions={directions}
+        options={{
+          polylineOptions: {
+            strokeColor: "#7783D2", // Gray color for the route
+            strokeOpacity: 0.8,
+            strokeWeight: 5,
+          },
+        }}
+      />
+    )}
+  </GoogleMap> */
+  }
 }
 
-export const MapComponent: React.FC<MapComponentProps> = ({
-  setMap,
-  directions,
-  originLocation,
-  destinationLocation,
-}) => (
-  <div className="map-container">
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={defaultCenter}
-      zoom={10}
-      onLoad={(map) => setMap(map)}
-      options={{ styles: mapStyles }} // Applying custom styles
-    >
-      {originLocation && <Marker position={originLocation} label="A" />}
-      {destinationLocation && <Marker position={destinationLocation} label="B" />}
-      {directions && (
-        <DirectionsRenderer
-          directions={directions}
-          options={{
-            polylineOptions: {
-              strokeColor: '#7783D2', // Gray color for the route
-              strokeOpacity: 0.8,
-              strokeWeight: 5,
-            }
-          }}
-        />
-      )}
-    </GoogleMap>
-  </div>
-);
+export default memo(MapComponent);

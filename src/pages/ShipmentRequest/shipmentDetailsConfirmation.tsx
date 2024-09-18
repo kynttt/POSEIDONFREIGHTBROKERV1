@@ -88,6 +88,8 @@ const ShipmentDetailsConfirmation: React.FC = () => {
       price,
       notes,
     } = data!;
+
+    console.log(!distance);
     if (
       !trailerType ||
       !origin ||
@@ -118,6 +120,10 @@ const ShipmentDetailsConfirmation: React.FC = () => {
       packaging: `${packagingNumber} ${packagingType}`,
       price: parseFloat(price!.toFixed(2)),
       notes,
+      routeCoordinates: {
+        type: "LineString",
+        coordinates: data.routeCoordinates.coordinates,
+      },
       unit: "",
     };
 

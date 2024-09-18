@@ -6,8 +6,8 @@ interface CalculateRouteParams {
   >;
   onDistance: (distance: string) => void;
   map: google.maps.Map | null;
-  originLocation?: google.maps.LatLng | null; // Make originLocation optional
-  destinationLocation?: google.maps.LatLng | null;
+  originLocation?: google.maps.LatLngLiteral | null; // Make originLocation optional
+  destinationLocation?: google.maps.LatLngLiteral | null;
 }
 
 export const calculateRoute = ({

@@ -6,7 +6,6 @@ const localStorageName = "distance-calculator-storage";
 
 interface DistanceCalculatorWarning {
   origin: string | null;
-
   destination: string | null;
   pickupDate: string | null;
   trailerType: string | null;
@@ -18,7 +17,14 @@ interface DistanceCalculatorWarning {
 }
 export interface DistanceCalculatorData {
   origin: string | undefined;
+  originLocation: google.maps.LatLngLiteral | undefined;
   destination: string | undefined;
+  destinationLocation: google.maps.LatLngLiteral | undefined;
+  routeCoordinates: {
+    type: "LineString";
+    coordinates: [number, number][];
+  };
+  distance: number | undefined;
   pickupDate: string | undefined;
   trailerType: TruckCatalog | undefined;
   trailerSize: number | undefined;
@@ -28,7 +34,6 @@ export interface DistanceCalculatorData {
   packagingNumber: number | undefined;
   packagingType: string | undefined;
   notes: string | undefined;
-  distance: string | undefined;
   price: number | undefined;
 }
 
@@ -49,6 +54,7 @@ function warningGenerator(
   const warning: DistanceCalculatorWarning = {
     origin: null,
     destination: null,
+
     pickupDate: null,
     trailerType: null,
     trailerSize: null,

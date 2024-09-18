@@ -66,3 +66,16 @@ export function validatePricing({ sizes }: { sizes: Size[] }): PriceError {
 
   return { errors, invalidIndices };
 }
+
+export async function getAddressFromLatLng(
+  latLng: google.maps.LatLngLiteral
+): Promise<string> {
+  const geocoder = new google.maps.Geocoder();
+  const response = await geocoder.geocode({ location: latLng });
+
+  if (response.results[0]) {
+    return response.results[0].formatted_address;
+  } else {
+    return "Address not found";
+  }
+}
