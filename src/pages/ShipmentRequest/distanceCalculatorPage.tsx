@@ -204,9 +204,20 @@ function FieldSection() {
               <div className="text-primary font-bold">
                 Complete the Requirements
               </div>
+              {dataState?.distance && dataState?.price ? (
+        <div className="flex flex-col text-sm text-primary">
+          Thank you for providing the necessary details. The total distance and exact amount for your shipment are displayed below.
+        </div>
+      ) : (
+        <div className="flex flex-col text-sm text-primary">
+          Please fill out all required information in order to calculate the total distance and exact amount for your shipment.
+        </div>
+      )}
             </Accordion.Control>
+            
             <Accordion.Panel>
               <CompleteTheRequirements />
+              
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>

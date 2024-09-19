@@ -27,15 +27,7 @@ export default function CompleteTheRequirements() {
 
   return (
     <div>
-      {dataState?.distance && dataState?.price ? (
-        <div className="flex flex-col text-sm text-primary">
-          Thank you for providing the necessary details. The total distance and exact amount for your shipment are displayed below.
-        </div>
-      ) : (
-        <div className="flex flex-col text-sm text-primary">
-          Please fill out all required information in order to calculate the total distance and exact amount for your shipment.
-        </div>
-      )}
+      
       <div className="flex flex-col gap-2">
         <div className="flex flex-col  items-start mb-4 lg:mb-0">
           <div className="text-primary text-lg  font-medium pt-4 rounded-lg flex gap-2 items-center">
