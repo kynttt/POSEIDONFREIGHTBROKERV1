@@ -3,19 +3,22 @@ import Navbar from "../../../components/Navbar";
 import "../../../index.css"; // Ensure this file includes the @import for the Lexend font
 import HeroBanner from "../../../components/Hero";
 // import Carousel from '../components/Carousel';
-import FreightQuote from "../../../components/FreightQuote";
-import AboutUs from "../../../components/about";
+// import FreightQuote from "../../../components/FreightQuote";
+// import AboutUs from "../../../components/about";
 // import SuccessPage from '../components/SuccessPage';
 import FAQsPage from "../../../components/Faqs";
-import FeaturesSection from "../../../components/Features";
+// import FeaturesSection from "../../../components/Features";
 import Footer from "../../../components/Footer";
 // import ServicesCardList from '../components/ServicesCardList';
 import SeamlessFreightServices from "../../../components/SeamlessFreightServices";
 import ContactForm from "../../../components/ContactUs";
 import TrustedAmazon from "../../../components/TrustedAmazon";
 import { Stack } from "@mantine/core";
-import CarouselComponent from "../../../components/CarouselComponent";
+// import CarouselComponent from "../../../components/CarouselComponent";
 import PricingPage from "./PricingPage";
+import NewFeatures from "../../../components/NewFeatures";
+import NewAboutUs from "../../../components/NewAboutUs";
+import HorizontalScrollComponent from "../../../components/HorizontalScrollSection";
 
 const LandingPage: React.FC = () => {
   return (
@@ -28,13 +31,17 @@ const LandingPage: React.FC = () => {
         <SeamlessFreightServices />
         {/* <ServicesCardList /> */}
         {/* <Carousel /> */}
-        <FreightQuote />
-        <CarouselComponent/>
-        <FeaturesSection />
-        <AboutUs />
+        {/* <FreightQuote /> */}
+        <NewFeatures />
+        <NewAboutUs/>
+        <HorizontalScrollComponent/>
+        <PricingPage/>
+        {/* <CarouselComponent/> */}
+        {/* <FeaturesSection /> */}
+        {/* <AboutUs /> */}
         <FAQsPage />
         <TrustedAmazon />
-        <PricingPage/>
+        
         <ContactForm />
         {/* <SuccessPage /> */}
       </Stack>
