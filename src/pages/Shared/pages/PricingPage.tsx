@@ -54,7 +54,7 @@ const PricingCard: React.FC<PricingCardProps> = ({ title, price, description, bu
 const PricingPage: React.FC = () => {
   return (
     <div className="px-4 md:pt-24 md:pb-32 flex flex-col justify-center items-center">
-      <h1 className="text-5xl font-medium text-center text-rblue mb-2 lg:mt-4 lg:mb-16">Plan and Pricing Comparison</h1>
+      <h1 className="text-5xl font-medium text-center text-rblue mb-2 lg:mt-4 lg:mb-8">Plan and Pricing Comparison</h1>
       {/* <p className="xs:text-xl md:text-3xl lg:text-2xl text-secondary font-normal mb-6">Select from our cost-effective packages</p> */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16   mt-8">
         <PricingCard
