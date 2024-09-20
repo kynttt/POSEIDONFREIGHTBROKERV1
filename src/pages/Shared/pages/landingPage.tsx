@@ -12,7 +12,7 @@ import Footer from "../../../components/Footer";
 // import ServicesCardList from '../components/ServicesCardList';
 import SeamlessFreightServices from "../../../components/SeamlessFreightServices";
 import ContactForm from "../../../components/ContactUs";
-import TrustedAmazon from "../../../components/TrustedAmazon";
+// import TrustedAmazon from "../../../components/TrustedAmazon";
 import { Stack } from "@mantine/core";
 // import CarouselComponent from "../../../components/CarouselComponent";
 import PricingPage from "./PricingPage";
