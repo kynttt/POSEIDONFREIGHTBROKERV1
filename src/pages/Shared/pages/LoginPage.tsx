@@ -164,7 +164,7 @@ const LoginPage: React.FC = () => {
                     id="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="appearance-none border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-transparent h-10 placeholder-gray-700 placeholder-opacity-60 font-light"
+                    className="appearance-none border border-white rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline bg-transparent h-10 placeholder-gray-700 placeholder-opacity-60 font-light"
                     placeholder="Enter your email"
                     required
                   />
@@ -185,7 +185,7 @@ const LoginPage: React.FC = () => {
                       id="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="appearance-none border border-primary rounded w-full py-2 px-3 text-primary  leading-tight focus:outline-none focus:shadow-outline bg-transparent h-10 placeholder-gray-700 placeholder-opacity-60 font-light"
+                      className="appearance-none border border-white rounded w-full py-2 px-3 text-primary  leading-tight focus:outline-none focus:shadow-outline bg-transparent h-10 placeholder-gray-700 placeholder-opacity-60 font-light"
                       placeholder="Enter your password"
                       required
                     />
