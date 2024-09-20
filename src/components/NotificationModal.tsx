@@ -137,19 +137,28 @@ export default function NotificationModal() {
           {data!.map((notification) => (
             <div
               key={notification._id}
-              className={`py-2  px-12 hover:bg-gray-400 hover:text-white rounded-md transition-colors duration-200 cursor-pointer  shadow-lg ${
-                !notification.isRead
-                  ? "bg-blue-50 text-black"
-                  : "text-gray-700"
+              className={`flex py-2  px-12 hover:bg-gray-400 hover:text-white rounded-md transition-colors duration-200 cursor-pointer  shadow-lg ${
+                !notification.isRead ? "bg-blue-50 text-black" : "text-gray-700"
               }`}
               onClick={() => handleNotificationClick(notification)}
             >
-              <div className="text-sm font-medium">{notification.title}</div>
-              <div className="text-xs font-normal">
-                {formatNotificationMessage(notification)}
-              </div>
-              <div className="text-xs mt-1">
-                {formatNotificationDate(notification.createdAt!)}
+              {notification.mediaUrl && (
+                <img
+                  src={
+                    "http://localhost:5000/api/users/66e12d5860fece51de71697b/profile-view"
+                  }
+                  alt="Notification"
+                  className="w-12 h-12 rounded-full mr-4"
+                />
+              )}
+              <div className="flex flex-col">
+                <div className="text-sm font-medium">{notification.title}</div>
+                <div className="text-xs font-normal">
+                  {formatNotificationMessage(notification)}
+                </div>
+                <div className="text-xs mt-1">
+                  {formatNotificationDate(notification.createdAt!)}
+                </div>
               </div>
             </div>
           ))}

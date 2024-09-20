@@ -151,6 +151,7 @@ export interface NotificationSchema extends Schema {
   title: string;
   type?: "booking" | "quote" | "invoice" | "payment";
   message: string;
+  mediaUrl?: string;
   metadata?: IMetadata[];
   user?: string | User;
   isRead: boolean;
