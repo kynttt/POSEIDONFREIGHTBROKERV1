@@ -54,11 +54,6 @@ const Navbar: React.FC = () => {
     },
   });
 
-  // const handleLogout = () => {
-  //   logout(); // Call logout function from AuthContext to clear authentication state
-  //   navigate("/login"); // Redirect to login page after logout
-  // };
-
   const handleNavigation = (path: string) => {
     if (path.startsWith("#")) {
       window.location.hash = path;
@@ -71,7 +66,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       <nav
-        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-6"
+        className="container mx-auto   py-6"
         style={{
           background: "#fefefe",
         }}
@@ -85,13 +80,12 @@ const Navbar: React.FC = () => {
               className="h-10 mr-4" // Adjust height and margin as necessary
             />
             <button
-            className="text-rblue text-2xl lg:text-3xl font-medium hover:text-secondary"
-            onClick={() => handleNavigation("/")}
-          >
-            Poseidon Freight
-          </button>
+              className="text-rblue text-2xl lg:text-3xl font-bold hover:text-secondary"
+              onClick={() => handleNavigation("/")}
+            >
+              Poseidon Freight
+            </button>
           </div>
-          
 
           {/* Hamburger menu for small screens */}
           <div className="lg:hidden">
@@ -153,12 +147,6 @@ const Navbar: React.FC = () => {
                 >
                   Contacts
                 </button>
-                {/* <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
-                  onClick={() => handleNavigation("#careers")}
-                >
-                  Careers
-                </button> */}
                 <button
                   className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/signup")}
@@ -203,12 +191,12 @@ const Navbar: React.FC = () => {
                   Dashboard
                 </button>
 
-                <button
+                {/* <button
                   className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/user-payables")}
                 >
                   Accounts Payable
-                </button>
+                </button> */}
                 <button
                   className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/trailer-options")}
@@ -231,21 +219,25 @@ const Navbar: React.FC = () => {
             )}
             {isAuthenticated && (
               <button
-              className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
-               onClick={() => mutation.mutate(undefined)}
-             >Logout</button>
+                className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
+                onClick={() => mutation.mutate(undefined)}
+              >
+                Logout
+              </button>
             )}
             {!isAuthenticated && (
               <div>
-                <button className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
+                <button
+                  className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
                   onClick={() => navigate("/login")}
-                >Get Started</button>
+                >
+                  Get Started
+                </button>
               </div>
             )}
           </div>
 
           {/* Responsive Navigation Menu */}
-
           <Transition
             show={isOpen}
             enter="transition duration-300 ease-out"
@@ -332,12 +324,12 @@ const Navbar: React.FC = () => {
                     Dashboard
                   </button>
 
-                  <button
+                  {/* <button
                     className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/user-payables")}
                   >
                     Accounts Payable
-                  </button>
+                  </button> */}
                   <button
                     className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/trailer-options")}
