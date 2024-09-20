@@ -19,6 +19,7 @@ import PricingPage from "./PricingPage";
 import NewFeatures from "../../../components/NewFeatures";
 import NewAboutUs from "../../../components/NewAboutUs";
 import HorizontalScrollComponent from "../../../components/HorizontalScrollSection";
+import Testimonials from "../../../components/Testimonials";
 
 const LandingPage: React.FC = () => {
   return (
@@ -36,11 +37,12 @@ const LandingPage: React.FC = () => {
         <NewAboutUs/>
         <HorizontalScrollComponent/>
         <PricingPage/>
+        <Testimonials/>
         {/* <CarouselComponent/> */}
         {/* <FeaturesSection /> */}
         {/* <AboutUs /> */}
         <FAQsPage />
-        <TrustedAmazon />
+        {/* <TrustedAmazon /> */}
         
         <ContactForm />
         {/* <SuccessPage /> */}

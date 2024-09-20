@@ -20,8 +20,7 @@ export default function CompleteTheRequirements() {
       navigate("/requests/confirmation");
     } else {
       sessionStorage.setItem("savedQuote", JSON.stringify(dataState));
-      sessionStorage.setItem("savedQuote", JSON.stringify(dataState));
-      //       navigate("/login?redirectTo=/requests/confirmation");
+      navigate("/login?redirectTo=/requests/confirmation");
     }
   };
 

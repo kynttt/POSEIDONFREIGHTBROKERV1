@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import { NeatGradient } from "@firecms/neat";
 import "react-circular-progressbar/dist/styles.css";
+import { useNavigate } from "react-router-dom";
 
 const HeroBanner: React.FC = () => {
+  const navigate = useNavigate();
   const canvasRef1 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef2 = useRef<HTMLCanvasElement | null>(null);
   const canvasRef3 = useRef<HTMLCanvasElement | null>(null);
@@ -13,6 +15,7 @@ const HeroBanner: React.FC = () => {
   const gradientRef4 = useRef<NeatGradient | null>(null);
 
   useEffect(() => {
+    
     if (canvasRef1.current) {
       gradientRef1.current = new NeatGradient({
         ref: canvasRef1.current,
@@ -23,7 +26,7 @@ const HeroBanner: React.FC = () => {
           { color: "#6084F0", enabled: true },
           { color: "#a2d2ff", enabled: false },
         ],
-        speed: 4,
+        speed: 7,
         horizontalPressure: 3,
         verticalPressure: 3,
         waveFrequencyX: 2,
@@ -51,7 +54,7 @@ const HeroBanner: React.FC = () => {
           { color: "#6084F0", enabled: true },
           { color: "#a2d2ff", enabled: false },
         ],
-        speed: 4,
+        speed: 7,
         horizontalPressure: 3,
         verticalPressure: 3,
         waveFrequencyX: 2,
@@ -79,7 +82,7 @@ const HeroBanner: React.FC = () => {
           { color: "#6084F0", enabled: true },
           { color: "#a2d2ff", enabled: false },
         ],
-        speed: 4,
+        speed: 7,
         horizontalPressure: 3,
         verticalPressure: 3,
         waveFrequencyX: 2,
@@ -107,7 +110,7 @@ const HeroBanner: React.FC = () => {
           { color: "#6084F0", enabled: true },
           { color: "#a2d2ff", enabled: false },
         ],
-        speed: 4,
+        speed: 7,
         horizontalPressure: 3,
         verticalPressure: 3,
         waveFrequencyX: 2,
@@ -175,6 +178,12 @@ const HeroBanner: React.FC = () => {
             Ensuring Your Cargo Moves Safely and Efficiently Across Every Mile.
           </p>
         </div>
+        <button 
+          onClick={() => navigate('/requests')} 
+          className="py-4 px-8 bg-rblue text-white rounded-md mt-8 lg:mt-16 font-normal text-lg hover:bg-blue-500 hover:text-white transform transition-transform duration-300 hover:scale-110"
+        >
+          Request A Quote
+        </button>
       </div>
 
       {/* Freight Quote Section */}

@@ -124,7 +124,7 @@ import shippersImage from "../assets/img/shippers.png";
 
 const ServiceCards: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center py-16 bg-white">
+    <div id="services" className="flex flex-col items-center justify-center py-16 bg-white">
       <h2 className="text-5xl font-medium text-center text-rblue mb-10 lg:mb-28">
         Seamless Freight Service
       </h2>

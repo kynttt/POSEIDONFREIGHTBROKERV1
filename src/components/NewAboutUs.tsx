@@ -4,7 +4,7 @@ import { faTruck, faBox, faUsers, faBuilding, faUser, faGlobe, faBus, faMapMarke
 
 const TransportLogistics: React.FC = () => {
   return (
-    <section className="py-16 bg-white text-center container mx-auto mb-24">
+    <section id="about" className="py-16 bg-white text-center container mx-auto mb-24">
       {/* Title Section */}
       <h2 className="text-5xl font-medium text-center text-rblue mb-16">
         Transport & <span className="text-blue-500">Logistics</span>
