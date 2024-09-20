@@ -162,12 +162,12 @@ const HeroBanner: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-full z-10 bg-white bg-opacity-20 backdrop-filter backdrop-blur-3xl" />
       <div className="relative z-20 lg:w-1/2 flex flex-col justify-center items-center lg:mb-36">
         {/* Heading Section */}
-        <div className="my-12 lg:w-1/2 text-center z-30 leading-loose">
-          <h1 className="text-4xl md:text-5xl font-black text-rblue mb-8">
+        <div className="my-12 text-center z-30 leading-loose">
+          <h1 className="text-5xl md:text-7xl font-black text-rblue mb-8">
             Driving Your 
           </h1>
-          <h1 className="text-4xl md:text-5xl font-black text-rblue mb-8">
-            Business F➤rward
+          <h1 className="text-5xl md:text-7xl font-black text-rblue mb-8">
+            Business Forward
           </h1>
         </div>
 
