@@ -145,10 +145,15 @@ export default function NotificationModal() {
               {notification.mediaUrl && (
                 <img
                   src={
-                    "http://localhost:5000/api/users/66e12d5860fece51de71697b/profile-view"
+                    notification.mediaUrl.startsWith("http")
+                      ? notification.mediaUrl
+                      : `${process.env.REACT_APP_API_URL}${notification.mediaUrl}`
                   }
                   alt="Notification"
-                  className="w-12 h-12 rounded-full mr-4"
+                  className="w-12 h-12 rounded-full mr-4 object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://via.placeholder.com/150";
+                  }}
                 />
               )}
               <div className="flex flex-col">
