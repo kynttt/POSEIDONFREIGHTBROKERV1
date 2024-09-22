@@ -369,7 +369,7 @@ const SignupPage = () => {
                     href="/terms-and-agreement"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white"
+                    className="text-rblue underline cursor-pointer hover:text-blue-700"
                   >
                     Terms of Service
                   </a>
