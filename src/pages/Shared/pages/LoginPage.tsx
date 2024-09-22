@@ -143,7 +143,7 @@ const LoginPage: React.FC = () => {
             Poseidon Freight
           </div>
             
-            <div className="shadow-lg w-full mx-auto md:w-1/2 bg-white/30 backdrop-blur-xl border border-white/20 flex flex-col justify-center py-8 px-10 rounded-lg ">
+            <div className="shadow-lg w-full mx-auto md:w-1/2 bg-white/30 backdrop-blur-xl border border-white/20 flex flex-col justify-center py-8 lg:px-10 px-6 rounded-lg ">
             
             <div className="w-full max-w-sm mx-auto">
               <div className="flex flex-col items-center">
@@ -221,9 +221,9 @@ const LoginPage: React.FC = () => {
                 </div>
               </form>
               <div className="mt-6 flex justify-center items-center">
-                {/* <div className="border-t flex-grow border-primary"></div> */}
+                <div className="border-t flex-grow border-primary"></div>
                 <span className="px-3 text-gray-700 font-normal">or</span>
-                {/* <div className="border-t flex-grow border-primary"></div> */}
+                <div className="border-t flex-grow border-primary"></div>
               </div>
               <div className="mt-6 flex flex-col space-y-4">
                 <button
