@@ -154,7 +154,7 @@ const LoginPage: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label
-                    className="block text-primary text-sm font-bold mb-2"
+                    className="block text-sm font-medium text-rblue mb-2"
                     htmlFor="email"
                   >
                     Email
@@ -172,7 +172,7 @@ const LoginPage: React.FC = () => {
                 <div className="mb-6">
                   <div className="flex justify-between items-center">
                     <label
-                      className="block text-primary text-sm font-bold mb-2"
+                      className="block text-sm font-medium text-rblue mb-2"
                       htmlFor="password"
                     >
                       Password
