@@ -14,6 +14,15 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { logoutUpdate, isAuthenticated, role } = useAuthStore();
+  const handleGetStartedClick = () => {
+    setIsModalOpen(!isModalOpen); // Toggle modal open/close
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleShipperClick = () => {
+    navigate("/login"); // Navigate to login if "As Shipper" is clicked
+  };
+
 
   const mutation = useMutation<LogoutResponse, AxiosError, undefined>({
     mutationFn: logoutUser,
@@ -226,14 +235,32 @@ const Navbar: React.FC = () => {
               </button>
             )}
             {!isAuthenticated && (
-              <div>
-                <button
-                  className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
-                  onClick={() => navigate("/login")}
-                >
-                  Get Started
-                </button>
-              </div>
+              <div className="relative">
+              <button
+                className="text-rblue flex justify-center rounded-lg items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
+                onClick={handleGetStartedClick}
+              >
+                Get Started
+              </button>
+        
+              {/* Dropdown Modal */}
+              {isModalOpen && (
+                <div className="absolute mt-2 w-full bg-white border border-rblue shadow-xl rounded-lg z-30">
+                  <button
+                    className="w-full text-left px-4 text-rblue py-2 hover:bg-rblue hover:text-white hover:rounded-t-lg"
+                    onClick={handleShipperClick}
+                  >
+                    As Shipper
+                  </button>
+                  <button
+                    className="w-full text-left px-4 py-2 text-gray-500 cursor-not-allowed"
+                    disabled
+                  >
+                    As Carrier <p className="text-xs font-light">(Coming Soon)</p>
+                  </button>
+                </div>
+              )}
+            </div>
             )}
           </div>
 
