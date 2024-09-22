@@ -245,7 +245,7 @@ const Navbar: React.FC = () => {
         
               {/* Dropdown Modal */}
               {isModalOpen && (
-                <div className="absolute mt-2 w-full bg-white border border-rblue shadow-xl rounded-lg z-30">
+                <div className="absolute mt-2 w-full bg-white border border-rblue shadow-lg rounded-lg z-30">
                   <button
                     className="w-full text-left px-4 text-rblue py-2 hover:bg-rblue hover:text-white hover:rounded-t-lg"
                     onClick={handleShipperClick}
