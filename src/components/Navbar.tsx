@@ -9,6 +9,8 @@ import { logoutUser } from "../lib/apiCalls";
 import { LogoutResponse } from "../utils/types";
 import { notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -247,17 +249,23 @@ const Navbar: React.FC = () => {
               {isModalOpen && (
                 <div className="absolute mt-2 w-full bg-white border border-rblue shadow-lg rounded-lg z-30">
                   <button
-                    className="w-full text-left px-4 text-rblue py-2 hover:bg-rblue hover:text-white hover:rounded-t-lg"
+                    className="w-full text-left px-4 text-rblue py-2 hover:bg-rblue hover:text-white hover:rounded-t-lg flex justify-between items-center"
                     onClick={handleShipperClick}
                   >
                     As Shipper
+                    <FontAwesomeIcon icon={faCaretRight} />
                   </button>
                   <button
-                    className="w-full text-left px-4 py-2 text-gray-500 cursor-not-allowed"
-                    disabled
-                  >
-                    As Carrier <p className="text-xs font-light">(Coming Soon)</p>
-                  </button>
+  className="w-full text-left px-4 py-2 text-gray-500 cursor-not-allowed flex justify-between items-start"
+  disabled
+>
+  <div>
+    As Carrier
+    <p className="text-xs font-light">(Coming Soon)</p>
+  </div>
+  <FontAwesomeIcon icon={faCaretRight} />
+</button>
+
                 </div>
               )}
             </div>
