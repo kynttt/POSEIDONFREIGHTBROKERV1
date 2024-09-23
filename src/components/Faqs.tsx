@@ -73,7 +73,7 @@ const FAQsPage: React.FC = () => {
             className="shadow-lg h-auto object-cover rounded-l-3xl absolute -top-10 z-30"
   style={{ right: '0' }}
           />
-    <div className="relative flex flex-col lg:flex-row px-8 lg:px-24 py-12 lg:py-32 gap-8 justify-center">
+    <div className="relative flex flex-col lg:flex-row px-8 lg:px-24 py-12 lg:pt-32 lg:pb-12 gap-8 justify-center">
       {/* Image section */}
       <motion.div
         ref={imageRef}
