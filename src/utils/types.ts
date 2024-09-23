@@ -220,3 +220,8 @@ export interface DeleteFileData {
 export interface DeleteFolderData {
   folderId: string;
 }
+
+export interface BillOfLadingSchema extends Schema {
+  file: FileSchema;
+  createdBy: string | User;
+}
