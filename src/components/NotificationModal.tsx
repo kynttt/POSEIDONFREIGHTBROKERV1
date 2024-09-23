@@ -147,12 +147,13 @@ export default function NotificationModal() {
                   src={
                     notification.mediaUrl.startsWith("http")
                       ? notification.mediaUrl
-                      : `${process.env.REACT_APP_API_URL}${notification.mediaUrl}`
+                      : `${process.env.REACT_APP_API_BASE_URL}${notification.mediaUrl}`
                   }
                   alt="Notification"
                   className="w-12 h-12 rounded-full mr-4 object-cover"
                   onError={(e) => {
-                    e.currentTarget.src = "https://via.placeholder.com/150";
+                    console.error(`Failed to load image: ${e.currentTarget.src}`);
+                    e.currentTarget.src = "https://avatar.iran.liara.run/public/boy?username=Ash";
                   }}
                 />
               )}

@@ -122,8 +122,9 @@ export default function MapMarkerDialog({
   return (
     <Modal opened={opened} onClose={onClose} title="Select Location" centered>
       <div className="flex flex-col space-y-4">
+        <p className="text-primary text-sm">Tap the Map or Use the Search Bar to Drop Your Pin!</p>
         {/* Autocomplete Search bar */}
-        <PlaceAutocompleteClassic onPlaceSelect={handlePlaceSelect} />
+        <PlaceAutocompleteClassic onPlaceSelect={handlePlaceSelect}/>
 
         {/* Map */}
         {opened ? (
