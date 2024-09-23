@@ -288,7 +288,8 @@ const SignupPage = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handlePhoneChange}
-                    className="w-full border border-white bg-transparent text-black placeholder-white rounded-md bg-white text-gray-700 h-10 p-4"
+                    className="w-full border border-white !bg-transparent text-black placeholder-white rounded-md  text-gray-700 h-10 p-4"
+                    style={{ backgroundColor: 'transparent' }}
                     international
                     countryCallingCodeEditable={false}
                   />
