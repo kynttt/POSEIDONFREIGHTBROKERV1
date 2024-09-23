@@ -9,11 +9,22 @@ import { logoutUser } from "../lib/apiCalls";
 import { LogoutResponse } from "../utils/types";
 import { notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { logoutUpdate, isAuthenticated, role } = useAuthStore();
+  const handleGetStartedClick = () => {
+    setIsModalOpen(!isModalOpen); // Toggle modal open/close
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleShipperClick = () => {
+    navigate("/login"); // Navigate to login if "As Shipper" is clicked
+  };
+
 
   const mutation = useMutation<LogoutResponse, AxiosError, undefined>({
     mutationFn: logoutUser,
@@ -54,11 +65,6 @@ const Navbar: React.FC = () => {
     },
   });
 
-  // const handleLogout = () => {
-  //   logout(); // Call logout function from AuthContext to clear authentication state
-  //   navigate("/login"); // Redirect to login page after logout
-  // };
-
   const handleNavigation = (path: string) => {
     if (path.startsWith("#")) {
       window.location.hash = path;
@@ -71,7 +77,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       <nav
-        className="xs:px-[2rem] md:px-[8rem] lg:px-[12rem] py-6"
+        className="container mx-auto   py-6"
         style={{
           background: "#fefefe",
         }}
@@ -85,13 +91,12 @@ const Navbar: React.FC = () => {
               className="h-10 mr-4" // Adjust height and margin as necessary
             />
             <button
-            className="text-rblue text-2xl lg:text-3xl font-medium hover:text-secondary"
-            onClick={() => handleNavigation("/")}
-          >
-            Poseidon Freight
-          </button>
+              className="text-rblue text-2xl lg:text-3xl font-bold hover:text-secondary"
+              onClick={() => handleNavigation("/")}
+            >
+              Poseidon Freight
+            </button>
           </div>
-          
 
           {/* Hamburger menu for small screens */}
           <div className="lg:hidden">
@@ -130,37 +135,31 @@ const Navbar: React.FC = () => {
             {!isAuthenticated ? (
               <>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/")}
                 >
                   Home
                 </button>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("#about")}
                 >
                   About Us
                 </button>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("#services")}
                 >
                   Services
                 </button>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("#contacts")}
                 >
                   Contacts
                 </button>
-                {/* <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
-                  onClick={() => handleNavigation("#careers")}
-                >
-                  Careers
-                </button> */}
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/signup")}
                 >
                   Create Account
@@ -169,26 +168,26 @@ const Navbar: React.FC = () => {
             ) : role === "admin" ? (
               <>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/a/load-board")}
                 >
                   Loadboard
                 </button>
-                <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                <button  
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/a/admin-dashboard")}
                 >
                   Dashboard
                 </button>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/a/trailer-options")}
                 >
                   Trucks
                 </button>
 
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/a/profile")}
                 >
                   Profile
@@ -197,32 +196,32 @@ const Navbar: React.FC = () => {
             ) : (
               <>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/s/shipper-dashboard")}
                 >
                   Dashboard
                 </button>
 
-                <button
+                {/* <button
                   className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
                   onClick={() => handleNavigation("/s/user-payables")}
                 >
                   Accounts Payable
-                </button>
+                </button> */}
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/s/trailer-options")}
                 >
                   Trucks
                 </button>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/requests")}
                 >
                   Request A Quote
                 </button>
                 <button
-                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary"
+                  className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/s/profile")}
                 >
                   Profile
@@ -231,21 +230,49 @@ const Navbar: React.FC = () => {
             )}
             {isAuthenticated && (
               <button
-              className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
-               onClick={() => mutation.mutate(undefined)}
-             >Logout</button>
+                className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
+                onClick={() => mutation.mutate(undefined)}
+              >
+                Logout
+              </button>
             )}
             {!isAuthenticated && (
-              <div>
-                <button className="text-rblue flex justify-center rounded items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
-                  onClick={() => navigate("/login")}
-                >Get Started</button>
-              </div>
+              <div className="relative">
+              <button
+                className="text-rblue flex justify-center rounded-lg items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
+                onClick={handleGetStartedClick}
+              >
+                Get Started
+              </button>
+        
+              {/* Dropdown Modal */}
+              {isModalOpen && (
+                <div className="absolute mt-2 w-full bg-white border border-rblue shadow-lg rounded-lg z-30">
+                  <button
+                    className="w-full text-left px-4 text-rblue py-2 hover:bg-rblue hover:text-white hover:rounded-t-lg flex justify-between items-center"
+                    onClick={handleShipperClick}
+                  >
+                    As Shipper
+                    <FontAwesomeIcon icon={faCaretRight} />
+                  </button>
+                  <button
+  className="w-full text-left px-4 py-2 text-gray-500 cursor-not-allowed flex justify-between items-start"
+  disabled
+>
+  <div>
+    As Carrier
+    <p className="text-xs font-light">(Coming Soon)</p>
+  </div>
+  <FontAwesomeIcon icon={faCaretRight} />
+</button>
+
+                </div>
+              )}
+            </div>
             )}
           </div>
 
           {/* Responsive Navigation Menu */}
-
           <Transition
             show={isOpen}
             enter="transition duration-300 ease-out"
@@ -332,12 +359,12 @@ const Navbar: React.FC = () => {
                     Dashboard
                   </button>
 
-                  <button
+                  {/* <button
                     className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/user-payables")}
                   >
                     Accounts Payable
-                  </button>
+                  </button> */}
                   <button
                     className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
                     onClick={() => handleNavigation("/s/trailer-options")}
