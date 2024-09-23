@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../src/state/useAuthStore"; // Adjust the import path
 import { NotificationSchema } from "../utils/types";
 import queryClient from "../lib/queryClient";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 export default function NotificationModal() {
   const navigate = useNavigate();
@@ -137,11 +139,12 @@ export default function NotificationModal() {
           {data!.map((notification) => (
             <div
               key={notification._id}
-              className={`flex py-2  px-12 hover:bg-gray-400 hover:text-white rounded-md transition-colors duration-200 cursor-pointer  shadow-lg ${
+              className={`hover:scale-105 mx-4 transform flex items-center justify-between py-2  px-6 hover:bg-gray-300 hover:text-primary rounded-md transition-all duration-200 cursor-pointer  shadow-lg ${
                 !notification.isRead ? "bg-blue-50 text-black" : "text-gray-700"
               }`}
               onClick={() => handleNotificationClick(notification)}
             >
+              <div className="flex items-center pr-6">
               {notification.mediaUrl && (
                 <img
                   src={
@@ -158,14 +161,17 @@ export default function NotificationModal() {
                 />
               )}
               <div className="flex flex-col">
-                <div className="text-sm font-medium">{notification.title}</div>
+                <div className="text-sm font-semibold text-primary">{notification.title}</div>
                 <div className="text-xs font-normal">
                   {formatNotificationMessage(notification)}
                 </div>
-                <div className="text-xs mt-1">
+                <div className="text-xs mt-1 font-light">
                   {formatNotificationDate(notification.createdAt!)}
                 </div>
               </div>
+              </div>
+              {/* Add the icon on the rightmost side */}
+  <FontAwesomeIcon icon={faEllipsisH} className="text-lg text-gray-500 hover:text-gray-700" />
             </div>
           ))}
         </Stack>
