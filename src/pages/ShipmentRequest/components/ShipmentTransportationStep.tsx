@@ -14,7 +14,7 @@ import { useDirectionsStore } from "../../../hooks/useDirectionStore";
 
 function ShipmentTransportationStep() {
   const { data: dataState, update: updateState } = useDistanceCalculator();
-  const { nextStep, prevStep } = useStepContext();
+  const { nextStep } = useStepContext();
   const calculateRoutes = useDirectionsStore((state) => state.calculateRoutes);
   const { data: listTrucksData } = useQuery({
     queryKey: ["truck-catalogs", "distance-calculator"],
@@ -260,9 +260,9 @@ function ShipmentTransportationStep() {
           </div>
         </div>
         <div className="flex justify-between mt-10">
-          <Button variant="outline" fullWidth onClick={prevStep}>
+          {/* <Button variant="outline" fullWidth onClick={prevStep}>
             Back
-          </Button>
+          </Button> */}
           <Space w="md" />
           <Button
             disabled={
