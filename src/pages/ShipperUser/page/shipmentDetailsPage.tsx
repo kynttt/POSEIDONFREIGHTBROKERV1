@@ -1,9 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchBillOfLadingByBookingId, fetchBookingById } from "../../../lib/apiCalls";
-import { Booking, Quote } from "../../../utils/types";
+import {
+  fetchBillOfLadingByBookingId,
+  fetchBookingById,
+} from "../../../lib/apiCalls";
+import { BillOfLadingSchema, Booking, Quote } from "../../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBox, faBoxOpen, faBuilding, faCalendarCheck, faDollarSign, faFile, faHashtag, faLocationDot, faMapLocationDot, faNoteSticky, faTruckFront, faTruckMoving, faUser, faWeightScale } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBox,
+  faBoxOpen,
+  faBuilding,
+  faCalendarCheck,
+  faDollarSign,
+  faFile,
+  faHashtag,
+  faLocationDot,
+  faMapLocationDot,
+  faNoteSticky,
+  faTruckFront,
+  faTruckMoving,
+  faUser,
+  faWeightScale,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ShipmentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Get the id from the URL
@@ -11,7 +29,10 @@ const ShipmentDetails: React.FC = () => {
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+  const [billOfLading, setBillOfLading] = useState<BillOfLadingSchema | null>(
+    null
+  );
+  // const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
   // const truncateText = (text: string, maxLength: number): string => {
   //     if (text.length <= maxLength) {
@@ -41,54 +62,56 @@ const ShipmentDetails: React.FC = () => {
           console.error("No ID provided");
           return;
         }
-  
+
         const bookingData = await fetchBookingById(id);
         setBooking(bookingData);
-  
+
         const response = await fetchBillOfLadingByBookingId(id);
-  
-        if (Array.isArray(response) && response.length > 0) {
-          const responseData = response[0];
-          if (responseData.pdfDocument && responseData.pdfDocument.data) {
-            const pdfBuffer = responseData.pdfDocument.data;
-            const binaryData = new Uint8Array(pdfBuffer);
-            const blob = new Blob([binaryData], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            setBlobUrl(url);
-          } else {
-            throw new Error("PDF data not found in the response");
-          }
-        } else {
-          throw new Error("Unexpected response format");
-        }
+
+        setBillOfLading(response);
+
+        // if (Array.isArray(response) && response.length > 0) {
+        //   const responseData = response[0];
+        //   if (responseData.pdfDocument && responseData.pdfDocument.data) {
+        //     const pdfBuffer = responseData.pdfDocument.data;
+        //     const binaryData = new Uint8Array(pdfBuffer);
+        //     const blob = new Blob([binaryData], { type: "application/pdf" });
+        //     const url = URL.createObjectURL(blob);
+        //     setBlobUrl(url);
+        //   } else {
+        //     throw new Error("PDF data not found in the response");
+        //   }
+        // } else {
+        //   throw new Error("Unexpected response format");
+        // }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchBookingDetail();
-  
-    return () => {
-      if (blobUrl) {
-        URL.revokeObjectURL(blobUrl);
-      }
-    };
+
+    // return () => {
+    //   if (blobUrl) {
+    //     URL.revokeObjectURL(blobUrl);
+    //   }
+    // };
   }, [id]);
-  
-  
-  
+
   const handleViewBillOfLading = () => {
-    if (blobUrl) {
-      window.open(blobUrl, "_blank");
+    // if (blobUrl) {
+    //   window.open(blobUrl, "_blank");
+    // }
+    if (billOfLading) {
+      // console.log(`${JSON.stringify(billOfLading.file)}`);
+      window.open(
+        `${process.env.REACT_APP_API_BASE_URL}/folders/${billOfLading.file.folder}/files/${billOfLading.file._id}/view`,
+        `${billOfLading.file.name}`
+      );
     }
   };
-  
-  
-  
-  
-  
 
   // const handleConfirmBooking = () => {
   //     navigate('/booking-successful');
@@ -112,17 +135,21 @@ const ShipmentDetails: React.FC = () => {
 
             {/* Pick Up Details */}
             <div className=" p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl md:px-12 md:py-10 shadow-lg">
-              <h2 className="text-xl  mb-4 text-secondary ">Pick Up Details
-              <p className="text-base text-gray-500 font-normal">Full Overview of Pickup Timing and Address</p>
+              <h2 className="text-xl  mb-4 text-secondary ">
+                Pick Up Details
+                <p className="text-base text-gray-500 font-normal">
+                  Full Overview of Pickup Timing and Address
+                </p>
               </h2>
-              
+
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               <div className="flex items-center justify-between py-2 ">
                 <label
                   className="block text-primary text-base  font-medium"
                   htmlFor="facilityName"
                 >
-                  <FontAwesomeIcon icon={faBuilding} className="mr-2"/>Facility / Company Name
+                  <FontAwesomeIcon icon={faBuilding} className="mr-2" />
+                  Facility / Company Name
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote)?.companyName || "N/A"}
@@ -134,7 +161,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium"
                   htmlFor="facilityAddress"
                 >
-                  <FontAwesomeIcon icon={faLocationDot} className="mr-2"/>Facility Address
+                  <FontAwesomeIcon icon={faLocationDot} className="mr-2" />
+                  Facility Address
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote)?.origin || "TBA"}
@@ -148,7 +176,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base  font-medium"
                   htmlFor="appointment"
                 >
-                  <FontAwesomeIcon icon={faCalendarCheck} className="mr-2"/>Appointment <span className="text-red-600">*</span>
+                  <FontAwesomeIcon icon={faCalendarCheck} className="mr-2" />
+                  Appointment <span className="text-red-600">*</span>
                 </label>
                 <p className="text-gray-500 text-sm font-medium">
                   <p className="text-gray-500 text-sm font-medium">
@@ -174,14 +203,20 @@ const ShipmentDetails: React.FC = () => {
 
             {/* Delivery Details */}
             <div className="p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl my-6 md:px-12 md:py-10 shadow-lg">
-              <h2 className="text-xl  mb-4 text-secondary">Delivery Details <p className="text-base text-gray-500 font-normal">Delivery Schedule and Address Breakdown</p></h2>
+              <h2 className="text-xl  mb-4 text-secondary">
+                Delivery Details{" "}
+                <p className="text-base text-gray-500 font-normal">
+                  Delivery Schedule and Address Breakdown
+                </p>
+              </h2>
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               <div className="flex items-center justify-between py-2 ">
                 <label
                   className="block text-primary text-base font-medium"
                   htmlFor="facilityName"
                 >
-                  <FontAwesomeIcon icon={faBuilding} className="mr-2"/>Facility / Company Name
+                  <FontAwesomeIcon icon={faBuilding} className="mr-2" />
+                  Facility / Company Name
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote)?.companyName || "N/A"}
@@ -193,7 +228,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium"
                   htmlFor="facilityAddress"
                 >
-                  <FontAwesomeIcon icon={faLocationDot} className="mr-2"/>Facility Address
+                  <FontAwesomeIcon icon={faLocationDot} className="mr-2" />
+                  Facility Address
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote)?.destination || "N/A"}
@@ -207,7 +243,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base  font-medium"
                   htmlFor="appointment"
                 >
-                  <FontAwesomeIcon icon={faCalendarCheck} className="mr-2"/>Appointment <span className="text-red-600">*</span>
+                  <FontAwesomeIcon icon={faCalendarCheck} className="mr-2" />
+                  Appointment <span className="text-red-600">*</span>
                 </label>
                 <p className="text-gray-500 text-sm font-medium">
                   <p className="text-gray-500 text-sm font-medium">
@@ -248,7 +285,10 @@ const ShipmentDetails: React.FC = () => {
             {/* Additional Shipment Details */}
             <div className="p-6 w-full max-w-screen-2xl mx-auto bg-white rounded-xl my-6 md:px-12 md:py-10 shadow-lg">
               <h2 className="text-xl mb-4 text-secondary">
-                Additional Shipment Details<p className="text-base text-gray-500 font-normal">Extra Shipment Information and Coordination Overview</p>
+                Additional Shipment Details
+                <p className="text-base text-gray-500 font-normal">
+                  Extra Shipment Information and Coordination Overview
+                </p>
               </h2>
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               {/* <div className="w-full sm:w-1/2 mb-4 sm:mb-0"> */}
@@ -257,7 +297,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium "
                   htmlFor="customerReference"
                 >
-                  <FontAwesomeIcon icon={faHashtag} className="mr-2" />Customer Reference No. <span className="text-red-600">*</span>
+                  <FontAwesomeIcon icon={faHashtag} className="mr-2" />
+                  Customer Reference No. <span className="text-red-600">*</span>
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote).notes || "N/A"}
@@ -268,7 +309,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium "
                   htmlFor="total"
                 >
-                  <FontAwesomeIcon icon={faTruckMoving} className="mr-2"/>Truck Type
+                  <FontAwesomeIcon icon={faTruckMoving} className="mr-2" />
+                  Truck Type
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote).trailerType || "N/A"}
@@ -280,7 +322,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium "
                   htmlFor="commodity"
                 >
-                  <FontAwesomeIcon icon={faBoxOpen} className="mr-2"/>Commodity
+                  <FontAwesomeIcon icon={faBoxOpen} className="mr-2" />
+                  Commodity
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote).commodity || "N/A"}
@@ -291,7 +334,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium "
                   htmlFor="packaging"
                 >
-                  <FontAwesomeIcon icon={faBox} className="mr-2"/>Packaging
+                  <FontAwesomeIcon icon={faBox} className="mr-2" />
+                  Packaging
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote).packaging || "TBA"}
@@ -303,7 +347,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium "
                   htmlFor="notes"
                 >
-                  <FontAwesomeIcon icon={faNoteSticky} className="mr-2"/>Additional Notes
+                  <FontAwesomeIcon icon={faNoteSticky} className="mr-2" />
+                  Additional Notes
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote).notes || "N/A"}
@@ -317,7 +362,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium "
                   htmlFor="weight"
                 >
-                  <FontAwesomeIcon icon={faWeightScale} className="mr-2"/>Weight
+                  <FontAwesomeIcon icon={faWeightScale} className="mr-2" />
+                  Weight
                 </label>
                 <p className="text-base text-gray-500 font-normal">
                   {(booking.quote as Quote).maxWeight || "N/A"} lb
@@ -331,14 +377,20 @@ const ShipmentDetails: React.FC = () => {
           {/* Carrier */}
           <div className="w-full lg:w-1/3  justify-center lg:pt-28 bg-[#FAF6FE] ">
             <div className="bg-white w-full p-6 rounded-lg shadow-lg md:px-12 md:py-10">
-              <h2 className="text-xl mb-6 text-secondary">Carrier <p className="text-base text-gray-500 font-normal">Details on Carrier and Assigned Driver</p></h2>
+              <h2 className="text-xl mb-6 text-secondary">
+                Carrier{" "}
+                <p className="text-base text-gray-500 font-normal">
+                  Details on Carrier and Assigned Driver
+                </p>
+              </h2>
 
               <div className="w-full sm:w-full mb-4 sm:mb-0">
                 <label
                   className="block text-primary text-base font-medium"
                   htmlFor="customerReference"
                 >
-                  <FontAwesomeIcon icon={faTruckFront} className="mr-2" /> Carrier Name
+                  <FontAwesomeIcon icon={faTruckFront} className="mr-2" />{" "}
+                  Carrier Name
                 </label>
                 <p className="text-base text-gray-500 font-normal my-2">
                   {booking.carrier || "Please wait for the confirmation..."}
@@ -348,7 +400,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium "
                   htmlFor="commodity"
                 >
-                  <FontAwesomeIcon icon={faUser} className="mr-2" />Driver
+                  <FontAwesomeIcon icon={faUser} className="mr-2" />
+                  Driver
                 </label>
                 <p className="text-base text-gray-500 font-normal my-2">
                   {booking.driver || "Please wait for the confirmation..."}
@@ -357,14 +410,20 @@ const ShipmentDetails: React.FC = () => {
             </div>
 
             <div className="bg-white  p-6 rounded-lg my-6 shadow-lg md:px-12 md:py-10">
-              <h2 className="text-xl mb-4 text-secondary ">Rate <p className="text-base text-gray-500 font-normal">Cost and Distance Calculation Summary</p></h2>
+              <h2 className="text-xl mb-4 text-secondary ">
+                Rate{" "}
+                <p className="text-base text-gray-500 font-normal">
+                  Cost and Distance Calculation Summary
+                </p>
+              </h2>
 
               <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
                 <label
                   className="block text-primary text-base font-medium"
                   htmlFor="customerReference"
                 >
-                  <FontAwesomeIcon icon={faDollarSign} className="mr-2" />Base Rate
+                  <FontAwesomeIcon icon={faDollarSign} className="mr-2" />
+                  Base Rate
                 </label>
                 <p className="text-base text-gray-500 font-normal my-2">
                   $ {(booking.quote as Quote).price || "N/A"}
@@ -374,7 +433,8 @@ const ShipmentDetails: React.FC = () => {
                   className="block text-primary text-base font-medium "
                   htmlFor="commodity"
                 >
-                  <FontAwesomeIcon icon={faMapLocationDot} className="mr-2" />Distance
+                  <FontAwesomeIcon icon={faMapLocationDot} className="mr-2" />
+                  Distance
                 </label>
                 <p className="text-base text-gray-500 font-normal my-2">
                   {(booking.quote as Quote).distance || "N/A"}
@@ -383,33 +443,37 @@ const ShipmentDetails: React.FC = () => {
             </div>
 
             <div className="bg-white  p-6 rounded-lg my-6 shadow-lg md:px-12 md:py-10">
-              <h2 className="text-xl mb-2 text-secondary">Documents <p className="text-base text-gray-500 font-normal">Access and Review Shipment Documents</p></h2>
+              <h2 className="text-xl mb-2 text-secondary">
+                Documents{" "}
+                <p className="text-base text-gray-500 font-normal">
+                  Access and Review Shipment Documents
+                </p>
+              </h2>
               <div className="flex flex-col sm:flex-row mb-4  py-4">
-              <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
-          {blobUrl ? (
-            <button
-              onClick={handleViewBillOfLading}
-              className="block text-primary text-sm font-bold p-2 rounded-md bg-primary text-white cursor-pointer"
-            >
-              <FontAwesomeIcon icon={faFile} className="mr-2" />
-              View Bill of Lading (BOL)
-            </button>
-          ) : (
-            <button
-              onClick={handleBillOfLadingClick}
-              className={`block text-primary text-sm font-bold p-2 rounded-md ${
-                booking.status === "Pending"
-                  ? "bg-gray-400 text-white cursor-not-allowed"
-                  : "bg-secondary text-white cursor-pointer"
-              }`}
-              disabled={booking.status === "Pending"}
-            >
-              <FontAwesomeIcon icon={faFile} className="mr-2" />
-              Generate Bill of Lading (BOL)
-            </button>
-          )}
-        </div>
-
+                <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+                  {billOfLading ? (
+                    <button
+                      onClick={handleViewBillOfLading}
+                      className="block text-primary text-sm font-bold p-2 rounded-md bg-primary text-white cursor-pointer"
+                    >
+                      <FontAwesomeIcon icon={faFile} className="mr-2" />
+                      View Bill of Lading (BOL)
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleBillOfLadingClick}
+                      className={`block text-primary text-sm font-bold p-2 rounded-md ${
+                        booking.status === "Pending"
+                          ? "bg-gray-400 text-white cursor-not-allowed"
+                          : "bg-secondary text-white cursor-pointer"
+                      }`}
+                      disabled={booking.status === "Pending"}
+                    >
+                      <FontAwesomeIcon icon={faFile} className="mr-2" />
+                      Generate Bill of Lading (BOL)
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>

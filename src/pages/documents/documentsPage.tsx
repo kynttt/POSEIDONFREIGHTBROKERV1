@@ -21,6 +21,7 @@ import { useParams } from "react-router-dom";
 export default function DocumentsPage() {
   const { folderId } = useParams<{ folderId: string }>();
   const userId = useAuthStore((state) => state.userId);
+
   const { data, isLoading, error, isError } = useQuery<
     FolderSchema,
     AxiosError<{ message: string }>,
@@ -72,6 +73,7 @@ export default function DocumentsPage() {
 
 function NoRootFolder() {
   const { folderId } = useParams<{ folderId: string }>();
+  console.log("folderId", folderId);
   const userId = useAuthStore((state) => state.userId);
 
   const mutation = useMutation({

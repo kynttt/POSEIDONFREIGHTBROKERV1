@@ -26,6 +26,7 @@ import {
   DeleteResponse,
   DeleteFolderData,
   SearchFileFolderResponse,
+  BillOfLadingSchema,
 } from "../utils/types";
 
 //Users
@@ -477,14 +478,22 @@ export const uploadPdf = async (
 ) => {
   try {
     const formData = new FormData();
-    formData.append("pdf", pdfBlob);
-    formData.append("userId", userId);
-    formData.append("bookingId", bookingId);
+    formData.append("file", pdfBlob, `bol-${bookingId}.pdf`); // Append the file to FormData
 
-    const response = await axiosInstance.post("/billOfLading/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    // formData.append("userId", userId);
+    // formData.append("bookingId", bookingId);
+
+    // const response = await axiosInstance.post("/billOfLading/", formData, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // });
+
+    const file = await uploadFile(formData, ".$billofLading");
+    const response = await axiosInstance.post("/billOfLading/", {
+      userId,
+      bookingId,
+      fileId: file._id,
     });
 
     return response; // Ensure this is returned
@@ -500,7 +509,7 @@ export const fetchBillOfLadingByBookingId = async (bookingId: string) => {
     const response = await axiosInstance.get(
       `/billOfLading/by-booking/${bookingId}`
     );
-    return response.data;
+    return response.data as BillOfLadingSchema;
   } catch (error) {
     console.error("Error fetching Bill of Lading by booking ID:", error);
     throw error; // Ensure the error is thrown to be handled by the caller
@@ -635,7 +644,7 @@ export const listFile = async ({ folderId }: { folderId: string }) => {
 export const uploadFile = async (
   formData: FormData,
   folderId: string | undefined,
-  onUploadProgress: (progressEvent: AxiosProgressEvent) => void
+  onUploadProgress?: (progressEvent: AxiosProgressEvent) => void
 ) => {
   folderId = folderId || ".$root";
   const response = await axiosInstance.post(

@@ -133,6 +133,7 @@ const BillOfLading: React.FC = () => {
         orientation: "portrait",
         unit: "in",
         format: [8.5, 11],
+        
       });
 
       pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
