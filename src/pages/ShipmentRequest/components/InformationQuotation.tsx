@@ -11,11 +11,10 @@ export default function InformationQuotation() {
     <div>
       <Stepper iconSize={30} active={active} size="xs">
         <Stepper.Step>
-        <ShipmentTransportationStep />
+          <ShipmentTransportationStep />
         </Stepper.Step>
         <Stepper.Step>
-        <PickupDateStep />
-          
+          <PickupDateStep />
         </Stepper.Step>
         <Stepper.Step>
           <PackageDetailsStep />

@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { Calendar, DayProps } from "@mantine/dates";
 import dayjs from "dayjs"; // Make sure dayjs is installed
 import ShipmentRequestHeader from "./ShipmentRequestHeader"; // Adjust the import path
-import { Button } from "@mantine/core";
+import { Button, Space} from "@mantine/core";
 import { useStepContext } from "./ShipmenStepperProvider";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
 
 export default function PickupDateStep() {
-  const { nextStep } = useStepContext();
+  const { nextStep, prevStep } = useStepContext();
   const { data, update } = useDistanceCalculator();
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(
@@ -66,9 +66,15 @@ export default function PickupDateStep() {
           minDate={today}
         />
       </div>
-      <Button disabled={!selectedDate} onClick={onNextHandler}>
+      <div className="flex justify-between mt-10">
+      <Button variant="outline" fullWidth onClick={prevStep}>
+            Back
+          </Button>
+          <Space w="md" />
+      <Button disabled={!selectedDate} fullWidth onClick={onNextHandler}>
         Next
       </Button>
+      </div>
     </div>
   );
 }
