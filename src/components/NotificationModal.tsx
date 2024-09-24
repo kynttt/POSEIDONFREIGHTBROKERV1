@@ -137,19 +137,34 @@ export default function NotificationModal() {
           {data!.map((notification) => (
             <div
               key={notification._id}
-              className={`py-2  px-12 hover:bg-gray-400 hover:text-white rounded-md transition-colors duration-200 cursor-pointer  shadow-lg ${
-                !notification.isRead
-                  ? "bg-blue-50 text-black"
-                  : "text-gray-700"
+              className={`flex py-2  px-12 hover:bg-gray-400 hover:text-white rounded-md transition-colors duration-200 cursor-pointer  shadow-lg ${
+                !notification.isRead ? "bg-blue-50 text-black" : "text-gray-700"
               }`}
               onClick={() => handleNotificationClick(notification)}
             >
-              <div className="text-sm font-medium">{notification.title}</div>
-              <div className="text-xs font-normal">
-                {formatNotificationMessage(notification)}
-              </div>
-              <div className="text-xs mt-1">
-                {formatNotificationDate(notification.createdAt!)}
+              {notification.mediaUrl && (
+                <img
+                  src={
+                    notification.mediaUrl.startsWith("http")
+                      ? notification.mediaUrl
+                      : `${process.env.REACT_APP_API_BASE_URL}${notification.mediaUrl}`
+                  }
+                  alt="Notification"
+                  className="w-12 h-12 rounded-full mr-4 object-cover"
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${e.currentTarget.src}`);
+                    e.currentTarget.src = "https://avatar.iran.liara.run/public/boy?username=Ash";
+                  }}
+                />
+              )}
+              <div className="flex flex-col">
+                <div className="text-sm font-medium">{notification.title}</div>
+                <div className="text-xs font-normal">
+                  {formatNotificationMessage(notification)}
+                </div>
+                <div className="text-xs mt-1">
+                  {formatNotificationDate(notification.createdAt!)}
+                </div>
               </div>
             </div>
           ))}
