@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Stack, TextInput } from "@mantine/core";
+import { ActionIcon, Stack, TextInput } from "@mantine/core";
 import { DatePicker, type DatesRangeValue } from "@mantine/dates";
 import { listUserQuotes } from "../../../lib/apiCalls";
 // import { DataTable } from "mantine-datatable";
@@ -8,12 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAnglesDown,
-  faMapMarkerAlt,
+  // faAnglesDown,
+  // faMapMarkerAlt,
   faSearch,
   faSyncAlt,
   faTimes,
-  faTruck,
+  // faTruck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDebouncedValue } from "@mantine/hooks";
 
@@ -23,7 +23,7 @@ export default function SavedQuotePage() {
       <Stack px="md" w="100%" min-h="100vh">
         <Stack py="md" w="100%" gap={20} h="100%">
           <h1 className="px-20 text-2xl text-primary">Saved Routes</h1>
-          <Divider />
+          {/* <Divider /> */}
           <HistoryQuotes />
         </Stack>
       </Stack>
@@ -93,45 +93,34 @@ function HistoryQuotes() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-8  ">
+      <div className="grid grid-cols-1 sm:grid-cols-4   ">
         {/* Card Layout */}
-        <div className="border col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-[#FAF6FE] rounded-lg lg:px-10 ">
+        <div className=" lg:col-span-3 md:col-span-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8 bg-blue-50  lg:px-10 justify-center ">
           {filteredData.map((quote) => (
             <div
               key={quote._id}
-              className=" bg-white lg:mx-4 rounded-md shadow-xl   flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
+              className="bg-white lg:mx-4 rounded-xl shadow-md flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl p-2"
+              style={{ width: '350px', height: '315px' }}
             >
               {/* Origin and Destination with Arrow */}
-              <div className="items-center justify-between  p-6">
+              <div className="items-center justify-between p-6">
                 <div className="flex items-center space-x-2 my-2">
-                  <div className="bg-primary w-6 h-6 flex items-center justify-center rounded-full">
-                    <FontAwesomeIcon
-                      icon={faMapMarkerAlt}
-                      className="text-white w-3 h-3"
-                    />
-                  </div>
-                  <p className="font-semibold text-md text-primary">
+                  <p className="font-bold text-xl text-rblue mb-4">
+                    {quote.companyName}
+                  </p>
+                </div>
+                <div className="  ">
+                  <p className="text-xs text-gray-400 font-normal">Origin Location</p>
+                  <p className="font-medium text-md text-rblue">
                     {quote.origin.length > 25
                       ? `${quote.origin.slice(0, 25)}...`
                       : quote.origin}
                   </p>
+
                 </div>
-                <div className="flex justify-start my-4">
-                  <div className="">
-                    <FontAwesomeIcon
-                      icon={faAnglesDown}
-                      className="text-secondary w-6 h-6"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2 my-2">
-                  <div className="bg-gray-500 w-6 h-6 flex items-center justify-center rounded-full">
-                    <FontAwesomeIcon
-                      icon={faMapMarkerAlt}
-                      className="text-white w-3 h-3"
-                    />
-                  </div>
-                  <p className="font-semibold text-md text-gray-500">
+                <p className="text-xs text-gray-400 font-normal">Drop Off Location</p>
+                <div className="">
+                  <p className="font-medium text-md text-rblue">
                     {quote.destination.length > 25
                       ? `${quote.destination.slice(0, 25)}...`
                       : quote.destination}
@@ -139,67 +128,37 @@ function HistoryQuotes() {
                 </div>
 
                 {/* Trailer Type and Size */}
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="bg-gray-500 w-6 h-6 flex items-center justify-center rounded-full">
-                    <FontAwesomeIcon
-                      icon={faTruck}
-                      className="text-white w-3 h-3"
-                    />
-                  </div>
-                  <p className="font-semibold text-md text-gray-500">
+                <div className="mb-4 ">
+                  <p className="text-xs text-gray-400 font-normal">Trailer Type</p>
+                  <p className="font-medium text-md text-rblue">
                     {quote.trailerType} ({quote.trailerSize})
                   </p>
                 </div>
+                <div className="border-t p-5 text-center ">
+                  <button
+                    className="w-3/4 bg-rblue text-white rounded-sm px-4 py-3 hover:bg-blue-600 transition-colors rounded-xl"
+                    onClick={() => onReuseHandle(quote)}
+                  >
+                    <FontAwesomeIcon icon={faSyncAlt} className="mr-2" />
+                    Reuse
+                  </button>
+                </div>
               </div>
 
-              {/* Optional Data Points */}
-              {/* Uncomment if needed */}
-              {/* 
-      <div className="flex items-center space-x-2 mb-4">
-        <div className="bg-purple-500 w-10 h-10 flex items-center justify-center rounded-full">
-          <FontAwesomeIcon icon={faCalendarAlt} className="text-white" />
-        </div>
-        <p className="text-sm text-gray-700">
-          Created on {new Date(quote.createdAt ?? "").toLocaleDateString()}
-        </p>
-      </div>
 
-      <div className="flex items-center space-x-2 mb-4">
-        <div className="bg-yellow-500 w-10 h-10 flex items-center justify-center rounded-full">
-          <FontAwesomeIcon icon={faDollarSign} className="text-white" />
-        </div>
-        <p className="text-sm text-gray-700">${quote.price}</p>
-      </div>
 
-      <div className="flex items-center space-x-2 mb-4">
-        <div className="bg-teal-500 w-10 h-10 flex items-center justify-center rounded-full">
-          <FontAwesomeIcon icon={faBoxOpen} className="text-white" />
-        </div>
-        <p className="text-sm text-gray-700">{quote.packaging}</p>
-      </div> 
-      */}
-
-              {/* Action Buttons */}
-              <div className="bg-light-grey p-6 text-center rounded-b-md">
-                <button
-                  className="w-full bg-primary text-white rounded-sm px-4 py-3 hover:bg-secondary transition-colors"
-                  onClick={() => onReuseHandle(quote)}
-                >
-                  <FontAwesomeIcon icon={faSyncAlt} className="mr-2" />
-                  Reuse
-                </button>
-              </div>
             </div>
           ))}
         </div>
 
         {/* Filter Inputs */}
-        <div className="lg:px-8 col-span-1 p-4 lg:p-8 rounded-lg  bg-[#FAF6FE] border">
+        <div className="lg:px-8 lg:col-span-1 col-span-4 p-4 lg:p-8  bg-blue-50 w-full">
           <div>
+            <h1 className="text-rblue border-b pb-4 mb-4">Filter <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '8px' }} /></h1>
             {/* Origin Filter */}
             <TextInput
               label="Origin"
-              className="lg:w-full font-normal"
+              className="lg:w-full font-normal text-rblue"
               // description="Search by origin"
               placeholder="Search origin..."
               leftSection={<FontAwesomeIcon icon={faSearch} />}
@@ -220,7 +179,7 @@ function HistoryQuotes() {
             {/* Destination Filter */}
             <TextInput
               label="Destination"
-              className="lg:w-full font-normal"
+              className="lg:w-full font-normal text-rblue"
               // description="Search by destination"
               placeholder="Search destination"
               leftSection={<FontAwesomeIcon icon={faSearch} />}
@@ -239,21 +198,21 @@ function HistoryQuotes() {
             />
             {/* Date Range Filter */}
             <Stack className=" mt-4 w-full ">
-              <h1 className="font-semibold">Pick a date</h1>
-              <div className=" bg-white p-6 rounded-md border">
+              <h1 className="font-normal text-rblue ">Pick-up date</h1>
+              <div className="bg-white p-6 rounded-md border border-rblue flex flex-col items-center">
                 <DatePicker
                   maxDate={new Date()}
                   type="range"
                   value={createdDateRange}
                   onChange={setCreatedDateRange}
-                  className=" "
+                  className="text-center"
                 />
                 <button
                   disabled={!createdDateRange}
                   onClick={() => {
                     setCreatedDateRange(undefined);
                   }}
-                  className="w-full mt-4 p-2 border-2 border-primary rounded-md text-primary cursor-pointer hover:bg-secondary hover:text-white"
+                  className="w-full mt-4 p-2 border-2 border-primary rounded-md text-primary cursor-pointer hover:bg-primary hover:text-white"
                 >
                   Clear
                 </button>

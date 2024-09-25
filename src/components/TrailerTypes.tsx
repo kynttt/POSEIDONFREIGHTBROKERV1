@@ -6,12 +6,12 @@ import dryVanImage from '../assets/img/dryvan.png';
 
 const TrailerTypes: React.FC = () => {
     return (
-        <div className='text-primary py-16 bg-[#FAF6FE]'>
+        <div className='text-primary py-16 bg-blue-50'>
             <div>
                 <h1 className="text-center text-2xl font-thin ">TRAILERS</h1>
                 <h1 className="text-center text-2xl font-bold mb-8">What type of freight do you support?</h1>
             </div>
-            <div className="mx-auto px-4 sm:px-2 sm:px-2 md:px-16 py-8 bg-[#FAF6FE] text-primary flex justify-center items-center ">
+            <div className="mx-auto px-4 sm:px-2 sm:px-2 md:px-16 py-8 bg-blue-50 text-primary flex justify-center items-center ">
                 <div className="container grid grid-cols-1 xl:grid-cols-1 gap-8">
                     <div className="bg-white mx-4 sm:mx-8 md:mx-16 lg:mx-28 p-4 sm:p-8 border rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 shadow shadow-xl">
                         <img src={reeferImage} alt="Reefer Trailer" className="w-full h-auto my-4 md:col-span-1 self-center" />

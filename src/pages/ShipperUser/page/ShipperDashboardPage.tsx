@@ -136,7 +136,7 @@ const ShipperDashboardPage = () => {
 
   return (
     <div className="bg-white h-full flex flex-col md:flex-row mt-6">
-      <div className="flex-1 p-4 md:p-6 bg-[#FAF6FE] overflow-y-auto lg:px-20">
+      <div className="flex-1 p-4 md:p-6 bg-blue-50 overflow-y-auto lg:px-20">
         <h1 className="text-2xl font-bold mb-4 text-gray-500">Dashboard</h1>
         <div className="bg-white rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
           <h2 className="text-xl font-semibold mb-4 text-primary">Overview</h2>
