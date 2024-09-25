@@ -12,9 +12,9 @@ export const calculatePrice = (
     // const distanceNum = parseFloat(distance.replace(/[^\d.]/g, ""));
 
     const maxWeightNum = parseFloat(maxWeight);
-    console.log("Distance:", distance);
-    console.log("Max weight:", maxWeightNum);
-    console.log("Price per mile:", pricePerMile);
+    // console.log("Distance:", distance);
+    // console.log("Max weight:", maxWeightNum);
+    // console.log("Price per mile:", pricePerMile);
     const calculatedPrice = pricePerMile * distance + maxWeightNum * 0.1;
 
     return calculatedPrice;

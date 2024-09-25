@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Calendar, DayProps } from "@mantine/dates";
 import dayjs from "dayjs"; // Make sure dayjs is installed
 import ShipmentRequestHeader from "./ShipmentRequestHeader"; // Adjust the import path
-import { Button, Space} from "@mantine/core";
-import { useStepContext } from "./ShipmenStepperProvider";
+import { Button, Space } from "@mantine/core";
+import { useStepContext } from "../context/ShipmenStepperProvider";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
 
 export default function PickupDateStep() {
@@ -67,13 +67,13 @@ export default function PickupDateStep() {
         />
       </div>
       <div className="flex justify-between mt-10">
-      <Button variant="outline" fullWidth onClick={prevStep}>
-            Back
-          </Button>
-          <Space w="md" />
-      <Button disabled={!selectedDate} fullWidth onClick={onNextHandler}>
-        Next
-      </Button>
+        <Button variant="outline" fullWidth onClick={prevStep}>
+          Back
+        </Button>
+        <Space w="md" />
+        <Button disabled={!selectedDate} fullWidth onClick={onNextHandler}>
+          Next
+        </Button>
       </div>
     </div>
   );

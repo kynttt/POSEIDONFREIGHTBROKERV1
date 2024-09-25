@@ -1,6 +1,6 @@
 import { Stepper } from "@mantine/core";
 import PickupDateStep from "./PickupDateStep";
-import { useStepContext } from "./ShipmenStepperProvider";
+import { useStepContext } from "../context/ShipmenStepperProvider";
 import ShipmentTransportationStep from "./ShipmentTransportationStep";
 import PackageDetailsStep from "./PackageDetailsStep";
 import CompanyDetailStep from "./CompanyDetailsStep";

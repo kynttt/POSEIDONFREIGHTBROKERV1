@@ -23,7 +23,6 @@ import AdminDashboard from "./pages/Admin/page/adminDashboardPage";
 import AccountingReports from "./pages/accountingReport";
 import AccountingPayment from "./pages/Admin/page/accountingPaymentPage";
 import PerformanceOverview from "./pages/performanceGrade";
-import ShipmentDetailsConfirmation from "./pages/ShipmentRequest/shipmentDetailsConfirmation";
 
 import PrivateRoute from "./components/PrivateRoute";
 import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
@@ -198,7 +197,7 @@ const App: React.FC = () => {
                       </APIProvider>
                     }
                   />
-                  <Route
+                  {/* <Route
                     path="confirmation"
                     element={
                       <PrivateRoute
@@ -206,7 +205,7 @@ const App: React.FC = () => {
                         roles={["user"]}
                       />
                     }
-                  />
+                  /> */}
                   <Route
                     path="payment"
                     element={

@@ -9,7 +9,7 @@ import { getAddressFromLatLng } from "../../../utils/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { listTrucks } from "../../../lib/apiCalls";
 import { Button, Space } from "@mantine/core";
-import { useStepContext } from "./ShipmenStepperProvider";
+import { useStepContext } from "../context/ShipmenStepperProvider";
 import { useDirectionsStore } from "../../../hooks/useDirectionStore";
 
 function ShipmentTransportationStep() {
@@ -89,7 +89,7 @@ function ShipmentTransportationStep() {
 
   useEffect(() => {
     if (debouncedOriginLocation && debouncedDestinationLocation) {
-      console.log("calculateRoutes");
+      // console.log("calculateRoutes");
       // updateState({
       //   ...dataState!,
 
