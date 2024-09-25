@@ -99,7 +99,7 @@ function HistoryQuotes() {
           {filteredData.map((quote) => (
             <div
               key={quote._id}
-              className="bg-white lg:mx-4 rounded-xl shadow-xl flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl p-2"
+              className="bg-white lg:mx-4 rounded-xl shadow-md flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl p-2"
               style={{ width: '350px', height: '315px' }}
             >
               {/* Origin and Destination with Arrow */}
@@ -154,7 +154,7 @@ function HistoryQuotes() {
         {/* Filter Inputs */}
         <div className="lg:px-8 lg:col-span-1 col-span-4 p-4 lg:p-8  bg-blue-50 w-full">
           <div>
-            <h1 className="text-rblue border-b pb-4 mb-4">Search <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '8px' }} /></h1>
+            <h1 className="text-rblue border-b pb-4 mb-4">Filter <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '8px' }} /></h1>
             {/* Origin Filter */}
             <TextInput
               label="Origin"
@@ -198,7 +198,7 @@ function HistoryQuotes() {
             />
             {/* Date Range Filter */}
             <Stack className=" mt-4 w-full ">
-              <h1 className="font-semibold text-rblue">Pick a date</h1>
+              <h1 className="font-normal text-rblue ">Pick-up date</h1>
               <div className="bg-white p-6 rounded-md border border-rblue flex flex-col items-center">
                 <DatePicker
                   maxDate={new Date()}
