@@ -103,7 +103,7 @@ export default function SectionSecondPage() {
       notes,
     } = data!;
 
-    console.log(!distance);
+    // console.log(!distance);
     if (
       !trailerType ||
       !origin ||
@@ -148,7 +148,7 @@ export default function SectionSecondPage() {
 
   return (
     <>
-      <div className="w-full h-full overflow-auto  ">
+      <div className="w-full h-full overflow-auto px-4 ">
         <div className="w-full flex items-center justify-center h-[10%] text-primary text-lg font-bold relative">
           <div className="absolute left-6 text-primary">
             <ActionIcon variant="subtle" onClick={() => navigate(-1)}>
@@ -221,23 +221,23 @@ export default function SectionSecondPage() {
               />
             </tbody>
           </table>
-          <div className="flex flex-col w-full px-2 text-primary text-bold">
+          <div className="flex flex-col w-full  text-primary text-bold">
             <TitleIcon
               icon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
               title="Total Shipment Price"
             />
             <div className="flex justify-end text-[2rem]">
-              ${data?.price ? data!.price.toFixed(2) : "0.00"}
+              $ {data?.price ? data!.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "0.00"}
             </div>
           </div>
-          <div className="flex flex-col px-2  text-primary text-bold mt-2">
+          <div className="flex flex-col text-primary text-bold mt-2">
             <TitleIcon
               icon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
               title="Taxes and other fees"
             />
-            <div className="flex justify-end text-[1.5rem]">0.00</div>
+            <div className="flex justify-end text-[1.5rem]">$0.00</div>
           </div>
-          <div className="flex gap-2 py-2 justify-between">
+          <div className="flex gap-2 py-8 justify-between">
             <Button variant="outline" w={"30%"} onClick={goToFormPage}>
               Back
             </Button>
@@ -270,10 +270,10 @@ function TableRow({
 }) {
   return (
     <tr>
-      <td className="py-4 px-2 text-left text-gray-400 w-1/2">
+      <td className=" text-left text-gray-400 w-1/2">
         <TitleIcon icon={icon} title={title} />
       </td>
-      <td className="text-primary py-4 ml-8">{value}</td>
+      <td className="text-primary py-2 ml-8">{value}</td>
     </tr>
   );
 }
