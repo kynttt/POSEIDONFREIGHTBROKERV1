@@ -607,15 +607,10 @@ export const phoneOtpRequest = async ({
 
   return response.data as PhoneOtpRequestResponse;
 };
-export const phoneOtpVerify = async ({
-  userId,
-  otp,
-  secret,
-}: PhoneOtpVerifyData) => {
+export const phoneOtpVerify = async ({ userId, otp }: PhoneOtpVerifyData) => {
   const response = await axiosInstance.post(`/account/verify-phone-otp`, {
     userId,
     otp,
-    secret,
   });
 
   return response.data as PhoneOtpVerifyResponse;
