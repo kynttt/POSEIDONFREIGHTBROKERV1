@@ -67,9 +67,19 @@ const ShipmentDetailsConfirmation: React.FC = () => {
     if (savedQuote && !data) {
       const quoteDetails: DistanceCalculatorData = JSON.parse(savedQuote);
       init(quoteDetails);
+      setInitialize(true);
+    } else if (!savedQuote) {
+      // If no saved quote is found, redirect back to the form page
+      notifications.show({
+        title: "Error",
+        message: "No quote data found. Redirecting back to the form page.",
+        color: "red",
+        icon: true,
+        autoClose: 5000,
+      });
+      navigate("/requests/form");
     }
-    setInitialize(true);
-  }, [init, data]);
+  }, [init, data, quoteMutation, navigate]);
 
   const nextHandler = () => {
     if (!data) return;

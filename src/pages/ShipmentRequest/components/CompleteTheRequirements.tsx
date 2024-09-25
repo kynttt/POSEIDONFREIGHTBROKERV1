@@ -4,29 +4,32 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
-import { useShipmentAccordion } from "./ShipmentAccordionProvider";
+import { useShipmentAccordion } from "../context/ShipmentAccordionProvider";
 import { Button, Space } from "@mantine/core";
 import { useAuthStore } from "../../../state/useAuthStore";
 import { useNavigate } from "react-router-dom";
+import { useDistancePage } from "../context/DistancePageProvider";
 
 export default function CompleteTheRequirements() {
   const navigate = useNavigate();
+  const { goToConfirmationPage } = useDistancePage();
   const { isAuthenticated } = useAuthStore();
   const { data: dataState } = useDistanceCalculator();
   const { setValue } = useShipmentAccordion();
 
   const onNextHandler = () => {
     if (isAuthenticated) {
-      navigate("/requests/confirmation");
+      // navigate("/requests/confirmation");
+      goToConfirmationPage();
     } else {
       sessionStorage.setItem("savedQuote", JSON.stringify(dataState));
-      navigate("/login?redirectTo=/requests/confirmation");
+      // navigate("/login?redirectTo=/requests/confirmation");
+      navigate("/login?redirectTo=/requests?page=confirmation");
     }
   };
 
   return (
     <div>
-      
       <div className="flex flex-col gap-2">
         <div className="flex flex-col  items-start mb-4 lg:mb-0">
           <div className="text-primary text-lg  font-medium pt-4 rounded-lg flex gap-2 items-center">
