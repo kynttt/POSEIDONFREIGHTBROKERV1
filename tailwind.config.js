@@ -42,7 +42,8 @@ module.exports = {
         rblue: "#001C7C",
         lblue: "#A3C6FF",
         sblue: "#CBDFFF",
-        nblue: "#003C9D"
+        nblue: "#0F4B87",
+        lyellow: "#FFCC00"
       },
     },
   },
