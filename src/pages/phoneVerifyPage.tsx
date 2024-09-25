@@ -29,7 +29,7 @@ export default function PhoneVerifyPage() {
   const redirectTo = searchParams.get("redirectTo");
   const [seconds, setSeconds] = useState(50);
   const [otp, setOtp] = useState("");
-  // const [secret, setSecret] = useState("");
+  const [secret, setSecret] = useState("");
   const navigate = useNavigate();
   const [isComplete, setIsComplete] = useState(false);
 
@@ -46,9 +46,9 @@ export default function PhoneVerifyPage() {
     PhoneOtpRequestData
   >({
     mutationFn: phoneOtpRequest,
-    // onSuccess: (response) => {
-    //   setSecret(response.data.secret);
-    // },
+    onSuccess: (response) => {
+      setSecret(response.data.secret);
+    },
     onError: (error) => {
       notifications.show({
         color: "red",
@@ -113,9 +113,9 @@ export default function PhoneVerifyPage() {
     setIsComplete(true);
     otpVerifyMutation.mutate({
       // userId: userId!,
-      userId: data!.phone,
+      // userId: data!.phone,
       otp: otp,
-      // secret: secret,
+      secret: secret,
     });
   };
   useEffect(() => {
