@@ -95,65 +95,70 @@ function HistoryQuotes() {
     <>
       <div className="grid grid-cols-1 sm:grid-cols-4   ">
         {/* Card Layout */}
-        <div className=" col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 bg-blue-50 h- lg:px-10 ">
+        <div className=" lg:col-span-3 md:col-span-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8 bg-blue-50  lg:px-10 justify-center ">
           {filteredData.map((quote) => (
             <div
               key={quote._id}
-              className="bg-white lg:mx-4 rounded-xl shadow-xl flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl"
-              style={{ width: '350px', height: '280PX' }}
+              className="bg-white lg:mx-4 rounded-xl shadow-xl flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl p-2"
+              style={{ width: '350px', height: '315px' }}
             >
               {/* Origin and Destination with Arrow */}
               <div className="items-center justify-between p-6">
-              <div className="flex items-center space-x-2 my-2">
-                <p className="font-bold text-xl text-rblue mb-4">
-                {quote.companyName}
-                </p>
-              </div>
-              <div className="flex items-center space-x-2 my-2">
-                <p className="font-medium text-md text-rblue">
-                {quote.origin.length > 25
-                  ? `${quote.origin.slice(0, 25)}...`
-                  : quote.origin}
-                </p>
-              </div>
-              <div className="flex items-center space-x-2 my-2">
-                <p className="font-medium text-md text-rblue">
-                {quote.destination.length > 25
-                  ? `${quote.destination.slice(0, 25)}...`
-                  : quote.destination}
-                </p>
+                <div className="flex items-center space-x-2 my-2">
+                  <p className="font-bold text-xl text-rblue mb-4">
+                    {quote.companyName}
+                  </p>
+                </div>
+                <div className="  ">
+                  <p className="text-xs text-gray-400 font-normal">Origin Location</p>
+                  <p className="font-medium text-md text-rblue">
+                    {quote.origin.length > 25
+                      ? `${quote.origin.slice(0, 25)}...`
+                      : quote.origin}
+                  </p>
+
+                </div>
+                <p className="text-xs text-gray-400 font-normal">Drop Off Location</p>
+                <div className="">
+                  <p className="font-medium text-md text-rblue">
+                    {quote.destination.length > 25
+                      ? `${quote.destination.slice(0, 25)}...`
+                      : quote.destination}
+                  </p>
+                </div>
+
+                {/* Trailer Type and Size */}
+                <div className="mb-4 ">
+                  <p className="text-xs text-gray-400 font-normal">Trailer Type</p>
+                  <p className="font-medium text-md text-rblue">
+                    {quote.trailerType} ({quote.trailerSize})
+                  </p>
+                </div>
+                <div className="border-t p-5 text-center ">
+                  <button
+                    className="w-3/4 bg-rblue text-white rounded-sm px-4 py-3 hover:bg-blue-600 transition-colors rounded-xl"
+                    onClick={() => onReuseHandle(quote)}
+                  >
+                    <FontAwesomeIcon icon={faSyncAlt} className="mr-2" />
+                    Reuse
+                  </button>
+                </div>
               </div>
 
-              {/* Trailer Type and Size */}
-              <div className="flex items-center space-x-2 mb-4">
-                <p className="font-medium text-md text-rblue">
-                {quote.trailerType} ({quote.trailerSize})
-                </p>
-              </div>
-              <div className="border-t p-5 text-center ">
-              <button
-                className="w-3/4 bg-rblue text-white rounded-sm px-4 py-3 hover:bg-blue-600 transition-colors rounded-xl"
-                onClick={() => onReuseHandle(quote)}
-              >
-                <FontAwesomeIcon icon={faSyncAlt} className="mr-2" />
-                Reuse
-              </button>
-              </div>
-              </div>
 
-             
-              
+
             </div>
           ))}
         </div>
 
         {/* Filter Inputs */}
-        <div className="lg:px-8 col-span-1 p-4 lg:p-8  bg-blue-50 w-full">
+        <div className="lg:px-8 lg:col-span-1 col-span-4 p-4 lg:p-8  bg-blue-50 w-full">
           <div>
+            <h1 className="text-rblue border-b pb-4 mb-4">Search <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '8px' }} /></h1>
             {/* Origin Filter */}
             <TextInput
               label="Origin"
-              className="lg:w-full font-normal"
+              className="lg:w-full font-normal text-rblue"
               // description="Search by origin"
               placeholder="Search origin..."
               leftSection={<FontAwesomeIcon icon={faSearch} />}
@@ -174,7 +179,7 @@ function HistoryQuotes() {
             {/* Destination Filter */}
             <TextInput
               label="Destination"
-              className="lg:w-full font-normal"
+              className="lg:w-full font-normal text-rblue"
               // description="Search by destination"
               placeholder="Search destination"
               leftSection={<FontAwesomeIcon icon={faSearch} />}
@@ -182,7 +187,7 @@ function HistoryQuotes() {
                 <ActionIcon
                   size="sm"
                   variant="transparent"
-                  c="dimmed"  
+                  c="dimmed"
                   onClick={() => setDestinationQuery("")}
                 >
                   <FontAwesomeIcon icon={faTimes} />
@@ -193,8 +198,8 @@ function HistoryQuotes() {
             />
             {/* Date Range Filter */}
             <Stack className=" mt-4 w-full ">
-              <h1 className="font-semibold">Pick a date</h1>
-                <div className="bg-white p-6 rounded-md border border-rblue flex flex-col items-center">
+              <h1 className="font-semibold text-rblue">Pick a date</h1>
+              <div className="bg-white p-6 rounded-md border border-rblue flex flex-col items-center">
                 <DatePicker
                   maxDate={new Date()}
                   type="range"
@@ -205,13 +210,13 @@ function HistoryQuotes() {
                 <button
                   disabled={!createdDateRange}
                   onClick={() => {
-                  setCreatedDateRange(undefined);
+                    setCreatedDateRange(undefined);
                   }}
                   className="w-full mt-4 p-2 border-2 border-primary rounded-md text-primary cursor-pointer hover:bg-primary hover:text-white"
                 >
                   Clear
                 </button>
-                </div>
+              </div>
             </Stack>
           </div>
         </div>
