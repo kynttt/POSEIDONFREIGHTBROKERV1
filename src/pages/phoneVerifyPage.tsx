@@ -112,8 +112,7 @@ export default function PhoneVerifyPage() {
   const onCompleteHandler = (otp: string) => {
     setIsComplete(true);
     otpVerifyMutation.mutate({
-      // userId: userId!,
-      // userId: data!.phone,
+      userId: userId!,
       otp: otp,
       secret: secret,
     });
