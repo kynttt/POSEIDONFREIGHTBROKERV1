@@ -174,7 +174,7 @@ export interface PhoneOtpRequestResponse {
 export interface PhoneOtpVerifyData {
   userId: string;
   otp: string;
-  secret: string;
+  // secret: string;
 }
 
 export interface PhoneOtpVerifyResponse {
