@@ -1,4 +1,3 @@
-
 import "react-circular-progressbar/dist/styles.css";
 import heroBanner from "../assets/img/cover-hero.png";
 
@@ -14,8 +13,8 @@ const HeroBanner = () => {
         />
       </div>
 
-      {/* Overlay */}
-      <div className="absolute inset-0"></div>
+      {/* Overlay (Visible only on xs to md screens) */}
+      <div className="absolute inset-0 bg-black opacity-60 sm:block md:block lg:hidden"></div>
 
       {/* Content */}
       <div className="relative z-10 flex items-center justify-between p-6 md:p-16 lg:p-32 h-[350px] md:h-[400px] lg:h-[700px] mx-4 md:mx-16 lg:mx-32">
