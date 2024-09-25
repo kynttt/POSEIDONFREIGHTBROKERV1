@@ -48,12 +48,12 @@ export const useDirectionsStore = create<DirectionsState>((set, get) => {
       return;
     }
 
-    console.log("Prev Origin:", prevOrigin);
-    console.log("Prev Destination:", prevDestination);
+    // console.log("Prev Origin:", prevOrigin);
+    // console.log("Prev Destination:", prevDestination);
 
-    console.log("Origin:", origin);
-    console.log("Destination:", destination);
-    console.log(prevOrigin === origin && prevDestination === destination);
+    // console.log("Origin:", origin);
+    // console.log("Destination:", destination);
+    // console.log(prevOrigin === origin && prevDestination === destination);
 
     const isSameOrigin =
       prevOrigin?.lat === origin.lat && prevOrigin?.lng === origin.lng;

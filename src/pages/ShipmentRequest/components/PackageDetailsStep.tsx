@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ShipmentRequestHeader from "./ShipmentRequestHeader";
 import { faBox, faHashtag, faWeight } from "@fortawesome/free-solid-svg-icons";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
-import { useStepContext } from "./ShipmenStepperProvider";
+import { useStepContext } from "../context/ShipmenStepperProvider";
 import { Button, Space } from "@mantine/core";
 
 export default function PackageDetailsStep() {

@@ -4,8 +4,8 @@ import { faBuilding, faNoteSticky } from "@fortawesome/free-solid-svg-icons";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
 
 import { Button, Space } from "@mantine/core";
-import { useShipmentAccordion } from "./ShipmentAccordionProvider";
-import { useStepContext } from "./ShipmenStepperProvider";
+import { useShipmentAccordion } from "../context/ShipmentAccordionProvider";
+import { useStepContext } from "../context/ShipmenStepperProvider";
 import { useMutation } from "@tanstack/react-query";
 import { GetPriceMileData, GetPriceMileResponse } from "../../../utils/types";
 import { AxiosError } from "axios";
@@ -45,7 +45,7 @@ export default function CompanyDetailStep() {
         return;
       }
 
-      console.log("Calculated price:", calculatedPriceResponse);
+      // console.log("Calculated price:"  , calculatedPriceResponse);
       // setPrice(calculatedPrice);
       updateState({
         ...dataState!,
