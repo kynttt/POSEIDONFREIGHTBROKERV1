@@ -27,7 +27,7 @@ module.exports = {
       },
       colors: {
         // Define custom colors if needed
-        primary: "#252F70",
+        primary: "#001C7C",
         secondary: "#7783D2",
         tertiary: "#bbc1e8",
         white: "#FEFEFE",
