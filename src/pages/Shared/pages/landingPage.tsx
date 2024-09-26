@@ -29,14 +29,14 @@ const LandingPage: React.FC = () => {
       </header>
       <Stack w="100%" gap={0}>
         <HeroBanner />
-        <SeamlessFreightServices />
+        {/* <SeamlessFreightServices /> */}
         {/* <ServicesCardList /> */}
         {/* <Carousel /> */}
         {/* <FreightQuote /> */}
         <NewFeatures />
-        <NewAboutUs/>
-        <HorizontalScrollComponent/>
-        <PricingPage/>
+        {/* <NewAboutUs/> */}
+        {/* <HorizontalScrollComponent/> */}
+        {/* <PricingPage/> */}
         <Testimonials/>
         {/* <CarouselComponent/> */}
         {/* <FeaturesSection /> */}

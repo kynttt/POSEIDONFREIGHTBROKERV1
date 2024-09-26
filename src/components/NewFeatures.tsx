@@ -1,52 +1,213 @@
 import React from 'react';
+import carrierImage from "../assets/img/carriers.png";
 import feat1Image from "../assets/img/feat1.png";
 import feat2Image from "../assets/img/feat2.png";
 import feat3Image from "../assets/img/feat3.png";
 
 const FreightFeatures: React.FC = () => {
   return (
-    <section className="container mx-auto my-32 bg-white  flex flex-col justify-center items-center">
+    <section className="bg-white  flex flex-col justify-center items-center leading-tight">
       {/* Title Section */}
-      <h2 className="text-5xl font-medium text-center text-rblue w-3/4 mb-16">
-        Where <span className="text-blue-500">Your Freight Meets</span> the Open Road: Reliable, Rapid, Ready!
+      <h2 className="text-5xl font-semibold text-center text-rblue w-3/4 mb-16 ">
+        Navigate Your Shipping Needs with Confidence: <span className="text-yellow-500">Reliable, Rapid, Ready!</span>
       </h2>
 
-      <div className="mt-12 space-y-12 md:space-y-12 md:grid md:grid-cols-1 lg:grid-cols-1 gap-12 px-6 lg:px-16">
-        
-        {/* First Section: Flat Rate Quotes */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-center space-y-6 lg:space-y-0 lg:space-x-16">
-          <div className="lg:w-1/2  ">
-            <h3 className="text-xl font-bold text-blue-900 mb-2">Flat Rate Quotes</h3>
-            <p className="text-nblue font-normal">
-              The freight quotes you'll get are flat rates based on a shipment's date, distance, and trailer type. 
-              These aren't estimates, but actual market-based quotes you can book.
-            </p>
+      <div className="bg-white">
+        <div className="sm:px-auto lg:px-auto">
+          <div>
+            {/* Left Side (Images and Transport & Logistics Section) */}
+            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
+              <img
+                src={carrierImage}
+                alt="Truck rear view"
+                className="h-auto w-full object-cover"
+              />
+              <div className="flex flex-col items-center justify-center">
+                <h2 className="text-3xl text-rblue font-bold text-gray-800 px-12">
+                  Transport & Logistics
+                </h2>
+                <p className="py-12 text-rblue font-medium text-gray-700 px-16 text-justify leading-relaxed">
+                  <span className="font-bold">Welcome to Poseidon Distribution Inc. (PDI)!</span> <br />
+                  A family-owned transportation company where we combine the strength and efficiency of a large business with the warmth and close-knit atmosphere of a family working environment. Since our establishment in Auburn, WA in 2017, we have been committed to delivering exceptional service and building long-lasting relationships with our clients. At PDI, we pride ourselves on our ability to meet diverse transportation needs, providing solutions that ensure your cargo reaches its destination safely and on time.
+                  <br />
+                  <br />
+                  Our services cover a wide range of freight types, including Full Truckload (FTL), dry van, reefer (temperature-controlled), and flatbed Conestoga freights, making us a versatile partner for businesses across various industries. Whether you require transportation for perishable goods, construction materials, or general cargo, our experienced team is dedicated to tailoring solutions that fit your unique requirements. With a strong focus on reliability and customer satisfaction, Poseidon Distribution Inc. continues to be a trusted name in the transportation industry.
+                </p>
+              </div>
+            </div>
           </div>
-          <img src={feat1Image} alt="Flat Rate Quotes" className="lg:w-1/2 object-cover" />
-        </div>
 
-        {/* Second Section: Book Shipment Instantly */}
-        <div className="flex flex-col lg:flex-row-reverse items-center lg:items-center space-y-6 lg:space-y-0 lg:space-x-16 lg:space-x-reverse">
-          <div className="lg:w-1/2">
-            <h3 className="text-xl font-bold text-blue-900 mb-2">Book Shipment Instantly</h3>
-            <p className="text-nblue font-normal">
-              Booking at your quoted rate only takes a couple of clicks. If you don't have an account, creating one takes less than 5 minutes.
-            </p>
-          </div>
-          <img src={feat2Image} alt="Book Shipment Instantly" className="lg:w-1/2 object-cover" />
-        </div>
+          {/* Right Side (Flat Rate Quotes Section) */}
 
-        {/* Third Section: Get 24/7 Support */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-center space-y-6 lg:space-y-0 lg:space-x-16">
-          <div className="lg:w-1/2">
-            <h3 className="text-xl font-bold text-blue-900 mb-2">Get 24/7 Support</h3>
-            <p className="text-nblue font-normal">
-              We'll keep you updated from the moment the BOL is generated to the second the carrier uploads the POD.
-            </p>
+          <div>
+            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
+              <div className="flex flex-col justify-center px-16">
+                <h2 className="text-3xl text-rblue font-bold text-gray-800 p-6">Flat Rate Quotes</h2>
+                <ul className="space-y-4 leading-relaxed">
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="h-6 w-6 text-yellow-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                      The freight quotes you receive are flat rates determined by
+                      the shipment’s date, distance, and trailer type.
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="h-6 w-6 text-yellow-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                      These are not estimates, but real, market-based quotes that
+                      you can book immediately.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+
+              <img
+                src={feat1Image}
+                alt="Truck rear view"
+                className="h-auto w-full object-cover"
+              />
+            </div>
           </div>
-          <img src={feat3Image} alt="Get 24/7 Support" className="lg:w-1/2 object-cover" />
+
+          <div>
+            {/* Left Side (Book Shipments Section) */}
+            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
+              <div className="mt-8 flex flex-col justify-center leading-relaxed">
+              <img
+                src={feat2Image}
+                alt="Truck rear view"
+                className="h-auto w-full object-cover"
+              />
+              </div>
+              <div className="flex flex-col px-16 justify-center">
+                <h2 className="text-3xl text-rblue font-bold text-gray-800 p-6">
+                  Book Shipment Instantly
+                </h2>
+                <ul className="mt-4 space-y-4">
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="h-6 w-6 text-yellow-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                      Booking at your quoted rate is just a couple of clicks away.
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="h-6 w-6 text-yellow-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                      If you don't have an account, creating one takes less than 5 minutes.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+          {/* Right Side (24/7 Support) */}
+
+          <div>
+            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
+              <div className="flex flex-col justify-center px-16">
+                <h2 className="text-3xl text-rblue font-bold text-gray-800 p-6">Get 24/7 Support</h2>
+                <ul className="space-y-4 leading-relaxed">
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="h-6 w-6 text-yellow-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                      We’ll keep you informed every step of the way, from the moment the Bill of Lading (BOL) is generated until the carrier uploads the Proof of Delivery (POD).
+                    </p>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="h-6 w-6 text-yellow-500"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                      Real-time updates and transparent communication, you'll have full visibility into your shipment’s journey, ensuring peace of mind as you track your freight seamlessly from dispatch to delivery.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+
+              <img
+                src={feat3Image}
+                alt="Truck rear view"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+          </div>
+
+
         </div>
       </div>
+
     </section>
   );
 };
