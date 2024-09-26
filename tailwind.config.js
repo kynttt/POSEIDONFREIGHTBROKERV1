@@ -27,7 +27,7 @@ module.exports = {
       },
       colors: {
         // Define custom colors if needed
-        primary: "#252F70",
+        primary: "#001C7C",
         secondary: "#7783D2",
         tertiary: "#bbc1e8",
         white: "#FEFEFE",
@@ -42,7 +42,8 @@ module.exports = {
         rblue: "#001C7C",
         lblue: "#A3C6FF",
         sblue: "#CBDFFF",
-        nblue: "#003C9D"
+        nblue: "#0F4B87",
+        lyellow: "#FFCC00"
       },
     },
   },

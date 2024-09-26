@@ -88,6 +88,18 @@ export default function PhoneVerifyPage() {
 
       navigate(redirect, { replace: true });
     },
+    onError: (error) => {
+      notifications.show({
+        color: "red",
+        title: "OTP Verification Error",
+        message:
+          (
+            error.response?.data as {
+              message: string;
+            }
+          ).message || "An error occurred",
+      });
+    },
   });
   const resendOtp = () => {
     otpRequestMutation.mutate({
@@ -112,6 +124,7 @@ export default function PhoneVerifyPage() {
         phoneNumber: data.phone,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   // Countdown timer logic
   useEffect(() => {
