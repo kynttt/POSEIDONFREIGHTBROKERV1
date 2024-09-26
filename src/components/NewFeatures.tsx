@@ -1,5 +1,5 @@
 import React from 'react';
-import carrierImage from "../assets/img/carriers.png";
+import carrierImage from "../assets/img/carriers.jpg";
 import feat1Image from "../assets/img/feat1.png";
 import feat2Image from "../assets/img/feat2.png";
 import feat3Image from "../assets/img/feat3.png";
@@ -41,7 +41,7 @@ const FreightFeatures: React.FC = () => {
 
           <div>
             <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="flex flex-col justify-center lg:pl-60 lg:pr-28 sm:mx-20">
+              <div className="flex flex-col justify-center lg:pl-60 lg:pr-16 sm:mx-20">
                 <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6">Flat Rate Quotes</h2>
                 <ul className="space-y-4 leading-relaxed">
                   <li className="flex items-start">
@@ -106,7 +106,7 @@ const FreightFeatures: React.FC = () => {
   </div>
 
   {/* Text Section */}
-  <div className="order-1 lg:order-2 flex flex-col justify-center items-start sm:mx-20  lg:pr-60 lg:pl-28">
+  <div className="order-1 lg:order-2 flex flex-col justify-center items-start sm:mx-20  lg:pr-60 lg:pl-16">
     <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6 ">
       Book Shipment Instantly
     </h2>
@@ -158,7 +158,7 @@ const FreightFeatures: React.FC = () => {
 
           <div>
             <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="flex flex-col justify-center lg:pl-48 lg:pr-28 sm:mx-20 sm:my-12">
+              <div className="flex flex-col justify-center lg:pl-60 lg:pr-16 sm:mx-20 sm:my-12">
                 <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6">Get 24/7 Support</h2>
                 <ul className="space-y-4 leading-relaxed">
                   <li className="flex items-start">
