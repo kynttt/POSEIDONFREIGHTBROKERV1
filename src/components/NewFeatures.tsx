@@ -6,9 +6,9 @@ import feat3Image from "../assets/img/feat3.png";
 
 const FreightFeatures: React.FC = () => {
   return (
-    <section className="bg-white  flex flex-col justify-center items-center leading-tight">
+    <section className="bg-white  flex flex-col justify-center items-center leading-tight lg:py-20">
       {/* Title Section */}
-      <h2 className="text-5xl font-semibold text-center text-rblue w-3/4 mb-16 ">
+      <h2 className="text-5xl font-semibold text-center text-rblue w-1/2 mb-16 ">
         Navigate Your Shipping Needs with Confidence: <span className="text-yellow-500">Reliable, Rapid, Ready!</span>
       </h2>
 
@@ -26,7 +26,7 @@ const FreightFeatures: React.FC = () => {
                 <h2 className="text-3xl text-rblue font-bold text-gray-800 px-12">
                   Transport & Logistics
                 </h2>
-                <p className="py-12 text-rblue font-medium text-gray-700 px-16 text-justify leading-relaxed">
+                <p className="py-12 text-nblue font-normal text-gray-700 px-16 sm:mx-4 text-justify leading-relaxed">
                   <span className="font-bold">Welcome to Poseidon Distribution Inc. (PDI)!</span> <br />
                   A family-owned transportation company where we combine the strength and efficiency of a large business with the warmth and close-knit atmosphere of a family working environment. Since our establishment in Auburn, WA in 2017, we have been committed to delivering exceptional service and building long-lasting relationships with our clients. At PDI, we pride ourselves on our ability to meet diverse transportation needs, providing solutions that ensure your cargo reaches its destination safely and on time.
                   <br />
@@ -41,13 +41,13 @@ const FreightFeatures: React.FC = () => {
 
           <div>
             <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="flex flex-col justify-center px-16">
-                <h2 className="text-3xl text-rblue font-bold text-gray-800 p-6">Flat Rate Quotes</h2>
+              <div className="flex flex-col justify-center lg:pl-60 lg:pr-28 sm:mx-20">
+                <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6">Flat Rate Quotes</h2>
                 <ul className="space-y-4 leading-relaxed">
                   <li className="flex items-start">
                     <div className="flex-shrink-0">
                       <svg
-                        className="h-6 w-6 text-yellow-500"
+                        className="h-8 w-8 text-yellow-500"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -58,15 +58,15 @@ const FreightFeatures: React.FC = () => {
                         />
                       </svg>
                     </div>
-                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                    <p className="ml-3 text-nblue font-normal text-gray-600 text-justify">
                       The freight quotes you receive are flat rates determined by
                       the shipment’s date, distance, and trailer type.
                     </p>
                   </li>
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0">
+                  <li className="flex items-start ">
+                    <div className="flex-shrink-0 ">
                       <svg
-                        className="h-6 w-6 text-yellow-500"
+                        className="h-8 w-8 text-yellow-500"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -77,7 +77,7 @@ const FreightFeatures: React.FC = () => {
                         />
                       </svg>
                     </div>
-                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                    <p className="ml-3 text-nblue font-normal text-gray-600 text-justify">
                       These are not estimates, but real, market-based quotes that
                       you can book immediately.
                     </p>
@@ -96,57 +96,61 @@ const FreightFeatures: React.FC = () => {
           <div>
             {/* Left Side (Book Shipments Section) */}
             <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="mt-8 flex flex-col justify-center leading-relaxed">
-              <img
-                src={feat2Image}
-                alt="Truck rear view"
-                className="h-auto w-full object-cover"
-              />
-              </div>
-              <div className="flex flex-col px-16 justify-center">
-                <h2 className="text-3xl text-rblue font-bold text-gray-800 p-6">
-                  Book Shipment Instantly
-                </h2>
-                <ul className="mt-4 space-y-4">
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <svg
-                        className="h-6 w-6 text-yellow-500"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <p className="ml-3 text-rblue font-medium text-gray-600">
-                      Booking at your quoted rate is just a couple of clicks away.
-                    </p>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <svg
-                        className="h-6 w-6 text-yellow-500"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <p className="ml-3 text-rblue font-medium text-gray-600">
-                      If you don't have an account, creating one takes less than 5 minutes.
-                    </p>
-                  </li>
-                </ul>
-              </div>
-            </div>
+  {/* Content Section */}
+  <div className="order-2 lg:order-1 mt-8 flex flex-col justify-center leading-relaxed">
+    <img
+      src={feat2Image}
+      alt="Truck rear view"
+      className="h-auto w-full object-cover"
+    />
+  </div>
+
+  {/* Text Section */}
+  <div className="order-1 lg:order-2 flex flex-col justify-center items-start sm:mx-20  lg:pr-60 lg:pl-28">
+    <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6 ">
+      Book Shipment Instantly
+    </h2>
+    <ul className="mt-4 space-y-4">
+      <li className="flex items-start">
+        <div className="flex-shrink-0">
+          <svg
+            className="h-8 w-8 text-yellow-500"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+        <p className="ml-3 text-nblue font-normal text-gray-600 text-justify">
+          Booking at your quoted rate is just a couple of clicks away.
+        </p>
+      </li>
+      <li className="flex items-start">
+        <div className="flex-shrink-0">
+          <svg
+            className="h-8 w-8 text-yellow-500"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+        <p className="ml-3 text-nblue font-normal text-gray-600 text-justify">
+          If you don't have an account, creating one takes less than 5 minutes.
+        </p>
+      </li>
+    </ul>
+  </div>
+</div>
+
           </div>
 
 
@@ -154,13 +158,13 @@ const FreightFeatures: React.FC = () => {
 
           <div>
             <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="flex flex-col justify-center px-16">
-                <h2 className="text-3xl text-rblue font-bold text-gray-800 p-6">Get 24/7 Support</h2>
+              <div className="flex flex-col justify-center lg:pl-48 lg:pr-28 sm:mx-20 sm:my-12">
+                <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6">Get 24/7 Support</h2>
                 <ul className="space-y-4 leading-relaxed">
                   <li className="flex items-start">
                     <div className="flex-shrink-0">
                       <svg
-                        className="h-6 w-6 text-yellow-500"
+                        className="h-8 w-8  text-yellow-500"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -171,14 +175,14 @@ const FreightFeatures: React.FC = () => {
                         />
                       </svg>
                     </div>
-                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                    <p className="ml-3 text-nblue font-normal text-gray-600 text-justify">
                       We’ll keep you informed every step of the way, from the moment the Bill of Lading (BOL) is generated until the carrier uploads the Proof of Delivery (POD).
                     </p>
                   </li>
                   <li className="flex items-start">
                     <div className="flex-shrink-0">
                       <svg
-                        className="h-6 w-6 text-yellow-500"
+                        className="h-8 w-8 text-yellow-500"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -189,7 +193,7 @@ const FreightFeatures: React.FC = () => {
                         />
                       </svg>
                     </div>
-                    <p className="ml-3 text-rblue font-medium text-gray-600">
+                    <p className="ml-3 text-nblue font-normal text-gray-600 text-justify">
                       Real-time updates and transparent communication, you'll have full visibility into your shipment’s journey, ensuring peace of mind as you track your freight seamlessly from dispatch to delivery.
                     </p>
                   </li>
