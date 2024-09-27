@@ -119,7 +119,7 @@
 
 // export default SeamlessFreightServices;
 import React from 'react';
-import carriersImage from "../assets/img/carriers.png";
+import carriersImage from "../assets/img/carriers.jpg";
 import shippersImage from "../assets/img/shippers.png";
 
 const ServiceCards: React.FC = () => {

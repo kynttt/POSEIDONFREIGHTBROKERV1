@@ -15,9 +15,9 @@ import ContactForm from "../../../components/ContactUs";
 // import TrustedAmazon from "../../../components/TrustedAmazon";
 import { Stack } from "@mantine/core";
 // import CarouselComponent from "../../../components/CarouselComponent";
-import PricingPage from "./PricingPage";
+// import PricingPage from "./PricingPage";
 import NewFeatures from "../../../components/NewFeatures";
-import NewAboutUs from "../../../components/NewAboutUs";
+// import NewAboutUs from "../../../components/NewAboutUs";
 import HorizontalScrollComponent from "../../../components/HorizontalScrollSection";
 import Testimonials from "../../../components/Testimonials";
 
@@ -34,9 +34,9 @@ const LandingPage: React.FC = () => {
         {/* <Carousel /> */}
         {/* <FreightQuote /> */}
         <NewFeatures />
-        <NewAboutUs/>
+        {/* <NewAboutUs/> */}
         <HorizontalScrollComponent/>
-        <PricingPage/>
+        {/* <PricingPage/> */}
         <Testimonials/>
         {/* <CarouselComponent/> */}
         {/* <FeaturesSection /> */}
