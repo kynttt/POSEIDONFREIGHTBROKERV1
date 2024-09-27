@@ -70,6 +70,7 @@ import ResetPassword from "./pages/Shared/pages/resetPassword";
 import ForgotPasswordPage from "./pages/Shared/pages/forgotPassword";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import OAuthRedirect from "./pages/Shared/pages/oauthRedirect";
+import AccountCompletion from "./pages/Shared/pages/accountCompletion";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -105,6 +106,10 @@ const App: React.FC = () => {
           <ModalsProvider>
             <Router>
               <Routes>
+                <Route
+                  path="/account-completion"
+                  element={<AccountCompletion />}
+                />
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
