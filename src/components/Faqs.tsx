@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
-import FaqsImage from "../assets/img/faqs.png";
-import SearchIcon from "../assets/img/search.png";
-import { Accordion, Image} from "@mantine/core";
+import { Accordion, Image } from "@mantine/core";
+import faqImage from "../assets/img/faqs.png";
 
 const FAQsPage: React.FC = () => {
   const { ref: imageRef, inView: imageInView } = useInView({ threshold: 0.5 });
@@ -52,70 +51,64 @@ const FAQsPage: React.FC = () => {
 
   const items = faqs.map((item) => (
     <Accordion.Item key={item.question} value={item.question}>
-      <Accordion.Control className="font-medium text-primary mb-2  border-b border-rblue">
+      <Accordion.Control className="font-medium text-white mb-2 border-b border-rblue">
         <QuestionComponent question={item.question} />
       </Accordion.Control>
-      <Accordion.Panel className="text-nblue xs:text-xs md:text-md lg:text-base font-normal mb-2 text-justify border-b border-rblue">
+      <Accordion.Panel className="text-white xs:text-sm sm:text-xs md:text-md lg:text-base font-normal mb-2 text-justify">
         {item.answer}
       </Accordion.Panel>
     </Accordion.Item>
   ));
 
   return (
-    <div className="relative w-full h-auto">
-    {/* Background color half-covering the container */}
-    <div className="absolute inset-0 w-full h-full">
-      <div className="h-2/3 w-full bg-sblue"></div>
-    </div>
-    <img
-            src={SearchIcon}
-            alt="Questionmark-blue"
-            className="shadow-lg h-auto object-cover rounded-l-3xl absolute -top-10 z-30"
-  style={{ right: '0' }}
-          />
-    <div className="relative flex flex-col lg:flex-row px-8 lg:px-24 py-12 lg:pt-32 lg:pb-12 gap-8 justify-center">
-      {/* Image section */}
-      <motion.div
-        ref={imageRef}
-        initial={{ opacity: 0, x: -20 }}
-        animate={imageControls}
-        className="w-full lg:w-1/4"
-      >
-        <div className="flex flex-col items-start">
-          <h2 className="text-3xl md:text-6xl font-black text-rblue mb-8">
+    <div className="relative w-full h-auto p-12">
+      {/* Background color half-covering the container */}
+      <div className="absolute inset-0 w-full h-full">
+        <div className="h-full w-full bg-lblue">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-lyellow p-6 md:p-12 text-center z-30">
             FAQs
           </h2>
-          <Image src={FaqsImage} alt="FAQs" className="rounded-lg" />
         </div>
-      </motion.div>
-  
-      {/* Content/Accordion section */}
-      <motion.div
-        ref={contentRef}
-        initial={{ opacity: 0, x: 20 }}
-        animate={contentControls}
-        className="w-full lg:w-1/2 p-10"
-      >
-        <div className="flex justify-center">
-          <Accordion
-            radius="xs"
-            defaultValue="How are shipment quotes generated?"
-            w={"100%"}
-            className="text-rblue"
-          >
-            {items}
-          </Accordion>
-        </div>
-      </motion.div>
-    </div>
-  </div>
-  
+      </div>
 
+      <div className="relative flex flex-col lg:flex-row px-6 sm:px-12 lg:px-24 py-12 lg:pt-32 lg:pb-12 gap-8 justify-center">
+        {/* Image section */}
+        <motion.div
+          ref={imageRef}
+          initial={{ opacity: 0, x: -20 }}
+          animate={imageControls}
+          className="w-full lg:w-1/4 flex flex-col justify-start items-center pt-8"
+        >
+          <div className="flex flex-col items-center">
+            <Image src={faqImage} alt="FAQs" className="rounded-lg w-3/4 lg:w-full" />
+          </div>
+        </motion.div>
+
+        {/* Content/Accordion section */}
+        <motion.div
+          ref={contentRef}
+          initial={{ opacity: 0, x: 20 }}
+          animate={contentControls}
+          className="w-full lg:w-1/2 p-6 sm:p-10"
+        >
+          <div className="flex justify-center">
+            <Accordion
+              radius="xs"
+              defaultValue="How are shipment quotes generated?"
+              w={"100%"}
+              className="text-white"
+            >
+              {items}
+            </Accordion>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
 function QuestionComponent({ question }: { question: string }) {
-  return <p className="xs:text-xl md:text-3xl lg:text-base text-rblue">{question}</p>;
+  return <p className="xs:text-sm sm:text-md md:text-xl lg:text-2xl text-white">{question}</p>;
 }
 
 export default FAQsPage;
