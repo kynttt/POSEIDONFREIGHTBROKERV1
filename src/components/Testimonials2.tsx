@@ -1,16 +1,15 @@
-import { useEffect, useRef } from 'react';
 import pic1 from '../assets/img/testimonial1.png';
 import pic2 from '../assets/img/testimonial2.png';
 import pic3 from '../assets/img/testimonial3.jpg';
 import pic4 from '../assets/img/testimonial4.jpg';
 
 const TrustedByAmazon = () => {
-  const slideAnimation = `
+const slideAnimation = `
     @keyframes slide {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-75%); } /* Slide by three-quarters of the total width for 4 cards */
+        0% { transform: translateX(-75%); } /* Start from the left */
+        100% { transform: translateX(0); } /* Move to the right */
     }
-  `;
+`;
 
   return (
     <div className="w-full relative">
@@ -31,7 +30,7 @@ const TrustedByAmazon = () => {
       </div>
 
       {/* Testimonials with sliding animation */}
-      <div className="absolute left-0 right-0 mx-auto transform translate-y-[-50%] flex justify-center overflow-hidden">
+      <div className="absolute left-0 right-0 mx-auto transform translate-y-[-50%] flex justify-center overflow-hidden ">
         <div
           className="flex"
           style={{
@@ -44,23 +43,23 @@ const TrustedByAmazon = () => {
           {[pic1, pic2, pic3, pic4].map((pic, index) => (
             <div
               key={index}
-              className="relative bg-white text-black rounded-xl shadow-lg p-6 max-w-xl flex items-center h-72 gap-6 mx-4" // Add mx-4 for horizontal margin
-              style={{ flexShrink: 0, width: 'calc(25% - 1rem)' }} // Ensure each takes one-fourth
+              className="relative bg-white text-black rounded-xl shadow-lg p-6 max-w-xl flex items-center h-70 gap-6 mx-4 my-8" // Increased height
+              style={{ flexShrink: 0, width: 'calc(37% - 1rem)' }} // Increased width
             >
               <img
-                className="rounded-sm w-[250px] h-[250px]"
+                className="rounded-sm w-[250px] h-[250px] object-cover" // Added object-cover for consistent sizing
                 src={pic}
                 alt={`Testimonial ${index + 1}`}
               />
-              <div className="flex flex-col justify-between h-full">
-                <p className="font-normal text-rblue">
+              <div className="flex flex-col justify-between h-full py-3">
+                <p className="font-normal text-rblue ">"
                   {index === 0 
                     ? "The team provided exceptional support and communication throughout our freight journey. It made all the difference!" 
                     : index === 1 
                     ? "Thanks to this service, we streamlined our shipping process and reduced costs significantly. Highly recommend!"
                     : index === 2
                     ? "Their professionalism and quick responses made our partnership easy and enjoyable!"
-                    : "A reliable service that consistently meets our needs and exceeds expectations!"}
+                    : "A reliable service that consistently meets our needs and exceeds expectations!"}"
                 </p>
                 <div>
                   <p className="font-bold text-rblue">{index === 0 ? "Grey Mudson" : index === 1 ? "Madison Blue" : index === 2 ? "John Doe" : "Jane Smith"}</p>
@@ -74,16 +73,16 @@ const TrustedByAmazon = () => {
           {[pic1, pic2, pic3, pic4].map((pic, index) => (
             <div
               key={index + 4} // ensure unique key
-              className="relative bg-white text-black rounded-xl shadow-lg p-6 max-w-xl flex items-center h-72 gap-6 mx-4" // Add mx-4 for horizontal margin
-              style={{ flexShrink: 0, width: 'calc(25% - 1rem)' }} // Ensure each takes one-fourth
+              className="relative bg-white text-black rounded-xl shadow-lg p-6 max-w-xl flex items-center h-80 gap-6 mx-4 my-8" // Increased height
+              style={{ flexShrink: 0, width: 'calc(37% - 1rem)' }} // Increased width
             >
               <img
-                className="rounded-sm w-[250px] h-[250px]"
+                className="rounded-sm w-[250px] h-[250px] object-cover" // Added object-cover for consistent sizing
                 src={pic}
                 alt={`Testimonial ${index + 1}`}
               />
-              <div className="flex flex-col justify-between h-full">
-                <p className="font-normal text-rblue">
+              <div className="flex flex-col justify-between h-full py-3">
+                <p className="font-normal text-rblue ">"
                   {index === 0 
                     ? "The team provided exceptional support and communication throughout our freight journey. It made all the difference!" 
                     : index === 1 
@@ -91,6 +90,7 @@ const TrustedByAmazon = () => {
                     : index === 2
                     ? "Their professionalism and quick responses made our partnership easy and enjoyable!"
                     : "A reliable service that consistently meets our needs and exceeds expectations!"}
+                    "
                 </p>
                 <div>
                   <p className="font-bold text-rblue">{index === 0 ? "Grey Mudson" : index === 1 ? "Madison Blue" : index === 2 ? "John Doe" : "Jane Smith"}</p>
