@@ -104,23 +104,23 @@ const slideAnimation = `
 
       {/* White Section */}
       <div className="bg-white text-center py-32 mt-32">
-        <div className="flex justify-center space-x-16">
+        <div className="flex justify-center space-x-32">
           {/* Statistic 1 */}
           <div>
             <p className="text-5xl font-bold text-blue-900">89%</p>
-            <p className="text-gray-600">Lorem ipsum dolor</p>
+            <p className="text-nblue font-normal">On-Time Delivery Rate</p>
           </div>
 
           {/* Statistic 2 */}
           <div>
             <p className="text-5xl font-bold text-blue-900">5000+</p>
-            <p className="text-gray-600">Lorem ipsum dolor</p>
+            <p className="text-nblue font-normal">Shipments Handled</p>
           </div>
 
           {/* Statistic 3 */}
           <div>
-            <p className="text-5xl font-bold text-blue-900">45+</p>
-            <p className="text-gray-600">Lorem ipsum dolor</p>
+            <p className="text-5xl font-bold text-blue-900">40+</p>
+            <p className="text-nblue font-normal">Carrier Partnerships</p>
           </div>
         </div>
       </div>
