@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
               className="h-10 mr-4" // Adjust height and margin as necessary
             />
             <button
-              className="text-rblue text-2xl lg:text-3xl font-bold hover:text-secondary"
+              className="text-rblue text-2xl lg:text-3xl font-medium hover:text-secondary"
               onClick={() => handleNavigation("/")}
             >
               Poseidon Freight
