@@ -1,5 +1,5 @@
 import React from 'react';
-import carrierImage from "../assets/img/carriers.jpg";
+import carrierImage from "../assets/img/about-img.png";
 import feat1Image from "../assets/img/feat1.png";
 import feat2Image from "../assets/img/feat2.png";
 import feat3Image from "../assets/img/feat3.png";
@@ -20,7 +20,7 @@ const FreightFeatures: React.FC = () => {
               <img
                 src={carrierImage}
                 alt="Truck rear view"
-                className="h-auto w-full object-cover"
+                className="h-auto w-full object-cover rounded-r-2xl"
               />
               <div className="flex flex-col items-center justify-center">
                 <h2 className="text-3xl text-rblue font-bold text-gray-800 px-12">
