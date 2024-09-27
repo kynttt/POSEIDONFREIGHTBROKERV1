@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import testimonial1 from "../assets/img/testimonial1.png";
 import testimonial2 from "../assets/img/testimonial2.png";
 
