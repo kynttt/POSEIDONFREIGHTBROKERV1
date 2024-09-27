@@ -8,7 +8,7 @@ const FreightFeatures: React.FC = () => {
   return (
     <section className="bg-white  flex flex-col justify-center items-center leading-tight lg:py-20">
       {/* Title Section */}
-      <h2 className="text-5xl font-semibold text-center text-rblue w-1/2 mb-16 ">
+      <h2 className="text-5xl font-semibold text-center text-rblue md:w-1/2 mb-16 ">
         Navigate Your Shipping Needs with Confidence: <span className="text-yellow-500">Reliable, Rapid, Ready!</span>
       </h2>
 
@@ -16,17 +16,17 @@ const FreightFeatures: React.FC = () => {
         <div className="sm:px-auto lg:px-auto">
           <div>
             {/* Left Side (Images and Transport & Logistics Section) */}
-            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2 p-2">
               <img
                 src={carrierImage}
                 alt="Truck rear view"
-                className="h-auto w-full object-cover rounded-r-2xl"
+                className="h-auto w-full object-cover rounded-r-xl"
               />
               <div className="flex flex-col items-center justify-center">
-                <h2 className="text-3xl text-rblue font-bold text-gray-800 px-12">
+                <h2 className="text-3xl text-rblue font-bold text-gray-800 md:px-12">
                   Transport & Logistics
                 </h2>
-                <p className="py-12 text-nblue font-normal text-gray-700 px-16 sm:mx-4 text-justify leading-relaxed">
+                <p className="py-12 px-4 text-nblue font-normal text-gray-700 md:px-16 sm:mx-4 text-justify leading-relaxed">
                   <span className="font-bold">Welcome to Poseidon Distribution Inc. (PDI)!</span> <br />
                   A family-owned transportation company where we combine the strength and efficiency of a large business with the warmth and close-knit atmosphere of a family working environment. Since our establishment in Auburn, WA in 2017, we have been committed to delivering exceptional service and building long-lasting relationships with our clients. At PDI, we pride ourselves on our ability to meet diverse transportation needs, providing solutions that ensure your cargo reaches its destination safely and on time.
                   <br />
@@ -40,7 +40,7 @@ const FreightFeatures: React.FC = () => {
           {/* Right Side (Flat Rate Quotes Section) */}
 
           <div>
-            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="space-y-8 px-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="flex flex-col justify-center lg:pl-60 lg:pr-16 sm:mx-20">
                 <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6">Flat Rate Quotes</h2>
                 <ul className="space-y-4 leading-relaxed">
@@ -95,7 +95,7 @@ const FreightFeatures: React.FC = () => {
 
           <div>
             {/* Left Side (Book Shipments Section) */}
-            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="space-y-8 px-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
   {/* Content Section */}
   <div className="order-2 lg:order-1 mt-8 flex flex-col justify-center leading-relaxed">
     <img
@@ -157,7 +157,7 @@ const FreightFeatures: React.FC = () => {
           {/* Right Side (24/7 Support) */}
 
           <div>
-            <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="space-y-8 px-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="flex flex-col justify-center lg:pl-60 lg:pr-16 sm:mx-20 sm:my-12">
                 <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6">Get 24/7 Support</h2>
                 <ul className="space-y-4 leading-relaxed">
