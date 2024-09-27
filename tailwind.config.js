@@ -41,7 +41,7 @@ module.exports = {
         "freightquote-bg": "#6084F0",
         rblue: "#001C7C",
         lblue: "#A3C6FF",
-        sblue: "#CBDFFF",
+        sblue: "#1B4980",
         nblue: "#0F4B87",
         lyellow: "#FFCC00"
       },
