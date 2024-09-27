@@ -20,6 +20,7 @@ import NewFeatures from "../../../components/NewFeatures";
 // import NewAboutUs from "../../../components/NewAboutUs";
 import HorizontalScrollComponent from "../../../components/HorizontalScrollSection";
 import Testimonials from "../../../components/Testimonials";
+import LogisticsForm from "../../../components/LogisticsForm";
 
 const LandingPage: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const LandingPage: React.FC = () => {
       </header>
       <Stack w="100%" gap={0}>
         <HeroBanner />
+        <LogisticsForm/>
         <SeamlessFreightServices />
         {/* <ServicesCardList /> */}
         {/* <Carousel /> */}
