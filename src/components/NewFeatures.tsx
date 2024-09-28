@@ -8,9 +8,10 @@ const FreightFeatures: React.FC = () => {
   return (
     <section id='about' className="bg-white  flex flex-col justify-center items-center leading-tight lg:py-20">
       {/* Title Section */}
-      <h2 className="text-5xl font-semibold text-center text-rblue md:w-1/2 mb-16 ">
-        Navigate Your Shipping Needs with Confidence: <span className="text-yellow-500">Reliable, Rapid, Ready!</span>
-      </h2>
+      <h2 className="text-5xl font-semibold text-center text-darkBlue md:w-1/2 mb-6 ">
+        Navigate Your Shipping Needs with </h2>
+        <h2 className="text-yellow-500 text-5xl font-semibold text-center text-rblue md:w-3-4 mb-16 bg-darkBlue p-4 rounded-2xl">Fast, Reliable, and 24/7 Problem Solving</h2>
+      
 
       <div className="bg-white">
         <div className="sm:px-auto lg:px-auto">

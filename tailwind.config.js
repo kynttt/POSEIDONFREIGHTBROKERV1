@@ -43,7 +43,8 @@ module.exports = {
         lblue: "#A3C6FF",
         sblue: "#CBDFFF",
         nblue: "#0F4B87",
-        lyellow: "#FFCC00"
+        lyellow: "#FFCC00",
+        darkBlue: "#1b4980",
       },
     },
   },
