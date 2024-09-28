@@ -6,7 +6,7 @@ import feat3Image from "../assets/img/feat3.png";
 
 const FreightFeatures: React.FC = () => {
   return (
-    <section className="bg-white  flex flex-col justify-center items-center leading-tight lg:py-20">
+    <section id='about' className="bg-white  flex flex-col justify-center items-center leading-tight lg:py-20">
       {/* Title Section */}
       <h2 className="text-5xl font-semibold text-center text-rblue md:w-1/2 mb-16 ">
         Navigate Your Shipping Needs with Confidence: <span className="text-yellow-500">Reliable, Rapid, Ready!</span>

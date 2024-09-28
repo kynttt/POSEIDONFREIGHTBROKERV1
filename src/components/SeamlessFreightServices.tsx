@@ -136,7 +136,7 @@ const ServiceCards: React.FC = () => {
             className="w-full h-64 object-cover"
           />
           <div className="p-8">
-            <h3 className="text-xl font-bold text-blue-900 mb-2">Carriers</h3>
+            <h3 className="text-xl font-bold text-blue-900 mb-2">Fast Delivery</h3>
             <p className="text-nblue font-normal">
               Tailored Carrier Services to Fit Your Business.
             </p>
@@ -150,7 +150,7 @@ const ServiceCards: React.FC = () => {
             className="w-full h-64 object-cover"
           />
           <div className="p-8">
-            <h3 className="text-xl font-bold text-blue-900 mb-2">Shippers</h3>
+            <h3 className="text-xl font-bold text-blue-900 mb-2">Monitored 24/7</h3>
             <p className="text-nblue font-normal">
               Driving your business forward with Expert Logistic Support.
             </p>
