@@ -10,7 +10,7 @@ const FreightFeatures: React.FC = () => {
       {/* Title Section */}
       <h2 className="text-5xl font-semibold text-center text-darkBlue md:w-1/2 mb-6 ">
         Navigate Your Shipping Needs with </h2>
-        <h2 className="text-yellow-500 text-5xl font-semibold text-center text-rblue md:w-3-4 mb-16 bg-darkBlue p-4 rounded-2xl">Fast, Reliable, and 24/7 Problem Solving</h2>
+        <h2 className="text-yellow-500 text-5xl font-semibold text-center text-rblue md:w-3-4 mb-16 bg-darkBlue p-4 rounded-2xl">Fast, Reliable, and 24/7 Support Service</h2>
       
 
       <div className="bg-white">
@@ -41,10 +41,18 @@ const FreightFeatures: React.FC = () => {
           {/* Right Side (Flat Rate Quotes Section) */}
 
           <div>
+            <div className="text-5xl font-semibold text-center text-darkBlue md:w-1/2 mb-6 md:mt-32 lg:ml-6">How It Works?</div>
             <div className="space-y-8 px-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="flex flex-col justify-center lg:pl-60 lg:pr-16 sm:mx-20">
-                <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6">Flat Rate Quotes</h2>
-                <ul className="space-y-4 leading-relaxed">
+                <div className="flex items-center space-x-2">
+                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-darkBlue text-white text-3xl">
+                  1
+                  </div>
+                  <div></div>
+                  <h2 className="text-3xl text-darkBlue font-bold  py-6 pr-6">Flat Rate Quotes</h2>
+                  
+                </div>
+                <ul className="space-y-4 leading-relaxed  border-darkBlue  p-8 ml-5">
                   <li className="flex items-start">
                     <div className="flex-shrink-0">
                       <svg
@@ -98,7 +106,7 @@ const FreightFeatures: React.FC = () => {
             {/* Left Side (Book Shipments Section) */}
             <div className="space-y-8 px-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
   {/* Content Section */}
-  <div className="order-2 lg:order-1 mt-8 flex flex-col justify-center leading-relaxed">
+  <div className="order-2 lg:order-2 mt-8 flex flex-col justify-center leading-relaxed">
     <img
       src={feat2Image}
       alt="Truck rear view"
@@ -107,11 +115,16 @@ const FreightFeatures: React.FC = () => {
   </div>
 
   {/* Text Section */}
-  <div className="order-1 lg:order-2 flex flex-col justify-center items-start sm:mx-20  lg:pr-60 lg:pl-16">
-    <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6 ">
-      Book Shipment Instantly
-    </h2>
-    <ul className="mt-4 space-y-4">
+  <div className="order-1 lg:order-1 flex flex-col justify-center lg:pl-60 lg:pr-16 sm:mx-20">
+  <div className="flex items-center space-x-2">
+                <div className="flex items-center justify-center h-12 w-12 rounded-full text-darkBlue border-darkBlue border-4 text-3xl">
+                  2
+                  </div>
+                  <div></div>
+                  <h2 className="text-3xl text-darkBlue font-bold  py-6 pr-6">Book Instantly </h2>
+                  
+                </div>
+    <ul className="space-y-4 leading-relaxed  border-darkBlue  p-8 ml-5">
       <li className="flex items-start">
         <div className="flex-shrink-0">
           <svg
@@ -160,8 +173,15 @@ const FreightFeatures: React.FC = () => {
           <div>
             <div className="space-y-8 px-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
               <div className="flex flex-col justify-center lg:pl-60 lg:pr-16 sm:mx-20 sm:my-12">
-                <h2 className="text-3xl text-rblue font-bold text-gray-800 py-6 pr-6">Get 24/7 Support</h2>
-                <ul className="space-y-4 leading-relaxed">
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center justify-center h-12 w-12 rounded-full text-darkBlue border-4 border-darkBlue text-3xl">
+                  3
+                  </div>
+                  <div></div>
+                  <h2 className="text-3xl text-darkBlue font-bold  py-6 pr-6">Get 24/7 Support</h2>
+                  
+                </div>
+                <ul className="space-y-4 leading-relaxed  p-8 ml-5">
                   <li className="flex items-start">
                     <div className="flex-shrink-0">
                       <svg
