@@ -14,7 +14,7 @@ const FreightFeatures: React.FC = () => {
       <h2 className="text-5xl font-semibold text-center text-darkBlue md:w-1/2 mb-6 ">
         Navigate Your Shipping Needs with{" "}
       </h2>
-      <h2 className="md:px-8 text-yellow-500 md:text-5xl xs:text-3xl font-semibold text-center text-rblue md:w-3-4 mb-16 bg-darkBlue p-4 mx-4 rounded-2xl ">
+      <h2 className="md:px-8 text-yellow-500 md:text-5xl xs:text-3xl font-semibold text-center text-rblue md:w-3-4 mb-16 bg-darkBlue p-4 mx-4 rounded-xl ">
         Fast, Reliable, and 24/7 Support Service
       </h2>
 
@@ -74,7 +74,7 @@ const FreightFeatures: React.FC = () => {
               <div className=" grid grid-cols-1 lg:grid-cols-2 gap-2">
                 <div className="flex flex-col justify-center  sm:mx-20">
                   <div className="flex items-center space-x-2 ">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-full text-darkBlue border-darkBlue border-4 text-3xl flex-shrink-0">
+                    <div className="md:mb-0 mb-4 flex items-center justify-center h-12 w-12 rounded-full text-darkBlue border-darkBlue border-4 text-3xl flex-shrink-0">
                       1
                     </div>
                     <div></div>
@@ -138,7 +138,7 @@ const FreightFeatures: React.FC = () => {
               <div className="  grid grid-cols-1 lg:grid-cols-2 gap-2">
                 <div className="flex flex-col justify-center  sm:mx-20">
                   <div className="flex items-center space-x-2">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-full text-darkBlue border-darkBlue border-4 text-3xl flex-shrink-0">
+                    <div className="md:mb-0 mb-4 flex items-center justify-center h-12 w-12 rounded-full text-darkBlue border-darkBlue border-4 text-3xl flex-shrink-0">
                       2
                     </div>
                     <div></div>
@@ -202,7 +202,7 @@ const FreightFeatures: React.FC = () => {
               <div className=" grid grid-cols-1 lg:grid-cols-2 gap-2">
                 <div className="flex flex-col justify-center  sm:mx-20 sm:my-6">
                   <div className="flex items-center space-x-2">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-full text-darkBlue border-4 border-darkBlue text-3xl flex-shrink-0">
+                    <div className="md:mb-0 mb-4 flex items-center justify-center h-12 w-12 rounded-full text-darkBlue border-4 border-darkBlue text-3xl flex-shrink-0">
                       3
                     </div>
                     <div></div>
