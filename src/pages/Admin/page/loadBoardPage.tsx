@@ -166,7 +166,7 @@ const LoadBoard: React.FC = () => {
 
   return (
     <div className="flex h-full md:mt-12 ">
-      <div className="flex-1 bg-[#FAF6FE] min-h-screen overflow-y-auto ">
+      <div className="flex-1 bg-blue-50 min-h-screen overflow-y-auto ">
         <form
           onSubmit={handleSubmit}
           className="lg:mx-16 py-10 px-12 border rounded-lg mb-8 shadow-lg bg-white lg:mt-8"

@@ -4,10 +4,14 @@ import OTPImage from "../assets/img/quoteRequest.png";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../state/useAuthStore";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const QuoteRequestModal = ({ isOpen }: { isOpen: boolean }) => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
+   // Get the window size for Confetti to match the screen
+   const { width, height } = useWindowSize();
 
   const handleNavigateToDashboard = () => {
     if (role === "admin") {
@@ -21,6 +25,13 @@ const QuoteRequestModal = ({ isOpen }: { isOpen: boolean }) => {
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10 backdrop-filter backdrop-blur-sm">
+       {/* Confetti component */}
+       <Confetti
+        width={width}
+        height={height}
+        recycle={false} // Optional: Makes the confetti not reappear after a single burst
+        numberOfPieces={200} // Adjust based on desired confetti amount
+      />
       <div className="relative w-full max-w-md p-6 sm:p-8 md:p-10 bg-white rounded-lg">
         {/* <button
           className="absolute top-2 right-2 text-gray-500 px-2"
