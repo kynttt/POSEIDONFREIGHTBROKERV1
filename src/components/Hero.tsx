@@ -25,7 +25,7 @@ const HeroBanner = () => {
         <div className="lg:pl-48 px-8  relative z-10 flex items-center justify-between    h-[350px] md:h-[400px] lg:h-[700px]  ">
           <div className="max-w-3xl">
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-8  leading-tight">
-              24/7 Customer services and 3PL + asset base logistics with{" "}
+              24/7 Customer Services And 3PL + Asset Base Logistics With{" "}
               <span className="text-yellow-500">Poseidon Freight</span>
             </h1>
             <p className="mb-12 lg:mb-16 font-normal leading-relaxed text-sm md:text-base lg:text-xl">
