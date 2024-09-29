@@ -29,10 +29,10 @@ const BookingConfirmation: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-50 backdrop-filter backdrop-blur-sm">
       {/* Confetti effect */}
       {confettiActive && <Confetti width={width} height={height} numberOfPieces={200} recycle={false} />}
-      <div className="relative w-full max-w-md p-6 sm:p-8 md:p-10 bg-white rounded-lg">
+      <div className="relative w-full max-w-md p-6 sm:p-8 md:p-10 bg-white rounded-lg shadow-lg m-4">
         <div className="text-center">
           <img
             src={OTPImage}
