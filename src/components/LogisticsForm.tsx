@@ -35,7 +35,7 @@ const LogisticsForm: React.FC = () => {
           </div>
 
           {/* Updated Form */}
-          <form className="bg-white text-gray-900 p-8 rounded-lg shadow-lg lg:w-3/4 mx-auto">
+          <form className="bg-white text-gray-900 p-6 rounded-lg shadow-lg lg:w-3/4 mx-auto">
             {/* Origin Location */}
             <div className="mb-4">
               <label htmlFor="origin" className="block text-md font-medium text-rblue">

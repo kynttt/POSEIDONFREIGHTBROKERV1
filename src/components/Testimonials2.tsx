@@ -19,7 +19,7 @@ const slideAnimation = `
       </style>
 
       {/* Blue Section */}
-      <div style={{ backgroundColor: '#1B4980' }} className="text-white py-16 min-h-[40vh]">
+      <div style={{ backgroundColor: '#1B4980' }} className="text-white md:py-16 py-8 min-h-[40vh]">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold">Trusted by Amazon</h2>
@@ -30,7 +30,7 @@ const slideAnimation = `
       </div>
 
       {/* Testimonials with sliding animation */}
-      <div className="absolute left-0 right-0 mx-auto transform translate-y-[-50%] flex justify-center overflow-hidden ">
+      <div className="absolute left-0 right-0 mx-auto transform translate-y-[-50%] flex justify-center overflow-hidden md:mt-0 mt-16">
         <div
           className="flex"
           style={{
@@ -103,24 +103,24 @@ const slideAnimation = `
       </div>
 
       {/* White Section */}
-      <div className="bg-white text-center py-32 mt-32">
-        <div className="flex justify-center space-x-32">
+      <div className="bg-white text-center py-16 md:py-32 mt-16 md:mt-32">
+        <div className="flex flex-col md:flex-row justify-center space-y-8 md:space-y-0 md:space-x-32 md:mt-0 mt-32">
           {/* Statistic 1 */}
           <div>
-            <p className="text-5xl font-bold text-blue-900">89%</p>
-            <p className="text-nblue font-normal">On-Time Delivery Rate</p>
+        <p className="text-3xl md:text-5xl font-bold text-blue-900">89%</p>
+        <p className="text-nblue font-normal">On-Time Delivery Rate</p>
           </div>
 
           {/* Statistic 2 */}
           <div>
-            <p className="text-5xl font-bold text-blue-900">5000+</p>
-            <p className="text-nblue font-normal">Shipments Handled</p>
+        <p className="text-3xl md:text-5xl font-bold text-blue-900">5000+</p>
+        <p className="text-nblue font-normal">Shipments Handled</p>
           </div>
 
           {/* Statistic 3 */}
           <div>
-            <p className="text-5xl font-bold text-blue-900">40+</p>
-            <p className="text-nblue font-normal">Carrier Partnerships</p>
+        <p className="text-3xl md:text-5xl font-bold text-blue-900">40+</p>
+        <p className="text-nblue font-normal">Carrier Partnerships</p>
           </div>
         </div>
       </div>
