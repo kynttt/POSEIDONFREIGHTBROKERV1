@@ -64,7 +64,7 @@ const HorizontalScrollSection: React.FC = () => {
     }, [isDragging, startX, scrollLeft]);
 
     return (
-        <div className="relative overflow-hidden py-16">
+        <div className="relative overflow-hidden pb-16">
             <div className="scroll-container" ref={scrollContainerRef} onMouseDown={handleMouseDown}>
                 <div className="scroll-wrapper">
                     {/* First set of ScrollSection */}
