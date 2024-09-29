@@ -1,27 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
 import OTPImage from "../assets/img/quoteRequest.png";
-
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use"; // Optional, to make the confetti fit the screen size
 
 const BookingConfirmation: React.FC = () => {
   const navigate = useNavigate(); // Get navigate function from React Router
   const handleNavigateToDashboard = () => {
-    // Navigate to '/quote-details' when a truck button is clicked
+    // Navigate to '/shipper-dashboard' when 'Ok' button is clicked
     navigate("/s/shipper-dashboard");
   };
 
-  
+  // Use window size for Confetti effect
+  const { width, height } = useWindowSize();
+
+  // State to control confetti duration
+  const [confettiActive, setConfettiActive] = useState(true);
+
+  useEffect(() => {
+    // Stop confetti after 5 seconds
+    const timer = setTimeout(() => {
+      setConfettiActive(false);
+    }, 30000);
+
+    // Cleanup timer on component unmount
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10 backdrop-filter backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm">
+      {/* Confetti effect */}
+      {confettiActive && <Confetti width={width} height={height} numberOfPieces={200} recycle={false} />}
       <div className="relative w-full max-w-md p-6 sm:p-8 md:p-10 bg-white rounded-lg">
-        {/* <button
-          className="absolute top-2 right-2 text-gray-500 px-2"
-          onClick={onClose}
-        >
-          &times;
-        </button> */}
         <div className="text-center">
           <img
             src={OTPImage}
@@ -29,10 +40,10 @@ const BookingConfirmation: React.FC = () => {
             className="mx-auto mb-4 w-32 sm:w-48"
           />
           <h2 className="mb-2 text-xl font-semibold text-secondary">
-          Booking Request Successful! 🎉
+            Booking Request Successful! 🎉
           </h2>
           <p className="mb-6 font-medium text-sm text-primary w-3/4 mx-auto text-center">
-            Wait for the dispatcher to confirm your booking. Thank you!
+            Expect a call from our dispatchers for this booking. Thank you!
           </p>
           <div className="flex justify-center">
             <Button
