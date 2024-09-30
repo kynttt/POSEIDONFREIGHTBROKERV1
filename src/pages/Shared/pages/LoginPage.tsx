@@ -13,7 +13,7 @@ import { notifications } from "@mantine/notifications";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import loginBg from "../../../assets/img/loginBg.png";
-import shippersImage from "../../../assets/img/PosFreightLogo.png";
+import shippersImage from "../../../assets/img/logo.png";
 
 interface LoginData {
   email: string;
@@ -146,7 +146,7 @@ const LoginPage: React.FC = () => {
             <img
               src={shippersImage}
               alt="Shippers"
-              className="w-24 h-auto mb-2 mx-auto"
+              className="w-28 h-auto  mx-auto"
             />
           </div>
           <div className="font-bold text-3xl mb-6 text-rblue mx-auto">
