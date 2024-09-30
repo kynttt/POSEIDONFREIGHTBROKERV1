@@ -45,6 +45,7 @@ module.exports = {
         nblue: "#0F4B87",
         lyellow: "#FFCC00",
         darkBlue: "#1b4980",
+        daBlue: "#082A52"
       },
     },
   },
