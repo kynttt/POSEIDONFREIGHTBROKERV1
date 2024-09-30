@@ -155,9 +155,9 @@ const CheckoutForm = ({
       <PaymentElement />
       {/* <AddressElement options={{ mode: "billing" }} /> */}
 
-      {paymentRequest && (
+      {/* {paymentRequest && (
         <PaymentRequestButtonElement options={{ paymentRequest }} />
-      )}
+      )} */}
 
       <button
         type="submit"
