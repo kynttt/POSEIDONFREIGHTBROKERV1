@@ -48,8 +48,8 @@ const HeroBanner = () => {
           </div>
         </div>
       </div>
-      <div className="relative w-screen h-full">
-        {/* Background Image */}
+      <div className="relative ">
+        
         <div className="relative">
           <img
             src={rectangle}
@@ -57,10 +57,10 @@ const HeroBanner = () => {
             className="w-full h-[220px] object-cover"
           />
         </div>
-        {/* Overlay (Visible only on xs to md screens) */}
+        
         <div className="absolute inset-0 bg-black opacity-50 sm:block md:block lg:opacity-20 "></div>
 
-        {/* Content on top of the image */}
+      
         <div className="absolute inset-0 flex flex-col justify-center  items-center text-center px-8  md:px-12 lg:px-24">
           <h1 className="text-2xl md:text-4xl lg:text-3xl font-bold text-gray-400 mb-4 leading-tight">
             Book your truck in under{" "}
