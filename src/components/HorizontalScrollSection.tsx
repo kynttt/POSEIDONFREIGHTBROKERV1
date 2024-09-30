@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import pic1 from '../assets/img/pic1.png';
 import pic2 from '../assets/img/pic2.png';
 import pic3 from '../assets/img/pic3.png';
@@ -39,12 +39,12 @@ const HorizontalScrollSection: React.FC = () => {
         }
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = useCallback((e: MouseEvent) => {
         if (!isDragging || !scrollContainerRef.current) return;
         const x = e.pageX - scrollContainerRef.current.offsetLeft;
         const walk = (x - startX) * 2; // Scroll-fast
         scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-    };
+    }, [isDragging, startX, scrollLeft]);
 
     const handleMouseUp = () => {
         setIsDragging(false);
@@ -61,10 +61,10 @@ const HorizontalScrollSection: React.FC = () => {
             container?.removeEventListener('mouseup', handleMouseUp);
             container?.removeEventListener('mouseleave', handleMouseUp);
         };
-    }, [isDragging, startX, scrollLeft]);
+    }, [handleMouseMove]); // Update dependencies here
 
     return (
-        <div className="relative overflow-hidden pb-16">
+        <div className="relative overflow-hidden py-16">
             <div className="scroll-container" ref={scrollContainerRef} onMouseDown={handleMouseDown}>
                 <div className="scroll-wrapper">
                     {/* First set of ScrollSection */}

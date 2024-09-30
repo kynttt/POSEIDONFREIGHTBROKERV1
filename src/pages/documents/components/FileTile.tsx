@@ -57,7 +57,7 @@ export default function FileTile({
   });
   const handleFileClick = async () => {
     window.open(
-      `${process.env.REACT_APP_API_BASE_URL}/folders/${file.folder}/files/${file._id}/view`,
+      `${process.env.REACT_APP_SERVER_URL}/api/folders/${file.folder}/files/${file._id}/view`,
       `${file.name}`
     );
     // open(); // Open the modal

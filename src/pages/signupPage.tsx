@@ -14,10 +14,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { useAuthStore } from "../state/useAuthStore";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import loginBg from "../assets/img/loginBg.png";
-
 
 const SignupPage = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -46,7 +45,7 @@ const SignupPage = () => {
   // const [value, setValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible(prevState => !prevState);
+    setIsPasswordVisible((prevState) => !prevState);
   };
 
   const [isTermsChecked, setIsTermsChecked] = useState(false);
@@ -54,7 +53,6 @@ const SignupPage = () => {
   // const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // const gradientRef = useRef<NeatGradient | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
 
   const mutation = useMutation<LoginResponse, AxiosError, RegisterFormData>({
     mutationFn: registerUser,
@@ -91,6 +89,9 @@ const SignupPage = () => {
     },
   });
 
+  const onGoogleLoginHandler = () => {
+    window.location.href = `${process.env.REACT_APP_SERVER_URL}/api/account/oauth/google`;
+  };
   // useEffect(() => {
   //   if (!canvasRef.current) return;
 
@@ -191,9 +192,15 @@ const SignupPage = () => {
     });
   };
 
-
   return (
-    <div className="bg-white h-screen flex items-center justify-center" style={{ backgroundImage: `url(${loginBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div
+      className="bg-white h-screen flex items-center justify-center"
+      style={{
+        backgroundImage: `url(${loginBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* <canvas
         ref={canvasRef}
         className="absolute top-0 left-0 w-full h-full z-0"
@@ -216,8 +223,9 @@ const SignupPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border  rounded-md border-white bg-transparent text-primary placeholder-gray-700 font-light placeholder-opacity-60  h-10 p-4 ${validationErrors.name ? "border-red-500" : ""
-                    }`}
+                  className={`mt-1 block w-full border  rounded-md border-white bg-transparent text-primary placeholder-gray-700 font-light placeholder-opacity-60  h-10 p-4 ${
+                    validationErrors.name ? "border-red-500" : ""
+                  }`}
                   placeholder="Enter your First Name and Last Name"
                   required
                 />
@@ -237,8 +245,9 @@ const SignupPage = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-3/5 border border-white  rounded-md bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light h-10 p-4 ${validationErrors.address ? "border-red-500" : ""
-                      }`}
+                    className={`mt-1  block w-full md:w-3/5 border border-white  rounded-md bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light h-10 p-4 ${
+                      validationErrors.address ? "border-red-500" : ""
+                    }`}
                     placeholder="City, State, Country"
                     required
                   />
@@ -247,8 +256,9 @@ const SignupPage = () => {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleChange}
-                    className={`mt-1  block w-full md:w-2/5 border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md   h-10 p-4 ${validationErrors.postalCode ? "border-red-500" : ""
-                      }`}
+                    className={`mt-1  block w-full md:w-2/5 border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md   h-10 p-4 ${
+                      validationErrors.postalCode ? "border-red-500" : ""
+                    }`}
                     placeholder="Postal Code"
                     required
                   />
@@ -289,7 +299,7 @@ const SignupPage = () => {
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     className="w-full border border-white !bg-transparent text-black placeholder-white rounded-md  text-gray-700 h-10 p-4"
-                    style={{ backgroundColor: 'transparent' }}
+                    style={{ backgroundColor: "transparent" }}
                     international
                     countryCallingCodeEditable={false}
                   />
@@ -310,8 +320,9 @@ const SignupPage = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className={`mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md h-10 p-4 ${validationErrors.password ? "border-red-500" : ""
-                      }`}
+                    className={`mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md h-10 p-4 ${
+                      validationErrors.password ? "border-red-500" : ""
+                    }`}
                     placeholder="Enter your password"
                     required
                   />
@@ -341,8 +352,9 @@ const SignupPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md  h-10 p-4 ${validationErrors.email ? "border-red-500" : ""
-                    }`}
+                  className={`mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md  h-10 p-4 ${
+                    validationErrors.email ? "border-red-500" : ""
+                  }`}
                   placeholder="Enter your email"
                   required
                 />
@@ -380,10 +392,11 @@ const SignupPage = () => {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className={`text-white w-full py-3 rounded-md btn medium extra-class-for-medium-button ${!isTermsChecked
-                    ? "text-white w-full py-3 rounded-md opacity-20 cursor-not-allowed"
-                    : ""
-                    }`}
+                  className={`text-white w-full py-3 rounded-md btn medium extra-class-for-medium-button ${
+                    !isTermsChecked
+                      ? "text-white w-full py-3 rounded-md opacity-20 cursor-not-allowed"
+                      : ""
+                  }`}
                   style={{ backgroundColor: "#252F70" }}
                   disabled={!isTermsChecked || isSubmitting}
                 >
@@ -427,7 +440,10 @@ const SignupPage = () => {
               )} */}
               <p className="text-sm text-light-grey font-normal mt-4 text-center">
                 Already have an account?{" "}
-                <a className="text-rblue underline cursor-pointer hover:text-blue-700" onClick={onLoginHandler}>
+                <a
+                  className="text-rblue underline cursor-pointer hover:text-blue-700"
+                  onClick={onLoginHandler}
+                >
                   Login
                 </a>
               </p>
@@ -436,6 +452,7 @@ const SignupPage = () => {
               <button
                 className="bg-white border border-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center"
                 type="button"
+                onClick={onGoogleLoginHandler}
               >
                 <img src={googleIcon} alt="Google" className="w-6 h-6 mr-2" />
                 Login with Google
