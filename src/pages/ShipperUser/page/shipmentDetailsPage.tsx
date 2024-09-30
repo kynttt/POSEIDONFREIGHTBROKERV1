@@ -124,10 +124,10 @@ const ShipmentDetails: React.FC = () => {
 
   return (
     <div className="flex min-h-screen">
-      <nav className="flex-1 bg-[#FAF6FE] lg:px-20">
+      <nav className="flex-1 bg-blue-50 lg:px-20">
         <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
           <div className="w-full lg:w-2/3">
-            <div className="bg-[#FAF6FE] p-6 w-full max-w-screen-2xl mx-auto ">
+            <div className="bg-blue-50 p-6 w-full max-w-screen-2xl mx-auto ">
               <h1 className="text-2xl font-medium mb-4 mt-4 text-secondary">
                 Shipment Summary
               </h1>
@@ -375,7 +375,7 @@ const ShipmentDetails: React.FC = () => {
           </div>
 
           {/* Carrier */}
-          <div className="w-full lg:w-1/3  justify-center lg:pt-28 bg-[#FAF6FE] ">
+          <div className="w-full lg:w-1/3  justify-center lg:pt-28 bg-blue-50 ">
             <div className="bg-white w-full p-6 rounded-lg shadow-lg md:px-12 md:py-10">
               <h2 className="text-xl mb-6 text-secondary">
                 Carrier{" "}

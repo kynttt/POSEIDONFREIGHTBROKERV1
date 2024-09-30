@@ -125,10 +125,10 @@ import shippersImage from "../assets/img/shippers.png";
 const ServiceCards: React.FC = () => {
   return (
     <div id="services" className="flex flex-col items-center justify-center py-16 bg-white">
-      <h2 className="text-5xl font-medium text-center text-rblue mb-10 lg:mb-28">
+      <h2 className="text-5xl font-medium text-center text-darkBlue mb-10 lg:mb-28">
         Seamless Freight Service
       </h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-4xl mx-auto px-2">
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
           <img
             src={carriersImage}
@@ -136,7 +136,7 @@ const ServiceCards: React.FC = () => {
             className="w-full h-64 object-cover"
           />
           <div className="p-8">
-            <h3 className="text-xl font-bold text-blue-900 mb-2">Carriers</h3>
+            <h3 className="text-xl font-bold text-blue-900 mb-2">Fast Delivery</h3>
             <p className="text-nblue font-normal">
               Tailored Carrier Services to Fit Your Business.
             </p>
@@ -150,7 +150,7 @@ const ServiceCards: React.FC = () => {
             className="w-full h-64 object-cover"
           />
           <div className="p-8">
-            <h3 className="text-xl font-bold text-blue-900 mb-2">Shippers</h3>
+            <h3 className="text-xl font-bold text-blue-900 mb-2">Monitored 24/7</h3>
             <p className="text-nblue font-normal">
               Driving your business forward with Expert Logistic Support.
             </p>

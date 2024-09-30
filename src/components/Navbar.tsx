@@ -88,10 +88,10 @@ const Navbar: React.FC = () => {
             <img
               src={logo}
               alt="Company Logo"
-              className="h-10 mr-4" // Adjust height and margin as necessary
+              className="h-12 " // Adjust height and margin as necessary
             />
             <button
-              className="text-rblue text-2xl lg:text-3xl font-bold hover:text-secondary"
+              className="text-rblue text-2xl lg:text-3xl font-medium hover:text-secondary"
               onClick={() => handleNavigation("/")}
             >
               Poseidon Freight
@@ -173,7 +173,7 @@ const Navbar: React.FC = () => {
                 >
                   Loadboard
                 </button>
-                <button  
+                <button
                   className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
                   onClick={() => handleNavigation("/a/admin-dashboard")}
                 >
@@ -238,37 +238,37 @@ const Navbar: React.FC = () => {
             )}
             {!isAuthenticated && (
               <div className="relative">
-              <button
-                className="text-rblue flex justify-center rounded-lg items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
-                onClick={handleGetStartedClick}
-              >
-                Get Started
-              </button>
-        
-              {/* Dropdown Modal */}
-              {isModalOpen && (
-                <div className="absolute mt-2 w-full bg-white border border-rblue shadow-lg rounded-lg z-30">
-                  <button
-                    className="w-full text-left px-4 text-rblue py-2 hover:bg-rblue hover:text-white hover:rounded-t-lg flex justify-between items-center"
-                    onClick={handleShipperClick}
-                  >
-                    As Shipper
-                    <FontAwesomeIcon icon={faCaretRight} />
-                  </button>
-                  <button
-  className="w-full text-left px-4 py-2 text-gray-500 cursor-not-allowed flex justify-between items-start"
-  disabled
->
-  <div>
-    As Carrier
-    <p className="text-xs font-light">(Coming Soon)</p>
-  </div>
-  <FontAwesomeIcon icon={faCaretRight} />
-</button>
+                <button
+                  className="text-rblue flex justify-center rounded-lg items-center h-full border-2 px-12 py-3 border-rblue hover:bg-rblue hover:text-white"
+                  onClick={handleGetStartedClick}
+                >
+                  Login
+                </button>
 
-                </div>
-              )}
-            </div>
+                {/* Dropdown Modal */}
+                {isModalOpen && (
+                  <div className="absolute mt-2 w-full bg-white border border-rblue shadow-lg rounded-lg z-30">
+                    <button
+                      className="w-full text-left px-4 text-rblue py-2 hover:bg-rblue hover:text-white hover:rounded-t-lg flex justify-between items-center"
+                      onClick={handleShipperClick}
+                    >
+                      As Shipper
+                      <FontAwesomeIcon icon={faCaretRight} />
+                    </button>
+                    <button
+                      className="w-full text-left px-4 py-2 text-gray-500 cursor-not-allowed flex justify-between items-start"
+                      disabled
+                    >
+                      <div>
+                        As Carrier
+                        <p className="text-xs font-light">(Coming Soon)</p>
+                      </div>
+                      <FontAwesomeIcon icon={faCaretRight} />
+                    </button>
+
+                  </div>
+                )}
+              </div>
             )}
           </div>
 

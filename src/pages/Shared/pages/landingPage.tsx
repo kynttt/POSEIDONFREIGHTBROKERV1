@@ -19,7 +19,9 @@ import { Stack } from "@mantine/core";
 import NewFeatures from "../../../components/NewFeatures";
 // import NewAboutUs from "../../../components/NewAboutUs";
 import HorizontalScrollComponent from "../../../components/HorizontalScrollSection";
-import Testimonials from "../../../components/Testimonials";
+// import Testimonials from "../../../components/Testimonials";
+import LogisticsForm from "../../../components/LogisticsForm";
+import Testimonials2 from "../../../components/Testimonials2";
 
 const LandingPage: React.FC = () => {
   return (
@@ -29,6 +31,7 @@ const LandingPage: React.FC = () => {
       </header>
       <Stack w="100%" gap={0}>
         <HeroBanner />
+        <LogisticsForm/>
         <SeamlessFreightServices />
         {/* <ServicesCardList /> */}
         {/* <Carousel /> */}
@@ -37,7 +40,8 @@ const LandingPage: React.FC = () => {
         {/* <NewAboutUs/> */}
         <HorizontalScrollComponent/>
         {/* <PricingPage/> */}
-        <Testimonials/>
+        {/* <Testimonials/> */}
+        <Testimonials2/>
         {/* <CarouselComponent/> */}
         {/* <FeaturesSection /> */}
         {/* <AboutUs /> */}
