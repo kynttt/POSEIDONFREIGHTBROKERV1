@@ -7,7 +7,7 @@ import process4Image from '../../../../assets/img/process4.png';
 import process5Image from '../../../../assets/img/process5.png';
 import process6Image from '../../../../assets/img/process6.png';
 
-const processDescriptions = {
+const processDescriptions: { [key: number]: { title: string; description: string } } = {
   1: {
     title: 'Process 1: Export Haulage',
     description: "The initial stage is known as export haulage, during which the client's goods are delivered to the freight forwarder's warehouse for shipment."
@@ -34,7 +34,7 @@ const processDescriptions = {
   },
 };
 
-const processImages = {
+const processImages: { [key: number]: string } = {
   1: process1Image,
   2: process2Image,
   3: process3Image,
