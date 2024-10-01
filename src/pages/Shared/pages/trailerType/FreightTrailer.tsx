@@ -2,6 +2,7 @@ import Truck1Image from '../../../../assets/img/truck1.png';
 import Truck2Image from '../../../../assets/img/truck2.png';
 import Truck3Image from '../../../../assets/img/truck3.png';
 import Truck4Image from '../../../../assets/img/truck4.png';
+import Truck5Image from '../../../../assets/img/truck5.png';
 
 
 const FreightTrailerComponent = () => {
@@ -99,7 +100,7 @@ const FreightTrailerComponent = () => {
                 {/* Step Deck Section */}
                 <div className="flex items-center mb-8">
                     <img
-                        src={Truck3Image} // Replace with actual path or use a public image URL
+                        src={Truck5Image} // Replace with actual path or use a public image URL
                         alt="Dry Van"
                         className="w-1/2"
                     />
