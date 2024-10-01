@@ -6,7 +6,11 @@ import { LogoutResponse } from "../utils/types";
 import { notifications } from "@mantine/notifications";
 import { logoutUser } from "../lib/apiCalls";
 
-type UnauthorizedType = "no-token-auth" | "no-user-auth" | "not-verified";
+type UnauthorizedType =
+  | "no-token-auth"
+  | "no-user-auth"
+  | "not-verified"
+  | "user-not-complete";
 export default function UnauthorizedModal({
   type,
 }: {
@@ -44,12 +48,15 @@ export default function UnauthorizedModal({
     "no-token-auth": "Your session has expired. Please log in again.",
     "no-user-auth": "Account problem. Please log in again.",
     "not-verified": "Your account is not verified. Please verify your account.",
+    "user-not-complete":
+      "Your account is not complete. Please complete your account.",
   };
 
   const buttonLabel = {
     "no-token-auth": "Log in",
     "no-user-auth": "Log in",
     "not-verified": "Verify account",
+    "user-not-complete": "Complete account",
   };
 
   const handler = {
@@ -70,6 +77,11 @@ export default function UnauthorizedModal({
       window.location.href = "/verify";
       modals.closeAll();
     },
+    "user-not-complete": () => {
+      // Redirect to account verification page
+      window.location.href = "/account-completion";
+      modals.closeAll();
+    },
   };
 
   return (
@@ -77,7 +89,7 @@ export default function UnauthorizedModal({
       <Text size="sm">{message[type]}</Text>
 
       <Flex gap={"sm"}>
-        {type === "not-verified" && (
+        {(type === "not-verified" || type === "user-not-complete") && (
           <Button
             fullWidth
             onClick={() => mutation.mutate(undefined)}

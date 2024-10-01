@@ -145,33 +145,41 @@ export default function NotificationModal() {
               onClick={() => handleNotificationClick(notification)}
             >
               <div className="flex items-center pr-6">
-              {notification.mediaUrl && (
-                <img
-                  src={
-                    notification.mediaUrl.startsWith("http")
-                      ? notification.mediaUrl
-                      : `${process.env.REACT_APP_API_BASE_URL}${notification.mediaUrl}`
-                  }
-                  alt="Notification"
-                  className="w-12 h-12 rounded-full mr-4 object-cover"
-                  onError={(e) => {
-                    console.error(`Failed to load image: ${e.currentTarget.src}`);
-                    e.currentTarget.src = "https://avatar.iran.liara.run/public/boy?username=Ash";
-                  }}
-                />
-              )}
-              <div className="flex flex-col">
-                <div className="text-sm font-semibold text-primary">{notification.title}</div>
-                <div className="text-xs font-normal">
-                  {formatNotificationMessage(notification)}
+                {notification.mediaUrl && (
+                  <img
+                    src={
+                      notification.mediaUrl.startsWith("http")
+                        ? notification.mediaUrl
+                        : `${process.env.REACT_APP_SERVER_URL}/api/${notification.mediaUrl}`
+                    }
+                    alt="Notification"
+                    className="w-12 h-12 rounded-full mr-4 object-cover"
+                    onError={(e) => {
+                      console.error(
+                        `Failed to load image: ${e.currentTarget.src}`
+                      );
+                      e.currentTarget.src =
+                        "https://avatar.iran.liara.run/public/boy?username=Ash";
+                    }}
+                  />
+                )}
+                <div className="flex flex-col">
+                  <div className="text-sm font-semibold text-primary">
+                    {notification.title}
+                  </div>
+                  <div className="text-xs font-normal">
+                    {formatNotificationMessage(notification)}
+                  </div>
+                  <div className="text-xs mt-1 font-light">
+                    {formatNotificationDate(notification.createdAt!)}
+                  </div>
                 </div>
-                <div className="text-xs mt-1 font-light">
-                  {formatNotificationDate(notification.createdAt!)}
-                </div>
-              </div>
               </div>
               {/* Add the icon on the rightmost side */}
-  <FontAwesomeIcon icon={faEllipsisH} className="text-lg text-gray-500 hover:text-gray-700" />
+              <FontAwesomeIcon
+                icon={faEllipsisH}
+                className="text-lg text-gray-500 hover:text-gray-700"
+              />
             </div>
           ))}
         </Stack>

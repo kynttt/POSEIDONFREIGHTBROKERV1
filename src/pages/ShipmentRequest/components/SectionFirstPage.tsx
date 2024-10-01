@@ -30,6 +30,10 @@ function FieldSection() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const quoteId = searchParams.get("quoteId");
+  const routeCoordinatesString = searchParams.get("routeCoordinates");
+  const trailerType = searchParams.get("trailerType");
+  const originName = searchParams.get("originName");
+  const destinationName = searchParams.get("destinationName");
   const navigate = useNavigate();
 
   const map = useMap("map-background");
@@ -89,13 +93,14 @@ function FieldSection() {
 
       const packagingSplit = packaging.split(" ");
 
-      const trailerTypeFound = listTrucksData!.find(
+      const trailerTypeFound = listTrucksData.find(
         (type) => type.truckType === trailerType
       );
 
       let originLocation: google.maps.LatLngLiteral | undefined;
       let destinationLocation: google.maps.LatLngLiteral | undefined;
 
+      // Initialize locations from `routeCoordinates` if they exist in the fetched data
       if (routeCoordinates && routeCoordinates.coordinates.length > 0) {
         originLocation = {
           lat: routeCoordinates.coordinates[0][1],
@@ -107,6 +112,7 @@ function FieldSection() {
           lng: routeCoordinates.coordinates[1][0],
         };
       }
+
       initDistanceCalculator({
         packagingNumber: parseInt(packagingSplit[0], 10),
         packagingType: packagingSplit[1],
@@ -125,8 +131,68 @@ function FieldSection() {
         notes: notes || undefined,
         price,
       });
+    } else if (
+      routeCoordinatesString &&
+      trailerType &&
+      listTrucksData &&
+      listTrucksData.length > 0
+    ) {
+      // Initialize locations from `routeCoordinatesString` if coming from the URL
+      let originLocation: google.maps.LatLngLiteral | undefined;
+      let destinationLocation: google.maps.LatLngLiteral | undefined;
+
+      try {
+        const parsedRouteCoordinates = JSON.parse(
+          decodeURIComponent(routeCoordinatesString)
+        );
+
+        originLocation = {
+          lat: parsedRouteCoordinates[0][1],
+          lng: parsedRouteCoordinates[0][0],
+        };
+
+        destinationLocation = {
+          lat: parsedRouteCoordinates[1][1],
+          lng: parsedRouteCoordinates[1][0],
+        };
+        const trailerTypeFound = listTrucksData.find(
+          (type) => type.truckType === trailerType
+        );
+        initDistanceCalculator({
+          packagingNumber: undefined,
+          packagingType: undefined,
+          origin: originName || undefined,
+          originLocation,
+          destination: destinationName || undefined,
+          destinationLocation,
+          distance: undefined,
+          routeCoordinates: {
+            type: "LineString",
+            coordinates: parsedRouteCoordinates,
+          },
+          pickupDate: undefined,
+          trailerType: trailerTypeFound,
+          trailerSize: undefined,
+          commodity: undefined,
+          maxWeight: undefined,
+          companyName: undefined,
+          notes: undefined,
+          price: 0, // Placeholder price; set as needed
+        });
+      } catch (error) {
+        console.error("Failed to parse route coordinates from URL:", error);
+      }
     }
-  }, [data, isQueryLoading, initDistanceCalculator, listTrucksData]);
+  }, [
+    data,
+    isQueryLoading,
+    initDistanceCalculator,
+    listTrucksData,
+    trailerType,
+    routeCoordinatesString,
+    originName,
+    destinationName,
+  ]);
 
   useEffect(() => {
     if (error) {

@@ -13,7 +13,7 @@ import { notifications } from "@mantine/notifications";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import loginBg from "../../../assets/img/loginBg.png";
-import shippersImage from "../../../assets/img/PosFreightLogo.png";
+import shippersImage from "../../../assets/img/logo.png";
 
 interface LoginData {
   email: string;
@@ -54,6 +54,10 @@ const LoginPage: React.FC = () => {
     } else {
       navigate("/signup");
     }
+  };
+
+  const onGoogleLoginHandler = () => {
+    window.location.href = `${process.env.REACT_APP_SERVER_URL}/api/account/oauth/google`;
   };
 
   const mutation = useMutation<LoginResponse, Error, LoginData>({
@@ -127,24 +131,29 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    
-
     <div
       className="relative h-screen flex justify-center items-center "
-      style={{ backgroundImage: `url(${loginBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      style={{
+        backgroundImage: `url(${loginBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <div className="absolute top-0 left-0 w-full h-full bg-black/10 z-1"></div>
       <div className="relative z-10 flex h-full w-full md:px-36 justify-end items-center p-4">
         <div className="flex flex-col justify-center w-full max-w-full lg:max-w-4xl overflow-hidden">
-        <div>
-            <img src={shippersImage} alt="Shippers" className="w-24 h-auto mb-2 mx-auto" />
-            </div>
+          <div>
+            <img
+              src={shippersImage}
+              alt="Shippers"
+              className="w-28 h-auto  mx-auto"
+            />
+          </div>
           <div className="font-bold text-3xl mb-6 text-rblue mx-auto">
             Poseidon Freight
           </div>
-            
-            <div className="shadow-lg w-full mx-auto md:w-1/2 bg-white/30 backdrop-blur-xl border border-white/20 flex flex-col justify-center py-8 lg:px-10 px-6 rounded-lg ">
-            
+
+          <div className="shadow-lg w-full mx-auto md:w-1/2 bg-white/30 backdrop-blur-xl border border-white/20 flex flex-col justify-center py-8 lg:px-10 px-6 rounded-lg ">
             <div className="w-full max-w-sm mx-auto">
               <div className="flex flex-col items-center">
                 {/* <h2 className="text-2xl md:text-3xl font-bold mb-6 text-primary text-center">
@@ -177,7 +186,6 @@ const LoginPage: React.FC = () => {
                     >
                       Password
                     </label>
-                    
                   </div>
                   <div className="relative">
                     <input
@@ -194,20 +202,21 @@ const LoginPage: React.FC = () => {
                       className="absolute right-3 top-[20px] transform -translate-y-1/2 text-gray-500"
                       onClick={togglePasswordVisibility}
                     >
-                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                      <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                      />
                     </button>
                     <div className="">
-                    <div className="flex justify-end">
-                      <a
-                      onClick={onForgotPasswordHandler}
-                      className="inline-block underline align-baseline font-normal text-sm text-gray-700 hover:text-blue-800 cursor-pointer mt-2"
-                      >
-                      Forgot Password?
-                      </a>
-                    </div>
+                      <div className="flex justify-end">
+                        <a
+                          onClick={onForgotPasswordHandler}
+                          className="inline-block underline align-baseline font-normal text-sm text-gray-700 hover:text-blue-800 cursor-pointer mt-2"
+                        >
+                          Forgot Password?
+                        </a>
+                      </div>
                     </div>
                   </div>
-                  
                 </div>
                 <div className="flex items-center justify-center">
                   <Button
@@ -227,6 +236,7 @@ const LoginPage: React.FC = () => {
               </div>
               <div className="mt-6 flex flex-col space-y-4">
                 <button
+                  onClick={onGoogleLoginHandler}
                   className="bg-white  text-gray-700 font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center"
                   type="button"
                 >

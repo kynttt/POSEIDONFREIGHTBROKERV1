@@ -27,6 +27,8 @@ import {
   DeleteFolderData,
   SearchFileFolderResponse,
   BillOfLadingSchema,
+  AccountCompletionData,
+  AccountCompletionResponse,
 } from "../utils/types";
 
 //Users
@@ -81,6 +83,11 @@ export const registerUser = async (formData: RegisterFormData) => {
     role: "user",
   });
   return response.data as LoginResponse;
+};
+
+export const accountCompletion = async (data: AccountCompletionData) => {
+  const response = await axiosInstance.post(`/account/complete-details`, data);
+  return response.data as AccountCompletionResponse;
 };
 
 // Quotes
