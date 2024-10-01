@@ -51,3 +51,11 @@ html, body {
 .read-the-docs {
   color: #888;
 }
+
+.clip-slant {
+  clip-path: polygon(0 0, 100% 0, 50% 100%, 0% 100%);
+}
+
+.clip-slant-right {
+  clip-path: polygon(50% 100%, 100% 100%, 100% 0, 0 0);
+}
