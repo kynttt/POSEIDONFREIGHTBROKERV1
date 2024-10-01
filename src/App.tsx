@@ -71,6 +71,7 @@ import ForgotPasswordPage from "./pages/Shared/pages/forgotPassword";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import OAuthRedirect from "./pages/Shared/pages/oauthRedirect";
 import AccountCompletion from "./pages/Shared/pages/accountCompletion";
+import AuthChecker from "./components/AuthChecker";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -110,7 +111,14 @@ const App: React.FC = () => {
                   path="/account-completion"
                   element={<AccountCompletion />}
                 />
-                <Route path="/" element={<LandingPage />} />
+                <Route
+                  path="/"
+                  element={
+                    <AuthChecker>
+                      <LandingPage />
+                    </AuthChecker>
+                  }
+                />
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/oauth-redirect" element={<OAuthRedirect />} />
