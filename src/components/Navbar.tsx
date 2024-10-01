@@ -181,9 +181,9 @@ const Navbar: React.FC = () => {
                 </button>
                 <button
                   className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
-                  onClick={() => handleNavigation("/a/trailer-options")}
+                  onClick={() => handleNavigation("/a/trailer-types")}
                 >
-                  Trucks
+                  Resources
                 </button>
 
                 <button
@@ -210,9 +210,9 @@ const Navbar: React.FC = () => {
                 </button> */}
                 <button
                   className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
-                  onClick={() => handleNavigation("/s/trailer-options")}
+                  onClick={() => handleNavigation("/s/trailer-types")}
                 >
-                  Trucks
+                  Resources
                 </button>
                 <button
                   className="text-rblue no-underline font-medium transition duration-300 hover:text-secondary focus:text-secondary  focus:font-bold"
@@ -338,9 +338,9 @@ const Navbar: React.FC = () => {
                   </button>
                   <button
                     className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
-                    onClick={() => handleNavigation("/a/trailer-options")}
+                    onClick={() => handleNavigation("/a/trailer-types")}
                   >
-                    Trucks
+                    Resources
                   </button>
 
                   <button
@@ -367,9 +367,9 @@ const Navbar: React.FC = () => {
                   </button> */}
                   <button
                     className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
-                    onClick={() => handleNavigation("/s/trailer-options")}
+                    onClick={() => handleNavigation("/s/trailer-types")}
                   >
-                    Trucks
+                    Resources
                   </button>
                   <button
                     className="block text-rblue hover:text-[#252F70] text-center transition duration-300"
