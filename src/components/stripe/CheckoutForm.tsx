@@ -3,7 +3,7 @@ import {
   useElements,
   PaymentElement,
   // AddressElement,
-  PaymentRequestButtonElement,
+  // PaymentRequestButtonElement,
   LinkAuthenticationElement,
 } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
@@ -30,7 +30,7 @@ const CheckoutForm = ({
 }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
+  const [, setPaymentRequest] = useState<PaymentRequest | null>(
     null
   );
   const mutation = useMutation<Booking, Error, BookingData>({
@@ -155,9 +155,9 @@ const CheckoutForm = ({
       <PaymentElement />
       {/* <AddressElement options={{ mode: "billing" }} /> */}
 
-      {paymentRequest && (
+      {/* {paymentRequest && (
         <PaymentRequestButtonElement options={{ paymentRequest }} />
-      )}
+      )} */}
 
       <button
         type="submit"

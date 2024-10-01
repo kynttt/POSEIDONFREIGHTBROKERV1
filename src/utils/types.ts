@@ -17,6 +17,17 @@ export interface Point {
 export interface LogoutResponse {
   message: string;
 }
+
+export interface AccountCompletionData {
+  phone: string;
+  address: string;
+  postalCode: string;
+  companyName: string;
+}
+export interface AccountCompletionResponse {
+  message: string;
+  data: User;
+}
 export interface Schema {
   _id?: string;
   createdAt?: string;
