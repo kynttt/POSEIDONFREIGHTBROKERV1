@@ -59,31 +59,49 @@ const LogisticsForm: React.FC = () => {
   );
   const [destination, setDestination] =
     useState<google.maps.places.PlaceResult | null>(null);
-
   const [trailerType, setTrailerType] = useState<string>("");
+  const [error, setError] = useState<string | null>(null); // State to store error messages
 
-  const onRequestQuote = () => {
-    if (origin && destination) {
-      const originLat = origin.geometry?.location?.lat();
-      const originLng = origin.geometry?.location?.lng();
-      const destinationLat = destination.geometry?.location?.lat();
-      const destinationLng = destination.geometry?.location?.lng();
-      const originName = origin.name;
-      const destinationName = destination.name;
-      const routeCoordinates = [
-        [originLng, originLat],
-        [destinationLng, destinationLat],
-      ];
+  const onRequestQuote = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent form submission refresh
+    setError(null); // Reset error message
 
-      const encodedRouteCoordinates = encodeURIComponent(
-        JSON.stringify(routeCoordinates)
-      );
-
-      navigate(
-        `/requests?trailerType=${trailerType}&routeCoordinates=${encodedRouteCoordinates}&originName=${originName}&destinationName=${destinationName}`
-      );
+    if (!origin) {
+      setError("Please select an origin location.");
+      return;
     }
+
+    if (!destination) {
+      setError("Please select a destination location.");
+      return;
+    }
+
+    if (!trailerType || trailerType === "Select Trailer Type") {
+      setError("Please select a trailer type.");
+      return;
+    }
+
+    // Proceed if all fields are filled
+    const originLat = origin.geometry?.location?.lat();
+    const originLng = origin.geometry?.location?.lng();
+    const destinationLat = destination.geometry?.location?.lat();
+    const destinationLng = destination.geometry?.location?.lng();
+    const originName = origin.name;
+    const destinationName = destination.name;
+    const routeCoordinates = [
+      [originLng, originLat],
+      [destinationLng, destinationLat],
+    ];
+
+    const encodedRouteCoordinates = encodeURIComponent(
+      JSON.stringify(routeCoordinates)
+    );
+
+    navigate(
+      `/requests?trailerType=${trailerType}&routeCoordinates=${encodedRouteCoordinates}&originName=${originName}&destinationName=${destinationName}`
+    );
   };
+
   return (
     <APIProvider apiKey={googleMapsApiKey}>
       <div className="relative w-full h-3/4">
@@ -179,12 +197,19 @@ const LogisticsForm: React.FC = () => {
                 </select>
               </div>
 
+              {/* Error Message */}
+              {error && (
+                <div className="mb-4 text-red-500 font-medium text-center">
+                  {error}
+                </div>
+              )}
+
               {/* Submit Button */}
               <div className="text-center">
                 <button
                   type="submit"
                   className="md:w-1/2 w-full bg-yellow-500 text-blue-900 py-3 px-4 rounded-md shadow-sm font-bold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-                  onClick={() => onRequestQuote()}
+                  onClick={onRequestQuote}
                 >
                   Request Quote
                 </button>
