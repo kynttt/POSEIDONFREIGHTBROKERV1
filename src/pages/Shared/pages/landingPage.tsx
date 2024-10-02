@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../../components/Navbar";
 import "../../../index.css"; // Ensure this file includes the @import for the Lexend font
 import HeroBanner from "../../../components/Hero";
+import BookingProcess from "../../../components/BookingProcess";
 // import Carousel from '../components/Carousel';
 // import FreightQuote from "../../../components/FreightQuote";
 // import AboutUs from "../../../components/about";
@@ -31,6 +32,7 @@ const LandingPage: React.FC = () => {
       </header>
       <Stack w="100%" gap={0}>
         <HeroBanner />
+        <BookingProcess/>
         <LogisticsForm/>
         <SeamlessFreightServices />
         {/* <ServicesCardList /> */}
