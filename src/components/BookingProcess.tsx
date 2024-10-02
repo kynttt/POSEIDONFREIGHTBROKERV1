@@ -30,13 +30,13 @@ const BookingProcess = () => {
 
       {/* Foreground Content */}
       <div className="relative z-30 flex items-center justify-center min-h-screen">
-        <div className="py-8 md:py-16 bg-white bg-opacity-45 backdrop-filter backdrop-blur-lg w-full">
+        <div className="py-8 md:py-16 bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg w-full">
             <div className="w-full md:w-4/5 lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 md:gap-10 lg:gap-16 text-center mx-auto items-start">
             {/* Step 1 */}
             <div className="space-y-4 flex flex-col items-center justify-center">
               <div className="text-darkBlue p-4 flex items-center justify-center space-x-4">
                 <span className="text-2xl sm:text-3xl lg:text-4xl font-bold">1</span>
-                <img src={Step1Img} alt="Step 1" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20" />
+                <img src={Step1Img} alt="Step 1" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl" />
               </div>
               <div className="mx-2 md:mx-0 md:text-left md:ml-4">
                 <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-darkBlue">Sign up or Login</h3>
@@ -50,7 +50,7 @@ const BookingProcess = () => {
             <div className="space-y-4 flex flex-col items-center justify-center">
               <div className="text-darkBlue p-4 flex items-center justify-center space-x-4">
                 <span className="text-2xl sm:text-3xl lg:text-4xl font-bold">2</span>
-                <img src={Step2Img} alt="Step 2" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20" />
+                <img src={Step2Img} alt="Step 2" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl" />
               </div>
               <div className="mx-2 md:mx-0 md:text-left md:ml-0">
                 <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-darkBlue">Request Quotation</h3>
@@ -64,7 +64,7 @@ const BookingProcess = () => {
             <div className="space-y-4 flex flex-col items-center justify-center">
               <div className="text-darkBlue p-4 flex items-center justify-center space-x-4">
                 <span className="text-2xl sm:text-3xl lg:text-4xl font-bold">3</span>
-                <img src={Step3Img} alt="Step 3" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20" />
+                <img src={Step3Img} alt="Step 3" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl" />
               </div>
               <div className="mx-2 md:mx-0 md:text-left md:ml-6">
                 <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-darkBlue">Book Haulage</h3>
@@ -78,7 +78,7 @@ const BookingProcess = () => {
             <div className="space-y-4 flex flex-col items-center justify-center">
               <div className="text-darkBlue p-4 flex items-center justify-center space-x-4">
                 <span className="text-2xl sm:text-3xl lg:text-4xl font-bold">4</span>
-                <img src={Step4Img} alt="Step 4" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20" />
+                <img src={Step4Img} alt="Step 4" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl" />
               </div>
               <div className="mx-2 md:mx-0 md:text-left md:ml-6">
                 <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-darkBlue">Online Payment</h3>
@@ -92,7 +92,7 @@ const BookingProcess = () => {
             <div className="space-y-4 flex flex-col items-center justify-center">
               <div className="text-darkBlue p-4 flex items-center justify-center space-x-4">
                 <span className="text-2xl sm:text-3xl lg:text-4xl font-bold">5</span>
-                <img src={Step5Img} alt="Step 5" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20" />
+                <img src={Step5Img} alt="Step 5" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl" />
               </div>
               <div className="mx-2 md:mx-0 md:text-left md:ml-8">
                 <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-darkBlue">Confirmation</h3>
