@@ -12,7 +12,6 @@ interface BookingData {
     price: number;
   };
   status: string;
-  
 }
 
 // Define the Booking interface to match the data structure from the API
@@ -102,8 +101,8 @@ const RecentTransactions: React.FC = () => {
   const displayedBookings = bookings.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg border">
-      <h3 className="text-xl sm:text-2xl font-medium mb-2 sm:mb-0 border-b-2 border-secondary pb-2">
+    <div className="bg-white md:px-20 md:py-12 p-4 rounded-lg shadow-lg border">
+      <h3 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-2 border-b-2 border-secondary pb-2">
         Recent Transactions
       </h3>
 
@@ -116,30 +115,29 @@ const RecentTransactions: React.FC = () => {
           <table className="min-w-full border-b-2 border-secondary">
             <thead>
               <tr>
-                <th className="px-4 py-2 text-left">Booking ID</th>
-                <th className="px-4 py-2 text-left">Destination</th>
-                <th className="px-4 py-2 text-left">Delivery Date</th>
-                <th className="px-4 py-2 text-left">Price</th>
-                <th className="px-4 py-2 text-left">Status</th>
+                <th className="px-2 sm:px-4 py-2 text-left">Booking ID</th>
+                <th className="px-2 sm:px-4 py-2 text-left">Destination</th>
+                <th className="px-2 sm:px-4 py-2 text-left">Delivery Date</th>
+                <th className="px-2 sm:px-4 py-2 text-left">Price</th>
+                <th className="px-2 sm:px-4 py-2 text-left">Status</th>
               </tr>
             </thead>
             <tbody>
             {displayedBookings.map((booking, index) => (
-  <tr key={index}>
-    <td className="px-4 py-2 text-secondary font-normal">{booking._id}</td>
-    <td className="px-4 py-2 text-secondary font-normal">
-      {booking.quote.destination.length > 25
-        ? booking.quote.destination.substring(0, 25) + '...'
-        : booking.quote.destination}
-    </td>
-    <td className="px-4 py-2 text-secondary font-normal">{booking.quote.deliveryDate}</td>
-    <td className="px-4 py-2 text-secondary font-normal">${booking.quote.price}</td>
-    <td className={`px-4 py-2 font-normal ${getStatusColor(booking.status)}`}>
-      {booking.status}
-    </td>
-  </tr>
-))}
-
+              <tr key={index} className="text-xs sm:text-base">
+                <td className="px-2 sm:px-4 py-2 text-secondary font-normal break-words">{booking._id}</td>
+                <td className="px-2 sm:px-4 py-2 text-secondary font-normal break-words">
+                  {booking.quote.destination.length > 25
+                    ? booking.quote.destination.substring(0, 25) + '...'
+                    : booking.quote.destination}
+                </td>
+                <td className="px-2 sm:px-4 py-2 text-secondary font-normal">{booking.quote.deliveryDate}</td>
+                <td className="px-2 sm:px-4 py-2 text-secondary font-normal">${booking.quote.price}</td>
+                <td className={`px-2 sm:px-4 py-2 font-normal ${getStatusColor(booking.status)}`}>
+                  {booking.status}
+                </td>
+              </tr>
+            ))}
             </tbody>
           </table>
           <Pagination currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />

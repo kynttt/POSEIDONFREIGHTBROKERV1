@@ -244,6 +244,10 @@ const App: React.FC = () => {
                   }
                 >
                   <Route index element={<AdminDashboard />} />
+                  <Route
+                    path="trailer-types"
+                    element={<TrailerPage />}
+                  />
 
                   <Route path="admin-dashboard" element={<AdminDashboard />} />
                   {/* Documents Page */}
