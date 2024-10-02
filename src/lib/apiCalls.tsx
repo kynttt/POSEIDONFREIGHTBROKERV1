@@ -10,7 +10,7 @@ import {
   LogoutResponse,
   NotificationSchema,
   PhoneOtpRequestResponse,
-  PaymentIntentParams,
+  BookingPaymentIntentParams,
   Quote,
   RegisterFormData,
   StripeClientSecret,
@@ -29,6 +29,7 @@ import {
   BillOfLadingSchema,
   AccountCompletionData,
   AccountCompletionResponse,
+  BookingConfirmData,
 } from "../utils/types";
 
 //Users
@@ -376,20 +377,30 @@ export const fetchUserBookingById = async (id: string) => {
   }
 };
 
-export const createPaymentIntent = async ({
+export const createBookingPaymentIntent = async ({
   amount,
   currency,
-}: PaymentIntentParams) => {
+}: BookingPaymentIntentParams) => {
   try {
     const response = await axiosInstance.post(
-      `/payments/create-payment-intent`,
-
+      `/payments/booking-payment-intent`,
       {
         amount,
         currency,
       }
     );
     return response.data as StripeClientSecret;
+  } catch (error) {
+    console.error("Error creating payment intent:", error);
+    throw error;
+  }
+};
+export const bookingConfirm = async ({ bookingId }: BookingConfirmData) => {
+  try {
+    const response = await axiosInstance.patch(
+      `/bookings/${bookingId}/confirm`
+    );
+    return response.data as Booking;
   } catch (error) {
     console.error("Error creating payment intent:", error);
     throw error;

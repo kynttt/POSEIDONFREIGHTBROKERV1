@@ -96,12 +96,18 @@ export interface Invoice extends Schema {
   booking?: string[] | Booking[];
 }
 
-export interface PaymentIntentParams {
+export interface BookingPaymentIntentParams {
   amount: number; // Amount in the smallest currency unit (e.g., cents for USD)
   currency: string; // Currency code (e.g., 'usd')
+  booking: BookingData;
+}
+
+export interface BookingConfirmData {
+  bookingId: string;
 }
 export interface StripeClientSecret {
   clientSecret: string;
+  bookingId: string;
 }
 
 export interface Booking extends Schema {

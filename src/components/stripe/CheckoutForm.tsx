@@ -8,36 +8,27 @@ import {
 } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createBookQuote } from "../../lib/apiCalls";
+import { bookingConfirm } from "../../lib/apiCalls";
 import { PaymentRequest } from "@stripe/stripe-js";
-import { Booking, BookingData, Quote } from "../../utils/types";
+import { Booking, BookingConfirmData, Quote } from "../../utils/types";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 
 const CheckoutForm = ({
-  quote: {
-    _id,
-    price,
-    origin,
-    destination,
-    pickupDate,
-    trailerType,
-    companyName,
-    commodity,
-  },
+  quote: { price },
+  bookingId,
 }: {
   quote: Quote;
+  bookingId: string;
 }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [, setPaymentRequest] = useState<PaymentRequest | null>(
-    null
-  );
-  const mutation = useMutation<Booking, Error, BookingData>({
-    mutationFn: createBookQuote,
+  const [, setPaymentRequest] = useState<PaymentRequest | null>(null);
+  const mutation = useMutation<Booking, Error, BookingConfirmData>({
+    mutationFn: bookingConfirm,
     onSuccess: async () => {
       notifications.show({
-        title: "Booking successful",
+        title: "Booking Confirmation successful",
         message: "Payment will be processed.",
         color: "green",
       });
@@ -128,21 +119,21 @@ const CheckoutForm = ({
 
     if (!stripe || !elements || mutation.isPending) return;
 
-    const bookingData: BookingData = {
-      quote: _id!,
-      origin,
-      destination,
-      pickupDate:
-        typeof pickupDate === "string" ? pickupDate : pickupDate.toISOString(),
-      trailerType,
-      // trailerSize, ! This field is not include in Booking Schema
-      companyName,
-      commodity,
+    // const bookingData: BookingData = {
+    //   quote: _id!,
+    //   origin,
+    //   destination,
+    //   pickupDate:
+    //     typeof pickupDate === "string" ? pickupDate : pickupDate.toISOString(),
+    //   trailerType,
+    //   // trailerSize, ! This field is not include in Booking Schema
+    //   companyName,
+    //   commodity,
 
-      price,
-    };
+    //   price,
+    // };
 
-    mutation.mutate(bookingData);
+    mutation.mutate({ bookingId });
   };
 
   return (
