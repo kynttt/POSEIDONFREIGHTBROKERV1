@@ -89,24 +89,6 @@ function ShipmentTransportationStep() {
 
   useEffect(() => {
     if (debouncedOriginLocation && debouncedDestinationLocation) {
-      // console.log("calculateRoutes");
-      // updateState({
-      //   ...dataState!,
-
-      //   routeCoordinates: {
-      //     type: "LineString",
-      //     coordinates: [
-      //       [debouncedOriginLocation.lng, debouncedOriginLocation.lat] as [
-      //         number,
-      //         number
-      //       ],
-      //       [
-      //         debouncedDestinationLocation.lng,
-      //         debouncedDestinationLocation.lat,
-      //       ] as [number, number],
-      //     ],
-      //   },
-      // });
       calculateRoutes({
         origin: debouncedOriginLocation,
         destination: debouncedDestinationLocation,

@@ -34,7 +34,7 @@ export const navItems: NavItems = {
     { label: "Load Board", path: "/a/load-board", icon: faListUl },
     { label: "Documents", path: "/a/documents", icon: faFolderOpen },
     // { label: "Transactions", path: "/a/report-details", icon: faTruckFast },
-    { label: "Trucks", path: "/a/trailer-options", icon: faTruckFront },
+    { label: "Resources", path: "/a/trailer-types", icon: faTruckFront },
     {
       label: "Management",
       path: "/a/management",
@@ -45,7 +45,7 @@ export const navItems: NavItems = {
   user: [
     { label: "Dashboard", path: "/s/shipper-dashboard", icon: faTableColumns },
     // { label: "Payables", path: "/s/user-payables", icon: faMoneyCheckDollar },
-    { label: "Trucks", path: "/s/trailer-options", icon: faTruckFront },
+    { label: "Resources", path: "/s/trailer-types", icon: faTruckFront },
 
     {
       label: "Request Quote",

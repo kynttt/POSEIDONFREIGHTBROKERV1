@@ -25,7 +25,7 @@ const HeroBanner = () => {
         <div className="lg:pl-48 px-8  relative z-10 flex items-center justify-between    h-[350px] md:h-[400px] lg:h-[700px]  ">
           <div className="max-w-xl">
             <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-8  leading-tight">
-              24/7 Customer Services And 3PL + Asset Base Logistics With{" "}
+            <span className="text-yellow-500">24/7</span> Customer Services And 3PL + Asset Base Logistics With{" "}
               <span className="text-yellow-500">Poseidon Freight</span>
             </h1>
             <p className="mb-12 lg:mb-16 font-normal leading-relaxed text-sm md:text-base lg:text-xl">
@@ -40,10 +40,10 @@ const HeroBanner = () => {
               >
                 Get Instant Quote
               </button>
-              <button className="border-2 border-yellow-500 text-yellow-500 font-semibold py-2 px-6 sm:py-3 sm:px-8 md:py-3 md:px-10 rounded flex justify-center items-center w-full md:w-auto">
+              {/* <button className="border-2 border-yellow-500 text-yellow-500 font-semibold py-2 px-6 sm:py-3 sm:px-8 md:py-3 md:px-10 rounded flex justify-center items-center w-full md:w-auto">
                 <i className="fas fa-phone-alt mr-3 text-yellow-500"></i>
                 253-269-1300
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

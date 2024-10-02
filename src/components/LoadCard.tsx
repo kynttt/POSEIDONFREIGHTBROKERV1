@@ -13,7 +13,7 @@ interface CardProps {
   trailerType: string;
   distance: number;
   trailerSize: string;
-  price?: number; // Make loadPrice optional
+  price?: number;
   commodity: string;
   pickupDate: Date;
   onBookLoadClick?: () => void;
@@ -24,15 +24,8 @@ const LoadCard: React.FC<CardProps> = ({
   status,
   pickUp,
   drop,
-  // maxWeight,
-  // companyName,
-  // trailerType,
-  // distance,
-  // trailerSize,
-  // commodity,
   price = 0, // Provide a default value of 0
   pickupDate,
-  // onBookLoadClick,
 }) => {
   const navigate = useNavigate();
 
@@ -47,12 +40,12 @@ const LoadCard: React.FC<CardProps> = ({
   }, [navigate, id]);
 
   return (
-    <div className="">
+    <div className="w-full px-4">
       <div className="bg-light-grey text-primary shadow-xl rounded-lg py-4 mb-4 text-sm my-8">
-        <div className="grid grid-cols-6 gap-4 px-14">
-          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 px-4 sm:px-8 md:px-14">
+          <div className="flex items-left flex-col col-span-1">
             <div className="flex items-center">
-              <p className=" font-bold">Load Price</p>
+              <p className="font-bold">Load Price</p>
             </div>
             <div>
               <p className="font-normal text-2xl text-price">
@@ -60,15 +53,8 @@ const LoadCard: React.FC<CardProps> = ({
               </p>
             </div>
           </div>
-          {/* <div className="flex items-left flex-col col-span-2 md:col-span-1">
-            <div className="flex items-center">
-              <p className="font-bold">Post ID:</p>
-            </div>
-            <div>
-              <p className="font-normal">{id}</p>
-            </div>
-          </div> */}
-          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+
+          <div className="flex items-left flex-col col-span-1">
             <div className="flex items-center">
               <p className="font-bold">Status</p>
             </div>
@@ -76,7 +62,8 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-normal">{status}</p>
             </div>
           </div>
-          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+
+          <div className="flex items-left flex-col col-span-1">
             <div className="flex items-center">
               <p className="font-bold">Pickup Date</p>
             </div>
@@ -84,7 +71,8 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-normal">{formattedPickupDate}</p>
             </div>
           </div>
-          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+
+          <div className="flex items-left flex-col col-span-1 sm:col-span-2 md:col-span-1">
             <div className="flex items-center">
               <p className="font-bold">Pick</p>
             </div>
@@ -92,7 +80,8 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-normal">{truncatedPickUp}</p>
             </div>
           </div>
-          <div className="flex items-left flex-col col-span-2 md:col-span-1">
+
+          <div className="flex items-left flex-col col-span-1 sm:col-span-2 md:col-span-1">
             <div className="flex items-center">
               <p className="font-bold">Drop</p>
             </div>
@@ -100,16 +89,15 @@ const LoadCard: React.FC<CardProps> = ({
               <p className="font-normal">{truncatedDrop}</p>
             </div>
           </div>
-          
-          
-          <div className="flex items-center justify-end col-span-2 md:col-span-1">
+
+          <div className="flex items-center justify-end col-span-2 sm:col-span-2 md:col-span-1">
             <Button
               label="Check Load"
               size="medium"
               bgColor="#252F70"
               hoverBgColor="white"
               onClick={handleBookLoadClick}
-              className="extra-class-for-medium-button"
+              className="extra-class-for-medium-button w-full"
               type={""}
             />
           </div>

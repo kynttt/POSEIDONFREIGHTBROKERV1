@@ -53,6 +53,7 @@ import AdminShellPage from "./pages/Admin/page/AdminShellPage";
 import DocumentsPage from "./pages/documents/documentsPage";
 import BillOfLading from "./pages/billOfLading";
 import BrokerShipperAgreement from "./pages/Shared/pages/BrokerShipperAgreement";
+import TrailerPage from "./pages/Shared/pages/trailerType/TrailerPage";
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./lib/queryClient";
@@ -181,6 +182,11 @@ const App: React.FC = () => {
                     path="payment-option"
                     element={<PaymentOptionPage />}
                   />
+
+                  <Route
+                    path="trailer-types"
+                    element={<TrailerPage />}
+                  />
                 </Route>
 
                 {/* ==== END Shipper User Route=== */}
@@ -246,6 +252,10 @@ const App: React.FC = () => {
                   }
                 >
                   <Route index element={<AdminDashboard />} />
+                  <Route
+                    path="trailer-types"
+                    element={<TrailerPage />}
+                  />
 
                   <Route path="admin-dashboard" element={<AdminDashboard />} />
                   {/* Documents Page */}
