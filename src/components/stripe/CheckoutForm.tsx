@@ -30,9 +30,7 @@ const CheckoutForm = ({
 }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [, setPaymentRequest] = useState<PaymentRequest | null>(
-    null
-  );
+  const [, setPaymentRequest] = useState<PaymentRequest | null>(null);
   const mutation = useMutation<Booking, Error, BookingData>({
     mutationFn: createBookQuote,
     onSuccess: async () => {
