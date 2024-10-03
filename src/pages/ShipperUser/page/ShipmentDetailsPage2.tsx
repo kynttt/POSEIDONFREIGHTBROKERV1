@@ -128,28 +128,28 @@ const ShipmentDetails: React.FC = () => {
         <div className="flex min-h-screen">
             <nav className="flex-1 bg-blue-50 lg:px-20">
                 <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
-                    <div className="w-full ">
-                        <div className="bg-blue-50 p-6 w-full max-w-screen-2xl mx-auto ">
+                    <div className="w-full p-2">
+                        <div className="bg-blue-50 p-6 w-full max-w-screen mx-auto ">
                             <h1 className="text-2xl font-large mb-4 mt-4 text-rblue">
                                 Shipment Summary
                             </h1>
                         </div>
 
 
-                        <div className="flex items-center justify-between bg-blue-50 p-6 w-full max-w-screen-2xl mx-auto ">
-                            <h1 className="text-2xl font-medium mb-4 mt-4 text-rblue">
+                        <div className="md:flex items-center justify-between bg-blue-50 p-6 w-full max-w-screen mx-auto ">
+                            <h1 className="md:text-2xl text-lg font-medium mb-4 mt-4 text-rblue">
                                 Shipment Reference: {booking._id}
                             </h1>
-                            <p className="flex items-center text-rblue">Status <p className="px-8 py-2 bg-blue-500  text-white rounded-3xl mx-6"> {booking.status} 
+                            <p className="flex items-center text-rblue">Status <p className="px-8 py-2 my-4 border border-blue-500  text-blue-500 rounded-3xl mx-6"> {booking.status} 
                                 </p></p>
                             <p className="text-rblue font-normal">Last Updated: {booking.updatedAt ? new Date(booking.updatedAt).toLocaleString() : "N/A"}</p>
                         </div>
 
-                        <div className="mb-10 flex  w-full max-w-screen-2xl mx-auto bg-white rounded-xl  md:py-6  border border-rblue">
+                        <div className="mb-10 md:flex  w-full max-w-screen mx-auto bg-white rounded-xl  md:py-6  border border-rblue md:p-0 p-6">
 
 
                             {/* Pick Up Details */}
-                            <div className="  w-full max-w-screen-2xl mx-auto bg-white  md:px-8 ">
+                            <div className="  w-full max-w-screen mx-auto bg-white  md:px-8 ">
                                 <h2 className="text-xl  mb-8 text-rblue ">
                                 <FontAwesomeIcon icon={faTruck} className="mr-4" />
                                     Shipment
@@ -221,7 +221,7 @@ const ShipmentDetails: React.FC = () => {
 
 
                             {/* Pick Up Details */}
-                            <div className="w-full max-w-screen-2xl mx-auto bg-white  md:px-8 border-l">
+                            <div className="w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
                                 <h2 className="text-xl  mb-8 text-rblue ">
                                 <FontAwesomeIcon icon={faLocationDot} className="mr-4" />
                                     Pick Up
@@ -281,7 +281,7 @@ const ShipmentDetails: React.FC = () => {
                             </div>
 
                             {/* Delivery Details */}
-                            <div className=" w-full max-w-screen-2xl mx-auto bg-white  md:px-8 border-l">
+                            <div className=" w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
                                 <h2 className="text-xl  mb-8 text-rblue">
                                 <FontAwesomeIcon icon={faLocationDot} className="mr-4" />
                                     Drop-off{" "}
@@ -364,7 +364,7 @@ const ShipmentDetails: React.FC = () => {
                             </div>
 
                             {/* Additional Shipment Details */}
-                            <div className="w-full max-w-screen-2xl mx-auto bg-white  md:px-8 border-l">
+                            <div className="w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
                                 <h2 className="text-xl mb-8 text-rblue">
                                 <FontAwesomeIcon icon={faBoxOpen} className="mr-4" />
                                     Additional Shipment Details
@@ -439,9 +439,9 @@ const ShipmentDetails: React.FC = () => {
 
 
 
-                        <div className="mb-10 flex  w-full max-w-screen-2xl mx-auto bg-white rounded-xl  md:py-6  border border-rblue">
+                        <div className="mb-10 md:flex  w-full max-w-screen mx-auto bg-white rounded-xl  md:py-6  border border-rblue md:p-0 p-6">
 
-                        <div className="w-full max-w-screen-2xl mx-auto bg-white  md:px-8 ">
+                        <div className="w-full max-w-screen mx-auto bg-white  md:px-8 ">
                             <h2 className="text-xl mb-8 text-rblue">
                             <FontAwesomeIcon icon={faUser} className="mr-4" />
                                 Carrier{" "}
@@ -475,7 +475,7 @@ const ShipmentDetails: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="w-full max-w-screen-2xl mx-auto bg-white  md:px-8 border-l">
+                        <div className="w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
                             <h2 className="text-xl mb-8 text-rblue ">
                             <FontAwesomeIcon icon={faMoneyCheck} className="mr-4"/>
                             
@@ -510,7 +510,7 @@ const ShipmentDetails: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="w-full max-w-screen-2xl mx-auto bg-white  md:px-8 border-l">
+                        <div className="w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
                             <h2 className="text-xl mb-8 text-rblue">
                                 Documents{" "}
                                 {/* <p className="text-base text-gray-500 font-normal">
