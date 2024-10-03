@@ -7,22 +7,22 @@ import {
 import { BillOfLadingSchema, Booking, Quote } from "../../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faBox,
+    // faBox,
     faBoxOpen,
-    faBuilding,
-    faCalendarCheck,
-    faDollarSign,
+    // faBuilding,
+    // faCalendarCheck,
+    // faDollarSign,
     faFile,
-    faHashtag,
+    // faHashtag,
     faLocationDot,
-    faMapLocationDot,
+    // faMapLocationDot,
     faMoneyCheck,
-    faNoteSticky,
+    // faNoteSticky,
     faTruck,
-    faTruckFront,
-    faTruckMoving,
+    // faTruckFront,
+    // faTruckMoving,
     faUser,
-    faWeightScale,
+    // faWeightScale,
 } from "@fortawesome/free-solid-svg-icons";
 
 const ShipmentDetails: React.FC = () => {
