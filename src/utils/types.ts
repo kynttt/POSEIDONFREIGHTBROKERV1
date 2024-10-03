@@ -121,6 +121,15 @@ export interface Booking extends Schema {
   driver?: string | null;
   pickupTime?: string | null;
   deliveryTime?: string | null;
+  invoiceUrl?: string | null;
+}
+
+export interface BookingInvoiceCreateResponse {
+  message: string;
+  data: {
+    bookingId: string;
+    invoiceUrl: string;
+  };
 }
 
 export interface BookingCallback extends Quote {

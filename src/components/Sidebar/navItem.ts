@@ -52,6 +52,11 @@ export const navItems: NavItems = {
       path: "/requests",
       icon: faCalculator,
     },
+    {
+      label: "Booking Transactions",
+      path: "/s/booking-transactions",
+      icon: faListUl,
+    },
     { label: "Your Routes", path: "/s/saved-quotes", icon: faHistory },
     // { label: "Notification", path: "/s/notification", icon: faBell },
   ],

@@ -30,6 +30,7 @@ import {
   AccountCompletionData,
   AccountCompletionResponse,
   BookingConfirmData,
+  BookingInvoiceCreateResponse,
 } from "../utils/types";
 
 //Users
@@ -337,7 +338,7 @@ export const fetchUserBookings = async () => {
     //   },
     // }
   );
-  return response.data;
+  return response.data as Booking[];
 };
 
 export const fetchUserBookingById = async (id: string) => {
@@ -395,6 +396,18 @@ export const createBookingPaymentIntent = async ({
     return response.data as StripeClientSecret;
   } catch (error) {
     console.error("Error creating payment intent:", error);
+    throw error;
+  }
+};
+
+export const createBookingInvoice = async (bookingId: string) => {
+  try {
+    const response = await axiosInstance.post(
+      `/payments/create-booking-invoice/${bookingId}`
+    );
+    return response.data as BookingInvoiceCreateResponse;
+  } catch (error) {
+    console.error("Error creating booking invoice:", error);
     throw error;
   }
 };
