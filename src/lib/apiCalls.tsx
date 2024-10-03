@@ -380,13 +380,16 @@ export const fetchUserBookingById = async (id: string) => {
 export const createBookingPaymentIntent = async ({
   amount,
   currency,
+  booking,
 }: BookingPaymentIntentParams) => {
   try {
+    console.log("Booking:", booking);
     const response = await axiosInstance.post(
       `/payments/booking-payment-intent`,
       {
         amount,
         currency,
+        booking,
       }
     );
     return response.data as StripeClientSecret;
