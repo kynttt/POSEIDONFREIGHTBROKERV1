@@ -145,7 +145,7 @@ const ShipmentDetails: React.FC = () => {
                             <p className="text-rblue font-normal">Last Updated: {booking.updatedAt ? new Date(booking.updatedAt).toLocaleString() : "N/A"}</p>
                         </div>
 
-                        <div className="mb-10 flex  w-full max-w-screen-2xl mx-auto bg-white rounded-xl  md:py-6 shadow-lg border border-rblue">
+                        <div className="mb-10 flex  w-full max-w-screen-2xl mx-auto bg-white rounded-xl  md:py-6  border border-rblue">
 
 
                             {/* Pick Up Details */}
@@ -439,7 +439,7 @@ const ShipmentDetails: React.FC = () => {
 
 
 
-                        <div className="mb-10 flex  w-full max-w-screen-2xl mx-auto bg-white rounded-xl  md:py-6 shadow-lg border border-rblue">
+                        <div className="mb-10 flex  w-full max-w-screen-2xl mx-auto bg-white rounded-xl  md:py-6  border border-rblue">
 
                         <div className="w-full max-w-screen-2xl mx-auto bg-white  md:px-8 ">
                             <h2 className="text-xl mb-8 text-rblue">
