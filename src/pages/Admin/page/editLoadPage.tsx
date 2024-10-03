@@ -766,7 +766,7 @@ const EditLoad: React.FC = () => {
             <div className=" w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
             <h2 className="text-xl mb-8 text-rblue">
             <FontAwesomeIcon icon={faBoxOpen} className="mr-4" />
-                Additional Shipment Details
+                Additional Details
                 {/* <p className="text-base text-gray-500 font-normal">
                   Extra Shipment Information and Coordination Overview
                 </p> */}
