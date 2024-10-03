@@ -130,7 +130,7 @@ const ShipmentDetails: React.FC = () => {
                 <div className="flex flex-col lg:flex-row justify-evenly w-full gap-8">
                     <div className="w-full p-2">
                         <div className="bg-blue-50 p-6 w-full max-w-screen mx-auto ">
-                            <h1 className="text-2xl font-large mb-4 mt-4 text-rblue">
+                            <h1 className="text-2xl font-large  mt-4 text-rblue">
                                 Shipment Summary
                             </h1>
                         </div>
