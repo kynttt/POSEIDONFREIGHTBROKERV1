@@ -25,7 +25,7 @@ import AccountingPayment from "./pages/Admin/page/accountingPaymentPage";
 import PerformanceOverview from "./pages/performanceGrade";
 
 import PrivateRoute from "./components/PrivateRoute";
-import ShipmentDetails from "./pages/ShipperUser/page/shipmentDetailsPage";
+import ShipmentDetails from "./pages/ShipperUser/page/ShipmentDetailsPage2";
 import { Notifications } from "@mantine/notifications";
 
 import "@mantine/core/styles.css";
