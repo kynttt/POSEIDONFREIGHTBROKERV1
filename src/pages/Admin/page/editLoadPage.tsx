@@ -9,9 +9,9 @@ import {
   // faBox,
   faBoxOpen,
   // faBuilding,
-  faCalendarCheck,
-  faCircleCheck,
-  faClock,
+  // faCalendarCheck,
+  // faCircleCheck,
+  // faClock,
   // faDollarSign,
   faFloppyDisk,
   // faHashtag,
@@ -20,9 +20,9 @@ import {
   faMoneyCheck,
   // faNoteSticky,
   faPenToSquare,
-  faQuestionCircle,
+  // faQuestionCircle,
   faTruck,
-  faTruckFast,
+  // faTruckFast,
   // faTruckFront,
   // faTruckMoving,
   faUser,
@@ -73,20 +73,20 @@ const EditLoad: React.FC = () => {
   // const [formState, setFormState] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "Pending":
-        return faClock;
-      case "Confirmed":
-        return faCalendarCheck;
-      case "In Transit":
-        return faTruckFast;
-      case "Delivered":
-        return faCircleCheck;
-      default:
-        return faQuestionCircle;
-    }
-  };
+  // const getStatusIcon = (status: string) => {
+  //   switch (status) {
+  //     case "Pending":
+  //       return faClock;
+  //     case "Confirmed":
+  //       return faCalendarCheck;
+  //     case "In Transit":
+  //       return faTruckFast;
+  //     case "Delivered":
+  //       return faCircleCheck;
+  //     default:
+  //       return faQuestionCircle;
+  //   }
+  // };
   const [isAllPrepared, setIsAllPrepared] = useState(false);
 
   useEffect(() => {
@@ -897,7 +897,7 @@ const EditLoad: React.FC = () => {
                       {booking.carrier}
                     </p>
                   ) : (
-                    <p className="text-red-500 text-base  font-normal">
+                    <p className="text-red-500 text-sm  font-normal">
                       Edit Carrier Here...
                     </p>
                   )}
@@ -928,7 +928,7 @@ const EditLoad: React.FC = () => {
 
               <div className="w-full sm:w-full mb-4 sm:mb-0">
                 <label
-                  className="block text-primary text-base font-medium"
+                  className="block text-primary text-sm font-medium"
                   htmlFor="driver"
                 >
                   {/* <FontAwesomeIcon icon={faUser} className="mr-2" /> */}
@@ -950,7 +950,7 @@ const EditLoad: React.FC = () => {
                       {booking.driver}
                     </p>
                   ) : (
-                    <p className="text-red-500 text-base  font-normal">
+                    <p className="text-red-500 text-sm  font-normal">
                       Edit Driver's Name Here...
                     </p>
                   )}
