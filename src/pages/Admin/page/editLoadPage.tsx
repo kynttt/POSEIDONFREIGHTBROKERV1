@@ -6,27 +6,27 @@ import { Booking, Quote } from "../../../utils/types";
 import { formatDateForInput } from "../../../utils/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBox,
+  // faBox,
   faBoxOpen,
-  faBuilding,
+  // faBuilding,
   faCalendarCheck,
   faCircleCheck,
   faClock,
-  faDollarSign,
+  // faDollarSign,
   faFloppyDisk,
-  faHashtag,
+  // faHashtag,
   faLocationDot,
-  faMapLocationDot,
+  // faMapLocationDot,
   faMoneyCheck,
-  faNoteSticky,
+  // faNoteSticky,
   faPenToSquare,
   faQuestionCircle,
   faTruck,
   faTruckFast,
-  faTruckFront,
-  faTruckMoving,
+  // faTruckFront,
+  // faTruckMoving,
   faUser,
-  faWeightScale,
+  // faWeightScale,
 } from "@fortawesome/free-solid-svg-icons";
 
 type FormStateField = keyof FormState | keyof NonNullable<FormState["quote"]>;
