@@ -7,6 +7,7 @@ import {
 import { BillOfLadingSchema, Booking, Quote } from "../../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+    faArrowUpRightFromSquare,
     // faBox,
     faBoxOpen,
     // faBuilding,
@@ -522,9 +523,9 @@ const ShipmentDetails: React.FC = () => {
                                     {billOfLading ? (
                                         <button
                                             onClick={handleViewBillOfLading}
-                                            className="block text-primary text-sm font-bold p-2 rounded-md bg-primary text-white cursor-pointer"
+                                            className="block text-primary text-sm font-bold p-2 rounded-md bg-blue-500 text-white cursor-pointer"
                                         >
-                                            {/* <FontAwesomeIcon icon={faFile} className="mr-2" /> */}
+                                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="mr-2"/>
                                             View Bill of Lading (BOL)
                                         </button>
                                     ) : (
