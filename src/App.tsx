@@ -73,6 +73,7 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import OAuthRedirect from "./pages/Shared/pages/oauthRedirect";
 import AccountCompletion from "./pages/Shared/pages/accountCompletion";
 import AuthChecker from "./components/AuthChecker";
+import ShipperUserBookingTransactions from "./pages/ShipperUser/bookingTransactions";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -155,6 +156,10 @@ const App: React.FC = () => {
                 >
                   <Route index element={<ShipperDashboardPage />} />
                   <Route
+                    path="booking-transactions"
+                    element={<ShipperUserBookingTransactions />}
+                  />
+                  <Route
                     path="shipper-dashboard"
                     element={<ShipperDashboardPage />}
                   />
@@ -183,10 +188,7 @@ const App: React.FC = () => {
                     element={<PaymentOptionPage />}
                   />
 
-                  <Route
-                    path="trailer-types"
-                    element={<TrailerPage />}
-                  />
+                  <Route path="trailer-types" element={<TrailerPage />} />
                 </Route>
 
                 {/* ==== END Shipper User Route=== */}
@@ -252,10 +254,7 @@ const App: React.FC = () => {
                   }
                 >
                   <Route index element={<AdminDashboard />} />
-                  <Route
-                    path="trailer-types"
-                    element={<TrailerPage />}
-                  />
+                  <Route path="trailer-types" element={<TrailerPage />} />
 
                   <Route path="admin-dashboard" element={<AdminDashboard />} />
                   {/* Documents Page */}

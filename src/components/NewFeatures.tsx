@@ -11,12 +11,21 @@ const FreightFeatures: React.FC = () => {
       className="bg-white  flex flex-col justify-center items-center leading-tight lg:py-20"
     >
       {/* Title Section */}
-      <h2 className="text-5xl font-semibold text-center text-darkBlue md:w-1/2 mb-6 ">
-        Navigate Your Shipping Needs with{" "}
+      <h2 className="md:text-5xl xs:text-3xl font-semibold text-center text-darkBlue  ">
+        Navigate Your Shipping Needs with
       </h2>
-      <h2 className="md:px-8 text-yellow-500 md:text-5xl xs:text-3xl font-semibold text-center text-rblue md:w-3-4 mb-16 bg-darkBlue p-4 mx-4 rounded-xl ">
-        Fast, Reliable, and 24/7 Support Service
+      <h2 className="md:px-8 text-darkBlue md:text-5xl xs:text-3xl font-semibold text-center  md:w-3/4 mb-4   p-4 mx-4 rounded-xl ">
+        <span className="text-yellow-500">Fast, Reliable</span>, and <span className="text-yellow-500">24/7</span> Support Service 
       </h2>
+      <div className="flex flex-col sm:flex-row gap-4 md:mb-24 mb-8 items-center">
+        <div className="p-4 bg-darkBlue rounded-lg text-yellow-400 flex justify-center items-center text-lg w-full sm:w-auto">
+          Contact Us Now!
+        </div>
+        <div className="p-4 border-2 border-darkBlue rounded-lg text-darkBlue flex justify-center items-center text-lg w-full sm:w-auto">
+          <i className="fas fa-phone-alt mr-4"></i>
+          253-269-1300
+        </div>
+      </div>
 
       <div className="bg-white">
         <div className="sm:px-auto lg:px-auto">
