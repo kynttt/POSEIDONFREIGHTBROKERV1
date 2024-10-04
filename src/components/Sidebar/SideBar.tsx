@@ -100,7 +100,7 @@ export default function Sidebar({
             {
               element: "#trucks-tab",
               popover: {
-                title: "Trucks",
+                title: "Resources",
                 description: "View details of trucks in the fleet.",
                 side: "right",
                 align: "start",
@@ -146,7 +146,7 @@ export default function Sidebar({
         return "dashboard-tab";
       // case "Payables":
       //   return "payables-tab";
-      case "Trucks":
+      case "Resources":
         return "trucks-tab";
       case "Your Routes":
         return "routes-tab";
