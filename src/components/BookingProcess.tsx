@@ -53,7 +53,7 @@ const BookingProcess = () => {
                 <img src={Step2Img} alt="Step 2" className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl" />
               </div>
               <div className="mx-2 md:mx-0 md:text-left md:ml-6">
-                <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-darkBlue">Request Quotation</h3>
+                <h3 className="font-semibold text-lg sm:text-xl lg:text-2xl text-darkBlue">Get Instant Quote</h3>
                 <p className="font-medium text-sm sm:text-base text-darkBlue">
                   Fill the pick-up and drop-off location and trailer type of your choice.
                 </p>
