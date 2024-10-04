@@ -20,7 +20,7 @@ export default function AccountCompletion() {
   const [validationErrors, setValidationErrors] = useState<{
     [key: string]: string;
   }>({});
-  const { logoutUpdate } = useAuthStore();
+  const { logoutUpdate, role } = useAuthStore();
   const logoutMutation = useMutation<LogoutResponse, Error, void>({
     mutationFn: logoutUser,
     onSuccess: () => {
@@ -56,9 +56,18 @@ export default function AccountCompletion() {
   >({
     mutationFn: accountCompletion,
     onSuccess: () => {
-      navigate("/verify", {
-        replace: true,
-      });
+      let redirect: string;
+      if (role === "admin") {
+        redirect = "/a";
+      } else {
+        redirect = "/s";
+      }
+
+      navigate(redirect, { replace: true });
+      // ! The verify will be disabled until the backend is ready
+      // navigate("/verify", {
+      //   replace: true,
+      // });
     },
     onMutate: () => {
       notifications.show({

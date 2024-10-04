@@ -13,7 +13,6 @@ import "react-phone-number-input/style.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { useAuthStore } from "../state/useAuthStore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import loginBg from "../assets/img/loginBg.png";
@@ -31,7 +30,7 @@ const SignupPage = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const login = useAuthStore((state) => state.login);
+  // const login = useAuthStore((state) => state.login);
   // const [error, setError] = useState("");
   // const [success, setSuccess] = useState(false);
   const [validationErrors, setValidationErrors] = useState<{
@@ -56,23 +55,28 @@ const SignupPage = () => {
 
   const mutation = useMutation<LoginResponse, AxiosError, RegisterFormData>({
     mutationFn: registerUser,
-    onSuccess: (data: LoginResponse) => {
+    onSuccess: () => {
       notifications.show({
         title: "Registration Successful",
-        message: "You will redirected to the verification page.",
+        message: "You will redirected to the login page.",
         color: "blue",
       });
 
-      // openModal();
-      login({
-        user: data.data,
-      });
-      // navigate("/verify");
       if (redirectTo) {
-        navigate(`/verify?redirectTo=${redirectTo}`);
+        navigate(`/login?redirectTo=${redirectTo}`);
       } else {
-        navigate("/verify");
+        navigate("/login");
       }
+      // ! The logic of verification page is temporarily disabled
+      // login({
+      //   user: data.data,
+      // });
+
+      // if (redirectTo) {
+      //   navigate(`/verify?redirectTo=${redirectTo}`);
+      // } else {
+      //   navigate("/verify");
+      // }
     },
     onError: (error) => {
       console.log(error.response);

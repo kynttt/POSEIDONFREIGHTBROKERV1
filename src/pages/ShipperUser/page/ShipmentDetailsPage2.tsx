@@ -135,6 +135,7 @@ const ShipmentDetails: React.FC = () => {
                                 Shipment Summary
                             </h1>
                         </div>
+                        
 
 
                         <div className="md:flex items-center justify-between bg-blue-50 p-6 w-full max-w-screen mx-auto ">
