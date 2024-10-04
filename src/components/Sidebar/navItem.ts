@@ -53,7 +53,7 @@ export const navItems: NavItems = {
       icon: faCalculator,
     },
     {
-      label: "Booking Transactions",
+      label: "Transactions",
       path: "/s/booking-transactions",
       icon: faListUl,
     },

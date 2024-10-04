@@ -5,48 +5,9 @@ import { AxiosError } from "axios";
 import { notifications } from "@mantine/notifications";
 import queryClient from "../../lib/queryClient";
 import { LoadingOverlay } from "@mantine/core";
-// interface BookingDummy {
-//   _id: string;
-//   bolNumber: string;
-//   status: string;
-//   createdAt: string;
-//   invoiceUrl: string | null;
-// }
+import { useEffect } from "react";
 
-// const generateDummyBookings = (count: number): BookingDummy[] => {
-//   const statuses = [
-//     "Delivered",
-//     "In Transit",
-//     "Pending",
-//     "Confirmed",
-//     "Cancelled",
-//   ];
-//   const dummyData: BookingDummy[] = [];
-
-//   for (let i = 1; i <= count; i++) {
-//     dummyData.push({
-//       _id: i.toString(),
-//       bolNumber: `POS-BOL-24${i.toString().padStart(3, "0")}`,
-//       status: statuses[Math.floor(Math.random() * statuses.length)],
-//       createdAt: new Date(
-//         2024,
-//         2,
-//         i,
-//         Math.floor(Math.random() * 24),
-//         Math.floor(Math.random() * 60)
-//       ).toISOString(),
-//       invoiceUrl:
-//         Math.random() > 0.5 ? `https://example.com/invoice${i}.pdf` : null,
-//     });
-//   }
-
-//   return dummyData;
-// };
-
-// const dummyBookings: BookingDummy[] = generateDummyBookings(100);
 export default function ShipperUserBookingTransactions() {
-  //   const [bookings] = useState<BookingDummy[]>(dummyBookings);
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ["bookings-transactions"],
     queryFn: fetchUserBookings,
@@ -82,6 +43,18 @@ export default function ShipperUserBookingTransactions() {
   const handleGenerateInvoice = (bookingId: string) => {
     createInvoiceMutation.mutate(bookingId);
   };
+
+  useEffect(() => {
+    if (data) {
+      data.forEach((booking) => {
+        if (!booking.invoiceUrl) {
+          if (booking._id) {
+            handleGenerateInvoice(booking._id);
+          }
+        }
+      });
+    }
+  }, [data]);
 
   if (isLoading) {
     return <div>Loading...</div>;
