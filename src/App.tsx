@@ -73,6 +73,7 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import OAuthRedirect from "./pages/Shared/pages/oauthRedirect";
 import AccountCompletion from "./pages/Shared/pages/accountCompletion";
 import AuthChecker from "./components/AuthChecker";
+import AgentsPage from "./components/AgentsPage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -188,6 +189,11 @@ const App: React.FC = () => {
                     element={<TrailerPage />}
                   />
                 </Route>
+
+                <Route
+                    path="agent-page"
+                    element={<AgentsPage />}
+                  />
 
                 {/* ==== END Shipper User Route=== */}
                 <Route

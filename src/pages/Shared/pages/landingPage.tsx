@@ -23,6 +23,7 @@ import HorizontalScrollComponent from "../../../components/HorizontalScrollSecti
 // import Testimonials from "../../../components/Testimonials";
 import LogisticsForm from "../../../components/LogisticsForm";
 import Testimonials2 from "../../../components/Testimonials2";
+import AgentsPage from "../../../components/AgentsPage";
 
 const LandingPage: React.FC = () => {
   return (
@@ -39,6 +40,7 @@ const LandingPage: React.FC = () => {
         {/* <Carousel /> */}
         {/* <FreightQuote /> */}
         <NewFeatures />
+        <AgentsPage />
         {/* <NewAboutUs/> */}
         <HorizontalScrollComponent/>
         {/* <PricingPage/> */}
