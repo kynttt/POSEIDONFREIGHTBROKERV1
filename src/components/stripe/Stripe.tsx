@@ -2,18 +2,26 @@ import { useEffect, useState, useRef } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./CheckoutForm";
-import { createPaymentIntent, fetchQuoteDetails } from "../../lib/apiCalls";
+import {
+  createBookingPaymentIntent,
+  fetchQuoteDetails,
+} from "../../lib/apiCalls";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { PaymentIntentParams, StripeClientSecret } from "../../utils/types";
+import {
+  BookingData,
+  BookingPaymentIntentParams,
+  StripeClientSecret,
+} from "../../utils/types";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
 
 export default function Stripe() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const [newBookingId, setNewBookingId] = useState<string | undefined>();
   const quoteId = searchParams.get("quoteId");
   const [clientSecret, setClientSecret] = useState("");
   const [price, setPrice] = useState<number | undefined>(undefined);
@@ -34,11 +42,16 @@ export default function Stripe() {
   });
 
   // Define useMutation for creating payment intent
-  const mutation = useMutation<StripeClientSecret, Error, PaymentIntentParams>({
-    mutationFn: createPaymentIntent,
+  const mutation = useMutation<
+    StripeClientSecret,
+    Error,
+    BookingPaymentIntentParams
+  >({
+    mutationFn: createBookingPaymentIntent,
     onSuccess: (data) => {
       // console.log("Client secret:", data.clientSecret);
       setClientSecret(data.clientSecret);
+      setNewBookingId(data.bookingId);
     },
     onError: (error) => {
       console.error("Error creating payment intent:", error);
@@ -47,7 +60,16 @@ export default function Stripe() {
 
   useEffect(() => {
     if (!data || fetchedClientSecret.current) return;
-    const { price, origin, destination } = data;
+    const {
+      _id,
+      price,
+      origin,
+      destination,
+      pickupDate,
+      trailerType,
+      companyName,
+      commodity,
+    } = data;
 
     if (price && price > 0) {
       setPrice(price);
@@ -64,16 +86,26 @@ export default function Stripe() {
       // Set ref to true before the async call to prevent multiple fetches
       fetchedClientSecret.current = true;
 
-      // // Create payment intent
-      // createPaymentIntent({ amount: Math.round(price * 100), currency })
-      //   .then((data) => {
-      //     setClientSecret(data.clientSecret);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error fetching client secret:", error);
-      //   });
-      // console.log("Executing mutation");
-      mutation.mutate({ amount: Math.round(price * 100), currency });
+      const bookingData: BookingData = {
+        quote: _id!,
+        origin,
+        destination,
+        pickupDate:
+          typeof pickupDate === "string"
+            ? pickupDate
+            : pickupDate.toISOString(),
+        trailerType,
+        // trailerSize, ! This field is not include in Booking Schema
+        companyName,
+        commodity,
+
+        price,
+      };
+      mutation.mutate({
+        amount: Math.round(price * 100),
+        currency,
+        booking: bookingData,
+      });
     } else {
       console.error("Invalid price or missing details.");
     }
@@ -181,28 +213,28 @@ export default function Stripe() {
       <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-8 bg-white text-primary min-h-screen justify-center items-center w-full p-4 md:p-0">
         <div className="mb-4  text-lg font-semibold text-primary w-full md:w-1/4 bg-light-grey h-auto md:h-1/2 rounded-lg p-8">
           <div className="flex justify-between text-gray-500 my-4 border-b border-secondary pb-8">
-        <p>{origin}</p>
-        <FontAwesomeIcon icon={faTruckFast} className="text-2xl" />
-        <p>{destination}</p>
+            <p>{origin}</p>
+            <FontAwesomeIcon icon={faTruckFast} className="text-2xl" />
+            <p>{destination}</p>
           </div>
           <div className="flex justify-between">
-        <h1 className="text-secondary text-base font-normal">Subtotal</h1>
-        <p>${price!.toFixed(2)}</p>
+            <h1 className="text-secondary text-base font-normal">Subtotal</h1>
+            <p>${price!.toFixed(2)}</p>
           </div>
           <div className="flex justify-between border-b border-secondary pb-12">
-        <h1 className="text-secondary text-base font-normal">
-          Taxes and Other Fees
-        </h1>
-        <p>$0.00</p>
+            <h1 className="text-secondary text-base font-normal">
+              Taxes and Other Fees
+            </h1>
+            <p>$0.00</p>
           </div>
           <div className="flex justify-between mt-4">
-        <h1 className="text-secondary text-lg font-medium">Total</h1>
-        <p>${price!.toFixed(2)}</p>
+            <h1 className="text-secondary text-lg font-medium">Total</h1>
+            <p>${price!.toFixed(2)}</p>
           </div>
         </div>
         <div className="w-full md:w-1/4">
           <Elements stripe={stripePromise} options={options}>
-        <CheckoutForm quote={data} />
+            <CheckoutForm bookingId={newBookingId!} quote={data} />
           </Elements>
         </div>
       </div>

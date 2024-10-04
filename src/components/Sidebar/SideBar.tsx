@@ -116,6 +116,16 @@ export default function Sidebar({
                 align: "start",
               },
             },
+
+            {
+              element: "#transactions-tab", // Add the element ID for Transactions tab here
+              popover: {
+                title: "Transactions", // Title for the Transactions step
+                description: "View all your transactions and payment history.", // Description for the Transactions step
+                side: "right", // Adjust the side based on your layout
+                align: "start", // Adjust the alignment based on your layout
+              },
+            },
             // Add more steps if needed
           ],
         });
@@ -140,6 +150,8 @@ export default function Sidebar({
         return "trucks-tab";
       case "Your Routes":
         return "routes-tab";
+      case "Transactions": // Add this case for Transactions
+        return "transactions-tab";
       default:
         return undefined;
     }
@@ -147,7 +159,7 @@ export default function Sidebar({
   return (
     <Stack
       onMouseEnter={() => {
-      setIsExtend(true);
+        setIsExtend(true);
       }}
       onMouseLeave={() => setIsExtend(false)}
       justify="space-between"
@@ -167,15 +179,15 @@ export default function Sidebar({
                     transition={{ duration: 0.9 }}
                   >
                     <h1 className="ml-4 mb-9">
-                    Poseidon Freight
+                      Poseidon Freight
                     </h1>
                   </motion.span>
                 ) : (
-                    <img
+                  <img
                     src={logo}
                     alt="Poseidon Freight Logo"
                     className="inline-flex items-center justify-center w-24 h-auto  rounded-full "
-                    />
+                  />
                 )}
               </h2>
             </a>
@@ -311,9 +323,8 @@ function ProfileItem({
           {/* Profile Image with Loading Spinner and Dimmed Effect */}
           <div className="relative">
             <img
-              className={`object-cover rounded-full transition-all ${
-                profilePictureLoading ? "opacity-50" : ""
-              } ${isExtend ? "w-10 h-10" : "w-10 h-10"}`}
+              className={`object-cover rounded-full transition-all ${profilePictureLoading ? "opacity-50" : ""
+                } ${isExtend ? "w-10 h-10" : "w-10 h-10"}`}
               src={profilePicture ? profilePicture : profilePic}
               alt="avatar"
             />
@@ -334,9 +345,8 @@ function ProfileItem({
                 x: isExtend ? 0 : -20,
               }}
               transition={{ duration: 0.3, delay: isExtend ? 0.2 : 0 }}
-              className={`mx-2 font-medium text-white dark:text-gray-200 ${
-                isExtend ? "block" : "hidden"
-              }`}
+              className={`mx-2 font-medium text-white dark:text-gray-200 ${isExtend ? "block" : "hidden"
+                }`}
             >
               {name || "John Doe"}
             </motion.span>
