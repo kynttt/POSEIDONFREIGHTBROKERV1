@@ -6,7 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
+  // Legend,
   ResponsiveContainer,
 } from "recharts";
 import { fetchBookings } from "../../../lib/apiCalls"; // Function to fetch bookings data
@@ -71,17 +71,17 @@ const ShipmentsBarChart: React.FC = () => {
   }
 
   return (
-    <div className="bg-white p-4 sm:p-6 md:p-4 md:pb-8 rounded-lg h-64 sm:h-80 md:h-96 shadow-lg border">
-      <h3 className="text-xl sm:text-2xl font-medium mb-4 border-b-2 border-secondary lg:pb-2">
+    <div className="bg-white p-4 sm:p-6 md:p-6  rounded-2xl h-64 sm:h-80 md:h-[450px] shadow-lg border">
+      <h3 className="text-xl sm:text-2xl md:pl-12 font-medium mb-4 lg:pb-2">
         Shipments Per Day (Bar Chart)
       </h3>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="90%">
         <BarChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />
-          <Legend />
+          {/* <Legend /> */}
           <Bar dataKey="count" fill={colors[0]} />
         </BarChart>
       </ResponsiveContainer>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../../components/Button";
@@ -166,153 +166,16 @@ const LoadBoard: React.FC = () => {
 
   return (
     <div className="flex h-full md:mt-12 ">
-      <div className="flex-1 bg-blue-50 min-h-screen overflow-y-auto ">
-        <form
-          onSubmit={handleSubmit}
-          className="lg:mx-16 py-10 px-12 border rounded-lg mb-8 shadow-lg bg-white lg:mt-8"
-        >
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold lg:mb-8 text-secondary">
-              FIND LOADS
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="mb-2 md:mb-8">
-              <h3 className="text-lg font-semibold text-secondary mb-4">
-                PICK UP
-              </h3>
-              <div className="flex flex-wrap mb-4">
-                <div className="w-3/4 pr-2">
-                  <label className="block text-primary font-normal mb-2">
-                    Pick Up Location <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={pickUpLocation}
-                    onChange={(e) => setPickUpLocation(e.target.value)}
-                    className="w-full  border-gray-300 p-2 rounded-md bg-light-grey font-thin text-black"
-                    placeholder="Enter Pick Up Location"
-                  />
-                </div>
-              </div>
+      <div className="flex-1 max-w-screen bg-blue-50 min-h-screen overflow-y-auto grid grid-cols-1 lg:grid-cols-4 ">
 
-              <div className="mb-4">
-                <label className="block text-primary font-normal mb-2">
-                  Pick Up Date <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <DatePicker
-                    selected={pickUpDate}
-                    onChange={(date) => setPickUpDate(date)}
-                    className="w-full  p-2 rounded-md bg-light-grey font-thin text-black"
-                    placeholderText="MM/DD/YYYY"
-                    dateFormat="MM/dd/yyyy"
-                  />
-                  <div
-                    className="absolute top-2 right-2 cursor-pointer"
-                    onClick={() =>
-                      (
-                        document.querySelector(
-                          ".react-datepicker-wrapper input"
-                        ) as HTMLInputElement
-                      )?.focus()
-                    }
-                  >
-                    <FontAwesomeIcon
-                      icon={faCalendarAlt}
-                      className="text-secondary"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-2 md:mb-8 lg:pl-8">
-              <h3 className="text-lg font-semibold text-secondary mb-4">
-                DROP
-              </h3>
-              <div className="flex flex-wrap mb-4">
-                <div className="w-3/4 pr-2">
-                  <label className="block text-primary font-normal mb-2">
-                    Delivery Location <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={deliveryLocation}
-                    onChange={(e) => setDeliveryLocation(e.target.value)}
-                    className="w-full  p-2 rounded-md bg-light-grey font-thin text-black"
-                    placeholder="Enter Delivery Location"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-2 md:mb-8 lg:pl-8">
-              <h3 className="text-lg font-semibold text-secondary mb-4">
-                ADDITIONAL DETAILS
-              </h3>
-              <div className="mb-4">
-                <label className="block text-primary font-normal mb-2">
-                  Trailer Type <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={trailerType}
-                  onChange={(e) => setTrailerType(e.target.value)}
-                  className="w-full  p-2 rounded-md bg-light-grey text-black font-thin text-black"
-                >
-                  <option className="text-primary font-normal" value="">
-                    Select Trailer Type
-                  </option>
-                  <option className="text-primary font-normal" value="Flat Bed">
-                    Flat Bed
-                  </option>
-                  <option className="text-primary font-normal" value="Dry Van">
-                    Dry Van
-                  </option>
-                  <option
-                    className="text-primary font-normal"
-                    value="Refrigerated"
-                  >
-                    Refrigerated
-                  </option>
-                  <option className="text-primary font-normal" value="Stepdeck">
-                    Step Deck
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center flex gap-4">
-            <Button
-              label="Search"
-              size="large"
-              bgColor="#252F70"
-              hoverBgColor="white"
-              onClick={handleButtonClick}
-              className="extra-class-for-medium-button"
-              type={""}
-            />
-            <Button
-              label="Clear"
-              size="large"
-              bgColor="#252F70"
-              hoverBgColor="white"
-              onClick={handleClear}
-              className="extra-class-for-medium-button"
-              type={""}
-            />
-          </div>
-        </form>
-
-        <div className="lg:mx-16 py-10 px-4 lg:px-12 bg-white rounded-lg border">
+      <div className="lg:col-span-3 lg:my-8 lg:mx-8 py-10 px-4 lg:px-4 bg-blue-50 rounded-lg  w-full">
           <div className="tabs flex flex-wrap gap-4">
             <button
               className={`tab ${
                 activeTab === "Pending"
-                  ? "active bg-blue-500"
-                  : "bg-gray-400 hover:bg-blue-500"
-              } py-2 px-4 rounded text-white transition-all duration-300 flex items-center text-sm md:text-base`}
+                  ? "active bg-blue-500 text-white"
+                  : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
+              } py-2 px-4 rounded text-gray-500 hover:text-white transition-all duration-300 flex items-center text-sm md:text-base`}
               onClick={() => setActiveTab("Pending")}
             >
               <FontAwesomeIcon icon={faSpinner} className="mr-2" />
@@ -322,9 +185,9 @@ const LoadBoard: React.FC = () => {
             <button
               className={`tab ${
                 activeTab === "Confirmed"
-                  ? "active bg-blue-500"
-                  : "bg-gray-400 hover:bg-blue-500"
-              } py-2 px-4 rounded text-white transition-all duration-300 flex items-center text-sm md:text-base`}
+                  ? "active bg-blue-500 text-white"
+                  : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
+              } py-2 px-4 rounded text-gray-500 hover:text-white font-normal transition-all duration-300 flex items-center text-sm md:text-base`}
               onClick={() => setActiveTab("Confirmed")}
             >
               <FontAwesomeIcon icon={faCircleCheck} className="mr-2" />
@@ -334,9 +197,9 @@ const LoadBoard: React.FC = () => {
             <button
               className={`tab ${
                 activeTab === "In Transit"
-                  ? "active bg-blue-500"
-                  : "bg-gray-400 hover:bg-blue-500"
-              } py-2 px-4 rounded text-white transition-all duration-300 flex items-center text-sm md:text-base`}
+                  ? "active bg-blue-500 text-white"
+                  : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
+              } py-2 px-4 rounded text-gray-500 hover:text-white  font-normal transition-all duration-300 flex items-center text-sm md:text-base`}
               onClick={() => setActiveTab("In Transit")}
             >
               <FontAwesomeIcon icon={faTruck} className="mr-2" />
@@ -346,9 +209,9 @@ const LoadBoard: React.FC = () => {
             <button
               className={`tab ${
                 activeTab === "Delivered"
-                  ? "active bg-blue-500"
-                  : "bg-gray-400 hover:bg-blue-500"
-              } py-2 px-4 rounded text-white transition-all duration-300 flex items-center text-sm md:text-base`}
+                  ? "active bg-blue-500 text-white"
+                  : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
+              } py-2 px-4 rounded text-gray-500 hover:text-white font-normal transition-all duration-300 flex items-center text-sm md:text-base`}
               onClick={() => setActiveTab("Delivered")}
             >
               <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />
@@ -357,7 +220,7 @@ const LoadBoard: React.FC = () => {
           </div>
 
           {/* Show count of searched load cards */}
-          <div className="text-center font-semibold text-lg text-primary mb-4">
+          <div className="text-right font-medium text-lg text-primary my-4 mx-4">
             {activeTab === "Confirmed"
               ? `${confirmedLoadCards.length} Confirmed Load(s) Found`
               : activeTab === "Pending"
@@ -451,6 +314,147 @@ const LoadBoard: React.FC = () => {
             )}
           </div>
         </div>
+        <form
+          onSubmit={handleSubmit}
+          className=" lg:col-span-1 py-10 md:px-8 md:ml-6 px-4  rounded-lg mb-8 bg-gray-200"
+        >
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold lg:mb-8 text-rblue flex items-center"><FontAwesomeIcon icon={faSearch} className="mr-4" />
+              FIND LOADS
+              
+            </h2>
+          </div>
+            <div className="flex flex-col gap-8">
+            <div className="mb-2 md:mb-8 rounded-lg bg-white p-4">
+              <h3 className="text-lg font-semibold text-rblue mb-4">
+                PICK UP
+              </h3>
+              <div className="flex  mb-4 ">
+                <div className="w-full pr-2">
+                  <label className="block text-primary font-normal mb-2">
+                    Pick Up Location <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={pickUpLocation}
+                    onChange={(e) => setPickUpLocation(e.target.value)}
+                    className="w-full  border-gray-300 p-2 rounded-md bg-gray-100 font-normal text-black placeholder-gray-300"
+                    placeholder="Enter Pick Up Location"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-primary font-normal mb-2">
+                  Pick Up Date <span className="text-red-500">*</span>
+                </label>
+                <div className="relative w-full">
+  <DatePicker
+    selected={pickUpDate}
+    onChange={(date) => setPickUpDate(date)}
+    className="relative w-full pr-10 border-gray-300 p-2 rounded-md bg-gray-100 font-normal text-black placeholder-gray-300"
+    placeholderText="MM/DD/YYYY"
+    dateFormat="MM/dd/yyyy"
+  />
+  <div
+    className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+    onClick={() =>
+      (
+        document.querySelector(
+          ".react-datepicker-wrapper input"
+        ) as HTMLInputElement
+      )?.focus()
+    }
+  >
+    <FontAwesomeIcon
+      icon={faCalendarAlt}
+      className="text-secondary"
+    />
+  </div>
+</div>
+
+              </div>
+            </div>
+
+            <div className="mb-2 md:mb-8 rounded-lg bg-white p-4">
+              <h3 className="text-lg font-semibold text-rblue mb-4">
+                DROP
+              </h3>
+              <div className="flex  mb-4">
+                <div className="w-full pr-2">
+                  <label className="block text-primary font-normal mb-2">
+                    Delivery Location <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={deliveryLocation}
+                    onChange={(e) => setDeliveryLocation(e.target.value)}
+                    className="relative w-full pr-10 border-gray-300 p-2 rounded-md bg-gray-100 font-normal text-black placeholder-gray-300"
+                    placeholder="Enter Delivery Location"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-2 md:mb-8 rounded-lg bg-white p-4">
+              <h3 className="text-lg font-semibold text-rblue mb-4">
+                ADDITIONAL DETAILS
+              </h3>
+              <div className="mb-4">
+                <label className="block text-primary font-normal mb-2">
+                  Trailer Type <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={trailerType}
+                  onChange={(e) => setTrailerType(e.target.value)}
+                  className="relative w-full pr-10 border-gray-300 p-2 rounded-md bg-gray-100 font-normal text-black placeholder-gray-300"
+                >
+                  <option className="text-primary font-normal" value="">
+                    Select Trailer Type
+                  </option>
+                  <option className="text-primary font-normal" value="Flat Bed">
+                    Flat Bed
+                  </option>
+                  <option className="text-primary font-normal" value="Dry Van">
+                    Dry Van
+                  </option>
+                  <option
+                    className="text-primary font-normal"
+                    value="Refrigerated"
+                  >
+                    Refrigerated
+                  </option>
+                  <option className="text-primary font-normal" value="Stepdeck">
+                    Step Deck
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center flex gap-4">
+            <Button
+              label="Search"
+              size="large"
+              bgColor="#252F70"
+              hoverBgColor="white"
+              onClick={handleButtonClick}
+              className="extra-class-for-medium-button"
+              type={""}
+            />
+            <Button
+              label="Clear"
+              size="large"
+              bgColor="#252F70"
+              hoverBgColor="white"
+              onClick={handleClear}
+              className="extra-class-for-medium-button"
+              type={""}
+            />
+          </div>
+        </form>
+
+        
       </div>
     </div>
   );

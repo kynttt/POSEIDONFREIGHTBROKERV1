@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../../components/Navbar";
 import "../../../index.css"; // Ensure this file includes the @import for the Lexend font
 import HeroBanner from "../../../components/Hero";
@@ -23,39 +23,64 @@ import HorizontalScrollComponent from "../../../components/HorizontalScrollSecti
 // import Testimonials from "../../../components/Testimonials";
 import LogisticsForm from "../../../components/LogisticsForm";
 import Testimonials2 from "../../../components/Testimonials2";
+import { PropagateLoader
+
+
+} from "react-spinners";
 
 const LandingPage: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulating a loading delay (you can adjust this as per your needs)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="w-full">
-      <header className="w-full">
-        <Navbar />
-      </header>
-      <Stack w="100%" gap={0}>
-        <HeroBanner />
-        <BookingProcess/>
-        <LogisticsForm/>
-        <SeamlessFreightServices />
-        {/* <ServicesCardList /> */}
-        {/* <Carousel /> */}
-        {/* <FreightQuote /> */}
-        <NewFeatures />
-        {/* <NewAboutUs/> */}
-        <HorizontalScrollComponent/>
-        {/* <PricingPage/> */}
-        {/* <Testimonials/> */}
-        <Testimonials2/>
-        {/* <CarouselComponent/> */}
-        {/* <FeaturesSection /> */}
-        {/* <AboutUs /> */}
-        <FAQsPage />
-        {/* <TrustedAmazon /> */}
-        
-        <ContactForm />
-        {/* <SuccessPage /> */}
-      </Stack>
-      <footer>
-        <Footer />
-      </footer>
+      {loading ? (
+        <div className="flex justify-center items-center h-screen">
+          <PropagateLoader
+
+
+ color="#1b4980" loading={loading} size={15} />
+        </div>
+      ) : (
+        <>
+          <header className="w-full">
+            <Navbar />
+          </header>
+          <Stack w="100%" gap={0}>
+            <HeroBanner />
+            <BookingProcess />
+            <LogisticsForm />
+            <SeamlessFreightServices />
+            {/* <ServicesCardList /> */}
+            {/* <Carousel /> */}
+            {/* <FreightQuote /> */}
+            <NewFeatures />
+            {/* <NewAboutUs /> */}
+            <HorizontalScrollComponent />
+            {/* <PricingPage /> */}
+            {/* <Testimonials /> */}
+            <Testimonials2 />
+            {/* <CarouselComponent /> */}
+            {/* <FeaturesSection /> */}
+            {/* <AboutUs /> */}
+            <FAQsPage />
+            {/* <TrustedAmazon /> */}
+            <ContactForm />
+            {/* <SuccessPage /> */}
+          </Stack>
+          <footer>
+            <Footer />
+          </footer>
+        </>
+      )}
     </div>
   );
 };

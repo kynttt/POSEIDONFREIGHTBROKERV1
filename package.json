@@ -51,6 +51,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.24.0",
     "react-signature-canvas": "^1.0.6",
+    "react-spinners": "^0.14.1",
     "react-use": "^17.5.1",
     "recharts": "^2.12.7",
     "three.js": "^0.77.1",
