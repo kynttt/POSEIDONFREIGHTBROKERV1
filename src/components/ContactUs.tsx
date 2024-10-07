@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
-import { Flex, Stack, Textarea, TextInput} from "@mantine/core";
+import { Flex, Stack, Textarea, TextInput } from "@mantine/core";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai"; // Import star icons
 
 const ContactForm: React.FC = () => {
   const { ref: formRef, inView: formInView } = useInView({ threshold: 0.5 });
@@ -9,6 +10,8 @@ const ContactForm: React.FC = () => {
 
   const formControls = useAnimation();
   const mapControls = useAnimation();
+
+  const [rating, setRating] = useState(0); // State to track rating
 
   useEffect(() => {
     if (formInView) {
@@ -22,9 +25,13 @@ const ContactForm: React.FC = () => {
     }
   }, [mapControls, mapInView]);
 
+  const handleRatingClick = (rate: number) => {
+    setRating(rate); // Set the clicked star as the rating
+  };
+
   return (
     <Flex
-    id="contacts"
+      id="contacts"
       className="xs:p-[2rem] md:p-[8rem] lg:p-[12rem] w-full bg-white"
       direction={{ base: "column", lg: "row" }}
       align={"center"}
@@ -45,15 +52,38 @@ const ContactForm: React.FC = () => {
           }}
         >
           <Stack className="text-left" gap={0.5} w={"100%"}>
-            <h1 className="xs:text-2xl md:text-4xl lg:text-xl font-normal mb-1 text-rblue">
-              Contact Us
-            </h1>
-            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-rblue lg:mb-6">
-              Drop us a line
+            <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-darkBlue lg:mb-6">
+            Drop us your feedback
             </h2>
+
+            {/* Star Rating Section */}
+            <div className="mt-4 ">
+              <h3 className="text-darkBlue font-semibold text-lg mb-4">
+                Rate our services
+              </h3>
+              <div className="flex justify-center items-center space-x-10 mb-8">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <motion.button
+                    key={star}
+                    onClick={() => handleRatingClick(star)} // Set rating on click
+                    className="text-5xl"
+                    whileTap={{ y: -10 }} // Add "jump" animation on click
+                    animate={{ y: star <= rating ? -5 : 0 }} // Keep selected stars slightly raised
+                    transition={{ type: "spring", stiffness: 300, damping: 12 }} // Smooth jumping transition
+                  >
+                    {star <= rating ? (
+                      <AiFillStar className="text-lyellow" /> // Filled star
+                    ) : (
+                      <AiFillStar className="text-gray-200" /> // Outline star
+                    )}
+                  </motion.button>
+                ))}
+              </div>
+            </div>
           </Stack>
+
           <Stack>
-            <TextInput variant="filled" placeholder="Name" size="lg"/>
+            <TextInput variant="filled" placeholder="Name" size="lg" />
             <TextInput
               variant="filled"
               placeholder="Email"
@@ -69,11 +99,13 @@ const ContactForm: React.FC = () => {
             <Textarea
               variant="filled"
               size="lg"
-              placeholder="Message"
+              placeholder="Tell us your message"
               autosize
-              minRows={10}
+              minRows={8}
             />
-            <button className="text-white flex justify-center rounded items-center h-full hover:border-2 px-12 py-3 hover:border-rblue hover:bg-white bg-rblue hover:text-rblue">Submit</button>
+            <button className="text-white flex justify-center rounded items-center h-full hover:border-2 px-12 py-3 hover:border-darkBlue hover:bg-white bg-darkBlue hover:text-darkBlue">
+              Submit
+            </button>
           </Stack>
         </Stack>
       </motion.div>
@@ -83,9 +115,9 @@ const ContactForm: React.FC = () => {
         animate={mapControls}
         className="xs:w-full lg:w-1/2  xs:h-[300px] lg:h-full"
       >
-        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-rblue lg:mb-8">
-              Our Location
-            </h2>
+        <h2 className="xs:text-3xl md:text-6xl lg:text-4xl font-black text-darkBlue lg:mb-8">
+          Our Location
+        </h2>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2705.8242246418104!2d-122.23099992322068!3d47.298234509220336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x549058759e5a35ef%3A0x737cc87bb84238e0!2s1020%20A%20St%20SE%20%23%207%2C%20Auburn%2C%20WA%2098002%2C%20USA!5e0!3m2!1sen!2sph!4v1719465675435!5m2!1sen!2sph"
           className="border-0 rounded-md w-full h-4/5 md:mt-4"
