@@ -15,6 +15,7 @@ const HeroBanner = () => {
             src={heroBanner}
             alt="Trucks"
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         </div>
 

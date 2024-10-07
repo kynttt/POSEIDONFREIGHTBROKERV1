@@ -8,6 +8,7 @@ interface Shipper {
   name: string;
   email: string;
   role: string;
+  profilePicUrl?: string; // Add profilePicUrl
 }
 
 const ShippersList: React.FC = () => {
@@ -21,7 +22,6 @@ const ShippersList: React.FC = () => {
     const loadShippers = async () => {
       try {
         const data = await fetchUsers();
-        
         setShippers(data);
       } catch (error) {
         console.error('Error fetching shippers:', error);
@@ -33,7 +33,6 @@ const ShippersList: React.FC = () => {
     loadShippers();
   }, []);
   
-
   const totalPages = Math.ceil(shippers.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
@@ -47,19 +46,28 @@ const ShippersList: React.FC = () => {
   const displayedShippers = shippers.slice(startIndex, endIndex);
 
   const handleRowClick = (id: string) => {
-    
     navigate(`/a/user-transaction/${id}`);
   };
-  
+
+  const fallbackImages = [
+    "https://avatar.iran.liara.run/public/8",
+    "https://avatar.iran.liara.run/public/21",
+    "https://avatar.iran.liara.run/public/9",
+    "https://avatar.iran.liara.run/public/50",
+    "https://avatar.iran.liara.run/public/54",
+    "https://avatar.iran.liara.run/public/63",
+    "https://avatar.iran.liara.run/public/60",
+    "https://avatar.iran.liara.run/public/90"
+  ];
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg h-full border">
+    <div className="bg-white md:p-8 p-4 rounded-2xl shadow-lg h-full border">
       <div>
-        <h3 className="text-2xl font-medium mb-4 border-b-2 border-secondary flex justify-between items-center lg:pb-2">
+        <h3 className="text-2xl font-medium mb-4  flex justify-between items-center lg:pb-2">
           Users
           <span className="text-xs">
             <a href="#">View All</a>
@@ -67,26 +75,39 @@ const ShippersList: React.FC = () => {
         </h3>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full border-b-2 border-secondary">
-          <thead>
-            <tr>
+        <table className="min-w-full  border-secondary">
+          <thead className='bg-light-grey '>
+            <tr >
+              <th className="px-4 py-2 text-left ">Profile</th> {/* New column for profile picture */}
               <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Business Email</th>
               <th className="px-4 py-2 text-left">Role</th>
             </tr>
           </thead>
           <tbody>
-          {displayedShippers.map((shipper) => (
-  <tr
-    key={shipper._id} // Use shipper._id as key
-    className="cursor-pointer hover:bg-gray-100"
-    onClick={() => handleRowClick(shipper._id)} // Pass shipper._id
-  >
-    <td className="px-4 py-2 text-secondary font-normal">{shipper.name}</td>
-    <td className="px-4 py-2 text-secondary font-normal">{shipper.email}</td>
-    <td className="px-4 py-2 text-secondary font-normal">{shipper.role}</td>
-  </tr>
-))}
+            {displayedShippers.map((shipper) => (
+              <tr
+                key={shipper._id} // Use shipper._id as key
+                className="cursor-pointer hover:bg-gray-100 "
+                onClick={() => handleRowClick(shipper._id)} // Pass shipper._id
+              >
+                <td className="px-4 "> {/* Profile Picture Cell */}
+                  <img
+                    src={shipper.profilePicUrl && shipper.profilePicUrl.startsWith("http")
+                      ? shipper.profilePicUrl
+                      : `${process.env.REACT_APP_SERVER_URL}/api/${shipper.profilePicUrl}`
+                    }
+                    alt={shipper.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                    loading="lazy" // Lazy loading for performance
+                    onError={(e) => {
+                      e.currentTarget.src = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+                    }}
+                  />
+                </td>
+                <td className="px-4 py-2 text-secondary font-normal">{shipper.name}</td>
+                <td className="px-4 py-2 text-secondary font-normal">{shipper.role}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

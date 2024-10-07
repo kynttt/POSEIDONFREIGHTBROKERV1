@@ -156,7 +156,7 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
                 <div className="bg-gray-700 rounded-full w-4 h-4 p-4 text-center flex items-center justify-center mr-4">
                   <FontAwesomeIcon icon={faPlus} className="" />
                 </div>
-                Request Your First Quote
+                Make Your 1st Booking
               </button>
             </div>
           ) : (

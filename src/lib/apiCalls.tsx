@@ -10,7 +10,7 @@ import {
   LogoutResponse,
   NotificationSchema,
   PhoneOtpRequestResponse,
-  PaymentIntentParams,
+  BookingPaymentIntentParams,
   Quote,
   RegisterFormData,
   StripeClientSecret,
@@ -29,6 +29,8 @@ import {
   BillOfLadingSchema,
   AccountCompletionData,
   AccountCompletionResponse,
+  BookingConfirmData,
+  BookingInvoiceCreateResponse,
 } from "../utils/types";
 
 //Users
@@ -336,7 +338,7 @@ export const fetchUserBookings = async () => {
     //   },
     // }
   );
-  return response.data;
+  return response.data as Booking[];
 };
 
 export const fetchUserBookingById = async (id: string) => {
@@ -376,20 +378,45 @@ export const fetchUserBookingById = async (id: string) => {
   }
 };
 
-export const createPaymentIntent = async ({
+export const createBookingPaymentIntent = async ({
   amount,
   currency,
-}: PaymentIntentParams) => {
+  booking,
+}: BookingPaymentIntentParams) => {
   try {
+    console.log("Booking:", booking);
     const response = await axiosInstance.post(
-      `/payments/create-payment-intent`,
-
+      `/payments/booking-payment-intent`,
       {
         amount,
         currency,
+        booking,
       }
     );
     return response.data as StripeClientSecret;
+  } catch (error) {
+    console.error("Error creating payment intent:", error);
+    throw error;
+  }
+};
+
+export const createBookingInvoice = async (bookingId: string) => {
+  try {
+    const response = await axiosInstance.post(
+      `/payments/create-booking-invoice/${bookingId}`
+    );
+    return response.data as BookingInvoiceCreateResponse;
+  } catch (error) {
+    console.error("Error creating booking invoice:", error);
+    throw error;
+  }
+};
+export const bookingConfirm = async ({ bookingId }: BookingConfirmData) => {
+  try {
+    const response = await axiosInstance.patch(
+      `/bookings/${bookingId}/confirm`
+    );
+    return response.data as Booking;
   } catch (error) {
     console.error("Error creating payment intent:", error);
     throw error;

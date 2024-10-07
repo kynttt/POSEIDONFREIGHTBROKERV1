@@ -235,7 +235,7 @@ const LogisticsForm: React.FC = () => {
                   className="md:w-1/2 w-full bg-yellow-500 text-blue-900 py-3 px-4 rounded-md shadow-sm font-bold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                   onClick={onRequestQuote}
                 >
-                  Request Quote
+                  Get Instant Quote
                 </button>
               </div>
             </form>

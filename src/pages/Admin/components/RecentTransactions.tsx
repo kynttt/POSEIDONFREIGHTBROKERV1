@@ -101,8 +101,8 @@ const RecentTransactions: React.FC = () => {
   const displayedBookings = bookings.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-white md:px-20 md:py-12 p-4 rounded-lg shadow-lg border">
-      <h3 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-2 border-b-2 border-secondary pb-2">
+    <div className="bg-white md:px-20 md:py-8 p-4 rounded-2xl shadow-lg border">
+      <h3 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-2   pb-2">
         Recent Transactions
       </h3>
 
@@ -112,9 +112,9 @@ const RecentTransactions: React.FC = () => {
         <p className="text-red-500">{error}</p> // Display error message
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border-b-2 border-secondary">
+          <table className="min-w-full ">
             <thead>
-              <tr>
+              <tr className='bg-light-grey'>
                 <th className="px-2 sm:px-4 py-2 text-left">Booking ID</th>
                 <th className="px-2 sm:px-4 py-2 text-left">Destination</th>
                 <th className="px-2 sm:px-4 py-2 text-left">Delivery Date</th>

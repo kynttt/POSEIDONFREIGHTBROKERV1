@@ -7,6 +7,7 @@ import {
 import { BillOfLadingSchema, Booking, Quote } from "../../../utils/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+    faArrowUpRightFromSquare,
     // faBox,
     faBoxOpen,
     // faBuilding,
@@ -134,6 +135,7 @@ const ShipmentDetails: React.FC = () => {
                                 Shipment Summary
                             </h1>
                         </div>
+                        
 
 
                         <div className="md:flex items-center justify-between bg-blue-50 p-6 w-full max-w-screen mx-auto ">
@@ -367,7 +369,7 @@ const ShipmentDetails: React.FC = () => {
                             <div className="w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
                                 <h2 className="text-xl mb-8 text-rblue">
                                 <FontAwesomeIcon icon={faBoxOpen} className="mr-4" />
-                                    Additional Shipment Details
+                                    Additional Details
                                     {/* <p className="text-base text-gray-500 font-normal">
                   Extra Shipment Information and Coordination Overview
                 </p> */}
@@ -522,9 +524,9 @@ const ShipmentDetails: React.FC = () => {
                                     {billOfLading ? (
                                         <button
                                             onClick={handleViewBillOfLading}
-                                            className="block text-primary text-sm font-bold p-2 rounded-md bg-primary text-white cursor-pointer"
+                                            className="block text-primary text-sm font-bold p-2 rounded-md bg-blue-500 text-white cursor-pointer"
                                         >
-                                            {/* <FontAwesomeIcon icon={faFile} className="mr-2" /> */}
+                                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="mr-2"/>
                                             View Bill of Lading (BOL)
                                         </button>
                                     ) : (
