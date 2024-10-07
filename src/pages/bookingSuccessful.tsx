@@ -1,33 +1,65 @@
-import React from 'react';
-import Button from '../components/Button';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import React, { useEffect, useState } from "react";
+import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
+import OTPImage from "../assets/img/quoteRequest.png";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use"; // Optional, to make the confetti fit the screen size
 
 const BookingConfirmation: React.FC = () => {
+  const navigate = useNavigate(); // Get navigate function from React Router
+  const handleNavigateToDashboard = () => {
+    // Navigate to '/shipper-dashboard' when 'Ok' button is clicked
+    navigate("/s/shipper-dashboard");
+  };
 
-    const navigate = useNavigate(); // Get navigate function from React Router
-    const handleBackToHomePage = () => {
-        // Navigate to '/quote-details' when a truck button is clicked
-        navigate('/load-board');
-      };
+  // Use window size for Confetti effect
+  const { width, height } = useWindowSize();
 
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-10 px-4 md:px-8 lg:px-16 xl:px-24 bg-gray-100">
-            <div className="p-6 max-w-lg w-full text-center border shadow-lg rounded-lg">
-                <h1 className="text-4xl text-secondary font-normal mb-6">Booking Successful!</h1>
-                <p className="text-xl font-light text-gray-500 tracking-wider py-6">This booking has been confirmed.</p>
-                {/* <p className="text-lg font-light text-gray-500 mb-14">Please wait for the dispatcher to call.</p> */}
-                <div className='flex justify-center items-center'>
-              <Button
-              label="OK"
-              size="bookingSuccessful"
+  // State to control confetti duration
+  const [confettiActive, setConfettiActive] = useState(true);
+
+  useEffect(() => {
+    // Stop confetti after 5 seconds
+    const timer = setTimeout(() => {
+      setConfettiActive(false);
+    }, 30000);
+
+    // Cleanup timer on component unmount
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-50 backdrop-filter backdrop-blur-sm">
+      {/* Confetti effect */}
+      {confettiActive && <Confetti width={width} height={height} numberOfPieces={200} recycle={false} />}
+      <div className="relative w-full max-w-md p-6 sm:p-8 md:p-10 bg-white rounded-lg shadow-lg m-4">
+        <div className="text-center">
+          <img
+            src={OTPImage}
+            alt="Verification"
+            className="mx-auto mb-4 w-32 sm:w-48"
+          />
+          <h2 className="mb-2 text-xl font-semibold text-secondary">
+            Booking Request Successful! 🎉
+          </h2>
+          <p className="mb-6 font-medium text-sm text-primary w-3/4 mx-auto text-center">
+            Expect a call from our dispatchers for this booking. Thank you!
+          </p>
+          <div className="flex justify-center">
+            <Button
+              label="Ok"
+              size="medium"
               bgColor="#252F70"
-              hoverBgColor="white"
-              onClick={handleBackToHomePage}
-              className="extra-class-for-medium-button my-6" type={''}        />
-              </div>
-            </div>
+              fontStyle="thin"
+              onClick={handleNavigateToDashboard}
+              className="extra-class-for-medium-button"
+              type={""}
+            />
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default BookingConfirmation;

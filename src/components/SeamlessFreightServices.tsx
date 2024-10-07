@@ -1,53 +1,74 @@
-import React from 'react';
-import { useInView } from 'react-intersection-observer';
-import carriersImage from '../assets/img/carriers.png';
-import brokersImage from '../assets/img/brokers.png';
-import shippersImage from '../assets/img/shippers.png';
+import React from "react";
+import carriersImage from "../assets/img/carriers.jpg";
+import shippersImage from "../assets/img/shippers.png";
+import { useNavigate } from 'react-router-dom';
 
-const SeamlessFreightServices: React.FC = () => {
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-  });
 
+const ServiceCards: React.FC = () => {
+  const navigate = useNavigate();
   return (
-    <div id='services' className="py-5 bg-white">
-      <div className="text-left px-6 md:px-32 ">
-        <h1 className="lg:px-8 text-base md:text-xl lg:text-xl font-normal mb-2 text-[#252F70]">SERVICES</h1>
-        <h2 className="lg:px-8 text-4xl md:text-4xl lg:text-4xl font-medium mb-8 text-[#252F70]">Seamless Freight Services</h2>
+    <div id="services" className="flex flex-col items-center justify-center py-16 bg-white">
+      <h2 className="text-5xl font-medium text-center text-darkBlue mb-10 lg:mb-28">
+        Seamless Freight Service
+      </h2>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-6xl mx-auto px-4">
+        {/* Card 1 */}
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full w-full max-w-sm">
+          <img
+            src={carriersImage}
+            alt="Carriers"
+            className="w-full h-72 object-cover"
+          />
+          <div className="p-8 flex-grow flex flex-col">
+            <h3 className="text-2xl font-bold text-blue-900 mb-4">Fast Delivery</h3>
+            <p className="text-nblue font-normal flex-grow">
+              Tailored Carrier Services to Fit Your Business.
+            </p>
+          </div>
+        </div>
+
+        {/* Card 2 */}
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full w-full max-w-sm">
+          <img
+            src={shippersImage}
+            alt="Shippers"
+            className="w-full h-72 object-cover"
+          />
+          <div className="p-8 flex-grow flex flex-col">
+            <h3 className="text-2xl font-bold text-blue-900 mb-4">Dispatch Agents</h3>
+            <p className="text-nblue font-normal flex-grow">
+              Accommodate customer’s queries and needs 24 hours.
+            </p>
+            <div className="text-center mt-auto">
+              <button
+                type="button" // Change type to button to prevent form submission if inside a form
+                className="mt-6 w-full bg-yellow-500 text-blue-900 py-3 px-12 rounded-md shadow-sm font-bold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                onClick={() => navigate('/agent-page')}
+              >
+                See more
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3 */}
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full w-full max-w-sm">
+          <img
+            src={shippersImage}
+            alt="Shippers"
+            className="w-full h-72 object-cover"
+          />
+          <div className="p-8 flex-grow flex flex-col">
+            <h3 className="text-2xl font-bold text-blue-900 mb-4">Monitored 24/7</h3>
+            <p className="text-nblue font-normal flex-grow">
+              Driving your business forward with Expert Logistic Support.
+            </p>
+          </div>
+        </div>
       </div>
-
-      <div ref={ref} className={`flex flex-col md:flex-row justify-between items-center px-6 md:px-32 mt-10 md:mt-16 mb-16 transition-transform duration-1000 ${inView ? 'md:transform-none md:opacity-100' : 'md:transform md:translate-y-20 md:opacity-0'}`}>
-    <div className="w-full md:w-1/3 text-center mb-4 md:mb-0">
-        <img src={carriersImage} alt="Carriers" className="mx-auto mb-4" />
-        <p className="text-sm md:text-base lg:text-lg mb-2 text-primary mt-12">
-            Carriers
-        </p>
-        <p className="text-lg font-light text-gray-500 mx-auto lg:w-1/2">
-            Tailored Carrier Services to Fit Your Business
-        </p>
-    </div>
-    <div className="w-full md:w-1/3 text-center mb-4 md:mb-0">
-        <img src={brokersImage} alt="Brokers" className="mx-auto mb-4" />
-        <p className="text-sm md:text-base lg:text-lg mb-2 text-primary mt-12">
-            Brokers
-        </p>
-        <p className="text-lg font-light text-gray-500 mx-auto lg:w-1/2">
-            Driving Your Business Forward with Expert Logistics Support
-        </p>
-    </div>
-    <div className="w-full md:w-1/3 text-center mb-4 md:mb-0">
-        <img src={shippersImage} alt="Shippers" className="mx-auto mb-4" />
-        <p className="text-sm md:text-base lg:text-lg mb-2 text-primary mt-12">
-            Shippers
-        </p>
-        <p className="text-lg font-light text-gray-500 mx-auto lg:w-1/2">
-            Optimizing Your Shipping Process for Maximum Efficiency
-        </p>
-    </div>
-</div>
-
     </div>
   );
 };
 
-export default SeamlessFreightServices;
+export default ServiceCards;

@@ -1,178 +1,285 @@
-import React, { useState } from "react";
-import profileImage from "../assets/img/profile.png";
-import SideBar from "../components/SideBar";
-import { useAuthStore } from '../state/useAuthStore';
-import transactionsData from "../pages/profileTransactionFile.json";
-import ProfileTransactionCard from "../components/ProfileTransactionCard";
-import Button from "../components/Button";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import profileImage from "../assets/img/profilepic.jpg";
+import profileBgImage from "../assets/img/profilebg.jpg";
+import { useAuthStore } from "../state/useAuthStore";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBuilding,
+  faEdit,
+  faEnvelope,
+  faMobileScreenButton,
+  faCog,
+  faUserEdit,
+  
+  faCameraRetro, // Icon for Edit Profile
+} from "@fortawesome/free-solid-svg-icons";
+
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  fetchProfilePicture,
+  getUser,
+  uploadProfilePicture,
+} from "../lib/apiCalls";
+import { User } from "../utils/types";
+import { AxiosError } from "axios";
+import { notifications } from "@mantine/notifications";
+import queryClient from "../lib/queryClient";
 
 const ProfileCard: React.FC = () => {
-  const { isAuthenticated} = useAuthStore();
-  const [showAllLarge, setShowAllLarge] = useState(false);
-  const [showAllSmall, setShowAllSmall] = useState(false);
+  const { isAuthenticated, userId } = useAuthStore();
+  const fileInputRef = useRef<HTMLInputElement | null>(null); // Ref for the file input
+  const [, setIsHovering] = useState(false); // State to manage hover effect
+  const navigate = useNavigate(); // Initialize useNavigate
+  // const [userData, setUserData] = useState<User | null>(null);
 
-  const handleSeeMoreSmall = () => {
-    setShowAllSmall(true);
+  // useEffect(() => {
+  //   if (isAuthenticated && userId) {
+  //     const fetchUserData = async () => {
+  //       try {
+  //         const response = await axiosInstance.get(`/account`);
+  //         // console.log("API Response:", response.data);
+
+  //         setUserData(response.data.data);
+  //       } catch (error) {
+  //         console.error("Error fetching user data:", error);
+  //       }
+  //     };
+
+  //     fetchUserData();
+  //   }
+  // }, [isAuthenticated, userId]);
+
+  const { data, isLoading, isError, error } = useQuery<User, AxiosError>({
+    queryKey: ["authUser", userId],
+    queryFn: getUser,
+    enabled: isAuthenticated ?? false,
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+  });
+
+  const {
+    data: profilePicture,
+    isLoading: profilePictureLoading,
+    isError: isProfilePictureError,
+    error: profilePictureError,
+  } = useQuery<string | null, AxiosError>({
+    queryKey: ["profilePicture", userId],
+    queryFn: () => fetchProfilePicture(userId!, data?.profilePicVersion ?? 0),
+    enabled: !!data?._id,
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+  });
+  const { mutate: uploadProfilePic, isPending: isUploading } = useMutation({
+    mutationFn: uploadProfilePicture,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser", userId] }); // Invalidate the user query
+      queryClient.invalidateQueries({ queryKey: ["profilePicture", userId] }); // Invalidate the profile picture query
+      //  Refresh the page
+
+      window.location.reload();
+
+      notifications.show({
+        title: "Success",
+        message: "Profile picture updated successfully!",
+        color: "green",
+      });
+      // Optionally refetch the profile picture after upload
+    },
+    onError: () => {
+      notifications.show({
+        title: "Error",
+        message: "Failed to update profile picture.",
+        color: "red",
+      });
+    },
+  });
+  // useEffect(() => {
+  //   if (isError) {
+  //     notifications.show({
+  //       title: "Error",
+  //       message: `${
+  //         (error.response?.data as { message: string }).message ||
+  //         "User with this email does not exist"
+  //       }`,
+  //       color: "red",
+  //     });
+  //   }
+  // }, [isError, error]);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Call the mutation to upload the profile picture
+      uploadProfilePic(file);
+    }
+  };
+  const handleChangePassword = () => {
+    navigate("/change-password"); // Navigate to the change password page
   };
 
-  const handleSeeMoreLarge = () => {
-    setShowAllLarge(true);
+  const handleEditProfile = () => {
+    navigate("/edit-profile"); // Navigate to the edit profile page
   };
 
-  const handleShowLessSmall = () => {
-    setShowAllSmall(false);
+  const handleSettings = () => {
+    navigate("/settings"); // Example: Navigate to settings page
   };
-
-  const handleShowLessLarge = () => {
-    setShowAllLarge(false);
+  const handleEditClick = () => {
+    fileInputRef.current?.click();
   };
+  useEffect(() => {
+    if (isProfilePictureError) {
+      notifications.show({
+        title: "Error",
+        message: `${
+          (profilePictureError.response?.data as { message: string }).message ||
+          "Error fetching profile picture"
+        }`,
+        color: "red",
+      });
+    }
+  }, [
+    profilePicture,
+    profilePictureLoading,
+    isProfilePictureError,
+    profilePictureError,
+  ]);
 
-  // Determine number of transactions to show based on screen size
-  const transactionsToShowSmall = showAllSmall ? transactionsData.length : 5;
-  const transactionsToShowLarge = showAllLarge ? transactionsData.length : 10;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div>Error: {(error.response?.data as { message: string }).message}</div>
+    );
+  }
 
   return (
-    <>
-        <div className="flex flex-col md:flex-row">
-          <SideBar isAuthenticated={isAuthenticated} />
-          <div className="flex-1 p-4 md:p-8 bg-white h-auto md:h-screen overflow-y-auto">
-            <div className="max-w-4xl mx-auto bg-white overflow-hidden">
-              <div className="flex justify-between items-center p-4 md:p-8">
-                <h2 className="text-xl font-medium text-secondary">
-                  Account Details
-                </h2>
-              </div>
-                    <div className="flex justify-start items-center mt-4 md:mt-8 md:ml-4 lg:ml-8">
-                      <img
-                        className="w-32 h-32 md:w-52 md:h-52 object-cover rounded-full border-4 border-white"
-                        src={profileImage}
-                        alt="Profile"
-                      />
-                      <div className="text-center mt-2 md:ml-4 lg:ml-8">
-                        <h2 className="text-xl md:text-2xl font-medium text-secondary text-left">
-                          John Doe
-                        </h2>
-                        <p className="text-gray-500 text-left">Logistics</p>
-                        <p className="text-gray-500 text-left">NSW, Australia</p>
-                      </div>
-                    </div>
+    <div className="flex flex-col h-screen relative">
+      {/* Background Image */}
+      <div
+        className="bg-cover bg-center h-1/3 relative"
+        style={{ backgroundImage: `url(${profileBgImage})` }}
+      ></div>
 
-                  <div className="p-4 md:p-8">
-                        <div className="text-left mb-4">
-                          <h3 className="text-lg font-medium text-secondary">
-                            Personal Information
-                          </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                            <div className="flex">
-                              <p className="font-medium text-gray-500">Full name</p>
-                              <p className="ml-4 md:ml-16 font-medium text-primary">
-                                John Doe
-                              </p>
-                            </div>
-                            <div className="flex">
-                              <p className="text-gray-500">Phone number</p>
-                              <p className="ml-4 md:ml-8 font-medium text-primary">
-                                123-456-7890
-                              </p>
-                            </div>
-                            <div className="flex">
-                              <p className="text-gray-500 font-medium">Business email</p>
-                              <p className="ml-4 md:ml-6 font-medium text-primary">
-                                jdoe@email.com
-                              </p>
-                            </div>
-                            <div className="flex">
-                              <p className="text-gray-500">Company Name</p>
-                              <p className="ml-4 md:ml-6 font-medium text-primary">
-                                ABC Company
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                    <div>
-                          <h3 className="text-lg font-medium text-secondary mt-6 md:mt-10">
-                            Recent Transactions
-                          </h3>
+      {/* Profile Picture */}
+      {/* Profile Picture */}
+<div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-1/3">
+  <div
+    className="relative w-32 h-32 md:w-40 md:h-40"
+    onMouseEnter={() => setIsHovering(true)}
+    onMouseLeave={() => setIsHovering(false)}
+  >
+    {/* Profile Image */}
+    <img
+      className={`w-full h-full object-cover rounded-full border-4 border-white shadow-2xl ${
+        isUploading || profilePictureLoading ? "opacity-50" : ""
+      }`} // Reduce opacity during upload
+      src={
+        profilePicture && !profilePictureLoading && !profilePictureError
+          ? profilePicture
+          : profileImage
+      }
+      alt="Profile"
+    />
 
-                          <div className="overflow-x-auto">
-                            {/* Table for larger screens */}
-                            <table className="min-w-full bg-white hidden sm:table">
-                              <thead>
-                                <tr className="text-left">
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">Load number</div>
-                                  </th>
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">
-                                      Truck Type & Size
-                                    </div>
-                                  </th>
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">Amount Paid</div>
-                                  </th>
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">
-                                      Payment Method
-                                    </div>
-                                  </th>
-                                  <th className="py-2 text-primary">
-                                    <div className="flex items-center">Date & Time</div>
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody className="text-gray-500 font-medium text-sm">
-                                {transactionsData
-                                  .slice(0, transactionsToShowLarge)
-                                  .map((transaction, index) => (
-                                    <tr key={index}>
-                                      <td className="py-2">{transaction.loadNumber}</td>
-                                      <td className="py-2">{transaction.truckType}</td>
-                                      <td className="py-2">{transaction.amountPaid}</td>
-                                      <td className="py-2">
-                                        {transaction.paymentMethod}
-                                      </td>
-                                      <td className="py-2">{transaction.dateTime}</td>
-                                    </tr>
-                                  ))}
-                              </tbody>
-                            </table>
+    {/* Camera Icon - Lower Right */}
+    <div
+  className="absolute bottom-2 right-2 bg-gray-400 rounded-full p-2 cursor-pointer flex items-center justify-center w-8 h-8"
+  onClick={handleEditClick}
+>
+  <FontAwesomeIcon icon={faCameraRetro} className="text-white text-md" />
+</div>
 
-                            {/* Cards for smaller screens */}
-                            <div className="sm:hidden text-sm text-gray-500">
-                              {transactionsData
-                                .slice(0, transactionsToShowSmall)
-                                .map((transaction, index) => (
-                                  <ProfileTransactionCard
-                                    key={index}
-                                    transaction={transaction}
-                                  />
-                                ))}
-                            </div>
-                          </div>
 
-                      {/* Button for both screens */}
-                        <div className="text-right mt-6 md:mt-10 mr-4">
-                          <Button
-                    label={showAllLarge || showAllSmall ? "Show Less" : "See More"}
-                    size="small"
-                    bgColor="#252F70"
-                    hoverBgColor="white"
-                    onClick={() => {
-                      if (showAllLarge || showAllSmall) {
-                        handleShowLessLarge();
-                        handleShowLessSmall();
-                      } else {
-                        handleSeeMoreLarge();
-                        handleSeeMoreSmall();
-                      }
-                    } } type={""}                          />
-                        </div>
-                    </div>
-                  </div>
+    {/* Show loading spinner during upload */}
+    {isUploading ||
+      (profilePictureLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500 border-t-transparent"></div>
+        </div>
+      ))}
+    {/* File input (hidden) */}
+    <input
+      type="file"
+      ref={fileInputRef}
+      onChange={handleFileChange}
+      accept="image/*"
+      className="hidden"
+    />
+  </div>
+</div>
+
+
+      {/* User Details */}
+      <div className="flex-1  p-4 md:p-8 mt-16">
+        <div className="text-center mb-4">
+          <p className="md:text-5xl font-medium text-primary">
+            {data?.name || "John Doe"}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-2 border-t border-secondary pt-2 mt-8">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex items-center">
+              <p className="md:ml-4 font-medium text-gray-500 py-2 px-4 rounded">
+                <span className="mr-2 text-gray-500">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </span>
+                {data?.email || "jdoe@email.com"}
+              </p>
+            </div>
+            <div className="flex items-center">
+              <p className="ml-4 font-medium text-gray-500 py-2 px-4 rounded">
+                <span className="mr-2 text-gray-500">
+                  <FontAwesomeIcon icon={faMobileScreenButton} />
+                </span>
+                {data?.phone || "123-456-7890"}
+              </p>
+            </div>
+            <div className="flex items-center">
+              <p className="ml-4 font-medium text-gray-500 py-2 px-4 rounded">
+                <span className="mr-2 text-gray-500">
+                  <FontAwesomeIcon icon={faBuilding} />
+                </span>
+                {data?.companyName || "ABC Company"}
+              </p>
+            </div>
+            <div className="flex gap-4 ml-auto">
+              <button
+                onClick={handleEditProfile}
+                className="flex items-center px-4 py-2 font-medium bg-grey text-gray-500 rounded shadow-lg hover:bg-secondary hover:text-white"
+              >
+                <FontAwesomeIcon
+                  icon={faUserEdit}
+                  className="mr-2 text-gray-500 hover:text-white"
+                />
+                Edit Profile
+              </button>
+              <button
+                onClick={handleChangePassword}
+                className="flex items-center px-4 py-2 font-medium bg-grey text-gray-500 rounded shadow-lg hover:bg-secondary hover:text-white"
+              >
+                <FontAwesomeIcon
+                  icon={faEdit}
+                  className="mr-2 text-gray-500 hover:text-white"
+                />
+                Change Password
+              </button>
+              <button
+                onClick={handleSettings}
+                className="flex items-center px-4 py-2 font-medium bg-grey text-gray-500 rounded shadow-lg hover:bg-secondary hover:text-white"
+              >
+                <FontAwesomeIcon
+                  icon={faCog}
+                  className=" text-gray-500 hover:text-white"
+                />
+                
+              </button>
             </div>
           </div>
         </div>
-    </>
+      </div>
+    </div>
   );
 };
 

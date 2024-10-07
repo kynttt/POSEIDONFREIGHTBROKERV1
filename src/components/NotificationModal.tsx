@@ -1,45 +1,189 @@
-import React from 'react';
-import notifications from './notifications.json'; // Adjust the path as necessary
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { listNotifications, updateNotificationStatus } from "../lib/apiCalls";
+import { Loader, ScrollArea, Stack } from "@mantine/core";
+import { format, formatDistanceToNow } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../src/state/useAuthStore"; // Adjust the import path
+import { NotificationSchema } from "../utils/types";
+import queryClient from "../lib/queryClient";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
-interface NotificationModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-}
+export default function NotificationModal() {
+  const navigate = useNavigate();
+  const { userId, isAuthenticated, role } = useAuthStore((state) => ({
+    userId: state.userId,
+    isAuthenticated: state.isAuthenticated,
+    role: state.role, // Assuming role is stored in state
+  }));
 
-const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose }) => {
-    if (!isOpen) return null;
+  // Fetch notifications
+  const { data, isLoading, isError, error } = useQuery<NotificationSchema[]>({
+    queryKey: ["notifications", userId],
+    enabled: !!isAuthenticated && !!userId,
+    queryFn: async () => {
+      // const options = { type: role === "admin" ? "admin" : "user" }; // Set type based on role
+      if (!userId) return [];
+      const notifications = await listNotifications(userId!); // Pass both userId and options
+      // return notifications.map((notification: any) => ({
+      //   _id: notification._id ?? "",
+      //   title: notification.title,
+      //   message: notification.message,
+      //   createdAt: notification.createdAt,
+      //   isRead: notification.isRead,
+      //   metadata: notification.metadata,
+      // }));
 
-    return (
-        <div
-            className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center md:justify-end md:items-start md:p-8"
-            style={{ zIndex: 1000 }} // Set a high z-index value
-        >
-            <div className="bg-white rounded-lg w-full md:w-1/3 lg:w-1/4 p-8 mt-4 md:mt-0 md:mr-4">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl text-secondary font-normal">Notifications</h2>
-                    <button onClick={onClose} className="text-gray-600 hover:text-gray-900">&times;</button>
+      return notifications;
+    },
+    refetchOnWindowFocus: true,
+  });
+
+  // Define mutation for updating notification status
+  const mutation = useMutation({
+    mutationFn: (id: string) => updateNotificationStatus(id, true),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["notifications", userId],
+      });
+    },
+  });
+
+  // * The sorted function is already handle in backend
+  // // Sort notifications by createdAt in descending order
+  // const sortedNotifications =
+  //   data?.sort(
+  //     (a, b) =>
+  //       new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
+  //   ) || [];
+
+  const formatNotificationDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+
+    if (diffInHours < 24) {
+      return formatDistanceToNow(date, { addSuffix: true });
+    } else {
+      return format(date, "PPP");
+    }
+  };
+
+  const formatNotificationMessage = (notification: NotificationSchema) => {
+    let message = notification.message;
+
+    if (notification.metadata && notification.metadata.length > 0) {
+      const bookingIdMetadata = notification.metadata.find(
+        (item) => item.key === "reference"
+      );
+      if (bookingIdMetadata) {
+        message = notification.message;
+      }
+    }
+
+    return message;
+  };
+
+  const handleNotificationClick = async (notification: NotificationSchema) => {
+    if (!notification.isRead) {
+      if (notification._id) {
+        await mutation.mutateAsync(notification._id);
+      }
+    }
+
+    // Determine redirection based on role
+    const targetRoute =
+      role === "admin"
+        ? `/a/editBooking/${notification.bookingId}`
+        : `/s/shipmentDetails/${notification.bookingId}`;
+
+    if (notification.bookingId) {
+      console.log(`Navigating to ${targetRoute}`);
+      navigate(targetRoute);
+    } else if (notification.metadata && notification.metadata.length > 0) {
+      const bookingIdMetadata = notification.metadata.find(
+        (item) => item.key === "reference"
+      );
+
+      if (bookingIdMetadata) {
+        const metadataTargetRoute =
+          role === "admin"
+            ? `/a/editBooking/${bookingIdMetadata.value}`
+            : `/s/shipmentDetails/${bookingIdMetadata.value}`;
+        console.log(`Navigating to ${metadataTargetRoute}`);
+        navigate(metadataTargetRoute);
+      } else {
+        console.error("Booking ID metadata not found");
+      }
+    } else {
+      console.error("No booking ID or relevant metadata found");
+    }
+  };
+
+  if (!isAuthenticated || !userId) {
+    return <div>Please log in to view notifications</div>;
+  }
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <Loader size="sm" />;
+  }
+
+  return (
+    <>
+      <ScrollArea.Autosize mah={800} maw={700}>
+        <Stack>
+          {data!.length === 0 && <div>No notifications available</div>}
+          {data!.map((notification) => (
+            <div
+              key={notification._id}
+              className={`hover:scale-105 mx-4 transform flex items-center justify-between py-2  px-6 hover:bg-gray-300 hover:text-primary rounded-md transition-all duration-200 cursor-pointer  shadow-lg ${
+                !notification.isRead ? "bg-blue-50 text-black" : "text-gray-700"
+              }`}
+              onClick={() => handleNotificationClick(notification)}
+            >
+              <div className="flex items-center pr-6">
+                {notification.mediaUrl && (
+                  <img
+                    src={
+                      notification.mediaUrl.startsWith("http")
+                        ? notification.mediaUrl
+                        : `${process.env.REACT_APP_SERVER_URL}/api/${notification.mediaUrl}`
+                    }
+                    alt="Notification"
+                    className="w-12 h-12 rounded-full mr-4 object-cover"
+                    onError={(e) => {
+                      console.error(
+                        `Failed to load image: ${e.currentTarget.src}`
+                      );
+                      e.currentTarget.src =
+                        "https://avatar.iran.liara.run/public/boy?username=Ash";
+                    }}
+                  />
+                )}
+                <div className="flex flex-col">
+                  <div className="text-sm font-semibold text-primary">
+                    {notification.title}
+                  </div>
+                  <div className="text-xs font-normal">
+                    {formatNotificationMessage(notification)}
+                  </div>
+                  <div className="text-xs mt-1 font-light">
+                    {formatNotificationDate(notification.createdAt!)}
+                  </div>
                 </div>
-                <div className="space-y-4">
-                    {notifications.map(notification => (
-                        <div key={notification.id} className="flex items-center justify-between bg-gray-100 rounded-lg p-2 h-20 shadow">
-                            <div className="flex items-center">
-                                <div className="bg-primary text-white rounded-full p-2">
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M16.707 6.293a1 1 0 010 1.414L8.414 16l-4.707-4.707a1 1 0 011.414-1.414L8 13.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div className="ml-3">
-                                    <h3 className="text-lg font-medium text-primary">{notification.title}</h3>
-                                    <p className="text-secondary font-light">{notification.message}</p>
-                                </div>
-                            </div>
-                            <span className="text-gray-600 text-sm font-light">{notification.time}</span>
-                        </div>
-                    ))}
-                </div>
+              </div>
+              {/* Add the icon on the rightmost side */}
+              <FontAwesomeIcon
+                icon={faEllipsisH}
+                className="text-lg text-gray-500 hover:text-gray-700"
+              />
             </div>
-        </div>
-    );
-};
-
-export default NotificationModal;
+          ))}
+        </Stack>
+      </ScrollArea.Autosize>
+    </>
+  );
+}

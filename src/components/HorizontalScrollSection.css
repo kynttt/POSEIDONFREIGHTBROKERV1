@@ -1,0 +1,44 @@
+/* HorizontalScrollSection.css */
+.scroll-container {
+    position: relative;
+    overflow: hidden; /* Hide scrollbars */
+    width: 100%;
+    cursor: grab; /* Indicate draggable content */
+}
+
+.scroll-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 200%; /* Width of content doubled */
+    animation: scroll-left 35s linear infinite; /* Continuous scrolling */
+    cursor: grab;
+}
+
+.scroll-section {
+    flex: 0 0 auto; /* Prevent items from shrinking */
+    width: calc(100vw - 2rem); /* Adjust width based on your design */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+/* Hide scrollbar but still allow scrolling */
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-container {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-135%); /* Move to the middle of the duplicated content */
+    }
+}
+
+.scroll-wrapper:hover {
+    animation-play-state: paused; /* Pause animation on hover */
+}

@@ -1,12 +1,12 @@
 import React from 'react';
 import NonBusinessImage from '../assets/img/nonbusiness.png';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 
 const NonBusinessPage: React.FC = () => {
     return (
         <div className="min-h-full flex flex-col justify-between font-lexend bg-white">
             {/* Navigation bar */}
-            <Navbar/>
+            {/* <Navbar/> */}
 
             {/* Main content */}
             <div className=" container mx-auto my-6 md:my-10 flex flex-col items-center lg:mb-24 py-36">

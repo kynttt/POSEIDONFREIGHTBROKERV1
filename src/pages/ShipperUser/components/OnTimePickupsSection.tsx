@@ -1,6 +1,19 @@
-import React from "react";
+// Import React if necessary (for React versions before 17)
+// import React from "react";
 
-const OnTimePickupsSection = ({ data }) => {
+// Define the type for an individual item in the data array
+interface PickupItem {
+  id: string; // or number, depending on your data
+  title: string;
+  percentage: string; // or number, depending on your data
+}
+
+// Define the type for the props of the OnTimePickupsSection component
+interface OnTimePickupsSectionProps {
+  data: PickupItem[];
+}
+
+const OnTimePickupsSection: React.FC<OnTimePickupsSectionProps> = ({ data }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 md:w-17%">
       {data.map((item) => (
