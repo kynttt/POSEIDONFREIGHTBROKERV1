@@ -12,7 +12,8 @@ import {
   faCog,
   faUserEdit,
   
-  faCameraRetro, // Icon for Edit Profile
+  faCameraRetro,
+  faFileContract, // Icon for Edit Profile
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -265,16 +266,16 @@ const ProfileCard: React.FC = () => {
                 />
                 Change Password
               </button>
-              <button
-                onClick={handleSettings}
-                className="flex items-center px-4 py-2 font-medium bg-grey text-gray-500 rounded shadow-lg hover:bg-secondary hover:text-white"
-              >
-                <FontAwesomeIcon
-                  icon={faCog}
-                  className=" text-gray-500 hover:text-white"
-                />
-                
-              </button>
+                <button
+                  onClick={() => window.open("/terms-and-agreement", "_blank")}
+                  className="flex items-center px-4 py-2 font-medium bg-grey text-gray-500 rounded shadow-lg hover:bg-secondary hover:text-white"
+                >
+                  <FontAwesomeIcon
+                    icon={faFileContract}
+                    className="text-gray-500 hover:text-white mr-3"
+                  />
+                  Terms and Conditions
+                </button>
             </div>
           </div>
         </div>
