@@ -20,15 +20,9 @@ import NotFound from "./pages/Shared/pages/NotFound";
 import Invoice from "./components/Invoice";
 import AdminDashboard from "./pages/Admin/page/adminDashboardPage";
 
-<<<<<<< HEAD
-import PrivateRoute from './components/PrivateRoute';
-import ShipmentDetails from './pages/ShipmentDetails';
-import AgentPage from './pages/agentHeroPage';
-=======
 import AccountingReports from "./pages/accountingReport";
 import AccountingPayment from "./pages/Admin/page/accountingPaymentPage";
 import PerformanceOverview from "./pages/performanceGrade";
->>>>>>> de1cfd65d7e8be5744c4058b1a291ea9d1d47355
 
 import PrivateRoute from "./components/PrivateRoute";
 import ShipmentDetails from "./pages/ShipperUser/page/ShipmentDetailsPage2";
@@ -79,11 +73,9 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import OAuthRedirect from "./pages/Shared/pages/oauthRedirect";
 import AccountCompletion from "./pages/Shared/pages/accountCompletion";
 import AuthChecker from "./components/AuthChecker";
-<<<<<<< HEAD
-import AgentsPage from "./components/AgentsPage";
-=======
 import ShipperUserBookingTransactions from "./pages/ShipperUser/bookingTransactions";
->>>>>>> f07328c01aae0055f00dd5a7773c7f96fedc2b18
+import AgentsPage from "./components/AgentsPage";
+import AgentForm from "./components/AgentForm";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -112,37 +104,6 @@ const theme = createTheme({
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API || "";
 const App: React.FC = () => {
   return (
-<<<<<<< HEAD
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
-        <Route path="/trailer-options" element={<PrivateRoute element={<TrailerOptionsPage />} />} />
-        <Route path="/nonbusiness" element={<PrivateRoute element={<NonBusinessPage />} />} />
-        <Route path="/booking-successful" element={<PrivateRoute element={<BookingConfirmation />} />} />
-        {/* <Route path="/dispatch-details" element={<PrivateRoute element={<DispatchDetails />} />} /> */}
-        <Route path="/payment-option" element={<PrivateRoute element={<PaymentOptionPage />} />} />
-        <Route path="/report-details" element={<PrivateRoute element={<ReportDetails />} roles={['admin']} />} />
-        <Route path="/invoice" element={<PrivateRoute element={<Invoice />} />} />
-        <Route path="/legal-page" element={<PrivateRoute element={<LegalPage />} roles={['admin']} />} />
-        <Route path="/user-payables" element={<PrivateRoute element={<UserPayables />} roles={['user']} />} />
-        <Route path="/load-board" element={<PrivateRoute element={<LoadBoard />} roles={['admin']} />} />
-        <Route path="/bill-lading" element={<PrivateRoute element={<BillOfLadingPage />} roles={['admin']} />} />
-        <Route path="/admin-dashboard" element={<PrivateRoute element={<AdminDashboard />} roles={['admin']} />} />
-        <Route path="/distance-calculator" element={<DistanceCalculator />} />
-        <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
-        <Route path="/accounting-report" element={<PrivateRoute element={<AccountingReports />} roles={['admin']} />} />
-        <Route path="/accounting-payment" element={<PrivateRoute element={<AccountingPayment />} roles={['admin']} />} />
-        <Route path="/shipper-dashboard" element={<PrivateRoute element={<ShipperDashboard />} roles={['user']} />} />
-        <Route path="/performance-grade" element={<PrivateRoute element={<PerformanceOverview />} roles={['user']} />} />
-        <Route path="/shipmentDetails/:id" element={<PrivateRoute element={<ShipmentDetails />} roles={['user']} />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/agentCareersPage" element={<AgentPage />} />
-      </Routes>
-    </Router>
-=======
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
         <Notifications position="top-right" />
@@ -162,6 +123,16 @@ const App: React.FC = () => {
                     </AuthChecker>
                   }
                 />
+                 <Route
+                  path="agent-page"
+                  element={<AgentsPage />}
+                />
+
+                <Route
+                  path="agent-form"
+                  element={<AgentForm />}
+                />
+
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/oauth-redirect" element={<OAuthRedirect />} />
@@ -231,11 +202,6 @@ const App: React.FC = () => {
 
                   <Route path="trailer-types" element={<TrailerPage />} />
                 </Route>
-
-                <Route
-                    path="agent-page"
-                    element={<AgentsPage />}
-                  />
 
                 {/* ==== END Shipper User Route=== */}
                 <Route
@@ -360,7 +326,6 @@ const App: React.FC = () => {
         </ContextMenuProvider>
       </MantineProvider>
     </QueryClientProvider>
->>>>>>> de1cfd65d7e8be5744c4058b1a291ea9d1d47355
   );
 };
 

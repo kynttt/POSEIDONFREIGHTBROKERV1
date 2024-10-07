@@ -1,7 +1,8 @@
-import React from 'react';
+// import React from 'react';
 import agentBanner from "../assets/img/agentbanner.png"; // Assuming this is your existing image
 import agentSupport from '../assets/img/agent-support.png'; // Path to the newly uploaded image
 import iProcess from '../assets/img/illustration-process.png'; // Path to the second newly uploaded image
+import { useNavigate } from 'react-router-dom';
 
 const AgentsPage = () => {
   const getTransformStyles = () => {
@@ -13,39 +14,43 @@ const AgentsPage = () => {
       return { transform: 'translateY(20.5%) translateX(9%)' }; // Default for large screens (lg+)
     }
   };
-
+ const navigate = useNavigate();
   return (
-    <div>
+   
+    <div className="">
       {/* Section 1: Become an Agent */}
-      <div className="bg-darkBlue text-white py-12 px-4 sm:px-8 md:px-12 lg:px-16 flex flex-col lg:flex-row justify-between items-center">
-  {/* Left Side: Text Section */}
-  <div className="space-y-8 lg:px-20 text-center lg:text-left">
-    {/* Title */}
-    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-      Become an <br />
-      <span className="text-yellow-400">AGENT</span>
-    </h1>
-    {/* Description */}
-    <p className="text-sm sm:text-lg font-normal">
-      Freight Solutions empowers every agent to run their own business,
-      supported by the extensive resources of a major enterprise.
-    </p>
-    {/* Apply Button */}
-    <button className="bg-yellow-400 text-blue-900 font-bold py-3 px-6 rounded-md hover:bg-yellow-500 transition">
-      APPLY NOW
-    </button>
-  </div>
+      
+      <div className="  bg-darkBlue text-white py-14 px-4 sm:px-8 md:px-12 lg:px-24 flex flex-col lg:flex-row justify-between items-center">
+        {/* Left Side: Text Section */}
+        <div className="space-y-8 lg:px-32 text-center lg:text-left">
+          {/* Title */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+            Become an <br />
+            <span className="text-yellow-400">AGENT</span>
+          </h1>
+          {/* Description */}
+          <p className="text-sm sm:text-lg font-normal">
+            Freight Solutions empowers every agent to run their own business,
+            supported by the extensive resources of a major enterprise.
+          </p>
+          {/* Apply Button */}
+          <button className="bg-yellow-400 text-blue-900 font-bold py-3 px-6 rounded-md hover:bg-yellow-500 transition"
+          onClick={() => navigate('/agent-form')}>
+            APPLY NOW
+          </button>
+        </div>
 
-  {/* Right Side: Image Section */}
-  <div className="relative w-full lg:w-auto flex justify-end mt-6 lg:mt-0">
-    <img
-      src={agentBanner}
-      alt="Agents working together"
-      className="w-full lg:w-auto h-auto max-w-full max-h-full object-cover"
-      style={getTransformStyles()}
-    />
-  </div>
-</div>
+        {/* Right Side: Image Section */}
+        <div className=" w-full lg:w-full flex justify-end mt-6 lg:mt-0">
+          <img
+            src={agentBanner}
+            alt="Agents working together"
+            className="w-full lg:w-auto h-auto  object-cover lg:pb-16"
+            style={getTransformStyles()}
+          />
+        </div>
+      </div>
+      
 
       {/* Section 2: Agent Support */}
       <div className="bg-white text-blue-900 py-16 px-4 sm:px-8 flex flex-col lg:flex-row justify-between items-center">
@@ -130,15 +135,16 @@ const AgentsPage = () => {
           </p>
         </div>
       </div>
-      
+
       {/* Image Section */}
       <div className="w-full flex justify-center p-10 sm:p-16 lg:p-20">
         <img
           src={iProcess}
           alt="Agent support conversation"
-          className="w-full max-w-4xl lg:max-w-7xl h-auto object-cover"
+          className="w-full max-w-4xl lg:max-w-7xl h-auto object-cover transform transition-transform duration-300 hover:scale-110"
         />
       </div>
+
     </div>
   );
 };

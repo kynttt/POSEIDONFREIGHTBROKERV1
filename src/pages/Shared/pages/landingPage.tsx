@@ -23,14 +23,12 @@ import HorizontalScrollComponent from "../../../components/HorizontalScrollSecti
 // import Testimonials from "../../../components/Testimonials";
 import LogisticsForm from "../../../components/LogisticsForm";
 import Testimonials2 from "../../../components/Testimonials2";
-<<<<<<< HEAD
-import AgentsPage from "../../../components/AgentsPage";
-=======
 import { PropagateLoader
 
 
 } from "react-spinners";
->>>>>>> f07328c01aae0055f00dd5a7773c7f96fedc2b18
+import AgentsPage from "../../../components/AgentsPage";
+import AgentForm from "../../../components/AgentForm";
 
 const LandingPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -46,38 +44,6 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="w-full">
-<<<<<<< HEAD
-      <header className="w-full">
-        <Navbar />
-      </header>
-      <Stack w="100%" gap={0}>
-        <HeroBanner />
-        <BookingProcess/>
-        <LogisticsForm/>
-        <SeamlessFreightServices />
-        {/* <ServicesCardList /> */}
-        {/* <Carousel /> */}
-        {/* <FreightQuote /> */}
-        <NewFeatures />
-        <AgentsPage />
-        {/* <NewAboutUs/> */}
-        <HorizontalScrollComponent/>
-        {/* <PricingPage/> */}
-        {/* <Testimonials/> */}
-        <Testimonials2/>
-        {/* <CarouselComponent/> */}
-        {/* <FeaturesSection /> */}
-        {/* <AboutUs /> */}
-        <FAQsPage />
-        {/* <TrustedAmazon /> */}
-        
-        <ContactForm />
-        {/* <SuccessPage /> */}
-      </Stack>
-      <footer>
-        <Footer />
-      </footer>
-=======
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <PropagateLoader
@@ -99,6 +65,8 @@ const LandingPage: React.FC = () => {
             {/* <Carousel /> */}
             {/* <FreightQuote /> */}
             <NewFeatures />
+            <AgentsPage />
+        <AgentForm />
             {/* <NewAboutUs /> */}
             <HorizontalScrollComponent />
             {/* <PricingPage /> */}
@@ -117,7 +85,6 @@ const LandingPage: React.FC = () => {
           </footer>
         </>
       )}
->>>>>>> f07328c01aae0055f00dd5a7773c7f96fedc2b18
     </div>
   );
 };
