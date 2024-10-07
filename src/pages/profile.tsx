@@ -9,7 +9,7 @@ import {
   faEdit,
   faEnvelope,
   faMobileScreenButton,
-  faCog,
+  // faCog,
   faUserEdit,
   
   faCameraRetro,
@@ -120,9 +120,9 @@ const ProfileCard: React.FC = () => {
     navigate("/edit-profile"); // Navigate to the edit profile page
   };
 
-  const handleSettings = () => {
-    navigate("/settings"); // Example: Navigate to settings page
-  };
+  // const handleSettings = () => {
+  //   navigate("/settings"); // Example: Navigate to settings page
+  // };
   const handleEditClick = () => {
     fileInputRef.current?.click();
   };
