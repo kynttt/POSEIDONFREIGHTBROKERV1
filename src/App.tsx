@@ -74,6 +74,8 @@ import OAuthRedirect from "./pages/Shared/pages/oauthRedirect";
 import AccountCompletion from "./pages/Shared/pages/accountCompletion";
 import AuthChecker from "./components/AuthChecker";
 import AgentsPage from "./components/AgentsPage";
+import AgentForm from "./components/AgentForm";
+
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -191,9 +193,14 @@ const App: React.FC = () => {
                 </Route>
 
                 <Route
-                    path="agent-page"
-                    element={<AgentsPage />}
-                  />
+                  path="agent-page"
+                  element={<AgentsPage />}
+                />
+
+                <Route
+                  path="agent-form"
+                  element={<AgentForm />}
+                />
 
                 {/* ==== END Shipper User Route=== */}
                 <Route

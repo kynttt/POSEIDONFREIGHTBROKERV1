@@ -24,6 +24,7 @@ import HorizontalScrollComponent from "../../../components/HorizontalScrollSecti
 import LogisticsForm from "../../../components/LogisticsForm";
 import Testimonials2 from "../../../components/Testimonials2";
 import AgentsPage from "../../../components/AgentsPage";
+import AgentForm from "../../../components/AgentForm";
 
 const LandingPage: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ const LandingPage: React.FC = () => {
         {/* <FreightQuote /> */}
         <NewFeatures />
         <AgentsPage />
+        <AgentForm />
         {/* <NewAboutUs/> */}
         <HorizontalScrollComponent/>
         {/* <PricingPage/> */}
