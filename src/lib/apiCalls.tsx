@@ -82,6 +82,7 @@ export const registerUser = async (formData: RegisterFormData) => {
     postalCode: formData.postalCode,
     phone: formData.phone,
     companyName: formData.companyName,
+    companyPosition: formData.companyPosition,
     role: "user",
   });
   return response.data as LoginResponse;
