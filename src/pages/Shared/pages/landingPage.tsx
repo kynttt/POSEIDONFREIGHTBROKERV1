@@ -20,9 +20,9 @@ import { Stack } from "@mantine/core";
 import NewFeatures from "../../../components/NewFeatures";
 // import NewAboutUs from "../../../components/NewAboutUs";
 import HorizontalScrollComponent from "../../../components/HorizontalScrollSection";
-// import Testimonials from "../../../components/Testimonials";
+import Testimonials from "../../../components/Testimonials";
 import LogisticsForm from "../../../components/LogisticsForm";
-import Testimonials2 from "../../../components/Testimonials2";
+// import Testimonials2 from "../../../components/Testimonials2";
 import { PropagateLoader} from "react-spinners";
 // import AgentsPage from "../../../components/AgentsPage";
 // import AgentForm from "../../../components/AgentForm";
@@ -67,8 +67,8 @@ const LandingPage: React.FC = () => {
             {/* <NewAboutUs /> */}
             <HorizontalScrollComponent />
             {/* <PricingPage /> */}
-            {/* <Testimonials /> */}
-            <Testimonials2 />
+            <Testimonials />
+            {/* <Testimonials2 /> */}
             {/* <CarouselComponent /> */}
             {/* <FeaturesSection /> */}
             {/* <AboutUs /> */}

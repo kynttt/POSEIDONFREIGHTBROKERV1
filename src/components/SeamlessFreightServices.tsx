@@ -1,6 +1,7 @@
 import React from "react";
 import carriersImage from "../assets/img/carriers.jpg";
 import shippersImage from "../assets/img/shippers.png";
+import agentImage from "../assets/img/agent.jpg";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -30,23 +31,24 @@ const ServiceCards: React.FC = () => {
         {/* Card 2 */}
         <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full w-full max-w-sm">
           <img
-            src={shippersImage}
+            src={agentImage}
             alt="Shippers"
             className="w-full h-72 object-cover"
           />
           <div className="p-8 flex-grow flex flex-col">
-            <h3 className="text-2xl font-bold text-blue-900 mb-4">Dispatch Agents</h3>
+            <h3 className="text-2xl font-bold text-blue-900 mb-4">Freight Agents</h3>
             <p className="text-nblue font-normal flex-grow">
-              Accommodate customer’s queries and needs 24 hours.
+            Refer Shippers and Grow Your Client Network!
             </p>
-            <div className="text-center mt-auto">
-              <button
+            <div className="text-center mt-auto flex justify-center">
+                <button
                 type="button" // Change type to button to prevent form submission if inside a form
-                className="mt-6 w-full bg-yellow-500 text-blue-900 py-3 px-12 rounded-md shadow-sm font-bold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                className="mt-4 w-full bg-yellow-500 text-blue-900 py-2 rounded-md shadow-sm text-sm font-bold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 flex items-center justify-center"
                 onClick={() => navigate('/agent-page')}
-              >
-                See more
-              </button>
+                >
+                More Details 
+                <i className="fas fa-arrow-right ml-2"></i>
+                </button>
 
             </div>
           </div>
