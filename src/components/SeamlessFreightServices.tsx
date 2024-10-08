@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const ServiceCards: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <div id="services" className="flex flex-col items-center justify-center py-16 bg-white">
+    <div id="services" className="flex h-screen flex-col items-center justify-center py-16 bg-white">
       <h2 className="text-5xl font-medium text-center text-darkBlue mb-10 lg:mb-28">
         Seamless Freight Service
       </h2>
