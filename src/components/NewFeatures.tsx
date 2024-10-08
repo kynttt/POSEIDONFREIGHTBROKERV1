@@ -11,7 +11,7 @@ const FreightFeatures: React.FC = () => {
       className="bg-white  flex flex-col justify-center items-center leading-tight lg:py-20"
     >
       {/* Title Section */}
-      <h2 className="md:text-5xl xs:text-3xl font-semibold text-center text-darkBlue  ">
+      <h2 className="md:text-5xl xs:text-3xl px-4 font-semibold text-center text-darkBlue  ">
         Navigate Your Shipping Needs with
       </h2>
       <h2 className="md:px-8 text-darkBlue md:text-5xl xs:text-3xl font-semibold text-center  md:w-3/4 mb-4   p-4 mx-4 rounded-xl ">

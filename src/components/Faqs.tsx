@@ -86,7 +86,7 @@ const FAQsPage: React.FC = () => {
           animate={imageControls}
           className="w-full lg:w-1/4"
         >
-            <div className="flex flex-col items-start w-3/4">
+            <div className="md:flex hidden flex-col items-start w-3/4">
             <Image src={FaqsImage} alt="FAQs" className="rounded-lg  object-cover" />
             </div>
         </motion.div>
