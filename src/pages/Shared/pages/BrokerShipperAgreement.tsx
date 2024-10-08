@@ -406,13 +406,21 @@ const BrokerShipperAgreement: React.FC = () => {
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                20. Law and Jurisdiction. The terms and conditions of the Services to be provided shall
+                20. Cargo Insurance Recommendations: The Broker strongly encourages Shippers to procure their own cargo insurance for any shipments valued over $100,000. This recommendation is included in the terms of service and will be prominently presented to the Shipper during the booking process on the Broker's website. Additionally, Shippers are welcome to contact the Broker directly through the website for assistance in obtaining appropriate coverage. The Broker will provide guidance and resources to help Shippers secure the necessary insurance for their high-value shipments.
+            </h3>
+
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
+                21. Additional Agreements for High-Value Shipments: For shipments valued over $100,000, the Broker and Shipper may enter into a separate agreement that explicitly outlines how liability will be handled for those specific cases. This additional agreement must be signed by both Parties prior to the shipment of high-value goods.
+            </h3>
+
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
+                22. Law and Jurisdiction. The terms and conditions of the Services to be provided shall
                 be governed by the Surface Transportation Act (49 USC 13101 et. seq.) where applicable
                 and otherwise shall be construed in accordance with the laws of the State of Washington.
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                21. Entire Agreement: This Agreement constitutes the entire agreement intended by and
+                23. Entire Agreement: This Agreement constitutes the entire agreement intended by and
                 between the Parties and supersedes all prior agreements, representations, warranties,
                 statements, promises, information, arrangements, and understandings, whether oral,
                 written, expressed or implied, with respect to the subject matter hereof. The Parties
@@ -426,7 +434,7 @@ const BrokerShipperAgreement: React.FC = () => {
 
             
 
-            <p className="text-base font-semibold mb-4 text-justify">
+            <p className="text-base font-medium mb-4 text-justify">
             By using or accessing any part of the services, you confirm that all information provided is accurate and verifiable. You authorize AOT Logistics and/or a credit agency to investigate your credit history, bank references, and any other information required to process this application, both now and in the future. Additionally, by using our services, you agree to the terms outlined in this Agreement and attest that you have read, understood, and accept its terms and conditions.
             </p>
 
