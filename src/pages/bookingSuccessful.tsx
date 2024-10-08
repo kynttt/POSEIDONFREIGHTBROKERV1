@@ -9,7 +9,7 @@ const BookingConfirmation: React.FC = () => {
   const navigate = useNavigate(); // Get navigate function from React Router
   const handleNavigateToDashboard = () => {
     // Navigate to '/shipper-dashboard' when 'Ok' button is clicked
-    navigate("/s/shipper-dashboard");
+    navigate("/s/booking-transactions");
   };
 
   // Use window size for Confetti effect
