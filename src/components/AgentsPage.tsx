@@ -20,40 +20,39 @@ const AgentsPage = () => {
     <div className="">
       {/* Section 1: Become an Agent */}
       
-      <div className="  bg-darkBlue text-white py-14 px-4 sm:px-8 md:px-12 lg:px-24 flex flex-col lg:flex-row justify-between items-center">
+      <div className="bg-darkBlue text-white py-14 px-4 sm:px-8 md:px-12 lg:px-24 flex flex-col lg:flex-row justify-between items-center">
         {/* Left Side: Text Section */}
         <div className="space-y-8 lg:px-32 text-center lg:text-left">
           {/* Title */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-            Become an <br />
-            <span className="text-yellow-400">AGENT</span>
+        Become an <br />
+        <span className="text-yellow-400">AGENT</span>
           </h1>
           {/* Description */}
           <p className="text-sm sm:text-lg font-normal">
-            Freight Solutions empowers every agent to run their own business,
-            supported by the extensive resources of a major enterprise.
+        Freight Solutions empowers every agent to run their own business,
+        supported by the extensive resources of a major enterprise.
           </p>
           {/* Apply Button */}
           <button className="bg-yellow-400 text-blue-900 font-bold py-3 px-6 rounded-md hover:bg-yellow-500 transition"
           onClick={() => navigate('/agent-form')}>
-            APPLY NOW
+        APPLY NOW
           </button>
         </div>
 
         {/* Right Side: Image Section */}
-        <div className=" w-full lg:w-full flex justify-end mt-6 lg:mt-0">
-          <img
-            src={agentBanner}
-            alt="Agents working together"
-            className="w-full lg:w-auto h-auto  object-cover lg:pb-16"
-            style={getTransformStyles()}
-          />
-        </div>
+        <img
+          src={agentBanner}
+          alt="Agents working together"
+          className="w-full lg:w-1/2 object-cover lg:pb-16 mx-auto"
+          style={getTransformStyles()}
+          loading="lazy"
+        />
       </div>
       
 
       {/* Section 2: Agent Support */}
-      <div className="bg-white text-blue-900 py-16 px-4 sm:px-8 flex flex-col lg:flex-row justify-between items-center">
+      <div className="container mx-auto gap-16 bg-white text-blue-900 py-16   flex flex-col lg:flex-row justify-between items-center">
         {/* Left Side: Image */}
         <div className="w-full lg:w-1/2 flex justify-center mb-8 lg:mb-0">
           <img
@@ -118,30 +117,35 @@ const AgentsPage = () => {
 
       {/* Section 3: How Does The Agent Model Work */}
       <div>
-        <h2 className="text-center text-darkBlue text-xl sm:text-2xl md:text-3xl font-medium mb-6">
+        <h2 className="text-center text-darkBlue text-xl sm:text-2xl md:text-3xl font-medium mb-6 md:my-12">
           How Does The Agent Model Work At Freight Solutions?
         </h2>
         <div
-          className="flex flex-col lg:flex-row justify-between items-stretch text-white p-6 sm:p-8 md:p-12"
+          className="relative flex flex-col lg:flex-row justify-between items-stretch text-white p-6 sm:p-8 md:p-12"
           style={{ background: "linear-gradient(to right, #1B4980 85%, #FFCC00 15%)" }}
         >
-          <p className="text-sm sm:text-md md:text-lg w-full lg:w-3/4 font-normal ml-0 lg:ml-20 text-justify">
-            The agent model at Poseidon Freight operates by empowering independent
-            business owners to deliver personalized service at the local level. These
-            agents utilize Freight Solutions' extensive resources and global network
-            to support their operations. This model ensures flexibility, local
-            expertise, and access to comprehensive logistical support, all
-            contributing to the success of each agent's business.
-          </p>
+            <div className=" w-full lg:w-3/4 ml-0 lg:ml-20">
+            <p className=" text-sm sm:text-md md:text-lg font-normal text-justify relative z-10">
+              The agent model at Poseidon Freight operates by empowering independent
+              business owners to deliver personalized service at the local level. These
+              agents utilize Freight Solutions' extensive resources and global network
+              to support their operations. This model ensures flexibility, local
+              expertise, and access to comprehensive logistical support, all
+              contributing to the success of each agent's business.
+              
+            </p>
+            <div className="absolute inset-0 bg-black opacity-50 sm:hidden"></div>
+            
+            </div>
         </div>
       </div>
 
       {/* Image Section */}
-      <div className="w-full flex justify-center p-10 sm:p-16 lg:p-20">
+      <div className="container mx-auto flex justify-center items-center py-10 sm:p-16 lg:p-32">
         <img
           src={iProcess}
           alt="Agent support conversation"
-          className="w-full max-w-4xl lg:max-w-7xl h-auto object-cover transform transition-transform duration-300 hover:scale-110"
+          className="w-full max-w-4xl lg:max-w-7xl h-auto object-cover transform transition-transform duration-500 hover:scale-110"
         />
       </div>
 

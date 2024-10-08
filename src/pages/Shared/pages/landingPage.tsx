@@ -23,12 +23,9 @@ import HorizontalScrollComponent from "../../../components/HorizontalScrollSecti
 // import Testimonials from "../../../components/Testimonials";
 import LogisticsForm from "../../../components/LogisticsForm";
 import Testimonials2 from "../../../components/Testimonials2";
-import { PropagateLoader
-
-
-} from "react-spinners";
-import AgentsPage from "../../../components/AgentsPage";
-import AgentForm from "../../../components/AgentForm";
+import { PropagateLoader} from "react-spinners";
+// import AgentsPage from "../../../components/AgentsPage";
+// import AgentForm from "../../../components/AgentForm";
 
 const LandingPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -65,8 +62,8 @@ const LandingPage: React.FC = () => {
             {/* <Carousel /> */}
             {/* <FreightQuote /> */}
             <NewFeatures />
-            <AgentsPage />
-        <AgentForm />
+            {/* <AgentsPage />
+        <AgentForm /> */}
             {/* <NewAboutUs /> */}
             <HorizontalScrollComponent />
             {/* <PricingPage /> */}
