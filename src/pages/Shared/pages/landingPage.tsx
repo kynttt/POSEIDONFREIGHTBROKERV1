@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../../components/Navbar";
+import NavbarNew from "../../../components/navBarNew";
 import "../../../index.css"; // Ensure this file includes the @import for the Lexend font
 import HeroBanner from "../../../components/Hero";
 import BookingProcess from "../../../components/BookingProcess";
@@ -51,7 +51,7 @@ const LandingPage: React.FC = () => {
       ) : (
         <>
           <header className="w-full">
-            <Navbar />
+            <NavbarNew />
           </header>
           <Stack w="100%" gap={0}>
             <HeroBanner />
