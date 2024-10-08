@@ -8,7 +8,7 @@ const FreightFeatures: React.FC = () => {
   return (
     <section
       id="about"
-      className="bg-white  flex flex-col justify-center items-center leading-tight lg:py-20"
+      className="bg-white  flex flex-col justify-center items-center leading-tight md:py-20 py-12"
     >
       {/* Title Section */}
       <h2 className="md:text-5xl xs:text-3xl px-4 font-semibold text-center text-darkBlue  ">

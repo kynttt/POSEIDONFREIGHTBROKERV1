@@ -65,7 +65,7 @@ const TrustedByAmazon = () => {
   );
 
   return (
-    <div className="bg-white p-4 sm:p-6 md:p-10 lg:px-32 lg:mb-32">
+    <div className="bg-white p-4 sm:p-6 md:p-10 lg:px-32 lg:my-32 my-24">
       <div className="relative max-w-full mx-auto text-center bg-blue-100 p-2 py-8 sm:py-12 md:py-16 rounded-xl z-30">
         <div className="absolute top-0 bottom-0 left-0 w-10 sm:w-20 md:w-40 bg-gradient-to-r from-blue-100 to-transparent pointer-events-none rounded-l-lg z-30"></div>
         <div className="absolute top-0 bottom-0 right-0 w-10 sm:w-20 md:w-40 bg-gradient-to-l from-blue-100 to-transparent pointer-events-none rounded-r-lg z-30"></div>
