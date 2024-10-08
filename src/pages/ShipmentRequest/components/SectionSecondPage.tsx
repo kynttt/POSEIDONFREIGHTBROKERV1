@@ -28,6 +28,11 @@ export default function SectionSecondPage() {
   const { goToFormPage } = useDistancePage();
   const { data, init } = useDistanceCalculator();
   const [initialize, setInitialize] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(true); // Set initial state to true
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsTermsChecked(e.target.checked);
+  };
 
   const quoteMutation = useMutation<Quote, Error, Quote>({
     mutationFn: createQuote,
@@ -237,14 +242,39 @@ export default function SectionSecondPage() {
             />
             <div className="flex justify-end text-[1.5rem]">$0.00</div>
           </div>
-          <div className="flex gap-2 py-8 justify-between">
+            <div className="flex items-center justify-center mt-4">
+              <input
+                type="checkbox"
+                id="terms"
+                name="terms"
+                className="form-checkbox h-4 w-4 text-blue-600"
+                checked={isTermsChecked}
+                onChange={handleCheckboxChange}
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm text-primary font-normal ml-2"
+              >
+                I agree to the{" "}
+                <a
+                href="/terms-and-agreement"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-rblue underline cursor-pointer hover:text-blue-700"
+                >
+                Terms of Service
+                </a>
+              </label>
+              </div>
+
+            <div className="flex gap-2 py-8 justify-between">
             <Button variant="outline" w={"30%"} onClick={goToFormPage}>
               Back
             </Button>
-            <Button onClick={nextHandler} fullWidth>
+            <Button onClick={nextHandler} fullWidth disabled={!isTermsChecked}>
               Proceed to Payment
             </Button>
-          </div>
+            </div>
         </div>
       </div>
     </>

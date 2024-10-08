@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 // import { useNavigate } from 'react-router-dom';
 
 const BrokerShipperAgreement: React.FC = () => {
     // const navigate = useNavigate();
-    const [agreed, setAgreed] = useState(false);
+    // const [agreed, setAgreed] = useState(false);
 
-    const handleCheckboxChange = () => {
-        setAgreed(!agreed);
-    };
+    // const handleCheckboxChange = () => {
+    //     setAgreed(!agreed);
+    // };
 
-    const handleSubmit = () => {
-        if (agreed) {
-            // Handle the agreement submission logic here
-            alert("You have agreed to the terms of the contract.");
-            window.close(); // Close the current tab
-        } else {
-            alert("Please agree to the terms before proceeding.");
-        }
+    // const handleSubmit = () => {
+    //     if (agreed) {
+    //         // Handle the agreement submission logic here
+    //         alert("You have agreed to the terms of the contract.");
+    //         window.close(); // Close the current tab
+    //     } else {
+    //         alert("Please agree to the terms before proceeding.");
+    //     }
+    // };
+
+    const handleGoBack = () => {
+        window.close(); // This will close the current window
     };
-    
 
     return (
         <div className="max-w-4xl mx-auto p-8 md:px-24 bg-white shadow-md">
@@ -57,11 +60,9 @@ const BrokerShipperAgreement: React.FC = () => {
             <p className="text-base font-normal mb-4 text-justify">
                 Poseidon Distribution Inc. is a licensed freight broker, duly authorized by the Federal
                 Motor Carrier Safety Administration (FMCSA) in Docket Number MC-1104674 or by
-                appropriate State agencies to arrange for and transportation of freight by motor vehicles
-                service on behalf of a motor carrier, consignor or consignee.
-            </p>
-            <p className="text-base font-normal mb-4 text-justify">
-                Shipper, to satisfy certain transportation needs, desires to utilize the services of Poseidon
+appropriate State agencies to arrange for and transportation of freight by motor vehicles
+service on behalf of a motor carrier, consignor or consignee.            
+                </p>         <p className="text-base font-normal mb-4 text-justify">Shipper, to satisfy certain transportation needs, desires to utilize the services of Poseidon
                 Distribution Inc. to arrange for transportation of Shipper’s freight.
             </p>
 
@@ -188,6 +189,9 @@ const BrokerShipperAgreement: React.FC = () => {
                 <li>
                     The Shipper shall advise Broker if any goods are liable to taint or affect other
                     goods or are likely to harbor or encourage vermin or other pests.
+                </li>
+                <li>
+                In the event that the Shipper cancels a shipment after it has been scheduled, the Shipper may be liable for cancellation fees. The amount of the cancellation fee will be determined based on the costs incurred by the Broker in preparation for the shipment, which may include, but are not limited to, fees charged by carriers, administrative costs, and any other related expenses. The Shipper agrees to pay such cancellation fees promptly upon invoicing by the Broker.
                 </li>
             </ul>
 
@@ -392,7 +396,7 @@ const BrokerShipperAgreement: React.FC = () => {
                 performance of the Transportation Services resulting directly or indirectly from or
                 contributed to by any force majeure, including, but not limited to, act of God, acts of
                 government or other civil or military authorities, fires, accidents, floods, strikes, lockouts,
-                war, riot or other circumstances beyond their reasonable control.
+                war, riot or other circumstances beyond their reasonable control. This includes, but is not limited to, unforeseen road conditions, adverse weather conditions, traffic delays, or any other similar events that may impact the timely delivery of goods. The Shipper acknowledges and agrees that such delays may occur and that Broker shall not be held liable for any damages arising from such delays.
             </h3>
 
 
@@ -404,58 +408,41 @@ const BrokerShipperAgreement: React.FC = () => {
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                20. Law and Jurisdiction. The terms and conditions of the Services to be provided shall
+                20. Cargo Insurance Recommendations: The Broker strongly encourages Shippers to procure their own cargo insurance for any shipments valued over $100,000. This recommendation is included in the terms of service and will be prominently presented to the Shipper during the booking process on the Broker's website. Additionally, Shippers are welcome to contact the Broker directly through the website for assistance in obtaining appropriate coverage. The Broker will provide guidance and resources to help Shippers secure the necessary insurance for their high-value shipments.
+            </h3>
+
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
+                21. Additional Agreements for High-Value Shipments: For shipments valued over $100,000, the Broker and Shipper may enter into a separate agreement that explicitly outlines how liability will be handled for those specific cases. This additional agreement must be signed by both Parties prior to the shipment of high-value goods.
+            </h3>
+
+            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
+                22. Law and Jurisdiction. The terms and conditions of the Services to be provided shall
                 be governed by the Surface Transportation Act (49 USC 13101 et. seq.) where applicable
                 and otherwise shall be construed in accordance with the laws of the State of Washington.
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                21. Entire Agreement: This Agreement constitutes the entire agreement intended by and
+                23. Entire Agreement: This Agreement constitutes the entire agreement intended by and
                 between the Parties and supersedes all prior agreements, representations, warranties,
                 statements, promises, information, arrangements, and understandings, whether oral,
                 written, expressed or implied, with respect to the subject matter hereof. The Parties
                 further intend that this Agreement constitutes the complete and exclusive statement of its
                 terms and that no extrinsic evidence may be introduced to reform this Agreement in any
-                judicial or arbitration proceeding involving this Agreement.
+                judicial or arbitration proceeding involving this Agreement. The terms of this Agreement may be subject to change based on updates provided on the Broker's website. Any modifications or updates will be effective upon posting on the website and will be deemed accepted by the Shipper upon continued use of the services.
 
                 
             </h3>
+            
 
             
 
-            <p className="text-base font-semibold mb-4 text-justify">
-                By agreeing to these terms, you attest that all information provided
-                is accurate and verifiable. Furthermore, SHIPPER authorizes AOT Logistics and/or credit
-                agency to investigate all credit history, bank references and any other information
-                required to process this application and at any time in the future.
-            </p>
-
-            <p className="text-base font-semibold mb-4 text-justify">
-                    By using our services, you agree to the terms outlined in this Agreement. This Agreement is executed by the Parties as of the date you accept the terms by checking the box below.
-                </p>
-
-            <p className="text-base font-semibold mb-4 text-justify">
-                By checking the box below, you confirm that you have read, understood, and agree to the terms and conditions set forth in this Agreement.
+            <p className="text-base font-medium mb-4 text-justify">
+            By using or accessing any part of the services, you confirm that all information provided is accurate and verifiable. You authorize AOT Logistics and/or a credit agency to investigate your credit history, bank references, and any other information required to process this application, both now and in the future. Additionally, by using our services, you agree to the terms outlined in this Agreement and attest that you have read, understood, and accept its terms and conditions.
             </p>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div className="mt-8 flex items-center">
+            {/* <div className="mt-8 flex items-center">
                 <input
                     type="checkbox"
                     id="agree"
@@ -475,7 +462,14 @@ const BrokerShipperAgreement: React.FC = () => {
                 disabled={!agreed}
             >
                 Agree and Submit
-            </button>
+            </button> */}
+            {/* Back Button */}
+      <button
+        onClick={handleGoBack}
+        className="mt-8 bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Go Back
+      </button>
         </div>
     );
 };
