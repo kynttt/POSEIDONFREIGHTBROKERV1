@@ -60,7 +60,8 @@ const BrokerShipperAgreement: React.FC = () => {
             <p className="text-base font-normal mb-4 text-justify">
                 Poseidon Distribution Inc. is a licensed freight broker, duly authorized by the Federal
                 Motor Carrier Safety Administration (FMCSA) in Docket Number MC-1104674 or by
-                appropriate State agencies to arrange for and transportation of frei                appropriate State agencies to arrange for and transportation of freight by motor vehiclesco                service on behalf of a motor carrier, consignor or consignee.            
+appropriate State agencies to arrange for and transportation of freight by motor vehicles
+service on behalf of a motor carrier, consignor or consignee.            
                 </p>         <p className="text-base font-normal mb-4 text-justify">Shipper, to satisfy certain transportation needs, desires to utilize the services of Poseidon
                 Distribution Inc. to arrange for transportation of Shipper’s freight.
             </p>
