@@ -298,7 +298,7 @@ const BrokerShipperAgreement: React.FC = () => {
             </ul>
 
 
-            <h3 className="text-base font-normal mt-8 mb-4 text-justify">
+            {/* <h3 className="text-base font-normal mt-8 mb-4 text-justify">
                 10. Insurance. Broker agrees to procure and maintain at its own expense, at all times
                 during the term of this Agreement, the following insurance coverage amounts:
             </h3>
@@ -316,28 +316,28 @@ const BrokerShipperAgreement: React.FC = () => {
                     coverage and which names Shipper as “Certificate Holder”.
                 </li>
 
-            </ul>
+            </ul> */}
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                11. Surety Bond. Broker shall maintain a surety bond or trust fund agreement as required
+                10. Surety Bond. Broker shall maintain a surety bond or trust fund agreement as required
                 by the Federal Motor Carrier Safety Administration in the amount of $75,000 or as
                 otherwise required by the FMCSA and furnish Shipper with proof upon request.
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                12. Homeland Security. As applicable to each, respectively, Broker and Shipper shall
+                11. Homeland Security. As applicable to each, respectively, Broker and Shipper shall
                 comply with state and federal Homeland Security related laws and regulations.
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                13. Assignment/Modification of Agreement. Neither party may assign or transfer this
+                12. Assignment/Modification of Agreement. Neither party may assign or transfer this
                 Agreement, in whole or in part, without the prior written consent of the other party. No
                 amendment or modification of the terms of this Agreement shall be binding unless in
                 writing and signed by the Parties.
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                14. Severability/Survivability. In the event that the operation of any portion of this
+                13. Severability/Survivability. In the event that the operation of any portion of this
                 Agreement results in a violation of any law, or any provision is determined by a court of
                 competent jurisdiction to be invalid or unenforceable, the Parties agree that such portion
                 or provision shall be severable and that the remaining provisions of the Agreement shall
@@ -346,14 +346,14 @@ const BrokerShipperAgreement: React.FC = () => {
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                15. Independent Contractor. It is understood between Broker and Shipper that Broker is
+                14. Independent Contractor. It is understood between Broker and Shipper that Broker is
                 not an agent for the carrier or Shipper and shall remain at all times an independent
                 contractor. Shipper does not exercise or retain any control or supervision over Broker, its
                 operations, employees, or carriers.
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                16. Non-waiver. Failure of either party to insist upon performance of any of the terms,
+                15. Non-waiver. Failure of either party to insist upon performance of any of the terms,
                 conditions or provisions of this Agreement, or to exercise any right or privilege herein, or
                 the waiver of any breach of any of the terms, conditions or provisions of this Agreement,
                 shall not be construed as thereafter waiving any such terms, conditions, provisions, rights
@@ -362,7 +362,7 @@ const BrokerShipperAgreement: React.FC = () => {
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                17. Notices. Unless the Parties notify each other in writing of a change of address, any
+                16. Notices. Unless the Parties notify each other in writing of a change of address, any
                 and all notices required or permitted to be given under this Agreement shall be in writing
                 (or fax with machine imprint on paper acknowledging successful transmission or email
                 with confirmed receipt) and shall be addressed as follows:
@@ -376,7 +376,7 @@ const BrokerShipperAgreement: React.FC = () => {
 
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                18. Indemnity. Broker and Shipper shall each defend, indemnify and hold harmless the
+                17. Indemnity. Broker and Shipper shall each defend, indemnify and hold harmless the
                 other party from and against all loss, damage, expense, including injury resulting in
                 death, and damage to property arising out of or in connection with the indemnifying
                 party’s or its agents’ and employees’ failure to observe and/or enforce the duties and
@@ -390,7 +390,7 @@ const BrokerShipperAgreement: React.FC = () => {
 
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                19. Force Majeure. Neither Broker nor Carrier shall be liable for any delay in the
+                18. Force Majeure. Neither Broker nor Carrier shall be liable for any delay in the
                 performance of the Transportation Services resulting directly or indirectly from or
                 contributed to by any force majeure, including, but not limited to, act of God, acts of
                 government or other civil or military authorities, fires, accidents, floods, strikes, lockouts,
@@ -399,20 +399,20 @@ const BrokerShipperAgreement: React.FC = () => {
 
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                20. Waiver of Certain Damages. In no event shall Broker or Carrier be liable for any
+                19. Waiver of Certain Damages. In no event shall Broker or Carrier be liable for any
                 consequential, incidental, or special damages, which may arise, from loss, damage, non-
                 delivery, or delay of any shipment. This limitation shall apply to and include, but not
                 limited to damages for loss of profit, loss of income, or loss of business opportunity.
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                21. Law and Jurisdiction. The terms and conditions of the Services to be provided shall
+                20. Law and Jurisdiction. The terms and conditions of the Services to be provided shall
                 be governed by the Surface Transportation Act (49 USC 13101 et. seq.) where applicable
                 and otherwise shall be construed in accordance with the laws of the State of Washington.
             </h3>
 
             <h3 className="text-base font-normal mt-8 mb-4 text-justify">
-                22. Entire Agreement: This Agreement constitutes the entire agreement intended by and
+                21. Entire Agreement: This Agreement constitutes the entire agreement intended by and
                 between the Parties and supersedes all prior agreements, representations, warranties,
                 statements, promises, information, arrangements, and understandings, whether oral,
                 written, expressed or implied, with respect to the subject matter hereof. The Parties

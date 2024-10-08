@@ -74,6 +74,8 @@ import OAuthRedirect from "./pages/Shared/pages/oauthRedirect";
 import AccountCompletion from "./pages/Shared/pages/accountCompletion";
 import AuthChecker from "./components/AuthChecker";
 import ShipperUserBookingTransactions from "./pages/ShipperUser/bookingTransactions";
+import AgentsPage from "./components/AgentsPage";
+import AgentForm from "./components/AgentForm";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -121,6 +123,16 @@ const App: React.FC = () => {
                     </AuthChecker>
                   }
                 />
+                 <Route
+                  path="agent-page"
+                  element={<AgentsPage />}
+                />
+
+                <Route
+                  path="agent-form"
+                  element={<AgentForm />}
+                />
+
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/oauth-redirect" element={<OAuthRedirect />} />
