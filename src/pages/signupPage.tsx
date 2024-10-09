@@ -15,7 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import loginBg from "../assets/img/loginBg.png";
+import loginBg from "../assets/img/signUpBg.png";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -213,8 +213,8 @@ const SignupPage = () => {
       /> */}
       <div className="absolute top-0 left-0 w-full h-full bg-black/10 z-1"></div>
       <div className="container mx-auto  md:p-8 z-10">
-        <div className="flex flex-col md:flex-row items-center md:items-stretch justify-end w-full space-y-8 md:space-y-0 md:space-x-8">
-          <div className="w-full md:w-2/3 lg:w-5/12 bg-white/30 backdrop-blur-2xl border border-white/20 p-4  md:p-8 rounded-lg shadow-lg">
+        <div className="flex flex-col md:flex-row items-center md:items-stretch md:justify-center lg:justify-end w-full space-y-8 md:space-y-0 md:space-x-8">
+            <div className="w-full md:w-3/4 lg:w-5/12 bg-white/30 backdrop-blur-2xl border border-white/20 p-4 md:p-8 rounded-lg shadow-lg  sm:w-full sm:m-4">
             <h2 className="text-2xl font-bold mb-6 text-rblue">
               Create an Account
             </h2>
@@ -244,7 +244,7 @@ const SignupPage = () => {
                 <label className="block text-sm font-medium text-rblue">
                   Address *
                 </label>
-                <div className="flex flex-col md:flex-row space-y-4 md:space-y-1 md:space-x-4">
+                <div className="flex  gap-4">
                   <input
                     type="text"
                     name="address"
@@ -279,6 +279,7 @@ const SignupPage = () => {
                   </p>
                 )}
               </div>
+              <div className="flex gap-4">
               <div>
                 <label className="block text-sm font-medium text-rblue">
                   Company Name
@@ -302,29 +303,29 @@ const SignupPage = () => {
                   value={formData.companyPosition}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md  h-10 p-4"
-                  placeholder="Company Position (e.g CEO, Manager)"
+                  placeholder="e.g CEO, Manager"
                 />
               </div>
+              </div>
+              
               <div>
                 <label className="block text-sm font-medium text-rblue">
-                  Phone number *
+                  Email *
                 </label>
-                <div className="flex mt-1">
-                  <PhoneInput
-                    defaultCountry="US" // Can be changed or omitted
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handlePhoneChange}
-                    className="w-full border border-white !bg-transparent text-black placeholder-white rounded-md  text-gray-700 h-10 p-4"
-                    style={{ backgroundColor: "transparent" }}
-                    international
-                    countryCallingCodeEditable={false}
-                  />
-                </div>
-                {validationErrors.phone && (
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md  h-10 p-4 ${
+                    validationErrors.email ? "border-red-500" : ""
+                  }`}
+                  placeholder="Enter your email"
+                  required
+                />
+                {validationErrors.email && (
                   <p className="text-red-500 text-sm mt-1">
-                    {validationErrors.phone}
+                    {validationErrors.email}
                   </p>
                 )}
               </div>
@@ -363,25 +364,28 @@ const SignupPage = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-rblue">
-                  Email *
+                  Phone number *
                 </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={`mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md  h-10 p-4 ${
-                    validationErrors.email ? "border-red-500" : ""
-                  }`}
-                  placeholder="Enter your email"
-                  required
-                />
-                {validationErrors.email && (
+                <div className="flex mt-1">
+                  <PhoneInput
+                    defaultCountry="US" // Can be changed or omitted
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handlePhoneChange}
+                    className="w-full border border-white !bg-transparent text-black placeholder-white rounded-md  text-gray-700 h-10 p-4"
+                    style={{ backgroundColor: "transparent" }}
+                    international
+                    countryCallingCodeEditable={false}
+                  />
+                </div>
+                {validationErrors.phone && (
                   <p className="text-red-500 text-sm mt-1">
-                    {validationErrors.email}
+                    {validationErrors.phone}
                   </p>
                 )}
               </div>
+              
               <div className="flex items-center justify-center mt-4">
                 <input
                   type="checkbox"
