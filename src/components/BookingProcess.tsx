@@ -21,7 +21,7 @@ const BookingProcess = () => {
         }}
       >
         {/* Yellow Rectangle with Text */}
-        <div className="md:flex hidden absolute top-0 md:top-36 bg-lyellow text-darkBlue md:p-0 md:pl-72 lg:pr-20 rounded-md w-11/12 md:w-auto z-50">
+        <div className="md:flex hidden absolute top-0 md:top-36 bg-lyellow text-darkBlue md:p-0 md:pl-72 lg:pr-20 rounded-md w-11/12 md:w-auto z-30">
           <h1 className="text-lg sm:text-2xl lg:text-4xl font-bold leading-tight lg:leading-normal">
             We make your booking <br /> easy transaction
           </h1>
