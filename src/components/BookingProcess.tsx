@@ -21,7 +21,7 @@ const BookingProcess = () => {
         }}
       >
         {/* Yellow Rectangle with Text */}
-        <div className="absolute top-0 md:top-36 bg-lyellow text-darkBlue md:p-0 md:pl-72 lg:pr-20 rounded-md w-11/12 md:w-auto z-50">
+        <div className="md:flex hidden absolute top-0 md:top-36 bg-lyellow text-darkBlue md:p-0 md:pl-72 lg:pr-20 rounded-md w-11/12 md:w-auto z-30">
           <h1 className="text-lg sm:text-2xl lg:text-4xl font-bold leading-tight lg:leading-normal">
             We make your booking <br /> easy transaction
           </h1>
@@ -30,7 +30,7 @@ const BookingProcess = () => {
 
       {/* Foreground Content */}
       <div className="relative z-30 flex items-center justify-center min-h-screen">
-        <div className="py-8 md:py-16 bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg w-full">
+        <div className="py-8 md:py-16 bg-white bg-opacity-10 md:bg-opacity-50 backdrop-filter backdrop-blur-lg w-full">
             <div className="w-full md:w-4/5 lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 md:gap-10 lg:gap-16 text-center mx-auto items-start">
             {/* Step 1 */}
             <div className="space-y-4 flex flex-col items-center justify-center">

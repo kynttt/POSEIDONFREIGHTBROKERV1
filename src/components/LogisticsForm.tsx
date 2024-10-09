@@ -116,10 +116,10 @@ const LogisticsForm: React.FC = () => {
           />
         </div>
         
-        <div className="absolute inset-0 bg-black opacity-50 sm:block md:block lg:opacity-20 "></div>
+        <div className="absolute inset-0 bg-black opacity-70 sm:block md:block lg:opacity-20 "></div>
 
       
-        <div className="absolute inset-0 flex flex-col justify-center  items-center text-center px-8  md:px-12 lg:px-24">
+        <div className="absolute inset-0 flex flex-col justify-center  items-center text-center px-4  md:px-12 lg:px-24">
           <h1 className="text-2xl md:text-4xl lg:text-3xl font-bold text-gray-400 mb-4 leading-tight">
             Book your truck in under{" "}
             <span className="text-yellow-500">5 MINUTES </span> and receive{" "}
@@ -130,7 +130,7 @@ const LogisticsForm: React.FC = () => {
       </div>
       <div className="relative w-full h-3/4">
         {/* Dark Overlay for md to xs screens */}
-        <div className="absolute inset-0 bg-black opacity-50 md:opacity-60 lg:opacity-20" />
+        <div className="absolute inset-0 bg-black opacity-70 md:opacity-60 lg:opacity-20" />
 
         {/* Background Section */}
         <div
@@ -145,7 +145,7 @@ const LogisticsForm: React.FC = () => {
           <div className="lg:w-1/2 w-full" />
 
           {/* Right Section */}
-          <div className="lg:w-1/2 w-full bg-transparent p-8 lg:p-16 text-white relative">
+          <div className="lg:w-1/2 w-full bg-transparent p-4 lg:p-16 text-white relative">
             <div className="lg:w-5/7 mx-auto">
               <h2 className="text-2xl lg:text-3xl font-bold mb-8 md:text-center sm:text-left">
                 Get Quotation, pay and book your freight transportation{" "}
