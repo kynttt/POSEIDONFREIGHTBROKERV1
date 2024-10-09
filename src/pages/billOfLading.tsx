@@ -30,6 +30,7 @@ interface BookingData {
   emergencyPhoneNumber: string;
   id: string;
   loadNumber: string;
+  createdBy: string;
   postId: string;
 }
 
@@ -71,7 +72,8 @@ const BillOfLading: React.FC = () => {
         emergencyPhoneNumber: "123-456-7890",
         id: data._id!,
         loadNumber: data.loadNumber ?? null,
-        postId: data.loadNumber ?? null,
+        postId: data._id ?? "",
+        createdBy: typeof data.createdBy === 'string' ? data.createdBy : data.createdBy?.name ?? "Unknown",
       });
     };
 
@@ -225,7 +227,7 @@ const BillOfLading: React.FC = () => {
   }
 
   return (
-    <div className="h-full bg-light-grey flex justify-center">
+    <div className="md:flex hidden h-full bg-light-grey flex justify-center">
       <div
         className="md:w-[8.5in]  p-8 bg-white shadow-md  text-sm mx-8"
         ref={printRef}
@@ -302,13 +304,13 @@ const BillOfLading: React.FC = () => {
 
           <div className="grid grid-cols-4 gap-4 p-4">
             <div className="col-span-1">
-              <label className="block font-bold">Post ID:</label>
+              <label className="block font-bold">Booking Ref :</label>
               <p className="font-normal">{bookingData.postId}</p>
             </div>
-            <div className="col-span-3">
+            {/* <div className="col-span-3">
               <label className="block font-bold">Load #:</label>
               <p className="font-normal">{bookingData.loadNumber}</p>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -351,7 +353,7 @@ const BillOfLading: React.FC = () => {
         <div className="grid grid-cols-4 gap-4 p-4 border border-black">
           <div className="col-span-2">
             <label className="block font-bold">Shipper</label>
-            <p className="font-normal">{bookingData.companyName}</p>
+            <p className="font-normal">{bookingData.createdBy || "N/A"}</p>
           </div>
           <div className="col-span-2">
             <label className="block font-bold">Carrier</label>
