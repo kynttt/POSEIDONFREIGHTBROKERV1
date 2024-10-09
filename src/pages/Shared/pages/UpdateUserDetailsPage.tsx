@@ -13,6 +13,7 @@ const UpdateUserDetailsPage: React.FC = () => {
   const [address, setAddress] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [companyName, setCompanyName] = useState('');
+  const [companyPosition, setCompanyPosition] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [userRole, setUserRole] = useState<string>(''); // State to store user role
@@ -41,6 +42,7 @@ const UpdateUserDetailsPage: React.FC = () => {
           setAddress(user.address || '');
           setPostalCode(user.postalCode || '');
           setCompanyName(user.companyName || '');
+          setCompanyPosition(user.companyPosition || '');
           setUserRole(user.role || ''); // Assuming user role is part of the user data
         } catch (err) {
           setError('Failed to fetch user details.');
@@ -57,7 +59,7 @@ const UpdateUserDetailsPage: React.FC = () => {
     setSuccess('');
 
     try {
-      await updateUserDetails(userId, name, email, phone, address, postalCode, companyName);
+      await updateUserDetails(userId, name, email, phone, address, postalCode, companyName, companyPosition);
       setSuccess('User details updated successfully.');
     } catch (error) {
       setError('Failed to update user details. Please try again.');
@@ -158,8 +160,9 @@ const UpdateUserDetailsPage: React.FC = () => {
               placeholder="Enter your postal code"
             />
           </div>
+          <div className='flex gap-4'>
           <div className="flex flex-col">
-            <label htmlFor="companyName" className="mb-2 text-sm font-medium text-gray-600">Company Name (Optional)</label>
+            <label htmlFor="companyName" className="mb-2 text-sm font-medium text-gray-600">Company Name</label>
             <input
               id="companyName"
               type="text"
@@ -168,6 +171,18 @@ const UpdateUserDetailsPage: React.FC = () => {
               className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
               placeholder="Enter your company name"
             />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="companyPosition" className="mb-2 text-sm font-medium text-gray-600">Company Position</label>
+            <input
+              id="companyPosition"
+              type="text"
+              value={companyPosition}
+              onChange={(e) => setCompanyPosition(e.target.value)}
+              className="p-2 bg-light-grey rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 font-normal"
+              placeholder="Enter your company name"
+            />
+          </div>
           </div>
           <div className='flex gap-4'>
           <button

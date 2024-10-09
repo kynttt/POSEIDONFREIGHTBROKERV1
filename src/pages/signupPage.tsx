@@ -27,6 +27,7 @@ const SignupPage = () => {
     postalCode: "",
     companyName: "",
     role: "user",
+    companyPosition: "",
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -289,6 +290,19 @@ const SignupPage = () => {
                   onChange={handleChange}
                   className="mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md  h-10 p-4"
                   placeholder="Company name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-rblue">
+                  Company Position
+                </label>
+                <input
+                  type="text"
+                  name="companyPosition"
+                  value={formData.companyPosition}
+                  onChange={handleChange}
+                  className="mt-1 block w-full border border-white bg-transparent placeholder-gray-700 text-primary placeholder-opacity-60 font-light rounded-md  h-10 p-4"
+                  placeholder="Company Position (e.g CEO, Manager)"
                 />
               </div>
               <div>

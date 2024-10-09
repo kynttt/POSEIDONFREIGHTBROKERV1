@@ -82,6 +82,7 @@ export const registerUser = async (formData: RegisterFormData) => {
     postalCode: formData.postalCode,
     phone: formData.phone,
     companyName: formData.companyName,
+    companyPosition: formData.companyPosition,
     role: "user",
   });
   return response.data as LoginResponse;
@@ -141,7 +142,8 @@ export const updateUserDetails = async (
   phone: string,
   address: string,
   postalCode: string,
-  companyName: string
+  companyName: string,
+  companyPosition: string
 ) => {
   try {
     const response = await axiosInstance.patch(`/account/update-details`, {
@@ -152,6 +154,7 @@ export const updateUserDetails = async (
       address,
       postalCode,
       companyName,
+      companyPosition,
     });
     return response.data;
   } catch (error: unknown) {

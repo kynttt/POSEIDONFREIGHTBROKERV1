@@ -11,7 +11,6 @@ import {
   faMobileScreenButton,
   // faCog,
   faUserEdit,
-  
   faCameraRetro,
   faFileContract, // Icon for Edit Profile
 } from "@fortawesome/free-solid-svg-icons";
@@ -164,52 +163,53 @@ const ProfileCard: React.FC = () => {
 
       {/* Profile Picture */}
       {/* Profile Picture */}
-<div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-1/3">
-  <div
-    className="relative w-32 h-32 md:w-40 md:h-40"
-    onMouseEnter={() => setIsHovering(true)}
-    onMouseLeave={() => setIsHovering(false)}
-  >
-    {/* Profile Image */}
-    <img
-      className={`w-full h-full object-cover rounded-full border-4 border-white shadow-2xl ${
-        isUploading || profilePictureLoading ? "opacity-50" : ""
-      }`} // Reduce opacity during upload
-      src={
-        profilePicture && !profilePictureLoading && !profilePictureError
-          ? profilePicture
-          : profileImage
-      }
-      alt="Profile"
-    />
+      <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-1/3">
+        <div
+          className="relative w-32 h-32 md:w-40 md:h-40"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
+          {/* Profile Image */}
+          <img
+            className={`w-full h-full object-cover rounded-full border-4 border-white shadow-2xl ${
+              isUploading || profilePictureLoading ? "opacity-50" : ""
+            }`} // Reduce opacity during upload
+            src={
+              profilePicture && !profilePictureLoading && !profilePictureError
+                ? profilePicture
+                : profileImage
+            }
+            alt="Profile"
+          />
 
-    {/* Camera Icon - Lower Right */}
-    <div
-  className="absolute bottom-2 right-2 bg-gray-400 rounded-full p-2 cursor-pointer flex items-center justify-center w-8 h-8"
-  onClick={handleEditClick}
->
-  <FontAwesomeIcon icon={faCameraRetro} className="text-white text-md" />
-</div>
+          {/* Camera Icon - Lower Right */}
+          <div
+            className="absolute bottom-2 right-2 bg-gray-400 rounded-full p-2 cursor-pointer flex items-center justify-center w-8 h-8"
+            onClick={handleEditClick}
+          >
+            <FontAwesomeIcon
+              icon={faCameraRetro}
+              className="text-white text-md"
+            />
+          </div>
 
-
-    {/* Show loading spinner during upload */}
-    {isUploading ||
-      (profilePictureLoading && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500 border-t-transparent"></div>
+          {/* Show loading spinner during upload */}
+          {isUploading ||
+            (profilePictureLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500 border-t-transparent"></div>
+              </div>
+            ))}
+          {/* File input (hidden) */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            className="hidden"
+          />
         </div>
-      ))}
-    {/* File input (hidden) */}
-    <input
-      type="file"
-      ref={fileInputRef}
-      onChange={handleFileChange}
-      accept="image/*"
-      className="hidden"
-    />
-  </div>
-</div>
-
+      </div>
 
       {/* User Details */}
       <div className="flex-1  p-4 md:p-8 mt-16">
@@ -242,7 +242,8 @@ const ProfileCard: React.FC = () => {
                 <span className="mr-2 text-gray-500">
                   <FontAwesomeIcon icon={faBuilding} />
                 </span>
-                {data?.companyName || "ABC Company"}
+                {data?.companyName || "ABC Company"} (
+                {data?.companyPosition || ""})
               </p>
             </div>
             <div className="flex gap-4 ml-auto">
@@ -266,16 +267,16 @@ const ProfileCard: React.FC = () => {
                 />
                 Change Password
               </button>
-                <button
-                  onClick={() => window.open("/terms-and-agreement", "_blank")}
-                  className="flex items-center px-4 py-2 font-medium bg-grey text-gray-500 rounded shadow-lg hover:bg-secondary hover:text-white"
-                >
-                  <FontAwesomeIcon
-                    icon={faFileContract}
-                    className="text-gray-500 hover:text-white mr-3"
-                  />
-                  Terms and Conditions
-                </button>
+              <button
+                onClick={() => window.open("/terms-and-agreement", "_blank")}
+                className="flex items-center px-4 py-2 font-medium bg-grey text-gray-500 rounded shadow-lg hover:bg-secondary hover:text-white"
+              >
+                <FontAwesomeIcon
+                  icon={faFileContract}
+                  className="text-gray-500 hover:text-white mr-3"
+                />
+                Terms and Conditions
+              </button>
             </div>
           </div>
         </div>
