@@ -1,5 +1,5 @@
 import "react-circular-progressbar/dist/styles.css";
-import heroBanner from "../assets/img/cover-hero.webp";
+import heroBanner from "../assets/img/cover-hero.png";
 // import rectangle from "../assets/img/Rectangle 114.png";
 import { useNavigate } from "react-router-dom";
 
