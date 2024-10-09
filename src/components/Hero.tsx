@@ -22,10 +22,10 @@ const HeroBanner = () => {
         <div className="absolute inset-0 bg-black opacity-50 sm:block md:block lg:opacity-20 "></div>
 
         {/* Content */}
-        <div className="lg:pl-48 px-8 relative z-10 flex items-center justify-between h-[350px] md:h-[400px] lg:h-[700px]">
+        <div className="container mx-auto   relative z-10 flex items-center justify-between h-[350px] md:h-[400px] lg:h-[700px] lg:mb-0 mb-8">
           <div className="max-w-xl w-full sm:w-auto">
             {/* Animated Title */}
-            <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-8 leading-tight mt-16 overflow-hidden">
+            <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-8 leading-tight mt-4 overflow-hidden">
               <span className="text-yellow-500 block-reveal-animation">24/7</span> Customer Services And 3PL + Asset Base Logistics With{" "}
               <span className="text-yellow-500 block-reveal-animation">Poseidon Freight</span>
             </h1>
