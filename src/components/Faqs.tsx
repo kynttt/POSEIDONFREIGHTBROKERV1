@@ -53,14 +53,14 @@ const FAQsPage: React.FC = () => {
   const items = faqs.map((item) => (
     <Accordion.Item key={item.question} value={item.question}>
       <Accordion.Control
-        className="font-medium text-white hover:text-rblue mb-2 "
+        className="font-medium text-rblue hover:text-rblue mb-2 "
         classNames={{
-          chevron: "text-white hover:text-rblue focus:text-white", // Style for the arrow (chevron)
+          chevron: "text-rblue hover:text-rblue focus:text-white", // Style for the arrow (chevron)
         }}
       >
         <QuestionComponent question={item.question} />
       </Accordion.Control>
-      <Accordion.Panel className="text-gray-400  md:text-md lg:text-xl text-lg font-normal mb-2 text-justify ">
+      <Accordion.Panel className="text-blue-700  md:text-md lg:text-xl text-lg font-normal mb-2 text-justify ">
         {item.answer}
       </Accordion.Panel>
     </Accordion.Item>
@@ -70,7 +70,7 @@ const FAQsPage: React.FC = () => {
     <div className="relative w-full h-auto">
       {/* Background color half-covering the container */}
       <div className="absolute inset-0 w-full h-full">
-        <div className="h-full w-full bg-darkBlue"></div>
+        <div className="h-full w-full bg-blue-100"></div>
       </div>
       <img
         src={SearchIcon}
@@ -117,7 +117,7 @@ const FAQsPage: React.FC = () => {
 
 function QuestionComponent({ question }: { question: string }) {
   return (
-    <p className="xs:text-md md:text-3xl lg:text-2xl text-white hover:text-rblue focus:text-white">
+    <p className="xs:text-md md:text-xl lg:text-xl text-rblue hover:text-rblue focus:text-white">
       {question}
     </p>
   );
