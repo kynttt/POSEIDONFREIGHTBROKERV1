@@ -142,7 +142,8 @@ export const updateUserDetails = async (
   phone: string,
   address: string,
   postalCode: string,
-  companyName: string
+  companyName: string,
+  companyPosition: string
 ) => {
   try {
     const response = await axiosInstance.patch(`/account/update-details`, {
@@ -153,6 +154,7 @@ export const updateUserDetails = async (
       address,
       postalCode,
       companyName,
+      companyPosition,
     });
     return response.data;
   } catch (error: unknown) {
