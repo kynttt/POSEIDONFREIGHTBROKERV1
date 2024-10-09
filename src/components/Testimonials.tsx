@@ -14,7 +14,7 @@ const TrustedByAmazon = () => {
     },
     {
       image: pic1,
-      review: "The team provided exceptional support and communication throughout our freight journey. It made all the difference!",
+      review: "The team provided exceptional support and communication all throughout. It made all the difference!",
       name: "James Smith",
       role: "Operations Director",
     },
