@@ -1,5 +1,5 @@
 import "react-circular-progressbar/dist/styles.css";
-import heroBanner from "../assets/img/cover-hero.png";
+import heroBanner from "../assets/img/hero-cover.png";
 import { useNavigate } from "react-router-dom";
 
 const HeroBanner = () => {
@@ -10,16 +10,25 @@ const HeroBanner = () => {
       <div className="relative text-white md:py-0 xs:py-10">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img
-            src={heroBanner}
-            alt="Trucks"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 h-full w-full">
+            <div
+              className="bg-darkBlue relative sm:-mr-32 z-10 h-48 sm:h-auto hidden md:block"
+              style={{ clipPath: "polygon(0 0, 90% 0, 100% 100%, 0 100%)" }}
+            >
+              {/* Empty Div */}
+            </div>
+            <img
+              src={heroBanner}
+              alt="Trucks"
+              className="w-full h-full object-cover sm:-ml-0 z-0"
+              loading="lazy"
+            />
+          </div>
         </div>
 
+
         {/* Overlay (Visible only on xs to md screens) */}
-        <div className="absolute inset-0 bg-black opacity-50 sm:block md:block lg:opacity-20 "></div>
+        <div className="absolute inset-0 bg-black opacity-70 sm:block md:block lg:opacity-20 "></div>
 
         {/* Content */}
         <div className="container mx-auto   relative z-10 flex items-center justify-between h-[350px] md:h-[400px] lg:h-[700px] lg:mb-0 mb-8">
