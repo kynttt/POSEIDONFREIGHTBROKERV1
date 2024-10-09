@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 
 const AgentForm = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,15 @@ const AgentForm = () => {
     fileUploaded: false,
   });
 
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    referralSource: "",
+    agreement: "",
+  });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as HTMLInputElement;
     const checked = (e.target as HTMLInputElement).checked;
@@ -20,6 +29,9 @@ const AgentForm = () => {
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     });
+
+    // Clear error for the changed field
+  
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,9 +45,94 @@ const AgentForm = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+    const { firstName, lastName, email, phoneNumber, referralSource, agreement } = formData;
+
+    // Validate required fields
+    let hasErrors = false;
+    const newErrors = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      referralSource: "",
+      agreement: "",
+    };
+
+    if (!firstName) {
+      newErrors.firstName = "First Name is required.";
+      hasErrors = true;
+    }
+    if (!lastName) {
+      newErrors.lastName = "Last Name is required.";
+      hasErrors = true;
+    }
+    if (!email) {
+      newErrors.email = "Email is required.";
+      hasErrors = true;
+    }
+    if (!phoneNumber) {
+      newErrors.phoneNumber = "Phone Number is required.";
+      hasErrors = true;
+    }
+    if (!referralSource) {
+      newErrors.referralSource = "Referral Source is required.";
+      hasErrors = true;
+    }
+    if (!agreement) {
+      newErrors.agreement = "You must agree to the terms.";
+      hasErrors = true;
+    }
+
+    setErrors(newErrors);
+
+    if (hasErrors) {
+      return; // Stop submission if there are validation errors
+    }
+
+    // Assume formData has the file as well
+    const { fileUploaded, bpoExperience, yearsExperience } = formData;
+
+    // Step 1: Upload the file
+    let fileUrl = '';
+    if (fileUploaded) {
+      const formData = new FormData();
+      // Append the actual file here (assuming you have access to the file)
+      // formData.append('file', file);
+
+      // Upload to your server (replace with your actual upload endpoint)
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        fileUrl = data.fileUrl; // Assuming the server returns the file URL
+      } else {
+        console.error('File upload failed');
+        return;
+      }
+    }
+
+    // Step 2: Construct the email body with the file link
+    const emailBody = `
+      First Name: ${firstName}
+      Last Name: ${lastName}
+      Email: ${email}
+      Phone Number: ${phoneNumber}
+      BPO Experience: ${bpoExperience}
+      Years of Experience: ${yearsExperience}
+      Referral Source: ${referralSource}
+      Attached File: ${fileUrl}
+    `;
+
+    // Creating a mailto link
+    const mailtoLink = `mailto:tech@pdienterprise.com?subject=Agent Application&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open the default email client
+    window.location.href = mailtoLink;
   };
 
   return (
@@ -74,6 +171,7 @@ const AgentForm = () => {
                 onChange={handleChange}
                 className="mt-1 font-normal text-darkBlue block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
+              {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
             </div>
 
             {/* Last Name */}
@@ -88,6 +186,7 @@ const AgentForm = () => {
                 onChange={handleChange}
                 className="mt-1 font-normal text-darkBlue block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
+              {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
             </div>
           </div>
 
@@ -105,6 +204,7 @@ const AgentForm = () => {
                 onChange={handleChange}
                 className="mt-1 font-normal text-darkBlue block w-full border font-normal text-darkBlue border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
 
             {/* Phone Number */}
@@ -119,6 +219,7 @@ const AgentForm = () => {
                 onChange={handleChange}
                 className="mt-1 block font-normal text-darkBlue w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
+              {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
             </div>
           </div>
 
@@ -170,6 +271,7 @@ const AgentForm = () => {
               className="mt-1 font-normal text-darkBlue block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               placeholder="Facebook, Google, etc."
             />
+            {errors.referralSource && <p className="text-red-500 text-xs mt-1">{errors.referralSource}</p>}
           </div>
 
           {/* File Upload */}
@@ -208,6 +310,7 @@ const AgentForm = () => {
               to confirm your acceptance of the terms and conditions.
             </label>
           </div>
+          {errors.agreement && <p className="text-red-500 text-xs mt-1">{errors.agreement}</p>}
 
           {/* Submit Button */}
           <div>
@@ -218,7 +321,6 @@ const AgentForm = () => {
               SUBMIT
             </button>
           </div>
-
         </form>
       </div>
     </div>
