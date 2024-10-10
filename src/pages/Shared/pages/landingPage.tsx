@@ -23,6 +23,10 @@ import HorizontalScrollComponent from "../../../components/HorizontalScrollSecti
 import Testimonials from "../../../components/Testimonials";
 import LogisticsForm from "../../../components/LogisticsForm";
 // import Testimonials2 from "../../../components/Testimonials2";
+<<<<<<< HEAD
+=======
+import { PropagateLoader } from "react-spinners";
+>>>>>>> 6a0fadee345a3a472988b1661b0da00d23ee60da
 // import AgentsPage from "../../../components/AgentsPage";
 // import AgentForm from "../../../components/AgentForm";
 
