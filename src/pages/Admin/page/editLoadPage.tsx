@@ -269,7 +269,7 @@ const EditLoad: React.FC = () => {
 
             <div className="md:flex items-center justify-between bg-blue-50 px-6 w-full max-w-screen mx-auto ">
                             <h1 className="md:text-2xl text-lg font-medium mb-4 mt-4 text-rblue">
-                                Shipment Reference: {booking._id}
+                            Shipment Reference: {booking.bookingRef}
                             </h1>
                             <p className="flex items-center text-rblue">Status <p className="px-8 py-2 my-4 border border-blue-500  text-blue-500 rounded-3xl mx-6"> {booking.status} 
                                 </p></p>

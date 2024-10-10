@@ -113,6 +113,7 @@ export interface StripeClientSecret {
 }
 
 export interface Booking extends Schema {
+  bookingRef: string;
   loadNumber: string;
   trailerNumber: string;
   bolNumber: string;
