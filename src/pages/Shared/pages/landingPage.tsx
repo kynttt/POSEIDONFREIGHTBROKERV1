@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { FaArrowUp } from "react-icons/fa"; // Importing FontAwesome icon
+import React, { useEffect, useState } from "react";
 import NavbarNew from "../../../components/navBarNew";
 import "../../../index.css"; // Ensure this file includes the @import for the Lexend font
 import HeroBanner from "../../../components/Hero";
@@ -24,12 +23,13 @@ import HorizontalScrollComponent from "../../../components/HorizontalScrollSecti
 import Testimonials from "../../../components/Testimonials";
 import LogisticsForm from "../../../components/LogisticsForm";
 // import Testimonials2 from "../../../components/Testimonials2";
-import { PropagateLoader } from "react-spinners";
+
+import { FaArrowUp } from "react-icons/fa";
 // import AgentsPage from "../../../components/AgentsPage";
 // import AgentForm from "../../../components/AgentForm";
 
 const LandingPage: React.FC = () => {
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [showButton, setShowButton] = useState(false); // State to control visibility of "Back to Top" button
 
   useEffect(() => {
@@ -62,11 +62,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="w-full">
-      {loading ? (
-        <div className="flex justify-center items-center h-screen">
-          <PropagateLoader color="#1b4980" loading={loading} size={15} />
-        </div>
-      ) : (
+    
         <>
           <header className="w-full">
             <NavbarNew />
@@ -113,7 +109,7 @@ const LandingPage: React.FC = () => {
             </button>
           )}
         </>
-      )}
+      
     </div>
   );
 };

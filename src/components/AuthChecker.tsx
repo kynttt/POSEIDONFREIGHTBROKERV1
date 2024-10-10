@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "../state/useAuthStore";
 import { getUser } from "../lib/apiCalls";
 import { useEffect } from "react";
+import { ClimbingBoxLoader
+} from "react-spinners";
 
 export default function AuthChecker({
   children,
@@ -28,9 +30,13 @@ export default function AuthChecker({
   }, [data, login, logoutUpdate, isError]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClimbingBoxLoader
+ color="#1b4980" loading={isLoading} size={15} />
+      </div>
+    );
   }
 
   return <>{children}</>;
-  
 }
