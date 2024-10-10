@@ -29,7 +29,7 @@ import { FaArrowUp } from "react-icons/fa";
 // import AgentForm from "../../../components/AgentForm";
 
 const LandingPage: React.FC = () => {
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [showButton, setShowButton] = useState(false); // State to control visibility of "Back to Top" button
 
   useEffect(() => {
