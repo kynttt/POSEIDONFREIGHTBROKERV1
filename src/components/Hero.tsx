@@ -35,7 +35,7 @@ const HeroBanner = () => {
           <div className="max-w-xl w-full sm:w-auto">
             {/* Animated Title */}
             <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-8 leading-tight mt-4 overflow-hidden">
-              <span className="text-yellow-500 block-reveal-animation flex  items-center">24/7</span> Customer Services And 3PL + Asset Base Logistics With{" "}
+              <span className="text-yellow-500 text-3xl md:text-5xl block-reveal-animation">24/7</span> Customer Services And 3PL + Asset Base Logistics With{" "}
               <span className="text-yellow-500 block-reveal-animation">Poseidon Freight</span>
             </h1>
 
