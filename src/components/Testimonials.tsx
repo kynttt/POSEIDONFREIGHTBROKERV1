@@ -14,7 +14,7 @@ const TrustedByAmazon = () => {
     },
     {
       image: pic1,
-      review: "The team provided exceptional support and communication throughout our freight journey. It made all the difference!",
+      review: "The team provided exceptional support and communication all throughout. It made all the difference!",
       name: "James Smith",
       role: "Operations Director",
     },
@@ -52,8 +52,8 @@ const TrustedByAmazon = () => {
   }, []);
 
   const TestimonialCard = ({ image, review, name, role }: { image: string; review: string; name: string; role: string; }) => (
-    <div className="flex bg-white rounded-lg p-6 shadow-md max-w-[300px] sm:max-w-[300px] md:max-w-[400px] lg:max-w-[600px]">
-      <img src={image} alt={name} className="md:flex hidden rounded-md w-20 h-20 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-60 lg:h-60 mx-auto object-cover" />
+    <div className="flex bg-white rounded-lg p-6 shadow-md max-w-[300px] sm:max-w-[300px] md:max-w-[400px] lg:max-w-[600px] h-60">
+      <img src={image} alt={name} className=" hidden rounded-md w-20 h-20 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-60 lg:h-60 mx-auto object-cover" />
       <div className='text-left pl-2 sm:pl-4 md:pl-6 lg:pl-8 flex flex-col justify-between'>
         <p className="md:mt-4 text-xs sm:text-sm md:text-base lg:text-lg text-nblue font-normal">"{review}"</p>
         <div>

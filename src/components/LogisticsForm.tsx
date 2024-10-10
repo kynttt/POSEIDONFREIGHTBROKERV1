@@ -130,7 +130,7 @@ const LogisticsForm: React.FC = () => {
       </div>
       <div className="relative w-full h-3/4">
         {/* Dark Overlay for md to xs screens */}
-        <div className="absolute inset-0 bg-black opacity-70 md:opacity-60 lg:opacity-20" />
+        <div className="absolute inset-0 bg-black opacity-70 md:opacity-70 lg:opacity-20" />
 
         {/* Background Section */}
         <div
@@ -145,7 +145,7 @@ const LogisticsForm: React.FC = () => {
           <div className="lg:w-1/2 w-full" />
 
           {/* Right Section */}
-          <div className="lg:w-1/2 w-full bg-transparent p-4 lg:p-16 text-white relative">
+          <div className="lg:w-1/2 w-full bg-transparent px-4 py-16 lg:p-16 text-white relative">
             <div className="lg:w-5/7 mx-auto">
               <h2 className="text-2xl lg:text-3xl font-bold mb-8 md:text-center sm:text-left">
                 Get Quotation, pay and book your freight transportation{" "}

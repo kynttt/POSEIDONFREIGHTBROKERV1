@@ -132,12 +132,14 @@ const FreightFeatures: React.FC = () => {
                     </li>
                   </ul>
                 </div>
+                <div className=" flex justify-center">
 
                 <img
                   src={feat1Image}
                   alt="Truck rear view"
                   className="h-auto md:w-4/5 w-full object-cover border-r-4  border-yellow-500"
                 />
+              </div>
               </div>
             </div>
 
@@ -196,12 +198,13 @@ const FreightFeatures: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-
+                <div className=" flex justify-center">
                 <img
                   src={feat2Image}
                   alt="Truck rear view"
                   className="h-auto md:w-4/5  w-full object-cover border-r-4  border-darkBlue"
                 />
+              </div>
               </div>
             </div>
 
@@ -263,12 +266,14 @@ const FreightFeatures: React.FC = () => {
                     </li>
                   </ul>
                 </div>
+                <div className=" flex justify-center">
 
                 <img
                   src={feat3Image}
                   alt="Truck rear view"
                   className="h-auto  md:w-4/5 w-full object-cover border-r-4  border-yellow-500"
                 />
+                </div>
               </div>
             </div>
           </div>

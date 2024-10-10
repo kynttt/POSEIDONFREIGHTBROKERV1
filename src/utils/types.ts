@@ -41,6 +41,7 @@ export interface User extends Schema {
   address: string;
   postalCode: string;
   companyName: string;
+  companyPosition?: string;
   role: "admin" | "user";
   password?: string;
   profilePicUrl?: string;
@@ -49,6 +50,7 @@ export interface User extends Schema {
 
 export interface RegisterFormData extends User {
   password: string;
+  companyPosition: string;
 }
 // Bookings
 // Book a quote

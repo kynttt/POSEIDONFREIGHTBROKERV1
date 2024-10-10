@@ -80,7 +80,7 @@ const HorizontalScrollSection: React.FC = () => {
       ></div>
 
     <div
-      className="scroll-container relative z-10 bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-lg "
+      className="scroll-container md:flex hidden relative z-10 bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-lg "
       ref={scrollContainerRef}
       onMouseDown={handleMouseDown}
     >

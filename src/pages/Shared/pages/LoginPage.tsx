@@ -12,7 +12,7 @@ import axios from "axios";
 import { notifications } from "@mantine/notifications";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import loginBg from "../../../assets/img/loginBg.png";
+import loginBg from "../../../assets/img/signUpBg.png";
 import shippersImage from "../../../assets/img/logo.png";
 
 interface LoginData {

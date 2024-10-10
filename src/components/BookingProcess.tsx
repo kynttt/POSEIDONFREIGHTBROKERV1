@@ -8,7 +8,7 @@ import Step5Img from "../assets/img/step5.png"; // Import Step 5 image
 const BookingProcess = () => {
   return (
 
-    <div className="relative h-auto w-full overflow-hidden pt-24">
+    <div className="relative lg:h-auto md:h-1/2 w-full overflow-hidden pt-24">
       {/* Overlay Dark */}
       {/* <div className="absolute inset-0 bg-black opacity-25 z-20"></div> */}
       
