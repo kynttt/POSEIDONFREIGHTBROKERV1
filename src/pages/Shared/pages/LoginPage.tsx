@@ -139,6 +139,8 @@ const LoginPage: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
+      <div className="absolute top-0 left-0 w-full h-full bg-darkBlue opacity-30 z-0"></div>
+
       <div className="absolute top-0 left-0 w-full h-full bg-black/10 z-1"></div>
       <div className="relative z-10 flex h-full w-full md:px-36 justify-end items-center p-4">
         <div className="flex flex-col justify-center w-full max-w-full lg:max-w-4xl overflow-hidden">

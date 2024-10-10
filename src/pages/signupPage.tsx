@@ -199,17 +199,18 @@ const SignupPage = () => {
 
   return (
     <div
-      className="bg-white h-screen flex items-center justify-center"
+      className="bg-white h-screen flex items-center justify-center relative"
       style={{
-        backgroundImage: `url(${loginBg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+      backgroundImage: `url(${loginBg})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
       }}
     >
+      <div className="absolute top-0 left-0 w-full h-full bg-darkBlue opacity-30 z-0"></div>
       {/* <canvas
-        ref={canvasRef}
-        className="absolute top-0 left-0 w-full h-full z-0"
-        style={{ isolation: "isolate" }}
+      ref={canvasRef}
+      className="absolute top-0 left-0 w-full h-full z-0"
+      style={{ isolation: "isolate" }}
       /> */}
       <div className="absolute top-0 left-0 w-full h-full bg-black/10 z-1"></div>
       <div className="container mx-auto  md:p-8 z-10">
