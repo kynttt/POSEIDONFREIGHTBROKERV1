@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import React from "react";
-=======
-import React, { useState, useEffect } from "react";
-import { FaArrowUp } from "react-icons/fa"; // Importing FontAwesome icon
->>>>>>> 6a0fadee345a3a472988b1661b0da00d23ee60da
+import React, { useEffect, useState } from "react";
 import NavbarNew from "../../../components/navBarNew";
 import "../../../index.css"; // Ensure this file includes the @import for the Lexend font
 import HeroBanner from "../../../components/Hero";
@@ -28,50 +23,12 @@ import HorizontalScrollComponent from "../../../components/HorizontalScrollSecti
 import Testimonials from "../../../components/Testimonials";
 import LogisticsForm from "../../../components/LogisticsForm";
 // import Testimonials2 from "../../../components/Testimonials2";
-<<<<<<< HEAD
-=======
 import { PropagateLoader } from "react-spinners";
->>>>>>> 6a0fadee345a3a472988b1661b0da00d23ee60da
+import { FaArrowUp } from "react-icons/fa";
 // import AgentsPage from "../../../components/AgentsPage";
 // import AgentForm from "../../../components/AgentForm";
 
 const LandingPage: React.FC = () => {
-<<<<<<< HEAD
-  return (
-    <div className="w-full">
-      <>
-        <header className="w-full">
-          <NavbarNew />
-        </header>
-        <Stack w="100%" gap={0}>
-          <HeroBanner />
-          <BookingProcess />
-          <LogisticsForm />
-          <SeamlessFreightServices />
-          {/* <ServicesCardList /> */}
-          {/* <Carousel /> */}
-          {/* <FreightQuote /> */}
-          <NewFeatures />
-          {/* <AgentsPage />
-        <AgentForm /> */}
-          {/* <NewAboutUs /> */}
-          <HorizontalScrollComponent />
-          {/* <PricingPage /> */}
-          <Testimonials />
-          {/* <Testimonials2 /> */}
-          {/* <CarouselComponent /> */}
-          {/* <FeaturesSection /> */}
-          {/* <AboutUs /> */}
-          <FAQsPage />
-          {/* <TrustedAmazon /> */}
-          <ContactForm />
-          {/* <SuccessPage /> */}
-        </Stack>
-        <footer>
-          <Footer />
-        </footer>
-      </>
-=======
   const [loading, setLoading] = useState(true);
   const [showButton, setShowButton] = useState(false); // State to control visibility of "Back to Top" button
 
@@ -157,7 +114,6 @@ const LandingPage: React.FC = () => {
           )}
         </>
       )}
->>>>>>> 6a0fadee345a3a472988b1661b0da00d23ee60da
     </div>
   );
 };
