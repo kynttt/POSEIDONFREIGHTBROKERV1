@@ -2,7 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "../state/useAuthStore";
 import { getUser } from "../lib/apiCalls";
 import { useEffect } from "react";
-import { ClimbingBoxLoader
+import { GridLoader
+
+
 } from "react-spinners";
 
 export default function AuthChecker({
@@ -32,8 +34,10 @@ export default function AuthChecker({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <ClimbingBoxLoader
- color="#1b4980" loading={isLoading} size={15} />
+        <GridLoader
+
+
+ color="#1b4980" loading={isLoading} size={10} />
       </div>
     );
   }
