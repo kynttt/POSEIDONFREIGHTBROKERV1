@@ -2,12 +2,23 @@ import React, { useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import SignatureCanvas from "react-signature-canvas";
+import { useAuthStore } from "../../../state/useAuthStore";
+import { getUser } from "../../../lib/apiCalls";
+import { useQuery } from "@tanstack/react-query";
 
 
 const BrokerShipperAgreement: React.FC = () => {
+    const { isAuthenticated, userId } = useAuthStore();
     const [isSigned, setIsSigned] = useState(false);
   const signatureRef = useRef<SignatureCanvas>(null);
   const [isSignaturePresent, setIsSignaturePresent] = useState(false);
+
+  const { data, isLoading, isError, error } = useQuery<User, AxiosError>({
+    queryKey: ["authUser", userId],
+    queryFn: getUser,
+    enabled: isAuthenticated ?? false,
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+  });
   
 
 
@@ -471,34 +482,70 @@ const BrokerShipperAgreement: React.FC = () => {
                     By using or accessing any part of the services, you confirm that all information provided is accurate and verifiable. You authorize AOT Logistics and/or a credit agency to investigate your credit history, bank references, and any other information required to process this application, both now and in the future. Additionally, by using our services, you agree to the terms outlined in this Agreement and attest that you have read, understood, and accept its terms and conditions.
                 </p>
 
-                    {/* Signature Canvas */}
-            <div className="mt-4">
-              <div className="relative">
-                {/* Signature Canvas */}
-                <SignatureCanvas
-                  ref={signatureRef}
-                  penColor="black"
-                  maxWidth={1.3}
-                  onEnd={handleSignatureEnd}
-                  canvasProps={{
-                    className:
-                      "signatureCanvas border border-gray-500 w-full h-16",
-                    style: { cursor: "crosshair" },
-                  }}
-                />
+                <p className="my-24 text-base font-medium">IN WITNESS WHEREOF, the Parties have caused this Agreement to be executed as of the day and year
+                first above written.</p>
 
-                {/* "Sign Here" Text */}
-                
-                {!isSigned && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <span className="mb-24 text-gray-500 font-bold bg-yellow-200 p-1 text-xs rounded">
-                      Please Sign Below. . .
-                    </span>
-                  </div>
-                )}
-                
-              </div>
-            </div>
+                    <div className="flex flex-col md:flex-row justify-between mt-4 space-y-4 md:space-y-0 md:space-x-12">
+                        {/* Signature Canvas 1 */}
+                        <div className="flex-1">
+                            <div className="relative">
+                                <p>Broker : PDI Enterprise</p>
+                                <div className="flex">
+                                    <div className="mr-4 text-base font-medium self-center">Signature: </div>
+                                <SignatureCanvas
+                                    ref={signatureRef}
+                                    penColor="black"
+                                    maxWidth={1.3}
+                                    onEnd={handleSignatureEnd}
+                                    canvasProps={{
+                                        className: "signatureCanvas border border-gray-500 w-full h-12",
+                                        style: { cursor: "crosshair" },
+                                    }}
+                                />
+                                </div>
+                                <div>
+                                    <p className="text-base font-medium">Address : 1020 A St SE Suit 7 Auburn WA 98002</p>
+                                    <p className="text-base font-medium">Contact No. : (253) 269 1300</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        {/* Signature Canvas 2 */}
+                        <div className="flex-1">
+                            <div className="relative">
+                                
+                                    <p className="mr-4"> Shipper : 
+                                {data?.name || <input type="text" placeholder="Enter Company Name" className="border border-gray-500 p-1" />}(
+                                
+                                {data?.companyPosition || <input type="text" placeholder="Enter Company Position" className="border border-gray-500 p-1" />}) - {data?.companyName || <input type="text" placeholder="Enter Company Name" className="border border-gray-500 p-1" />}</p>
+                                <div className="flex">
+                                    <div className="mr-4 text-base font-medium self-center">Signature: </div>
+                                <SignatureCanvas
+                                    ref={signatureRef}
+                                    penColor="black"
+                                    maxWidth={1.3}
+                                    onEnd={handleSignatureEnd}
+                                    canvasProps={{
+                                        className: "signatureCanvas border border-gray-500 w-full h-12",
+                                        style: { cursor: "crosshair" },
+                                    }}
+                                />
+                                </div>
+                                <div>
+                                <p className="text-base font-medium">Address : {data?.address || <input type="text" placeholder="Enter Address" className="border border-gray-500 p-1 " />}</p>
+                                <p className="text-base font-medium">Contact No.: {data?.phone || <input type="text" placeholder="Enter Contact No." className="border border-gray-500 p-1 " />}</p>
+                                </div>
+                                {!isSigned && (
+                                    <div className="absolute top-12 right-12 flex items-center justify-center pointer-events-none">
+                                        <span className="mb-24 text-gray-500 font-bold bg-yellow-200 p-1 text-xs rounded">
+                                            Please Sign Here. . .
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
