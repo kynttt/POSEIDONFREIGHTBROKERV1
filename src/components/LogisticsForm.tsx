@@ -116,7 +116,7 @@ const LogisticsForm: React.FC = () => {
           />
         </div>
         
-        <div className="absolute inset-0 bg-black opacity-70 sm:block md:block lg:opacity-20 "></div>
+        {/* <div className="absolute inset-0 bg-black opacity-70 sm:block md:block lg:opacity-20 "></div> */}
 
       
         <div className="absolute inset-0 flex flex-col justify-center  items-center text-center px-4  md:px-12 lg:px-24">
@@ -130,7 +130,7 @@ const LogisticsForm: React.FC = () => {
       </div>
       <div className="relative w-full h-3/4">
         {/* Dark Overlay for md to xs screens */}
-        <div className="absolute inset-0 bg-black opacity-70 md:opacity-70 lg:opacity-20" />
+        {/* <div className="absolute inset-0 bg-black opacity-70 md:opacity-70 lg:opacity-20" /> */}
 
         {/* Background Section */}
         <div
