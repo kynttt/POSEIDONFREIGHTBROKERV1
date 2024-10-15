@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState, useRef } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -86,26 +87,26 @@ export default function Stripe() {
       // Set ref to true before the async call to prevent multiple fetches
       fetchedClientSecret.current = true;
 
-      const bookingData: BookingData = {
-        quote: id!,
-        origin,
-        destination,
-        pickupDate:
-          typeof pickupDate === "string"
-            ? pickupDate
-            : pickupDate.toISOString(),
-        trailerType,
-        // trailerSize, ! This field is not include in Booking Schema
-        companyName,
-        commodity,
+      // const bookingData: BookingData = {
+      //   quoteId: id!,
+      //   origin,
+      //   destination,
+      //   pickupDate:
+      //     typeof pickupDate === "string"
+      //       ? pickupDate
+      //       : pickupDate.toISOString(),
+      //   trailerType,
+      //   // trailerSize, ! This field is not include in Booking Schema
+      //   companyName,
+      //   commodity,
 
-        price,
-      };
-      mutation.mutate({
-        amount: Math.round(price * 100),
-        currency,
-        booking: bookingData,
-      });
+      //   price,
+      // };
+      // mutation.mutate({
+      //   amount: Math.round(price * 100),
+      //   currency,
+      //   booking: bookingData,
+      // });
     } else {
       console.error("Invalid price or missing details.");
     }

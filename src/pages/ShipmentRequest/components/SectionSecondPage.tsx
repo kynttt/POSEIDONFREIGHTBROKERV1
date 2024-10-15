@@ -11,19 +11,24 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ActionIcon, Button } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useDistanceCalculator, {
   DistanceCalculatorData,
 } from "../../../hooks/useDistanceCalculator";
 import { ReactNode, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { createQuote } from "../../../lib/apiCalls";
-import { Quote } from "../../../utils/types";
+import { createBookQuote } from "../../../lib/apiCalls";
+import { Booking, BookingData } from "../../../utils/types";
 import { useDistancePage } from "../context/DistancePageProvider";
+import { useAuthStore } from "../../../state/useAuthStore";
 
 export default function SectionSecondPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const quoteId = searchParams.get("quoteId");
+  const authState = useAuthStore();
 
   const { goToFormPage } = useDistancePage();
   const { data, init } = useDistanceCalculator();
@@ -34,34 +39,42 @@ export default function SectionSecondPage() {
     setIsTermsChecked(e.target.checked);
   };
 
-  const quoteMutation = useMutation<Quote, Error, Quote>({
-    mutationFn: createQuote,
+  const bookMutation = useMutation<Booking, Error, BookingData>({
+    mutationFn: createBookQuote,
     onMutate: () => {
       notifications.show({
-        title: "Creating Quote",
+        title: "Creating Booking Quote",
         message: "Please wait...",
         color: "blue",
         icon: true,
         autoClose: 5000,
       });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       sessionStorage.removeItem("savedQuote");
       notifications.show({
-        title: "Quote Created",
-        message:
-          "Your quote has been successfully created. You will be redirected to the confirmation page shortly.",
+        title: "Book Quote Created",
+        message: "Your quote has been successfully created.",
         color: "green",
         icon: true,
         autoClose: 5000,
       });
+      let redirect: string;
+
+      if (authState.role === "admin") {
+        redirect = "/a";
+      } else {
+        redirect = "/s";
+      }
+
+      navigate(redirect, { replace: true });
       // navigate("/requests/confirmation?quoteId=" + data.id);
-      navigate("/requests/payment?quoteId=" + data.id!);
+      // navigate("/requests/payment?quoteId=" + data.id!);
     },
     onError: () => {
       notifications.show({
         title: "Error",
-        message: "An error occurred while creating the quote",
+        message: "An error occurred while creating the book quote.",
         color: "red",
         icon: true,
         autoClose: 5000,
@@ -88,7 +101,7 @@ export default function SectionSecondPage() {
     }
     setInitialize(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [init, data, quoteMutation, navigate]);
+  }, [init, data, bookMutation, navigate]);
 
   const nextHandler = () => {
     if (!data) return;
@@ -126,7 +139,8 @@ export default function SectionSecondPage() {
       return;
     }
 
-    const quoteDetails: Quote = {
+    const bookingDetails: BookingData = {
+      quoteId: quoteId || undefined,
       origin,
       destination,
       pickupDate: new Date(pickupDate).toISOString(),
@@ -146,7 +160,7 @@ export default function SectionSecondPage() {
       unit: "",
     };
 
-    quoteMutation.mutate(quoteDetails);
+    bookMutation.mutate(bookingDetails);
   };
 
   if (!initialize) return <></>;

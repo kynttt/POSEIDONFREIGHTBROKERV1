@@ -55,16 +55,24 @@ export interface RegisterFormData extends User {
 // Bookings
 // Book a quote
 export interface BookingData {
-  quote: string;
+  quoteId?: string;
   origin: string;
   destination: string;
   pickupDate: string;
   trailerType: string;
+  trailerSize: number;
   companyName: string;
   commodity: string;
-  // bolLink: string; ! This is temporarily comment because it is not include in Booking Schema
-  // packaging: string; ! Not include in Booking Schema rather in Quote schema
+  maxWeight: number;
+  packaging: string;
+  distance: number;
   price: number;
+  notes?: string;
+  routeCoordinates: {
+    type: "LineString";
+    coordinates: [number, number][];
+  };
+  unit?: string;
 }
 export interface Quote extends Schema {
   // bolNumber: string;
@@ -118,7 +126,8 @@ export interface Booking extends Schema {
   trailerNumber: string;
   bolNumber: string;
   billOfLading: unknown;
-  quote: Quote;
+  quote?: Quote;
+  quoteId: string;
   status: BookingStatus;
   carrier?: string | null;
   driver?: string | null;
