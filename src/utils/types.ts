@@ -1,9 +1,15 @@
 export type BookingStatus =
-  | "Pending"
-  | "Confirmed"
-  | "In Transit"
-  | "Delivered"
-  | "Cancelled";
+  | "draft"
+  | "pending"
+  | "confirmed"
+  | "completed"
+  | "cancelled"
+  | "inTransit"
+  | "delivered"
+  | "rejected"
+  | "pendingPayment"
+  | "paid";
+
 export interface LoginResponse {
   token: string;
   message: string;

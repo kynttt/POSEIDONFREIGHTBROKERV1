@@ -56,9 +56,14 @@ export default function CompanyDetailStep() {
     },
     onError: (error) => {
       console.error("Error fetching price data:", error.message);
+      const effectiveError = (
+        error.response?.data as {
+          message: string;
+        }
+      ).message;
       notifications.show({
         title: "Error",
-        message: "An error occurred while calculating the price",
+        message: effectiveError,
         color: "red",
         icon: true,
         autoClose: 5000,
@@ -72,7 +77,7 @@ export default function CompanyDetailStep() {
     }
 
     mutation.mutate({
-      distance: dataState.distance!,
+      distance: parseFloat(dataState.distance!.toFixed(2)!),
       truckId: dataState.trailerType!.id!,
       trailerSize: dataState.trailerSize!,
     });

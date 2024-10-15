@@ -1,3 +1,5 @@
+import { BookingStatus } from "../../utils/types";
+
 interface CalculateRouteParams {
   origin: string;
   destination: string;
@@ -10,6 +12,22 @@ interface CalculateRouteParams {
   destinationLocation?: google.maps.LatLngLiteral | null;
 }
 
+export function toBookStatusTitle(status: BookingStatus) {
+  const statusMap = {
+    pending: "Pending",
+    draft: "Draft",
+    confirmed: "Confirmed",
+    completed: "Completed",
+    cancelled: "Cancelled",
+    inTransit: "In Transit",
+    delivered: "Delivered",
+    rejected: "Rejected",
+    pendingPayment: "Pending Payment",
+    paid: "Paid",
+  };
+
+  return statusMap[status];
+}
 export const calculateRoute = ({
   origin,
   destination,

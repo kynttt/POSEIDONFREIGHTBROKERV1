@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../../components/pagination"; // Import the Pagination component
 import { fetchBookings } from "../../../lib/apiCalls"; // Import the fetch function from your API calls file
-import { Quote, BookingStatus } from "../../../utils/types";
+import { Booking, BookingStatus, Quote } from "../../../utils/types";
 
 // Define the BookingData interface to match the expected data structure
 interface BookingData {
@@ -11,18 +11,7 @@ interface BookingData {
     deliveryDate: string;
     price: number;
   };
-  status: string;
-}
-
-// Define the Booking interface to match the data structure from the API
-interface Booking {
-  id?: string; // Make id optional to match your schema
-  quote: string | Quote;
   status: BookingStatus;
-  carrier?: string | null;
-  driver?: string | null;
-  pickupTime?: string | null;
-  deliveryTime?: string | null;
 }
 
 const RecentTransactions: React.FC = () => {
@@ -40,25 +29,19 @@ const RecentTransactions: React.FC = () => {
       setLoading(true);
       try {
         const data: Booking[] = await fetchBookings(); // Fetch data using your function
-
+        console.log("data", data);
         // Convert the fetched data into the BookingData type and filter out bookings without deliveryDate
-        const filteredBookings: BookingData[] = data
-          .filter(
-            (booking) =>
-              booking.id &&
-              typeof booking.quote !== "string" &&
-              (booking.quote as Quote).deliveryDate
-          ) // Ensure id, quote, and deliveryDate are valid
-          .map((booking) => ({
-            id: booking.id || "", // Provide a default value if id is undefined
-            quote: {
-              destination: (booking.quote as Quote).destination,
-              deliveryDate: formatDate((booking.quote as Quote).deliveryDate), // Format the delivery date
-              price: (booking.quote as Quote).price,
-            },
-            status: booking.status,
-          }));
+        const filteredBookings: BookingData[] = data.map((booking) => ({
+          id: booking.id || "", // Provide a default value if id is undefined
+          quote: {
+            destination: booking.quote?.destination ?? "", // Provide a default value if destination is undefined
+            deliveryDate: formatDate((booking.quote as Quote).deliveryDate), // Format the delivery date
+            price: (booking.quote as Quote).price,
+          },
+          status: booking.status,
+        }));
 
+        console.log("filteredBookings", filteredBookings);
         // Set the bookings state with filtered and transformed data
         setBookings(filteredBookings);
       } catch (err) {
@@ -78,13 +61,13 @@ const RecentTransactions: React.FC = () => {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: BookingStatus) => {
     switch (status) {
-      case "In Transit":
+      case "inTransit":
         return "text-yellow-600";
-      case "Pending":
+      case "pending":
         return "text-red-600";
-      case "Confirmed":
+      case "confirmed":
         return "text-blue-500";
       default:
         return "text-price";

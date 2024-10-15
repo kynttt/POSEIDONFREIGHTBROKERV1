@@ -38,6 +38,7 @@ export const DistancePageProvider: React.FC<DistancePageProviderProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const query = useQuery();
 
   const [currentPage, setCurrentPage] = useState<DistancePageType>("form");
@@ -65,12 +66,16 @@ export const DistancePageProvider: React.FC<DistancePageProviderProps> = ({
 
   // Function to update query parameter and page state
   const goToFormPage = () => {
-    navigate("?page=form");
+    query.delete("page");
+    query.append("page", "form");
+    navigate(`?${query.toString()}`);
     setCurrentPage("form");
   };
 
   const goToConfirmationPage = () => {
-    navigate("?page=confirmation");
+    query.delete("page");
+    query.append("page", "confirmation");
+    navigate(`?${query.toString()}`);
     setCurrentPage("confirmation");
   };
 

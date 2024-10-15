@@ -463,11 +463,11 @@ const ShipmentDetails: React.FC = () => {
                     <button
                       onClick={handleBillOfLadingClick}
                       className={`block text-primary text-sm font-bold p-2 rounded-md ${
-                        booking.status === "Pending"
+                        booking.status === "pending"
                           ? "bg-gray-400 text-white cursor-not-allowed"
                           : "bg-secondary text-white cursor-pointer"
                       }`}
-                      disabled={booking.status === "Pending"}
+                      disabled={booking.status === "pending"}
                     >
                       <FontAwesomeIcon icon={faFile} className="mr-2" />
                       Generate Bill of Lading (BOL)

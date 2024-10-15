@@ -7,7 +7,7 @@ import Button from "../../../components/Button";
 import LoadCard from "../../../components/LoadCard";
 import { fetchBookings } from "../../../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
-import { Quote } from "../../../utils/types";
+import { BookingStatus, Quote } from "../../../utils/types";
 import {
   faSpinner,
   faCircleCheck,
@@ -19,7 +19,7 @@ type CardProps = {
   pickupDate: Date;
   id: string;
   pickUp: string;
-  status: string;
+  status: BookingStatus;
   drop: string;
   maxWeight: number;
   companyName: string;
@@ -39,7 +39,7 @@ const LoadBoard: React.FC = () => {
   const [loadCards, setLoadCards] = useState<CardProps[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredLoadCards, setFilteredLoadCards] = useState<CardProps[]>([]);
-  const [activeTab, setActiveTab] = useState<string>("Pending");
+  const [activeTab, setActiveTab] = useState<BookingStatus>("pending");
 
   useEffect(() => {
     const queryPickUpLocation = (
@@ -152,16 +152,16 @@ const LoadBoard: React.FC = () => {
 
   // Sort load cards by status
   const confirmedLoadCards = filteredLoadCards.filter(
-    (load) => load.status === "Confirmed"
+    (load) => load.status === "confirmed"
   );
   const pendingLoadCards = filteredLoadCards.filter(
-    (load) => load.status === "Pending"
+    (load) => load.status === "pending"
   );
   const inTransitLoadCards = filteredLoadCards.filter(
-    (load) => load.status === "In Transit"
+    (load) => load.status === "inTransit"
   );
   const deliveredLoadCards = filteredLoadCards.filter(
-    (load) => load.status === "Delivered"
+    (load) => load.status === "delivered"
   );
 
   return (
@@ -171,11 +171,11 @@ const LoadBoard: React.FC = () => {
           <div className="tabs flex flex-wrap gap-4">
             <button
               className={`tab ${
-                activeTab === "Pending"
+                activeTab === "pending"
                   ? "active bg-blue-500 text-white"
                   : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
               } py-2 px-4 rounded text-gray-500 hover:text-white transition-all duration-300 flex items-center text-sm md:text-base`}
-              onClick={() => setActiveTab("Pending")}
+              onClick={() => setActiveTab("pending")}
             >
               <FontAwesomeIcon icon={faSpinner} className="mr-2" />
               Pending
@@ -183,11 +183,11 @@ const LoadBoard: React.FC = () => {
 
             <button
               className={`tab ${
-                activeTab === "Confirmed"
+                activeTab === "confirmed"
                   ? "active bg-blue-500 text-white"
                   : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
               } py-2 px-4 rounded text-gray-500 hover:text-white font-normal transition-all duration-300 flex items-center text-sm md:text-base`}
-              onClick={() => setActiveTab("Confirmed")}
+              onClick={() => setActiveTab("confirmed")}
             >
               <FontAwesomeIcon icon={faCircleCheck} className="mr-2" />
               Confirmed
@@ -195,11 +195,11 @@ const LoadBoard: React.FC = () => {
 
             <button
               className={`tab ${
-                activeTab === "In Transit"
+                activeTab === "inTransit"
                   ? "active bg-blue-500 text-white"
                   : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
               } py-2 px-4 rounded text-gray-500 hover:text-white  font-normal transition-all duration-300 flex items-center text-sm md:text-base`}
-              onClick={() => setActiveTab("In Transit")}
+              onClick={() => setActiveTab("inTransit")}
             >
               <FontAwesomeIcon icon={faTruck} className="mr-2" />
               In Transit
@@ -207,11 +207,11 @@ const LoadBoard: React.FC = () => {
 
             <button
               className={`tab ${
-                activeTab === "Delivered"
+                activeTab === "delivered"
                   ? "active bg-blue-500 text-white"
                   : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
               } py-2 px-4 rounded text-gray-500 hover:text-white font-normal transition-all duration-300 flex items-center text-sm md:text-base`}
-              onClick={() => setActiveTab("Delivered")}
+              onClick={() => setActiveTab("delivered")}
             >
               <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />
               Delivered
@@ -220,17 +220,17 @@ const LoadBoard: React.FC = () => {
 
           {/* Show count of searched load cards */}
           <div className="text-right font-medium text-lg text-primary my-4 mx-4">
-            {activeTab === "Confirmed"
+            {activeTab === "confirmed"
               ? `${confirmedLoadCards.length} Confirmed Load(s) Found`
-              : activeTab === "Pending"
+              : activeTab === "pending"
               ? `${pendingLoadCards.length} Pending Load(s) Found`
-              : activeTab === "In Transit"
+              : activeTab === "inTransit"
               ? `${inTransitLoadCards.length} In Transit Load(s) Found`
               : `${deliveredLoadCards.length} Delivered Load(s) Found`}
           </div>
 
           <div className="load-cards mt-8">
-            {activeTab === "Confirmed" && confirmedLoadCards.length > 0 ? (
+            {activeTab === "confirmed" && confirmedLoadCards.length > 0 ? (
               confirmedLoadCards.map((load) => (
                 <LoadCard
                   key={load.id}
@@ -249,7 +249,7 @@ const LoadBoard: React.FC = () => {
                   onBookLoadClick={load.onBookLoadClick}
                 />
               ))
-            ) : activeTab === "Pending" && pendingLoadCards.length > 0 ? (
+            ) : activeTab === "pending" && pendingLoadCards.length > 0 ? (
               pendingLoadCards.map((load) => (
                 <LoadCard
                   key={load.id}
@@ -268,7 +268,7 @@ const LoadBoard: React.FC = () => {
                   onBookLoadClick={load.onBookLoadClick}
                 />
               ))
-            ) : activeTab === "In Transit" && inTransitLoadCards.length > 0 ? (
+            ) : activeTab === "inTransit" && inTransitLoadCards.length > 0 ? (
               inTransitLoadCards.map((load) => (
                 <LoadCard
                   key={load.id}
@@ -287,7 +287,7 @@ const LoadBoard: React.FC = () => {
                   onBookLoadClick={load.onBookLoadClick}
                 />
               ))
-            ) : activeTab === "Delivered" && deliveredLoadCards.length > 0 ? (
+            ) : activeTab === "delivered" && deliveredLoadCards.length > 0 ? (
               deliveredLoadCards.map((load) => (
                 <LoadCard
                   key={load.id}
