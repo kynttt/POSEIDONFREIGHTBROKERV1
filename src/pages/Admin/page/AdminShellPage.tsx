@@ -8,7 +8,7 @@ import {
   Indicator, // Import Indicator component
 } from "@mantine/core";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../../../components/Sidebar/SideBar";
+import Sidebar from "../../../components/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
@@ -126,7 +126,10 @@ function ShellHeader({
               size="md"
               onClick={handleNotificationClick} // Attach click handler
             >
-              <FontAwesomeIcon icon={faBell} className="bg-gray-300 rounded-full p-1 w-4 h-4" />
+              <FontAwesomeIcon
+                icon={faBell}
+                className="bg-gray-300 rounded-full p-1 w-4 h-4"
+              />
             </ActionIcon>
           </Indicator>
         </Popover.Target>

@@ -82,7 +82,7 @@ const LoadBoard: React.FC = () => {
       try {
         const bookings = await fetchBookings();
         const quotes = bookings.map((book) => ({
-          bookingId: book._id,
+          bookingId: book.id,
           bookingStatus: book.status,
           quote: book.quote as Quote,
         }));
@@ -167,8 +167,7 @@ const LoadBoard: React.FC = () => {
   return (
     <div className="flex h-full md:mt-12 ">
       <div className="flex-1 max-w-screen bg-blue-50 min-h-screen overflow-y-auto grid grid-cols-1 lg:grid-cols-4 ">
-
-      <div className="lg:col-span-3 lg:my-8 lg:mx-8 py-10 px-4 lg:px-4 bg-blue-50 rounded-lg  w-full">
+        <div className="lg:col-span-3 lg:my-8 lg:mx-8 py-10 px-4 lg:px-4 bg-blue-50 rounded-lg  w-full">
           <div className="tabs flex flex-wrap gap-4">
             <button
               className={`tab ${
@@ -319,16 +318,14 @@ const LoadBoard: React.FC = () => {
           className=" lg:col-span-1 py-10 md:px-8 md:ml-6 px-4  rounded-lg mb-8 bg-gray-200"
         >
           <div className="mb-6">
-            <h2 className="text-2xl font-semibold lg:mb-8 text-rblue flex items-center"><FontAwesomeIcon icon={faSearch} className="mr-4" />
+            <h2 className="text-2xl font-semibold lg:mb-8 text-rblue flex items-center">
+              <FontAwesomeIcon icon={faSearch} className="mr-4" />
               FIND LOADS
-              
             </h2>
           </div>
-            <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8">
             <div className="mb-2 md:mb-8 rounded-lg bg-white p-4">
-              <h3 className="text-lg font-semibold text-rblue mb-4">
-                PICK UP
-              </h3>
+              <h3 className="text-lg font-semibold text-rblue mb-4">PICK UP</h3>
               <div className="flex  mb-4 ">
                 <div className="w-full pr-2">
                   <label className="block text-primary font-normal mb-2">
@@ -349,37 +346,34 @@ const LoadBoard: React.FC = () => {
                   Pick Up Date <span className="text-red-500">*</span>
                 </label>
                 <div className="relative w-full">
-  <DatePicker
-    selected={pickUpDate}
-    onChange={(date) => setPickUpDate(date)}
-    className="relative w-full pr-10 border-gray-300 p-2 rounded-md bg-gray-100 font-normal text-black placeholder-gray-300"
-    placeholderText="MM/DD/YYYY"
-    dateFormat="MM/dd/yyyy"
-  />
-  <div
-    className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
-    onClick={() =>
-      (
-        document.querySelector(
-          ".react-datepicker-wrapper input"
-        ) as HTMLInputElement
-      )?.focus()
-    }
-  >
-    <FontAwesomeIcon
-      icon={faCalendarAlt}
-      className="text-secondary"
-    />
-  </div>
-</div>
-
+                  <DatePicker
+                    selected={pickUpDate}
+                    onChange={(date) => setPickUpDate(date)}
+                    className="relative w-full pr-10 border-gray-300 p-2 rounded-md bg-gray-100 font-normal text-black placeholder-gray-300"
+                    placeholderText="MM/DD/YYYY"
+                    dateFormat="MM/dd/yyyy"
+                  />
+                  <div
+                    className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                    onClick={() =>
+                      (
+                        document.querySelector(
+                          ".react-datepicker-wrapper input"
+                        ) as HTMLInputElement
+                      )?.focus()
+                    }
+                  >
+                    <FontAwesomeIcon
+                      icon={faCalendarAlt}
+                      className="text-secondary"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
             <div className="mb-2 md:mb-8 rounded-lg bg-white p-4">
-              <h3 className="text-lg font-semibold text-rblue mb-4">
-                DROP
-              </h3>
+              <h3 className="text-lg font-semibold text-rblue mb-4">DROP</h3>
               <div className="flex  mb-4">
                 <div className="w-full pr-2">
                   <label className="block text-primary font-normal mb-2">
@@ -453,8 +447,6 @@ const LoadBoard: React.FC = () => {
             />
           </div>
         </form>
-
-        
       </div>
     </div>
   );

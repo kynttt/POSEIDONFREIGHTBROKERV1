@@ -55,8 +55,8 @@ export default function SectionSecondPage() {
         icon: true,
         autoClose: 5000,
       });
-      // navigate("/requests/confirmation?quoteId=" + data._id);
-      navigate("/requests/payment?quoteId=" + data._id!);
+      // navigate("/requests/confirmation?quoteId=" + data.id);
+      navigate("/requests/payment?quoteId=" + data.id!);
     },
     onError: () => {
       notifications.show({
@@ -232,7 +232,13 @@ export default function SectionSecondPage() {
               title="Total Shipment Price"
             />
             <div className="flex justify-end text-[2rem]">
-              $ {data?.price ? data!.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "0.00"}
+              ${" "}
+              {data?.price
+                ? data!.price.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })
+                : "0.00"}
             </div>
           </div>
           <div className="flex flex-col text-primary text-bold mt-2">
@@ -242,39 +248,38 @@ export default function SectionSecondPage() {
             />
             <div className="flex justify-end text-[1.5rem]">$0.00</div>
           </div>
-            <div className="flex items-center justify-center mt-4">
-              <input
-                type="checkbox"
-                id="terms"
-                name="terms"
-                className="form-checkbox h-4 w-4 text-blue-600"
-                checked={isTermsChecked}
-                onChange={handleCheckboxChange}
-              />
-              <label
-                htmlFor="terms"
-                className="text-sm text-primary font-normal ml-2"
-              >
-                I agree to the{" "}
-                <a
+          <div className="flex items-center justify-center mt-4">
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              className="form-checkbox h-4 w-4 text-blue-600"
+              checked={isTermsChecked}
+              onChange={handleCheckboxChange}
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm text-primary font-normal ml-2"
+            >
+              I agree to the{" "}
+              <a
                 href="/terms-and-agreement"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-rblue underline cursor-pointer hover:text-blue-700"
-                >
+              >
                 Terms of Service
-                </a>
-              </label>
-              </div>
-
-            <div className="flex gap-2 py-8 justify-between">
+              </a>
+            </label>
+          </div>
+          <div className="flex gap-2 py-8 justify-between">
             <Button variant="outline" w={"30%"} onClick={goToFormPage}>
               Back
             </Button>
             <Button onClick={nextHandler} fullWidth disabled={!isTermsChecked}>
               Proceed to Payment
             </Button>
-            </div>
+          </div>
         </div>
       </div>
     </>

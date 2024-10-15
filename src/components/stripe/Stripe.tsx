@@ -61,7 +61,7 @@ export default function Stripe() {
   useEffect(() => {
     if (!data || fetchedClientSecret.current) return;
     const {
-      _id,
+      id,
       price,
       origin,
       destination,
@@ -87,7 +87,7 @@ export default function Stripe() {
       fetchedClientSecret.current = true;
 
       const bookingData: BookingData = {
-        quote: _id!,
+        quote: id!,
         origin,
         destination,
         pickupDate:

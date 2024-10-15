@@ -57,14 +57,14 @@ export default function FileTile({
   });
   const handleFileClick = async () => {
     window.open(
-      `${process.env.REACT_APP_SERVER_URL}/api/folders/${file.folder}/files/${file._id}/view`,
+      `${process.env.REACT_APP_SERVER_URL}/api/folders/${file.folderId}/files/${file.id}/view`,
       `${file.name}`
     );
     // open(); // Open the modal
     // setError(null); // Reset error
     // try {
     //   const response = await axiosInstance.get(
-    //     `http://localhost:5000/api/folders/${file.folder}/files/${file._id}/view`,
+    //     `http://localhost:5000/api/folders/${file.folder}/files/${file.id}/view`,
     //     {
     //       responseType: "blob", // Fetch as blob for file handling
     //     }
@@ -80,7 +80,7 @@ export default function FileTile({
   };
 
   const onDeleteFileHandler = () => {
-    mutation.mutate({ fileId: file._id!, folderId: file.folder });
+    mutation.mutate({ fileId: file.id!, folderId: file.folderId });
   };
 
   // Utility function to truncate the file name

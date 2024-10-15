@@ -173,7 +173,11 @@ export const getCurrentUser = async () => {
     const response = await axiosInstance.get(`/account/`, {
       withCredentials: true, // Include cookies in the request
     });
-    return response.data; // Return the user data
+    return (
+      response.data as {
+        data: User;
+      }
+    ).data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       console.error("API Error:", error.response?.data || error.message);
@@ -191,7 +195,7 @@ export const fetchQuotes = async () => {
     // },
   });
   return response.data.map((quote: Quote) => ({
-    id: quote._id,
+    id: quote.id,
     pickUp: quote.origin,
     drop: quote.destination,
     maxWeight: quote.maxWeight,
@@ -358,7 +362,7 @@ export const fetchUserBookingById = async (id: string) => {
       return response.data.map((booking: Booking) => {
         const quote = booking.quote as Quote;
         return {
-          id: booking._id,
+          id: booking.id,
           origin: quote.origin,
           destination: quote.destination,
           price: quote.price,
@@ -473,7 +477,7 @@ export const fetchBookingById = async (id: string) => {
     // const quote = booking.quote as Quote;
 
     // return {
-    //   id: booking._id,
+    //   id: booking.id,
     //   origin: quote.origin,
     //   price: quote.price,
     //   status: booking.status,
@@ -530,7 +534,7 @@ export const uploadPdf = async (
     const response = await axiosInstance.post("/billOfLading/", {
       userId,
       bookingId,
-      fileId: file._id,
+      fileId: file.id,
     });
 
     return response; // Ensure this is returned
@@ -577,7 +581,7 @@ export const getTruck = async (truckId: string) => {
 };
 
 export const createTruck = async (truck: TruckCatalog) => {
-  const response = await axiosInstance.post(`/trucks`, truck);
+  const response = await axiosInstance.post(`/trucks/`, truck);
 
   return response.data as TruckCatalog;
 };
@@ -587,7 +591,7 @@ export const deleteTruck = async (truckId: string) => {
 };
 
 export const updateTruck = async (truck: TruckCatalog) => {
-  const response = await axiosInstance.put(`/trucks/${truck._id!}`, truck);
+  const response = await axiosInstance.put(`/trucks/${truck.id!}`, truck);
 
   return response.data as TruckCatalog;
 };

@@ -256,41 +256,44 @@ const EditLoad: React.FC = () => {
     <div className="flex min-h-screen md:mt-12 ">
       <nav className="flex-1 bg-blue-50 overflow-y-auto lg:px-20">
         <div className="flex flex-col  justify-evenly w-full gap-8 p-2">
-          
-            <div className="bg-blue-50 p-6 w-full max-w-screen-2xl mx-auto">
-              <div className="md:flex items-center">
-                <h1 className="text-2xl font-large mt-4  text-rblue mr-auto ">
-                  Shipment Summary
-                </h1>
-                
-              </div>
+          <div className="bg-blue-50 p-6 w-full max-w-screen-2xl mx-auto">
+            <div className="md:flex items-center">
+              <h1 className="text-2xl font-large mt-4  text-rblue mr-auto ">
+                Shipment Summary
+              </h1>
             </div>
+          </div>
 
-
-            <div className="md:flex items-center justify-between bg-blue-50 px-6 w-full max-w-screen mx-auto ">
-                            <h1 className="md:text-2xl text-lg font-medium mb-4 mt-4 text-rblue">
-                            Shipment Reference: {booking.bookingRef}
-                            </h1>
-                            <p className="flex items-center text-rblue">Status <p className="px-8 py-2 my-4 border border-blue-500  text-blue-500 rounded-3xl mx-6"> {booking.status} 
-                                </p></p>
-                            <p className="text-rblue font-normal">Last Updated: {booking.updatedAt ? new Date(booking.updatedAt).toLocaleString() : "N/A"}</p>
-                        </div>
-            <div className="mb-2 md:flex  w-full max-w-screen mx-auto bg-white rounded-xl  md:py-6  border border-rblue md:p-0 p-6">
-
+          <div className="md:flex items-center justify-between bg-blue-50 px-6 w-full max-w-screen mx-auto ">
+            <h1 className="md:text-2xl text-lg font-medium mb-4 mt-4 text-rblue">
+              Shipment Reference: {booking.bookingRef}
+            </h1>
+            <p className="flex items-center text-rblue">
+              Status{" "}
+              <p className="px-8 py-2 my-4 border border-blue-500  text-blue-500 rounded-3xl mx-6">
+                {" "}
+                {booking.status}
+              </p>
+            </p>
+            <p className="text-rblue font-normal">
+              Last Updated:{" "}
+              {booking.updatedAt
+                ? new Date(booking.updatedAt).toLocaleString()
+                : "N/A"}
+            </p>
+          </div>
+          <div className="mb-2 md:flex  w-full max-w-screen mx-auto bg-white rounded-xl  md:py-6  border border-rblue md:p-0 p-6">
             {/* Pick Up Details */}
             <div className=" w-full max-w-screen mx-auto bg-white  md:px-8  pt-4 md:pt-0">
-            
-
               <h2 className="text-xl  mb-8 text-rblue ">
-              <FontAwesomeIcon icon={faTruck} className="mr-4" />
+                <FontAwesomeIcon icon={faTruck} className="mr-4" />
                 Shipment
                 {/* <p className="text-base text-gray-500 font-normal">
                   Full Overview of Pickup Timing and Address
                 </p> */}
               </h2>
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
-              
-              
+
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               <div className=" items-center justify-between py-2 ">
                 <label
@@ -307,19 +310,21 @@ const EditLoad: React.FC = () => {
                 </div>
               </div>
               <div className=" items-center justify-between py-2 ">
-                                    <label
-                                        className="block text-primary text-base font-medium"
-                                        htmlFor="facilityAddress"
-                                    >
-                                        {/* <FontAwesomeIcon icon={faLocationDot} className="mr-2" /> */}
-                                        Costumer Reference #
-                                    </label>
-                                    <p className="text-sm text-gray-500 font-normal ">
-                                        {typeof booking.createdBy === 'object' && booking.createdBy._id ? booking.createdBy._id : "N/A"}
-                                    </p>
-                                </div>
+                <label
+                  className="block text-primary text-base font-medium"
+                  htmlFor="facilityAddress"
+                >
+                  {/* <FontAwesomeIcon icon={faLocationDot} className="mr-2" /> */}
+                  Costumer Reference #
+                </label>
+                <p className="text-sm text-gray-500 font-normal ">
+                  {typeof booking.createdBy === "object" && booking.createdBy.id
+                    ? booking.createdBy.id
+                    : "N/A"}
+                </p>
+              </div>
 
-                                <div className=" items-center justify-between py-2">
+              <div className=" items-center justify-between py-2">
                 <label
                   className="block text-primary text-base font-medium "
                   htmlFor="notes"
@@ -346,9 +351,6 @@ const EditLoad: React.FC = () => {
                   </p>
                 </div>
               </div> */}
-             
-
-              
 
               {/* <div className=" items-center justify-between py-2">
                 <label
@@ -416,31 +418,30 @@ const EditLoad: React.FC = () => {
               {/* </div> */}
             </div>
 
-
-
-
-
             <div className=" w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
-            <h2 className="text-xl  mb-8 text-rblue ">
-            <FontAwesomeIcon icon={faLocationDot} className="mr-4" />
-                Pick Up 
+              <h2 className="text-xl  mb-8 text-rblue ">
+                <FontAwesomeIcon icon={faLocationDot} className="mr-4" />
+                Pick Up
                 {/* <p className="text-base text-gray-500 font-normal">
                   Full Overview of Pickup Timing and Address
                 </p> */}
               </h2>
               {/* <div className="flex flex-col sm:flex-row mb-4"> */}
               <div className=" items-center justify-between py-2 ">
-                                    <label
-                                        className="block text-primary text-base  font-medium"
-                                        htmlFor="facilityName"
-                                    >
-                                        {/* <FontAwesomeIcon icon={faBuilding} className="mr-2" /> */}
-                                        Sender
-                                    </label>
-                                    <p className="text-sm text-gray-500 font-normal ">
-                                    {typeof booking.createdBy === 'object' && booking.createdBy.name ? booking.createdBy.name : "N/A"}
-                                    </p>
-                                </div>
+                <label
+                  className="block text-primary text-base  font-medium"
+                  htmlFor="facilityName"
+                >
+                  {/* <FontAwesomeIcon icon={faBuilding} className="mr-2" /> */}
+                  Sender
+                </label>
+                <p className="text-sm text-gray-500 font-normal ">
+                  {typeof booking.createdBy === "object" &&
+                  booking.createdBy.name
+                    ? booking.createdBy.name
+                    : "N/A"}
+                </p>
+              </div>
 
               <div className=" items-center justify-between py-2 ">
                 <label
@@ -448,7 +449,7 @@ const EditLoad: React.FC = () => {
                   htmlFor="facilityAddress"
                 >
                   {/* <FontAwesomeIcon icon={faLocationDot} className="mr-2" /> */}
-                   Address
+                  Address
                 </label>
                 <div>
                   <p className="text-sm text-gray-500 font-normal">
@@ -523,7 +524,7 @@ const EditLoad: React.FC = () => {
                   htmlFor="pickupTime"
                 >
                   {/* <FontAwesomeIcon icon={faClock} className="mr-2" /> */}
-                  Pick Up Time 
+                  Pick Up Time
                   <span className="text-red-600">*</span>
                 </label>
                 <div className="flex gap-2 items-center justify-between">
@@ -584,14 +585,10 @@ const EditLoad: React.FC = () => {
               {/* </div> */}
             </div>
 
-
-
-
-
             {/* Delivery Details */}
             <div className="w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
-            <h2 className="text-xl  mb-8 text-rblue">
-            <FontAwesomeIcon icon={faLocationDot} className="mr-4" />
+              <h2 className="text-xl  mb-8 text-rblue">
+                <FontAwesomeIcon icon={faLocationDot} className="mr-4" />
                 Drop-off{" "}
                 {/* <p className="text-base text-gray-500 font-normal">
                   Delivery Schedule and Address Breakdown
@@ -619,7 +616,7 @@ const EditLoad: React.FC = () => {
                   htmlFor="facilityAddress"
                 >
                   {/* <FontAwesomeIcon icon={faLocationDot} className="mr-2" /> */}
-                   Address
+                  Address
                 </label>
                 <div>
                   <p className="text-sm text-gray-500 font-normal">
@@ -764,8 +761,8 @@ const EditLoad: React.FC = () => {
 
             {/* Load Details */}
             <div className=" w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
-            <h2 className="text-xl mb-8 text-rblue">
-            <FontAwesomeIcon icon={faBoxOpen} className="mr-4" />
+              <h2 className="text-xl mb-8 text-rblue">
+                <FontAwesomeIcon icon={faBoxOpen} className="mr-4" />
                 Additional Details
                 {/* <p className="text-base text-gray-500 font-normal">
                   Extra Shipment Information and Coordination Overview
@@ -854,19 +851,16 @@ const EditLoad: React.FC = () => {
                 </p>
               </div>
 
-              
-
               {/* </div> */}
             </div>
           </div>
-          
 
           <div className="mb-10 md:flex  w-full max-w-screen mx-auto bg-white rounded-xl  md:py-6  border border-rblue md:p-0 p-6">
-          {/* Carrier */}
-          
+            {/* Carrier */}
+
             <div className="w-full max-w-screen mx-auto bg-white  md:px-8">
-            <h2 className="text-xl mb-8 text-rblue">
-            <FontAwesomeIcon icon={faUser} className="mr-4" />
+              <h2 className="text-xl mb-8 text-rblue">
+                <FontAwesomeIcon icon={faUser} className="mr-4" />
                 Carrier{" "}
                 {/* <p className="text-base text-gray-500 font-normal">
                   Details on Carrier and Assigned Driver
@@ -982,8 +976,8 @@ const EditLoad: React.FC = () => {
 
             {/* </div> */}
             <div className="w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
-            <h2 className="text-xl mb-8 text-rblue ">
-            <FontAwesomeIcon icon={faMoneyCheck} className="mr-4"/>
+              <h2 className="text-xl mb-8 text-rblue ">
+                <FontAwesomeIcon icon={faMoneyCheck} className="mr-4" />
                 Rate{" "}
                 {/* <p className="text-base text-gray-500 font-normal">
                   Cost and Distance Calculation Summary
@@ -1014,65 +1008,61 @@ const EditLoad: React.FC = () => {
                     {(booking.quote as Quote)?.distance || "N/A"}
                   </p>
                 </div>
-                </div>
               </div>
+            </div>
 
-              <div className="w-full flex items-center justify-center max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
+            <div className="w-full flex items-center justify-center max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
               {booking.status === "Delivered" ? (
-                  <h2 className="text-2xl font-medium text-price">
-                    Successfully delivered!
-                  </h2>
-                ) : booking.status === "Confirmed" ? (
-                  <>
-                    <button
-                      className="text-sm ml-4 text-white bg-orange-500 px-4 py-2 rounded"
-                      onClick={(event) => handleConfirmBooking(event)}
-                    >
-                      Mark as In-Transit
-                    </button>
-                    <button
-                      className="text-sm ml-4 text-white bg-red-600 px-4 py-2 rounded"
-                      onClick={(event) => handleConfirmBooking(event, "cancel")}
-                    >
-                      Cancel Confirmation
-                    </button>
-                  </>
-                ) : booking.status === "In Transit" ? (
-                  <>
-                    <button
-                      className="text-sm ml-4 text-white bg-price px-4 py-2 rounded"
-                      onClick={(event) => handleConfirmBooking(event)}
-                    >
-                      Mark as Delivered
-                    </button>
-                    <button
-                      className="text-sm ml-4 text-white bg-red-600 px-4 py-2 rounded"
-                      onClick={(event) => handleConfirmBooking(event, "cancel")}
-                    >
-                      Cancel Transit
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className={`px-4 py-2 bg-blue-600 text-white rounded ${
-                        isAllPrepared
-                          ? "cursor-pointer"
-                          : "opacity-50 cursor-not-allowed"
-                      }`}
-                      onClick={handleConfirmBooking}
-                      disabled={!isAllPrepared}
-                    >
-                      Confirm Booking
-                    </button>
-                  </>
-                )}
-
+                <h2 className="text-2xl font-medium text-price">
+                  Successfully delivered!
+                </h2>
+              ) : booking.status === "Confirmed" ? (
+                <>
+                  <button
+                    className="text-sm ml-4 text-white bg-orange-500 px-4 py-2 rounded"
+                    onClick={(event) => handleConfirmBooking(event)}
+                  >
+                    Mark as In-Transit
+                  </button>
+                  <button
+                    className="text-sm ml-4 text-white bg-red-600 px-4 py-2 rounded"
+                    onClick={(event) => handleConfirmBooking(event, "cancel")}
+                  >
+                    Cancel Confirmation
+                  </button>
+                </>
+              ) : booking.status === "In Transit" ? (
+                <>
+                  <button
+                    className="text-sm ml-4 text-white bg-price px-4 py-2 rounded"
+                    onClick={(event) => handleConfirmBooking(event)}
+                  >
+                    Mark as Delivered
+                  </button>
+                  <button
+                    className="text-sm ml-4 text-white bg-red-600 px-4 py-2 rounded"
+                    onClick={(event) => handleConfirmBooking(event, "cancel")}
+                  >
+                    Cancel Transit
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className={`px-4 py-2 bg-blue-600 text-white rounded ${
+                      isAllPrepared
+                        ? "cursor-pointer"
+                        : "opacity-50 cursor-not-allowed"
+                    }`}
+                    onClick={handleConfirmBooking}
+                    disabled={!isAllPrepared}
+                  >
+                    Confirm Booking
+                  </button>
+                </>
+              )}
             </div>
-            </div>
-
-            
-          
+          </div>
         </div>
       </nav>
       <QuoteRequestModal isOpen={isModalOpen} />

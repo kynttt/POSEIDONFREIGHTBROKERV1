@@ -107,7 +107,7 @@ const ShipmentDetails: React.FC = () => {
     if (billOfLading) {
       // console.log(`${JSON.stringify(billOfLading.file)}`);
       window.open(
-        `${process.env.REACT_APP_SERVER_URL}/api/folders/${billOfLading.file.folder}/files/${billOfLading.file._id}/view`,
+        `${process.env.REACT_APP_SERVER_URL}/api/folders/${billOfLading.file.folder}/files/${billOfLading.file.id}/view`,
         `${billOfLading.file.name}`
       );
     }

@@ -18,10 +18,15 @@ interface ShipperBookingsProps {
   selectedDate: string | null;
 }
 
-const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) => {
+const ShipperBookings = ({
+  onDataFetched,
+  selectedDate,
+}: ShipperBookingsProps) => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<BookingStatus | "All">("All");
+  const [selectedCategory, setSelectedCategory] = useState<
+    BookingStatus | "All"
+  >("All");
 
   const navigate = useNavigate();
 
@@ -32,10 +37,16 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
 
         // Filter bookings by selectedDate if it is set
         const filteredByDate = selectedDate
-          ? bookingsData.filter((booking: { quote: { pickupDate: string | number | Date } }) => {
-              const pickupDate = new Date(booking.quote?.pickupDate).toLocaleDateString();
-              return pickupDate === new Date(selectedDate).toLocaleDateString();
-            })
+          ? bookingsData.filter(
+              (booking: { quote: { pickupDate: string | number | Date } }) => {
+                const pickupDate = new Date(
+                  booking.quote?.pickupDate
+                ).toLocaleDateString();
+                return (
+                  pickupDate === new Date(selectedDate).toLocaleDateString()
+                );
+              }
+            )
           : bookingsData;
 
         setBookings(filteredByDate);
@@ -55,7 +66,9 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
   };
 
   const truncateText = (text: string, maxLength: number) => {
-    return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+    return text.length > maxLength
+      ? `${text.substring(0, maxLength)}...`
+      : text;
   };
 
   // Filter bookings based on selected category
@@ -73,70 +86,82 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
         <div className="flex flex-col sm:flex-row sm:justify-between items-center">
           {/* Left Section - Filter Buttons */}
           <div className="flex flex-wrap gap-2 sm:gap-4 mb-4 sm:mb-0 justify-center sm:justify-start">
-  <button
-    className={`px-4 py-2 font-medium ${
-      selectedCategory === "All" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-    } rounded-md`}
-    onClick={() => setSelectedCategory("All")}
-  >
-    All
-  </button>
+            <button
+              className={`px-4 py-2 font-medium ${
+                selectedCategory === "All"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              } rounded-md`}
+              onClick={() => setSelectedCategory("All")}
+            >
+              All
+            </button>
 
-  <button
-    className={`px-4 py-2 font-medium ${
-      selectedCategory === "Pending" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-    } rounded-md`}
-    onClick={() => setSelectedCategory("Pending")}
-  >
-    <FontAwesomeIcon icon={faSpinner} className="mr-2" />
-    Pending
-  </button>
+            <button
+              className={`px-4 py-2 font-medium ${
+                selectedCategory === "Pending"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              } rounded-md`}
+              onClick={() => setSelectedCategory("Pending")}
+            >
+              <FontAwesomeIcon icon={faSpinner} className="mr-2" />
+              Pending
+            </button>
 
-  <button
-    className={`px-4 py-2 font-medium ${
-      selectedCategory === "Confirmed" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-    } rounded-md`}
-    onClick={() => setSelectedCategory("Confirmed")}
-  >
-    <FontAwesomeIcon icon={faCircleCheck} className="mr-2" />
-    Confirmed
-  </button>
+            <button
+              className={`px-4 py-2 font-medium ${
+                selectedCategory === "Confirmed"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              } rounded-md`}
+              onClick={() => setSelectedCategory("Confirmed")}
+            >
+              <FontAwesomeIcon icon={faCircleCheck} className="mr-2" />
+              Confirmed
+            </button>
 
-  <button
-    className={`px-4 py-2 font-medium ${
-      selectedCategory === "In Transit" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-    } rounded-md`}
-    onClick={() => setSelectedCategory("In Transit")}
-  >
-    <FontAwesomeIcon icon={faTruck} className="mr-2" />
-    In Transit
-  </button>
+            <button
+              className={`px-4 py-2 font-medium ${
+                selectedCategory === "In Transit"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              } rounded-md`}
+              onClick={() => setSelectedCategory("In Transit")}
+            >
+              <FontAwesomeIcon icon={faTruck} className="mr-2" />
+              In Transit
+            </button>
 
-  <button
-    className={`px-4 py-2 font-medium ${
-      selectedCategory === "Delivered" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-    } rounded-md`}
-    onClick={() => setSelectedCategory("Delivered")}
-  >
-    <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />
-    Delivered
-  </button>
+            <button
+              className={`px-4 py-2 font-medium ${
+                selectedCategory === "Delivered"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              } rounded-md`}
+              onClick={() => setSelectedCategory("Delivered")}
+            >
+              <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />
+              Delivered
+            </button>
 
-  <button
-    className={`px-4 py-2 font-medium ${
-      selectedCategory === "Cancelled" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-    } rounded-md`}
-    onClick={() => setSelectedCategory("Cancelled")}
-  >
-    <FontAwesomeIcon icon={faTimesCircle} className="mr-2" />
-    Cancelled
-  </button>
-</div>
-
+            <button
+              className={`px-4 py-2 font-medium ${
+                selectedCategory === "Cancelled"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              } rounded-md`}
+              onClick={() => setSelectedCategory("Cancelled")}
+            >
+              <FontAwesomeIcon icon={faTimesCircle} className="mr-2" />
+              Cancelled
+            </button>
+          </div>
 
           {/* Right Section - Total count */}
           <div className="text-gray-600 font-normal text-sm sm:text-base">
-            {filteredBookings.length} {selectedCategory === "All" ? "Bookings" : selectedCategory} Found
+            {filteredBookings.length}{" "}
+            {selectedCategory === "All" ? "Bookings" : selectedCategory} Found
           </div>
         </div>
       </div>
@@ -148,7 +173,9 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
         <div className="grid grid-cols-1 gap-4">
           {bookings.length === 0 ? (
             <div className="text-center">
-              <p className="text-gray-500 font-normal my-4">No bookings found for this filter.</p>
+              <p className="text-gray-500 font-normal my-4">
+                No bookings found for this filter.
+              </p>
               <button
                 className="bg-blue-500 text-white px-4 py-4 rounded-md mx-auto my-28 flex items-center"
                 onClick={() => navigate("/requests?page=form")}
@@ -164,8 +191,8 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
               <button
                 key={index}
                 onClick={() => {
-                  if (booking._id) {
-                    handleBookingClick(booking._id);
+                  if (booking.id) {
+                    handleBookingClick(booking.id);
                   }
                 }}
                 className="bg-light-grey text-left rounded-lg shadow-lg p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 overflow-x-auto"
@@ -173,15 +200,23 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
                 {typeof booking.quote === "object" && booking.quote !== null ? (
                   <>
                     <div>
-                      <h3 className="text-gray-600 text-primary">Pick Up Date</h3>
-                      <p>{new Date(booking.quote.pickupDate).toLocaleDateString()}</p>
+                      <h3 className="text-gray-600 text-primary">
+                        Pick Up Date
+                      </h3>
+                      <p>
+                        {new Date(
+                          booking.quote.pickupDate
+                        ).toLocaleDateString()}
+                      </p>
                     </div>
                     <div>
                       <h3 className="text-gray-600 text-primary">Origin</h3>
                       <p>{truncateText(booking.quote.origin, 20)}</p>
                     </div>
                     <div>
-                      <h3 className="text-gray-600 text-primary">Destination</h3>
+                      <h3 className="text-gray-600 text-primary">
+                        Destination
+                      </h3>
                       <p>{truncateText(booking.quote.destination, 20)}</p>
                     </div>
                     <div>
@@ -199,7 +234,10 @@ const ShipperBookings = ({ onDataFetched, selectedDate }: ShipperBookingsProps) 
                     <h3 className="text-gray-600 text-primary">Status</h3>
                     <p>{booking.status}</p>
                   </div>
-                  <FontAwesomeIcon icon={faRightToBracket} className="text-primary w-6 h-6" />
+                  <FontAwesomeIcon
+                    icon={faRightToBracket}
+                    className="text-primary w-6 h-6"
+                  />
                 </div>
               </button>
             ))

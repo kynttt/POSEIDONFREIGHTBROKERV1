@@ -48,7 +48,7 @@ function HistoryQuotes() {
   const [destinationDebounceQuery] = useDebouncedValue(destinationQuery, 200);
 
   const onReuseHandle = (quote: Quote) => {
-    navigate(`/requests?quoteId=${quote._id}`);
+    navigate(`/requests?quoteId=${quote.id}`);
   };
 
   useEffect(() => {
@@ -98,9 +98,9 @@ function HistoryQuotes() {
         <div className=" lg:col-span-3 md:col-span-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8 bg-blue-50  lg:px-10 justify-center ">
           {filteredData.map((quote) => (
             <div
-              key={quote._id}
+              key={quote.id}
               className="bg-white lg:mx-4 rounded-xl shadow-md flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl p-2"
-              style={{ width: '350px', height: '315px' }}
+              style={{ width: "350px", height: "315px" }}
             >
               {/* Origin and Destination with Arrow */}
               <div className="items-center justify-between p-6">
@@ -110,15 +110,18 @@ function HistoryQuotes() {
                   </p>
                 </div>
                 <div className="  ">
-                  <p className="text-xs text-gray-400 font-normal">Origin Location</p>
+                  <p className="text-xs text-gray-400 font-normal">
+                    Origin Location
+                  </p>
                   <p className="font-medium text-md text-rblue">
                     {quote.origin.length > 25
                       ? `${quote.origin.slice(0, 25)}...`
                       : quote.origin}
                   </p>
-
                 </div>
-                <p className="text-xs text-gray-400 font-normal">Drop Off Location</p>
+                <p className="text-xs text-gray-400 font-normal">
+                  Drop Off Location
+                </p>
                 <div className="">
                   <p className="font-medium text-md text-rblue">
                     {quote.destination.length > 25
@@ -129,7 +132,9 @@ function HistoryQuotes() {
 
                 {/* Trailer Type and Size */}
                 <div className="mb-4 ">
-                  <p className="text-xs text-gray-400 font-normal">Trailer Type</p>
+                  <p className="text-xs text-gray-400 font-normal">
+                    Trailer Type
+                  </p>
                   <p className="font-medium text-md text-rblue">
                     {quote.trailerType} ({quote.trailerSize})
                   </p>
@@ -144,9 +149,6 @@ function HistoryQuotes() {
                   </button>
                 </div>
               </div>
-
-
-
             </div>
           ))}
         </div>
@@ -154,7 +156,10 @@ function HistoryQuotes() {
         {/* Filter Inputs */}
         <div className="lg:px-8 lg:col-span-1 col-span-4 p-4 lg:p-8  bg-blue-50 w-full">
           <div>
-            <h1 className="text-rblue border-b pb-4 mb-4">Filter <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '8px' }} /></h1>
+            <h1 className="text-rblue border-b pb-4 mb-4">
+              Filter{" "}
+              <FontAwesomeIcon icon={faSearch} style={{ marginLeft: "8px" }} />
+            </h1>
             {/* Origin Filter */}
             <TextInput
               label="Origin"

@@ -73,7 +73,7 @@ export default function CompanyDetailStep() {
 
     mutation.mutate({
       distance: dataState.distance!,
-      truckId: dataState.trailerType!._id!,
+      truckId: dataState.trailerType!.id!,
       trailerSize: dataState.trailerSize!,
     });
   };

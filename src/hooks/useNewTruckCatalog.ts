@@ -38,7 +38,7 @@ export const useNewTruckCatalog = create<TruckState>((set) => ({
             ...state.truckCatalog,
             sizes: sizes.map((size) => ({
               size,
-              pricing: [],
+              pricings: [],
             })),
           },
         };
@@ -50,7 +50,7 @@ export const useNewTruckCatalog = create<TruckState>((set) => ({
       if (state.truckCatalog) {
         const updatedSizes = [
           ...state.truckCatalog.sizes,
-          { size, pricing: [] },
+          { size, pricings: [] },
         ];
 
         return {
@@ -66,7 +66,7 @@ export const useNewTruckCatalog = create<TruckState>((set) => ({
     set((state) => {
       if (state.truckCatalog && state.truckCatalog.sizes[sizeIndex]) {
         const updatedSizes = [...state.truckCatalog.sizes];
-        const pricingList = updatedSizes[sizeIndex].pricing;
+        const pricingList = updatedSizes[sizeIndex].pricings;
 
         if (pricingList[pricingIndex]) {
           pricingList[pricingIndex] = updatedPricing;
@@ -86,7 +86,7 @@ export const useNewTruckCatalog = create<TruckState>((set) => ({
     set((state) => {
       if (state.truckCatalog) {
         const updatedSizes = [...state.truckCatalog.sizes];
-        updatedSizes[sizeSelected].pricing.push({
+        updatedSizes[sizeSelected].pricings.push({
           minDistance: 0,
           maxDistance: undefined, // Ensure this field is present as it was in the original schema
           pricePerMile: 0,
@@ -106,7 +106,7 @@ export const useNewTruckCatalog = create<TruckState>((set) => ({
     set((state) => {
       if (state.truckCatalog && state.truckCatalog.sizes[sizeIndex]) {
         const updatedSizes = [...state.truckCatalog.sizes];
-        updatedSizes[sizeIndex].pricing.splice(pricingIndex, 1);
+        updatedSizes[sizeIndex].pricings.splice(pricingIndex, 1);
 
         return {
           truckCatalog: {

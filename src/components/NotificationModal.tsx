@@ -26,7 +26,7 @@ export default function NotificationModal() {
       if (!userId) return [];
       const notifications = await listNotifications(userId!); // Pass both userId and options
       // return notifications.map((notification: any) => ({
-      //   _id: notification._id ?? "",
+      //   id: notification.id ?? "",
       //   title: notification.title,
       //   message: notification.message,
       //   createdAt: notification.createdAt,
@@ -86,8 +86,8 @@ export default function NotificationModal() {
 
   const handleNotificationClick = async (notification: NotificationSchema) => {
     if (!notification.isRead) {
-      if (notification._id) {
-        await mutation.mutateAsync(notification._id);
+      if (notification.id) {
+        await mutation.mutateAsync(notification.id);
       }
     }
 
@@ -138,7 +138,7 @@ export default function NotificationModal() {
           {data!.length === 0 && <div>No notifications available</div>}
           {data!.map((notification) => (
             <div
-              key={notification._id}
+              key={notification.id}
               className={`hover:scale-105 mx-4 transform flex items-center justify-between py-2  px-6 hover:bg-gray-300 hover:text-primary rounded-md transition-all duration-200 cursor-pointer  shadow-lg ${
                 !notification.isRead ? "bg-blue-50 text-black" : "text-gray-700"
               }`}

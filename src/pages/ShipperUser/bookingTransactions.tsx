@@ -48,8 +48,8 @@ export default function ShipperUserBookingTransactions() {
     if (data) {
       data.forEach((booking) => {
         if (!booking.invoiceUrl) {
-          if (booking._id) {
-            handleGenerateInvoice(booking._id);
+          if (booking.id) {
+            handleGenerateInvoice(booking.id);
           }
         }
       });
@@ -97,7 +97,7 @@ export default function ShipperUserBookingTransactions() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {data?.map((booking) => (
-              <tr key={booking._id}>
+              <tr key={booking.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {booking.bolNumber}
                 </td>
@@ -124,7 +124,7 @@ export default function ShipperUserBookingTransactions() {
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleGenerateInvoice(booking._id!)}
+                      onClick={() => handleGenerateInvoice(booking.id!)}
                       disabled={!!booking.invoiceUrl}
                       className="text-indigo-600 hover:text-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed"
                     >

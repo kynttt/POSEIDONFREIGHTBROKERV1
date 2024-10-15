@@ -29,7 +29,7 @@ export interface AccountCompletionResponse {
   data: User;
 }
 export interface Schema {
-  _id?: string;
+  id?: string;
   createdAt?: string;
   updatedAt?: string;
   createdBy?: string | User;
@@ -143,14 +143,16 @@ export interface BookingCallback extends Quote {
   onBookLoadClick: () => void;
 }
 export interface Pricing {
+  id?: string;
   minDistance: number;
   maxDistance?: number;
   pricePerMile: number;
 }
 
 export interface Size {
+  id?: string;
   size: number;
-  pricing: Pricing[];
+  pricings: Pricing[];
 }
 
 export interface TruckCatalog extends Schema {
@@ -195,7 +197,7 @@ export interface PhoneOtpRequestData {
 export interface PhoneOtpRequestResponse {
   message: string;
   data: {
-    _id: string;
+    id: string;
     secret: string;
   };
 }
@@ -227,7 +229,7 @@ export interface FolderSchema extends FileHandlerSchema {
 }
 
 export interface FileSchema extends FileHandlerSchema {
-  folder: string;
+  folderId: string;
   size: number;
   mimeType: string;
   type: "file";

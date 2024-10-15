@@ -8,7 +8,6 @@ import {
   Indicator, // Import Indicator component from Mantine
 } from "@mantine/core";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../../../components/Sidebar/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faBars, faBell, faQuestion } from "@fortawesome/free-solid-svg-icons";
@@ -18,6 +17,7 @@ import { useState, useEffect } from "react"; // Import useState and useEffect fo
 import { listNotifications } from "../../../lib/apiCalls"; // Ensure this path is correct
 import { useAuthStore } from "../../../state/useAuthStore";
 import { useSidebarStore } from "../../../hooks/useSidebarStore";
+import Sidebar from "../../../components/SideBar";
 
 export default function ShipperShellPage() {
   const [opened, { open, close }] = useDisclosure(false);

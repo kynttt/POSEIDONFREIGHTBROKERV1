@@ -65,7 +65,7 @@ const ProfileCard: React.FC = () => {
   } = useQuery<string | null, AxiosError>({
     queryKey: ["profilePicture", userId],
     queryFn: () => fetchProfilePicture(userId!, data?.profilePicVersion ?? 0),
-    enabled: !!data?._id,
+    enabled: !!data?.id,
     refetchOnWindowFocus: false, // Prevent refetch on window focus
   });
   const { mutate: uploadProfilePic, isPending: isUploading } = useMutation({

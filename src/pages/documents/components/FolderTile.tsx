@@ -28,7 +28,7 @@ export default function FolderTile({
 
   const userId = useAuthStore((state) => state.userId);
   const onClick = () => {
-    navigate(`/a/documents/folder/${folder._id}`);
+    navigate(`/a/documents/folder/${folder.id}`);
   };
 
   const { showContextMenu } = useContextMenu();
@@ -64,7 +64,7 @@ export default function FolderTile({
     },
   });
   const onDeleteFolderHandler = () => {
-    mutation.mutate({ folderId: folder._id! });
+    mutation.mutate({ folderId: folder.id! });
   };
 
   return (
