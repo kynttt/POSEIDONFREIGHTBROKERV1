@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { fetchBookingById, updateBookingDetails } from "../../../lib/apiCalls";
+import {
+  fetchBookingById,
+  updateBookingDetails,
+  updateBookingStatus,
+} from "../../../lib/apiCalls";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
 import { Booking, Quote } from "../../../utils/types";
 import { formatDateForInput } from "../../../utils/helpers";
@@ -170,7 +174,14 @@ const EditLoad: React.FC = () => {
     try {
       if (!id || !booking) return;
 
-      await updateBookingDetails(id, booking);
+      await updateBookingDetails(id, {
+        carrierName: booking.carrier,
+        driverName: booking.driver,
+        pickUpDate: booking.quote?.pickupDate.toLocaleString(),
+        pickUpTime: booking.pickupTime,
+        deliveryDate: booking.quote?.deliveryDate?.toLocaleString(),
+        deliveryTime: booking.deliveryTime,
+      });
 
       setBooking((prevBooking) => {
         if (!prevBooking) return prevBooking;
@@ -197,25 +208,25 @@ const EditLoad: React.FC = () => {
 
       let newStatus: Booking["status"]; // Ensure newStatus matches the expected type
 
-      if (action === "cancel" && booking.status === "In Transit") {
-        newStatus = "Confirmed"; // Revert to Confirmed status when canceling transit
-      } else if (action === "cancel" && booking.status === "Confirmed") {
-        newStatus = "Pending"; // Set status to Pending when canceling confirm
+      if (action === "cancel" && booking.status === "inTransit") {
+        newStatus = "confirmed"; // Revert to Confirmed status when canceling transit
+      } else if (action === "cancel" && booking.status === "confirmed") {
+        newStatus = "pending"; // Set status to Pending when canceling confirm
       } else {
         switch (booking.status) {
-          case "Confirmed":
-            newStatus = "In Transit";
+          case "confirmed":
+            newStatus = "inTransit";
             break;
-          case "In Transit":
-            newStatus = "Delivered";
+          case "inTransit":
+            newStatus = "delivered";
             break;
-          case "Pending":
+          case "pending":
           default:
-            newStatus = "Confirmed";
+            newStatus = "confirmed";
         }
       }
 
-      await updateBookingDetails(id, {
+      await updateBookingStatus(id, {
         ...booking,
         status: newStatus,
       });
@@ -229,7 +240,7 @@ const EditLoad: React.FC = () => {
         };
       });
 
-      if (action !== "cancel" && newStatus === "Confirmed") {
+      if (action !== "cancel" && newStatus === "confirmed") {
         setIsModalOpen(true); // Open the modal only if confirming the booking
       }
     } catch (error) {
@@ -493,7 +504,7 @@ const EditLoad: React.FC = () => {
                         : "TBA"}
                     </p>
                   )}
-                  {booking.status === "Pending" && (
+                  {booking.status === "pending" && (
                     <button
                       className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                       onClick={() =>
@@ -558,7 +569,7 @@ const EditLoad: React.FC = () => {
                         : "Edit Pick-up Time Here..."}
                     </p>
                   )}
-                  {booking.status === "Pending" && (
+                  {booking.status === "pending" && (
                     <button
                       className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                       onClick={() =>
@@ -668,7 +679,7 @@ const EditLoad: React.FC = () => {
                         : "Edit Delivery Date Here..."}
                     </p>
                   )}
-                  {booking.status === "Pending" && (
+                  {booking.status === "pending" && (
                     <button
                       className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                       onClick={() =>
@@ -732,7 +743,7 @@ const EditLoad: React.FC = () => {
                         : "Edit Delivery Time Here..."}
                     </p>
                   )}
-                  {booking.status === "Pending" && (
+                  {booking.status === "pending" && (
                     <button
                       className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                       onClick={() =>
@@ -895,7 +906,7 @@ const EditLoad: React.FC = () => {
                       Edit Carrier Here...
                     </p>
                   )}
-                  {booking.status === "Pending" && (
+                  {booking.status === "pending" && (
                     <button
                       className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                       onClick={() =>
@@ -948,7 +959,7 @@ const EditLoad: React.FC = () => {
                       Edit Driver's Name Here...
                     </p>
                   )}
-                  {booking.status === "Pending" && (
+                  {booking.status === "pending" && (
                     <button
                       className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                       onClick={() =>
@@ -1012,11 +1023,11 @@ const EditLoad: React.FC = () => {
             </div>
 
             <div className="w-full flex items-center justify-center max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
-              {booking.status === "Delivered" ? (
+              {booking.status === "delivered" ? (
                 <h2 className="text-2xl font-medium text-price">
                   Successfully delivered!
                 </h2>
-              ) : booking.status === "Confirmed" ? (
+              ) : booking.status === "confirmed" ? (
                 <>
                   <button
                     className="text-sm ml-4 text-white bg-orange-500 px-4 py-2 rounded"
@@ -1031,7 +1042,7 @@ const EditLoad: React.FC = () => {
                     Cancel Confirmation
                   </button>
                 </>
-              ) : booking.status === "In Transit" ? (
+              ) : booking.status === "inTransit" ? (
                 <>
                   <button
                     className="text-sm ml-4 text-white bg-price px-4 py-2 rounded"

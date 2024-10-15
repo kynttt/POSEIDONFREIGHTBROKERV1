@@ -31,6 +31,8 @@ import {
   AccountCompletionResponse,
   BookingConfirmData,
   BookingInvoiceCreateResponse,
+  BookingUpdateStatusData,
+  BookingUpdateData,
 } from "../utils/types";
 
 //Users
@@ -437,7 +439,10 @@ export const fetchBookings = async () => {
   return response.data as Booking[];
 };
 
-export const updateBookingDetails = async (id: string, data: Booking) => {
+export const updateBookingDetails = async (
+  id: string,
+  data: BookingUpdateData
+) => {
   try {
     const response = await axiosInstance.put(`/bookings/${id}`, data, {
       headers: {
@@ -454,6 +459,38 @@ export const updateBookingDetails = async (id: string, data: Booking) => {
       );
     } else {
       throw new Error("Failed to update booking details");
+    }
+  }
+};
+
+export const updateBookingStatus = async (
+  id: string,
+  status: BookingUpdateStatusData
+) => {
+  try {
+    const response = await axiosInstance.patch(
+      `/bookings/${id}/status`,
+      status,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      }
+    );
+
+    return (
+      response.data as {
+        data: Booking;
+      }
+    ).data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || "Failed to update booking status"
+      );
+    } else {
+      throw new Error("Failed to update booking status");
     }
   }
 };

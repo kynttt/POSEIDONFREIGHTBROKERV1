@@ -102,6 +102,19 @@ export interface Quote extends Schema {
   };
 }
 
+export interface BookingUpdateData {
+  carrierName?: string | null;
+  driverName?: string | null;
+  pickUpDate?: string | null;
+  pickUpTime?: string | null;
+  deliveryDate?: string | null;
+  deliveryTime?: string | null;
+}
+
+export interface BookingUpdateStatusData {
+  status: BookingStatus;
+}
+
 export interface Invoice extends Schema {
   quote: string | Quote;
   invoiceNumber: string;
