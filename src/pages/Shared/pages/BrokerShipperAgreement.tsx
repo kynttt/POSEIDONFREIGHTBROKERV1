@@ -193,6 +193,23 @@ service on behalf of a motor carrier, consignor or consignee.
                 <li>
                 In the event that the Shipper cancels a shipment after it has been scheduled, the Shipper may be liable for cancellation fees. The amount of the cancellation fee will be determined based on the costs incurred by the Broker in preparation for the shipment, which may include, but are not limited to, fees charged by carriers, administrative costs, and any other related expenses. The Shipper agrees to pay such cancellation fees promptly upon invoicing by the Broker.
                 </li>
+                <li>
+                In the event that the load is not ready at the scheduled pickup time and results in a delay, additional charges will be applied for the extended waiting time beyond the agreed grace period. These charges will be calculated as follows: 
+                </li>
+                <ul className="list-disc pl-8 mb-4 space-y-2">
+                    <li>
+                        Grace Period: A grace period of 30 minutes is allowed for delays at the pickup location.
+                    </li>
+                    <li>
+                        Waiting Time Charge: If the delay exceeds the grace period, a waiting time charge of $75 per hour or portion thereof will be applied.
+                    </li>
+                    <li>
+                        Calculation of Waiting Time Charges: The waiting time charge will be calculated from the end of the grace period until the load is ready for pickup.
+                    </li>
+                    <li>
+                        Maximum Allowable Delay: If the delay exceeds 2 hours, the carrier reserves the right to reschedule the pickup or cancel the load, with any additional rescheduling or cancellation fees applying as per the agreement. Any cancellation fees may be assessed at $150, depending on the circumstances.
+                    </li>
+                </ul>
             </ul>
 
             <h3 className="text-base font-normal mt-8 mb-4">

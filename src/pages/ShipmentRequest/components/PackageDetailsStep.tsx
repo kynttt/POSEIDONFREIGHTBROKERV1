@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ShipmentRequestHeader from "./ShipmentRequestHeader";
-import { faBox, faHashtag, faWeight } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faHashtag, faInfoCircle, faWeight } from "@fortawesome/free-solid-svg-icons";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
 import { useStepContext } from "../context/ShipmenStepperProvider";
 import { Button, Space } from "@mantine/core";
@@ -38,6 +38,7 @@ export default function PackageDetailsStep() {
             <h3 className="text-md font-normal text-primary mb-2">
               <FontAwesomeIcon icon={faBox} className="mr-2 text-gray-400" />
               Commodity <span className="text-red-500">*</span>
+              <p className="text-xs text-gray-500"><FontAwesomeIcon icon={faInfoCircle} className="mr-1" />Shipments must not contain hazardous materials (hazmat), as they are not permitted for this transport.</p>
             </h3>
             <input
               type="text"
