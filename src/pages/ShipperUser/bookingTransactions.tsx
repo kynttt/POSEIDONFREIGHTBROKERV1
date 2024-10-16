@@ -105,6 +105,7 @@ function BookingAction({ booking }: { booking: Booking }) {
     enabled: !["waitingToBeConfirmed", "failed", "void"].includes(
       booking.paymentStatus
     ),
+    retry: 2,
   });
   if (isLoading) {
     return (
@@ -114,7 +115,7 @@ function BookingAction({ booking }: { booking: Booking }) {
     );
   }
 
-  if (isError) {
+  if (isError && booking.paymentStatus !== "pending") {
     return (
       <div className=" text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed">
         <Tooltip
@@ -140,6 +141,9 @@ function BookingAction({ booking }: { booking: Booking }) {
 
   return (
     <>
+      {booking.paymentStatus === "processing" && (
+        <div className="text-orange-600">Processing</div>
+      )}
       {["waitingToBeConfirmed", "pending"].includes(booking.paymentStatus) && (
         <Tooltip
           label="Waiting to be confirmed"
@@ -152,7 +156,9 @@ function BookingAction({ booking }: { booking: Booking }) {
               booking.paymentStatus === "failed" ||
               booking.paymentStatus === "waitingToBeConfirmed"
             }
-            onClick={() => navigate(`/booking-payment?bookingId=${booking.id}`)}
+            onClick={() =>
+              navigate(`/s/booking-payment?bookingId=${booking.id}`)
+            }
           >
             Pay Now
           </button>

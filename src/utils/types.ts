@@ -8,6 +8,7 @@ export type BookingStatus =
   | "delivered";
 export type BookingPaymentStatus =
   | "waitingToBeConfirmed"
+  | "processing"
   | "pending"
   | "paid"
   | "void"
