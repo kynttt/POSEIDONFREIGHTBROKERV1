@@ -18,6 +18,7 @@ import { useState, useEffect } from "react"; // Import useState and useEffect fo
 import { listNotifications } from "../../../lib/apiCalls"; // Ensure this path is correct
 import { useAuthStore } from "../../../state/useAuthStore";
 import { useSidebarStore } from "../../../hooks/useSidebarStore";
+import HelpTab from "../components/helpTab";
 
 export default function ShipperShellPage() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -149,12 +150,19 @@ function ShellHeader({
           <FontAwesomeIcon icon={faBars} />
         </ActionIcon>
       )}
-      <ActionIcon variant="subtle" aria-label="Settings" size="md">
+      <Popover position="bottom-start">
+        <Popover.Target>
+          <ActionIcon variant="subtle" aria-label="Settings" size="md">
         <FontAwesomeIcon
           icon={faQuestion}
           className="bg-gray-200 rounded-full p-1 w-4 h-4"
         />
-      </ActionIcon>
+          </ActionIcon>
+        </Popover.Target>
+        <Popover.Dropdown>
+          <HelpTab />
+        </Popover.Dropdown>
+      </Popover>
     </Flex>
   );
 }
