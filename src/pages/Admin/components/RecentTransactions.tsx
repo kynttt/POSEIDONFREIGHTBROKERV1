@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Pagination from "../../../components/pagination"; // Import the Pagination component
 import { fetchBookings } from "../../../lib/apiCalls"; // Import the fetch function from your API calls file
 import { Booking, BookingStatus, Quote } from "../../../utils/types";
+import { toBookStatusTitle } from "../../../components/googleMap/utils";
 
 // Define the BookingData interface to match the expected data structure
 interface BookingData {
@@ -132,7 +133,7 @@ const RecentTransactions: React.FC = () => {
                       booking.status
                     )}`}
                   >
-                    {booking.status}
+                    {toBookStatusTitle(booking.status)}
                   </td>
                 </tr>
               ))}

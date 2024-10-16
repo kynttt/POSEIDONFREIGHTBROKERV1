@@ -1,60 +1,15 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createBookingInvoice, fetchUserBookings } from "../../lib/apiCalls";
-import { BookingInvoiceCreateResponse } from "../../utils/types";
-import { AxiosError } from "axios";
-import { notifications } from "@mantine/notifications";
-import queryClient from "../../lib/queryClient";
-import { LoadingOverlay } from "@mantine/core";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserBookings, getBookingInvoice } from "../../lib/apiCalls";
+import { toBookStatusTitle } from "../../components/googleMap/utils";
+import { Booking } from "../../utils/types";
+import { Tooltip } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 
 export default function ShipperUserBookingTransactions() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["bookings-transactions"],
     queryFn: fetchUserBookings,
   });
-
-  const createInvoiceMutation = useMutation<
-    BookingInvoiceCreateResponse,
-    AxiosError,
-    string
-  >({
-    mutationFn: createBookingInvoice,
-    onSuccess: () => {
-      if (data) {
-        notifications.show({
-          title: "Invoice generated successfully",
-          message: "You can download the invoice now.",
-          color: "green",
-        });
-
-        queryClient.invalidateQueries({ queryKey: ["bookings-transactions"] });
-      }
-    },
-  });
-
-  const handleDownloadInvoice = (invoiceUrl: string | null | undefined) => {
-    if (invoiceUrl) {
-      window.open(invoiceUrl, "_blank");
-    } else {
-      alert("Invoice not available for this booking.");
-    }
-  };
-
-  const handleGenerateInvoice = (bookingId: string) => {
-    createInvoiceMutation.mutate(bookingId);
-  };
-
-  useEffect(() => {
-    if (data) {
-      data.forEach((booking) => {
-        if (!booking.invoiceUrl) {
-          if (booking.id) {
-            handleGenerateInvoice(booking.id);
-          }
-        }
-      });
-    }
-  }, [data]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -65,7 +20,7 @@ export default function ShipperUserBookingTransactions() {
   return (
     <div className="p-10">
       <div className="relative bg-white shadow-md rounded-lg overflow-hidden">
-        <LoadingOverlay visible={createInvoiceMutation.isPending} />
+        {/* <LoadingOverlay visible={createInvoiceMutation.isPending} /> */}
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -107,14 +62,14 @@ export default function ShipperUserBookingTransactions() {
                       booking.status
                     )}`}
                   >
-                    {booking.status}
+                    {toBookStatusTitle(booking.status)}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {new Date(booking.createdAt!).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  {booking.invoiceUrl ? (
+                  {/* {booking.invoiceUrl ? (
                     <button
                       onClick={() => handleDownloadInvoice(booking.invoiceUrl)}
                       disabled={!booking.invoiceUrl}
@@ -129,8 +84,9 @@ export default function ShipperUserBookingTransactions() {
                       className="text-indigo-600 hover:text-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed"
                     >
                       Generate Invoice
-                    </button>
-                  )}
+                    </button> */}
+                  {/* )} */}
+                  <BookingAction booking={booking} />
                 </td>
               </tr>
             )) ?? "No bookings found"}
@@ -141,17 +97,95 @@ export default function ShipperUserBookingTransactions() {
   );
 }
 
+function BookingAction({ booking }: { booking: Booking }) {
+  const navigate = useNavigate();
+  const { data, isLoading, error, isError } = useQuery({
+    queryKey: [`booking-actions-${booking.id}`],
+    queryFn: () => getBookingInvoice(booking.id!),
+    enabled: !["waitingToBeConfirmed", "failed", "void"].includes(
+      booking.paymentStatus
+    ),
+  });
+  if (isLoading) {
+    return (
+      <div className="text-gray-200   disabled:text-gray-400 disabled:cursor-not-allowed">
+        Loading...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className=" text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed">
+        <Tooltip
+          label={`${error?.message || "Something went wrong"}`}
+          position="top"
+          withArrow
+        >
+          <span className="cursor-pointer">
+            Error <i className="fas fa-info-circle"></i>
+          </span>
+        </Tooltip>
+      </div>
+    );
+  }
+
+  const onHandle = () => {
+    console.log(data);
+    if (!data?.hosted_invoice_url) {
+      return;
+    }
+    window.open(data.hosted_invoice_url, "_blank");
+  };
+
+  return (
+    <>
+      {["waitingToBeConfirmed", "pending"].includes(booking.paymentStatus) && (
+        <Tooltip
+          label="Waiting to be confirmed"
+          position="top"
+          disabled={booking.paymentStatus !== "waitingToBeConfirmed"}
+        >
+          <button
+            className="text-indigo-600 hover:text-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed"
+            disabled={
+              booking.paymentStatus === "failed" ||
+              booking.paymentStatus === "waitingToBeConfirmed"
+            }
+            onClick={() => navigate(`/booking-payment?bookingId=${booking.id}`)}
+          >
+            Pay Now
+          </button>
+        </Tooltip>
+      )}
+      {booking.paymentStatus === "paid" && (
+        <button
+          className="text-indigo-600 hover:text-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed"
+          onClick={onHandle}
+        >
+          View Invoice
+        </button>
+      )}
+      {booking.paymentStatus === "failed" && (
+        <div className="text-indigo-600 hover:text-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed">
+          Canceled
+        </div>
+      )}
+    </>
+  );
+}
+
 function getStatusColor(status: string): string {
   switch (status) {
-    case "Delivered":
+    case "delivered":
       return "bg-green-100 text-green-800";
-    case "In Transit":
+    case "inTransit":
       return "bg-blue-100 text-blue-800";
-    case "Pending":
+    case "pending":
       return "bg-yellow-100 text-yellow-800";
-    case "Confirmed":
+    case "confirmed":
       return "bg-purple-100 text-purple-800";
-    case "Cancelled":
+    case "cancelled":
       return "bg-red-100 text-red-800";
     default:
       return "bg-gray-100 text-gray-800";

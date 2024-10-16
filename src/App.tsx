@@ -123,15 +123,9 @@ const App: React.FC = () => {
                     </AuthChecker>
                   }
                 />
-                 <Route
-                  path="agent-page"
-                  element={<AgentsPage />}
-                />
+                <Route path="agent-page" element={<AgentsPage />} />
 
-                <Route
-                  path="agent-form"
-                  element={<AgentForm />}
-                />
+                <Route path="agent-form" element={<AgentForm />} />
 
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
@@ -167,6 +161,12 @@ const App: React.FC = () => {
                   }
                 >
                   <Route index element={<ShipperDashboardPage />} />
+                  <Route
+                    path="booking-payment"
+                    element={
+                      <PrivateRoute element={<Stripe />} roles={["user"]} />
+                    }
+                  />
                   <Route
                     path="booking-transactions"
                     element={<ShipperUserBookingTransactions />}
@@ -241,12 +241,6 @@ const App: React.FC = () => {
                       />
                     }
                   /> */}
-                  <Route
-                    path="payment"
-                    element={
-                      <PrivateRoute element={<Stripe />} roles={["user"]} />
-                    }
-                  />
                 </Route>
 
                 {/* TODO the Profile page will now be under with ShipperProfilePage and AdminProfilePage but it still returning Profile Card */}

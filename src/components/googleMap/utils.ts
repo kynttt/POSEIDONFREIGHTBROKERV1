@@ -1,4 +1,4 @@
-import { BookingStatus } from "../../utils/types";
+import { BookingPaymentStatus, BookingStatus } from "../../utils/types";
 
 interface CalculateRouteParams {
   origin: string;
@@ -17,13 +17,23 @@ export function toBookStatusTitle(status: BookingStatus) {
     pending: "Pending",
     draft: "Draft",
     confirmed: "Confirmed",
-    completed: "Completed",
     cancelled: "Cancelled",
     inTransit: "In Transit",
     delivered: "Delivered",
-    rejected: "Rejected",
-    pendingPayment: "Pending Payment",
+    revised: "Revising",
+  };
+
+  return statusMap[status];
+}
+
+export function toBookPaymentStatus(status: BookingPaymentStatus) {
+  const statusMap = {
+    waitingToBeConfirmed: "Waiting to be confirmed",
+    pending: "Pending",
     paid: "Paid",
+    void: "Void",
+    refunded: "Refunded",
+    failed: "Failed",
   };
 
   return statusMap[status];

@@ -290,7 +290,12 @@ export default function SectionSecondPage() {
             <Button variant="outline" w={"30%"} onClick={goToFormPage}>
               Back
             </Button>
-            <Button onClick={nextHandler} fullWidth disabled={!isTermsChecked}>
+            <Button
+              onClick={nextHandler}
+              fullWidth
+              disabled={!isTermsChecked}
+              loading={bookMutation.isPending}
+            >
               Proceed to Payment
             </Button>
           </div>

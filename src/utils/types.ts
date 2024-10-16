@@ -2,13 +2,17 @@ export type BookingStatus =
   | "draft"
   | "pending"
   | "confirmed"
-  | "completed"
   | "cancelled"
   | "inTransit"
-  | "delivered"
-  | "rejected"
-  | "pendingPayment"
-  | "paid";
+  | "revised"
+  | "delivered";
+export type BookingPaymentStatus =
+  | "waitingToBeConfirmed"
+  | "pending"
+  | "paid"
+  | "void"
+  | "refunded"
+  | "failed";
 
 export interface LoginResponse {
   token: string;
@@ -115,6 +119,9 @@ export interface BookingUpdateStatusData {
   status: BookingStatus;
 }
 
+export interface BookingInvoiceStripe {
+  hosted_invoice_url: string;
+}
 export interface Invoice extends Schema {
   quote: string | Quote;
   invoiceNumber: string;
@@ -126,41 +133,33 @@ export interface Invoice extends Schema {
 }
 
 export interface BookingPaymentIntentParams {
-  amount: number; // Amount in the smallest currency unit (e.g., cents for USD)
-  currency: string; // Currency code (e.g., 'usd')
-  booking: BookingData;
+  bookingId: string;
 }
 
 export interface BookingConfirmData {
   bookingId: string;
 }
-export interface StripeClientSecret {
-  clientSecret: string;
-  bookingId: string;
+export interface BookingPaymentIntentResponse {
+  secret: string;
+  booking: Booking;
 }
 
 export interface Booking extends Schema {
   bookingRef: string;
   loadNumber: string;
   trailerNumber: string;
+  paymentIntentId?: string;
+  invoiceId?: string;
   bolNumber: string;
   billOfLading: unknown;
   quote?: Quote;
   quoteId: string;
   status: BookingStatus;
+  paymentStatus: BookingPaymentStatus;
   carrier?: string | null;
   driver?: string | null;
   pickupTime?: string | null;
   deliveryTime?: string | null;
-  invoiceUrl?: string | null;
-}
-
-export interface BookingInvoiceCreateResponse {
-  message: string;
-  data: {
-    bookingId: string;
-    invoiceUrl: string;
-  };
 }
 
 export interface BookingCallback extends Quote {

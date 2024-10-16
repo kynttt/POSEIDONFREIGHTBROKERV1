@@ -13,7 +13,6 @@ import {
   BookingPaymentIntentParams,
   Quote,
   RegisterFormData,
-  StripeClientSecret,
   TruckCatalog,
   User,
   PhoneOtpVerifyData,
@@ -30,9 +29,10 @@ import {
   AccountCompletionData,
   AccountCompletionResponse,
   BookingConfirmData,
-  BookingInvoiceCreateResponse,
   BookingUpdateStatusData,
   BookingUpdateData,
+  BookingInvoiceStripe,
+  BookingPaymentIntentResponse,
 } from "../utils/types";
 
 //Users
@@ -388,38 +388,32 @@ export const fetchUserBookingById = async (id: string) => {
 };
 
 export const createBookingPaymentIntent = async ({
-  amount,
-  currency,
-  booking,
+  bookingId,
 }: BookingPaymentIntentParams) => {
   try {
-    console.log("Booking:", booking);
     const response = await axiosInstance.post(
-      `/payments/booking-payment-intent`,
-      {
-        amount,
-        currency,
-        booking,
-      }
+      `/bookings/${bookingId}/payment-intent`
     );
-    return response.data as StripeClientSecret;
+    return (
+      response.data as {
+        data: BookingPaymentIntentResponse;
+      }
+    ).data;
   } catch (error) {
     console.error("Error creating payment intent:", error);
     throw error;
   }
 };
 
-export const createBookingInvoice = async (bookingId: string) => {
-  try {
-    const response = await axiosInstance.post(
-      `/payments/create-booking-invoice/${bookingId}`
-    );
-    return response.data as BookingInvoiceCreateResponse;
-  } catch (error) {
-    console.error("Error creating booking invoice:", error);
-    throw error;
-  }
+export const getBookingInvoice = async (bookingId: string) => {
+  const response = await axiosInstance.get(`bookings/${bookingId}/invoice`);
+  return (
+    response.data as {
+      data: BookingInvoiceStripe;
+    }
+  ).data;
 };
+
 export const bookingConfirm = async ({ bookingId }: BookingConfirmData) => {
   try {
     const response = await axiosInstance.patch(
