@@ -21,6 +21,11 @@ export interface LoginResponse {
   data: User;
 }
 
+export interface RefundResponse extends Schema {
+  bookingId: string;
+  refundId: string;
+}
+
 export interface Point {
   lng: number;
   lat: number;

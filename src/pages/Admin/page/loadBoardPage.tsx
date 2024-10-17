@@ -1,13 +1,21 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarAlt,
+  faSearch,
+  faUndoAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../../components/Button";
 import LoadCard from "../../../components/LoadCard";
 import { fetchBookings } from "../../../lib/apiCalls";
 import { useSearchParams } from "react-router-dom";
-import { BookingStatus, Quote } from "../../../utils/types";
+import {
+  BookingPaymentStatus,
+  BookingStatus,
+  Quote,
+} from "../../../utils/types";
 import {
   faSpinner,
   faCircleCheck,
@@ -28,6 +36,7 @@ type CardProps = {
   trailerSize: string;
   price: number;
   commodity: string;
+  paymentStatus: BookingPaymentStatus;
   onBookLoadClick: () => void;
 };
 
@@ -84,10 +93,11 @@ const LoadBoard: React.FC = () => {
         const quotes = bookings.map((book) => ({
           bookingId: book.id,
           bookingStatus: book.status,
+          paymentStatus: book.paymentStatus,
           quote: book.quote as Quote,
         }));
         const cards: CardProps[] = quotes.map(
-          ({ bookingId, bookingStatus, quote }) => ({
+          ({ bookingId, bookingStatus, paymentStatus, quote }) => ({
             id: bookingId!,
             pickUp: quote.origin,
             status: bookingStatus,
@@ -99,6 +109,7 @@ const LoadBoard: React.FC = () => {
             trailerSize: quote.trailerSize.toString(),
             commodity: quote.commodity,
             price: quote.price,
+            paymentStatus: paymentStatus,
             pickupDate: new Date(quote.pickupDate),
             onBookLoadClick: () => {},
           })
@@ -163,6 +174,9 @@ const LoadBoard: React.FC = () => {
   const deliveredLoadCards = filteredLoadCards.filter(
     (load) => load.status === "delivered"
   );
+  const cancelledLoadCardsWithRefundAction = filteredLoadCards.filter(
+    (load) => load.status === "cancelled" && load.paymentStatus === "paid"
+  );
 
   return (
     <div className="flex h-full md:mt-12 ">
@@ -216,6 +230,17 @@ const LoadBoard: React.FC = () => {
               <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />
               Delivered
             </button>
+            <button
+              className={`tab ${
+                activeTab === "cancelled"
+                  ? "active bg-blue-500 text-white"
+                  : "border border-gray-500 hover:bg-blue-500 hover:border-blue-500"
+              } py-2 px-4 rounded text-gray-500 hover:text-white font-normal transition-all duration-300 flex items-center text-sm md:text-base`}
+              onClick={() => setActiveTab("cancelled")}
+            >
+              <FontAwesomeIcon icon={faUndoAlt} className="mr-2" />
+              Need to be Refund Action
+            </button>
           </div>
 
           {/* Show count of searched load cards */}
@@ -226,7 +251,9 @@ const LoadBoard: React.FC = () => {
               ? `${pendingLoadCards.length} Pending Load(s) Found`
               : activeTab === "inTransit"
               ? `${inTransitLoadCards.length} In Transit Load(s) Found`
-              : `${deliveredLoadCards.length} Delivered Load(s) Found`}
+              : activeTab === "delivered"
+              ? `${deliveredLoadCards.length} Delivered Load(s) Found`
+              : `${cancelledLoadCardsWithRefundAction.length} Need to be Refund Action Load(s) Found`}
           </div>
 
           <div className="load-cards mt-8">
@@ -306,9 +333,29 @@ const LoadBoard: React.FC = () => {
                   onBookLoadClick={load.onBookLoadClick}
                 />
               ))
+            ) : activeTab === "cancelled" &&
+              cancelledLoadCardsWithRefundAction.length > 0 ? (
+              cancelledLoadCardsWithRefundAction.map((load) => (
+                <LoadCard
+                  key={load.id}
+                  id={load.id}
+                  pickUp={load.pickUp}
+                  status={load.status}
+                  drop={load.drop}
+                  maxWeight={load.maxWeight}
+                  companyName={load.companyName}
+                  trailerType={load.trailerType}
+                  distance={load.distance}
+                  trailerSize={load.trailerSize}
+                  commodity={load.commodity}
+                  price={load.price}
+                  pickupDate={load.pickupDate} // Pass pickUpDate here
+                  onBookLoadClick={load.onBookLoadClick}
+                />
+              ))
             ) : (
-              <div className="text-center text-lg font-semibold text-secondary mt-4">
-                No {activeTab} loads found
+              <div className="text-center text-gray-500 mt-8">
+                No loads found
               </div>
             )}
           </div>

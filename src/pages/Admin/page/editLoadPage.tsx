@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
+  bookingRefund,
   fetchBookingById,
   updateBookingDetails,
   updateBookingStatus,
 } from "../../../lib/apiCalls";
 import QuoteRequestModal from "../../../components/QuoteRequestModal";
-import { Booking, BookingStatus, Quote } from "../../../utils/types";
+import {
+  Booking,
+  BookingStatus,
+  Quote,
+  RefundResponse,
+} from "../../../utils/types";
 import { formatDateForInput } from "../../../utils/helpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,12 +38,16 @@ import {
   faUser,
   // faWeightScale,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDisclosure } from "@mantine/hooks";
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import ConfirmationModal from "../../../components/EditLoadConfirmationModal";
 import {
   toBookPaymentStatus,
   toBookStatusTitle,
 } from "../../../components/googleMap/utils";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import queryClient from "../../../lib/queryClient";
+import { AxiosError } from "axios";
+import { notifications } from "@mantine/notifications";
 
 type FormStateField = keyof FormState | keyof NonNullable<FormState["quote"]>;
 interface FormState {
@@ -76,11 +86,32 @@ const EditLoad: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [opened, { open, close }] = useDisclosure(false);
   const [action, setAction] = useState<((type: string) => void) | null>(null);
-  const [booking, setBooking] = useState<Booking | null>(null);
-  const [loading, setLoading] = useState(true);
   const [editingField, setEditingField] = useState<{ [key: string]: boolean }>(
     {}
   );
+
+  const [booking, setBooking] = useState<Booking | null>(null);
+
+  const {
+    data: bookingQueryData,
+    isLoading: bookingLoading,
+    isError: isBookingError,
+    error: bookingError,
+  } = useQuery({
+    queryKey: ["booking", id],
+    queryFn: () => fetchBookingById(id!),
+    enabled: !!id,
+  });
+
+  const [bookingDebounce] = useDebouncedValue(booking, 500);
+
+  const refundMutation = useMutation<RefundResponse, AxiosError, string>({
+    mutationFn: bookingRefund,
+    onSuccess: () => {
+      // Refetch the booking data
+      queryClient.invalidateQueries({ queryKey: ["booking", id] });
+    },
+  });
 
   const handleOpenConfirmationModal = (type: BookingStatus) => {
     setAction(() => () => handleConfirmBooking(type));
@@ -96,26 +127,6 @@ const EditLoad: React.FC = () => {
 
   const [isAllPrepared, setIsAllPrepared] = useState(false);
 
-  useEffect(() => {
-    const fetchBookingDetails = async () => {
-      try {
-        if (!id) {
-          console.error("No ID provided");
-          return;
-        }
-        const bookingData = await fetchBookingById(id);
-        setBooking(bookingData);
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchBookingDetails();
-  }, [id]);
-
   const toggleEdit = (field: string) => {
     setEditingField((prevState) => ({
       ...prevState,
@@ -124,11 +135,27 @@ const EditLoad: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!booking) return;
+    if (!bookingQueryData) return;
 
-    const { pickupDate, deliveryDate } = booking.quote as Quote;
+    setBooking(bookingQueryData);
+  }, [bookingQueryData]);
 
-    const { pickupTime, deliveryTime, carrier, driver } = booking;
+  useEffect(() => {
+    if (isBookingError) {
+      notifications.show({
+        title: "Booking Fetch Error",
+        message: bookingError.message,
+        color: "red",
+      });
+    }
+  }, [isBookingError, bookingError]);
+
+  useEffect(() => {
+    if (!bookingDebounce) return;
+
+    const { pickupDate, deliveryDate } = bookingDebounce.quote as Quote;
+
+    const { pickupTime, deliveryTime, carrier, driver } = bookingDebounce;
 
     setIsAllPrepared(
       !!(
@@ -142,7 +169,7 @@ const EditLoad: React.FC = () => {
     );
 
     // console.log(isAllPrepared);
-  }, [booking, editingField, isAllPrepared]);
+  }, [bookingDebounce, editingField, isAllPrepared]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
@@ -175,24 +202,26 @@ const EditLoad: React.FC = () => {
 
   const handleSave = async (field: FormStateField) => {
     try {
-      if (!id || !booking) return;
+      if (!id || !bookingDebounce) return;
 
       await updateBookingDetails(id, {
-        carrierName: booking.carrier,
-        driverName: booking.driver,
-        pickUpDate: booking.quote?.pickupDate.toLocaleString(),
-        pickUpTime: booking.pickupTime,
-        deliveryDate: booking.quote?.deliveryDate?.toLocaleString(),
-        deliveryTime: booking.deliveryTime,
+        carrierName: bookingDebounce.carrier,
+        driverName: bookingDebounce.driver,
+        pickUpDate: bookingDebounce.quote?.pickupDate.toLocaleString(),
+        pickUpTime: bookingDebounce.pickupTime,
+        deliveryDate: bookingDebounce.quote?.deliveryDate?.toLocaleString(),
+        deliveryTime: bookingDebounce.deliveryTime,
       });
 
       setBooking((prevBooking) => {
         if (!prevBooking) return prevBooking;
         return {
           ...prevBooking,
-          [field]: booking?.[field as keyof Booking],
+          [field]: bookingDebounce?.[field as keyof Booking],
         };
       });
+
+      queryClient.invalidateQueries({ queryKey: ["booking", id] });
 
       setEditingField((prevState) => ({ ...prevState, [field]: false }));
     } catch (error) {
@@ -201,11 +230,11 @@ const EditLoad: React.FC = () => {
   };
   const handleConfirmBooking = async (action: BookingStatus) => {
     try {
-      if (!booking) return;
+      if (!bookingDebounce) return;
       if (!id) return;
 
       await updateBookingStatus(id, {
-        ...booking,
+        ...bookingDebounce,
         status: action,
       });
 
@@ -226,13 +255,16 @@ const EditLoad: React.FC = () => {
     }
   };
 
-  if (loading)
-    return <p className="text-gray-500">Loading booking details...</p>;
+  if (bookingLoading || !bookingDebounce) {
+    return <div>Loading...</div>;
+  }
 
-  if (!booking) return <p className="text-gray-500">No booking found.</p>;
+  if (!bookingDebounce) {
+    return <div>Booking not found</div>;
+  }
 
   const renderActionButtons = () => {
-    switch (booking.status) {
+    switch (bookingDebounce.status) {
       case "delivered":
         return (
           <h2 className="text-2xl font-medium text-price">
@@ -241,11 +273,22 @@ const EditLoad: React.FC = () => {
         );
       case "cancelled":
         return (
-          <h2 className="text-2xl font-medium text-red-600">
-            Booking Cancelled{" "}
-            {booking.paymentStatus === "paid" &&
-              "(The booking should be refunded)"}
-          </h2>
+          <div className="flex flex-col gap-3">
+            <h2 className="text-2xl font-medium text-red-600">
+              Booking Cancelled
+            </h2>
+            {bookingDebounce.paymentStatus === "paid" && (
+              <button
+                className={`text-sm bg-red-600 text-white px-4 py-2 rounded ${
+                  refundMutation.isPending && "opacity-50 cursor-not-allowed"
+                }
+                  `}
+                onClick={() => refundMutation.mutate(bookingDebounce.id!)}
+              >
+                Refund
+              </button>
+            )}
+          </div>
         );
       case "confirmed":
         return (
@@ -324,25 +367,25 @@ const EditLoad: React.FC = () => {
 
             <div className="md:flex items-center justify-between bg-blue-50 px-6 w-full max-w-screen mx-auto ">
               <h1 className="md:text-2xl text-lg font-medium mb-4 mt-4 text-rblue">
-                Shipment Reference: {booking.bookingRef}
+                Shipment Reference: {bookingDebounce.bookingRef}
               </h1>
               <p className="flex items-center text-rblue">
                 Status{" "}
                 <p className="px-8 py-2 my-4 border border-blue-500  text-blue-500 rounded-3xl mx-6">
                   {" "}
-                  {toBookStatusTitle(booking.status)}{" "}
-                  {(booking.paymentStatus === "paid" ||
-                    booking.paymentStatus === "refunded") && (
+                  {toBookStatusTitle(bookingDebounce.status)}{" "}
+                  {(bookingDebounce.paymentStatus === "paid" ||
+                    bookingDebounce.paymentStatus === "refunded") && (
                     <span className="text-red-500">
-                      ({toBookPaymentStatus(booking.paymentStatus)})
+                      ({toBookPaymentStatus(bookingDebounce.paymentStatus)})
                     </span>
                   )}
                 </p>
               </p>
               <p className="text-rblue font-normal">
                 Last Updated:{" "}
-                {booking.updatedAt
-                  ? new Date(booking.updatedAt).toLocaleString()
+                {bookingDebounce.updatedAt
+                  ? new Date(bookingDebounce.updatedAt).toLocaleString()
                   : "N/A"}
               </p>
             </div>
@@ -369,7 +412,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-sm text-gray-500 font-normal">
-                      {(booking?.quote as Quote)?.companyName || "N/A"}
+                      {(bookingDebounce?.quote as Quote)?.companyName || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -382,9 +425,9 @@ const EditLoad: React.FC = () => {
                     Costumer Reference #
                   </label>
                   <p className="text-sm text-gray-500 font-normal ">
-                    {typeof booking.createdBy === "object" &&
-                    booking.createdBy.id
-                      ? booking.createdBy.id
+                    {typeof bookingDebounce.createdBy === "object" &&
+                    bookingDebounce.createdBy.id
+                      ? bookingDebounce.createdBy.id
                       : "N/A"}
                   </p>
                 </div>
@@ -398,7 +441,7 @@ const EditLoad: React.FC = () => {
                     Additional Notes
                   </label>
                   <p className="text-base text-gray-500 font-normal">
-                    {(booking.quote as Quote)?.notes || "N/A"}
+                    {(bookingDebounce.quote as Quote)?.notes || "N/A"}
                   </p>
                 </div>
 
@@ -501,9 +544,9 @@ const EditLoad: React.FC = () => {
                     Sender
                   </label>
                   <p className="text-sm text-gray-500 font-normal ">
-                    {typeof booking.createdBy === "object" &&
-                    booking.createdBy.name
-                      ? booking.createdBy.name
+                    {typeof bookingDebounce.createdBy === "object" &&
+                    bookingDebounce.createdBy.name
+                      ? bookingDebounce.createdBy.name
                       : "N/A"}
                   </p>
                 </div>
@@ -518,7 +561,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-sm text-gray-500 font-normal">
-                      {(booking?.quote as Quote)?.origin || "N/A"}
+                      {(bookingDebounce?.quote as Quote)?.origin || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -539,9 +582,9 @@ const EditLoad: React.FC = () => {
                         type="date"
                         name="pickupDate"
                         value={
-                          (booking.quote as Quote)?.pickupDate
+                          (booking!.quote as Quote)?.pickupDate
                             ? formatDateForInput(
-                                new Date((booking.quote as Quote)?.pickupDate)
+                                new Date((booking!.quote as Quote)?.pickupDate)
                               )
                             : formatDateForInput(new Date()) // Default to today's date
                         }
@@ -551,14 +594,14 @@ const EditLoad: React.FC = () => {
                     ) : (
                       <p className="text-sm text-gray-500 font-normal">
                         {/* {new Date(booking.pickupDate).toLocaleDateString()} */}
-                        {(booking.quote as Quote)?.pickupDate
+                        {(bookingDebounce.quote as Quote)?.pickupDate
                           ? new Date(
-                              (booking.quote as Quote)?.pickupDate
+                              (bookingDebounce.quote as Quote)?.pickupDate
                             ).toLocaleDateString()
                           : "TBA"}
                       </p>
                     )}
-                    {booking.status === "pending" && (
+                    {bookingDebounce.status === "pending" && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -598,8 +641,8 @@ const EditLoad: React.FC = () => {
                         type="time"
                         name="pickupTime"
                         value={
-                          booking.pickupTime
-                            ? convertTo24HourFormat(booking.pickupTime)
+                          booking!.pickupTime
+                            ? convertTo24HourFormat(booking!.pickupTime)
                             : "00:00" // Provide a default value if deliveryTime is not set
                         }
                         onChange={handleChange}
@@ -608,14 +651,14 @@ const EditLoad: React.FC = () => {
                     ) : (
                       <p
                         className={` font-medium ${
-                          booking.pickupTime
+                          bookingDebounce.pickupTime
                             ? "text-sm text-gray-500 font-normal"
                             : "text-red-500 text-sm  font-normal"
                         }`}
                       >
-                        {booking.pickupTime
+                        {bookingDebounce.pickupTime
                           ? new Date(
-                              `1970-01-01T${booking.pickupTime}`
+                              `1970-01-01T${bookingDebounce.pickupTime}`
                             ).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
@@ -623,7 +666,7 @@ const EditLoad: React.FC = () => {
                           : "Edit Pick-up Time Here..."}
                       </p>
                     )}
-                    {booking.status === "pending" && (
+                    {bookingDebounce.status === "pending" && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -670,7 +713,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-sm text-gray-500 font-normal">
-                      {(booking?.quote as Quote)?.companyName || "N/A"}
+                      {(bookingDebounce?.quote as Quote)?.companyName || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -685,7 +728,7 @@ const EditLoad: React.FC = () => {
                   </label>
                   <div>
                     <p className="text-sm text-gray-500 font-normal">
-                      {(booking?.quote as Quote)?.destination || "N/A"}
+                      {(bookingDebounce?.quote as Quote)?.destination || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -706,10 +749,10 @@ const EditLoad: React.FC = () => {
                         type="date"
                         name="deliveryDate"
                         value={
-                          (booking.quote as Quote)?.pickupDate
+                          (booking!.quote as Quote)?.pickupDate
                             ? formatDateForInput(
                                 new Date(
-                                  (booking.quote as Quote)?.deliveryDate ||
+                                  (booking!.quote as Quote)?.deliveryDate ||
                                     formatDateForInput(new Date())
                                 )
                               )
@@ -721,19 +764,19 @@ const EditLoad: React.FC = () => {
                     ) : (
                       <p
                         className={`font-medium ${
-                          (booking.quote as Quote)?.deliveryDate
+                          (booking!.quote as Quote)?.deliveryDate
                             ? "text-sm text-gray-500 font-normal"
                             : "text-red-500 text-sm  font-normal"
                         }`}
                       >
-                        {(booking.quote as Quote)?.deliveryDate
+                        {(booking!.quote as Quote)?.deliveryDate
                           ? new Date(
-                              (booking.quote as Quote).deliveryDate!
+                              (booking!.quote as Quote).deliveryDate!
                             ).toLocaleDateString()
                           : "Edit Delivery Date Here..."}
                       </p>
                     )}
-                    {booking.status === "pending" && (
+                    {bookingDebounce.status === "pending" && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -772,8 +815,8 @@ const EditLoad: React.FC = () => {
                         type="time"
                         name="deliveryTime"
                         value={
-                          booking.deliveryTime
-                            ? convertTo24HourFormat(booking.deliveryTime)
+                          booking!.deliveryTime
+                            ? convertTo24HourFormat(booking!.deliveryTime)
                             : "00:00" // Provide a default value if deliveryTime is not set
                         }
                         onChange={handleChange}
@@ -782,14 +825,14 @@ const EditLoad: React.FC = () => {
                     ) : (
                       <p
                         className={` font-medium ${
-                          booking.deliveryTime
+                          bookingDebounce.deliveryTime
                             ? "text-sm text-gray-500 font-normal"
                             : "text-red-500 text-sm  font-normal"
                         }`}
                       >
-                        {booking.deliveryTime
+                        {bookingDebounce.deliveryTime
                           ? new Date(
-                              `1970-01-01T${booking.deliveryTime}`
+                              `1970-01-01T${bookingDebounce.deliveryTime}`
                             ).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
@@ -797,7 +840,7 @@ const EditLoad: React.FC = () => {
                           : "Edit Delivery Time Here..."}
                       </p>
                     )}
-                    {booking.status === "pending" && (
+                    {bookingDebounce.status === "pending" && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -873,7 +916,7 @@ const EditLoad: React.FC = () => {
                     Commodity
                   </label>
                   <p className="text-sm text-gray-500 font-normal">
-                    {(booking.quote as Quote)?.commodity || "N/A"}
+                    {(bookingDebounce.quote as Quote)?.commodity || "N/A"}
                   </p>
                 </div>
 
@@ -886,7 +929,7 @@ const EditLoad: React.FC = () => {
                     Packaging
                   </label>
                   <p className="text-sm text-gray-500 font-normal">
-                    {(booking.quote as Quote)?.packaging || "N/A"}
+                    {(bookingDebounce.quote as Quote)?.packaging || "N/A"}
                   </p>
                 </div>
 
@@ -899,7 +942,7 @@ const EditLoad: React.FC = () => {
                     Weight
                   </label>
                   <p className="text-sm text-gray-500 font-normal">
-                    {(booking.quote as Quote)?.maxWeight} lb
+                    {(bookingDebounce.quote as Quote)?.maxWeight} lb
                   </p>
                 </div>
 
@@ -912,7 +955,7 @@ const EditLoad: React.FC = () => {
                     Truck Type
                   </label>
                   <p className="text-sm text-gray-500 font-normal">
-                    {(booking.quote as Quote)?.trailerType || "N/A"}
+                    {(bookingDebounce.quote as Quote)?.trailerType || "N/A"}
                   </p>
                 </div>
 
@@ -946,21 +989,21 @@ const EditLoad: React.FC = () => {
                       <input
                         type="text"
                         name="carrier"
-                        value={booking.carrier || ""}
+                        value={booking!.carrier || ""}
                         onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
                         placeholder="Enter carrier name..."
                       />
-                    ) : booking.carrier ? (
+                    ) : bookingDebounce.carrier ? (
                       <p className="text-sm text-gray-500 font-normal my-2">
-                        {booking.carrier}
+                        {bookingDebounce.carrier}
                       </p>
                     ) : (
                       <p className="text-red-500 text-sm  font-normal">
                         Edit Carrier Here...
                       </p>
                     )}
-                    {booking.status === "pending" && (
+                    {bookingDebounce.status === "pending" && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -999,21 +1042,21 @@ const EditLoad: React.FC = () => {
                       <input
                         type="text"
                         name="driver"
-                        value={booking.driver || ""}
+                        value={booking!.driver || ""}
                         onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded"
                         placeholder="Enter driver's name..."
                       />
-                    ) : booking.driver ? (
+                    ) : bookingDebounce.driver ? (
                       <p className="text-sm text-gray-500 font-normal my-2">
-                        {booking.driver}
+                        {bookingDebounce.driver}
                       </p>
                     ) : (
                       <p className="text-red-500 text-sm  font-normal">
                         Edit Driver's Name Here...
                       </p>
                     )}
-                    {booking.status === "pending" && (
+                    {bookingDebounce.status === "pending" && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -1059,7 +1102,7 @@ const EditLoad: React.FC = () => {
                       Base Rate
                     </label>
                     <p className="text-sm text-gray-500 font-normal my-2">
-                      $ {(booking.quote as Quote)?.price || "N/A"}
+                      $ {(bookingDebounce.quote as Quote)?.price || "N/A"}
                     </p>
 
                     <label
@@ -1070,7 +1113,7 @@ const EditLoad: React.FC = () => {
                       Distance (mi)
                     </label>
                     <p className="text-sm text-gray-500 font-normal my-2">
-                      {(booking.quote as Quote)?.distance || "N/A"}
+                      {(bookingDebounce.quote as Quote)?.distance || "N/A"}
                     </p>
                   </div>
                 </div>

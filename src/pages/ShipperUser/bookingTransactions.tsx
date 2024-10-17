@@ -115,7 +115,15 @@ function BookingAction({ booking }: { booking: Booking }) {
     );
   }
 
-  if (isError && booking.paymentStatus !== "pending") {
+  const onHandle = () => {
+    console.log(data);
+    if (!data?.hosted_invoice_url) {
+      return;
+    }
+    window.open(data.hosted_invoice_url, "_blank");
+  };
+
+  if (isError && !["pending", "processing"].includes(booking.paymentStatus)) {
     return (
       <div className=" text-red-600 disabled:text-gray-400 disabled:cursor-not-allowed">
         <Tooltip
@@ -130,14 +138,6 @@ function BookingAction({ booking }: { booking: Booking }) {
       </div>
     );
   }
-
-  const onHandle = () => {
-    console.log(data);
-    if (!data?.hosted_invoice_url) {
-      return;
-    }
-    window.open(data.hosted_invoice_url, "_blank");
-  };
 
   return (
     <>

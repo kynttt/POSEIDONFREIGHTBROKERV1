@@ -33,6 +33,7 @@ import {
   BookingUpdateData,
   BookingInvoiceStripe,
   BookingPaymentIntentResponse,
+  RefundResponse,
 } from "../utils/types";
 
 //Users
@@ -405,6 +406,10 @@ export const createBookingPaymentIntent = async ({
   }
 };
 
+export const bookingRefund = async (bookingId: string) => {
+  const response = await axiosInstance.patch(`/bookings/${bookingId}/refund`);
+  return (response.data as { data: RefundResponse }).data;
+};
 export const getBookingInvoice = async (bookingId: string) => {
   const response = await axiosInstance.get(`bookings/${bookingId}/invoice`);
   return (
