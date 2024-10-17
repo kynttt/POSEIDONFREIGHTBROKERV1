@@ -296,7 +296,7 @@ export default function SectionSecondPage() {
               disabled={!isTermsChecked}
               loading={bookMutation.isPending}
             >
-              Proceed to Payment
+              Book
             </Button>
           </div>
         </div>
