@@ -62,7 +62,8 @@ export default function ShipperUserBookingTransactions() {
                       booking.status
                     )}`}
                   >
-                    {toBookStatusTitle(booking.status)}
+                    {toBookStatusTitle(booking.status)}{" "}
+                    {booking.paymentStatus === "refunded" && "(Refund)"}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -164,7 +165,8 @@ function BookingAction({ booking }: { booking: Booking }) {
           </button>
         </Tooltip>
       )}
-      {booking.paymentStatus === "paid" && (
+      {(booking.paymentStatus === "paid" ||
+        booking.paymentStatus === "refunded") && (
         <button
           className="text-indigo-600 hover:text-indigo-900 disabled:text-gray-400 disabled:cursor-not-allowed"
           onClick={onHandle}
