@@ -28,7 +28,7 @@ const HeroBanner = () => {
 
 
         {/* Overlay (Visible only on xs to md screens) */}
-        <div className="absolute inset-0 bg-black opacity-70 sm:block md:block lg:opacity-20 "></div>
+        <div className="absolute inset-0 bg-black opacity-50 sm:block md:block lg:opacity-0 "></div>
 
         {/* Content */}
         <div className="container mx-auto   relative z-10 flex items-center justify-between h-[350px] md:h-[400px] lg:h-[700px] lg:mb-0 mb-8">

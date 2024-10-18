@@ -56,7 +56,7 @@ const PlaceAutocompleteClassic = ({
     <div className="autocomplete-container">
       <input
         ref={inputRef}
-        className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mt-5"
+        className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mt-2"
         placeholder="Search for a place"
       />
     </div>
@@ -122,7 +122,13 @@ export default function MapMarkerDialog({
   return (
     <Modal opened={opened} onClose={onClose} title="Select Location" centered>
       <div className="flex flex-col space-y-4">
-        <p className="text-primary text-sm">Tap the Map or Use the Search Bar to Drop Your Pin!</p>
+        <p className="text-primary text-sm">Use the Search Bar or Tap the Map to Drop Your Pin!</p>
+        <div className="flex items-top space-x-2">
+          <i className="fas fa-info-circle text-gray-600"></i>
+          <p className="text-gray-600 text-xs font-normal">
+            Please ensure both the pickup and drop-off locations are commercial areas suitable and permitted for trailers/semi-truck loading and unloading.
+          </p>
+        </div>
         {/* Autocomplete Search bar */}
         <PlaceAutocompleteClassic onPlaceSelect={handlePlaceSelect}/>
 

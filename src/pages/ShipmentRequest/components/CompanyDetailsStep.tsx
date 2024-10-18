@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ShipmentRequestHeader from "./ShipmentRequestHeader";
-import { faBuilding, faNoteSticky } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faInfoCircle, faNoteSticky } from "@fortawesome/free-solid-svg-icons";
 import useDistanceCalculator from "../../../hooks/useDistanceCalculator";
 
 import { Button, Space } from "@mantine/core";
@@ -139,6 +139,10 @@ export default function CompanyDetailStep() {
               }}
               rows={3}
             />
+            <p className="text-xs text-gray-500 py-4">
+              <FontAwesomeIcon icon={faInfoCircle} className="mr-1" />
+              Please note: Drivers are not responsible for loading or unloading. This must be handled by the shipper at pickup and the receiver at drop-off.
+            </p>
           </div>
           <div className="flex justify-between mt-10">
             <Button variant="outline" fullWidth onClick={prevStep}>
