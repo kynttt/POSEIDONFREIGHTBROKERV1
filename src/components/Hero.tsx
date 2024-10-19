@@ -25,7 +25,7 @@ const HeroBanner = () => {
             />
           </div>
         </div>
-
+ 
 
         {/* Overlay (Visible only on xs to md screens) */}
         {/* <div className="absolute inset-0 bg-black opacity-70 sm:block md:block lg:opacity-20 "></div> */}

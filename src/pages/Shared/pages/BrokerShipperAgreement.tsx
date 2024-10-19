@@ -650,7 +650,7 @@ const BrokerShipperAgreement: React.FC = () => {
 <div className="text-center mt-8 mb-32">
   <button
     onClick={handleGoBack}
-    className="mt-8 border bord-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+    className="mt-8 border-2 bord-gray-900 hover:bg-gray-700 text-gray-700 font-bold py-2 px-4 rounded"
   >
     Go Back
   </button>
@@ -664,7 +664,7 @@ const BrokerShipperAgreement: React.FC = () => {
     onClick={() => alert("Document saved!")}
     className="mt-8 ml-4 bg-darkBlue hover:bg-green-400 text-white font-bold py-2 px-4 rounded"
   >
-    Save Document
+    Proceed
   </button>
 </div>
       </>

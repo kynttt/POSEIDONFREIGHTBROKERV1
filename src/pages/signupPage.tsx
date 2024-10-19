@@ -402,7 +402,7 @@ const SignupPage = () => {
                 >
                   I agree to the{" "}
                   <a
-                    href="/terms-and-agreement"
+                    href="/terms-and-agreement1"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-rblue underline cursor-pointer hover:text-blue-700"

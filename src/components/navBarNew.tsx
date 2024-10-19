@@ -87,8 +87,10 @@ const Navbar: React.FC = () => {
 
             <div className="md:flex hidden">
                 <div className="mr-4">
+                  <button onClick={() => window.location.href = "https://pdienterprise.com/"}>
                     <h1 className="text-darkBlue text-4xl leading-none">PDI</h1>
                     <p className="text-darkBlue leading-tight text-xs font-normal">Enterprise</p>
+                  </button>
 
                 </div>
 
