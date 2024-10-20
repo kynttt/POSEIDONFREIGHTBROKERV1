@@ -3,7 +3,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import SignatureCanvas from "react-signature-canvas";
 import { useAuthStore } from "../../../state/useAuthStore";
-import { getUser } from "../../../lib/apiCalls";
+import { getUser, uploadAgreement } from "../../../lib/apiCalls";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "../../../utils/types";
 import { AxiosError } from "axios";
@@ -56,6 +56,48 @@ const BrokerShipperAgreement: React.FC = () => {
             });
         }
     };
+
+    const handleUploadPDF = () => {
+      const input = document.querySelector(".print-container");
+      if (input) {
+          html2canvas(input as HTMLElement).then((canvas) => {
+              const imgData = canvas.toDataURL("image/png");
+              const pdf = new jsPDF('p', 'pt', 'a4');
+              const pdfWidth = pdf.internal.pageSize.getWidth();
+              const pdfHeight = pdf.internal.pageSize.getHeight();
+              const imgProps = pdf.getImageProperties(imgData);
+              const imgWidth = pdfWidth;
+              const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+              let heightLeft = imgHeight;
+              let position = 0;
+  
+              pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+              heightLeft -= pdfHeight;
+  
+              while (heightLeft >= 0) {
+                  position = heightLeft - imgHeight;
+                  pdf.addPage();
+                  pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                  heightLeft -= pdfHeight;
+              }
+  
+              // Convert the PDF to a Blob and create FormData
+              const pdfBlob = pdf.output('blob');
+              const formData = new FormData();
+              formData.append('pdf', pdfBlob, 'BrokerShipperAgreement.pdf');
+  
+              // Call the separated API function using axiosInstance
+              uploadAgreement(formData)
+                  .then((data) => {
+                      console.log("File uploaded successfully:", data);
+                  })
+                  .catch((error) => {
+                      console.error("Error uploading the file:", error);
+                  });
+          });
+      }
+  };
+  
 
     const handleGoBack = () => {
         window.close(); // This will close the current window
@@ -665,7 +707,7 @@ const BrokerShipperAgreement: React.FC = () => {
     Download as PDF
   </button>
   <button
-    onClick={() => alert("Document saved!")}
+    onClick={handleUploadPDF}
     className="mt-8 ml-4 bg-darkBlue hover:bg-green-400 text-white font-bold py-2 px-4 rounded"
   >
     Proceed
