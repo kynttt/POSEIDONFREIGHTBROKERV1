@@ -776,3 +776,33 @@ export const uploadProfilePicture = async (file: File) => {
     throw new Error("Failed to upload profile picture");
   }
 };
+
+// BrokerShipperAgreement
+// apiCalls.tsx
+export const createBrokerShipperAgreement = async (
+  agreementDocument: Blob,
+  additionalData: { name: string; companyPosition: string; companyName: string; address: string; phone: string }
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("agreementDocument", agreementDocument); // Append the document file
+
+    // Append additional data to formData
+    formData.append("name", additionalData.name);
+    formData.append("companyPosition", additionalData.companyPosition);
+    formData.append("companyName", additionalData.companyName);
+    formData.append("address", additionalData.address);
+    formData.append("phone", additionalData.phone);
+
+    const response = await axiosInstance.post("/agreements/create", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Ensure multipart format for file upload
+      },
+    });
+
+    return response.data; // Return response data
+  } catch (error) {
+    console.error("Create Agreement Error:", error);
+    throw error;
+  }
+};

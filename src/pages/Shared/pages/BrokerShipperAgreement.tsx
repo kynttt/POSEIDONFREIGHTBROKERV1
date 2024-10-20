@@ -567,7 +567,7 @@ const BrokerShipperAgreement: React.FC = () => {
 
             {/* Signature Canvas 2 */}
             <div className="flex-1">
-              <div className="relative">
+              <div className="">
                 <p className="mr-4">
                   {" "}
                   Shipper :
@@ -599,9 +599,11 @@ const BrokerShipperAgreement: React.FC = () => {
                   )}
                 </p>
                 <div className="flex">
-                  <div className="mr-4 text-base font-medium self-center">
+                  <div className=" mr-4 text-base font-medium self-center">
                     Signature:{" "}
+                    
                   </div>
+                  <div className="relative w-full">
                   <SignatureCanvas
                     ref={signatureRef}
                     penColor="black"
@@ -613,6 +615,14 @@ const BrokerShipperAgreement: React.FC = () => {
                       style: { cursor: "crosshair" },
                     }}
                   />
+                  {!isSigned && (
+                  <div className="absolute top-5 right-0 flex items-center justify-center pointer-events-none">
+                    <span className="mb-24 text-gray-500 font-bold bg-yellow-200 p-1 text-xs rounded">
+                      Please Sign Here. . .
+                    </span>
+                  </div>
+                )}
+                </div>
                 </div>
                 <div>
                   <p className="text-base font-medium">
@@ -636,13 +646,7 @@ const BrokerShipperAgreement: React.FC = () => {
                     )}
                   </p>
                 </div>
-                {!isSigned && (
-                  <div className="absolute top-36 right-12 flex items-center justify-center pointer-events-none">
-                    <span className="mb-24 text-gray-500 font-bold bg-yellow-200 p-1 text-xs rounded">
-                      Please Sign Here. . .
-                    </span>
-                  </div>
-                )}
+                
               </div>
             </div>
           </div>
