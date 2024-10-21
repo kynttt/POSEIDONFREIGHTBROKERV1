@@ -779,7 +779,7 @@ export const fetchProfilePicture = async (
 ) => {
   try {
     const response = await axiosInstance.get(
-      `/account/${userId}/profile-picture/${profilePicVersion}`, // Append cache-busting version
+      `/account/${userId}/profile-picture/${profilePicVersion}/`, // Append cache-busting version
       {
         responseType: "blob", // Ensure you get the image as binary data
       }
