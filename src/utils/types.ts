@@ -207,16 +207,14 @@ export interface GetPriceMileResponse {
 }
 
 interface IMetadata {
-  key: string;
-  value: string | number | boolean;
+  [key: string]: string | number | boolean;
 }
 export interface NotificationSchema extends Schema {
-  bookingId?: string;
   title: string;
   type?: "booking" | "quote" | "invoice" | "payment";
   message: string;
   mediaUrl?: string;
-  metadata?: IMetadata[];
+  metadata?: IMetadata;
   user?: string | User;
   isRead: boolean;
   isDeleted?: boolean; // Make this optional if not always present

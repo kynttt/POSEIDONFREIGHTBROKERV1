@@ -72,10 +72,12 @@ export default function NotificationModal() {
   const formatNotificationMessage = (notification: NotificationSchema) => {
     let message = notification.message;
 
-    if (notification.metadata && notification.metadata.length > 0) {
-      const bookingIdMetadata = notification.metadata.find(
-        (item) => item.key === "reference"
-      );
+    if (notification.metadata) {
+      const bookingIdMetadata = notification.metadata[
+        "reference"
+      ] as unknown as {
+        value: string;
+      };
       if (bookingIdMetadata) {
         message = notification.message;
       }
@@ -91,25 +93,18 @@ export default function NotificationModal() {
       }
     }
 
-    // Determine redirection based on role
-    const targetRoute =
-      role === "admin"
-        ? `/a/editBooking/${notification.bookingId}`
-        : `/s/shipmentDetails/${notification.bookingId}`;
-
-    if (notification.bookingId) {
-      console.log(`Navigating to ${targetRoute}`);
-      navigate(targetRoute);
-    } else if (notification.metadata && notification.metadata.length > 0) {
-      const bookingIdMetadata = notification.metadata.find(
-        (item) => item.key === "reference"
-      );
+    if (notification.metadata) {
+      const bookingIdMetadata = notification.metadata[
+        "reference"
+      ] as unknown as {
+        value: string;
+      };
 
       if (bookingIdMetadata) {
         const metadataTargetRoute =
           role === "admin"
-            ? `/a/editBooking/${bookingIdMetadata.value}`
-            : `/s/shipmentDetails/${bookingIdMetadata.value}`;
+            ? `/a/editBooking/${bookingIdMetadata}`
+            : `/s/shipmentDetails/${bookingIdMetadata}`;
         console.log(`Navigating to ${metadataTargetRoute}`);
         navigate(metadataTargetRoute);
       } else {
