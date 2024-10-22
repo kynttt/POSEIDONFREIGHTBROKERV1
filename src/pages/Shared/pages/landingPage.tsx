@@ -25,18 +25,22 @@ import LogisticsForm from "../../../components/LogisticsForm";
 // import Testimonials2 from "../../../components/Testimonials2";
 
 import { FaArrowUp } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 // import AgentsPage from "../../../components/AgentsPage";
 // import AgentForm from "../../../components/AgentForm";
 
 const LandingPage: React.FC = () => {
-  const [, setLoading] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
   const [showButton, setShowButton] = useState(false); // State to control visibility of "Back to Top" button
 
   useEffect(() => {
-    // Simulating a loading delay (you can adjust this as per your needs)
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const redirect = searchParams.get("redirect");
+    console.log("redirect", redirect);
+    if (redirect) {
+      navigate(redirect);
+    }
 
     // Show button when scrolled down
     const handleScroll = () => {
@@ -50,7 +54,6 @@ const LandingPage: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      clearTimeout(timer);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -62,54 +65,49 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="w-full">
-    
-        <>
-          <header className="w-full">
-            <NavbarNew />
-          </header>
-          <Stack w="100%" gap={0}>
-            <HeroBanner />
-            <BookingProcess />
-            <LogisticsForm />
-            <SeamlessFreightServices />
-            {/* <ServicesCardList /> */}
-            {/* <Carousel /> */}
-            {/* <FreightQuote /> */}
-            <NewFeatures />
-            {/* <AgentsPage />
+      <>
+        <header className="w-full">
+          <NavbarNew />
+        </header>
+        <Stack w="100%" gap={0}>
+          <HeroBanner />
+          <BookingProcess />
+          <LogisticsForm />
+          <SeamlessFreightServices />
+          {/* <ServicesCardList /> */}
+          {/* <Carousel /> */}
+          {/* <FreightQuote /> */}
+          <NewFeatures />
+          {/* <AgentsPage />
         <AgentForm /> */}
-            {/* <NewAboutUs /> */}
-            <HorizontalScrollComponent />
-            {/* <PricingPage /> */}
-            <Testimonials />
-            {/* <Testimonials2 /> */}
-            {/* <CarouselComponent /> */}
-            {/* <FeaturesSection /> */}
-            {/* <AboutUs /> */}
-            <FAQsPage />
-            {/* <TrustedAmazon /> */}
-            <ContactForm />
-            {/* <SuccessPage /> */}
-          </Stack>
-          <footer>
-            <Footer />
-          </footer>
+          {/* <NewAboutUs /> */}
+          <HorizontalScrollComponent />
+          {/* <PricingPage /> */}
+          <Testimonials />
+          {/* <Testimonials2 /> */}
+          {/* <CarouselComponent /> */}
+          {/* <FeaturesSection /> */}
+          {/* <AboutUs /> */}
+          <FAQsPage />
+          {/* <TrustedAmazon /> */}
+          <ContactForm />
+          {/* <SuccessPage /> */}
+        </Stack>
+        <footer>
+          <Footer />
+        </footer>
 
-          {/* "Back to Top" Button */}
-          {showButton && (
-            <button
-              onClick={scrollToTop}
-              className="fixed bottom-6 right-6 bg-darkBlue text-white p-3 rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 z-50"
-              aria-label="Back to top"
-            >
-              <FaArrowUp
-              size={20}
-              className="animate-bounce"
-              />
-            </button>
-          )}
-        </>
-      
+        {/* "Back to Top" Button */}
+        {showButton && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 bg-darkBlue text-white p-3 rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 z-50"
+            aria-label="Back to top"
+          >
+            <FaArrowUp size={20} className="animate-bounce" />
+          </button>
+        )}
+      </>
     </div>
   );
 };
