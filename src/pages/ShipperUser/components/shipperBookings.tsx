@@ -37,16 +37,13 @@ const ShipperBookings = ({
 
         // Filter bookings by selectedDate if it is set
         const filteredByDate = selectedDate
-          ? bookingsData.filter(
-              (booking: { quote: { pickupDate: string | number | Date } }) => {
-                const pickupDate = new Date(
-                  booking.quote?.pickupDate
-                ).toLocaleDateString();
-                return (
-                  pickupDate === new Date(selectedDate).toLocaleDateString()
-                );
-              }
-            )
+          ? bookingsData.filter((booking: Booking) => {
+              if (!booking.quote) return false;
+              const pickupDate = new Date(
+                booking.quote.pickupDate
+              ).toLocaleDateString();
+              return pickupDate === new Date(selectedDate).toLocaleDateString();
+            })
           : bookingsData;
 
         setBookings(filteredByDate);
@@ -99,11 +96,11 @@ const ShipperBookings = ({
 
             <button
               className={`px-4 py-2 font-medium ${
-                selectedCategory === "Pending"
+                selectedCategory === "pending"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700"
               } rounded-md`}
-              onClick={() => setSelectedCategory("Pending")}
+              onClick={() => setSelectedCategory("pending")}
             >
               <FontAwesomeIcon icon={faSpinner} className="mr-2" />
               Pending
@@ -111,11 +108,11 @@ const ShipperBookings = ({
 
             <button
               className={`px-4 py-2 font-medium ${
-                selectedCategory === "Confirmed"
+                selectedCategory === "confirmed"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700"
               } rounded-md`}
-              onClick={() => setSelectedCategory("Confirmed")}
+              onClick={() => setSelectedCategory("confirmed")}
             >
               <FontAwesomeIcon icon={faCircleCheck} className="mr-2" />
               Confirmed
@@ -123,11 +120,11 @@ const ShipperBookings = ({
 
             <button
               className={`px-4 py-2 font-medium ${
-                selectedCategory === "In Transit"
+                selectedCategory === "inTransit"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700"
               } rounded-md`}
-              onClick={() => setSelectedCategory("In Transit")}
+              onClick={() => setSelectedCategory("inTransit")}
             >
               <FontAwesomeIcon icon={faTruck} className="mr-2" />
               In Transit
@@ -135,11 +132,11 @@ const ShipperBookings = ({
 
             <button
               className={`px-4 py-2 font-medium ${
-                selectedCategory === "Delivered"
+                selectedCategory === "delivered"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700"
               } rounded-md`}
-              onClick={() => setSelectedCategory("Delivered")}
+              onClick={() => setSelectedCategory("delivered")}
             >
               <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />
               Delivered
@@ -147,11 +144,11 @@ const ShipperBookings = ({
 
             <button
               className={`px-4 py-2 font-medium ${
-                selectedCategory === "Cancelled"
+                selectedCategory === "cancelled"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700"
               } rounded-md`}
-              onClick={() => setSelectedCategory("Cancelled")}
+              onClick={() => setSelectedCategory("cancelled")}
             >
               <FontAwesomeIcon icon={faTimesCircle} className="mr-2" />
               Cancelled
