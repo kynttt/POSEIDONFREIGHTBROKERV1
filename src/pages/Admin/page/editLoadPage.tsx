@@ -91,7 +91,7 @@ const EditLoad: React.FC = () => {
   );
 
   const [booking, setBooking] = useState<Booking | null>(null);
-
+  const [isEditing, setIsEditing] = useState(false);
   const {
     data: bookingQueryData,
     isLoading: bookingLoading,
@@ -136,7 +136,7 @@ const EditLoad: React.FC = () => {
 
   useEffect(() => {
     if (!bookingQueryData) return;
-
+    setIsEditing(["pending", "revised"].includes(bookingQueryData.status));
     setBooking(bookingQueryData);
   }, [bookingQueryData]);
 
@@ -601,7 +601,7 @@ const EditLoad: React.FC = () => {
                           : "TBA"}
                       </p>
                     )}
-                    {bookingDebounce.status === "pending" && (
+                    {isEditing && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -666,7 +666,7 @@ const EditLoad: React.FC = () => {
                           : "Edit Pick-up Time Here..."}
                       </p>
                     )}
-                    {bookingDebounce.status === "pending" && (
+                    {isEditing && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -776,7 +776,7 @@ const EditLoad: React.FC = () => {
                           : "Edit Delivery Date Here..."}
                       </p>
                     )}
-                    {bookingDebounce.status === "pending" && (
+                    {isEditing && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -840,7 +840,7 @@ const EditLoad: React.FC = () => {
                           : "Edit Delivery Time Here..."}
                       </p>
                     )}
-                    {bookingDebounce.status === "pending" && (
+                    {isEditing && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -1003,7 +1003,7 @@ const EditLoad: React.FC = () => {
                         Edit Carrier Here...
                       </p>
                     )}
-                    {bookingDebounce.status === "pending" && (
+                    {isEditing && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
@@ -1056,7 +1056,7 @@ const EditLoad: React.FC = () => {
                         Edit Driver's Name Here...
                       </p>
                     )}
-                    {bookingDebounce.status === "pending" && (
+                    {isEditing && (
                       <button
                         className="text-white underline text-sm bg-blue-500 px-4 py-1 rounded w-1/2"
                         onClick={() =>
