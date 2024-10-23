@@ -8,6 +8,7 @@ import {
   faCircleCheck,
   faTruck,
   faSquareCheck,
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -129,7 +130,7 @@ const LoadBoard: React.FC = () => {
 
   const loadStatusTabs = [
     { label: "Pending", icon: faSpinner, status: "pending" },
-    { label: "Revised", icon: faCircleCheck, status: "revised" },
+    { label: "Revise", icon: faEdit, status: "revised" },
     { label: "Confirmed", icon: faCircleCheck, status: "confirmed" },
     { label: "In Transit", icon: faTruck, status: "inTransit" },
     { label: "Delivered", icon: faSquareCheck, status: "delivered" },
