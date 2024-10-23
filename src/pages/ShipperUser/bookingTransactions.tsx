@@ -28,7 +28,7 @@ export default function ShipperUserBookingTransactions() {
                 scope="col"
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                BOL Number
+                Reference
               </th>
               <th
                 scope="col"
@@ -54,7 +54,7 @@ export default function ShipperUserBookingTransactions() {
             {data?.map((booking) => (
               <tr key={booking.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {booking.bolNumber}
+                  {booking.bookingRef}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
