@@ -25,6 +25,10 @@ import {
   faUser,
   // faWeightScale,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  toBookPaymentStatus,
+  toBookStatusTitle,
+} from "../../../components/googleMap/utils";
 
 const ShipmentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // Get the id from the URL
@@ -144,7 +148,13 @@ const ShipmentDetails: React.FC = () => {
                 Status{" "}
                 <p className="px-8 py-2 my-4 border border-blue-500  text-blue-500 rounded-3xl mx-6">
                   {" "}
-                  {booking.status}
+                  {toBookStatusTitle(booking.status)}{" "}
+                  {(booking.paymentStatus === "paid" ||
+                    booking.paymentStatus === "refunded") && (
+                    <span className="text-red-500">
+                      ({toBookPaymentStatus(booking.paymentStatus)})
+                    </span>
+                  )}
                 </p>
               </p>
               <p className="text-rblue font-normal">

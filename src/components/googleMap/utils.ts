@@ -33,6 +33,7 @@ export function toBookPaymentStatus(status: BookingPaymentStatus) {
     paid: "Paid",
     void: "Void",
     refunded: "Refunded",
+    processing: "Processing",
     failed: "Failed",
   };
 

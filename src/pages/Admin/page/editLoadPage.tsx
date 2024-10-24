@@ -369,9 +369,9 @@ const EditLoad: React.FC = () => {
               <h1 className="md:text-2xl text-lg font-medium mb-4 mt-4 text-rblue">
                 Shipment Reference: {bookingDebounce.bookingRef}
               </h1>
-              <p className="flex items-center text-rblue">
+              <div className="flex items-center text-rblue">
                 Status{" "}
-                <p className="px-8 py-2 my-4 border border-blue-500  text-blue-500 rounded-3xl mx-6">
+                <div className="px-8 py-2 my-4 border border-blue-500  text-blue-500 rounded-3xl mx-6">
                   {" "}
                   {toBookStatusTitle(bookingDebounce.status)}{" "}
                   {(bookingDebounce.paymentStatus === "paid" ||
@@ -380,8 +380,8 @@ const EditLoad: React.FC = () => {
                       ({toBookPaymentStatus(bookingDebounce.paymentStatus)})
                     </span>
                   )}
-                </p>
-              </p>
+                </div>
+              </div>
               <p className="text-rblue font-normal">
                 Last Updated:{" "}
                 {bookingDebounce.updatedAt

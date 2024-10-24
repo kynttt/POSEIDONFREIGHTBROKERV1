@@ -12,6 +12,10 @@ import {
 import { fetchUserBookings } from "../../../lib/apiCalls";
 import { useNavigate } from "react-router-dom";
 import { Booking, BookingStatus } from "../../../utils/types";
+import {
+  toBookPaymentStatus,
+  toBookStatusTitle,
+} from "../../../components/googleMap/utils";
 
 interface ShipperBookingsProps {
   onDataFetched: (data: Booking[]) => void;
@@ -228,8 +232,15 @@ const ShipperBookings = ({
                 )}
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-gray-600 text-primary">Status</h3>
-                    <p>{booking.status}</p>
+                    <h3 className="text-gray-600">Status</h3>
+                    <p>
+                      {toBookStatusTitle(booking.status)}{" "}
+                      {["paid", "refunded"].includes(booking.paymentStatus) && (
+                        <span className={`text-green `}>
+                          ({toBookPaymentStatus(booking.paymentStatus)})
+                        </span>
+                      )}
+                    </p>
                   </div>
                   <FontAwesomeIcon
                     icon={faRightToBracket}
