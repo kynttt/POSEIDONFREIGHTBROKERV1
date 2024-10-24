@@ -250,6 +250,8 @@ const EditLoad: React.FC = () => {
       if (action === "confirmed") {
         setIsModalOpen(true); // Open the modal only if confirming the booking
       }
+
+      queryClient.invalidateQueries({ queryKey: ["booking", id] });
     } catch (error) {
       console.error("Error updating booking status:", error);
     }

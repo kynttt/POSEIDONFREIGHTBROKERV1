@@ -30,7 +30,6 @@ const RecentTransactions: React.FC = () => {
       setLoading(true);
       try {
         const data: Booking[] = await fetchBookings(); // Fetch data using your function
-        console.log("data", data);
         // Convert the fetched data into the BookingData type and filter out bookings without deliveryDate
         const filteredBookings: BookingData[] = data.map((booking) => ({
           id: booking.id || "", // Provide a default value if id is undefined
