@@ -135,16 +135,14 @@ const LoadBoard: React.FC = () => {
     { label: "In Transit", icon: faTruck, status: "inTransit" },
     { label: "Delivered", icon: faSquareCheck, status: "delivered" },
     {
-      label: "Cancelled (Refund Required)",
+      label: "Cancelled ",
       icon: faUndoAlt,
       status: "cancelled",
     },
   ];
 
-  const filteredCardsByTab = filteredLoadCards.filter((load) =>
-    activeTab === "cancelled"
-      ? load.status === "cancelled" && load.paymentStatus === "paid"
-      : load.status === activeTab
+  const filteredCardsByTab = filteredLoadCards.filter(
+    (load) => load.status === activeTab
   );
   return (
     <div className="flex h-full md:mt-12 ">
