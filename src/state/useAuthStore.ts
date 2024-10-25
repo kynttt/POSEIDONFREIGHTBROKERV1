@@ -20,6 +20,7 @@ export const useAuthStore = create(
       isLoading: false,
       isError: false,
       error: null,
+      
 
       login: ({ user }: { user: User }) => {
         set({
