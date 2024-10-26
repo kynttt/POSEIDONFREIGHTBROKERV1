@@ -71,7 +71,7 @@ const ShipmentsBarChart: React.FC = () => {
   }
 
   return (
-    <div className="bg-white p-4 sm:p-6 md:p-6  rounded-2xl h-64 sm:h-80 md:h-[450px] shadow-lg border">
+    <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg p-4 sm:p-6 md:p-6 rounded-2xl h-64 sm:h-80 md:h-[450px] shadow-lg border">
       <h3 className="text-xl sm:text-2xl md:pl-12 font-medium mb-4 lg:pb-2">
         Shipments Per Day (Bar Chart)
       </h3>

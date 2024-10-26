@@ -145,9 +145,17 @@ const LoadBoard: React.FC = () => {
     (load) => load.status === activeTab
   );
   return (
-    <div className="flex h-full md:mt-12 ">
-      <div className="flex-1 max-w-screen bg-blue-50 min-h-screen overflow-y-auto grid grid-cols-1 lg:grid-cols-4 ">
-        <div className="lg:col-span-3 lg:my-8 lg:mx-8 py-10 px-4 lg:px-4 bg-blue-50 rounded-lg w-full">
+    <div className="flex h-full  ">
+      <div className="flex-1 max-w-screen b min-h-screen overflow-y-auto grid grid-cols-1 lg:grid-cols-4 " style={{
+    background: `
+      radial-gradient(circle at 15% 25%, rgba(255, 99, 132, 0.2), transparent 60%),
+      radial-gradient(circle at 85% 20%, rgba(54, 162, 235, 0.7), transparent 60%),
+      radial-gradient(circle at 40% 80%, rgba(75, 192, 192, 0.3), transparent 60%),
+      radial-gradient(circle at 70% 70%, rgba(255, 206, 86, 0.3), transparent 60%),
+      radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 60%)
+    `,
+  }}>
+        <div className="lg:col-span-3 lg:my-8 lg:mx-8 py-10 px-4 lg:px-4 bg-transparent rounded-lg w-full">
           <div className="tabs flex flex-wrap gap-4">
             {loadStatusTabs.map((tab) => (
               <button

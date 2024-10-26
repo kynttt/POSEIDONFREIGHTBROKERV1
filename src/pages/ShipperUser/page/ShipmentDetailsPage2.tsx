@@ -24,6 +24,7 @@ import {
   // faTruckMoving,
   faUser,
   // faWeightScale,
+  faCreditCard,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   toBookPaymentStatus,
@@ -515,13 +516,25 @@ const ShipmentDetails: React.FC = () => {
 
               <div className="w-full max-w-screen mx-auto bg-white  md:px-8 md:border-l border-t md:border-t-0 pt-4 md:pt-0">
                 <h2 className="text-xl mb-8 text-rblue">
-                  Documents{" "}
+                Actions{" "}
                   {/* <p className="text-base text-gray-500 font-normal">
                                     Access and Review Shipment Documents
                                 </p> */}
                 </h2>
-                <div className="flex flex-col justify-center sm:flex-row mb-4  py-4">
-                  <div className="w-full sm:w-1/2 mb-4 sm:mb-0">
+                <div className="flex flex-col justify-center sm:flex-row mb-4  ">
+                  <div className="w-full sm:w-1/2 mb-4 sm:mb-0 flex flex-col gap-4">
+                    {booking.status === "confirmed" && booking.paymentStatus !== "paid" && (
+                        <button
+                        onClick={() => navigate('/s/booking-transactions')}
+                        className="block text-primary text-sm font-bold p-3 rounded-md bg-blue-500 text-white cursor-pointer animate-bounce"
+                        >
+                        <FontAwesomeIcon
+                        icon={faCreditCard}
+                        className="mr-3"
+                        />
+                        Pay Now
+                        </button>
+                    )}
                     {billOfLading ? (
                       <button
                         onClick={handleViewBillOfLading}
@@ -537,10 +550,10 @@ const ShipmentDetails: React.FC = () => {
                       <>
                         <button
                           onClick={handleBillOfLadingClick}
-                          className={`block text-primary text-sm font-bold p-2 rounded-md ${
+                          className={`block text-blue-500 text-sm font-bold p-2 rounded-md ${
                             booking.status === "pending"
                               ? "bg-gray-400 text-white cursor-not-allowed"
-                              : "bg-blue-500 text-white cursor-pointer"
+                              : "border border-blue-500 text-blue-500 cursor-pointer"
                           }`}
                           disabled={booking.status === "pending"}
                         >
@@ -553,6 +566,7 @@ const ShipmentDetails: React.FC = () => {
                         </p>
                       </>
                     )}
+                    
                   </div>
                 </div>
               </div>

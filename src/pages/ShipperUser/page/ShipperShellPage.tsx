@@ -56,7 +56,7 @@ export default function ShipperShellPage() {
     <section>
       <AppShell
         layout="alt"
-        header={{ height: 60, collapsed: !pinned, offset: false }}
+        header={{ height: 70, collapsed: !pinned, offset: false }}
         navbar={{
           width: {
             base: isExtend ? 250 : 80,
@@ -109,18 +109,18 @@ function ShellHeader({
   };
 
   return (
-    <Flex justify="flex-end" p={"lg"} gap={"md"}>
+    <Flex justify="flex-end" px={"xl"} py={"lg"} gap={"md"} className="bg-white">
       <Popover position="bottom-start">
         <Popover.Target>
-          <Indicator
+            <Indicator
             size={15}
             color="red"
             offset={5}
             position="top-end"
             label={unreadNotificationCount > 0 ? unreadNotificationCount : null} // Display count if greater than 0
             disabled={unreadNotificationCount === 0} // Disable if no unread notifications
-            className="flex items-center justify-center"
-          >
+            className={`flex items-center justify-center ${unreadNotificationCount > 0 ? 'animate-ping' : ''}`} // Add animate-ping class if there are unread notifications
+            >
             <ActionIcon
               variant="subtle"
               aria-label="Notifications"

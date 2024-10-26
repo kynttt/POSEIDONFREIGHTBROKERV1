@@ -85,7 +85,7 @@ const ShipperBookings = ({
       : bookings.filter((booking) => booking.status === selectedCategory);
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 md:p-6 lg:px-20">
+    <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-lg shadow p-4 md:p-6 lg:px-20">
       <h2 className="text-xl font-semibold mb-4 text-primary">My Shipments</h2>
 
       <div className="p-4 rounded-md mb-6">
@@ -97,7 +97,7 @@ const ShipperBookings = ({
               className={`px-4 py-2 font-medium ${
                 selectedCategory === "All"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  : "border border-gray-700 text-gray-700"
               } rounded-md`}
               onClick={() => setSelectedCategory("All")}
             >
@@ -108,7 +108,7 @@ const ShipperBookings = ({
               className={`px-4 py-2 font-medium ${
                 selectedCategory === "pending"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  : " border border-gray-700 text-gray-700"
               } rounded-md`}
               onClick={() => setSelectedCategory("pending")}
             >
@@ -120,7 +120,7 @@ const ShipperBookings = ({
               className={`px-4 py-2 font-medium ${
                 selectedCategory === "confirmed"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  : "border border-gray-700 text-gray-700"
               } rounded-md`}
               onClick={() => setSelectedCategory("confirmed")}
             >
@@ -132,7 +132,7 @@ const ShipperBookings = ({
               className={`px-4 py-2 font-medium ${
                 selectedCategory === "inTransit"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  : "border border-gray-700 text-gray-700"
               } rounded-md`}
               onClick={() => setSelectedCategory("inTransit")}
             >
@@ -144,7 +144,7 @@ const ShipperBookings = ({
               className={`px-4 py-2 font-medium ${
                 selectedCategory === "delivered"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  : "border border-gray-700 text-gray-700"
               } rounded-md`}
               onClick={() => setSelectedCategory("delivered")}
             >
@@ -156,7 +156,7 @@ const ShipperBookings = ({
               className={`px-4 py-2 font-medium ${
                 selectedCategory === "cancelled"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  : "border border-gray-700 text-gray-700"
               } rounded-md`}
               onClick={() => setSelectedCategory("cancelled")}
             >
@@ -177,7 +177,7 @@ const ShipperBookings = ({
       {loading ? (
         <p className="text-gray-500">Loading bookings...</p>
       ) : (
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 ">
           {bookings.length === 0 ? (
             <div className="text-center">
               <p className="text-gray-500 font-normal my-4">
@@ -202,7 +202,7 @@ const ShipperBookings = ({
                   handleBookingClick(booking.id);
                   }
                 }}
-                className="bg-light-grey text-left rounded-lg shadow-lg p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 overflow-x-auto transition-transform duration-500 ease-in-out transform hover:scale-105 active:scale-95"
+                className="bg-white  text-left rounded-lg  p-4 md:p-6 mb-2 text-secondary font-normal grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 overflow-x-auto transition-transform duration-700 ease-in-out transform hover:scale-105 active:scale-95 hover:shadow-xl hover:bg-gray-100"
                 >
                 {typeof booking.quote === "object" && booking.quote !== null ? (
                   <>

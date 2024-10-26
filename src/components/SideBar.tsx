@@ -164,7 +164,7 @@ export default function Sidebar({
       onMouseLeave={() => setIsExtend(false)}
       justify="space-between"
       align="center"
-      className="h-screen py-8 border-r bg-gray-900 w-full"
+      className="h-screen py-8 border-r bg-white w-full"
     >
       <Stack className="w-full ">
         <Stack gap={"md"}>
@@ -207,12 +207,13 @@ export default function Sidebar({
         <Stack mt={"sm"} className="w-full">
           <nav className="w-full ">
             {getNavItems().map((item) => (
-              <div
+                <div
                 key={item.label}
                 id={getTabId(item.label)}
-                className="cursor-pointer flex-column justify-center items-center  text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition duration-300 px-8 py-4 relative"
+                className="cursor-pointer flex-column justify-center items-center text-gray-700 hover:bg-gray-200 hover:text-gray-700 focus:text-rblue transition duration-300 px-8 py-4 relative"
                 onClick={() => handleNavigation(item.path)}
-              >
+                tabIndex={0} // Make the div focusable
+                >
                 <FontAwesomeIcon icon={item.icon} />
                 <motion.span
                   initial={{ opacity: 0, x: -20 }}
@@ -317,7 +318,7 @@ function ProfileItem({
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-        <div className="flex justify-center items-center  py-2 shadow  hover:bg-gray-500 cursor-pointer w-full">
+        <div className="flex justify-center items-center  py-2   hover:bg-gray-200 cursor-pointer w-full">
           {/* Profile Image with Loading Spinner and Dimmed Effect */}
           <div className="relative">
             <img
@@ -344,7 +345,7 @@ function ProfileItem({
                 x: isExtend ? 0 : -20,
               }}
               transition={{ duration: 0.3, delay: isExtend ? 0.2 : 0 }}
-              className={`mx-2 font-medium text-white dark:text-gray-200 ${
+              className={`mx-2 font-medium text-gray-700 dark:text-gray-200 ${
                 isExtend ? "block" : "hidden"
               }`}
             >

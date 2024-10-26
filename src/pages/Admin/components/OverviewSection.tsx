@@ -137,7 +137,7 @@ const OverviewSection: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 md:mb-8">
-      <div className="bg-white py-4 p-4 md:px-10 rounded-2xl shadow-lg border">
+      <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg py-4 p-4 md:px-10 rounded-2xl shadow-lg">
         <div className="flex justify-start">
           <FontAwesomeIcon
             icon={faBox}
@@ -163,7 +163,7 @@ const OverviewSection: React.FC = () => {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white py-4 p-4 md:px-10 rounded-2xl shadow-lg border">
+      <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg py-4 p-4 md:px-10 rounded-2xl shadow-lg">
         <div className="flex justify-start">
           <FontAwesomeIcon
             icon={faArrowsSpin}
@@ -189,7 +189,7 @@ const OverviewSection: React.FC = () => {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white py-4 p-4 md:px-10 rounded-2xl shadow-lg border">
+      <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg py-4 p-4 md:px-10 rounded-2xl shadow-lg">
         <div className="flex justify-start">
           <FontAwesomeIcon
             icon={faSackDollar}
@@ -221,7 +221,7 @@ const OverviewSection: React.FC = () => {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white py-4 p-4 md:px-10 rounded-2xl shadow-lg border">
+      <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg py-4 p-4 md:px-10 rounded-2xl shadow-lg">
         <div className="flex justify-start">
           <FontAwesomeIcon
             icon={faTruck}

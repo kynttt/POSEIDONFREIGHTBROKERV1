@@ -49,7 +49,7 @@ const LoadCard: React.FC<CardProps> = ({
     <div className="w-full px-4">
       <button
         onClick={handleBookLoadClick}
-        className="bg-white hover:bg-gray-100 text-primary w-full rounded-lg py-4 mb-4 text-sm border border-gray-500 transform transition-transform duration-500 hover:scale-105 shadow-md"
+        className="bg-white hover:bg-gray-100 text-primary w-full rounded-lg py-4 mb-2 text-sm  transform transition-transform duration-500 hover:scale-105 shadow-md"
       >
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 px-4 sm:px-8 md:px-14">
           <div className="flex items-left flex-col col-span-1">
