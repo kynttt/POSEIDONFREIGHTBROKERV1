@@ -240,7 +240,7 @@ export default function SectionSecondPage() {
               />
             </tbody>
           </table>
-          <div className="flex flex-col w-full  text-primary text-bold">
+            <div className="flex justify-between w-full text-primary text-bold">
             <TitleIcon
               icon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
               title="Total Shipment Price"
@@ -255,14 +255,14 @@ export default function SectionSecondPage() {
                 : "0.00"}
             </div>
           </div>
-          <div className="flex flex-col text-primary text-bold mt-2">
+          <div className="flex flex justify-between text-primary text-bold mt-2">
             <TitleIcon
               icon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
               title="Taxes and other fees"
             />
             <div className="flex justify-end text-[1.5rem]">$0.00</div>
           </div>
-          <div className="flex items-center justify-center mt-4">
+          <div className="flex items-center justify-left my-4">
             <input
               type="checkbox"
               id="terms"
@@ -286,10 +286,10 @@ export default function SectionSecondPage() {
               </a>
             </label>
           </div>
-          <div className="flex gap-2 py-8 justify-between">
-            <Button variant="outline" w={"30%"} onClick={goToFormPage}>
+          <div className="flex gap-2 pt-8 justify-between">
+            {/* <Button variant="outline" w={"30%"} onClick={goToFormPage}>
               Back
-            </Button>
+            </Button> */}
             <Button
               onClick={nextHandler}
               fullWidth
@@ -299,6 +299,9 @@ export default function SectionSecondPage() {
               Book
             </Button>
           </div>
+            <div className="flex justify-center mt-4">
+            <p className="text-md text-primary font-normal">You won't be charged yet.</p>
+            </div>
         </div>
       </div>
     </>

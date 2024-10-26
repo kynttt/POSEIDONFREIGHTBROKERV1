@@ -38,7 +38,7 @@ const ShipperBookings = ({
     const fetchBookings = async () => {
       try {
         const bookingsData = await fetchUserBookings();
-
+  
         // Filter bookings by selectedDate if it is set
         const filteredByDate = selectedDate
           ? bookingsData.filter((booking: Booking) => {
@@ -49,18 +49,24 @@ const ShipperBookings = ({
               return pickupDate === new Date(selectedDate).toLocaleDateString();
             })
           : bookingsData;
-
-        setBookings(filteredByDate);
-        onDataFetched(filteredByDate); // Notify parent about the filtered data
+  
+        // Sort by createdAt in descending order (latest first)
+        const sortedBookings = filteredByDate.sort(
+          (a, b) => new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime()
+        );
+  
+        setBookings(sortedBookings);
+        onDataFetched(sortedBookings); // Notify parent about the filtered data
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchBookings();
   }, [onDataFetched, selectedDate]);
+  
 
   const handleBookingClick = (id: string) => {
     navigate(`/s/shipmentDetails/${id}`);
@@ -189,15 +195,15 @@ const ShipperBookings = ({
             </div>
           ) : (
             filteredBookings.map((booking, index: number) => (
-              <button
+                <button
                 key={index}
                 onClick={() => {
                   if (booking.id) {
-                    handleBookingClick(booking.id);
+                  handleBookingClick(booking.id);
                   }
                 }}
-                className="bg-light-grey text-left rounded-lg shadow-lg p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 overflow-x-auto"
-              >
+                className="bg-light-grey text-left rounded-lg shadow-lg p-4 md:p-6 mb-4 text-secondary font-normal grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 overflow-x-auto transition-transform duration-500 ease-in-out transform hover:scale-105 active:scale-95"
+                >
                 {typeof booking.quote === "object" && booking.quote !== null ? (
                   <>
                     <div>
