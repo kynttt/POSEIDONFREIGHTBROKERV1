@@ -89,7 +89,7 @@ const RecentTransactions: React.FC = () => {
   const displayedBookings = bookings.slice(startIndex, endIndex);
 
   return (
-    <div className="bg-white md:px-20 md:py-8 p-4 rounded-2xl shadow-lg border">
+    <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg md:px-20 md:py-8 p-4 rounded-2xl shadow-lg border">
       <h3 className="text-lg sm:text-2xl font-medium mb-4 sm:mb-2   pb-2">
         Recent Transactions
       </h3>

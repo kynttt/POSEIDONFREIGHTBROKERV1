@@ -356,7 +356,7 @@ const EditLoad: React.FC = () => {
         title="Confirmation"
         message="Are you sure you want to perform this action?"
       />
-      <div className="flex min-h-screen md:mt-12 ">
+      <div className="flex min-h-screen ">
         <nav className="flex-1 bg-blue-50 overflow-y-auto lg:px-20">
           <div className="flex flex-col  justify-evenly w-full gap-8 p-2">
             <div className="bg-blue-50 p-6 w-full max-w-screen-2xl mx-auto">

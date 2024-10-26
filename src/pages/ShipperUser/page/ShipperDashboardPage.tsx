@@ -131,16 +131,27 @@ const ShipperDashboardPage = () => {
   };
 
   return (
-    <div className="bg-white h-full flex flex-col md:flex-row mt-6">
-      <div className="flex-1 p-4 md:p-6 bg-blue-50 overflow-y-auto lg:px-20">
-        <h1 className="text-2xl font-bold mb-4 text-gray-500">Dashboard</h1>
+    <div className="bg-white h-full flex flex-col md:flex-row ">
+      <div
+  className="flex-1 p-4 md:p-6 overflow-y-auto lg:px-20"
+  style={{
+    background: `
+      radial-gradient(circle at 15% 25%, rgba(255, 99, 132, 0.2), transparent 60%),
+      radial-gradient(circle at 85% 20%, rgba(54, 162, 235, 0.7), transparent 60%),
+      radial-gradient(circle at 40% 80%, rgba(75, 192, 192, 0.3), transparent 60%),
+      radial-gradient(circle at 70% 70%, rgba(255, 206, 86, 0.3), transparent 60%),
+      radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 60%)
+    `,
+  }}
+>
+        {/* <h1 className="text-2xl font-bold mb-4 text-gray-500">Dashboard</h1> */}
         {allBookings.length > 0 && (
-          <div className="bg-white rounded-lg shadow p-4 md:p-6 mb-4 md:mb-6">
+          <div className="bg-transparent rounded-lg  p-4 md:p-6 mb-4 md:mb-6">
             <h2 className="text-xl font-semibold mb-4 text-primary">
               Overview
             </h2>
 
-            <div className="grid lg:w-1/2 grid-cols-1 md:grid-cols-2 gap-4 mb-4 md:mb-6">
+            <div className="grid lg:w-1/2 grid-cols-1  md:grid-cols-2 gap-4 mb-4 md:mb-6">
               <div className="flex flex-col">
                 <label
                   htmlFor="startDate"
@@ -151,10 +162,11 @@ const ShipperDashboardPage = () => {
                 <input
                   type="date"
                   id="startDate"
-                  className="border border-secondary bg-white rounded-lg p-2 text-sm text-gray-500"
+                  className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-lg p-2 text-sm font-normal text-gray-500"
                   value={selectedDate || ""} // Set input value
                   onChange={handleDateChange} // Update the selected date
                 />
+                 
               </div>
 
               {/* Filter and Clear Filter Buttons */}
@@ -167,7 +179,7 @@ const ShipperDashboardPage = () => {
           </button> */}
                 <button
                   onClick={handleClearFilterClick}
-                  className="bg-gray-400 text-white rounded-lg px-4 py-2 text-sm"
+                  className="border border-gray-700 text-gray-700 rounded-lg px-4 py-2 text-sm"
                 >
                   Clear Filter
                 </button>
@@ -204,7 +216,7 @@ const ShipperDashboardPage = () => {
                   (status) => (
                     <div
                       key={status}
-                      className="bg-light-grey p-4 rounded-lg shadow text-center border border-gray-200"
+                      className="bg-light-grey bg-opacity-50 backdrop-filter backdrop-blur-lg p-4 rounded-lg shadow text-center border border-gray-200"
                     >
                       <p className="text-gray-600 text-left font-medium text-primary text-base sm:text-lg md:text-xl">
                         {toBookStatusTitle(status as BookingStatus)}

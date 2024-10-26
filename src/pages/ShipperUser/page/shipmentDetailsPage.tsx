@@ -444,7 +444,7 @@ const ShipmentDetails: React.FC = () => {
 
             <div className="bg-white  p-6 rounded-lg my-6 shadow-lg md:px-12 md:py-10">
               <h2 className="text-xl mb-2 text-secondary">
-                Documents{" "}
+                Actions{" "}
                 <p className="text-base text-gray-500 font-normal">
                   Access and Review Shipment Documents
                 </p>

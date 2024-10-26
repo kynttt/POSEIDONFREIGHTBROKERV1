@@ -8,7 +8,10 @@ import { useNavigate } from "react-router-dom";
 export default function ShipperUserBookingTransactions() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["bookings-transactions"],
-    queryFn: fetchUserBookings,
+    queryFn: async () => {
+      const bookings = await fetchUserBookings();
+      return bookings.sort((a: Booking, b: Booking) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime());
+    },
   });
 
   if (isLoading) {
@@ -18,33 +21,41 @@ export default function ShipperUserBookingTransactions() {
     return <div>Error loading bookings</div>;
   }
   return (
-    <div className="p-10">
+    <div className="p-10 " style={{
+      background: `
+        radial-gradient(circle at 15% 25%, rgba(255, 99, 132, 0.2), transparent 60%),
+        radial-gradient(circle at 85% 20%, rgba(54, 162, 235, 0.7), transparent 60%),
+        radial-gradient(circle at 40% 80%, rgba(75, 192, 192, 0.3), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(255, 206, 86, 0.3), transparent 60%),
+        radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 60%)
+      `,
+    }}>
       <div className="relative bg-white shadow-md rounded-lg overflow-hidden">
         {/* <LoadingOverlay visible={createInvoiceMutation.isPending} /> */}
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-100">
             <tr>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-md font-medium text-gray-500 uppercase tracking-wider"
               >
                 Reference
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-md font-medium text-gray-500 uppercase tracking-wider"
               >
                 Status
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-md font-medium text-gray-500 uppercase tracking-wider"
               >
                 Created At
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-md font-medium text-gray-500 uppercase tracking-wider"
               >
                 Action
               </th>
@@ -58,7 +69,7 @@ export default function ShipperUserBookingTransactions() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
+                    className={`px-3 py-1 inline-flex text-sm leading-5 font-medium rounded-full ${getStatusColor(
                       booking.status
                     )}`}
                   >
@@ -66,7 +77,7 @@ export default function ShipperUserBookingTransactions() {
                     {booking.paymentStatus === "refunded" && "(Refund)"}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
                   {new Date(booking.createdAt!).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
