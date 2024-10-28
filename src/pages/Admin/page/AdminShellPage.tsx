@@ -119,7 +119,7 @@ function ShellHeader({
             position="top-end"
             label={unreadNotificationCount > 0 ? unreadNotificationCount : null} // Display count if greater than 0
             disabled={unreadNotificationCount === 0} // Disable if no unread notifications
-            className={`flex items-center justify-center ${unreadNotificationCount > 0 ? 'animate-ping' : ''}`} // Add animate-ping class if there are unread notifications
+            className={`flex items-center justify-center ${unreadNotificationCount > 0 ? 'animate-bounce' : ''}`} // Add animate-ping class if there are unread notifications
             
           >
             <ActionIcon
