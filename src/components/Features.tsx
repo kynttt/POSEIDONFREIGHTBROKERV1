@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { AnimationControls, motion, useAnimation } from "framer-motion";
+import { AnimationControls, motion, useAnimation, VariantLabels } from "framer-motion";
 import freightImage1 from "../assets/img/Carousel1.png"; // Replace with your actual image path
 import freightImage2 from "../assets/img/Carousel2.png";
 import freightImage3 from "../assets/img/Carousel3.png";
@@ -169,7 +169,7 @@ function FeatureCard({
   description: string;
   customRef?: React.Ref<HTMLDivElement>;
   initial?: Record<string, any>; // Change unknown to any
-  animate?: AnimationControls;
+  animate?: AnimationControls | boolean | VariantLabels | undefined;
 }) {
   return (
     <motion.div
