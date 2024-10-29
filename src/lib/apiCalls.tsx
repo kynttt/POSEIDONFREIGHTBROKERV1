@@ -395,7 +395,7 @@ export const createBookingPaymentIntent = async ({
 }: BookingPaymentIntentParams) => {
   try {
     const response = await axiosInstance.post(
-      `/bookings/${bookingId}/payment-intent`
+      `/bookings/${bookingId}/payment-intent/`
     );
     return (
       response.data as {
@@ -479,8 +479,8 @@ export const updateBookingStatus = async (
         },
       }
     );
-    
 
+    
     return (
       response.data as {
         data: Booking;
@@ -626,11 +626,11 @@ export const createTruck = async (truck: TruckCatalog) => {
 };
 
 export const deleteTruck = async (truckId: string) => {
-  await axiosInstance.delete(`/trucks/${truckId}`);
+  await axiosInstance.delete(`/trucks/${truckId}/`);
 };
 
 export const updateTruck = async (truck: TruckCatalog) => {
-  const response = await axiosInstance.put(`/trucks/${truck.id!}`, truck);
+  const response = await axiosInstance.put(`/trucks/${truck.id!}/`, truck);
 
   return response.data as TruckCatalog;
 };
@@ -641,7 +641,7 @@ export const getPricePerMile = async ({
   trailerSize,
 }: GetPriceMileData) => {
   const response = await axiosInstance.post(
-    `/trucks/${truckId}/price-per-mile`,
+    `/trucks/${truckId}/price-per-mile/`,
     {
       distance,
       trailerSize,
