@@ -174,7 +174,7 @@ function FeatureCard({
   return (
     <motion.div
       ref={customRef}
-      initial={initial}
+      initial={initial as any}
       animate={animate}
       className="bg-rblue rounded-xl p-6"
     >
