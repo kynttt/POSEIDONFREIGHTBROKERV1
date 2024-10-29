@@ -40,7 +40,9 @@ import {
 
 // Get Specific User
 export const getUser = async () => {
+  const API_BASE_URL = process.env.REACT_APP_SERVER_URL;
   const response = await axiosInstance.get(`/account/`);
+  console.log(API_BASE_URL);
   const data = response.data;
   const user = data.data as User;
 
