@@ -63,7 +63,7 @@ export const loginUser = async (
   email: string,
   password: string
 ): Promise<LoginResponse> => {
-  const response = await axiosInstance.post(`/account/login`, {
+  const response = await axiosInstance.post(`/account/login/`, {
     email,
     password,
   });
@@ -71,13 +71,13 @@ export const loginUser = async (
 };
 
 export const logoutUser = async (): Promise<LogoutResponse> => {
-  const response = await axiosInstance.post(`/account/logout`);
+  const response = await axiosInstance.post(`/account/logout/`);
   return response.data;
 };
 
 // Register
 export const registerUser = async (formData: RegisterFormData) => {
-  const response = await axiosInstance.post(`/account/register`, {
+  const response = await axiosInstance.post(`/account/register/`, {
     name: formData.name,
     email: formData.email,
     password: formData.password,
@@ -92,7 +92,7 @@ export const registerUser = async (formData: RegisterFormData) => {
 };
 
 export const accountCompletion = async (data: AccountCompletionData) => {
-  const response = await axiosInstance.post(`/account/complete-details`, data);
+  const response = await axiosInstance.post(`/account/complete-details/`, data);
   return response.data as AccountCompletionResponse;
 };
 
@@ -121,7 +121,7 @@ export const updatePassword = async (
   newPassword: string
 ) => {
   try {
-    const response = await axiosInstance.patch(`/account/update-password`, {
+    const response = await axiosInstance.patch(`/account/update-password/`, {
       userId,
       currentPassword, // Ensure this is included if your API requires it
       newPassword,
@@ -149,7 +149,7 @@ export const updateUserDetails = async (
   companyPosition: string
 ) => {
   try {
-    const response = await axiosInstance.patch(`/account/update-details`, {
+    const response = await axiosInstance.patch(`/account/update-details/`, {
       userId,
       name,
       email,
@@ -244,7 +244,7 @@ export const fetchQuoteDetails = async (quoteId: string | null) => {
     throw new Error("No quote ID provided");
   }
 
-  const response = await axiosInstance.get(`/quotes/${quoteId}`, {
+  const response = await axiosInstance.get(`/quotes/${quoteId}/`, {
     headers: {
       // Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -260,7 +260,7 @@ export const listUserQuotes = async ({
   queries: string | undefined;
 }) => {
   // Base URL
-  let url = `/quotes/user?orderDesc=createdAt`;
+  let url = `/quotes/user/?orderDesc=createdAt`;
 
   // Append queries if defined
   if (queries) {
@@ -297,7 +297,7 @@ export const createInvoice = async (invoiceData: Invoice) => {
 // Fetch User Invoices
 export const fetchUserInvoices = async (userId: string) => {
   try {
-    const response = await axiosInstance.get(`/invoices/user/${userId}`, {
+    const response = await axiosInstance.get(`/invoices/user/${userId}/`, {
       headers: {
         // Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -341,7 +341,7 @@ export const createBookQuote = async (bookingData: BookingData) => {
 // Fetch User's Booking
 export const fetchUserBookings = async () => {
   const response = await axiosInstance.get(
-    `/bookings/user`
+    `/bookings/user/`
     //    {
     //   headers: {
     //     Authorization: `Bearer ${token}`,
@@ -357,7 +357,7 @@ export const fetchUserBookingById = async (id: string) => {
   }
 
   try {
-    const response = await axiosInstance.get(`/bookings/user/${id}`);
+    const response = await axiosInstance.get(`/bookings/user/${id}/`);
 
     // Check if response is successful
     if (response.status === 200) {
@@ -407,11 +407,11 @@ export const createBookingPaymentIntent = async ({
 };
 
 export const bookingRefund = async (bookingId: string) => {
-  const response = await axiosInstance.patch(`/bookings/${bookingId}/refund`);
+  const response = await axiosInstance.patch(`/bookings/${bookingId}/refund/`);
   return (response.data as { data: RefundResponse }).data;
 };
 export const getBookingInvoice = async (bookingId: string) => {
-  const response = await axiosInstance.get(`bookings/${bookingId}/invoice`);
+  const response = await axiosInstance.get(`bookings/${bookingId}/invoice/`);
   return (
     response.data as {
       data: BookingInvoiceStripe;
@@ -443,7 +443,7 @@ export const updateBookingDetails = async (
   data: BookingUpdateData
 ) => {
   try {
-    const response = await axiosInstance.put(`/bookings/${id}`, data, {
+    const response = await axiosInstance.put(`/bookings/${id}/`, data, {
       headers: {
         "Content-Type": "application/json",
         // Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -502,7 +502,7 @@ export const fetchBookingById = async (id: string) => {
   // }
 
   try {
-    const response = await axiosInstance.get(`/bookings/${id}`, {
+    const response = await axiosInstance.get(`/bookings/${id}/`, {
       headers: {
         // Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -584,7 +584,7 @@ export const uploadPdf = async (
 export const fetchBillOfLadingByBookingId = async (bookingId: string) => {
   try {
     const response = await axiosInstance.get(
-      `/billOfLading/by-booking/${bookingId}`
+      `/billOfLading/by-booking/${bookingId}/`
     );
     return response.data as BillOfLadingSchema;
   } catch (error) {
@@ -596,7 +596,7 @@ export const fetchBillOfLadingByBookingId = async (bookingId: string) => {
 // Fetch Bill Of Lading Entries by User ID
 export const fetchBillOfLadingsByUserId = async (userId: string) => {
   try {
-    const response = await axiosInstance.get(`/billOfLading/${userId}`);
+    const response = await axiosInstance.get(`/billOfLading/${userId}/`);
     return response.data; // Return the data directly
   } catch (error) {
     console.error("Error fetching Bill of Lading documents:", error);
@@ -605,13 +605,13 @@ export const fetchBillOfLadingsByUserId = async (userId: string) => {
 };
 
 export const listTrucks = async () => {
-  const response = await axiosInstance.get(`/trucks`);
+  const response = await axiosInstance.get(`/trucks/`);
 
   return response.data as TruckCatalog[];
 };
 
 export const getTruck = async (truckId: string) => {
-  const response = await axiosInstance.get(`/trucks/${truckId}`);
+  const response = await axiosInstance.get(`/trucks/${truckId}/`);
 
   return response.data as TruckCatalog;
 };
@@ -654,7 +654,7 @@ export const getPricePerMile = async ({
 };
 
 export const listNotifications = async (userId: string) => {
-  const response = await axiosInstance.get(`/notifications`, {
+  const response = await axiosInstance.get(`/notifications/`, {
     params: { userId },
   });
   return response.data as NotificationSchema[];
@@ -662,7 +662,7 @@ export const listNotifications = async (userId: string) => {
 
 export const updateNotificationStatus = async (id: string, isRead: boolean) => {
   try {
-    const response = await axiosInstance.patch(`/notifications/${id}`, {
+    const response = await axiosInstance.patch(`/notifications/${id}/`, {
       isRead,
     });
     return response.data;
@@ -677,7 +677,7 @@ export const phoneOtpRequest = async ({
   userId,
   phoneNumber,
 }: PhoneOtpRequestData) => {
-  const response = await axiosInstance.post(`/account/create-phone-otp`, {
+  const response = await axiosInstance.post(`/account/create-phone-otp/`, {
     userId,
     phoneNumber,
   });
@@ -689,7 +689,7 @@ export const phoneOtpVerify = async ({
   otp,
   userId,
 }: PhoneOtpVerifyData) => {
-  const response = await axiosInstance.post(`/account/verify-phone-otp`, {
+  const response = await axiosInstance.post(`/account/verify-phone-otp/`, {
     secret,
     otp,
     userId,
@@ -703,19 +703,19 @@ export const getFolder = async ({
 }: {
   folderId?: string;
 }) => {
-  const response = await axiosInstance.get(`/folders/${folderId}`);
+  const response = await axiosInstance.get(`/folders/${folderId}/`);
   return response.data.data as FolderSchema;
 };
 
 export const listFolder = async ({ parentId }: { parentId?: string }) => {
-  const path = parentId ? `/folders?parentId=${parentId}` : "/folders";
+  const path = parentId ? `/folders?parentId=${parentId}/` : "/folders/";
   const response = await axiosInstance.get(`${path}`);
 
   return response.data.data as FolderSchema[];
 };
 
 export const listFile = async ({ folderId }: { folderId: string }) => {
-  const response = await axiosInstance.get(`/folders/${folderId}/files`);
+  const response = await axiosInstance.get(`/folders/${folderId}/files/`);
   return response.data.data as FileSchema[];
 };
 export const uploadFile = async (
@@ -725,7 +725,7 @@ export const uploadFile = async (
 ) => {
   folderId = folderId || ".$root";
   const response = await axiosInstance.post(
-    `/folders/${folderId}/files`,
+    `/folders/${folderId}/files/`,
     formData,
     {
       headers: {
@@ -743,24 +743,24 @@ export const deleteFile = async ({
   folderId = ".$root",
 }: DeleteFileData) => {
   const response = await axiosInstance.delete(
-    `/folders/${folderId}/files/${fileId}`
+    `/folders/${folderId}/files/${fileId}/`
   );
 
   return response.data as DeleteResponse;
 };
 
 export const deleteFolder = async ({ folderId }: DeleteFolderData) => {
-  const response = await axiosInstance.delete(`/folders/${folderId}`);
+  const response = await axiosInstance.delete(`/folders/${folderId}/`);
   return response.data as DeleteResponse;
 };
 
 export const createRootFolder = async () => {
-  const response = await axiosInstance.post(`/folders?type=root`);
+  const response = await axiosInstance.post(`/folders/?type=root`);
   return response.data as FolderSchema;
 };
 
 export const createFolder = async (data: CreateFolderData) => {
-  const response = await axiosInstance.post(`/folders`, {
+  const response = await axiosInstance.post(`/folders/`, {
     name: data.name,
     parentId: data.parentId || ".$root",
   });
@@ -768,7 +768,7 @@ export const createFolder = async (data: CreateFolderData) => {
 };
 
 export const searchFileFolder = async (q: string) => {
-  const response = await axiosInstance.get(`/folders/search?q=${q}`);
+  const response = await axiosInstance.get(`/folders/search/?q=${q}`);
   return response.data.data as SearchFileFolderResponse[];
 };
 
