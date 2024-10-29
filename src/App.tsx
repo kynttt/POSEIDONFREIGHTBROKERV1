@@ -76,6 +76,7 @@ import AuthChecker from "./components/AuthChecker";
 import ShipperUserBookingTransactions from "./pages/ShipperUser/bookingTransactions";
 import AgentsPage from "./components/AgentsPage";
 import AgentForm from "./components/AgentForm";
+import PrivacyPolicy from "./pages/Shared/pages/PrivacyPolicyPage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -148,6 +149,10 @@ const App: React.FC = () => {
                 <Route
                   path="/terms-and-agreement"
                   element={<BrokerShipperAgreement />}
+                />
+                <Route
+                  path="/privacy-policy"
+                  element={<PrivacyPolicy />}
                 />
                 {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
                 {/* Shipper User Routes */}
