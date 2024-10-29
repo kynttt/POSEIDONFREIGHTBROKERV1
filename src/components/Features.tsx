@@ -168,7 +168,7 @@ function FeatureCard({
   title: string;
   description: string;
   customRef?: React.Ref<HTMLDivElement>;
-  initial?: Record<string, any>; // Change unknown to any
+  initial?: any;
   animate?: AnimationControls | boolean | VariantLabels | undefined;
 }) {
   return (
