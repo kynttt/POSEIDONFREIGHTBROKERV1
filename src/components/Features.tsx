@@ -168,13 +168,13 @@ function FeatureCard({
   title: string;
   description: string;
   customRef?: React.Ref<HTMLDivElement>;
-  initial?: Record<string, unknown>;
+  initial?: Record<string, any>; // Change unknown to any
   animate?: AnimationControls;
 }) {
   return (
     <motion.div
       ref={customRef}
-      initial={initial as any}
+      initial={initial}
       animate={animate}
       className="bg-rblue rounded-xl p-6"
     >
