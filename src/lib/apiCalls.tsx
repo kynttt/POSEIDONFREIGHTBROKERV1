@@ -470,7 +470,7 @@ export const updateBookingStatus = async (
 ) => {
   try {
     const response = await axiosInstance.patch(
-      `/bookings/${id}/status`,
+      `/bookings/${id}/status/`,
       status,
       {
         headers: {
