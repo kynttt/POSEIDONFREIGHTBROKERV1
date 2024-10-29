@@ -11,6 +11,8 @@ const AgentForm = () => {
     referralSource: "",
     agreement: false,
     fileUploaded: false,
+
+    
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
