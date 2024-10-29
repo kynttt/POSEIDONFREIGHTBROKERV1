@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../state/useAuthStore";
+import { useAuthStore } from "../state/useAuthStore";
 import {
   ActionIcon,
   // Button,
@@ -11,20 +11,20 @@ import {
   Stack,
   useMatches,
 } from "@mantine/core";
-import { navItems } from "./navItem";
 import { faClose, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { LogoutResponse, User } from "../../utils/types";
-import { fetchProfilePicture, getUser, logoutUser } from "../../lib/apiCalls";
+import { LogoutResponse, User } from "../utils/types";
+import { fetchProfilePicture, getUser, logoutUser } from "../lib/apiCalls";
 import { notifications } from "@mantine/notifications";
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css"; // Import the driver.js CSS
-import profilePic from "../../assets/img/profilepic.jpg";
-import logo from "../../assets/img/logo.png"; // Adjust the path as necessary
+import profilePic from "../assets/img/profilepic.jpg";
+import logo from "../assets/img/logo.png"; // Adjust the path as necessary
 import "driver.js/dist/driver.css";
-import { useSidebarStore } from "../../hooks/useSidebarStore";
+import { useSidebarStore } from "../hooks/useSidebarStore";
 import { motion } from "framer-motion";
 import { AxiosError } from "axios";
+import { navItems } from "../utils/nav-item-util";
 
 export default function Sidebar({
   close,
@@ -164,13 +164,13 @@ export default function Sidebar({
       onMouseLeave={() => setIsExtend(false)}
       justify="space-between"
       align="center"
-      className="h-screen py-8 border-r bg-gray-900 w-full"
+      className="h-screen py-8 border-r bg-white w-full"
     >
       <Stack className="w-full ">
         <Stack gap={"md"}>
           <Flex justify={isExtend ? "space-between" : "center"}>
             <a href="/">
-              <h2 className="text-2xl text-secondary flex justify-center items-center " >
+              <h2 className="text-2xl text-secondary flex justify-center items-center ">
                 {/* Show 'F' when not expanded, otherwise show 'Freight Broker' */}
                 {isExtend ? (
                   <motion.span
@@ -178,9 +178,7 @@ export default function Sidebar({
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.9 }}
                   >
-                    <h1 className="ml-4 mb-9">
-                      Poseidon Freight
-                    </h1>
+                    <h1 className="ml-4 mb-9">Poseidon Freight</h1>
                   </motion.span>
                 ) : (
                   <img
@@ -209,12 +207,13 @@ export default function Sidebar({
         <Stack mt={"sm"} className="w-full">
           <nav className="w-full ">
             {getNavItems().map((item) => (
-              <div
+                <div
                 key={item.label}
                 id={getTabId(item.label)}
-                className="cursor-pointer flex-column justify-center items-center  text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition duration-300 px-8 py-4 relative"
+                className="cursor-pointer flex-column justify-center items-center text-gray-700 hover:bg-gray-200 hover:text-gray-700 focus:text-rblue transition duration-300 px-8 py-4 relative"
                 onClick={() => handleNavigation(item.path)}
-              >
+                tabIndex={0} // Make the div focusable
+                >
                 <FontAwesomeIcon icon={item.icon} />
                 <motion.span
                   initial={{ opacity: 0, x: -20 }}
@@ -308,7 +307,7 @@ function ProfileItem({
   >({
     queryKey: ["profilePicture", userId],
     queryFn: () => fetchProfilePicture(userId!, data?.profilePicVersion ?? 0),
-    enabled: !!data?._id,
+    enabled: !!data?.id,
     refetchOnWindowFocus: false, // Prevent refetch on window focus
   });
 
@@ -319,12 +318,13 @@ function ProfileItem({
   return (
     <Menu shadow="md" width={200} position={position} withArrow>
       <Menu.Target>
-        <div className="flex justify-center items-center  py-2 shadow  hover:bg-gray-500 cursor-pointer w-full">
+        <div className="flex justify-center items-center  py-2   hover:bg-gray-200 cursor-pointer w-full">
           {/* Profile Image with Loading Spinner and Dimmed Effect */}
           <div className="relative">
             <img
-              className={`object-cover rounded-full transition-all ${profilePictureLoading ? "opacity-50" : ""
-                } ${isExtend ? "w-10 h-10" : "w-10 h-10"}`}
+              className={`object-cover rounded-full transition-all ${
+                profilePictureLoading ? "opacity-50" : ""
+              } ${isExtend ? "w-10 h-10" : "w-10 h-10"}`}
               src={profilePicture ? profilePicture : profilePic}
               alt="avatar"
             />
@@ -345,8 +345,9 @@ function ProfileItem({
                 x: isExtend ? 0 : -20,
               }}
               transition={{ duration: 0.3, delay: isExtend ? 0.2 : 0 }}
-              className={`mx-2 font-medium text-white dark:text-gray-200 ${isExtend ? "block" : "hidden"
-                }`}
+              className={`mx-2 font-medium text-gray-700 dark:text-gray-200 ${
+                isExtend ? "block" : "hidden"
+              }`}
             >
               {name || "John Doe"}
             </motion.span>

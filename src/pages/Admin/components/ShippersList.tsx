@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import Pagination from '../../../components/pagination'; // Import Pagination component
-import { fetchUsers } from '../../../lib/apiCalls'; // Import the API function
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import React, { useState, useEffect } from "react";
+import Pagination from "../../../components/pagination"; // Import Pagination component
+import { fetchUsers } from "../../../lib/apiCalls"; // Import the API function
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 interface Shipper {
-  _id: string; // Use _id as the ID field
+  id: string; // Use id as the ID field
   name: string;
   email: string;
   role: string;
@@ -24,15 +24,15 @@ const ShippersList: React.FC = () => {
         const data = await fetchUsers();
         setShippers(data);
       } catch (error) {
-        console.error('Error fetching shippers:', error);
+        console.error("Error fetching shippers:", error);
       } finally {
         setLoading(false);
       }
     };
-  
+
     loadShippers();
   }, []);
-  
+
   const totalPages = Math.ceil(shippers.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
@@ -57,7 +57,7 @@ const ShippersList: React.FC = () => {
     "https://avatar.iran.liara.run/public/54",
     "https://avatar.iran.liara.run/public/63",
     "https://avatar.iran.liara.run/public/60",
-    "https://avatar.iran.liara.run/public/90"
+    "https://avatar.iran.liara.run/public/90",
   ];
 
   if (loading) {
@@ -65,7 +65,7 @@ const ShippersList: React.FC = () => {
   }
 
   return (
-    <div className="bg-white md:p-8 p-4 rounded-2xl shadow-lg h-full border">
+    <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg md:p-8 p-4 rounded-2xl shadow-lg h-full border">
       <div>
         <h3 className="text-2xl font-medium mb-4  flex justify-between items-center lg:pb-2">
           Users
@@ -76,9 +76,10 @@ const ShippersList: React.FC = () => {
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full  border-secondary">
-          <thead className='bg-light-grey '>
-            <tr >
-              <th className="px-4 py-2 text-left ">Profile</th> {/* New column for profile picture */}
+          <thead className="bg-light-grey ">
+            <tr>
+              <th className="px-4 py-2 text-left ">Profile</th>{" "}
+              {/* New column for profile picture */}
               <th className="px-4 py-2 text-left">Name</th>
               <th className="px-4 py-2 text-left">Role</th>
             </tr>
@@ -86,26 +87,37 @@ const ShippersList: React.FC = () => {
           <tbody>
             {displayedShippers.map((shipper) => (
               <tr
-                key={shipper._id} // Use shipper._id as key
+                key={shipper.id} // Use shipper.id as key
                 className="cursor-pointer hover:bg-gray-100 "
-                onClick={() => handleRowClick(shipper._id)} // Pass shipper._id
+                onClick={() => handleRowClick(shipper.id)} // Pass shipper.id
               >
-                <td className="px-4 "> {/* Profile Picture Cell */}
+                <td className="px-4 ">
+                  {" "}
+                  {/* Profile Picture Cell */}
                   <img
-                    src={shipper.profilePicUrl && shipper.profilePicUrl.startsWith("http")
-                      ? shipper.profilePicUrl
-                      : `${process.env.REACT_APP_SERVER_URL}/api/${shipper.profilePicUrl}`
+                    src={
+                      shipper.profilePicUrl &&
+                      shipper.profilePicUrl.startsWith("http")
+                        ? shipper.profilePicUrl
+                        : `${process.env.REACT_APP_SERVER_URL}/api/${shipper.profilePicUrl}`
                     }
                     alt={shipper.name}
                     className="w-12 h-12 rounded-full object-cover"
                     loading="lazy" // Lazy loading for performance
                     onError={(e) => {
-                      e.currentTarget.src = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+                      e.currentTarget.src =
+                        fallbackImages[
+                          Math.floor(Math.random() * fallbackImages.length)
+                        ];
                     }}
                   />
                 </td>
-                <td className="px-4 py-2 text-secondary font-normal">{shipper.name}</td>
-                <td className="px-4 py-2 text-secondary font-normal">{shipper.role}</td>
+                <td className="px-4 py-2 text-secondary font-normal">
+                  {shipper.name}
+                </td>
+                <td className="px-4 py-2 text-secondary font-normal">
+                  {shipper.role}
+                </td>
               </tr>
             ))}
           </tbody>

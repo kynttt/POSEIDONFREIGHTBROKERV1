@@ -53,7 +53,7 @@ const TrailerHead = () => {
   };
 
   return (
-    <div className="py-10">
+    <div className="pb-10">
       {/* Top Section with Image and Title */}
       <div className="relative">
         <img

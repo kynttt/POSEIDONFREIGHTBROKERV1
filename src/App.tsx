@@ -76,6 +76,7 @@ import AuthChecker from "./components/AuthChecker";
 import ShipperUserBookingTransactions from "./pages/ShipperUser/bookingTransactions";
 import AgentsPage from "./components/AgentsPage";
 import AgentForm from "./components/AgentForm";
+import PrivacyPolicy from "./pages/Shared/pages/PrivacyPolicyPage";
 const theme = createTheme({
   primaryColor: "brand",
   primaryShade: 5,
@@ -123,15 +124,9 @@ const App: React.FC = () => {
                     </AuthChecker>
                   }
                 />
-                 <Route
-                  path="agent-page"
-                  element={<AgentsPage />}
-                />
+                <Route path="agent-page" element={<AgentsPage />} />
 
-                <Route
-                  path="agent-form"
-                  element={<AgentForm />}
-                />
+                <Route path="agent-form" element={<AgentForm />} />
 
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
@@ -155,6 +150,10 @@ const App: React.FC = () => {
                   path="/terms-and-agreement"
                   element={<BrokerShipperAgreement />}
                 />
+                <Route
+                  path="/privacy-policy"
+                  element={<PrivacyPolicy />}
+                />
                 {/* <Route path="/quote-details" element={<QuoteDetails />} /> */}
                 {/* Shipper User Routes */}
                 <Route
@@ -167,6 +166,12 @@ const App: React.FC = () => {
                   }
                 >
                   <Route index element={<ShipperDashboardPage />} />
+                  <Route
+                    path="booking-payment"
+                    element={
+                      <PrivateRoute element={<Stripe />} roles={["user"]} />
+                    }
+                  />
                   <Route
                     path="booking-transactions"
                     element={<ShipperUserBookingTransactions />}
@@ -241,12 +246,6 @@ const App: React.FC = () => {
                       />
                     }
                   /> */}
-                  <Route
-                    path="payment"
-                    element={
-                      <PrivateRoute element={<Stripe />} roles={["user"]} />
-                    }
-                  />
                 </Route>
 
                 {/* TODO the Profile page will now be under with ShipperProfilePage and AdminProfilePage but it still returning Profile Card */}

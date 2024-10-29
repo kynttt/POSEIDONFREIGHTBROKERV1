@@ -13,7 +13,6 @@ import {
   BookingPaymentIntentParams,
   Quote,
   RegisterFormData,
-  StripeClientSecret,
   TruckCatalog,
   User,
   PhoneOtpVerifyData,
@@ -30,7 +29,11 @@ import {
   AccountCompletionData,
   AccountCompletionResponse,
   BookingConfirmData,
-  BookingInvoiceCreateResponse,
+  BookingUpdateStatusData,
+  BookingUpdateData,
+  BookingInvoiceStripe,
+  BookingPaymentIntentResponse,
+  RefundResponse,
 } from "../utils/types";
 
 //Users
@@ -173,7 +176,11 @@ export const getCurrentUser = async () => {
     const response = await axiosInstance.get(`/account/`, {
       withCredentials: true, // Include cookies in the request
     });
-    return response.data; // Return the user data
+    return (
+      response.data as {
+        data: User;
+      }
+    ).data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       console.error("API Error:", error.response?.data || error.message);
@@ -191,7 +198,7 @@ export const fetchQuotes = async () => {
     // },
   });
   return response.data.map((quote: Quote) => ({
-    id: quote._id,
+    id: quote.id,
     pickUp: quote.origin,
     drop: quote.destination,
     maxWeight: quote.maxWeight,
@@ -358,7 +365,7 @@ export const fetchUserBookingById = async (id: string) => {
       return response.data.map((booking: Booking) => {
         const quote = booking.quote as Quote;
         return {
-          id: booking._id,
+          id: booking.id,
           origin: quote.origin,
           destination: quote.destination,
           price: quote.price,
@@ -382,38 +389,36 @@ export const fetchUserBookingById = async (id: string) => {
 };
 
 export const createBookingPaymentIntent = async ({
-  amount,
-  currency,
-  booking,
+  bookingId,
 }: BookingPaymentIntentParams) => {
   try {
-    console.log("Booking:", booking);
     const response = await axiosInstance.post(
-      `/payments/booking-payment-intent`,
-      {
-        amount,
-        currency,
-        booking,
-      }
+      `/bookings/${bookingId}/payment-intent`
     );
-    return response.data as StripeClientSecret;
+    return (
+      response.data as {
+        data: BookingPaymentIntentResponse;
+      }
+    ).data;
   } catch (error) {
     console.error("Error creating payment intent:", error);
     throw error;
   }
 };
 
-export const createBookingInvoice = async (bookingId: string) => {
-  try {
-    const response = await axiosInstance.post(
-      `/payments/create-booking-invoice/${bookingId}`
-    );
-    return response.data as BookingInvoiceCreateResponse;
-  } catch (error) {
-    console.error("Error creating booking invoice:", error);
-    throw error;
-  }
+export const bookingRefund = async (bookingId: string) => {
+  const response = await axiosInstance.patch(`/bookings/${bookingId}/refund`);
+  return (response.data as { data: RefundResponse }).data;
 };
+export const getBookingInvoice = async (bookingId: string) => {
+  const response = await axiosInstance.get(`bookings/${bookingId}/invoice`);
+  return (
+    response.data as {
+      data: BookingInvoiceStripe;
+    }
+  ).data;
+};
+
 export const bookingConfirm = async ({ bookingId }: BookingConfirmData) => {
   try {
     const response = await axiosInstance.patch(
@@ -433,7 +438,10 @@ export const fetchBookings = async () => {
   return response.data as Booking[];
 };
 
-export const updateBookingDetails = async (id: string, data: Booking) => {
+export const updateBookingDetails = async (
+  id: string,
+  data: BookingUpdateData
+) => {
   try {
     const response = await axiosInstance.put(`/bookings/${id}`, data, {
       headers: {
@@ -450,6 +458,38 @@ export const updateBookingDetails = async (id: string, data: Booking) => {
       );
     } else {
       throw new Error("Failed to update booking details");
+    }
+  }
+};
+
+export const updateBookingStatus = async (
+  id: string,
+  status: BookingUpdateStatusData
+) => {
+  try {
+    const response = await axiosInstance.patch(
+      `/bookings/${id}/status`,
+      status,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      }
+    );
+
+    return (
+      response.data as {
+        data: Booking;
+      }
+    ).data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || "Failed to update booking status"
+      );
+    } else {
+      throw new Error("Failed to update booking status");
     }
   }
 };
@@ -473,7 +513,7 @@ export const fetchBookingById = async (id: string) => {
     // const quote = booking.quote as Quote;
 
     // return {
-    //   id: booking._id,
+    //   id: booking.id,
     //   origin: quote.origin,
     //   price: quote.price,
     //   status: booking.status,
@@ -530,7 +570,7 @@ export const uploadPdf = async (
     const response = await axiosInstance.post("/billOfLading/", {
       userId,
       bookingId,
-      fileId: file._id,
+      fileId: file.id,
     });
 
     return response; // Ensure this is returned
@@ -577,7 +617,7 @@ export const getTruck = async (truckId: string) => {
 };
 
 export const createTruck = async (truck: TruckCatalog) => {
-  const response = await axiosInstance.post(`/trucks`, truck);
+  const response = await axiosInstance.post(`/trucks/`, truck);
 
   return response.data as TruckCatalog;
 };
@@ -587,7 +627,7 @@ export const deleteTruck = async (truckId: string) => {
 };
 
 export const updateTruck = async (truck: TruckCatalog) => {
-  const response = await axiosInstance.put(`/trucks/${truck._id!}`, truck);
+  const response = await axiosInstance.put(`/trucks/${truck.id!}`, truck);
 
   return response.data as TruckCatalog;
 };
@@ -739,7 +779,7 @@ export const fetchProfilePicture = async (
 ) => {
   try {
     const response = await axiosInstance.get(
-      `/account/${userId}/profile-picture/${profilePicVersion}`, // Append cache-busting version
+      `/account/${userId}/profile-picture/${profilePicVersion}/`, // Append cache-busting version
       {
         responseType: "blob", // Ensure you get the image as binary data
       }

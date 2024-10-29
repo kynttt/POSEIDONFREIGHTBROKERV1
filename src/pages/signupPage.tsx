@@ -48,7 +48,7 @@ const SignupPage = () => {
     setIsPasswordVisible((prevState) => !prevState);
   };
 
-  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  // const [isTermsChecked, setIsTermsChecked] = useState(false);
 
   // const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // const gradientRef = useRef<NeatGradient | null>(null);
@@ -164,9 +164,9 @@ const SignupPage = () => {
     sessionStorage.setItem("signupFormData", JSON.stringify(updatedFormData));
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsTermsChecked(e.target.checked);
-  };
+  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setIsTermsChecked(e.target.checked);
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -387,7 +387,7 @@ const SignupPage = () => {
                 )}
               </div>
               
-              <div className="flex items-center justify-center mt-4">
+              {/* <div className="flex items-center justify-center mt-4">
                 <input
                   type="checkbox"
                   id="terms"
@@ -410,50 +410,48 @@ const SignupPage = () => {
                     Terms of Service
                   </a>
                 </label>
-              </div>
+              </div> */}
 
-              <div className="flex justify-center">
+                <div className="flex justify-center">
                 <button
                   type="submit"
                   className={`text-white w-full py-3 rounded-md btn medium extra-class-for-medium-button ${
-                    !isTermsChecked
-                      ? "text-white w-full py-3 rounded-md opacity-20 cursor-not-allowed"
-                      : ""
+                  isSubmitting ? "opacity-20 cursor-not-allowed" : ""
                   }`}
                   style={{ backgroundColor: "#252F70" }}
-                  disabled={!isTermsChecked || isSubmitting}
+                  disabled={isSubmitting}
                 >
                   {isSubmitting ? (
-                    <div className="flex items-center justify-center">
-                      <svg
-                        className="w-5 h-5 animate-spin text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 1116 0 8 8 0 01-16 0z"
-                        ></path>
-                      </svg>
-                      <span className="ml-2">Processing...</span>
-                    </div>
+                  <div className="flex items-center justify-center">
+                    <svg
+                    className="w-5 h-5 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 1116 0 8 8 0 01-16 0z"
+                    ></path>
+                    </svg>
+                    <span className="ml-2">Processing...</span>
+                  </div>
                   ) : (
-                    "Sign Up"
+                  "Sign Up"
                   )}
                 </button>
 
                 <OTPModal isOpen={isModalOpen} onClose={closeModal} />
-              </div>
+                </div>
               {/* {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
               {success && (
                 <p className="text-green-500 text-sm mt-4">

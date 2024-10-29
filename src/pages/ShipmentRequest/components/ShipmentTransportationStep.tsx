@@ -186,7 +186,7 @@ function ShipmentTransportationStep() {
               <div className="flex flex-wrap justify-between gap-5">
                 {[...(listTrucksData || [])].map((type) => (
                   <button
-                    key={type._id}
+                    key={type.id}
                     className={` py-2 border border-2 border-primary text-primary  rounded-lg w-[47%] md:w-[47%]  text-black font-normal ${
                       dataState?.trailerType === type
                         ? "bg-primary text-white" // Highlight selected button

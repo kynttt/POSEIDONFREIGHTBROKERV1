@@ -44,7 +44,7 @@ export default function DocumentsSearchPage() {
           if (item.type === "folder") {
             return (
               <FolderTile
-                key={item._id}
+                key={item.id}
                 folder={item}
                 queryKey={["searchDocuments", searchQuery ?? ""]}
               />
@@ -52,7 +52,7 @@ export default function DocumentsSearchPage() {
           } else {
             return (
               <FileTile
-                key={item._id}
+                key={item.id}
                 file={item}
                 queryKey={["searchDocuments", searchQuery ?? ""]}
               />

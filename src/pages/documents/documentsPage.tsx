@@ -63,7 +63,7 @@ export default function DocumentsPage() {
       ) : error && error?.response?.status !== 404 ? (
         <div>{JSON.stringify(error.response?.data)}</div>
       ) : data ? (
-        <Response folderId={data._id!} />
+        <Response folderId={data.id!} />
       ) : (
         <NoRootFolder />
       )}
@@ -111,6 +111,7 @@ function NoRootFolder() {
   );
 }
 function Response({ folderId }: { folderId: string }) {
+ 
   return (
     <Stack w="100%">
       <Folders />
@@ -163,7 +164,7 @@ function Files({ folderId }: { folderId: string }) {
       <Title order={6}>Files</Title>
       <Flex w="100%" gap={8} wrap="wrap">
         {data!.map((file) => (
-          <FileTile key={file._id} file={file} />
+          <FileTile key={file.id} file={file} />
         ))}
       </Flex>
     </Stack>
@@ -216,7 +217,7 @@ function Folders() {
       <Title order={6}>Folders</Title>
       <Flex w="100%" gap={8} wrap="wrap" className="mb-12">
         {data!.map((folder) => (
-          <FolderTile key={folder._id} folder={folder} folderId={folderId} />
+          <FolderTile key={folder.id} folder={folder} folderId={folderId} />
         ))}
       </Flex>
     </Stack>

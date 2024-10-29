@@ -8,7 +8,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { fetchBookings } from "../../../lib/apiCalls";
 import { Booking } from "../../../utils/types";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 interface OverviewData {
   totalShipments: number;
@@ -38,33 +45,41 @@ const OverviewSection: React.FC = () => {
   useEffect(() => {
     async function loadBookings() {
       const bookings = await fetchBookings();
-  
+
       // Process data for graphs
       const newTotalShipmentsData: DataPoint[] = [];
       const newInTransitData: DataPoint[] = [];
       const newRevenueData: DataPoint[] = [];
       const newDeliveredData: DataPoint[] = [];
-  
+
       bookings.forEach((booking: Booking) => {
         const createdAt = booking.createdAt;
         if (createdAt) {
           const date = new Date(createdAt).toDateString();
-          const isInTransit = booking.status === "In Transit";
-          const isDelivered = booking.status === "Delivered";
+          const isInTransit = booking.status === "inTransit";
+          const isDelivered = booking.status === "delivered";
           const price = booking.quote?.price || 0;
-  
+
           // Update data arrays based on the booking status
-          const existingTotal = newTotalShipmentsData.find((point) => point.date === date);
-          const existingInTransit = newInTransitData.find((point) => point.date === date);
-          const existingDelivered = newDeliveredData.find((point) => point.date === date);
-          const existingRevenue = newRevenueData.find((point) => point.date === date);
-  
+          const existingTotal = newTotalShipmentsData.find(
+            (point) => point.date === date
+          );
+          const existingInTransit = newInTransitData.find(
+            (point) => point.date === date
+          );
+          const existingDelivered = newDeliveredData.find(
+            (point) => point.date === date
+          );
+          const existingRevenue = newRevenueData.find(
+            (point) => point.date === date
+          );
+
           if (existingTotal) {
             existingTotal.value += 1;
           } else {
             newTotalShipmentsData.push({ date, value: 1 });
           }
-  
+
           if (isInTransit) {
             if (existingInTransit) {
               existingInTransit.value += 1;
@@ -72,7 +87,7 @@ const OverviewSection: React.FC = () => {
               newInTransitData.push({ date, value: 1 });
             }
           }
-  
+
           if (isDelivered) {
             if (existingDelivered) {
               existingDelivered.value += 1;
@@ -80,7 +95,7 @@ const OverviewSection: React.FC = () => {
               newDeliveredData.push({ date, value: 1 });
             }
           }
-  
+
           if (existingRevenue) {
             existingRevenue.value += price;
           } else {
@@ -88,18 +103,27 @@ const OverviewSection: React.FC = () => {
           }
         }
       });
-  
+
       setTotalShipmentsData(newTotalShipmentsData);
       setInTransitData(newInTransitData);
       setDeliveredData(newDeliveredData);
       setRevenueData(newRevenueData);
-  
+
       // Calculate overview data
       const totalShipments = 10000 + bookings.length;
-      const inTransit = 100 + bookings.filter((booking: Booking) => booking.status === "In Transit").length;
-      const delivered = 10000 + bookings.filter((booking: Booking) => booking.status === "Delivered").length;
-      const revenue = bookings.reduce((acc: number, booking: Booking) => acc + (booking.quote?.price || 0), 0);
-  
+      const inTransit =
+        100 +
+        bookings.filter((booking: Booking) => booking.status === "inTransit")
+          .length;
+      const delivered =
+        10000 +
+        bookings.filter((booking: Booking) => booking.status === "delivered")
+          .length;
+      const revenue = bookings.reduce(
+        (acc: number, booking: Booking) => acc + (booking.quote?.price || 0),
+        0
+      );
+
       setData({
         totalShipments,
         inTransit,
@@ -107,16 +131,18 @@ const OverviewSection: React.FC = () => {
         delivered,
       });
     }
-  
+
     loadBookings();
   }, []);
-  
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 md:mb-8">
-      <div className="bg-white py-4 p-4 md:px-10 rounded-2xl shadow-lg border">
+      <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg py-4 p-4 md:px-10 rounded-2xl shadow-lg">
         <div className="flex justify-start">
-          <FontAwesomeIcon icon={faBox} className="text-2xl mb-2 text-gray-500" />
+          <FontAwesomeIcon
+            icon={faBox}
+            className="text-2xl mb-2 text-gray-500"
+          />
         </div>
         <div>
           <h3 className="text-sm font-medium text-primary">Total Shipments</h3>
@@ -127,14 +153,22 @@ const OverviewSection: React.FC = () => {
               <YAxis hide />
               <Tooltip />
               {/* <Legend /> */}
-              <Line type="monotone" dataKey="value" stroke="#00D9C9" strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#00D9C9"
+                strokeWidth={2}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white py-4 p-4 md:px-10 rounded-2xl shadow-lg border">
+      <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg py-4 p-4 md:px-10 rounded-2xl shadow-lg">
         <div className="flex justify-start">
-          <FontAwesomeIcon icon={faArrowsSpin} className="text-2xl mb-2 text-gray-500" />
+          <FontAwesomeIcon
+            icon={faArrowsSpin}
+            className="text-2xl mb-2 text-gray-500"
+          />
         </div>
         <div>
           <h3 className="text-sm font-medium text-primary">In Transit</h3>
@@ -145,14 +179,22 @@ const OverviewSection: React.FC = () => {
               <YAxis hide />
               <Tooltip />
               {/* <Legend /> */}
-              <Line type="monotone" dataKey="value" stroke="#00BFFF" strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#00BFFF"
+                strokeWidth={2}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white py-4 p-4 md:px-10 rounded-2xl shadow-lg border">
+      <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg py-4 p-4 md:px-10 rounded-2xl shadow-lg">
         <div className="flex justify-start">
-          <FontAwesomeIcon icon={faSackDollar} className="text-2xl mb-2 text-gray-500" />
+          <FontAwesomeIcon
+            icon={faSackDollar}
+            className="text-2xl mb-2 text-gray-500"
+          />
         </div>
         <div>
           <h3 className="text-sm font-medium text-primary">Revenue</h3>
@@ -169,14 +211,22 @@ const OverviewSection: React.FC = () => {
               <YAxis hide />
               <Tooltip />
               {/* <Legend /> */}
-              <Line type="monotone" dataKey="value" stroke="#9370DB" strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#9370DB"
+                strokeWidth={2}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white py-4 p-4 md:px-10 rounded-2xl shadow-lg border">
+      <div className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg py-4 p-4 md:px-10 rounded-2xl shadow-lg">
         <div className="flex justify-start">
-          <FontAwesomeIcon icon={faTruck} className="text-2xl mb-2 text-gray-500" />
+          <FontAwesomeIcon
+            icon={faTruck}
+            className="text-2xl mb-2 text-gray-500"
+          />
         </div>
         <div>
           <h3 className="text-sm font-medium text-primary">Delivered</h3>
@@ -187,7 +237,12 @@ const OverviewSection: React.FC = () => {
               <YAxis hide />
               <Tooltip />
               {/* <Legend /> */}
-              <Line type="monotone" dataKey="value" stroke="#FF1493" strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#FF1493"
+                strokeWidth={2}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>

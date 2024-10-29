@@ -9,8 +9,6 @@ import SignatureCanvas from "react-signature-canvas";
 import { Quote } from "../utils/types";
 import { useAuthStore } from "../state/useAuthStore";
 
-
-
 interface BookingData {
   notes: string;
   origin: string;
@@ -70,10 +68,13 @@ const BillOfLading: React.FC = () => {
         maxWeight: quote.maxWeight,
         price: quote.price,
         emergencyPhoneNumber: "123-456-7890",
-        id: data._id!,
+        id: data.id!,
         loadNumber: data.loadNumber ?? null,
-        postId: data._id ?? "",
-        createdBy: typeof data.createdBy === 'string' ? data.createdBy : data.createdBy?.name ?? "Unknown",
+        postId: data.id ?? "",
+        createdBy:
+          typeof data.createdBy === "string"
+            ? data.createdBy
+            : data.createdBy?.name ?? "Unknown",
       });
     };
 
@@ -113,7 +114,6 @@ const BillOfLading: React.FC = () => {
 
   const [loading, setLoading] = useState(false); // Track loading state
   const saveSignature = async () => {
-
     if (!printRef.current) {
       alert("No document content to save.");
       return;
@@ -135,7 +135,6 @@ const BillOfLading: React.FC = () => {
         orientation: "portrait",
         unit: "in",
         format: [8.5, 11],
-        
       });
 
       pdf.addImage(data, "PNG", 0, 0, 8.5, 11);
@@ -156,9 +155,14 @@ const BillOfLading: React.FC = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (reader.result instanceof ArrayBuffer) {
-          console.log("Blob content (first few bytes):", new Uint8Array(reader.result).slice(0, 10));
+          console.log(
+            "Blob content (first few bytes):",
+            new Uint8Array(reader.result).slice(0, 10)
+          );
         } else {
-          console.error("Failed to read blob content. Result is not an ArrayBuffer.");
+          console.error(
+            "Failed to read blob content. Result is not an ArrayBuffer."
+          );
         }
       };
       reader.readAsArrayBuffer(pdfBlob);
@@ -178,11 +182,11 @@ const BillOfLading: React.FC = () => {
 
       // Upload the PDF
       const response = await uploadPdf(pdfBlob, userId, bookingId);
-      console.log('Upload response:', response);
+      console.log("Upload response:", response);
 
       if (response.status === 201) {
         setIsSignatureSaved(true);
-        localStorage.setItem('isSignatureSaved', 'true');
+        localStorage.setItem("isSignatureSaved", "true");
         alert("Document saved successfully!");
       } else {
         alert(`Failed to save document. Status code: ${response.status}`);
@@ -200,12 +204,10 @@ const BillOfLading: React.FC = () => {
       }
 
       alert(errorMessage);
-    }
-    finally {
+    } finally {
       setLoading(false); // Reset loading state after process finishes
     }
   };
-
 
   const clearSignature = () => {
     if (signatureRef.current) {
@@ -480,26 +482,31 @@ const BillOfLading: React.FC = () => {
         {/* Download Button */}
         <button
           onClick={handleDownload}
-          className={`mt-4 p-2 text-white rounded ${isSignatureSaved ? "bg-gray-500" : "bg-gray-300 cursor-not-allowed"
-            }`}
+          className={`mt-4 p-2 text-white rounded ${
+            isSignatureSaved ? "bg-gray-500" : "bg-gray-300 cursor-not-allowed"
+          }`}
           disabled={!isSignatureSaved}
         >
           Download PDF
         </button>
         {!isSignatureSaved && (
           <>
-
             <button
               onClick={saveSignature}
-              className={`mt-4 p-2 text-white rounded ${isSignaturePresent && !loading
+              className={`mt-4 p-2 text-white rounded ${
+                isSignaturePresent && !loading
                   ? "bg-blue-500"
                   : "bg-blue-300 cursor-not-allowed"
-                }`}
+              }`}
               disabled={!isSignaturePresent || loading} // Disable when signature is missing or loading
             >
               {loading ? "Saving..." : "Save Signature"}
             </button>
-            {loading && <div className="spinner text-primary font-normal">Saving, please wait...</div>}
+            {loading && (
+              <div className="spinner text-primary font-normal">
+                Saving, please wait...
+              </div>
+            )}
             <button
               onClick={clearSignature}
               className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold  p-2 rounded"
@@ -514,4 +521,3 @@ const BillOfLading: React.FC = () => {
 };
 
 export default BillOfLading;
-

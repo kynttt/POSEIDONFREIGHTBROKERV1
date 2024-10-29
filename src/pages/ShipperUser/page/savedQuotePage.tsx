@@ -20,9 +20,9 @@ import { useDebouncedValue } from "@mantine/hooks";
 export default function SavedQuotePage() {
   return (
     <>
-      <Stack px="md" w="100%" min-h="100vh">
-        <Stack py="md" w="100%" gap={20} h="100%">
-          <h1 className="px-20 text-2xl text-primary">Saved Routes</h1>
+      <Stack  w="100%" min-h="100vh">
+        <Stack  w="100%" gap={20} h="100%">
+          
           {/* <Divider /> */}
           <HistoryQuotes />
         </Stack>
@@ -48,7 +48,7 @@ function HistoryQuotes() {
   const [destinationDebounceQuery] = useDebouncedValue(destinationQuery, 200);
 
   const onReuseHandle = (quote: Quote) => {
-    navigate(`/requests?quoteId=${quote._id}`);
+    navigate(`/requests?quoteId=${quote.id}`);
   };
 
   useEffect(() => {
@@ -95,12 +95,20 @@ function HistoryQuotes() {
     <>
       <div className="grid grid-cols-1 sm:grid-cols-4   ">
         {/* Card Layout */}
-        <div className=" lg:col-span-3 md:col-span-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8 bg-blue-50  lg:px-10 justify-center ">
+        <div className=" lg:col-span-3 md:col-span-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8  lg:px-10 justify-center items-center" style={{
+    background: `
+      radial-gradient(circle at 15% 25%, rgba(255, 99, 132, 0.2), transparent 60%),
+      radial-gradient(circle at 85% 20%, rgba(54, 162, 235, 0.7), transparent 60%),
+      radial-gradient(circle at 40% 80%, rgba(75, 192, 192, 0.3), transparent 60%),
+      radial-gradient(circle at 70% 70%, rgba(255, 206, 86, 0.3), transparent 60%),
+      radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 60%)
+    `,
+  }}>
           {filteredData.map((quote) => (
             <div
-              key={quote._id}
-              className="bg-white lg:mx-4 rounded-xl shadow-md flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl p-2"
-              style={{ width: '350px', height: '315px' }}
+              key={quote.id}
+              className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg lg:mx-4 rounded-xl shadow-sm flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl p-2 mx-auto"
+              style={{ width: "350px", height: "315px" }}
             >
               {/* Origin and Destination with Arrow */}
               <div className="items-center justify-between p-6">
@@ -110,15 +118,18 @@ function HistoryQuotes() {
                   </p>
                 </div>
                 <div className="  ">
-                  <p className="text-xs text-gray-400 font-normal">Origin Location</p>
+                  <p className="text-xs text-gray-400 font-normal">
+                    Origin Location
+                  </p>
                   <p className="font-medium text-md text-rblue">
                     {quote.origin.length > 25
                       ? `${quote.origin.slice(0, 25)}...`
                       : quote.origin}
                   </p>
-
                 </div>
-                <p className="text-xs text-gray-400 font-normal">Drop Off Location</p>
+                <p className="text-xs text-gray-400 font-normal">
+                  Drop Off Location
+                </p>
                 <div className="">
                   <p className="font-medium text-md text-rblue">
                     {quote.destination.length > 25
@@ -129,14 +140,16 @@ function HistoryQuotes() {
 
                 {/* Trailer Type and Size */}
                 <div className="mb-4 ">
-                  <p className="text-xs text-gray-400 font-normal">Trailer Type</p>
+                  <p className="text-xs text-gray-400 font-normal">
+                    Trailer Type
+                  </p>
                   <p className="font-medium text-md text-rblue">
                     {quote.trailerType} ({quote.trailerSize})
                   </p>
                 </div>
-                <div className="border-t p-5 text-center ">
+                <div className="border-t border-white p-5 text-center ">
                   <button
-                    className="w-3/4 bg-rblue text-white rounded-sm px-4 py-3 hover:bg-blue-600 transition-colors rounded-xl"
+                    className="w-3/4 bg-rblue text-white rounded-md px-4 py-3 hover:bg-blue-600 transition-colors duration-300 ease-in-out"
                     onClick={() => onReuseHandle(quote)}
                   >
                     <FontAwesomeIcon icon={faSyncAlt} className="mr-2" />
@@ -144,9 +157,6 @@ function HistoryQuotes() {
                   </button>
                 </div>
               </div>
-
-
-
             </div>
           ))}
         </div>
@@ -154,7 +164,10 @@ function HistoryQuotes() {
         {/* Filter Inputs */}
         <div className="lg:px-8 lg:col-span-1 col-span-4 p-4 lg:p-8  bg-blue-50 w-full">
           <div>
-            <h1 className="text-rblue border-b pb-4 mb-4">Filter <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '8px' }} /></h1>
+            <h1 className="text-rblue border-b pb-4 mb-4">
+              Filter{" "}
+              <FontAwesomeIcon icon={faSearch} style={{ marginLeft: "8px" }} />
+            </h1>
             {/* Origin Filter */}
             <TextInput
               label="Origin"

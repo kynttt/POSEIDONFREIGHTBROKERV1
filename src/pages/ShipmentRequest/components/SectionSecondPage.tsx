@@ -11,19 +11,24 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ActionIcon, Button } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useDistanceCalculator, {
   DistanceCalculatorData,
 } from "../../../hooks/useDistanceCalculator";
 import { ReactNode, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
-import { createQuote } from "../../../lib/apiCalls";
-import { Quote } from "../../../utils/types";
+import { createBookQuote } from "../../../lib/apiCalls";
+import { Booking, BookingData } from "../../../utils/types";
 import { useDistancePage } from "../context/DistancePageProvider";
+import { useAuthStore } from "../../../state/useAuthStore";
 
 export default function SectionSecondPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const quoteId = searchParams.get("quoteId");
+  const authState = useAuthStore();
 
   const { goToFormPage } = useDistancePage();
   const { data, init } = useDistanceCalculator();
@@ -34,34 +39,42 @@ export default function SectionSecondPage() {
     setIsTermsChecked(e.target.checked);
   };
 
-  const quoteMutation = useMutation<Quote, Error, Quote>({
-    mutationFn: createQuote,
+  const bookMutation = useMutation<Booking, Error, BookingData>({
+    mutationFn: createBookQuote,
     onMutate: () => {
       notifications.show({
-        title: "Creating Quote",
+        title: "Creating Booking Quote",
         message: "Please wait...",
         color: "blue",
         icon: true,
         autoClose: 5000,
       });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       sessionStorage.removeItem("savedQuote");
       notifications.show({
-        title: "Quote Created",
-        message:
-          "Your quote has been successfully created. You will be redirected to the confirmation page shortly.",
+        title: "Book Quote Created",
+        message: "Your quote has been successfully created.",
         color: "green",
         icon: true,
         autoClose: 5000,
       });
-      // navigate("/requests/confirmation?quoteId=" + data._id);
-      navigate("/requests/payment?quoteId=" + data._id!);
+      let redirect: string;
+
+      if (authState.role === "admin") {
+        redirect = "/a";
+      } else {
+        redirect = "/s";
+      }
+
+      navigate(redirect, { replace: true });
+      // navigate("/requests/confirmation?quoteId=" + data.id);
+      // navigate("/requests/payment?quoteId=" + data.id!);
     },
     onError: () => {
       notifications.show({
         title: "Error",
-        message: "An error occurred while creating the quote",
+        message: "An error occurred while creating the book quote.",
         color: "red",
         icon: true,
         autoClose: 5000,
@@ -88,7 +101,7 @@ export default function SectionSecondPage() {
     }
     setInitialize(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [init, data, quoteMutation, navigate]);
+  }, [init, data, bookMutation, navigate]);
 
   const nextHandler = () => {
     if (!data) return;
@@ -126,7 +139,8 @@ export default function SectionSecondPage() {
       return;
     }
 
-    const quoteDetails: Quote = {
+    const bookingDetails: BookingData = {
+      quoteId: quoteId || undefined,
       origin,
       destination,
       pickupDate: new Date(pickupDate).toISOString(),
@@ -146,7 +160,7 @@ export default function SectionSecondPage() {
       unit: "",
     };
 
-    quoteMutation.mutate(quoteDetails);
+    bookMutation.mutate(bookingDetails);
   };
 
   if (!initialize) return <></>;
@@ -226,54 +240,67 @@ export default function SectionSecondPage() {
               />
             </tbody>
           </table>
-          <div className="flex flex-col w-full  text-primary text-bold">
+            <div className="flex justify-between w-full text-primary text-bold">
             <TitleIcon
               icon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
               title="Total Shipment Price"
             />
             <div className="flex justify-end text-[2rem]">
-              $ {data?.price ? data!.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "0.00"}
+              ${" "}
+              {data?.price
+                ? data!.price.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })
+                : "0.00"}
             </div>
           </div>
-          <div className="flex flex-col text-primary text-bold mt-2">
+          <div className="flex flex justify-between text-primary text-bold mt-2">
             <TitleIcon
               icon={<FontAwesomeIcon icon={faMoneyBill1Wave} />}
               title="Taxes and other fees"
             />
             <div className="flex justify-end text-[1.5rem]">$0.00</div>
           </div>
-            <div className="flex items-center justify-center mt-4">
-              <input
-                type="checkbox"
-                id="terms"
-                name="terms"
-                className="form-checkbox h-4 w-4 text-blue-600"
-                checked={isTermsChecked}
-                onChange={handleCheckboxChange}
-              />
-              <label
-                htmlFor="terms"
-                className="text-sm text-primary font-normal ml-2"
-              >
-                I agree to the{" "}
-                <a
+          <div className="flex items-center justify-left my-4">
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              className="form-checkbox h-4 w-4 text-blue-600"
+              checked={isTermsChecked}
+              onChange={handleCheckboxChange}
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm text-primary font-normal ml-2"
+            >
+              I agree to the{" "}
+              <a
                 href="/terms-and-agreement"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-rblue underline cursor-pointer hover:text-blue-700"
-                >
+              >
                 Terms of Service
-                </a>
-              </label>
-              </div>
-
-            <div className="flex gap-2 py-8 justify-between">
-            <Button variant="outline" w={"30%"} onClick={goToFormPage}>
+              </a>
+            </label>
+          </div>
+          <div className="flex gap-2 pt-8 justify-between">
+            {/* <Button variant="outline" w={"30%"} onClick={goToFormPage}>
               Back
+            </Button> */}
+            <Button
+              onClick={nextHandler}
+              fullWidth
+              disabled={!isTermsChecked}
+              loading={bookMutation.isPending}
+            >
+              Book
             </Button>
-            <Button onClick={nextHandler} fullWidth disabled={!isTermsChecked}>
-              Proceed to Payment
-            </Button>
+          </div>
+            <div className="flex justify-center mt-4">
+            <p className="text-md text-primary font-normal">You won't be charged yet.</p>
             </div>
         </div>
       </div>

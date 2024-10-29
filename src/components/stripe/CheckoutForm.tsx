@@ -8,85 +8,71 @@ import {
 } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { bookingConfirm } from "../../lib/apiCalls";
-import { PaymentRequest } from "@stripe/stripe-js";
-import { Booking, BookingConfirmData, Quote } from "../../utils/types";
+import {
+  PaymentRequest,
+  Stripe,
+  StripeElements,
+  StripeError,
+} from "@stripe/stripe-js";
+import { Booking } from "../../utils/types";
 import { useMutation } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 
-const CheckoutForm = ({
-  quote: { price },
-  bookingId,
-}: {
-  quote: Quote;
-  bookingId: string;
-}) => {
+interface ConfirmPaymentParams {
+  stripe: Stripe;
+  elements: StripeElements;
+  returnUrl: string;
+}
+
+interface ConfirmPaymentResult {
+  error: StripeError;
+}
+
+const CheckoutForm = ({ booking }: { booking: Booking }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [, setPaymentRequest] = useState<PaymentRequest | null>(null);
-  const mutation = useMutation<Booking, Error, BookingConfirmData>({
-    mutationFn: bookingConfirm,
-    onSuccess: async () => {
-      notifications.show({
-        title: "Booking Confirmation successful",
-        message: "Payment will be processed.",
-        color: "green",
-      });
+  const navigate = useNavigate();
 
-      if (!stripe || !elements) return;
-
-      const returnUrl = `${window.location.origin}/booking-successful`;
-      const result = await stripe.confirmPayment({
-        elements,
+  const mutation = useMutation<
+    ConfirmPaymentResult,
+    Error,
+    ConfirmPaymentParams
+  >({
+    mutationFn: async ({ stripe, elements, returnUrl }) => {
+      const result = await stripe!.confirmPayment({
+        elements: elements!,
         confirmParams: {
           return_url: returnUrl,
         },
       });
+
+      return result;
+    },
+    onSuccess: (result) => {
       if (result.error) {
+        console.error("Error confirming payment:", result.error);
         notifications.show({
-          title: "Payment Failed",
-          message: result.error.message,
+          title: "Failed to confirm payment",
+          message: "Please try again later.",
           color: "red",
         });
       } else {
+        notifications.show({
+          title: "Payment Confirmed",
+          message: "Your payment was successful.",
+          color: "green",
+        });
         navigate("/booking-successful");
       }
-      // if (!bookingSuccessful) {
-      //   // If booking failed, exit early and do not proceed to payment
-      //   console.error("Booking failed, payment will not be processed.");
-      //   return;
-      // }
-      // const returnUrl = `${window.location.origin}/booking-successful`;
-      // const result = await stripe.confirmPayment({
-      //   elements,
-      //   confirmParams: {
-      //     return_url: returnUrl,
-      //   },
-      // });
-      // if (result.error) {
-      //   console.error("Payment error:", result.error.message);
-      //   setLoading(false);
-      // } else {
-      //   setLoading(false);
-      //   navigate("/booking-successful"); // Navigate to the success page after payment
-      // }
-    },
-    onError: (error) => {
-      notifications.show({
-        title: "Booking failed, payment will not be processed.",
-        message: error.message,
-        color: "red",
-      });
     },
   });
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const initializePaymentRequest = async () => {
       if (!stripe) return;
 
-      const priceInCents = Math.round(price);
+      const priceInCents = Math.round(booking.quote!.price * 100);
 
       const newPaymentRequest = stripe.paymentRequest({
         country: "US",
@@ -110,7 +96,7 @@ const CheckoutForm = ({
     };
 
     initializePaymentRequest();
-  }, [stripe, price]);
+  }, [stripe, booking.quote]);
 
   const handlePaymentSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -120,7 +106,7 @@ const CheckoutForm = ({
     if (!stripe || !elements || mutation.isPending) return;
 
     // const bookingData: BookingData = {
-    //   quote: _id!,
+    //   quote: id!,
     //   origin,
     //   destination,
     //   pickupDate:
@@ -133,7 +119,11 @@ const CheckoutForm = ({
     //   price,
     // };
 
-    mutation.mutate({ bookingId });
+    mutation.mutate({
+      stripe,
+      elements,
+      returnUrl: `${window.location.origin}/booking-successful`,
+    });
   };
 
   return (

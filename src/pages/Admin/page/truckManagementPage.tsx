@@ -128,7 +128,7 @@ function TruckList() {
             render: (value) => (
               <Group gap={5}>
                 {value.sizes.map((size) => (
-                  <Badge key={size.size + value._id!}>{size.size}</Badge>
+                  <Badge key={size.size + value.id!}>{size.size}</Badge>
                 ))}
               </Group>
             ),
@@ -139,12 +139,7 @@ function TruckList() {
             textAlign: "right",
             render: (catalog) => (
               <>
-                <Group
-                  key={catalog._id!}
-                  gap={14}
-                  justify="right"
-                  wrap="nowrap"
-                >
+                <Group key={catalog.id!} gap={14} justify="right" wrap="nowrap">
                   <ActionIcon
                     size="sm"
                     variant="subtle"
@@ -160,7 +155,7 @@ function TruckList() {
                     size="sm"
                     variant="subtle"
                     color="red"
-                    onClick={() => mutation.mutate(catalog._id!)}
+                    onClick={() => mutation.mutate(catalog.id!)}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </ActionIcon>
@@ -171,7 +166,7 @@ function TruckList() {
         ]}
         records={data}
         fetching={isLoading || mutation.isPending}
-        idAccessor="_id"
+        idAccessor="id"
       />
     </>
   );
@@ -500,7 +495,7 @@ function SizesPrices({
   invalidIndices: number[];
 }) {
   const pricings = useNewTruckCatalog(
-    (state) => state.truckCatalog!.sizes[index].pricing
+    (state) => state.truckCatalog!.sizes[index].pricings || []
   );
   const addPricingFresh = useNewTruckCatalog((state) => state.addPricingFresh);
   const updatePricing = useNewTruckCatalog((state) => state.updatePricing);

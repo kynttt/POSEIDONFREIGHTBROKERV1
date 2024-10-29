@@ -1,13 +1,29 @@
 export type BookingStatus =
-  | "Pending"
-  | "Confirmed"
-  | "In Transit"
-  | "Delivered"
-  | "Cancelled";
+  | "draft"
+  | "pending"
+  | "confirmed"
+  | "cancelled"
+  | "inTransit"
+  | "revised"
+  | "delivered";
+export type BookingPaymentStatus =
+  | "waitingToBeConfirmed"
+  | "processing"
+  | "pending"
+  | "paid"
+  | "void"
+  | "refunded"
+  | "failed";
+
 export interface LoginResponse {
   token: string;
   message: string;
   data: User;
+}
+
+export interface RefundResponse extends Schema {
+  bookingId: string;
+  refundId: string;
 }
 
 export interface Point {
@@ -29,7 +45,7 @@ export interface AccountCompletionResponse {
   data: User;
 }
 export interface Schema {
-  _id?: string;
+  id?: string;
   createdAt?: string;
   updatedAt?: string;
   createdBy?: string | User;
@@ -55,16 +71,24 @@ export interface RegisterFormData extends User {
 // Bookings
 // Book a quote
 export interface BookingData {
-  quote: string;
+  quoteId?: string;
   origin: string;
   destination: string;
   pickupDate: string;
   trailerType: string;
+  trailerSize: number;
   companyName: string;
   commodity: string;
-  // bolLink: string; ! This is temporarily comment because it is not include in Booking Schema
-  // packaging: string; ! Not include in Booking Schema rather in Quote schema
+  maxWeight: number;
+  packaging: string;
+  distance: number;
   price: number;
+  notes?: string;
+  routeCoordinates: {
+    type: "LineString";
+    coordinates: [number, number][];
+  };
+  unit?: string;
 }
 export interface Quote extends Schema {
   // bolNumber: string;
@@ -88,6 +112,22 @@ export interface Quote extends Schema {
   };
 }
 
+export interface BookingUpdateData {
+  carrierName?: string | null;
+  driverName?: string | null;
+  pickUpDate?: string | null;
+  pickUpTime?: string | null;
+  deliveryDate?: string | null;
+  deliveryTime?: string | null;
+}
+
+export interface BookingUpdateStatusData {
+  status: BookingStatus;
+}
+
+export interface BookingInvoiceStripe {
+  hosted_invoice_url: string;
+}
 export interface Invoice extends Schema {
   quote: string | Quote;
   invoiceNumber: string;
@@ -99,40 +139,33 @@ export interface Invoice extends Schema {
 }
 
 export interface BookingPaymentIntentParams {
-  amount: number; // Amount in the smallest currency unit (e.g., cents for USD)
-  currency: string; // Currency code (e.g., 'usd')
-  booking: BookingData;
+  bookingId: string;
 }
 
 export interface BookingConfirmData {
   bookingId: string;
 }
-export interface StripeClientSecret {
-  clientSecret: string;
-  bookingId: string;
+export interface BookingPaymentIntentResponse {
+  secret: string;
+  booking: Booking;
 }
 
 export interface Booking extends Schema {
   bookingRef: string;
   loadNumber: string;
   trailerNumber: string;
+  paymentIntentId?: string;
+  invoiceId?: string;
   bolNumber: string;
   billOfLading: unknown;
-  quote: Quote;
+  quote?: Quote;
+  quoteId: string;
   status: BookingStatus;
+  paymentStatus: BookingPaymentStatus;
   carrier?: string | null;
   driver?: string | null;
   pickupTime?: string | null;
   deliveryTime?: string | null;
-  invoiceUrl?: string | null;
-}
-
-export interface BookingInvoiceCreateResponse {
-  message: string;
-  data: {
-    bookingId: string;
-    invoiceUrl: string;
-  };
 }
 
 export interface BookingCallback extends Quote {
@@ -143,14 +176,16 @@ export interface BookingCallback extends Quote {
   onBookLoadClick: () => void;
 }
 export interface Pricing {
+  id?: string;
   minDistance: number;
   maxDistance?: number;
   pricePerMile: number;
 }
 
 export interface Size {
+  id?: string;
   size: number;
-  pricing: Pricing[];
+  pricings: Pricing[];
 }
 
 export interface TruckCatalog extends Schema {
@@ -172,16 +207,14 @@ export interface GetPriceMileResponse {
 }
 
 interface IMetadata {
-  key: string;
-  value: string | number | boolean;
+  [key: string]: string | number | boolean;
 }
 export interface NotificationSchema extends Schema {
-  bookingId?: string;
   title: string;
   type?: "booking" | "quote" | "invoice" | "payment";
   message: string;
   mediaUrl?: string;
-  metadata?: IMetadata[];
+  metadata?: IMetadata;
   user?: string | User;
   isRead: boolean;
   isDeleted?: boolean; // Make this optional if not always present
@@ -195,7 +228,7 @@ export interface PhoneOtpRequestData {
 export interface PhoneOtpRequestResponse {
   message: string;
   data: {
-    _id: string;
+    id: string;
     secret: string;
   };
 }
@@ -227,7 +260,7 @@ export interface FolderSchema extends FileHandlerSchema {
 }
 
 export interface FileSchema extends FileHandlerSchema {
-  folder: string;
+  folderId: string;
   size: number;
   mimeType: string;
   type: "file";

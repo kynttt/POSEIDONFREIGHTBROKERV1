@@ -8,7 +8,7 @@ import {
   Indicator, // Import Indicator component
 } from "@mantine/core";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../../../components/Sidebar/SideBar";
+import Sidebar from "../../../components/SideBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
 import { useDisclosure, useHeadroom } from "@mantine/hooks";
@@ -109,16 +109,18 @@ function ShellHeader({
   };
 
   return (
-    <Flex justify="flex-end" p={"lg"} gap={"md"}>
+    <Flex justify="flex-end" px={"xl"} py={"lg"} gap={"md"} className="bg-white">
       <Popover position="bottom-start">
         <Popover.Target>
           <Indicator
-            label={unreadNotificationCount > 0 ? unreadNotificationCount : null}
             size={15}
             color="red"
             offset={5}
             position="top-end"
-            disabled={unreadNotificationCount === 0}
+            label={unreadNotificationCount > 0 ? unreadNotificationCount : null} // Display count if greater than 0
+            disabled={unreadNotificationCount === 0} // Disable if no unread notifications
+            className={`flex items-center justify-center ${unreadNotificationCount > 0 ? 'animate-bounce' : ''}`} // Add animate-ping class if there are unread notifications
+            
           >
             <ActionIcon
               variant="subtle"
@@ -126,7 +128,10 @@ function ShellHeader({
               size="md"
               onClick={handleNotificationClick} // Attach click handler
             >
-              <FontAwesomeIcon icon={faBell} className="bg-gray-300 rounded-full p-1 w-4 h-4" />
+              <FontAwesomeIcon
+                icon={faBell}
+                className="bg-gray-300 rounded-full p-1 w-4 h-4"
+              />
             </ActionIcon>
           </Indicator>
         </Popover.Target>

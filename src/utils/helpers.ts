@@ -13,7 +13,7 @@ export function validatePricing({ sizes }: { sizes: Size[] }): PriceError {
   const invalidIndices: Record<number, number[]> = {};
 
   sizes.forEach((size, sizeIndex) => {
-    size.pricing.forEach((pricing, pricingIndex) => {
+    size.pricings.forEach((pricing, pricingIndex) => {
       const invalidPricing = [];
 
       if (pricing.minDistance === undefined || isNaN(pricing.minDistance)) {
