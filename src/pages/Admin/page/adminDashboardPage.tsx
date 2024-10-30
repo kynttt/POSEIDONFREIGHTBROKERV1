@@ -14,11 +14,11 @@ const AdminDashboard: React.FC = () => {
     <div className="flex h-full">
       <div className="flex-1 pt-8 lg:px-18  pb-16 text-primary overflow-y-auto" style={{
     background: `
-      radial-gradient(circle at 15% 25%, rgba(255, 99, 132, 0.2), transparent 60%),
-      radial-gradient(circle at 85% 20%, rgba(54, 162, 235, 0.7), transparent 60%),
-      radial-gradient(circle at 40% 80%, rgba(75, 192, 192, 0.3), transparent 60%),
-      radial-gradient(circle at 70% 70%, rgba(255, 206, 86, 0.3), transparent 60%),
-      radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 60%)
+      radial-gradient(circle at 15% 25%, rgba(255, 99, 132, 0.2), transparent 20%),
+      radial-gradient(circle at 85% 20%, rgba(54, 162, 235, 0.3), transparent 70%),
+      radial-gradient(circle at 40% 80%, rgba(75, 192, 192, 0.3), transparent 20%),
+      radial-gradient(circle at 70% 70%, rgba(255, 206, 86, 0.3), transparent 20%),
+      radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 20%)
     `,
   }}>
         <div className=" mx-4 lg:mx-20  ">

@@ -41,7 +41,7 @@ const RecentTransactions: React.FC = () => {
           status: booking.status,
         }));
 
-        console.log("filteredBookings", filteredBookings);
+        // console.log("filteredBookings", filteredBookings);
         // Set the bookings state with filtered and transformed data
         setBookings(filteredBookings);
       } catch (err) {

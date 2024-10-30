@@ -97,11 +97,11 @@ function HistoryQuotes() {
         {/* Card Layout */}
         <div className=" lg:col-span-3 md:col-span-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8  lg:px-10 justify-center items-center" style={{
     background: `
-      radial-gradient(circle at 15% 25%, rgba(255, 99, 132, 0.2), transparent 60%),
-      radial-gradient(circle at 85% 20%, rgba(54, 162, 235, 0.7), transparent 60%),
-      radial-gradient(circle at 40% 80%, rgba(75, 192, 192, 0.3), transparent 60%),
-      radial-gradient(circle at 70% 70%, rgba(255, 206, 86, 0.3), transparent 60%),
-      radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 60%)
+      radial-gradient(circle at 15% 25%, rgba(255, 99, 132, 0.2), transparent 20%),
+      radial-gradient(circle at 85% 20%, rgba(54, 162, 235, 0.3), transparent 70%),
+      radial-gradient(circle at 40% 80%, rgba(75, 192, 192, 0.3), transparent 20%),
+      radial-gradient(circle at 70% 70%, rgba(255, 206, 86, 0.3), transparent 20%),
+      radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 20%)
     `,
   }}>
           {filteredData.map((quote) => (
