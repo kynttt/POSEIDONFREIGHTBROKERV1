@@ -104,8 +104,7 @@ function HistoryQuotes() {
       radial-gradient(circle at 30% 40%, rgba(153, 102, 255, 0.3), transparent 20%)
     `,
   }}>
-    
-          {filteredData.map((quote) => (
+              {filteredData.map((quote) => (
             <div
               key={quote.id}
               className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg lg:mx-4 rounded-xl shadow-sm flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-xl p-2 mx-auto"

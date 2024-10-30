@@ -710,7 +710,7 @@ export const getFolder = async ({
 };
 
 export const listFolder = async ({ parentId }: { parentId?: string }) => {
-  const path = parentId ? `/folders?parentId=${parentId}` : "/folders/";
+  const path = parentId ? `/folders/?parentId=${parentId}` : "/folders/";
   const response = await axiosInstance.get(`${path}`);
 
   return response.data.data as FolderSchema[];
