@@ -222,7 +222,7 @@ export default function Sidebar({
                     x: isExtend ? 0 : -20,
                   }}
                   transition={{ duration: 0.3, delay: isExtend ? 0.2 : 0 }}
-                  className={`ml-6 text-center font-medium absolute left-8`}
+                  className={`ml-12 text-center font-medium absolute left-8`}
                   style={{
                     height: "100%", // Maintain consistent height
                     visibility: isExtend ? "visible" : "hidden", // Use visibility instead of display
