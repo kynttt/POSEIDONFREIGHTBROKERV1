@@ -69,10 +69,10 @@ export default function Stripe() {
     mutation.data?.secret && (
       <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-8 bg-white text-primary min-h-screen justify-center items-center w-full p-4 md:p-0">
         <div className="mb-4  text-lg font-semibold text-primary w-full md:w-1/4 bg-light-grey h-auto md:h-1/2 rounded-lg p-8">
-          <div className="flex justify-between text-gray-500 my-4 border-b border-secondary pb-8">
-            <p>{mutation.data?.booking.quote?.origin}</p>
-            <FontAwesomeIcon icon={faTruckFast} className="text-2xl" />
-            <p>{mutation.data!.booking.quote!.destination}</p>
+          <div className="flex flex-col justify-center text-gray-500 my-4 border-b border-secondary pb-8">
+            <p className="self-center font-normal">{mutation.data?.booking.quote?.origin}</p>
+            <FontAwesomeIcon icon={faTruckFast} className="text-sm" />
+            <p className="self-center font-normal">{mutation.data!.booking.quote!.destination}</p>
           </div>
           <div className="flex justify-between">
             <h1 className="text-secondary text-base font-normal">Subtotal</h1>
