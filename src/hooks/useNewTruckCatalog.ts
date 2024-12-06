@@ -101,6 +101,56 @@ export const useNewTruckCatalog = create<TruckState>((set) => ({
       }
       return state;
     }),
+    
+  // addPricingFresh: (sizeSelected) =>
+  //   set((state) => {
+  //     console.log("Initial state:", state);
+  
+  //     if (state.truckCatalog) {
+  //       console.log("Truck catalog exists:", state.truckCatalog);
+  
+  //       const updatedSizes = [...state.truckCatalog.sizes];
+  //       console.log("Updated sizes array before modification:", updatedSizes);
+  
+  //       // Check if `sizeSelected` index exists
+  //       if (!updatedSizes[sizeSelected]) {
+  //         console.error(
+  //           `Invalid sizeSelected index: ${sizeSelected}. Available sizes:`,
+  //           updatedSizes
+  //         );
+  //         return state; // Exit early if sizeSelected is invalid
+  //       }
+  
+  //       // Check if `pricings` property exists and is an array
+  //       if (!Array.isArray(updatedSizes[sizeSelected].pricings)) {
+  //         console.error(
+  //           `Pricings is not an array or is undefined for sizeSelected: ${sizeSelected}`,
+  //           updatedSizes[sizeSelected]
+  //         );
+  //         return state; // Exit early if pricings is invalid
+  //       }
+  
+  //       // Add new pricing object
+  //       updatedSizes[sizeSelected].pricings.push({
+  //         minDistance: 0,
+  //         maxDistance: undefined, // Ensure this field is present as it was in the original schema
+  //         pricePerMile: 0,
+  //       });
+  
+  //       console.log("Updated sizes array after modification:", updatedSizes);
+  
+  //       return {
+  //         truckCatalog: {
+  //           ...state.truckCatalog,
+  //           sizes: updatedSizes,
+  //         },
+  //       };
+  //     }
+  
+  //     console.error("Truck catalog is undefined in state:", state);
+  //     return state;
+  //   }),
+  
 
   removePricing: (sizeIndex, pricingIndex) =>
     set((state) => {
